@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenery>
+  
+  <terrain>data/cgi/scenery/terrain/terrain.osgb</terrain>
+  
+  <airports>
+    
+    <airport>
+      <name>Generic</name>
+      <icao>XGEN</icao>
+      <file>data/cgi/scenery/airports/xgen.osgb</file>
+      <lat>0.0</lat>
+      <lon>0.0</lon>
+      <alt>30.0</alt>
+    </airport>
+    
+  </airports>
+  
+</scenery>

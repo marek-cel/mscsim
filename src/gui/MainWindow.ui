@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MScSim</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../sim.qrc">
+    <normaloff>:/gui/images/sim.svg</normaloff>:/gui/images/sim.svg</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedMain">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="pageCGI">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="WidgetCGI" name="widgetCGI" native="true"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuSimulation">
+    <property name="title">
+     <string>Simulation</string>
+    </property>
+    <addaction name="actionDialogInit"/>
+    <addaction name="actionDialogEnvr"/>
+    <addaction name="actionDialogMass"/>
+    <addaction name="separator"/>
+    <addaction name="actionDialogConf"/>
+    <addaction name="separator"/>
+    <addaction name="actionPhaseInpIdle"/>
+    <addaction name="actionPhaseInpInit"/>
+    <addaction name="actionPhaseInpWork"/>
+    <addaction name="actionPhaseInpPause"/>
+    <addaction name="actionPhaseInpStop"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuWindows">
+    <property name="title">
+     <string>Windows</string>
+    </property>
+    <addaction name="actionDockCtrl"/>
+    <addaction name="actionDockData"/>
+    <addaction name="actionDockEFIS"/>
+    <addaction name="actionDockMain"/>
+    <addaction name="actionDockProp"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionViewOrbit"/>
+    <addaction name="actionViewPilot"/>
+    <addaction name="actionViewWorld"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowHUD"/>
+   </widget>
+   <widget class="QMenu" name="menuAirport">
+    <property name="title">
+     <string>Airport</string>
+    </property>
+    <widget class="QMenu" name="menuGates">
+     <property name="title">
+      <string>Gates</string>
+     </property>
+     <addaction name="actionAirportGatesRwy18"/>
+     <addaction name="actionAirportGatesRwy36"/>
+    </widget>
+    <widget class="QMenu" name="menuLights">
+     <property name="title">
+      <string>Lights</string>
+     </property>
+     <addaction name="actionAirportLightsRALS"/>
+     <addaction name="actionAirportLightsRCLS"/>
+     <addaction name="actionAirportLightsRELS"/>
+     <addaction name="actionAirportLightsTDZL"/>
+     <addaction name="actionAirportLightsTELS"/>
+     <addaction name="actionAirportLightsVGSI"/>
+     <addaction name="actionAirportLightsHELI"/>
+     <addaction name="actionAirportLightsTWRL"/>
+    </widget>
+    <addaction name="menuGates"/>
+    <addaction name="menuLights"/>
+   </widget>
+   <widget class="QMenu" name="menuTime">
+    <property name="title">
+     <string>Time</string>
+    </property>
+    <addaction name="actionTimeFaster"/>
+    <addaction name="actionTimeSlower"/>
+   </widget>
+   <addaction name="menuSimulation"/>
+   <addaction name="menuView"/>
+   <addaction name="menuWindows"/>
+   <addaction name="menuAirport"/>
+   <addaction name="menuTime"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionDialogConf">
+   <property name="text">
+    <string>Preferences</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
+   </property>
+  </action>
+  <action name="actionDialogInit">
+   <property name="text">
+    <string>Initial Conditions</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDialogEnvr">
+   <property name="text">
+    <string>Environment</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDialogMass">
+   <property name="text">
+    <string>Fuel and Payload</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDockMain">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Main</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDockData">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Data</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionViewPilot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Pilot View</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionViewOrbit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Orbit View</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDockEFIS">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>EFIS</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionPhaseInpIdle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Idle</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionPhaseInpInit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Initialize</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionPhaseInpWork">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Run</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionPhaseInpPause">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Pause</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionPhaseInpStop">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionViewWorld">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>World View</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDockCtrl">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Controls</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionDockProp">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Propulsion</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
+  </action>
+  <action name="actionShowHUD">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show HUD</string>
+   </property>
+  </action>
+  <action name="actionAirportGatesRwy18">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Runway 18</string>
+   </property>
+  </action>
+  <action name="actionAirportGatesRwy36">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Runway 36</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsRALS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>RALS</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsRCLS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>RCLS</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsRELS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>RELS</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsTDZL">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>TDZL</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsTELS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>TELS</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsVGSI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>VGSI</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsHELI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Helipad</string>
+   </property>
+  </action>
+  <action name="actionAirportLightsTWRL">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tower</string>
+   </property>
+  </action>
+  <action name="actionTimeFaster">
+   <property name="text">
+    <string>Faster</string>
+   </property>
+  </action>
+  <action name="actionTimeSlower">
+   <property name="text">
+    <string>Slower</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WidgetCGI</class>
+   <extends>QWidget</extends>
+   <header>gui/WidgetCGI.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../sim.qrc"/>
+ </resources>
+ <connections/>
+</ui>

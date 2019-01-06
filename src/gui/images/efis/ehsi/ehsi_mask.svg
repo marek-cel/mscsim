@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg2"
+   height="300"
+   width="300">
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-752.36218)"
+     id="layer1">
+    <g
+       id="g3141">
+      <path
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         d="m -1.25e-6,752.36218 0,300.00002 300.00000125,0 0,-300.00002 -300.00000125,0 z M 150,797.36218 c 57.9899,0 105,47.0101 105,105 0,57.9899 -47.0101,105.00002 -105,105.00002 -57.989902,0 -105.000002,-47.01012 -105.000002,-105.00002 0,-57.9899 47.0101,-105 105.000002,-105 z"
+         id="rect11308-1" />
+      <g
+         id="g7557">
+        <rect
+           y="789.35303"
+           x="149.0006"
+           height="16"
+           width="2"
+           id="rect7460"
+           style="fill:#ffff00;fill-opacity:1;stroke:none" />
+        <g
+           transform="translate(0.63626099,7.1462402)"
+           id="g7552">
+          <rect
+             style="fill:#ffff00;fill-opacity:1;stroke:none"
+             id="rect7460-3"
+             width="2"
+             height="24"
+             x="148.36374"
+             y="887.21594" />
+          <rect
+             style="fill:#ffff00;fill-opacity:1;stroke:none"
+             id="rect7460-3-9"
+             width="2"
+             height="24"
+             x="894.21594"
+             y="-161.36374"
+             transform="matrix(0,1,-1,0,0,0)" />
+          <rect
+             style="fill:#ffff00;fill-opacity:1;stroke:none"
+             id="rect7460-3-9-9-0"
+             width="2"
+             height="12"
+             x="906.21594"
+             y="-155.36374"
+             transform="matrix(0,1,-1,0,0,0)" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

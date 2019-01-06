@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigation>
+  <ils>
+    <gs>
+      <position>
+        <lat>-0.0114</lat>
+        <lon>-0.0005</lon>
+        <alt>30.0</alt>
+      </position>
+      <glide_slope>3.0</glide_slope>
+    </gs>
+    <lc>
+      <position>
+        <lat>0.015</lat>
+        <lon>0.0</lon>
+        <alt>30.0</alt>
+      </position>
+      <heading>0.0</heading>
+    </lc>
+  </ils>
+  <ndb>
+    <position>
+      <lat>0.0</lat>
+      <lon>0.0009</lon>
+      <alt>30.0</alt>
+    </position>
+  </ndb>
+  <vor>
+    <position>
+      <lat>0.0</lat>
+      <lon>0.0009</lon>
+      <alt>30.0</alt>
+    </position>
+  </vor>
+</navigation>

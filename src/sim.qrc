@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/">
+        <file>gui/images/sim.svg</file>
+        <file>gui/images/efis/eadi/eadi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_mask.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_barh.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_barv.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_doth.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_dotv.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_ladd.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_mask.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_roll.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_scaleh.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_scalev.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_slip.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_turn.svg</file>
+        <file>gui/images/efis/eadi/eadi_alt_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_alt_frame.svg</file>
+        <file>gui/images/efis/eadi/eadi_alt_ground.svg</file>
+        <file>gui/images/efis/eadi/eadi_alt_scale.svg</file>
+        <file>gui/images/efis/eadi/eadi_asi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_asi_frame.svg</file>
+        <file>gui/images/efis/eadi/eadi_asi_scale.svg</file>
+        <file>gui/images/efis/eadi/eadi_hsi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_hsi_face.svg</file>
+        <file>gui/images/efis/eadi/eadi_hsi_marks.svg</file>
+        <file>gui/images/efis/eadi/eadi_vsi_scale.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_back.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_mask.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_mark.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_brg_arrow.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_crs_arrow.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_dev_bar.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_dev_scale.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_hdg_bug.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_hdg_scale.svg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,72 @@
+/****************************************************************************//*
+ * Copyright (C) 2019 Marek M. Cel
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ ******************************************************************************/
+#ifndef FDM_DATAMANAGER_H
+#define FDM_DATAMANAGER_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdmMain/fdm_Base.h>
+#include <fdmMain/fdm_DataRef.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
+
+/**
+ * @brief Data manager class.
+ */
+class FDMEXPORT DataManager : public Base
+{
+public:
+
+    /** Constructor. */
+    DataManager( DataNode *dataRootNode = 0 );
+
+    /** Constructor. */
+    DataManager( const DataManager *dataManager );
+
+    /** Destructor. */
+    virtual ~DataManager();
+
+    /**
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
+     */
+    int addDataRef( const std::string &path, DataNode::Type type );
+
+    /**
+     * Returns data reference of the data node
+     * @param path data node path relative to the root node
+     * @return data reference of the data node
+     */
+    DataRef getDataRef( const std::string &path );
+
+private:
+
+    DataNode *m_dataRootNode;   ///< data tree root node
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // FDM_DATAMANAGER_H

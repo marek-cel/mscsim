@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locations>
+    <location>
+        <name>XGEN: Threshold</name>
+        <lat>-0.013500</lat>
+        <lon>0.0</lon>
+        <alt>0.0</alt>
+        <hdg>0.0</hdg>
+    </location>
+    
+    <location>
+        <name>XGEN: Final Approach</name>
+        <lat>-0.1</lat>
+        <lon>0.0</lon>
+        <alt>546.0</alt>
+        <hdg>0.0</hdg>
+    </location>
+    
+    <location>
+        <name>XGEN: Helipad</name>
+        <lat>-0.007325</lat>
+        <lon>0.003223</lon>
+        <alt>0.0</alt>
+        <hdg>270.0</hdg>
+    </location>
+</locations>
