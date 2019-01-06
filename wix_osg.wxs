@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_mscsim">
+      <Directory Id="dir_mscsim_osgPlugins_3_2_0" Name="osgPlugins-3.2.0" />
+      <Component Id="dir_mscsim_libpng15" Guid="{8efafeaf-428a-4c04-96ca-53f67ee7e5ef}">
+        <File Id="dir_mscsim_libpng15_dll" Name="libpng15.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng15.dll" />
+      </Component>
+      <Component Id="dir_mscsim_libxml2" Guid="{04e935d2-5df5-4dd6-a55e-1eb47d6670d3}">
+        <File Id="dir_mscsim_libxml2_dll" Name="libxml2.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libxml2.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osg" Guid="{b03b2e4f-38c4-4dab-9359-2acafe57f3e7}">
+        <File Id="dir_mscsim_osg100_osg_dll" Name="osg100-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osg.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgDB" Guid="{ea33103b-feea-4c6d-80ad-e6d74f6cc574}">
+        <File Id="dir_mscsim_osg100_osgDB_dll" Name="osg100-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgDB.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgGA" Guid="{192bdfc3-ae28-45ef-976c-0dec6ff16370}">
+        <File Id="dir_mscsim_osg100_osgGA_dll" Name="osg100-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgGA.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgParticle" Guid="{f54cc818-0368-48ed-8683-77e80a0fe844}">
+        <File Id="dir_mscsim_osg100_osgParticle_dll" Name="osg100-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgParticle.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgQt" Guid="{c8568b90-dada-4cc8-8ecf-f32b414aa514}">
+        <File Id="dir_mscsim_osg100_osgQt_dll" Name="osg100-osgQt.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgQt.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgSim" Guid="{e84cc1e7-d967-47bd-9328-154f792e4295}">
+        <File Id="dir_mscsim_osg100_osgSim_dll" Name="osg100-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgSim.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgTerrain" Guid="{02fc895e-f680-4e68-886e-b9f377154308}">
+        <File Id="dir_mscsim_osg100_osgTerrain_dll" Name="osg100-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgTerrain.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgText" Guid="{cebba834-4964-485c-afdb-ef43b2cac63b}">
+        <File Id="dir_mscsim_osg100_osgText_dll" Name="osg100-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgText.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgUtil" Guid="{db575827-2aa3-4330-b2db-9bc943ed4d99}">
+        <File Id="dir_mscsim_osg100_osgUtil_dll" Name="osg100-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgUtil.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgViewer" Guid="{835996a7-c72a-4c36-8f33-7febb14e8fc1}">
+        <File Id="dir_mscsim_osg100_osgViewer_dll" Name="osg100-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgViewer.dll" />
+      </Component>
+      <Component Id="dir_mscsim_osg100_osgWidget" Guid="{0f3b7684-26aa-484f-ad38-85b7ee73842c}">
+        <File Id="dir_mscsim_osg100_osgWidget_dll" Name="osg100-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg100-osgWidget.dll" />
+      </Component>
+      <Component Id="dir_mscsim_ot13_OpenThreads" Guid="{872caf47-5baf-493e-9451-467584e928f7}">
+        <File Id="dir_mscsim_ot13_OpenThreads_dll" Name="ot13-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot13-OpenThreads.dll" />
+      </Component>
+      <Component Id="dir_mscsim_zlib1" Guid="{159d42c6-e7cd-48e4-a75a-49b98f54cf73}">
+        <File Id="dir_mscsim_zlib1_dll" Name="zlib1.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\zlib1.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_mscsim_osg">
+      <ComponentGroupRef Id="cg_mscsim_osg_plugins" />
+      <ComponentRef Id="dir_mscsim_libpng15" />
+      <ComponentRef Id="dir_mscsim_libxml2" />
+      <ComponentRef Id="dir_mscsim_osg100_osg" />
+      <ComponentRef Id="dir_mscsim_osg100_osgDB" />
+      <ComponentRef Id="dir_mscsim_osg100_osgGA" />
+      <ComponentRef Id="dir_mscsim_osg100_osgParticle" />
+      <ComponentRef Id="dir_mscsim_osg100_osgQt" />
+      <ComponentRef Id="dir_mscsim_osg100_osgSim" />
+      <ComponentRef Id="dir_mscsim_osg100_osgTerrain" />
+      <ComponentRef Id="dir_mscsim_osg100_osgText" />
+      <ComponentRef Id="dir_mscsim_osg100_osgUtil" />
+      <ComponentRef Id="dir_mscsim_osg100_osgViewer" />
+      <ComponentRef Id="dir_mscsim_osg100_osgWidget" />
+      <ComponentRef Id="dir_mscsim_ot13_OpenThreads" />
+      <ComponentRef Id="dir_mscsim_zlib1" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

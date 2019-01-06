@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_mscsim">
+      <Component Id="dir_mscsim_qtcore4" Guid="{1753ce9f-ea7e-4007-ad5f-361444d13bd9}">
+        <File Id="dir_mscsim_qtcore4_dll" Name="QtCore4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtCore4.dll" />
+      </Component>
+      <Component Id="dir_mscsim_qtgui4" Guid="{3b388d5c-e497-42f2-a282-4225c9cd0bba}">
+        <File Id="dir_mscsim_qtgui4_dll" Name="QtGui4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtGui4.dll" />
+      </Component>
+      <Component Id="dir_mscsim_qtnetwork4" Guid="{257aec74-5227-4670-bc4d-35e0c5ba7556}">
+        <File Id="dir_mscsim_qtnetwork4_dll" Name="QtNetwork4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtNetwork4.dll" />
+      </Component>
+      <Component Id="dir_mscsim_qtopengl4" Guid="{efd334fc-b55b-42e0-bf9f-a8a8195ec658}">
+        <File Id="dir_mscsim_qtopengl4_dll" Name="QtOpenGL4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtOpenGL4.dll" />
+      </Component>
+      <Component Id="dir_mscsim_qtsvg4" Guid="{d44e9550-f073-4118-8d49-b94773411f95}">
+        <File Id="dir_mscsim_qtsvg4_dll" Name="QtSvg4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtSvg4.dll" />
+      </Component>
+      <Component Id="dir_mscsim_qtxml4" Guid="{483c28f8-a0d0-41e0-ac84-1713ed4cd1fa}">
+        <File Id="dir_mscsim_qtxml4_dll" Name="QtXml4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtXml4.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_mscsim_qt">
+      <ComponentRef Id="dir_mscsim_qtcore4" />
+      <ComponentRef Id="dir_mscsim_qtgui4" />
+      <ComponentRef Id="dir_mscsim_qtnetwork4" />
+      <ComponentRef Id="dir_mscsim_qtopengl4" />
+      <ComponentRef Id="dir_mscsim_qtsvg4" />
+      <ComponentRef Id="dir_mscsim_qtxml4" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

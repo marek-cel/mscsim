@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<Wix
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product
+    Id="{d74b09d7-f321-43c4-92cf-5ea7fa595ae6}" 
+    Name="MScSim"
+    Language="1033"
+    Version="0.1"
+    Manufacturer="Marek Cel" 
+    UpgradeCode="{7d804395-e40a-4b7f-93b5-346065617d41}">
+        
+    <Package
+      Description="MScSim Windows Installer Package"
+      Manufacturer="Marek Cel (marekcel.pl)"
+      InstallerVersion="300"
+      Compressed="yes" />
+
+    <Media Id="1" Cabinet="mscsim.cab" EmbedCab="yes" />
+    
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+    
+      <!-- Visual C++ 2008 Redistributable Merge Module -->
+      <Merge Id="VCRedist" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="1" Language="0"/>
+      
+      <!-- installation dir -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="dir_mscsim" Name="MScSim">
+          
+          <!-- sim.exe -->
+          <Component Id="dir_mscsim_sim" Guid="{bc24fd67-96d0-4cd0-84bd-6ae2197ca69e}">
+            <File Id="dir_mscsim_sim_exe" Name="sim.exe" DiskId="1" Source="bin\sim.exe" />
+          </Component>
+          
+        </Directory>
+      </Directory>
+            
+      <!-- start menu shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="MscSim">
+          <Component Id="menu_shortcuts" Guid="{ff1c553d-9bda-429c-be7d-c7f6db2da635}">
+            <Shortcut
+              Id="menu_sim" 
+              Name="MscSim" 
+              Icon="sim.ico"
+              Description="Flight Simulation"
+              Target="[dir_mscsim]\sim.exe"
+              WorkingDirectory="dir_mscsim" />
+            <Shortcut
+              Id="menu_unistall"
+              Name="Uninstall MScSim"
+              Target="[SystemFolder]msiexec.exe"
+              Arguments="/x [ProductCode]"
+              Description="Uninstall" />
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      
+    </Directory>
+
+    <!-- main program -->
+    <Feature Id="mscsim_main" Title="MScSim" Level="1">
+      <ComponentGroupRef Id="cg_mscsim_data" /> <!-- data -->
+      <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
+      <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->
+      
+      <ComponentRef Id="dir_mscsim_sim" />      <!-- sim.exe -->
+
+      <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
+    </Feature>
+    
+    <!-- Visual C++ 2008 Redistributable Merge Module -->
+    <Feature Id="VCRedist" Title="Visual C++ 8.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+      <MergeRef Id="VCRedist"/>
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="dir_mscsim" />
+    <UIRef Id="WixUI_InstallDir" />
+    
+    <Icon Id="sim.ico" SourceFile="src/sim.ico" />
+    
+  </Product>
+</Wix>
