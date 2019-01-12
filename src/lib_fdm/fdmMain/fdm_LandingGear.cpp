@@ -23,8 +23,6 @@
 #include <fdmMain/fdm_Aircraft.h>
 
 #include <fdmUtils/fdm_String.h>
-#include <fdmUtils/fdm_Units.h>
-
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +127,7 @@ void LandingGear::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -139,7 +137,7 @@ void LandingGear::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -166,7 +164,7 @@ void LandingGear::computeForceAndMoment()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the landing gear model." );
+        e.setInfo( "ERROR! NaN detected in the landing gear model." );
 
         FDM_THROW( e );
     }

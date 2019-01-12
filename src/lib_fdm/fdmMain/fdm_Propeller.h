@@ -73,8 +73,8 @@ public:
     /** Propeller direction. */
     enum Direction
     {
-        Clockwise        = 0,   ///< clockwise (looking from cockpit)
-        Counterclockwise = 1    ///< counterclockwise (looking from cockpit)
+        CW  = 0,    ///< clockwise (looking from cockpit)
+        CCW = 1     ///< counter-clockwise (looking from cockpit)
     };
 
     /** Constructor. */

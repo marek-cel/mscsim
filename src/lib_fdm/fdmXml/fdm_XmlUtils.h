@@ -63,6 +63,14 @@ public:
      * @param node XML node
      * @param data destination
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
+     */
+    static int read( const XmlNode &node, int &data );
+
+    /**
+     * @brief Reads value from XML file.
+     * @param node XML node
+     * @param data destination
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      *
      * @code
      * <tag_name [factor="{ value }"] [unit="{ unit string }"]> { value } </tag_name>
@@ -146,10 +154,12 @@ public:
      * @param parent parent XML node
      * @param data destination
      * @param name element containing data name
+     * @param optional if true then FDM_SUCCESS will be returned if element of given name doesn't exist
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      */
     template < class TYPE >
-    static int read( const XmlNode &parent, TYPE &data, const std::string name )
+    static int read( const XmlNode &parent, TYPE &data, const std::string name,
+                     bool optional = false )
     {
         // empty aircraft mass
         XmlNode node = parent.getFirstChildElement( name );
@@ -163,6 +173,10 @@ public:
                 data = data_temp;
                 return FDM_SUCCESS;
             }
+        }
+        else if ( optional )
+        {
+            return FDM_SUCCESS;
         }
 
         return FDM_FAILURE;

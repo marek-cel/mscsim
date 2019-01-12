@@ -33,6 +33,8 @@ namespace fdm
 
 /**
  * @brief Euler's rectangular numerical integration template class.
+ *
+ * @see Press W., et al.: Numerical Recipes: The Art of Scientific Computing, 2007, p.907
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.58
  * @see DeLoura M.: Game Programming Gems Vol. 1, 2000, p.176
  * @see Krupowicz A.: Metody numeryczne zagadnien poczatkowych rownan rozniczkowych zwyczajnych, 1986, p.29. [in Polish]

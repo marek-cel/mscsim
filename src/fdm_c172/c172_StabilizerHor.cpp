@@ -22,8 +22,6 @@
 
 #include <fdm_c172/c172_StabilizerHor.h>
 
-#include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +33,9 @@ using namespace fdm;
 C172_StabilizerHor::C172_StabilizerHor() :
     m_dcx_delevator ( 0.0 ),
     m_dcz_delevator ( 0.0 ),
-    m_dcz_delevator_trim ( 0.0 )
+    m_dcz_delevator_trim ( 0.0 ),
+    m_elevator ( 0.0 ),
+    m_elevatorTrim ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +46,9 @@ C172_StabilizerHor::~C172_StabilizerHor() {}
 
 void C172_StabilizerHor::readData( XmlNode &dataNode )
 {
-    ////////////////////////////////////
-    StabilizerHor::readData( dataNode );
-    ////////////////////////////////////
+    /////////////////////////////////
+    Stabilizer::readData( dataNode );
+    /////////////////////////////////
 
     if ( dataNode.isValid() )
     {
@@ -64,7 +64,7 @@ void C172_StabilizerHor::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -74,7 +74,7 @@ void C172_StabilizerHor::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -85,28 +85,30 @@ void C172_StabilizerHor::readData( XmlNode &dataNode )
 void C172_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
                                                 const Vector3 &omg_air_bas,
                                                 double airDensity,
+                                                double wingAngleOfAttack,
                                                 double elevator,
-                                                double elevatorTrim,
-                                                double angleOfAttackWing )
+                                                double elevatorTrim )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas ^ m_pos_bas );
+    m_elevator     = elevator;
+    m_elevatorTrim = elevatorTrim;
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttackStab = getAngleOfAttack( vel_stab_bas, angleOfAttackWing );
-    double sideslipAngleStab = Aerodynamics::getSideslipAngle( vel_stab_bas );
+    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                       airDensity, wingAngleOfAttack );
+}
 
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
+////////////////////////////////////////////////////////////////////////////////
 
-    double cx = m_cx.getValue( angleOfAttackStab ) + m_dcx_delevator * elevator;
-    double cz = m_cz.getValue( angleOfAttackStab ) + m_dcz_delevator * elevator
-            + m_dcz_delevator_trim * elevatorTrim;
+double C172_StabilizerHor::getCx( double angle ) const
+{
+    return Stabilizer::getCx( angle )
+            + m_dcx_delevator * m_elevator;
+}
 
-    Vector3 for_aero( dynPress * cx * m_area,
-                      0.0,
-                      dynPress * cz * m_area );
+////////////////////////////////////////////////////////////////////////////////
 
-    m_for_bas = Aerodynamics::getRotMat_aero2BAS( angleOfAttackStab, sideslipAngleStab ) * for_aero;
-    m_mom_bas = m_pos_bas ^ m_for_bas;
+double C172_StabilizerHor::getCz( double angle ) const
+{
+    return Stabilizer::getCz( angle )
+            + m_dcz_delevator      * m_elevator
+            + m_dcz_delevator_trim * m_elevatorTrim;
 }

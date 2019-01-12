@@ -20,18 +20,18 @@ HEADERS += \
     lib_fdm/fdmMain/fdm_Defines.h \
     lib_fdm/fdmMain/fdm_Environment.h \
     lib_fdm/fdmMain/fdm_Exception.h \
+    lib_fdm/fdmMain/fdm_Fuselage.h \
     lib_fdm/fdmMain/fdm_HingeMoment.h \
     lib_fdm/fdmMain/fdm_Inertia.h \
     lib_fdm/fdmMain/fdm_Intersections.h \
     lib_fdm/fdmMain/fdm_LandingGear.h \
+    lib_fdm/fdmMain/fdm_MainRotor.h \
     lib_fdm/fdmMain/fdm_Mass.h \
     lib_fdm/fdmMain/fdm_PistonEngine.h \
     lib_fdm/fdmMain/fdm_Propeller.h \
     lib_fdm/fdmMain/fdm_Propulsion.h \
-    lib_fdm/fdmMain/fdm_SchrenkWing.h \
+    lib_fdm/fdmMain/fdm_Schrenk.h \
     lib_fdm/fdmMain/fdm_Stabilizer.h \
-    lib_fdm/fdmMain/fdm_StabilizerHor.h \
-    lib_fdm/fdmMain/fdm_StabilizerVer.h \
     lib_fdm/fdmMain/fdm_Types.h \
     lib_fdm/fdmMain/fdm_WindShear.h \
     lib_fdm/fdmMain/fdm_Wing.h
@@ -45,18 +45,18 @@ SOURCES += \
     lib_fdm/fdmMain/fdm_DataManager.cpp \
     lib_fdm/fdmMain/fdm_DataNode.cpp \
     lib_fdm/fdmMain/fdm_Environment.cpp \
+    lib_fdm/fdmMain/fdm_Fuselage.cpp \
     lib_fdm/fdmMain/fdm_HingeMoment.cpp \
     lib_fdm/fdmMain/fdm_Inertia.cpp \
     lib_fdm/fdmMain/fdm_Intersections.cpp \
     lib_fdm/fdmMain/fdm_LandingGear.cpp \
+    lib_fdm/fdmMain/fdm_MainRotor.cpp \
     lib_fdm/fdmMain/fdm_Mass.cpp \
     lib_fdm/fdmMain/fdm_PistonEngine.cpp \
     lib_fdm/fdmMain/fdm_Propeller.cpp \
     lib_fdm/fdmMain/fdm_Propulsion.cpp \
-    lib_fdm/fdmMain/fdm_SchrenkWing.cpp \
+    lib_fdm/fdmMain/fdm_Schrenk.cpp \
     lib_fdm/fdmMain/fdm_Stabilizer.cpp \
-    lib_fdm/fdmMain/fdm_StabilizerHor.cpp \
-    lib_fdm/fdmMain/fdm_StabilizerVer.cpp \
     lib_fdm/fdmMain/fdm_WindShear.cpp \
     lib_fdm/fdmMain/fdm_Wing.cpp
 

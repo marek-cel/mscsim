@@ -39,31 +39,6 @@ class C172_Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief Cessna 172 aerodynamics class.
- *
- * <h3>XML configuration file format:</h3>
- * @code
- * <aerodynamics>
- *   <drag_ground_effect>
- *     { [m] altitude AGL } { [-] drag factor due to ground effect }
- *     ... { more entries }
- *   </drag_ground_effect>
- *   <lift_ground_effect>
- *     { [m] altitude AGL } { [-] lift factor due to ground effect }
- *     ... { more entries }
- *   </lift_ground_effect>
- *   <dl_dtorque> { [-] rolling moment due propeller torque } <dl_dtorque>
- *   <dn_dtorque> { [-] yawing moment due propeller torque } <dn_dtorque>
- *   <wing>
- *     { wing data }
- *   </wing>
- *   <horizontal_stabilizer>
- *     { horizontal stabilizer data }
- *   </horizontal_stabilizer>
- *   <vertical_stabilizer>
- *     { vertical stabilizer data }
- *   </vertical_stabilizer>
- * </aerodynamics>
- * @endcode
  */
 class C172_Aerodynamics : public Aerodynamics
 {

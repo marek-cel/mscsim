@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_StabilizerHor.h>
+#include <fdmMain/fdm_Stabilizer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,29 +33,8 @@ namespace fdm
 
 /**
  * @brief Cessna 172 horizontal stabilizer class.
- *
- * <h5>XML configuration file format:</h5>
- * @code
- * <horizontal_stabilizer>
- *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>
- *   <area> { [m^2] stabilizer area } </area>
- *   <incidence> { [deg] stabilizer incidence } </incidence>
- *   <downwash> { [-] coefficient of downwash due to the wing angle of attack } </downwash>
- *   <dcx_delevator> { [1/rad] drag coefficient due to elevator deflection } </dcx_delevator>
- *   <dcz_delevator> { [1/rad] lift coefficient due to elevator deflection } </dcz_delevator>
- *   <dcz_delevator_trim> { [1/rad] lift coefficient due to elevator trim deflection } </dcz_delevator_trim>
- *   <cx>
- *     { [deg] stabilizer angle of attack } { [-] stabilizer drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   <cz>
- *     { [deg] stabilizer angle of attack } { [-] stabilizer lift coefficient }
- *     ... { more entries }
- *   </cz>
- * </horizontal_stabilizer>
- * @endcode
  */
-class C172_StabilizerHor : public StabilizerHor
+class C172_StabilizerHor : public Stabilizer
 {
 public:
 
@@ -76,16 +55,16 @@ public:
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
+     * @param angleOfAttackWing [rad] wing angle of attack
      * @param elevator [rad] elevator deflection
      * @param elevatorTrim [rad] elevator trim deflection
-     * @param angleOfAttackWing [rad] wing angle of attach
      */
     void computeForceAndMoment( const Vector3 &vel_air_bas,
                                 const Vector3 &omg_air_bas,
                                 double airDensity,
+                                double wingAngleOfAttack,
                                 double elevator,
-                                double elevatorTrim,
-                                double angleOfAttackWing );
+                                double elevatorTrim );
 
 private:
 
@@ -93,6 +72,23 @@ private:
     double m_dcz_delevator;         ///< [1/rad] lift coefficient due to elevator deflection
 
     double m_dcz_delevator_trim;    ///< [1/rad] lift coefficient due to elevator trim deflection
+
+    double m_elevator;              ///< [rad] elevator deflection
+    double m_elevatorTrim;          ///< [rad] elevator trim deflection
+
+    /**
+     * Computes drag coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] drag coefficient
+     */
+    virtual double getCx( double angle ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] lift coefficient
+     */
+    virtual double getCz( double angle ) const;
 };
 
 } // end of fdm namespace

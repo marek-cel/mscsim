@@ -37,7 +37,7 @@ namespace fdm
 {
 
 /**
- * @brief Wing simple class.
+ * @brief Wing class.
  *
  * <p>Forces and moments are calculated, considering different airflow
  * conditions, separately for left and right half wings. Half wing aerodynamic
@@ -47,27 +47,38 @@ namespace fdm
  * <h3>XML configuration file format:</h3>
  * @code
  * <wing>
- *   <ac_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_l>
- *   <ac_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_r>
+ *   <aerodynamic_center_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center_l>
+ *   <aerodynamic_center_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center_r>
  *   <mac> { [m] wing mean aerodynamic chord } </mac>
  *   <area> { [m^2] wing area } </area>
  *   <cx>
- *     { [deg] wing angle of attack } { [-] wing drag coefficient }
+ *     { [deg] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
+ *   <cy>
+ *     { [deg] angle of sideslip } { [-] side force coefficient }
+ *     ... { more entries }
+ *   </cy>
  *   <cz>
- *     { [deg] wing angle of attack } { [-] wing lift coefficient }
+ *     { [deg] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
+ *   <cl>
+ *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
+ *     ... { more entries }
+ *   </cl>
  *   <cm>
- *     { [deg] wing angle of attack } { [-] wing pitching moment coefficient }
+ *     { [deg] angle of attack } { [-] pitching moment coefficient }
  *     ... { more entries }
  *   </cm>
+ *   <cn>
+ *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
+ *     ... { more entries }
+ *   </cn>
  * </wing>
  * @endcode
  *
- * @see Torenbeek E: Synthesis of Subsonic Airplane Design, 1982, p.443
- * @see Raymer D: Aircraft Design: A Conceptual Approach, 1992, p.49
+ * <p>Optional elements: "cy", "cl", "cn"</p>
  */
 class FDMEXPORT Wing : public Base
 {
@@ -115,18 +126,21 @@ protected:
     Vector3 m_vel_l_bas;        ///< [m/s] left half wing airspeed
     Vector3 m_vel_r_bas;        ///< [m/s] right half wing airspeed
 
-    Vector3 m_ac_l_bas;         ///< [m] left half wing aerodynamic center expressed in BAS
-    Vector3 m_ac_r_bas;         ///< [m] right half wing aerodynamic center expressed in BAS
+    Vector3 m_r_ac_l_bas;       ///< [m] left half wing aerodynamic center expressed in BAS
+    Vector3 m_r_ac_r_bas;       ///< [m] right half wing aerodynamic center expressed in BAS
 
     Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
+    Table m_cy;                 ///< [-] side force coefficient vs [rad] angle of sideslip
     Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
+    Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
     Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
+    Table m_cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
     double m_mac;               ///< [m] wing mean aerodynamic chord
     double m_area;              ///< [m^2] wing reference area
 
     double m_area_2;            ///< [m^2] half wing reference area
-    double m_mac_s_2;           ///< [m^3] MAC*S/2 where MAC is mean aerodynamic chord and S is wing reference area
+    double m_mac_s_2;           ///< [m^3] MAC*S/2 where MAC is mean aerodynamic chord and S is reference area
 
     double m_aoa_critical_neg;  ///< [rad] critical angle of attack (negative)
     double m_aoa_critical_pos;  ///< [rad] critical angle of attack (positive)
@@ -138,12 +152,12 @@ protected:
 
     /**
      * Adds half wing force and moment to the total force and moment.
-     * @param ac_bas [m] half wing aerodynamic center expressed in BAS
+     * @param r_ac_bas [m] half wing aerodynamic center expressed in BAS
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
      */
-    void addForceAndMoment( const Vector3 &ac_bas,
+    void addForceAndMoment( const Vector3 &r_ac_bas,
                             const Vector3 &vel_air_bas,
                             const Vector3 &omg_air_bas,
                             double airDensity );
@@ -157,10 +171,10 @@ protected:
 
     /**
      * Computes side force coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] side force coefficient
      */
-    virtual double getCy( double angleOfAttack ) const;
+    virtual double getCy( double sideslipAngle ) const;
 
     /**
      * Computes lift coefficient.
@@ -171,10 +185,10 @@ protected:
 
     /**
      * Computes rolling moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
-    virtual double getCl( double angleOfAttack ) const;
+    virtual double getCl( double sideslipAngle ) const;
 
     /**
      * Computes pitching moment coefficient.
@@ -185,10 +199,10 @@ protected:
 
     /**
      * Computes yawing moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */
-    virtual double getCn( double angleOfAttack ) const;
+    virtual double getCn( double sideslipAngle ) const;
 };
 
 } // end of fdm namespace

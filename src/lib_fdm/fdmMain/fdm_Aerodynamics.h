@@ -151,15 +151,15 @@ protected:
     Vector3 m_for_aero;         ///< [N] total force vector expressed in Aerodynamic Axes System
     Vector3 m_mom_stab;         ///< [N*m] total moment vector expressed in Stability Axes System
 
-    Quaternion m_aero2bas;      ///< quaternion of rotation from Aerodynamic Axes System to BAS
-    Quaternion m_stab2bas;      ///< quaternion of rotation from Stability Axes System to BAS
-    Quaternion m_bas2aero;      ///< quaternion of rotation from BAS to Aerodynamic Axes System
-    Quaternion m_bas2stab;      ///< quaternion of rotation from BAS to Stability Axes System
+    Matrix3x3 m_aero2bas;       ///< rotation matrix from Aerodynamic Axes System to BAS
+    Matrix3x3 m_stab2bas;       ///< rotation matrix from Stability Axes System to BAS
+    Matrix3x3 m_bas2aero;       ///< rotation matrix from BAS to Aerodynamic Axes System
+    Matrix3x3 m_bas2stab;       ///< rotation matrix from BAS to Stability Axes System
 
     /**
-     * Updates rotation quaternions.
+     * Updates rotation matrices.
      */
-    virtual void updateQuaternions();
+    virtual void updateMatrices();
 
 private:
 

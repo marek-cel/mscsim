@@ -81,15 +81,6 @@ public:
     }
 
     /**
-     * @param barH [-] normalized horizontal deviation bar position (range from -1.0 to 1.0)
-     * @param barV [-] normalized vertical deviation bar position (range from -1.0 to 1.0)
-     * @param visible deviation bars visibility */
-    inline void setBars( float barH, float barV, bool visible = true )
-    {
-        m_graphicsEADI->setBars( barH, barV, visible );
-    }
-
-    /**
      * @param dotH [-] normalized horizontal deviation position (range from -1.0 to 1.0)
      * @param dotV [-] normalized vertical deviation position (range from -1.0 to 1.0)
      * @param visibleH deviation horizontal visibility
@@ -98,6 +89,21 @@ public:
                          bool visibleH, bool visibleV )
     {
         m_graphicsEADI->setDots( dotH, dotV, visibleH, visibleV );
+    }
+
+    /**
+     * @param FD roll angle [deg]
+     * @param FD pitch angle [deg]
+     * @param FD visibility */
+    inline void setFD( float roll, float pitch, bool visible = true )
+    {
+        m_graphicsEADI->setFD( roll, pitch, visible );
+    }
+
+    /** @param stall flag */
+    inline void setStall( bool stall )
+    {
+        m_graphicsEADI->setStall( stall );
     }
 
     /** @param altitude (dimensionless numeric value) */

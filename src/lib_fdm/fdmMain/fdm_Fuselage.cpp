@@ -20,10 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmMain/fdm_Stabilizer.h>
+#include <fdmMain/fdm_Fuselage.h>
 
 #include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_String.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,46 +31,48 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Stabilizer::Stabilizer() :
-    m_type ( Horizontal ),
+Fuselage::Fuselage() :
+    m_length ( 0.0 ),
     m_area ( 0.0 ),
-    m_incidence ( 0.0 ),
-    m_downwash ( 0.0 )
+    m_sl ( 0.0 )
 {
     m_cx = Table::createOneRecordTable( 0.0 );
     m_cy = Table::createOneRecordTable( 0.0 );
     m_cz = Table::createOneRecordTable( 0.0 );
+    m_cl = Table::createOneRecordTable( 0.0 );
+    m_cm = Table::createOneRecordTable( 0.0 );
+    m_cn = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Stabilizer::~Stabilizer() {}
+Fuselage::~Fuselage() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Stabilizer::readData( XmlNode &dataNode )
+void Fuselage::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        std::string type = dataNode.getAttribute( "type" );
-
-        if      ( 0 == String::icompare( type, "horizontal" ) ) m_type = Horizontal;
-        else if ( 0 == String::icompare( type, "vertical"   ) ) m_type = Vertical;
-
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_bas, "aero_center" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area, "area" );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_incidence , "incidence" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_downwash  , "downwash"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_length , "length" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area   , "area"   );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy, "cy", m_type == Horizontal );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz, "cz", m_type == Vertical   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy, "cy", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz, "cz", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl, "cl", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cm, "cm", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cn, "cn", true );
 
-        if ( result != FDM_SUCCESS )
+        if ( result == FDM_SUCCESS )
+        {
+            m_sl = m_area * m_length;
+        }
+        else
         {
             Exception e;
 
@@ -94,36 +95,47 @@ void Stabilizer::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        double airDensity,
-                                        double wingAngleOfAttack )
+void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                      const Vector3 &omg_air_bas,
+                                      double airDensity )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_bas );
+    // fuselage velocity
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas, wingAngleOfAttack );
-    double sideslipAngle = Aerodynamics::getSideslipAngle( vel_stab_bas );
-
-    double angle = ( m_type == Horizontal ) ? angleOfAttack : sideslipAngle;
+    double angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
+    double sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
 
     // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
+    double dynPress = 0.5 * airDensity * vel_f_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( angle ) * m_area,
-                      dynPress * getCy( angle ) * m_area,
-                      dynPress * getCz( angle ) * m_area );
+    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * m_area,
+                      dynPress * getCy( sideslipAngle ) * m_area,
+                      dynPress * getCz( angleOfAttack ) * m_area );
 
-    m_for_bas = Aerodynamics::getRotMat_aero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    m_mom_bas = m_r_ac_bas ^ m_for_bas;
+    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * m_sl,
+                      dynPress * getCm( angleOfAttack ) * m_sl,
+                      dynPress * getCn( sideslipAngle ) * m_sl );
+
+
+    double sinAlpha = sin( angleOfAttack );
+    double cosAlpha = cos( angleOfAttack );
+    double sinBeta  = sin( sideslipAngle );
+    double cosBeta  = cos( sideslipAngle );
+
+    Vector3 for_bas = Aerodynamics::getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
+    Vector3 mom_bas = Aerodynamics::getRotMat_stab2BAS( sinAlpha, cosAlpha ) * mom_stab
+            + ( m_r_ac_bas ^ for_bas );
+
+    m_for_bas = for_bas;
+    m_mom_bas = mom_bas;
 
     if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
     {
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the stabilizer model." );
+        e.setInfo( "NaN detected in the wing model." );
 
         FDM_THROW( e );
     }
@@ -131,30 +143,42 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getAngleOfAttack( const Vector3 &vel_air_bas,
-                                     double wingAngleOfAttack )
+double Fuselage::getCx( double angleOfAttack ) const
 {
-    return Aerodynamics::getAngleOfAttack( vel_air_bas )
-         + m_incidence - m_downwash * wingAngleOfAttack;
+    return m_cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getCx( double angle ) const
+double Fuselage::getCy( double sideslipAngle ) const
 {
-    return m_cx.getValue( angle );
+    return m_cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getCy( double angle ) const
+double Fuselage::getCz( double angleOfAttack ) const
 {
-    return m_cy.getValue( angle );
+    return m_cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getCz( double angle ) const
+double Fuselage::getCl( double sideslipAngle ) const
 {
-    return m_cz.getValue( angle );
+    return m_cl.getValue( sideslipAngle );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Fuselage::getCm( double angleOfAttack ) const
+{
+    return m_cm.getValue( angleOfAttack );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Fuselage::getCn( double sideslipAngle ) const
+{
+    return m_cn.getValue( sideslipAngle );
 }

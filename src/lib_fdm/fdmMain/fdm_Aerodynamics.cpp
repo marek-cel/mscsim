@@ -128,16 +128,16 @@ Matrix3x3 Aerodynamics::getRotMat_stab2BAS( double sinAlpha, double cosAlpha )
 {
     Matrix3x3 T_stab2bas;
 
-    T_stab2bas(0,0) = -cosAlpha * 1.0;
-    T_stab2bas(0,1) = -cosAlpha * 0.0;
+    T_stab2bas(0,0) = -cosAlpha;
+    T_stab2bas(0,1) =  0.0;
     T_stab2bas(0,2) =  sinAlpha;
 
     T_stab2bas(1,0) = 0.0;
     T_stab2bas(1,1) = 1.0;
     T_stab2bas(1,2) = 0.0;
 
-    T_stab2bas(2,0) = -sinAlpha * 1.0;
-    T_stab2bas(2,1) = -sinAlpha * 0.0;
+    T_stab2bas(2,0) = -sinAlpha;
+    T_stab2bas(2,1) =  0.0;
     T_stab2bas(2,2) = -cosAlpha;
 
     return T_stab2bas;
@@ -158,20 +158,20 @@ Aerodynamics::~Aerodynamics() {}
 
 void Aerodynamics::update()
 {
-    updateQuaternions();
+    updateMatrices();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aerodynamics::updateQuaternions()
+void Aerodynamics::updateMatrices()
 {
     double sinAlpha = sin( m_aircraft->getAngleOfAttack() );
     double cosAlpha = cos( m_aircraft->getAngleOfAttack() );
     double sinBeta  = sin( m_aircraft->getSideslipAngle() );
     double cosBeta  = cos( m_aircraft->getSideslipAngle() );
 
-    m_aero2bas = getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ).getQuaternion();
-    m_stab2bas = getRotMat_stab2BAS( sinAlpha, cosAlpha ).getQuaternion();
-    m_bas2aero = m_aero2bas.getInverted();
-    m_bas2stab = m_stab2bas.getInverted();
+    m_aero2bas = getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta );
+    m_stab2bas = getRotMat_stab2BAS( sinAlpha, cosAlpha );
+    m_bas2aero = m_aero2bas.getTransposed();
+    m_bas2stab = m_stab2bas.getTransposed();
 }

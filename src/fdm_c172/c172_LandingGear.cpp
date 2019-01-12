@@ -22,8 +22,6 @@
 
 #include <fdm_c172/c172_Aircraft.h>
 
-#include <fdmUtils/fdm_Units.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;

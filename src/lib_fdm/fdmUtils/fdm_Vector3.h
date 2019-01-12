@@ -24,6 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <fdmUtils/fdm_Quaternion.h>
 #include <fdmUtils/fdm_Vector.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +57,9 @@ public:
 
     /** @return normalized vector */
     Vector3 getNormalized() const;
+
+    /** Performs vector passive (alias) rotation. */
+    Vector3 rotate( const Quaternion quat );
 
     inline double  x() const { return m_x; }
     inline double  y() const { return m_y; }

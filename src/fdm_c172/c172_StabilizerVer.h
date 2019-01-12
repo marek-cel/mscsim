@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_StabilizerVer.h>
+#include <fdmMain/fdm_Stabilizer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,26 +33,8 @@ namespace fdm
 
 /**
  * @brief Cessna 172 vertical stabilizer class.
- *
- * <h5>XML configuration file format:</h5>
- * @code
- * <vertical_stabilizer>
- *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>
- *   <area> { [m^2] stabilizer area } </area>
- *   <dcx_drudder> { [1/rad] drag coefficient due to rudder deflection } </dcx_drudder>
- *   <dcy_drudder> { [1/rad] side force coefficient due to rudder deflection } </dcy_drudder>
- *   <cx>
- *     { [deg] stabilizer sidelip angle } { [-] stabilizer drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   <cy>
- *     { [deg] stabilizer sidelip angle } { [-] stabilizer side force coefficient }
- *     ... { more entries }
- *   </cy>
- * </vertical_stabilizer>
- * @endcode
  */
-class C172_StabilizerVer : public StabilizerVer
+class C172_StabilizerVer : public Stabilizer
 {
 public:
 
@@ -66,7 +48,7 @@ public:
      * Reads data.
      * @param dataNode XML node
      */
-    void readData( XmlNode &dataNode );
+    virtual void readData( XmlNode &dataNode );
 
     /**
      * Computes force and moment.
@@ -84,6 +66,22 @@ private:
 
     double m_dcx_drudder;           ///< [1/rad] drag coefficient due to rudder deflection
     double m_dcy_drudder;           ///< [1/rad] side force coefficient due to rudder deflection
+
+    double m_rudder;                ///< [rad] rudder deflection
+
+    /**
+     * Computes drag coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] drag coefficient
+     */
+    virtual double getCx( double angle ) const;
+
+    /**
+     * Computes side force coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] side force coefficient
+     */
+    virtual double getCy( double angle ) const;
 };
 
 } // end of fdm namespace

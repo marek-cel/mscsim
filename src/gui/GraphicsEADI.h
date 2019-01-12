@@ -75,15 +75,6 @@ public:
     }
 
     /**
-     * @param normalized horizontal deviation bar position (range from -1.0 to 1.0)
-     * @param normalized vertical deviation bar position (range from -1.0 to 1.0)
-     * @param deviation bars visibility */
-    inline void setBars( float barH, float barV, bool visible = true )
-    {
-        m_adi->setBars( barH, barV, visible );
-    }
-
-    /**
      * @param normalized horizontal deviation dot position (range from -1.0 to 1.0)
      * @param normalized vertical deviation dot position (range from -1.0 to 1.0)
      * @param deviation horizontal dot visibility
@@ -91,6 +82,21 @@ public:
     inline void setDots( float dotH, float dotV, bool visibleH, bool visibleV )
     {
         m_adi->setDots( dotH, dotV, visibleH, visibleV );
+    }
+
+    /**
+     * @param FD roll angle [deg]
+     * @param FD pitch angle [deg]
+     * @param FD visibility */
+    inline void setFD( float roll, float pitch, bool visible = true )
+    {
+        m_adi->setFD( roll, pitch, visible );
+    }
+
+    /** @param stall flag */
+    inline void setStall( bool stall )
+    {
+        m_adi->setStall( stall );
     }
 
     /** @param altitude (dimensionless numeric value) */
@@ -180,8 +186,9 @@ private:
         void setPitch( float pitch );
         void setSlipSkid( float slipSkid );
         void setTurnRate( float turnRate );
-        void setBars( float barH, float barV, bool visible = true );
         void setDots( float dotH, float dotV, bool visibleH, bool visibleV );
+        void setFD( float roll, float pitch, bool visible = true );
+        void setStall( bool stall );
 
     private:
         QGraphicsScene *m_scene;            ///< graphics scene
@@ -191,10 +198,10 @@ private:
         QGraphicsSvgItem  *m_itemRoll;      ///< roll mask
         QGraphicsSvgItem  *m_itemSlip;      ///< slip indicator
         QGraphicsSvgItem  *m_itemTurn;      ///< turn rate indicator
-        QGraphicsSvgItem  *m_itemBarH;
-        QGraphicsSvgItem  *m_itemBarV;
         QGraphicsSvgItem  *m_itemDotH;
         QGraphicsSvgItem  *m_itemDotV;
+        QGraphicsSvgItem  *m_itemFD;        ///< flight director
+        QGraphicsSvgItem  *m_itemStall;     ///< stall warning
         QGraphicsSvgItem  *m_itemMask;      ///< adi mask
         QGraphicsSvgItem  *m_itemScaleH;
         QGraphicsSvgItem  *m_itemScaleV;
@@ -203,37 +210,39 @@ private:
         float m_pitch;          ///< [deg]
         float m_slipSkid;       ///< -1.0 ... 1.0
         float m_turnRate;       ///< -1.0 ... 1.0
-        float m_barH;
-        float m_barV;
-        float m_dotH;
-        float m_dotV;
+        float m_dotH;           ///< -1.0 ... 1.0
+        float m_dotV;           ///< -1.0 ... 1.0
+        float m_fdRoll;         ///< [deg]
+        float m_fdPitch;        ///< [deg]
 
-        bool m_barsVisible;
         bool m_dotVisibleH;
         bool m_dotVisibleV;
+        bool m_fdVisible;
+
+        bool m_stall;
 
         float m_laddDeltaX_new;
         float m_laddDeltaX_old;
+        float m_laddDeltaY_new;
+        float m_laddDeltaY_old;
         float m_laddBackDeltaX_new;
         float m_laddBackDeltaX_old;
         float m_laddBackDeltaY_new;
         float m_laddBackDeltaY_old;
-        float m_laddDeltaY_new;
-        float m_laddDeltaY_old;
         float m_slipDeltaX_new;
         float m_slipDeltaX_old;
         float m_slipDeltaY_new;
         float m_slipDeltaY_old;
         float m_turnDeltaX_new;
         float m_turnDeltaX_old;
-        float m_barHDeltaX_new;
-        float m_barHDeltaX_old;
-        float m_barVDeltaY_new;
-        float m_barVDeltaY_old;
         float m_dotHDeltaX_new;
         float m_dotHDeltaX_old;
         float m_dotVDeltaY_new;
         float m_dotVDeltaY_old;
+        float m_fdDeltaX_new;
+        float m_fdDeltaX_old;
+        float m_fdDeltaY_new;
+        float m_fdDeltaY_old;
 
         float m_scaleX;
         float m_scaleY;
@@ -243,7 +252,6 @@ private:
         const float m_deltaLaddBack_min;    ///< [px] min pitch ladder background deflection
         const float m_maxSlipDeflection;    ///< [px] max slip indicator deflection
         const float m_maxTurnDeflection;    ///< [px] max turn indicator deflection
-        const float m_maxBarsDeflection;
         const float m_maxDotsDeflection;
 
         QPointF m_originalAdiCtr;
@@ -252,10 +260,10 @@ private:
         QPointF m_originalRollPos;
         QPointF m_originalSlipPos;
         QPointF m_originalTurnPos;
-        QPointF m_originalBarHPos;
-        QPointF m_originalBarVPos;
         QPointF m_originalDotHPos;
         QPointF m_originalDotVPos;
+        QPointF m_originalFdPos;
+        QPointF m_originalStallPos;
         QPointF m_originalScaleHPos;
         QPointF m_originalScaleVPos;
 
@@ -263,11 +271,12 @@ private:
         const int m_laddZ;
         const int m_rollZ;
         const int m_slipZ;
-        const int m_barsZ;
         const int m_dotsZ;
+        const int m_fdZ;
         const int m_scalesZ;
         const int m_maskZ;
         const int m_turnZ;
+        const int m_stallZ;
 
         void reset();
 
@@ -276,8 +285,9 @@ private:
         void updateRoll();
         void updateSlipSkid( float sinRoll, float cosRoll );
         void updateTurnRate();
-        void updateBars();
         void updateDots();
+        void updateFD( float sinRoll, float cosRoll );
+        void updateStall();
     };
 
     /** Altimeter */

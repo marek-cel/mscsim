@@ -23,10 +23,7 @@
 #include <fdmMain/fdm_Propeller.h>
 
 #include <fdmMain/fdm_Inertia.h>
-
 #include <fdmUtils/fdm_String.h>
-#include <fdmUtils/fdm_Units.h>
-
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +33,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Propeller::Propeller() :
-    m_direction ( Clockwise ),
+    m_direction ( CW ),
     m_gearRatio ( 1.0 ),
     m_diameter ( 0.0 ),
     m_inertia ( 0.0 ),
@@ -61,11 +58,13 @@ void Propeller::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        m_direction = Clockwise;
-
-        if ( String::toBool( dataNode.getAttribute( "counterclockwise" ), false ) )
+        if ( String::toBool( dataNode.getAttribute( "counter-clockwise" ), false ) )
         {
-            m_direction = Counterclockwise;
+            m_direction = CCW;
+        }
+        else
+        {
+            m_direction = CW;
         }
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_pos_bas   , "position"   );
@@ -83,7 +82,7 @@ void Propeller::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -93,7 +92,7 @@ void Propeller::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }

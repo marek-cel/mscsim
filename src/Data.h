@@ -137,6 +137,8 @@ public:
         bool  ils_visible;                  ///< specifies if ILS is visible
         float ils_gs_deviation;             ///< [-1.0,1.0] ILS Glide Slope deviation
         float ils_lc_deviation;             ///< [-1.0,1.0] ILS Localizer deviation
+
+        bool stall;                         ///< stall flag
     };
 
     /** Initial conditions. */

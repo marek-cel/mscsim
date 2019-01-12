@@ -190,12 +190,12 @@ public:
 
     inline const WGS84& getWGS() const { return m_wgs; }
 
-    inline const Quaternion& getWGS2BAS() const { return m_wgs2bas; }
-    inline const Quaternion& getBAS2WGS() const { return m_bas2wgs; }
-    inline const Quaternion& getWGS2NED() const { return m_wgs2ned; }
-    inline const Quaternion& getNED2WGS() const { return m_ned2wgs; }
-    inline const Quaternion& getNED2BAS() const { return m_ned2bas; }
-    inline const Quaternion& getBAS2NED() const { return m_bas2ned; }
+    inline const Matrix3x3& getWGS2BAS() const { return m_wgs2bas; }
+    inline const Matrix3x3& getBAS2WGS() const { return m_bas2wgs; }
+    inline const Matrix3x3& getWGS2NED() const { return m_wgs2ned; }
+    inline const Matrix3x3& getNED2WGS() const { return m_ned2wgs; }
+    inline const Matrix3x3& getNED2BAS() const { return m_ned2bas; }
+    inline const Matrix3x3& getBAS2NED() const { return m_bas2ned; }
 
     inline const Angles& getAngles_WGS() const { return m_angles_wgs; }
     inline const Angles& getAngles_NED() const { return m_angles_ned; }
@@ -305,12 +305,12 @@ protected:
 
     WGS84 m_wgs;                ///< aircraft WGS position wrapper
 
-    Quaternion m_wgs2bas;       ///< quaternion of rotation from WGS to BAS
-    Quaternion m_bas2wgs;       ///< quaternion of rotation from BAS to WGS
-    Quaternion m_wgs2ned;       ///< quaternion of rotation from WGS to NED
-    Quaternion m_ned2wgs;       ///< quaternion of rotation from NED to WGS
-    Quaternion m_ned2bas;       ///< quaternion of rotation from NED to BAS
-    Quaternion m_bas2ned;       ///< quaternion of rotation from BAS to NED
+    Matrix3x3 m_wgs2bas;        ///< matrix of rotation from WGS to BAS
+    Matrix3x3 m_bas2wgs;        ///< matrix of rotation from BAS to WGS
+    Matrix3x3 m_wgs2ned;        ///< matrix of rotation from WGS to NED
+    Matrix3x3 m_ned2wgs;        ///< matrix of rotation from NED to WGS
+    Matrix3x3 m_ned2bas;        ///< matrix of rotation from NED to BAS
+    Matrix3x3 m_bas2ned;        ///< matrix of rotation from BAS to NED
 
     Angles m_angles_wgs;        ///< [rad] aircraft attitude expressed as rotation from WGS to BAS
     Angles m_angles_ned;        ///< [rad] aircraft attitude expressed as rotation from NED to BAS

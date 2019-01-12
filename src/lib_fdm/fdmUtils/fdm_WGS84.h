@@ -36,11 +36,13 @@ namespace fdm
 
 /**
  * @brief DoD World Geodetic System 1984 (WGS) class.
+ *
  * <p>This class is used to store and calculate location expressed in DoD World
  * Geodetic System 1984 (WGS). It also provides functions to calculate
  * rotation matricies between WGS and local North-East-Down (NED) as well as
  * between WGS and local East-North-Up (ENU) axis systems and function
  * calculating local normal to ellipsoid vector and gravity acceleration.</p>
+ *
  * @see Department of Defence World Geodetic System 1984, NIMA, TR-8350.2, 2000
  * @see Bowring B.: Transformation from spatial to geocentric coordinates, 1976
  * @see Zhu J.: Conversion of Earth-centered Earth-fixed coordinates to geodetic coordinates, 1994
@@ -77,11 +79,8 @@ public:
     static const double m_k;            ///< [-] theoretical (normal) gravity formula constant
     static const double m_m;            ///< [-] m = omega^2 * a^2 * b / GM
 
-    static const Matrix3x3 m_T_enu2ned; ///< matrix of rotation from ENU to NED
-    static const Matrix3x3 m_T_ned2enu; ///< matrix of rotation from NED to ENU
-
-    static const Quaternion m_enu2ned;  ///< quaternion of rotation from ENU to NED
-    static const Quaternion m_ned2enu;  ///< quaternion of rotation from NED to ENU
+    static const Matrix3x3 m_enu2ned;   ///< matrix of rotation from ENU to NED
+    static const Matrix3x3 m_ned2enu;   ///< matrix of rotation from NED to ENU
 
     /**
      * Returns Earth angular velocity vector expressed in WGS axis system.
@@ -174,8 +173,8 @@ public:
     Angles getAngles_NED( const Angles &angles_wgs ) const;
     Angles getAngles_WGS( const Angles &angles_ned ) const;
 
-    Quaternion getNED2BAS( const Quaternion &wgs2bas ) const;
-    Quaternion getWGS2BAS( const Quaternion &ned2bas ) const;
+    Quaternion getNED2BAS( const Quaternion &att_wgs ) const;
+    Quaternion getWGS2BAS( const Quaternion &att_ned ) const;
 
     inline Geo     getPos_Geo() const { return m_pos_geo; }
     inline Vector3 getPos_WGS() const { return m_pos_wgs; }
@@ -183,12 +182,12 @@ public:
     inline Vector3 getNorm_WGS() const { return m_norm_wgs; }
     inline Vector3 getGrav_WGS() const { return m_grav_wgs; }
 
-    inline Quaternion getENU2NED() const { return m_enu2ned; }
-    inline Quaternion getNED2ENU() const { return m_ned2enu; }
-    inline Quaternion getENU2WGS() const { return m_enu2wgs; }
-    inline Quaternion getNED2WGS() const { return m_ned2wgs; }
-    inline Quaternion getWGS2ENU() const { return m_wgs2enu; }
-    inline Quaternion getWGS2NED() const { return m_wgs2ned; }
+    inline Matrix3x3 getENU2NED() const { return m_enu2ned; }
+    inline Matrix3x3 getNED2ENU() const { return m_ned2enu; }
+    inline Matrix3x3 getENU2WGS() const { return m_enu2wgs; }
+    inline Matrix3x3 getNED2WGS() const { return m_ned2wgs; }
+    inline Matrix3x3 getWGS2ENU() const { return m_wgs2enu; }
+    inline Matrix3x3 getWGS2NED() const { return m_wgs2ned; }
 
     /** */
     void setPos_Geo( const Geo &pos_geo );
@@ -205,13 +204,10 @@ private:
     Vector3 m_norm_wgs;     ///< [-] normal to ellipsoid vector expressed in WGS
     Vector3 m_grav_wgs;     ///< [m/s^2] gravity acceleration vector expressed in WGS
 
-    Matrix3x3 m_T_ned2wgs;  ///< matrix of rotation from NED to WGS
-    Matrix3x3 m_T_wgs2ned;  ///< matrix of rotation from WGS to NED
-
-    Quaternion m_enu2wgs;   ///< quaternion of rotation from ENU to WGS
-    Quaternion m_ned2wgs;   ///< quaternion of rotation from NED to WGS
-    Quaternion m_wgs2enu;   ///< quaternion of rotation from WGS to ENU
-    Quaternion m_wgs2ned;   ///< quaternion of rotation from WGS to NED
+    Matrix3x3 m_enu2wgs;    ///< rotation matrix from ENU to WGS
+    Matrix3x3 m_ned2wgs;    ///< rotation matrix from NED to WGS
+    Matrix3x3 m_wgs2enu;    ///< rotation matrix from WGS to ENU
+    Matrix3x3 m_wgs2ned;    ///< rotation matrix from WGS to NED
 
     /**
      * This function updates location (normal to ellipsoid vector, gravity

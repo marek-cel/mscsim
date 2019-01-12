@@ -68,6 +68,8 @@ private:
     osg::ref_ptr<osg::Switch> m_switchFPM;
     osg::ref_ptr<osg::Switch> m_switchILS;
 
+    osg::ref_ptr<osg::Switch> m_switchStall;
+
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderRoll;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderPitch;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderWind;
@@ -103,6 +105,8 @@ private:
     void createFPM();
     void createILS();
 
+    void createStall();
+
     void createTextL();
     void createTextR();
 
@@ -117,6 +121,8 @@ private:
 
     void updateFPM();
     void updateILS();
+
+    void updateStall();
 
     void updateTextL();
     void updateTextR();

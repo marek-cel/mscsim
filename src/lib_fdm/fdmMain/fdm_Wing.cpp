@@ -23,7 +23,6 @@
 #include <fdmMain/fdm_Wing.h>
 
 #include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +41,14 @@ Wing::Wing() :
     m_aoa_l ( 0.0 ),
     m_aoa_r ( 0.0 ),
     m_stall ( false )
-{}
+{
+    m_cx = Table::createOneRecordTable( 0.0 );
+    m_cy = Table::createOneRecordTable( 0.0 );
+    m_cz = Table::createOneRecordTable( 0.0 );
+    m_cl = Table::createOneRecordTable( 0.0 );
+    m_cm = Table::createOneRecordTable( 0.0 );
+    m_cn = Table::createOneRecordTable( 0.0 );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -56,28 +62,33 @@ void Wing::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ac_l_bas, "ac_l" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ac_r_bas, "ac_r" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_l_bas, "aero_center_l" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_r_bas, "aero_center_r" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_mac  , "mac"  );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area , "area" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy, "cy", true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz, "cz" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl, "cl", true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cm, "cm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cn, "cn", true );
 
-        m_area_2 = 0.5 * m_area;
-        m_mac_s_2 = m_mac * m_area_2;
+        if ( result == FDM_SUCCESS )
+        {
+            m_area_2 = 0.5 * m_area;
+            m_mac_s_2 = m_mac * m_area_2;
 
-        m_aoa_critical_neg = m_cz.getKeyOfValueMin();
-        m_aoa_critical_pos = m_cz.getKeyOfValueMax();
-
-        if ( result != FDM_SUCCESS )
+            m_aoa_critical_neg = m_cz.getKeyOfValueMin();
+            m_aoa_critical_pos = m_cz.getKeyOfValueMax();
+        }
+        else
         {
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -87,7 +98,7 @@ void Wing::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -102,15 +113,15 @@ void Wing::computeForceAndMoment( const Vector3 &vel_air_bas,
     m_for_bas.zeroize();
     m_mom_bas.zeroize();
 
-    addForceAndMoment( m_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
-    addForceAndMoment( m_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
+    addForceAndMoment( m_r_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
+    addForceAndMoment( m_r_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
 
     if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
     {
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the wing model." );
+        e.setInfo( "ERROR! NaN detected in the wing model." );
 
         FDM_THROW( e );
     }
@@ -120,8 +131,8 @@ void Wing::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 void Wing::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 {
-    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ m_ac_l_bas );
-    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ m_ac_r_bas );
+    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_l_bas );
+    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_r_bas );
 
     m_aoa_l = Aerodynamics::getAngleOfAttack( vel_l_bas );
     m_aoa_r = Aerodynamics::getAngleOfAttack( vel_r_bas );
@@ -134,13 +145,13 @@ void Wing::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::addForceAndMoment( const Vector3 &ac_bas,
+void Wing::addForceAndMoment( const Vector3 &r_ac_bas,
                               const Vector3 &vel_air_bas,
                               const Vector3 &omg_air_bas,
                               double airDensity )
 {
     // wing velocity
-    Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas ^ ac_bas );
+    Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas ^ r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
     double angleOfAttack = Aerodynamics::getAngleOfAttack( vel_wing_bas );
@@ -150,12 +161,12 @@ void Wing::addForceAndMoment( const Vector3 &ac_bas,
     double dynPress = 0.5 * airDensity * vel_wing_bas.getLength2();
 
     Vector3 for_aero( dynPress * getCx( angleOfAttack ) * m_area_2,
-                      dynPress * getCy( angleOfAttack ) * m_area_2,
+                      dynPress * getCy( sideslipAngle ) * m_area_2,
                       dynPress * getCz( angleOfAttack ) * m_area_2 );
 
-    Vector3 mom_stab( dynPress * getCl( angleOfAttack ) * m_mac_s_2,
+    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * m_mac_s_2,
                       dynPress * getCm( angleOfAttack ) * m_mac_s_2,
-                      dynPress * getCn( angleOfAttack ) * m_mac_s_2 );
+                      dynPress * getCn( sideslipAngle ) * m_mac_s_2 );
 
 
     double sinAlpha = sin( angleOfAttack );
@@ -165,7 +176,7 @@ void Wing::addForceAndMoment( const Vector3 &ac_bas,
 
     Vector3 for_bas = Aerodynamics::getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = Aerodynamics::getRotMat_stab2BAS( sinAlpha, cosAlpha ) * mom_stab
-            + ( ac_bas ^ for_bas );
+            + ( r_ac_bas ^ for_bas );
 
     m_for_bas += for_bas;
     m_mom_bas += mom_bas;
@@ -180,9 +191,9 @@ double Wing::getCx( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCy( double ) const
+double Wing::getCy( double sideslipAngle ) const
 {
-    return 0.0;
+    return m_cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,9 +205,9 @@ double Wing::getCz( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCl( double ) const
+double Wing::getCl( double sideslipAngle ) const
 {
-    return 0.0;
+    return m_cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +219,7 @@ double Wing::getCm( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCn( double ) const
+double Wing::getCn( double sideslipAngle ) const
 {
-    return 0.0;
+    return m_cn.getValue( sideslipAngle );
 }

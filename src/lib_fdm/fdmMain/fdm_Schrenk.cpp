@@ -20,11 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmMain/fdm_SchrenkWing.h>
+#include <fdmMain/fdm_Schrenk.h>
 
-#include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdmUtils/fdm_Misc.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +30,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkWing::getMeanAerodynamicChord( double cr, double ct )
+double Schrenk::getMeanAerodynamicChord( double cr, double ct )
 {
     double tr = ct / cr; // taper ratio
     return ( 2.0 / 3.0 ) * cr * ( 1.0 + tr + tr*tr ) / ( 1.0 + tr );
@@ -40,7 +38,7 @@ double SchrenkWing::getMeanAerodynamicChord( double cr, double ct )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkWing::getMeanAerodynamicChord( const Table &chord )
+double Schrenk::getMeanAerodynamicChord( const Table &chord )
 {
     double sum_mac = 0.0;
     double sum_area = 0.0;
@@ -62,7 +60,8 @@ double SchrenkWing::getMeanAerodynamicChord( const Table &chord )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SchrenkWing::SchrenkWing() :
+Schrenk::Schrenk() :
+    m_area ( 0.0 ),
     m_span ( 0.0 ),
     m_4S_bpi ( 0.0 ),
     m_2_b ( 0.0 )
@@ -70,61 +69,51 @@ SchrenkWing::SchrenkWing() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SchrenkWing::~SchrenkWing() {}
+Schrenk::~Schrenk() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SchrenkWing::readData( XmlNode &dataNode )
+double Schrenk::getDragCoefDist( double y ) const
 {
-    ///////////////////////////
-    Wing::readData( dataNode );
-    ///////////////////////////
-
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_span, "span" );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_chord, "chord" );
-
-        m_4S_bpi = ( 4.0 * m_area ) / ( m_span * M_PI );
-        m_2_b = 2.0 / m_span;
-
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double SchrenkWing::getDragCoefDist( double y ) const
-{
-    //
     return ( y < 0.4 * m_span ) ? 0.95 : 1.2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double SchrenkWing::getLiftCoefDist( double y ) const
+double Schrenk::getLiftCoefDist( double y ) const
 {
     // equivalent elliptical wing chord
     double chord_e = m_4S_bpi * sqrt( 1.0 - Misc::pow2( y * m_2_b ) );
     return 0.5 * ( 1.0 + chord_e / m_chord.getValue( y ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Schrenk::setArea( double area )
+{
+    m_area = area;
+    updateAxiliaryParameters();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Schrenk::setSpan( double span )
+{
+    m_span = span;
+    updateAxiliaryParameters();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Schrenk::setChord( const Table &chord )
+{
+    m_chord = chord;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Schrenk::updateAxiliaryParameters()
+{
+    m_4S_bpi = ( 4.0 * m_area ) / ( m_span * M_PI );
+    m_2_b = 2.0 / m_span;
 }

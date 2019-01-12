@@ -85,7 +85,7 @@ void C172_Controls::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining control channels failed." );
+        e.setInfo( "ERROR! Obtaining control channels failed." );
 
         FDM_THROW( e );
     }
@@ -99,7 +99,7 @@ void C172_Controls::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "Creating data references failed." );
+        e.setInfo( "ERROR! Creating data references failed." );
 
         FDM_THROW( e );
     }

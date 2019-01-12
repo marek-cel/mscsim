@@ -22,8 +22,6 @@
 
 #include <fdm_c172/c172_StabilizerVer.h>
 
-#include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +32,8 @@ using namespace fdm;
 
 C172_StabilizerVer::C172_StabilizerVer() :
     m_dcx_drudder ( 0.0 ),
-    m_dcy_drudder ( 0.0 )
+    m_dcy_drudder ( 0.0 ),
+    m_rudder ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +44,9 @@ C172_StabilizerVer::~C172_StabilizerVer() {}
 
 void C172_StabilizerVer::readData( XmlNode &dataNode )
 {
-    ////////////////////////////////////
-    StabilizerVer::readData( dataNode );
-    ////////////////////////////////////
+    /////////////////////////////////
+    Stabilizer::readData( dataNode );
+    /////////////////////////////////
 
     if ( dataNode.isValid() )
     {
@@ -61,7 +60,7 @@ void C172_StabilizerVer::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -71,7 +70,7 @@ void C172_StabilizerVer::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -84,23 +83,24 @@ void C172_StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
                                                 double airDensity,
                                                 double rudder )
 {
-    // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas ^ m_pos_bas );
+    m_rudder = rudder;
 
-    // stabilizer angle of attack and sideslip angle
-    double angleOfAttackStab = Aerodynamics::getAngleOfAttack( vel_stab_bas );
-    double sideslipAngleStab = Aerodynamics::getSideslipAngle( vel_stab_bas );
+    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                       airDensity );
+}
 
-    // dynamic pressure
-    double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
+////////////////////////////////////////////////////////////////////////////////
 
-    double cx = m_cx.getValue( sideslipAngleStab ) + m_dcx_drudder * rudder;
-    double cy = m_cy.getValue( sideslipAngleStab ) + m_dcy_drudder * rudder;
+double C172_StabilizerVer::getCx( double angle ) const
+{
+    return Stabilizer::getCx( angle )
+            + m_dcx_drudder * m_rudder;
+}
 
-    Vector3 for_aero( dynPress * cx * m_area,
-                      dynPress * cy * m_area,
-                      0.0 );
+////////////////////////////////////////////////////////////////////////////////
 
-    m_for_bas = Aerodynamics::getRotMat_aero2BAS( angleOfAttackStab, sideslipAngleStab ) * for_aero;
-    m_mom_bas = m_pos_bas ^ m_for_bas;
+double C172_StabilizerVer::getCy( double angle ) const
+{
+    return Stabilizer::getCy( angle )
+            + m_dcy_drudder * m_rudder;
 }

@@ -34,6 +34,8 @@ namespace fdm
 
 /**
  * @brief This class implements Gauss-Jordan method.
+ *
+ * @see Press W., et al.: Numerical Recipes: The Art of Scientific Computing, 2007, p.41
  * @see Baron B., Piatek L.: Metody numeryczne w C++ Builder, 2004, p.34. [in Polish]
  * @see https://en.wikipedia.org/wiki/Gaussian_elimination
  */

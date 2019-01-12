@@ -417,10 +417,10 @@ void Ownship::reset()
 
     m_mainRotorBlades.clear();
 
-    m_ailerons = fdm::Table::createOneRecordTable();
-    m_elevator = fdm::Table::createOneRecordTable();
-    m_rudder   = fdm::Table::createOneRecordTable();
-    m_flaps    = fdm::Table::createOneRecordTable();
+    m_ailerons = fdm::Table::createOneRecordTable( 0.0 );
+    m_elevator = fdm::Table::createOneRecordTable( 0.0 );
+    m_rudder   = fdm::Table::createOneRecordTable( 0.0 );
+    m_flaps    = fdm::Table::createOneRecordTable( 0.0 );
 
     m_airbrake = 0.0;
     m_coefElev = 0.0;

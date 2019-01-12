@@ -19,16 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_STABILIZER_H
-#define FDM_STABILIZER_H
+#ifndef FDM_FUSELAGE_H
+#define FDM_FUSELAGE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdmMain/fdm_Base.h>
-#include <fdmUtils/fdm_Vector3.h>
-#include <fdmXml/fdm_XmlNode.h>
 
 #include <fdmUtils/fdm_Table.h>
+#include <fdmUtils/fdm_Vector3.h>
+
+#include <fdmXml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,58 +37,53 @@ namespace fdm
 {
 
 /**
- * @brief Generic stabilizer base class.
+ * @brief Fuselage class.
  *
- * <p>This is generalized stabilizator class intended to represent both
- * horizontal and vertical stabilizers. For verical stabilizer angle of attack
- * becomes angle of sideslip.</p>
- *
- * <p>Type of stabilizer is determined by XML tag name "horizontal_stabilizer"
- * or "vertical_stabilizer".</p>
- *
- * <h5>XML configuration file format:</h5>
+ * <h3>XML configuration file format:</h3>
  * @code
- * <stabilizer type="[horizontal|vertical]">
+ * <fuselage>
  *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
- *   <area> { [m^2] area } </area>
- *   [<incidence> { [rad] incidence } </incidence>]
- *   [<downwash> { [-] downwash coefficient } </downwash>]
+ *   <length> { [m] fuselage reference length } </length>
+ *   <width> { [m] fuselage reference width } </width>
+ *   <area> { [m^2] fuselage reference area } </area>
  *   <cx>
- *     { [deg] angle } { [-] drag coefficient }
+ *     { [deg] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle } { [-] side force coefficient }
+ *     { [deg] angle of sideslip } { [-] side force coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
- *     { [deg] angle } { [-] lift coefficient }
+ *     { [deg] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
- * </stabilizer>
+ *   <cl>
+ *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
+ *     ... { more entries }
+ *   </cl>
+ *   <cm>
+ *     { [deg] angle of attack } { [-] pitching moment coefficient }
+ *     ... { more entries }
+ *   </cm>
+ *   <cn>
+ *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
+ *     ... { more entries }
+ *   </cn>
+ * </fuselage>
  * @endcode
  *
- * <p>Specify "cy" for vertical and "cz" for horizontal stabilizer.</p>
- *
- * <p>Optional elements: "incidence", "downwash", "cy" for horizontal stabilizer,
- * "cz" for vertical stabilizer</p>
+ * <p>Optional elements: "cy", "cz", "cl", "cm", "cn"</p>
  */
-class FDMEXPORT Stabilizer : public Base
+class FDMEXPORT Fuselage : public Base
 {
 public:
 
-    /** Stabilizer type. */
-    enum Type
-    {
-        Horizontal = 0,     ///< horizontal stabilizer
-        Vertical   = 1      ///< vertical stabilizer
-    };
-
     /** Constructor. */
-    Stabilizer();
+    Fuselage();
 
     /** Destructor. */
-    virtual ~Stabilizer();
+    virtual ~Fuselage();
 
     /**
      * Reads data.
@@ -100,12 +96,10 @@ public:
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
-     * @param wingAngleOfAttack [rad] wing angle of attack
      */
     void computeForceAndMoment( const Vector3 &vel_air_bas,
                                 const Vector3 &omg_air_bas,
-                                double airDensity,
-                                double wingAngleOfAttack = 0.0 );
+                                double airDensity );
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }
@@ -115,54 +109,65 @@ protected:
     Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
     Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
 
-    Type m_type;                ///< stabilizer type
+    Vector3 m_r_ac_bas;         ///< [m] fuselage aerodynamic center expressed in BAS
 
-    Vector3 m_r_ac_bas;         ///< [m] stabilizer aerodynamic center expressed in BAS
+    Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
+    Table m_cy;                 ///< [-] side force coefficient vs [rad] angle of sideslip
+    Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
+    Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+    Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
+    Table m_cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
-    Table m_cx;                 ///< [-] drag coefficient vs "angle of attack"
-    Table m_cy;                 ///< [-] side force coefficient vs "angle of attack"
-    Table m_cz;                 ///< [-] lift coefficient vs "angle of attack"
+    double m_length;            ///< [m] reference length
+    double m_area;              ///< [m^2] reference area
 
-    double m_area;              ///< [m^2] stabilizer reference area
-
-    double m_incidence;         ///< [rad] stabilizer incidence angle
-    double m_downwash;          ///< [-] downwash coefficient
-
-    /**
-     * Computes stabilizer angle of attack.
-     * @see Etkin B.: Dynamics of Atmosferic Flight, 1972, p.210
-     * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.426
-     * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-4. [in Polish]
-     * @param vel_air_bas [m/s] stabilizer linear velocity relative to the air expressed in BAS
-     * @param wingAngleOfAttack [rad] wing angle of attack
-     * @return [rad] stabilizer angle of attack
-     */
-    virtual double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
+    double m_sl;                ///< [m^3] S*l where S is reference area and l is reference length
 
     /**
      * Computes drag coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param angleOfAttack [rad] angle of attack
      * @return [-] drag coefficient
      */
-    virtual double getCx( double angle ) const;
+    virtual double getCx( double angleOfAttack ) const;
 
     /**
      * Computes side force coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] side force coefficient
      */
-    virtual double getCy( double angle ) const;
+    virtual double getCy( double sideslipAngle ) const;
 
     /**
      * Computes lift coefficient.
-     * @param angle [rad] "angle of attack"
+     * @param angleOfAttack [rad] angle of attack
      * @return [-] lift coefficient
      */
-    virtual double getCz( double angle ) const;
+    virtual double getCz( double angleOfAttack ) const;
+
+    /**
+     * Computes rolling moment coefficient.
+     * @param sideslipAngle [rad] angle of sideslip
+     * @return [-] rolling moment coefficient
+     */
+    virtual double getCl( double sideslipAngle ) const;
+
+    /**
+     * Computes pitching moment coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] pitching moment coefficient
+     */
+    virtual double getCm( double angleOfAttack ) const;
+
+    /**
+     * Computes yawing moment coefficient.
+     * @param sideslipAngle [rad] angle of sideslip
+     * @return [-] yawing moment coefficient
+     */
+    virtual double getCn( double sideslipAngle ) const;
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_STABILIZERHOR_H
+#endif // FDM_FUSELAGE_H

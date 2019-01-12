@@ -195,6 +195,8 @@ void Simulation::updateDataOut()
     Data::get()->hud.ils_gs_deviation = Data::get()->navigation.ils_gs_deviation;
     Data::get()->hud.ils_lc_deviation = Data::get()->navigation.ils_lc_deviation;
 
+    Data::get()->hud.stall = m_dataOut.flight.stall;
+
     // ownship
     Data::get()->ownship.latitude  = m_dataOut.flight.latitude;
     Data::get()->ownship.longitude = m_dataOut.flight.longitude;

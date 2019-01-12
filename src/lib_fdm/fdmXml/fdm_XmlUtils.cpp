@@ -75,6 +75,31 @@ int XmlUtils::read( const XmlNode &node, std::string &str )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int XmlUtils::read( const XmlNode &node, int &data )
+{
+    if ( node.isValid() )
+    {
+        XmlNode textNode = node.getFirstChild();
+
+        if ( textNode.isValid() && textNode.isText() )
+        {
+            std::string text = String::stripLeadingSpaces( textNode.getText() );
+
+            int data_temp = String::toInt( text );
+
+            if ( Misc::isValid( data_temp ) )
+            {
+                data = data_temp;
+                return FDM_SUCCESS;
+            }
+        }
+    }
+
+    return FDM_FAILURE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int XmlUtils::read( const XmlNode &node, double &data )
 {
     if ( node.isValid() )

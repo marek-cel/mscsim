@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_SCHRENKWING_H
-#define FDM_SCHRENKWING_H
+#ifndef FDM_SCHRENK_H
+#define FDM_SCHRENK_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Wing.h>
+#include <fdmUtils/fdm_Table.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,37 +34,10 @@ namespace fdm
 /**
  * @brief Wing Schrenk approximation class.
  *
- * <h3>XML configuration file format:</h3>
- * @code
- * <wing>
- *   <ac_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_l>
- *   <ac_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_r>
- *   <span> { [m] wing span } </span>
- *   <mac> { [m] wing mean aerodynamic chord } </mac>
- *   <area> { [m^2] wing area } </area>
- *   <chord>
- *     { [m] spanwise coordinate } { [m] wing chord }
- *     ... { more entries }
- *   </chord>
- *   <cx>
- *     { [deg] wing angle of attack } { [-] wing drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   <cz>
- *     { [deg] wing angle of attack } { [-] wing lift coefficient }
- *     ... { more entries }
- *   </cz>
- *   <cm>
- *     { [deg] wing angle of attack } { [-] wing pitching moment coefficient }
- *     ... { more entries }
- *   </cm>
- * </wing>
- * @endcode
- *
  * @see A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA, TM-948
  * @see Galinski C.: Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]
  */
-class FDMEXPORT SchrenkWing : public Wing
+class FDMEXPORT Schrenk
 {
 public:
 
@@ -85,25 +58,10 @@ public:
     static double getMeanAerodynamicChord( const Table &chord );
 
     /** Constructor. */
-    SchrenkWing();
+    Schrenk();
 
     /** Destructor. */
-    virtual ~SchrenkWing();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    virtual void readData( XmlNode &dataNode );
-
-protected:
-
-    double m_span;              ///< [m] wing span
-
-    Table m_chord;              ///< [m] wing chord vs [m] spanwise coordinate
-
-    double m_4S_bpi;            ///< [m] 4*S/(b*pi) where S is wing area and b is wing span
-    double m_2_b;               ///< [1/m] 2/b where b is wing span
+    virtual ~Schrenk();
 
     /**
      * Computes simple approximation of normalized spanwise drag coefficient
@@ -120,10 +78,41 @@ protected:
      * @return [-] spanwise lift coefficient
      */
     virtual double getLiftCoefDist( double y ) const;
+
+    /**
+     * Sets wing area.
+     * @param area [m^2] wing area
+     */
+    void setArea( double area );
+
+    /**
+     * Sets wing span.
+     * @param span [m] wing span
+     */
+    void setSpan( double span );
+
+    /**
+     * Sets wing chord.
+     * @param chord [m] wing chord vs [m] spanwise coordinate
+     */
+    void setChord( const Table &chord );
+
+protected:
+
+    double m_area;              ///< [m^2] wing area
+    double m_span;              ///< [m] wing span
+
+    Table m_chord;              ///< [m] wing chord vs [m] spanwise coordinate
+
+    double m_4S_bpi;            ///< [m] 4*S/(b*pi) where S is wing area and b is wing span
+    double m_2_b;               ///< [1/m] 2/b where b is wing span
+
+    /** */
+    void updateAxiliaryParameters();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_SCHRENKWING_H
+#endif // FDM_SCHRENK_H

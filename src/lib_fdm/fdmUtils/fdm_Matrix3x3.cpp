@@ -28,6 +28,15 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Matrix3x3 Matrix3x3::createIntityMatrix()
+{
+    return Matrix3x3( 1.0, 0.0, 0.0,
+                      0.0, 1.0, 0.0,
+                      0.0, 0.0, 1.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Matrix3x3::Matrix3x3() :
     Matrix< 3,3 >()
 {}
@@ -168,7 +177,6 @@ Angles Matrix3x3::getAngles() const
 
 Quaternion Matrix3x3::getQuaternion() const
 {
-    // TODO: according to Matulewski
     Quaternion result;
 
     // traces

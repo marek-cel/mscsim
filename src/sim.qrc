@@ -4,16 +4,16 @@
         <file>gui/images/efis/eadi/eadi_back.svg</file>
         <file>gui/images/efis/eadi/eadi_mask.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_back.svg</file>
-        <file>gui/images/efis/eadi/eadi_adi_barh.svg</file>
-        <file>gui/images/efis/eadi/eadi_adi_barv.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_doth.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_dotv.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_fd.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_ladd.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_mask.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_roll.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_scaleh.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_scalev.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_slip.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_stall.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_turn.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_back.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_frame.svg</file>

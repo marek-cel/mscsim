@@ -225,7 +225,7 @@ void Navigation::updateILS()
     if ( distance_lc < m_range_ils )
     {
         fdm::Vector3 pos_gs_ned = m_aircraft_wgs.getWGS2NED() * ( m_ils.pos_gs_wgs - m_aircraft_wgs.getPos_WGS() );
-        fdm::Vector3 pos_gs_rwy = fdm::Quaternion( fdm::Angles( 0.0, 0.0, m_ils.heading ) ) * pos_gs_ned;
+        fdm::Vector3 pos_gs_rwy = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, m_ils.heading ) ) * pos_gs_ned;
 
         double azim = getAzimuth( m_ils.pos_lc_wgs );
         double elev = atan2( -pos_gs_rwy.z(), pos_gs_rwy.x() );

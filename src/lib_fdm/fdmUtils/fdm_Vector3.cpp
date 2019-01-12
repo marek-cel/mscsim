@@ -91,6 +91,17 @@ Vector3 Vector3::getNormalized() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Vector3 Vector3::rotate( const Quaternion quat )
+{
+    // passive rotation
+    Quaternion qv( 0.0, m_x, m_y, m_z );
+    Quaternion qr = quat.getConjugated() * qv * quat;
+
+    return Vector3( qr.ex(), qr.ey(), qr.ez() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Vector3::set( double x, double y, double z )
 {
     m_x = x;

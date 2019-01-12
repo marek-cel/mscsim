@@ -25,12 +25,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdmUtils/fdm_Angles.h>
-#include <fdmUtils/fdm_Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
+
+class Vector3;  ///< forward declaration
 
 /**
  * @brief Quaternion class.
@@ -126,12 +127,6 @@ public:
     /** Multiplication operator (by quaternion). */
     Quaternion operator* ( const Quaternion &quat ) const;
 
-    /**
-     * Multiplication operator (by vector).
-     * Performs vector passive (alias) rotation.
-     */
-    Vector3 operator* ( const Vector3 &vect ) const;
-
     /** Division operator (by scalar). */
     Quaternion operator/ ( double val ) const;
 
@@ -169,14 +164,6 @@ private:
 inline fdm::Quaternion operator* ( double val, const fdm::Quaternion &quat )
 {
     return quat * val;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-/** Multiplication operator (by vector). */
-inline fdm::Quaternion operator* ( const fdm::Vector3 &vect, const fdm::Quaternion &quat )
-{
-    return fdm::Quaternion( 0.0, vect.x(), vect.y(), vect.z() ) * quat;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

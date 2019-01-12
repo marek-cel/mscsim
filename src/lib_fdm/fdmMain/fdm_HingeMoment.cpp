@@ -33,9 +33,9 @@ using namespace fdm;
 HingeMoment::HingeMoment() :
     m_area  ( 0.0 ),
     m_chord ( 0.0 ),
-    m_dch_dalpha ( 0.0 ),
-    m_dch_ddelta ( 0.0 ),
-    m_dch_dtrim  ( 0.0 )
+    m_dch_dalpha   ( 0.0 ),
+    m_dch_ddelta   ( 0.0 ),
+    m_dch_ddelta_t ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,16 +53,16 @@ void HingeMoment::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area  , "area"  );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_chord , "chord" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_dalpha , "dch_dalpha" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_ddelta , "dch_ddelta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_dtrim  , "dch_dtrim"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_dalpha   , "dch_dalpha"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_ddelta   , "dch_ddelta"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_ddelta_t , "dch_ddelta_t" );
 
         if ( result != FDM_SUCCESS )
         {
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -72,7 +72,7 @@ void HingeMoment::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -83,12 +83,12 @@ void HingeMoment::readData( XmlNode &dataNode )
 double HingeMoment::getHingeMoment( double dynamicPressure,
                                     double alpha,
                                     double delta,
-                                    double trim ) const
+                                    double delta_t ) const
 {
     // control surface hinge moment coefficient
-    double ch = m_dch_dalpha * alpha
-              + m_dch_ddelta * delta
-              + m_dch_dtrim  * trim;
+    double ch = m_dch_dalpha   * alpha
+              + m_dch_ddelta   * delta
+              + m_dch_ddelta_t * delta_t;
 
     return dynamicPressure * m_area * m_chord * ch;
 }

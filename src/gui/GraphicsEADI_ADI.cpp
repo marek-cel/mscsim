@@ -38,10 +38,10 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     m_itemRoll   ( 0 ),
     m_itemSlip   ( 0 ),
     m_itemTurn   ( 0 ),
-    m_itemBarH   ( 0 ),
-    m_itemBarV   ( 0 ),
     m_itemDotH   ( 0 ),
     m_itemDotV   ( 0 ),
+    m_itemFD     ( 0 ),
+    m_itemStall  ( 0 ),
     m_itemMask   ( 0 ),
     m_itemScaleH ( 0 ),
     m_itemScaleV ( 0 ),
@@ -50,37 +50,39 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     m_pitch    ( 0.0f ),
     m_slipSkid ( 0.0f ),
     m_turnRate ( 0.0f ),
-    m_barH     ( 0.0f ),
-    m_barV     ( 0.0f ),
     m_dotH     ( 0.0f ),
     m_dotV     ( 0.0f ),
+    m_fdRoll   ( 0.0f ),
+    m_fdPitch  ( 0.0f ),
 
-    m_barsVisible  ( true ),
-    m_dotVisibleH  ( true ),
-    m_dotVisibleV  ( true ),
+    m_dotVisibleH ( false ),
+    m_dotVisibleV ( false ),
+    m_fdVisible   ( false ),
+
+    m_stall ( false ),
 
     m_laddDeltaX_new     ( 0.0f ),
     m_laddDeltaX_old     ( 0.0f ),
+    m_laddDeltaY_new     ( 0.0f ),
+    m_laddDeltaY_old     ( 0.0f ),
     m_laddBackDeltaX_new ( 0.0f ),
     m_laddBackDeltaX_old ( 0.0f ),
     m_laddBackDeltaY_new ( 0.0f ),
     m_laddBackDeltaY_old ( 0.0f ),
-    m_laddDeltaY_new     ( 0.0f ),
-    m_laddDeltaY_old     ( 0.0f ),
     m_slipDeltaX_new     ( 0.0f ),
     m_slipDeltaX_old     ( 0.0f ),
     m_slipDeltaY_new     ( 0.0f ),
     m_slipDeltaY_old     ( 0.0f ),
     m_turnDeltaX_new     ( 0.0f ),
     m_turnDeltaX_old     ( 0.0f ),
-    m_barHDeltaX_new     ( 0.0f ),
-    m_barHDeltaX_old     ( 0.0f ),
-    m_barVDeltaY_new     ( 0.0f ),
-    m_barVDeltaY_old     ( 0.0f ),
     m_dotHDeltaX_new     ( 0.0f ),
     m_dotHDeltaX_old     ( 0.0f ),
     m_dotVDeltaY_new     ( 0.0f ),
     m_dotVDeltaY_old     ( 0.0f ),
+    m_fdDeltaX_new       ( 0.0f ),
+    m_fdDeltaX_old       ( 0.0f ),
+    m_fdDeltaY_new       ( 0.0f ),
+    m_fdDeltaY_old       ( 0.0f ),
 
     m_scaleX ( 1.0f ),
     m_scaleY ( 1.0f ),
@@ -90,7 +92,6 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     m_deltaLaddBack_min ( -52.5f ),
     m_maxSlipDeflection (  20.0f ),
     m_maxTurnDeflection (  55.0f ),
-    m_maxBarsDeflection (  40.0f ),
     m_maxDotsDeflection (  50.0f ),
 
     m_originalAdiCtr    ( 150.0f ,  125.0f ),
@@ -99,10 +100,10 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     m_originalRollPos   (  45.0f ,   20.0f ),
     m_originalSlipPos   ( 145.5f ,   68.0f ),
     m_originalTurnPos   ( 142.5f ,  206.0f ),
-    m_originalBarHPos   ( 149.0f ,   85.0f ),
-    m_originalBarVPos   ( 110.0f ,  124.0f ),
     m_originalDotHPos   ( 145.0f ,  188.0f ),
     m_originalDotVPos   ( 213.0f ,  120.0f ),
+    m_originalFdPos     ( 107.0f ,  124.5f ),
+    m_originalStallPos  ( 122.0f ,   91.0f ),
     m_originalScaleHPos (   0.0f ,    0.0f ),
     m_originalScaleVPos (   0.0f ,    0.0f ),
 
@@ -110,11 +111,12 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     m_laddZ   ( 20 ),
     m_rollZ   ( 30 ),
     m_slipZ   ( 40 ),
-    m_barsZ   ( 50 ),
     m_dotsZ   ( 50 ),
+    m_fdZ     ( 50 ),
     m_scalesZ ( 51 ),
     m_maskZ   ( 60 ),
-    m_turnZ   ( 70 )
+    m_turnZ   ( 70 ),
+    m_stallZ  ( 80 )
 {
     reset();
 }
@@ -167,20 +169,6 @@ void GraphicsEADI::ADI::init( float scaleX, float scaleY )
     m_itemTurn->moveBy( m_scaleX * m_originalTurnPos.x(), m_scaleY * m_originalTurnPos.y() );
     m_scene->addItem( m_itemTurn );
 
-    m_itemBarH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_barh.svg" );
-    m_itemBarH->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBarH->setZValue( m_barsZ );
-    m_itemBarH->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBarH->moveBy( m_scaleX * m_originalBarHPos.x(), m_scaleY * m_originalBarHPos.y() );
-    m_scene->addItem( m_itemBarH );
-
-    m_itemBarV = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_barv.svg" );
-    m_itemBarV->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBarV->setZValue( m_barsZ );
-    m_itemBarV->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBarV->moveBy( m_scaleX * m_originalBarVPos.x(), m_scaleY * m_originalBarVPos.y() );
-    m_scene->addItem( m_itemBarV );
-
     m_itemDotH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_doth.svg" );
     m_itemDotH->setCacheMode( QGraphicsItem::NoCache );
     m_itemDotH->setZValue( m_dotsZ - 1 );
@@ -194,6 +182,21 @@ void GraphicsEADI::ADI::init( float scaleX, float scaleY )
     m_itemDotV->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
     m_itemDotV->moveBy( m_scaleX * m_originalDotVPos.x(), m_scaleY * m_originalDotVPos.y() );
     m_scene->addItem( m_itemDotV );
+
+    m_itemFD = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_fd.svg" );
+    m_itemFD->setCacheMode( QGraphicsItem::NoCache );
+    m_itemFD->setZValue( m_fdZ );
+    m_itemFD->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
+    m_itemFD->setTransformOriginPoint( m_originalAdiCtr - m_originalFdPos );
+    m_itemFD->moveBy( m_scaleX * m_originalFdPos.x(), m_scaleY * m_originalFdPos.y() );
+    m_scene->addItem( m_itemFD );
+
+    m_itemStall = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_stall.svg" );
+    m_itemStall->setCacheMode( QGraphicsItem::NoCache );
+    m_itemStall->setZValue( m_stallZ );
+    m_itemStall->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
+    m_itemStall->moveBy( m_scaleX * m_originalStallPos.x(), m_scaleY * m_originalStallPos.y() );
+    m_scene->addItem( m_itemStall );
 
     m_itemScaleH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_scaleh.svg" );
     m_itemScaleH->setCacheMode( QGraphicsItem::NoCache );
@@ -241,8 +244,9 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
     updateRoll();
     updateSlipSkid( sinRoll, cosRoll );
     updateTurnRate();
-    updateBars();
     updateDots();
+    updateFD( sinRoll, cosRoll );
+    updateStall();
 
     m_laddDeltaX_old     = m_laddDeltaX_new;
     m_laddDeltaY_old     = m_laddDeltaY_new;
@@ -251,10 +255,10 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
     m_slipDeltaX_old     = m_slipDeltaX_new;
     m_slipDeltaY_old     = m_slipDeltaY_new;
     m_turnDeltaX_old     = m_turnDeltaX_new;
-    m_barHDeltaX_old     = m_barHDeltaX_new;
-    m_barVDeltaY_old     = m_barVDeltaY_new;
     m_dotHDeltaX_old     = m_dotHDeltaX_new;
     m_dotVDeltaY_old     = m_dotVDeltaY_new;
+    m_fdDeltaX_old       = m_fdDeltaX_new;
+    m_fdDeltaY_old       = m_fdDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -299,22 +303,6 @@ void GraphicsEADI::ADI::setTurnRate( float turnRate )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setBars( float barH, float barV, bool visible )
-{
-    m_barH = barH;
-    m_barV = barV;
-
-    if      ( m_barH < -1.0f ) m_barH = -1.0f;
-    else if ( m_barH >  1.0f ) m_barH =  1.0f;
-
-    if      ( m_barV < -1.0f ) m_barV = -1.0f;
-    else if ( m_barV >  1.0f ) m_barV =  1.0f;
-
-    m_barsVisible = visible;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool visibleV )
 {
     m_dotH = dotH;
@@ -330,6 +318,30 @@ void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool vis
     m_dotVisibleV = visibleV;
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ADI::setFD( float roll, float pitch, bool visible )
+{
+    m_fdRoll  = roll;
+    m_fdPitch = pitch;
+
+    if      ( m_fdRoll < -180.0f ) m_fdRoll = -180.0f;
+    else if ( m_fdRoll >  180.0f ) m_fdRoll =  180.0f;
+
+    if      ( m_fdPitch < -90.0f ) m_fdPitch = -90.0f;
+    else if ( m_fdPitch >  90.0f ) m_fdPitch =  90.0f;
+
+    m_fdVisible = visible;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ADI::setStall( bool stall )
+{
+    m_stall = stall;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::reset()
@@ -339,10 +351,9 @@ void GraphicsEADI::ADI::reset()
     m_itemRoll   = 0;
     m_itemSlip   = 0;
     m_itemTurn   = 0;
-    m_itemBarH   = 0;
-    m_itemBarV   = 0;
     m_itemDotH   = 0;
     m_itemDotV   = 0;
+    m_itemFD     = 0;
     m_itemMask   = 0;
     m_itemScaleH = 0;
     m_itemScaleV = 0;
@@ -351,37 +362,39 @@ void GraphicsEADI::ADI::reset()
     m_pitch    = 0.0f;
     m_slipSkid = 0.0f;
     m_turnRate = 0.0f;
-    m_barH     = 0.0f;
-    m_barV     = 0.0f;
     m_dotH     = 0.0f;
     m_dotV     = 0.0f;
+    m_fdRoll   = 0.0f;
+    m_fdPitch  = 0.0f;
 
-    m_barsVisible  = true;
-    m_dotVisibleH  = true;
-    m_dotVisibleV  = true;
+    m_dotVisibleH  = false;
+    m_dotVisibleV  = false;
+    m_fdVisible    = false;
+
+    m_stall = false;
 
     m_laddDeltaX_new     = 0.0f;
     m_laddDeltaX_old     = 0.0f;
+    m_laddDeltaY_new     = 0.0f;
+    m_laddDeltaY_old     = 0.0f;
     m_laddBackDeltaX_new = 0.0f;
     m_laddBackDeltaX_old = 0.0f;
     m_laddBackDeltaY_new = 0.0f;
     m_laddBackDeltaY_old = 0.0f;
-    m_laddDeltaY_new     = 0.0f;
-    m_laddDeltaY_old     = 0.0f;
     m_slipDeltaX_new     = 0.0f;
     m_slipDeltaX_old     = 0.0f;
     m_slipDeltaY_new     = 0.0f;
     m_slipDeltaY_old     = 0.0f;
     m_turnDeltaX_new     = 0.0f;
     m_turnDeltaX_old     = 0.0f;
-    m_barHDeltaX_new     = 0.0f;
-    m_barHDeltaX_old     = 0.0f;
-    m_barVDeltaY_new     = 0.0f;
-    m_barVDeltaY_old     = 0.0f;
     m_dotHDeltaX_new     = 0.0f;
     m_dotHDeltaX_old     = 0.0f;
     m_dotVDeltaY_new     = 0.0f;
     m_dotVDeltaY_old     = 0.0f;
+    m_fdDeltaX_new       = 0.0f;
+    m_fdDeltaX_old       = 0.0f;
+    m_fdDeltaY_new       = 0.0f;
+    m_fdDeltaY_old       = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -455,31 +468,6 @@ void GraphicsEADI::ADI::updateTurnRate()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::updateBars()
-{
-    if ( m_barsVisible )
-    {
-        m_itemBarH->setVisible( true );
-        m_itemBarV->setVisible( true );
-
-        m_barHDeltaX_new = m_scaleX * m_maxBarsDeflection * m_barH;
-        m_barVDeltaY_new = m_scaleY * m_maxBarsDeflection * m_barV;
-
-        m_itemBarH->moveBy( m_barHDeltaX_new - m_barHDeltaX_old, 0.0f );
-        m_itemBarV->moveBy( 0.0f, m_barVDeltaY_old - m_barVDeltaY_new );
-    }
-    else
-    {
-        m_itemBarH->setVisible( false );
-        m_itemBarV->setVisible( false );
-
-        m_barHDeltaX_new = m_barHDeltaX_old;
-        m_barVDeltaY_new = m_barVDeltaY_old;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void GraphicsEADI::ADI::updateDots()
 {
     if ( m_dotVisibleH )
@@ -514,5 +502,48 @@ void GraphicsEADI::ADI::updateDots()
         m_itemScaleV->setVisible( false );
 
         m_dotVDeltaY_new = m_dotVDeltaY_old;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ADI::updateFD( float sinRoll, float cosRoll )
+{
+    if ( m_fdVisible )
+    {
+        m_itemFD->setVisible( true );
+
+        m_itemFD->setRotation( m_fdRoll - m_roll );
+
+        float pitch = m_pitch - m_fdPitch;
+
+        if      ( pitch < -17.0f ) pitch = -17.0f;
+        else if ( pitch >  17.0f ) pitch =  17.0f;
+
+        float delta = m_originalPixPerDeg * pitch;
+
+        m_fdDeltaX_new = m_scaleX * delta * sinRoll;
+        m_fdDeltaY_new = m_scaleY * delta * cosRoll;
+
+        m_itemFD->moveBy( m_fdDeltaX_new - m_fdDeltaX_old,
+                          m_fdDeltaY_new - m_fdDeltaY_old );
+    }
+    else
+    {
+        m_itemFD->setVisible( false );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ADI::updateStall()
+{
+    if ( m_stall )
+    {
+        m_itemStall->setVisible( true );
+    }
+    else
+    {
+        m_itemStall->setVisible( false );
     }
 }

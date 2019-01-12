@@ -22,7 +22,6 @@
 
 #include <fdm_c172/c172_Aircraft.h>
 
-#include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +79,7 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -98,7 +97,7 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -108,7 +107,7 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
 
 void C172_Aerodynamics::computeForceAndMoment()
 {
-    updateQuaternions();
+    updateMatrices();
 
     m_wing->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
                                    m_aircraft->getOmg_air_BAS(),
@@ -119,9 +118,9 @@ void C172_Aerodynamics::computeForceAndMoment()
     m_stabHor->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
                                       m_aircraft->getOmg_air_BAS(),
                                       m_aircraft->getEnvir()->getDensity(),
+                                      m_aircraft->getAngleOfAttack(),
                                       m_aircraft->getCtrl()->getElevator(),
-                                      m_aircraft->getCtrl()->getElevatorTrim(),
-                                      m_aircraft->getAngleOfAttack() );
+                                      m_aircraft->getCtrl()->getElevatorTrim() );
 
     m_stabVer->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
                                       m_aircraft->getOmg_air_BAS(),
@@ -156,7 +155,7 @@ void C172_Aerodynamics::computeForceAndMoment()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the aerodynamics model." );
+        e.setInfo( "ERROR! NaN detected in the aerodynamics model." );
 
         FDM_THROW( e );
     }

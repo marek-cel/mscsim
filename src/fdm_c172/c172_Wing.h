@@ -33,32 +33,6 @@ namespace fdm
 
 /**
  * @brief Cessna 172 wing class.
- *
- * <h3>XML configuration file format:</h3>
- * @code
- * <wing>
- *   <ac_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_l>
- *   <ac_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </ac_r>
- *   <mac> { [m] wing mean aerodynamic chord } </mac>
- *   <area> { [m^2] wing area } </area>
- *   <dcl_dailerons> { [1/rad] rolling moment coefficient due to ailerons deflection } </dcl_dailerons>
- *   <dcx_dflaps> { [1/rad] drag coefficient due to flaps deflection } </dcx_dflaps>
- *   <dcz_dflaps> { [1/rad] lift coefficient due to flaps deflection } </dcz_dflaps>
- *   <dcm_dflaps> { [1/rad] pitching moment coefficient due to flaps deflection } </dcm_dflaps>
- *   <cx>
- *     { [deg] wing angle of attack } { [-] wing drag coefficient }
- *     ... { more entries }
- *   </cx>
- *   <cz>
- *     { [deg] wing angle of attack } { [-] wing lift coefficient }
- *     ... { more entries }
- *   </cz>
- *   <cm>
- *     { [deg] wing angle of attack } { [-] wing pitching moment coefficient }
- *     ... { more entries }
- *   </cm>
- * </wing>
- * @endcode
  */
 class C172_Wing : public Wing
 {
@@ -84,7 +58,7 @@ public:
      * @param ailerons [rad] ailerons deflection
      * @param flaps [rad] flaps deflection
      */
-    void computeForceAndMoment(const fdm::Vector3 &vel_air_bas,
+    void computeForceAndMoment( const fdm::Vector3 &vel_air_bas,
                                 const fdm::Vector3 &omg_air_bas,
                                 double airDensity ,
                                 double ailerons,
@@ -117,10 +91,10 @@ private:
 
     /**
      * Computes side force coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] side force coefficient
      */
-    double getCy( double angleOfAttack ) const;
+    double getCy( double sideslipAngle ) const;
 
     /**
      * Computes lift coefficient.
@@ -131,10 +105,10 @@ private:
 
     /**
      * Computes rolling moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
-    double getCl( double angleOfAttack ) const;
+    double getCl( double sideslipAngle ) const;
 
     /**
      * Computes pitching moment coefficient.
@@ -145,10 +119,10 @@ private:
 
     /**
      * Computes yawing moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
+     * @param sideslipAngle [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */
-    double getCn( double angleOfAttack ) const;
+    double getCn( double sideslipAngle ) const;
 };
 
 } // end of fdm namespace

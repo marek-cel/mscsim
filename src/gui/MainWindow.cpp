@@ -597,12 +597,14 @@ void MainWindow::updateDockEFIS()
         m_dockEFIS->setSlipSkid( Data::get()->ownship.slipSkidAngle / fdm::Units::deg2rad( 9.0 ) );
         m_dockEFIS->setTurnRate( Data::get()->ownship.yawRate       / fdm::Units::deg2rad( 6.0 ) );
 
-        m_dockEFIS->setBars( 0.0, 0.0, false );
-
         m_dockEFIS->setDots( Data::get()->navigation.ils_lc_deviation,
                              Data::get()->navigation.ils_gs_deviation,
                              Data::get()->navigation.ils_lc_visible,
                              Data::get()->navigation.ils_gs_visible );
+
+        m_dockEFIS->setFD( 0.0, 0.0, false );
+
+        m_dockEFIS->setStall( Data::get()->ownship.stall );
 
         m_dockEFIS->setAltitude( fdm::Units::m2ft( Data::get()->ownship.altitude_asl ) );
         m_dockEFIS->setAirspeed( fdm::Units::mps2kts( Data::get()->ownship.airspeed ) );

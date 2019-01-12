@@ -23,7 +23,6 @@
 #include <fdm_c172/c172_Wing.h>
 
 #include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +68,7 @@ void C172_Wing::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -79,7 +78,7 @@ void C172_Wing::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -121,9 +120,9 @@ double C172_Wing::getCx( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCy( double angleOfAttack ) const
+double C172_Wing::getCy( double sideslipAngle ) const
 {
-    return Wing::getCy( angleOfAttack );
+    return Wing::getCy( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,9 +134,9 @@ double C172_Wing::getCz( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCl( double angleOfAttack ) const
+double C172_Wing::getCl( double sideslipAngle ) const
 {
-    return Wing::getCl( angleOfAttack ) + m_ailerons * m_dcl_dailerons;
+    return Wing::getCl( sideslipAngle ) + m_ailerons * m_dcl_dailerons;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +148,7 @@ double C172_Wing::getCm( double angleOfAttack ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCn( double angleOfAttack ) const
+double C172_Wing::getCn( double sideslipAngle ) const
 {
-    return Wing::getCn( angleOfAttack );
+    return Wing::getCn( sideslipAngle );
 }

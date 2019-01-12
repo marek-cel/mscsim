@@ -33,6 +33,8 @@ namespace fdm
 
 /**
  * @brief Runge-Kutta 4th order numerical integration template class.
+ *
+ * @see Press W., et al.: Numerical Recipes: The Art of Scientific Computing, 2007, p.907
  * @see Krupowicz A.: Metody numeryczne zagadnien poczatkowych rownan rozniczkowych zwyczajnych, 1986, p.185. [in Polish]
  * @see Baron B., Piatek L.: Metody numeryczne w C++ Builder, 2004, p.331. [in Polish]
  * @see https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods

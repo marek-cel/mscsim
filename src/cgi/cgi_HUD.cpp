@@ -72,6 +72,8 @@ HUD::HUD()
     createFPM();
     createILS();
 
+    createStall();
+
     osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
 
     stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
@@ -133,6 +135,8 @@ void HUD::update()
         updateFPM();
         updateILS();
 
+        updateStall();
+
         updateTextL();
         updateTextR();
     }
@@ -188,14 +192,14 @@ void HUD::createWaterLine()
 
 void HUD::createRollIndicator()
 {
-    const float r0 = 40.0f;
+    const float r0 = 80.0f;
     const float r1 = r0 + 2.5f;
     const float r2 = r0 + 5.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> patTemp = new osg::PositionAttitudeTransform();
     m_switch->addChild( patTemp.get() );
 
-    patTemp->setPosition( osg::Vec3( 0.0f, -15.0f, 0.0f ) );
+    patTemp->setPosition( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
 
     m_switchRollIndicator = new osg::Switch();
     patTemp->addChild( m_switchRollIndicator.get() );
@@ -230,11 +234,11 @@ void HUD::createRollIndicator()
         y0 = r0 * cos( a );
         y1 = r1 * cos( a );
 
-        v->push_back( osg::Vec3( -x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3( -x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3( -x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3( -x1, y1, -1.0f ) );
 
-        v->push_back( osg::Vec3(  x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3(  x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3(  x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3(  x1, y1, -1.0f ) );
 
         // -45
         a = osg::DegreesToRadians( -45.0f );
@@ -245,11 +249,11 @@ void HUD::createRollIndicator()
         y0 = r0 * cos( a );
         y1 = r1 * cos( a );
 
-        v->push_back( osg::Vec3( -x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3( -x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3( -x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3( -x1, y1, -1.0f ) );
 
-        v->push_back( osg::Vec3(  x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3(  x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3(  x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3(  x1, y1, -1.0f ) );
 
         // -30
         a = osg::DegreesToRadians( -30.0f );
@@ -260,11 +264,11 @@ void HUD::createRollIndicator()
         y0 = r0 * cos( a );
         y2 = r2 * cos( a );
 
-        v->push_back( osg::Vec3( -x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3( -x2, -y2, -1.0f ) );
+        v->push_back( osg::Vec3( -x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3( -x2, y2, -1.0f ) );
 
-        v->push_back( osg::Vec3(  x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3(  x2, -y2, -1.0f ) );
+        v->push_back( osg::Vec3(  x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3(  x2, y2, -1.0f ) );
 
         // -20
         a = osg::DegreesToRadians( -20.0f );
@@ -275,11 +279,11 @@ void HUD::createRollIndicator()
         y0 = r0 * cos( a );
         y1 = r1 * cos( a );
 
-        v->push_back( osg::Vec3( -x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3( -x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3( -x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3( -x1, y1, -1.0f ) );
 
-        v->push_back( osg::Vec3(  x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3(  x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3(  x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3(  x1, y1, -1.0f ) );
 
         // -10
         a = osg::DegreesToRadians( -10.0f );
@@ -290,19 +294,19 @@ void HUD::createRollIndicator()
         y0 = r0 * cos( a );
         y1 = r1 * cos( a );
 
-        v->push_back( osg::Vec3( -x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3( -x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3( -x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3( -x1, y1, -1.0f ) );
 
-        v->push_back( osg::Vec3(  x0, -y0, -1.0f ) );
-        v->push_back( osg::Vec3(  x1, -y1, -1.0f ) );
+        v->push_back( osg::Vec3(  x0, y0, -1.0f ) );
+        v->push_back( osg::Vec3(  x1, y1, -1.0f ) );
 
         // 0
-        v->push_back( osg::Vec3(  0.0f, -r0, -1.0f ) );
-        v->push_back( osg::Vec3( -2.0f, -r0 - 5.0f, -1.0f ) );
-        v->push_back( osg::Vec3( -2.0f, -r0 - 5.0f, -1.0f ) );
-        v->push_back( osg::Vec3(  2.0f, -r0 - 5.0f, -1.0f ) );
-        v->push_back( osg::Vec3(  2.0f, -r0 - 5.0f, -1.0f ) );
-        v->push_back( osg::Vec3(  0.0f, -r0, -1.0f ) );
+        v->push_back( osg::Vec3(  0.0f, r0, -1.0f ) );
+        v->push_back( osg::Vec3( -2.0f, r0 + 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3( -2.0f, r0 + 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3(  2.0f, r0 + 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3(  2.0f, r0 + 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3(  0.0f, r0, -1.0f ) );
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
@@ -334,9 +338,9 @@ void HUD::createRollIndicator()
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
         osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
-        v->push_back( osg::Vec3(  0.0f, -r0, -1.0f ) );
-        v->push_back( osg::Vec3( -2.0f, -r0 + 5.0f, -1.0f ) );
-        v->push_back( osg::Vec3(  2.0f, -r0 + 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3(  0.0f, r0, -1.0f ) );
+        v->push_back( osg::Vec3( -2.0f, r0 - 5.0f, -1.0f ) );
+        v->push_back( osg::Vec3(  2.0f, r0 - 5.0f, -1.0f ) );
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
@@ -436,7 +440,7 @@ void HUD::createPitchLadder()
 
 void HUD::createHeadingScale()
 {
-    const float y_del = 80.0f;
+    const float y_del = -80.0f;
 
     const float scale_w = 100.0f;
 
@@ -463,15 +467,15 @@ void HUD::createHeadingScale()
         osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         // marker
-        v->push_back( osg::Vec3( -box_w / 6.0f, y_del - box_h * 0.5f, -1.0f ) );
+        v->push_back( osg::Vec3( -box_w / 6.0f, y_del + box_h * 0.5f, -1.0f ) );
         v->push_back( osg::Vec3(          0.0f, y_del               , -1.0f ) );
-        v->push_back( osg::Vec3(  box_w / 6.0f, y_del - box_h * 0.5f, -1.0f ) );
+        v->push_back( osg::Vec3(  box_w / 6.0f, y_del + box_h * 0.5f, -1.0f ) );
 
         // box
-        v->push_back( osg::Vec3(  box_w / 2.0f, y_del - box_h * 0.5f, -1.0f ) );
-        v->push_back( osg::Vec3(  box_w / 2.0f, y_del - box_h * 1.5f, -1.0f ) );
-        v->push_back( osg::Vec3( -box_w / 2.0f, y_del - box_h * 1.5f, -1.0f ) );
-        v->push_back( osg::Vec3( -box_w / 2.0f, y_del - box_h * 0.5f, -1.0f ) );
+        v->push_back( osg::Vec3(  box_w / 2.0f, y_del + box_h * 0.5f, -1.0f ) );
+        v->push_back( osg::Vec3(  box_w / 2.0f, y_del + box_h * 1.5f, -1.0f ) );
+        v->push_back( osg::Vec3( -box_w / 2.0f, y_del + box_h * 1.5f, -1.0f ) );
+        v->push_back( osg::Vec3( -box_w / 2.0f, y_del + box_h * 0.5f, -1.0f ) );
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
@@ -499,9 +503,7 @@ void HUD::createHeadingScale()
         text->setColor( osg::Vec4( Color::hud, 1.0f ) );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
-        text->setPosition( osg::Vec3( 0.0f, y_del - box_h * 0.5f - 5.5f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
+        text->setPosition( osg::Vec3( 0.0f, y_del + box_h * 0.5f + 1.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::CENTER_BASE_LINE );
 
@@ -802,6 +804,30 @@ void HUD::createILS()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void HUD::createStall()
+{
+    m_switchStall = new osg::Switch();
+    m_switch->addChild( m_switchStall.get() );
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    m_switchStall->addChild( geode.get() );
+
+    osg::ref_ptr<osgText::Text> text = new osgText::Text();
+    //text->setFont(font);
+    text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+    text->setCharacterSize( 2 * m_charSize );
+    text->setAxisAlignment( osgText::TextBase::XY_PLANE );
+    text->setPosition( osg::Vec3( 0.0f, 20.0f, -1.0f ) );
+    text->setLayout( osgText::Text::LEFT_TO_RIGHT );
+    text->setAlignment( osgText::Text::CENTER_BASE_LINE );
+
+    text->setText( "STALL" );
+
+    geode->addDrawable( text );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void HUD::createTextL()
 {
     const float x = 60.0f;
@@ -854,8 +880,6 @@ void HUD::createTextL()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y + 2.5f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -875,8 +899,6 @@ void HUD::createTextL()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 7.5f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -895,8 +917,6 @@ void HUD::createTextL()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 15.0f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -960,8 +980,6 @@ void HUD::createTextR()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y + 2.5f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -980,8 +998,6 @@ void HUD::createTextR()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 7.5f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -1000,8 +1016,6 @@ void HUD::createTextR()
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 15.0f, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -1121,8 +1135,6 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -w / 2.0f, y + y_del, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::LEFT_BASE_LINE );
 
@@ -1138,8 +1150,6 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( w / 2.0f, y + y_del, -1.0f ) );
-
-        // right to left layouts would be used for hebrew or arabic fonts.
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
 
@@ -1165,9 +1175,7 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x, int deg1
     text->setColor( osg::Vec4( Color::hud, 1.0f ) );
     text->setCharacterSize( m_charSize );
     text->setAxisAlignment( osgText::TextBase::XY_PLANE );
-    text->setPosition( osg::Vec3( x, 3.0f + y_del, -1.0f ) );
-
-    // right to left layouts would be used for hebrew or arabic fonts.
+    text->setPosition( osg::Vec3( x, y_del - m_charSize - 3.0f, -1.0f ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
     text->setAlignment( osgText::Text::CENTER_BASE_LINE );
 
@@ -1189,8 +1197,8 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x )
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
     // bar
-    v->push_back( osg::Vec3( x,     y_del, -1.0f ) );
-    v->push_back( osg::Vec3( x, h + y_del, -1.0f ) );
+    v->push_back( osg::Vec3( x, y_del    , -1.0f ) );
+    v->push_back( osg::Vec3( x, y_del - h, -1.0f ) );
 
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
@@ -1362,6 +1370,20 @@ void HUD::updateILS()
     else
     {
         m_switchILS->setAllChildrenOff();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void HUD::updateStall()
+{
+    if ( Data::get()->hud.stall )
+    {
+        m_switchStall->setAllChildrenOn();
+    }
+    else
+    {
+        m_switchStall->setAllChildrenOff();
     }
 }
 

@@ -77,7 +77,7 @@ void C172_Propulsion::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -115,7 +115,7 @@ void C172_Propulsion::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "Creating data references failed." );
+        e.setInfo( "ERROR! Creating data references failed." );
 
         FDM_THROW( e );
     }
@@ -135,7 +135,7 @@ void C172_Propulsion::computeForceAndMoment()
     // gyro effect
     Vector3 omega_bas;
 
-    if ( m_propeller->getDirection() == Propeller::Clockwise )
+    if ( m_propeller->getDirection() == Propeller::CW )
     {
         omega_bas.x() =  m_propeller->getOmega();
     }
@@ -154,7 +154,7 @@ void C172_Propulsion::computeForceAndMoment()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the propulsion model." );
+        e.setInfo( "ERROR! NaN detected in the propulsion model." );
 
         FDM_THROW( e );
     }

@@ -26,6 +26,7 @@
 
 #include <fdmUtils/fdm_Matrix3x3.h>
 #include <fdmUtils/fdm_Misc.h>
+#include <fdmUtils/fdm_Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -353,17 +354,6 @@ Quaternion Quaternion::operator* ( const Quaternion &quat ) const
                 + m_ez * quat.m_e0;
 
     return result;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Vector3 Quaternion::operator* ( const Vector3 &vect ) const
-{
-    // passive rotation
-    Quaternion qv( 0.0, vect.x(), vect.y(), vect.z() );
-    Quaternion qr = getConjugated() * qv * (*this);
-
-    return Vector3( qr.ex(), qr.ey(), qr.ez() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

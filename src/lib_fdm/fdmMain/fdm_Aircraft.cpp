@@ -181,7 +181,7 @@ void Aircraft::readData( const std::string &dataFilePath )
                 Exception e;
 
                 e.setType( Exception::FileReadingError );
-                e.setInfo( "Error reading XML file. " + XmlUtils::getErrorInfo( rootNode ) );
+                e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( rootNode ) );
 
                 FDM_THROW( e );
             }
@@ -203,7 +203,7 @@ void Aircraft::readData( const std::string &dataFilePath )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Error reading file \"" + dataFilePath + "\". Invalid root node." );
+            e.setInfo( "ERROR! Reading file \"" + dataFilePath + "\" failed. Invalid root node." );
 
             FDM_THROW( e );
         }
@@ -213,7 +213,7 @@ void Aircraft::readData( const std::string &dataFilePath )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Error reading file \"" + dataFilePath + "\"." );
+        e.setInfo( "ERROR! Reading file \"" + dataFilePath + "\" failed." );
 
         FDM_THROW( e );
     }
@@ -269,7 +269,7 @@ void Aircraft::postIntegration()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the state vector." );
+        e.setInfo( "ERROR! NaN detected in the state vector." );
 
         FDM_THROW( e );
     }
@@ -431,12 +431,12 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     m_att_wgs.normalize();
 
-    m_wgs2bas = m_att_wgs;
-    m_bas2wgs = m_wgs2bas.getInverted();
-    m_wgs2ned = m_wgs.getWGS2NED();
-    m_ned2wgs = m_wgs2ned.getInverted();
-    m_ned2bas = m_wgs.getNED2BAS( m_wgs2bas );
-    m_bas2ned = m_ned2bas.getInverted();
+    m_wgs2bas = Matrix3x3( m_att_wgs );
+    m_wgs2ned = Matrix3x3( m_wgs.getWGS2NED() );
+    m_ned2bas = Matrix3x3( m_wgs.getNED2BAS( m_att_wgs ) );
+    m_bas2wgs = m_wgs2bas.getTransposed();
+    m_ned2wgs = m_wgs2ned.getTransposed();
+    m_bas2ned = m_ned2bas.getTransposed();
 
     m_angles_wgs = m_wgs2bas.getAngles();
     m_angles_ned = m_ned2bas.getAngles();

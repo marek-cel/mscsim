@@ -28,7 +28,7 @@ namespace fdm
 {
 
 /**
- * Autopilot class.
+ * @brief Autopilot class.
  *
  * @see Bendix King KAP 140 Pilot's Guide
  */

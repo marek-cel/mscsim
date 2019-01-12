@@ -41,7 +41,7 @@ namespace fdm
  *   <chord> { [m] control surface mean chord (from hinge to trailing edge) } </chord>
  *   <dch_dalpha> { [1/rad] hinge moment coefficient due to angle of attack } </dch_dalpha>
  *   <dch_ddelta> { [1/rad] hinge moment coefficient due to deflection } </dch_ddelta>
- *   <dch_dtrim> { [1/rad] hinge moment coefficient due to trim deflection } </dch_dtrim>
+ *   <dch_ddelta_t> { [1/rad] hinge moment coefficient due to trim deflection } </dch_ddelta_t>
  * </hinge_moment>
  * @endcode
  *
@@ -67,14 +67,14 @@ public:
     /**
      * Computes hinge moment.
      * @param dynamicPressure [Pa] dynamic pressure
-     * @param alpha [rad] angle of attack
-     * @param delta [rad] control surface deflection
-     * @param trim  [rad] control surface trim deflection
+     * @param alpha   [rad] angle of attack
+     * @param delta   [rad] control surface deflection
+     * @param delta_t [rad] control surface trim deflection
      */
     virtual double getHingeMoment( double dynamicPressure,
                                    double alpha,
                                    double delta,
-                                   double trim = 0.0 ) const;
+                                   double delta_t = 0.0 ) const;
 
 protected:
 
@@ -83,7 +83,7 @@ protected:
 
     double m_dch_dalpha;    ///< [1/rad] hinge moment coefficient due to angle of attack
     double m_dch_ddelta;    ///< [1/rad] hinge moment coefficient due to deflection
-    double m_dch_dtrim;     ///< [1/rad] hinge moment coefficient due to trim deflection
+    double m_dch_ddelta_t;  ///< [1/rad] hinge moment coefficient due to trim deflection
 };
 
 } // end of fdm namespace

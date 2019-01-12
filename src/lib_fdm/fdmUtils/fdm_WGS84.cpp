@@ -34,7 +34,7 @@ const double WGS84::m_a = 6378137.0;
 const double WGS84::m_f = 1.0 / 298.257223563;
 
 const double WGS84::m_b   = 6356752.3142;
-const double WGS84::m_r1  = ( 2.0 * m_a + m_b ) / 3.0;
+const double WGS84::m_r1  = ( 2.0 * WGS84::m_a + WGS84::m_b ) / 3.0;
 const double WGS84::m_a2  = WGS84::m_a * WGS84::m_a;
 const double WGS84::m_b2  = WGS84::m_b * WGS84::m_b;
 const double WGS84::m_e2  = 6.6943799901400e-3;
@@ -54,11 +54,8 @@ const double WGS84::m_m       = 0.00344978650684;
 //1.0,  0.0,  0.0
 //0.0,  0.0, -1.0
 
-const Matrix3x3 WGS84::m_T_enu2ned( 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0 );
-const Matrix3x3 WGS84::m_T_ned2enu( 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0 );
-
-const Quaternion WGS84::m_enu2ned( WGS84::m_T_enu2ned.getQuaternion() );
-const Quaternion WGS84::m_ned2enu( WGS84::m_T_ned2enu.getQuaternion() );
+const Matrix3x3 WGS84::m_enu2ned( 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0 );
+const Matrix3x3 WGS84::m_ned2enu( 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -204,8 +201,10 @@ WGS84::WGS84( const WGS84 &wgs )
     m_norm_wgs = wgs.m_norm_wgs;
     m_grav_wgs = wgs.m_grav_wgs;
 
-    m_T_ned2wgs = wgs.m_T_ned2wgs;
-    m_T_wgs2ned = wgs.m_T_wgs2ned;
+    m_enu2wgs = wgs.m_enu2wgs;
+    m_ned2wgs = wgs.m_ned2wgs;
+    m_wgs2enu = wgs.m_wgs2enu;
+    m_wgs2ned = wgs.m_wgs2ned;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -238,16 +237,16 @@ Angles WGS84::getAngles_WGS( const Angles &angles_ned ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Quaternion WGS84::getNED2BAS( const Quaternion &wgs2bas ) const
+Quaternion WGS84::getNED2BAS(const Quaternion &att_wgs ) const
 {
-    return m_ned2wgs * wgs2bas;
+    return m_ned2wgs.getQuaternion() * att_wgs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Quaternion WGS84::getWGS2BAS( const Quaternion &ned2bas ) const
+Quaternion WGS84::getWGS2BAS(const Quaternion &att_ned ) const
 {
-    return m_wgs2ned * ned2bas;
+    return m_wgs2ned.getQuaternion() * att_ned;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -295,34 +294,32 @@ void WGS84::update()
     m_grav_wgs = -gamma_h * m_norm_wgs;
 
     // NED to WGS
-    m_T_ned2wgs(0,0) = -cosLon*sinLat;
-    m_T_ned2wgs(0,1) = -sinLon;
-    m_T_ned2wgs(0,2) = -cosLon*cosLat;
+    m_ned2wgs(0,0) = -cosLon*sinLat;
+    m_ned2wgs(0,1) = -sinLon;
+    m_ned2wgs(0,2) = -cosLon*cosLat;
 
-    m_T_ned2wgs(1,0) = -sinLon*sinLat;
-    m_T_ned2wgs(1,1) =  cosLon;
-    m_T_ned2wgs(1,2) = -sinLon*cosLat;
+    m_ned2wgs(1,0) = -sinLon*sinLat;
+    m_ned2wgs(1,1) =  cosLon;
+    m_ned2wgs(1,2) = -sinLon*cosLat;
 
-    m_T_ned2wgs(2,0) =  cosLat;
-    m_T_ned2wgs(2,1) =  0.0;
-    m_T_ned2wgs(2,2) = -sinLat;
+    m_ned2wgs(2,0) =  cosLat;
+    m_ned2wgs(2,1) =  0.0;
+    m_ned2wgs(2,2) = -sinLat;
 
-    m_ned2wgs = m_T_ned2wgs.getQuaternion();
     m_enu2wgs = m_enu2ned * m_ned2wgs;
 
     // WGS to NED
-    m_T_wgs2ned(0,0) = -cosLon * sinLat;
-    m_T_wgs2ned(0,1) = -sinLon * sinLat;
-    m_T_wgs2ned(0,2) =  cosLat;
+    m_wgs2ned(0,0) = -cosLon * sinLat;
+    m_wgs2ned(0,1) = -sinLon * sinLat;
+    m_wgs2ned(0,2) =  cosLat;
 
-    m_T_wgs2ned(1,0) = -sinLon;
-    m_T_wgs2ned(1,1) =  cosLon;
-    m_T_wgs2ned(1,2) =  0.0;
+    m_wgs2ned(1,0) = -sinLon;
+    m_wgs2ned(1,1) =  cosLon;
+    m_wgs2ned(1,2) =  0.0;
 
-    m_T_wgs2ned(2,0) = -cosLon * cosLat;
-    m_T_wgs2ned(2,1) = -sinLon * cosLat;
-    m_T_wgs2ned(2,2) = -sinLat;
+    m_wgs2ned(2,0) = -cosLon * cosLat;
+    m_wgs2ned(2,1) = -sinLon * cosLat;
+    m_wgs2ned(2,2) = -sinLat;
 
-    m_wgs2ned = m_T_wgs2ned.getQuaternion();
     m_wgs2enu = m_wgs2ned * m_ned2enu;
 }
