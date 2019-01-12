@@ -48,8 +48,8 @@
     <!-- wing -->
     <wing>
         
-      <ac_l>  0.0  -2.58  -0.73  </ac_l>      <!-- [m] left  half wing aerodynamic center expressed in BAS -->
-      <ac_r>  0.0   2.58  -0.73  </ac_r>      <!-- [m] right half wing aerodynamic center expressed in BAS -->
+      <aero_center_l>  0.0  -2.58  -0.73  </aero_center_l>  <!-- [m] left  half wing aerodynamic center expressed in BAS -->
+      <aero_center_r>  0.0   2.58  -0.73  </aero_center_r>  <!-- [m] right half wing aerodynamic center expressed in BAS -->
       
       <span> 11.00 </span>                    <!-- [m] wing span -->
       <mac>   1.57 </mac>                     <!-- [m] wing mean aerodynamic chord -->
@@ -139,17 +139,17 @@
     </wing>
     
     <!-- horizontal stabilizer -->
-    <horizontal_stabilizer>
+    <horizontal_stabilizer type="horizontal">
         
-      <position> -4.79 0.0 -0.28 </position>    <!-- [m] stabilizer position expressed in BAS -->
+      <aero_center> -4.79 0.0 -0.28 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
       
-      <area> 2.0 </area>                        <!-- [m^2] stabilizer area -->
+      <area> 2.0 </area>                              <!-- [m^2] stabilizer area -->
       
-      <incidence unit="deg"> -4.0 </incidence>  <!-- [deg] stabilizer incidence angle -->
-      <downwash> 0.48 </downwash>               <!-- [-] coefficient of downwash due to the wing angle of attack -->
+      <incidence unit="deg"> -4.0 </incidence>        <!-- [deg] stabilizer incidence angle -->
+      <downwash> 0.48 </downwash>                     <!-- [-] downwash coefficient -->
       
-      <dcx_delevator> 0.0 </dcx_delevator>      <!-- [1/rad] drag coefficient due to elevator deflection -->
-      <dcz_delevator> 2.6 </dcz_delevator>      <!-- [1/rad] lift coefficient due to elevator deflection -->
+      <dcx_delevator> 0.0 </dcx_delevator>            <!-- [1/rad] drag coefficient due to elevator deflection -->
+      <dcz_delevator> 2.6 </dcz_delevator>            <!-- [1/rad] lift coefficient due to elevator deflection -->
       
       <dcz_delevator_trim> 0.9 </dcz_delevator_trim>  <!-- [1/rad] lift coefficient due to elevator trim deflection -->
       
@@ -203,14 +203,14 @@
     </horizontal_stabilizer>
     
     <!-- vertical stabilizer -->
-    <vertical_stabilizer>
+    <vertical_stabilizer type="vertical">
         
-      <position> -4.79 0.0 -0.4  </position>  <!-- [m] stabilizer position expressed in BAS -->
+      <aero_center> -4.79 0.0 -0.4  </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
       
-      <area> 1.04 </area>                     <!-- [m^2] stabilizer area -->
+      <area> 1.04 </area>                             <!-- [m^2] stabilizer area -->
       
-      <dcx_drudder> 0.0 </dcx_drudder>        <!-- [1/rad] drag coefficient due to rudder deflection -->
-      <dcy_drudder> 1.8 </dcy_drudder>        <!-- [1/rad] side force coefficient due to rudder deflection -->
+      <dcx_drudder> 0.0 </dcx_drudder>                <!-- [1/rad] drag coefficient due to rudder deflection -->
+      <dcy_drudder> 1.8 </dcy_drudder>                <!-- [1/rad] side force coefficient due to rudder deflection -->
       
       <!-- [-] drag coefficient vs [deg] angle of attack -->
       <cx keys_unit="deg">
