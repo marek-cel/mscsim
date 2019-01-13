@@ -87,17 +87,18 @@ double Aerodynamics::getPrandtlGlauertCoef( double machNumber, double max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Aerodynamics::getRotMat_aero2BAS( double alpha, double beta )
+Matrix3x3 Aerodynamics::getAero2BAS( double alpha, double beta )
 {
-    return getRotMat_aero2BAS( sin( alpha ), cos( alpha ),
-                               sin( beta ), cos( beta ) );
+    return getAero2BAS( sin( alpha ), cos( alpha ),
+                        sin( beta ), cos( beta ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Aerodynamics::getRotMat_aero2BAS( double sinAlpha, double cosAlpha,
-                                            double sinBeta, double cosBeta )
+Matrix3x3 Aerodynamics::getAero2BAS( double sinAlpha, double cosAlpha,
+                                     double sinBeta, double cosBeta )
 {
+    // Stevens B., Lewis F.: Aircraft Control and Simulation, p.63
     Matrix3x3 T_aero2bas;
 
     T_aero2bas(0,0) = -cosAlpha * cosBeta;
@@ -117,15 +118,16 @@ Matrix3x3 Aerodynamics::getRotMat_aero2BAS( double sinAlpha, double cosAlpha,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Aerodynamics::getRotMat_stab2BAS( double alpha )
+Matrix3x3 Aerodynamics::getStab2BAS( double alpha )
 {
-    return getRotMat_stab2BAS( sin( alpha ), cos( alpha ) );
+    return getStab2BAS( sin( alpha ), cos( alpha ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Aerodynamics::getRotMat_stab2BAS( double sinAlpha, double cosAlpha )
+Matrix3x3 Aerodynamics::getStab2BAS( double sinAlpha, double cosAlpha )
 {
+    // Stevens B., Lewis F.: Aircraft Control and Simulation, p.63
     Matrix3x3 T_stab2bas;
 
     T_stab2bas(0,0) = -cosAlpha;
@@ -170,8 +172,8 @@ void Aerodynamics::updateMatrices()
     double sinBeta  = sin( m_aircraft->getSideslipAngle() );
     double cosBeta  = cos( m_aircraft->getSideslipAngle() );
 
-    m_aero2bas = getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta );
-    m_stab2bas = getRotMat_stab2BAS( sinAlpha, cosAlpha );
+    m_aero2bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta );
+    m_stab2bas = getStab2BAS( sinAlpha, cosAlpha );
     m_bas2aero = m_aero2bas.getTransposed();
     m_bas2stab = m_stab2bas.getTransposed();
 }

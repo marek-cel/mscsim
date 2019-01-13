@@ -174,8 +174,8 @@ void Wing::addForceAndMoment( const Vector3 &r_ac_bas,
     double sinBeta  = sin( sideslipAngle );
     double cosBeta  = cos( sideslipAngle );
 
-    Vector3 for_bas = Aerodynamics::getRotMat_aero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
-    Vector3 mom_bas = Aerodynamics::getRotMat_stab2BAS( sinAlpha, cosAlpha ) * mom_stab
+    Vector3 for_bas = Aerodynamics::getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
+    Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
             + ( r_ac_bas ^ for_bas );
 
     m_for_bas += for_bas;

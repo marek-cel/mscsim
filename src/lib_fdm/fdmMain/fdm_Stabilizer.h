@@ -57,7 +57,7 @@ namespace fdm
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle } { [-] side force coefficient }
+ *     { [deg] angle } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
@@ -120,13 +120,13 @@ protected:
     Vector3 m_r_ac_bas;         ///< [m] stabilizer aerodynamic center expressed in BAS
 
     Table m_cx;                 ///< [-] drag coefficient vs "angle of attack"
-    Table m_cy;                 ///< [-] side force coefficient vs "angle of attack"
+    Table m_cy;                 ///< [-] sideforce coefficient vs "angle of attack"
     Table m_cz;                 ///< [-] lift coefficient vs "angle of attack"
 
     double m_area;              ///< [m^2] stabilizer reference area
 
     double m_incidence;         ///< [rad] stabilizer incidence angle
-    double m_downwash;          ///< [-] downwash coefficient
+    double m_downwash;          ///< [-] downwash angle derivative with respect to the aircraft angle of attack
 
     /**
      * Computes stabilizer angle of attack.
@@ -147,9 +147,9 @@ protected:
     virtual double getCx( double angle ) const;
 
     /**
-     * Computes side force coefficient.
+     * Computes sideforce coefficient.
      * @param angle [rad] "angle of attack"
-     * @return [-] side force coefficient
+     * @return [-] sideforce coefficient
      */
     virtual double getCy( double angle ) const;
 

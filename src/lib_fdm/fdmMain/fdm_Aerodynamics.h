@@ -43,6 +43,8 @@ class Aircraft; ///< aircraft class forward declaration
  *
  * <p>Aerodynamic Axes System (abbreviated as aero).</p>
  * <p>Stability Axes System (abbreviated as stab).</p>
+ *
+ * @see Stevens B., Lewis F.: Aircraft Control and Simulation, 1992
  */
 class FDMEXPORT Aerodynamics : public DataManager
 {
@@ -79,7 +81,7 @@ public:
      * @param beta [rad] sideslip angle cosine
      * @return rotation matrix from WAS to BAS
      */
-    static Matrix3x3 getRotMat_aero2BAS( double alpha, double beta );
+    static Matrix3x3 getAero2BAS( double alpha, double beta );
 
     /**
      * Returns rotation matrix from aerodynamic axes system to BAS.
@@ -89,15 +91,15 @@ public:
      * @param cosBeta [-] cosine of sideslip angle cosine
      * @return rotation matrix from WAS to BAS
      */
-    static Matrix3x3 getRotMat_aero2BAS( double sinAlpha, double cosAlpha,
-                                         double sinBeta, double cosBeta );
+    static Matrix3x3 getAero2BAS( double sinAlpha, double cosAlpha,
+                                  double sinBeta, double cosBeta );
 
     /**
      * Returns rotation matrix from stability axes system to BAS.
      * @param alpha [rad] angle of attack cosine
      * @return rotation matrix from WAS to BAS
      */
-    static Matrix3x3 getRotMat_stab2BAS( double alpha );
+    static Matrix3x3 getStab2BAS( double alpha );
 
     /**
      * Returns rotation matrix from stability axes system to BAS.
@@ -105,7 +107,7 @@ public:
      * @param cosAlpha [-] cosine of angle of attack cosine
      * @return rotation matrix from WAS to BAS
      */
-    static Matrix3x3 getRotMat_stab2BAS( double sinAlpha , double cosAlpha );
+    static Matrix3x3 getStab2BAS( double sinAlpha , double cosAlpha );
 
     /** Constructor. */
     Aerodynamics( const Aircraft* aircraft );

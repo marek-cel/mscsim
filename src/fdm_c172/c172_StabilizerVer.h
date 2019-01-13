@@ -65,7 +65,7 @@ public:
 private:
 
     double m_dcx_drudder;           ///< [1/rad] drag coefficient due to rudder deflection
-    double m_dcy_drudder;           ///< [1/rad] side force coefficient due to rudder deflection
+    double m_dcy_drudder;           ///< [1/rad] sideforce coefficient due to rudder deflection
 
     double m_rudder;                ///< [rad] rudder deflection
 
@@ -77,9 +77,9 @@ private:
     virtual double getCx( double angle ) const;
 
     /**
-     * Computes side force coefficient.
+     * Computes sideforce coefficient.
      * @param angle [rad] "angle of attack"
-     * @return [-] side force coefficient
+     * @return [-] sideforce coefficient
      */
     virtual double getCy( double angle ) const;
 };

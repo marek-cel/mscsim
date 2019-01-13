@@ -90,9 +90,9 @@ private:
     double getCx( double angleOfAttack ) const;
 
     /**
-     * Computes side force coefficient.
+     * Computes sideforce coefficient.
      * @param sideslipAngle [rad] angle of sideslip
-     * @return [-] side force coefficient
+     * @return [-] sideforce coefficient
      */
     double getCy( double sideslipAngle ) const;
 

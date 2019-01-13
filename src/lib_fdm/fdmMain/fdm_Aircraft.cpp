@@ -367,7 +367,7 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     Vector3 p_bas = mass * m_vel_bas + ( m_omg_bas ^ st_bas );
     Vector3 h_bas = it_bas * m_omg_bas + ( st_bas ^ m_vel_bas );
 
-    // right-hand-side force vector
+    // right-hand-sideforce vector
     Vector3 for_rhs = for_bas - ( m_omg_bas ^ p_bas );
 
     // right-hand-side moment vector

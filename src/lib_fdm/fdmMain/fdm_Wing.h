@@ -56,7 +56,7 @@ namespace fdm
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle of sideslip } { [-] side force coefficient }
+ *     { [deg] angle of sideslip } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
@@ -130,7 +130,7 @@ protected:
     Vector3 m_r_ac_r_bas;       ///< [m] right half wing aerodynamic center expressed in BAS
 
     Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
-    Table m_cy;                 ///< [-] side force coefficient vs [rad] angle of sideslip
+    Table m_cy;                 ///< [-] sideforce coefficient vs [rad] angle of sideslip
     Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
     Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
     Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
@@ -170,9 +170,9 @@ protected:
     virtual double getCx( double angleOfAttack ) const;
 
     /**
-     * Computes side force coefficient.
+     * Computes sideforce coefficient.
      * @param sideslipAngle [rad] angle of sideslip
-     * @return [-] side force coefficient
+     * @return [-] sideforce coefficient
      */
     virtual double getCy( double sideslipAngle ) const;
 

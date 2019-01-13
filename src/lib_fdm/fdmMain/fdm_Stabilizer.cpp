@@ -115,7 +115,7 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
                       dynPress * getCy( angle ) * m_area,
                       dynPress * getCz( angle ) * m_area );
 
-    m_for_bas = Aerodynamics::getRotMat_aero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
+    m_for_bas = Aerodynamics::getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
     m_mom_bas = m_r_ac_bas ^ m_for_bas;
 
     if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
