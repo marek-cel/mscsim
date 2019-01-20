@@ -69,14 +69,14 @@ MainRotor::MainRotor() :
     m_thrust ( 0.0 ),
     m_torque ( 0.0 )
 {
-    m_bas2ras = Matrix3x3::createIntityMatrix();
-    m_ras2bas = Matrix3x3::createIntityMatrix();
-    m_ras2cas = Matrix3x3::createIntityMatrix();
-    m_cas2ras = Matrix3x3::createIntityMatrix();
-    m_cas2was = Matrix3x3::createIntityMatrix();
-    m_was2cas = Matrix3x3::createIntityMatrix();
-    m_bas2cas = Matrix3x3::createIntityMatrix();
-    m_bas2was = Matrix3x3::createIntityMatrix();
+    m_bas2ras = Matrix3x3::createIdentityMatrix();
+    m_ras2bas = Matrix3x3::createIdentityMatrix();
+    m_ras2cas = Matrix3x3::createIdentityMatrix();
+    m_cas2ras = Matrix3x3::createIdentityMatrix();
+    m_cas2was = Matrix3x3::createIdentityMatrix();
+    m_was2cas = Matrix3x3::createIdentityMatrix();
+    m_bas2cas = Matrix3x3::createIdentityMatrix();
+    m_bas2was = Matrix3x3::createIdentityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

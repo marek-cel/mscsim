@@ -115,10 +115,10 @@ void HUD::update()
             m_sideslipAngleFPM_deg = ( m_sideslipAngleFPM_deg < 0.0f ) ? -8.0f : 8.0f;
         }
 
-        if ( m_angleOfAttackFPM_deg > 12.0 || m_angleOfAttackFPM_deg < -8.0f )
+        if ( m_angleOfAttackFPM_deg > 10.0f || m_angleOfAttackFPM_deg < -10.0f )
         {
             m_validFPM = false;
-            m_angleOfAttackFPM_deg = ( m_angleOfAttackFPM_deg < 0.0f ) ? -8.0f : 12.0f;
+            m_angleOfAttackFPM_deg = ( m_angleOfAttackFPM_deg < 0.0f ) ? -10.0f : 10.0f;
         }
 
         if ( Data::get()->hud.airspeed < 0.5f )

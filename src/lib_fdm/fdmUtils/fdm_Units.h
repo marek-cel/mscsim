@@ -35,6 +35,8 @@ namespace fdm
 
 /**
  * @brief Units conversion class.
+ *
+ * @see The International System of Units: Physical Constants and Conversion Factors, NASA-SP-7012
  */
 class FDMEXPORT Units
 {

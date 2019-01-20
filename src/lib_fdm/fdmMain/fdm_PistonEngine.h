@@ -42,7 +42,7 @@ namespace fdm
  *   <power_max> { [W] engine maximum power } </power_max>
  *   <starter> { [N*m] starter torque } </starter>
  *   <rpm_min> { [rpm] minimum rpm } </rpm_min>
- *   <sfc> { [kg/(kW*s)] specific fuel consumption } </sfc>
+ *   <sfc> { [kg/(W*s)] specific fuel consumption } </sfc>
  *   <inertia> { [kg*m^2] polar moment of inertia } </inertia>
  *   <mixture>
  *     { [-] mixture } { [-] mixture lever position }

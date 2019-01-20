@@ -245,14 +245,27 @@ void Simulation::updateDataOut()
     Data::get()->ownship.airbrake    =  hid::Manager::instance()->getAirbrake();
     Data::get()->ownship.landingGear =  hid::Manager::instance()->getLandingGear();
 
-    for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
+    if ( m_dataOut.stateOut == fdm::DataOut::Working )
     {
-        Data::get()->ownship.propeller[ i ] += m_timeStep * M_PI * m_dataOut.engine[ i ].rpm / 30.0;
-
-        if ( Data::get()->ownship.propeller[ i ] > 2.0f * M_PI )
+        for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
-            Data::get()->ownship.propeller[ i ] -= (float)( 2.0f * M_PI );
+            Data::get()->ownship.propeller[ i ] += m_timeStep * M_PI * m_dataOut.engine[ i ].rpm / 30.0;
+
+            while ( Data::get()->ownship.propeller[ i ] > 2.0f * M_PI )
+            {
+                Data::get()->ownship.propeller[ i ] -= (float)( 2.0f * M_PI );
+            }
         }
+    }
+    else if ( m_dataOut.stateOut == fdm::DataOut::Idle )
+    {
+        for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
+        {
+            Data::get()->ownship.propeller[ i ] = 0.0;
+        }
+
+        Data::get()->ownship.mainRotor_psi = 0.0;
+        Data::get()->ownship.tailRotor_psi = 0.0;
     }
 
     Data::get()->ownship.mainRotor_psi      = 0.0;

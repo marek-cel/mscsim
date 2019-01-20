@@ -50,7 +50,7 @@ class FDMEXPORT Matrix3x3 : public Matrix< 3,3 >
 public:
 
     /** Creates identity matrix. */
-    static Matrix3x3 createIntityMatrix();
+    static Matrix3x3 createIdentityMatrix();
 
     /** Constructor. */
     Matrix3x3();
