@@ -1,40 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aircraft>
-  
   <model>data/cgi/entities/c172.osgb</model>
-  
-  <controls>
-    
-    <ailerons unit="deg">
-      -1.0  -17.5
-      -0.5   -7.0
-       0.0    0.0
-       0.5    7.0
-       1.0   17.5
-    </ailerons>
-  
-    <elevator unit="deg">
-      -1.0  -28.0
-      -0.5   -8.0
-       0.0    0.0
-       0.5    6.5
-       1.0   23.0
-    </elevator>
-  
-    <rudder unit="deg">
-      -1.0  -16.0
-      -0.5   -6.4
-       0.0    0.0
-       0.5    6.4
-       1.0   16.0
-    </rudder>
-  
-    <flaps unit="deg">
-       0.0    0.0
-       0.5   15.0
-       1.0   30.0
-    </flaps>
-    
-  </controls>
-  
 </aircraft>

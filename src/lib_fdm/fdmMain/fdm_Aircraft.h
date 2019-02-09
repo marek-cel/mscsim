@@ -155,6 +155,11 @@ public:
     virtual ~Aircraft();
 
     /**
+     * Initializes aircraft data references.
+     */
+    virtual void initDataRefs();
+
+    /**
      * Updates aircraft due to simulation time step.
      * @param timeStep simulation time step [s]
      */
@@ -182,6 +187,8 @@ public:
 
     inline const StateVector& getStateVect() const { return m_stateVect; }
     inline const StateVector& getDerivVect() const { return m_derivVect; }
+
+    inline const double getTimeStep() const { return m_timeStep; }
 
     inline const Vector3&    getPos_WGS() const { return m_pos_wgs; }
     inline const Quaternion& getAtt_WGS() const { return m_att_wgs; }
@@ -234,6 +241,7 @@ public:
     inline double getPathAngle()     const { return m_pathAngle;     }
     inline double getSlipSkidAngle() const { return m_slipSkidAngle; }
     inline double getAirspeed()      const { return m_airspeed;      }
+    inline double getDynPress()      const { return m_dynPress;      }
     inline double getMachNumber()    const { return m_machNumber;    }
     inline double getClimbRate()     const { return m_climbRate;     }
     inline double getTurnRate()      const { return m_turnRate;      }
@@ -349,6 +357,7 @@ protected:
     double m_pathAngle;         ///< [rad] path angle
     double m_slipSkidAngle;     ///< [rad] slip/skid angle
     double m_airspeed;          ///< [m/s] true airspeed
+    double m_dynPress;          ///< [Pa] dynamic pressure
     double m_machNumber;        ///< [-] Mach number
     double m_climbRate;         ///< [m/s] climb rate
     double m_turnRate;          ///< [rad/s] turn rate

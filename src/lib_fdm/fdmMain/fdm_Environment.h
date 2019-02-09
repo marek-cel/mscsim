@@ -50,7 +50,7 @@ public:
      * Updates environment.
      * @param altitude_asl [m] altitude above sea level
      */
-    void update( double altitude_asl );
+    virtual void update( double altitude_asl );
 
     inline double getTemperature()  const { return m_temperature;  }
     inline double getPressure()     const { return m_pressure;     }

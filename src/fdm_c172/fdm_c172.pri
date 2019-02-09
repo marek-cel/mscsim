@@ -8,7 +8,7 @@ HEADERS += \
     fdm_c172/c172_Propulsion.h \
     fdm_c172/c172_StabilizerHor.h \
     fdm_c172/c172_StabilizerVer.h \
-    fdm_c172/c172_Wing.h
+    fdm_c172/c172_TailOff.h
 
 SOURCES += \
     fdm_c172/c172_Aerodynamics.cpp \
@@ -20,4 +20,4 @@ SOURCES += \
     fdm_c172/c172_Propulsion.cpp \
     fdm_c172/c172_StabilizerHor.cpp \
     fdm_c172/c172_StabilizerVer.cpp \
-    fdm_c172/c172_Wing.cpp
+    fdm_c172/c172_TailOff.cpp

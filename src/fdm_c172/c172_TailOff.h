@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef C172_WING_H
-#define C172_WING_H
+#ifndef C172_TAILOFF_H
+#define C172_TAILOFF_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Wing.h>
+#include <fdmMain/fdm_TailOff.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,17 +32,17 @@ namespace fdm
 {
 
 /**
- * @brief Cessna 172 wing class.
+ * @brief Cessna 172 tail-off aerodynamics class.
  */
-class C172_Wing : public Wing
+class C172_TailOff : public TailOff
 {
 public:
 
     /** Constructor. */
-    C172_Wing();
+    C172_TailOff();
 
     /** Destructor. */
-    ~C172_Wing();
+    ~C172_TailOff();
 
     /**
      * Reads data.
@@ -129,4 +129,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // C172_WING_H
+#endif // C172_TAILOFF_H

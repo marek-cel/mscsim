@@ -65,7 +65,8 @@ class Aircraft; ///< aircraft class forward declaration
  * </mass>
  * @endcode
  *
- * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004, p. 40. [in Polish]
+ * @see Taylor J.: Classical Mechanics, 2005, p.411
+ * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004, p.40, [in Polish]
  * @see Narkiewicz J,: Tiltrotor Modelling for Simulation in Various Flight Conditions, 2006
  * @see https://en.wikipedia.org/wiki/Parallel_axis_theorem
  */
@@ -74,16 +75,19 @@ class FDMEXPORT Mass : public DataManager
 public:
 
     /** Variable mass component data. */
-    struct VariableMass
+    struct VarMass
     {
         std::string name;   ///< variable mass component name
+        std::string input;  ///< input data reference path
+
+        DataRef drInput;    ///< input data reference
+
         double mass;        ///< [kg] mass
         double mass_max;    ///< [kg] maximum mass
         Vector3 r_bas;      ///< [m] position expressed in BAS
-        DataRef drInput;    ///< input data reference
     };
 
-    typedef std::vector< VariableMass > VariableMasses;
+    typedef std::vector< VarMass > Masses;
 
     /** Constructor. */
     Mass( const Aircraft* aircraft );
@@ -96,6 +100,11 @@ public:
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
+
+    /**
+     * Initializes data referneces.
+     */
+    virtual void initDataRefs();
 
     /**
      * Computes force and moment.
@@ -141,7 +150,7 @@ protected:
     Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
     Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
 
-    VariableMasses m_varMasses; ///< variable masses array
+    Masses m_masses;            ///< variable masses array
 
     double m_mass_e;            ///< [kg] empty aircraft mass
     double m_mass_t;            ///< [kg] total aircraft mass
@@ -149,7 +158,7 @@ protected:
     Vector3 m_cm_e_bas;         ///< [m] center of mass (empty) expressed in BAS
     Vector3 m_cm_t_bas;         ///< [m] center of mass (total) expressed in BAS
 
-    Vector3 m_st_t_bas;         ///< [kg*m] first moment of mass (total) vector expressed in BAS
+    Vector3 m_st_t_bas;         ///< [kg*m] first mass moment (total) vector expressed in BAS
 
     Matrix3x3 m_it_e_bas;       ///< [kg*m^2] inertia tensor (empty)
     Matrix3x3 m_it_t_bas;       ///< [kg*m^2] inertia tensor (total)
@@ -158,20 +167,20 @@ protected:
      * Adds variable mass to the total aircraft mass.
      * @param variableMass variable mass component
      */
-    virtual void addVariableMass( const VariableMass &varMass );
+    virtual void addVariableMass( const VarMass &varMass );
 
     /**
      * Returns variable mass by name.
      * @param name variable mass name
      * @return variable mass
      */
-    virtual VariableMass* getVariableMassByName( const std::string &name );
+    virtual VarMass* getVariableMassByName( const std::string &name );
 
     /**
      * Updates variable mass.
      * @param varMass variable mass
      */
-    virtual void updateVariableMass( VariableMass &varMass );
+    virtual void updateVariableMass( VarMass &varMass );
 
 private:
 

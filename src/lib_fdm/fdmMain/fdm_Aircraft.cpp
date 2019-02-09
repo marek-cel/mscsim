@@ -68,6 +68,7 @@ Aircraft::Aircraft() :
     m_pathAngle     ( 0.0 ),
     m_slipSkidAngle ( 0.0 ),
     m_airspeed      ( 0.0 ),
+    m_dynPress      ( 0.0 ),
     m_machNumber    ( 0.0 ),
     m_climbRate     ( 0.0 ),
     m_turnRate      ( 0.0 )
@@ -93,6 +94,17 @@ Aircraft::~Aircraft()
 
     if ( m_data ) delete m_data;
     m_data = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircraft::initDataRefs()
+{
+    m_aero->initDataRefs();
+    m_ctrl->initDataRefs();
+    m_gear->initDataRefs();
+    m_mass->initDataRefs();
+    m_prop->initDataRefs();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -239,8 +251,6 @@ void Aircraft::anteIntegration()
 
 void Aircraft::integrate()
 {
-    m_prop->integrate( m_timeStep );
-
     ///////////////////////////////////////////////////
     m_integrator->integrate( m_timeStep, m_stateVect );
     ///////////////////////////////////////////////////
@@ -504,6 +514,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     m_slipSkidAngle = atan2( -m_g_pilot.y(), m_g_pilot.z() );
 
     m_airspeed   = m_vel_air_bas.getLength();
+    m_dynPress   = 0.5 * m_envir->getDensity() * Misc::pow2( m_airspeed );
     m_machNumber = m_airspeed / m_envir->getSpeedOfSound();
     m_climbRate  = -m_vel_ned.z();
 

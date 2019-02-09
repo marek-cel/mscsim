@@ -120,6 +120,17 @@ struct DataOut
         bool stall;                     ///< specifies if aircraft is stalling
     };
 
+    /** Controls data. */
+    struct Controls
+    {
+        float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
+        float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
+        float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
+        float flaps;                        ///< [rad] flaps deflection
+        float flaps_le;                     ///< [rad] leading edge flaps deflection
+        float airbrake;                     ///< [rad] airbrake deflection
+    };
+
     /** Engine data. */
     struct Engine
     {
@@ -138,8 +149,23 @@ struct DataOut
         float ff;                       ///< [kg/s]
     };
 
+    /** Rotor data. */
+    struct Rotor
+    {
+        float mainRotor_azimuth;        ///< [rad] main rotor rotation angle (azimuth)
+        float mainRotor_coningAngle;    ///< [rad] main rotor coning angle
+        float mainRotor_diskRoll;       ///< [rad] main rotor disk roll angle
+        float mainRotor_diskPitch;      ///< [rad] main rotor disk pitch angle
+        float mainRotor_collective;     ///< [rad] main rotor collective pitch angle
+        float mainRotor_cyclicLon;      ///< [rad] main rotor longitudinal cyclic pitch angle
+        float mainRotor_cyclicLat;      ///< [rad] main rotor lateral cyclic pitch angle
+        float tailRotor_azimuth;        ///< [rad] tail rotor rotation angle
+    };
+
     Flight flight;                      ///< flight data
+    Controls controls;                  ///< controls data
     Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
+    Rotor  rotor;                       ///< rotor data
 
     Crash crash;                        ///< crash cause
 

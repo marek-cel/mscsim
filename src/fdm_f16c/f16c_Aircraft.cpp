@@ -29,8 +29,20 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 F16C_Aircraft::F16C_Aircraft() :
-    Aircraft()
+    Aircraft(),
+
+    m_aero ( 0 ),
+    m_ctrl ( 0 ),
+    m_gear ( 0 ),
+    m_mass ( 0 ),
+    m_prop ( 0 )
 {
+    Aircraft::m_aero = m_aero = new F16C_Aerodynamics( this );
+    Aircraft::m_ctrl = m_ctrl = new F16C_Controls( this );
+    Aircraft::m_gear = m_gear = new F16C_LandingGear( this );
+    Aircraft::m_mass = m_mass = new F16C_Mass( this );
+    Aircraft::m_prop = m_prop = new F16C_Propulsion( this );
+
     readData( "data/fdm/f16c/f16c_fdm.xml" );
 }
 

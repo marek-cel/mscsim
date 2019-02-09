@@ -69,7 +69,7 @@ private:
     /** Common data references struct. */
     struct DataRefs
     {
-        // flight controls inputs
+        // controls inputs
 
         DataRef ctrlRoll;       ///< roll control data reference
         DataRef ctrlPitch;      ///< pitch control data reference
@@ -82,7 +82,6 @@ private:
         DataRef brakeLeft;      ///< left brake data reference
         DataRef brakeRight;     ///< right brake data reference
 
-        DataRef landingGear;    ///< landing gear data reference
         DataRef noseWheel;      ///< nose wheel data reference
         DataRef nwSteering;     ///< nose wheel steering data reference
 
@@ -91,6 +90,38 @@ private:
         DataRef spoilers;       ///< spoilers data reference
 
         DataRef collective;     ///< collective data reference
+
+        // controls outputs
+
+        DataRef outAilerons;    ///<
+        DataRef outElevator;    ///<
+        DataRef outRudder;      ///<
+        DataRef outFlaps;       ///<
+        DataRef outFlaps_le;    ///<
+        DataRef outAirbrake;    ///<
+
+        // landing gear inputs
+
+        DataRef wheelN;         ///<
+        DataRef wheelL;         ///<
+        DataRef wheelR;         ///<
+
+        // masses inputs
+
+        DataRef pilot;          ///< pilot
+        DataRef pilotL;         ///< left pilot
+        DataRef pilotR;         ///< right pilot
+        DataRef pilotF;         ///< forward pilot
+        DataRef pilotA;         ///< aft pilot
+
+        DataRef fuelTank;       ///< internal fuel
+        DataRef fuelTankL;      ///< fuel tank left
+        DataRef fuelTankR;      ///< fuel tank right
+        DataRef fuelTankF;      ///< fuel tank forward
+        DataRef fuelTankA;      ///< fuel tank aft
+
+        DataRef cabinLoad;      ///< cabin load
+        DataRef cargoTrunk;     ///< cargo trunk
 
         // engine inputs
 
@@ -103,10 +134,27 @@ private:
 
         // engine outputs
 
-        DataRef engineOn  [ FDM_MAX_ENGINES ];  ///< engine state data references
-        DataRef engineMAP [ FDM_MAX_ENGINES ];  ///< engine MAP data references
-        DataRef engineRPM [ FDM_MAX_ENGINES ];  ///< engine RPM data references
-        DataRef engineFF  [ FDM_MAX_ENGINES ];  ///< engine fuel flow data references
+        DataRef engineOn   [ FDM_MAX_ENGINES ]; ///< engine state data references
+        DataRef engineRPM  [ FDM_MAX_ENGINES ]; ///< engine RPM data references
+        DataRef engineProp [ FDM_MAX_ENGINES ]; ///< propeller RPM data references
+        DataRef engineNG   [ FDM_MAX_ENGINES ]; ///< NG data references
+        DataRef engineN1   [ FDM_MAX_ENGINES ]; ///< N1 data references
+        DataRef engineN2   [ FDM_MAX_ENGINES ]; ///< N2 data references
+        DataRef engineTRQ  [ FDM_MAX_ENGINES ]; ///< engine TRQ data references
+        DataRef engineEPR  [ FDM_MAX_ENGINES ]; ///< engine EPR data references
+        DataRef engineMAP  [ FDM_MAX_ENGINES ]; ///< engine MAP data references
+        DataRef engineEGT  [ FDM_MAX_ENGINES ]; ///< engine EGT data references
+        DataRef engineITT  [ FDM_MAX_ENGINES ]; ///< engine ITT data references
+        DataRef engineFF   [ FDM_MAX_ENGINES ]; ///< engine fuel flow data references
+
+        DataRef mainRotorAzimuth;       ///< main rotor rotation angle (azimuth) data references
+        DataRef mainRotorConingAngle;   ///< main rotor coning angle data references
+        DataRef mainRotorDiskRoll;      ///< main rotor longitudinal flapping angle data references
+        DataRef mainRotorDiskPitch;     ///< main rotor lateral flapping angle data references
+        DataRef mainRotorCollective;    ///< main rotor collective pitch angle data references
+        DataRef mainRotorCyclicLon;     ///< main rotor longitudinal cyclic pitch angle data references
+        DataRef mainRotorCyclicLat;     ///< main rotor lateral cyclic pitch angle data references
+        DataRef tailRotorAzimuth;       ///< tail rotor rotation angle data references
     };
 
     Aircraft *m_aircraft;           ///< aircraft simulation object
@@ -164,21 +212,11 @@ private:
      * Updates FDM input data.
      */
     void updateDataInput();
-    void updateDataInput_Common();
-    void updateDataInput_C130();
-    void updateDataInput_C172();
-    void updateDataInput_F16C();
-    void updateDataInput_UH60();
 
     /**
      * Updates FDM output data.
      */
     void updateDataOutput();
-    void updateDataOutput_Common();
-    void updateDataOutput_C130();
-    void updateDataOutput_C172();
-    void updateDataOutput_F16C();
-    void updateDataOutput_UH60();
 
     /**
      * Updates initial position and attitude.

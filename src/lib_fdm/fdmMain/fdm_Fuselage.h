@@ -42,32 +42,32 @@ namespace fdm
  * <h3>XML configuration file format:</h3>
  * @code
  * <fuselage>
- *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
+ *   <aero_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center>
  *   <length> { [m] fuselage reference length } </length>
  *   <width> { [m] fuselage reference width } </width>
  *   <area> { [m^2] fuselage reference area } </area>
  *   <cx>
- *     { [deg] angle of attack } { [-] drag coefficient }
+ *     { [rad] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle of sideslip } { [-] sideforce coefficient }
+ *     { [rad] angle of sideslip } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
- *     { [deg] angle of attack } { [-] lift coefficient }
+ *     { [rad] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
  *   <cl>
- *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
+ *     { [rad] angle of sideslip } { [-] rolling moment coefficient }
  *     ... { more entries }
  *   </cl>
  *   <cm>
- *     { [deg] angle of attack } { [-] pitching moment coefficient }
+ *     { [rad] angle of attack } { [-] pitching moment coefficient }
  *     ... { more entries }
  *   </cm>
  *   <cn>
- *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
+ *     { [rad] angle of sideslip } { [-] yawing moment coefficient }
  *     ... { more entries }
  *   </cn>
  * </fuselage>
@@ -97,9 +97,9 @@ public:
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
      */
-    void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                const Vector3 &omg_air_bas,
-                                double airDensity );
+    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                        const Vector3 &omg_air_bas,
+                                        double airDensity );
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }
@@ -122,6 +122,9 @@ protected:
     double m_area;              ///< [m^2] reference area
 
     double m_sl;                ///< [m^3] S*l where S is reference area and l is reference length
+
+    double m_angleOfAttack;     ///< [rad] angle of attack
+    double m_sideslipAngle;     ///< [rad] angle of sideslip
 
     /**
      * Computes drag coefficient.

@@ -19,49 +19,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_INERTIA_H
-#define FDM_INERTIA_H
+#ifndef F16C_PROPULSION_H
+#define F16C_PROPULSION_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Defines.h>
+#include <fdmMain/fdm_Propulsion.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
+class F16C_Aircraft; ///< aircraft class forward declaration
+
 /**
- * @brief Inertia class.
+ * @brief F-16 propulsion class.
  */
-class FDMEXPORT Inertia
+class F16C_Propulsion : public Propulsion
 {
 public:
 
-    static double update( double timeStep, double currentValue,
-                          double setpoint, double timeConstant );
+    /** Constructor. */
+    F16C_Propulsion( const F16C_Aircraft *aircraft );
 
-    Inertia();
+    /** Destructor. */
+    ~F16C_Propulsion();
 
-    Inertia( double timeConstant, double currentValue = 0.0 );
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
 
-    inline double getCurrentValue() const { return m_currentValue; }
-    inline double getTimeConstant() const { return m_timeConstant; }
+    /**
+     * Initializes engine due to initial engine state.
+     * @param engineOn specifies if engine is working at start
+     */
+    void initialize( bool engineOn );
 
-    void setCurrentValue( double currentValue );
-    void setTimeConstant( double timeConstant );
+    /**
+     * Initializes data referneces.
+     */
+    void initDataRefs();
 
-    void update( double timeStep, double setpoint );
+    /**
+     * Computes force and moment.
+     */
+    void computeForceAndMoment();
+
+    /**
+     * Updates model.
+     */
+    void update();
 
 private:
 
-    double m_timeConstant;  ///< time constant
-    double m_currentValue;  ///< current value
+    const F16C_Aircraft *m_aircraft;    ///< aircraft model main object
 
+    DataRef m_drThrottle;               ///< engine throttle data reference
+    DataRef m_drFuel;                   ///< engine fuel data reference
+    DataRef m_drIgnition;               ///< engine ignition data reference
+    DataRef m_drStarter;                ///< engine starter data reference
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_INERTIA_H
+#endif // F16C_PROPULSION_H

@@ -111,8 +111,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     settingsRead();
 
-    m_dockCtrl->setAircraftType( m_dialogInit->getTypeIndex() );
-    m_dockProp->setAircraftType( m_dialogInit->getTypeIndex() );
+    setAircraftType( m_dialogInit->getTypeIndex() );
 
     setPhaseIdle();
 }
@@ -228,7 +227,6 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     updateMenu();
     updateStatusBar();
-    updateWidgetCGI();
 
     updateOutputData();
 }
@@ -301,6 +299,16 @@ void MainWindow::setPhaseStop()
 
     m_phaseInp = fdm::DataInp::Stop;
     m_dockMain->setPhaseInp( m_phaseInp );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::setAircraftType( int typeIndex )
+{
+    m_dialogMass->setAircraftType( typeIndex );
+
+    m_dockCtrl->setAircraftType( typeIndex );
+    m_dockProp->setAircraftType( typeIndex );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -741,16 +749,6 @@ void MainWindow::updateStatusBar()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::updateWidgetCGI()
-{
-    if ( m_ui->widgetCGI->isVisible() )
-    {
-        m_ui->widgetCGI->update();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void MainWindow::updateOutputData()
 {
     // airport
@@ -808,6 +806,20 @@ void MainWindow::updateOutputData()
         Data::get()->propulsion.engine[ i ].ignition = m_dockProp->getIgnition( i );
         Data::get()->propulsion.engine[ i ].starter  = m_dockProp->getStarter( i );
     }
+
+    // masses
+    Data::get()->masses.pilot   = m_dialogMass->getPilot();
+    Data::get()->masses.pilot_l = m_dialogMass->getPilotL();
+    Data::get()->masses.pilot_r = m_dialogMass->getPilotR();
+    Data::get()->masses.pilot_f = m_dialogMass->getPilotF();
+    Data::get()->masses.pilot_a = m_dialogMass->getPilotA();
+    Data::get()->masses.fuel    = m_dialogMass->getFuel();
+    Data::get()->masses.fuel_l  = m_dialogMass->getFuelL();
+    Data::get()->masses.fuel_r  = m_dialogMass->getFuelR();
+    Data::get()->masses.fuel_f  = m_dialogMass->getFuelF();
+    Data::get()->masses.fuel_a  = m_dialogMass->getFuelA();
+    Data::get()->masses.cabin   = m_dialogMass->getCabin();
+    Data::get()->masses.trunk   = m_dialogMass->getTrunk();
 
     // aircraft type
     Data::get()->aircraftType = (fdm::DataInp::AircraftType)aircraft.type;
@@ -1069,8 +1081,7 @@ void MainWindow::on_actionTimeSlower_triggered()
 
 void MainWindow::dialogInit_typeIndexChanged( int typeIndex )
 {
-    m_dockCtrl->setAircraftType( typeIndex );
-    m_dockProp->setAircraftType( typeIndex );
+    setAircraftType( typeIndex );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

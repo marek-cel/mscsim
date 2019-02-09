@@ -95,10 +95,9 @@ Matrix3x3 Aerodynamics::getAero2BAS( double alpha, double beta )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Aerodynamics::getAero2BAS( double sinAlpha, double cosAlpha,
-                                     double sinBeta, double cosBeta )
+Matrix3x3 Aerodynamics::getAero2BAS( double sinAlpha , double cosAlpha,
+                                     double sinBeta  , double cosBeta )
 {
-    // Stevens B., Lewis F.: Aircraft Control and Simulation, p.63
     Matrix3x3 T_aero2bas;
 
     T_aero2bas(0,0) = -cosAlpha * cosBeta;
@@ -127,7 +126,6 @@ Matrix3x3 Aerodynamics::getStab2BAS( double alpha )
 
 Matrix3x3 Aerodynamics::getStab2BAS( double sinAlpha, double cosAlpha )
 {
-    // Stevens B., Lewis F.: Aircraft Control and Simulation, p.63
     Matrix3x3 T_stab2bas;
 
     T_stab2bas(0,0) = -cosAlpha;
@@ -155,6 +153,10 @@ Aerodynamics::Aerodynamics( const Aircraft* aircraft ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 Aerodynamics::~Aerodynamics() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aerodynamics::initDataRefs() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -88,15 +88,6 @@ private:
 
     std::string m_aircraftFile;
 
-    fdm::Table m_ailerons;
-    fdm::Table m_elevator;
-    fdm::Table m_rudder;
-    fdm::Table m_flaps;
-
-    double m_airbrake;
-    double m_coefElev;
-    double m_coefFlap;
-
     void loadModel( const std::string &modelFile );
 
     void reload();

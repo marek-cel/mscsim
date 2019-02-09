@@ -20,12 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmAuto/fdm_PID.h>
+#include <fdmSys/fdm_Inertia.h>
 
-#include <algorithm>
-#include <limits>
-
-#include <fdmUtils/fdm_Misc.h>
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,82 +30,45 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::PID( double kp, double ki, double kd ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( std::numeric_limits< double >::min() ),
-    m_max ( std::numeric_limits< double >::max() ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( false )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-PID::PID( double kp, double ki, double kd, double min, double max ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( min ),
-    m_max ( max ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( true )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-PID::~PID() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void PID::update( double timeStep, double error )
+double Inertia::update( double u, double y, double dt, double tc )
 {
-    // integration with anti-windup filter
-    m_error_i = m_error_i + ( error - m_delta ) * timeStep;
-
-    m_error_d = ( error - m_error ) / timeStep;
-
-    m_error = error;
-
-    double value = m_kp * m_error + m_ki * m_error_i + m_kd * m_error_d;
-
-    // saturation
-    if ( m_saturation )
-    {
-        m_value = Misc::satur( m_min, m_max, value );
-    }
-    else
-    {
-        m_value = value;
-    }
-
-    m_delta = value - m_value;
+    return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PID::setValue( double value )
-{
-    m_error   = 0.0;
-    m_error_i = 0.0;
-    m_error_d = 0.0;
+Inertia::Inertia() :
+    m_tc( 1.0 ),
+    m_y ( 0.0 )
+{}
 
-    m_value = value;
-    m_delta = 0.0;
+////////////////////////////////////////////////////////////////////////////////
+
+Inertia::Inertia( double tc, double y ) :
+    m_tc ( tc ),
+    m_y  ( y  )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Inertia::setValue( double y )
+{
+    m_y = y;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Inertia::setTimeConstant( double tc )
+{
+    if ( tc > 0.0 )
+    {
+        m_tc = tc;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Inertia::update( double u, double dt )
+{
+    m_y = update( u, m_y, dt, m_tc );
 }

@@ -63,9 +63,11 @@ public:
     struct Channel
     {
         std::string name;   ///< channel name
-        Table table;        ///< channel input vs output data
+        std::string input;  ///< input data reference path
 
         DataRef drInput;    ///< input data reference
+
+        Table table;        ///< channel input vs output data
 
         double output;      ///< [-] normalized channel output
     };
@@ -83,6 +85,11 @@ public:
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
+
+    /**
+     * Initializes data referneces.
+     */
+    virtual void initDataRefs();
 
     /**
      * Updates controls.

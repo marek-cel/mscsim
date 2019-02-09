@@ -49,6 +49,7 @@ public:
     virtual ~DataManager();
 
     /**
+     * Adds data refernce.
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
     int addDataRef( const std::string &path, DataNode::Type type );

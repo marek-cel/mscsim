@@ -77,6 +77,7 @@ void Aircrafts::parseAircraft(const QDomElement &node )
 
         parseAircraftControls( node, aircraft.controls );
         parseAircraftPropulsion( node, aircraft.propulsion );
+        parseAircraftMasses( node, aircraft.masses );
 
         aircraft.mainRotorCoef = 1.0f;
         aircraft.tailRotorCoef = 1.0f;
@@ -193,5 +194,63 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
         propulsion.egt  = !nodeEGT.isNull();
         propulsion.tot  = !nodeTOT.isNull();
         propulsion.itt  = !nodeITT.isNull();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
+{
+    QDomElement nodeMasses = node.firstChildElement( "masses" );
+
+    if ( !nodeMasses.isNull() )
+    {
+        QDomElement nodePilot  = nodeMasses.firstChildElement( "pilot"   );
+        QDomElement nodePilotR = nodeMasses.firstChildElement( "pilot_l" );
+        QDomElement nodePilotL = nodeMasses.firstChildElement( "pilot_r" );
+        QDomElement nodePilotF = nodeMasses.firstChildElement( "pilot_f" );
+        QDomElement nodePilotA = nodeMasses.firstChildElement( "pilot_a" );
+
+        QDomElement nodeFuel  = nodeMasses.firstChildElement( "fuel"   );
+        QDomElement nodeFuelR = nodeMasses.firstChildElement( "fuel_l" );
+        QDomElement nodeFuelL = nodeMasses.firstChildElement( "fuel_r" );
+        QDomElement nodeFuelF = nodeMasses.firstChildElement( "fuel_f" );
+        QDomElement nodeFuelA = nodeMasses.firstChildElement( "fuel_a" );
+
+        QDomElement nodeCabin = nodeMasses.firstChildElement( "cabin" );
+        QDomElement nodeTrunk = nodeMasses.firstChildElement( "trunk" );
+
+        parseAircraftMass( nodePilot  , masses.pilot  );
+        parseAircraftMass( nodePilotL , masses.pilotL );
+        parseAircraftMass( nodePilotR , masses.pilotR );
+        parseAircraftMass( nodePilotF , masses.pilotF );
+        parseAircraftMass( nodePilotA , masses.pilotA );
+
+        parseAircraftMass( nodeFuel  , masses.fuel  );
+        parseAircraftMass( nodeFuelL , masses.fuelL );
+        parseAircraftMass( nodeFuelR , masses.fuelR );
+        parseAircraftMass( nodeFuelF , masses.fuelF );
+        parseAircraftMass( nodeFuelA , masses.fuelA );
+
+        parseAircraftMass( nodeCabin, masses.cabin );
+        parseAircraftMass( nodeTrunk, masses.trunk );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircrafts::parseAircraftMass( QDomElement &massNode, Masses::Mass &mass )
+{
+    mass.enabled = false;
+
+    mass.max = 0.0;
+    mass.def = 0.0;
+
+    if ( !massNode.isNull() )
+    {
+        mass.enabled = true;
+
+        mass.max = massNode.attributeNode( "maximum" ).value().toDouble();
+        mass.def = massNode.attributeNode( "default" ).value().toDouble();
     }
 }

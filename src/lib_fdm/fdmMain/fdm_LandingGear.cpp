@@ -41,11 +41,23 @@ Vector3 LandingGear::getIntersection( const Vector3 &b, const Vector3 &e,
 
     double u = 0.0;
 
-    if ( fabs( den ) > 10e-15 ) u = num / den;
-
-    if ( 0.0 < u && u < 1.0 )
+    if ( fabs( den ) < 10e-15 )
     {
-        r_i = b + u * ( e - b );
+        // segment is parallel to the plane
+        if ( fabs( num ) < 10e-15 )
+        {
+            // segment beginning is on the plane
+            r_i = b;
+        }
+    }
+    else
+    {
+        u = num / den;
+
+        if ( 0.0 <= u && u <= 1.0 )
+        {
+            r_i = b + u * ( e - b );
+        }
     }
 
     return r_i;
@@ -93,6 +105,8 @@ void LandingGear::readData( XmlNode &dataNode )
         while ( result == FDM_SUCCESS && wheelNode.isValid() )
         {
             Wheel wheel;
+
+            wheel.input = wheelNode.getAttribute( "input" );
 
             wheel.steerable = String::toBool( wheelNode.getAttribute( "steerable" ), false );
             wheel.caster    = String::toBool( wheelNode.getAttribute( "caster"    ), false );
@@ -145,6 +159,39 @@ void LandingGear::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void LandingGear::initDataRefs()
+{
+    for ( Wheels::iterator it = m_wheels.begin(); it != m_wheels.end(); it++ )
+    {
+        Wheel &wheel = (*it);
+
+        if ( wheel.input.length() > 0 )
+        {
+            wheel.drInput = getDataRef( wheel.input );
+
+            if ( !wheel.drInput.isValid() )
+            {
+                if ( FDM_SUCCESS == addDataRef( wheel.input, DataNode::Double ) )
+                {
+                    wheel.drInput = getDataRef( wheel.input );
+                }
+            }
+
+            if ( !wheel.drInput.isValid() )
+            {
+                Exception e;
+
+                e.setType( Exception::UnknownException );
+                e.setInfo( "ERROR! Initializing data refernce \"" + wheel.input + "\" failed." );
+
+                FDM_THROW( e );
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void LandingGear::computeForceAndMoment()
 {
     m_for_bas.set( 0.0, 0.0, 0.0 );
@@ -152,11 +199,14 @@ void LandingGear::computeForceAndMoment()
 
     for ( size_t i = 0; i < m_wheels.size(); i++ )
     {
-        Vector3 r_i_bas = getWheelIsect( m_wheels[ i ] );
-        Vector3 for_bas = getWheelForce( m_wheels[ i ], r_i_bas );
+        if ( m_wheels[ i ].drInput.getValue( 1.0 ) >= 1.0 )
+        {
+            Vector3 r_i_bas = getWheelIsect( m_wheels[ i ] );
+            Vector3 for_bas = getWheelForce( m_wheels[ i ], r_i_bas );
 
-        m_for_bas += for_bas;
-        m_mom_bas += r_i_bas ^ for_bas;
+            m_for_bas += for_bas;
+            m_mom_bas += r_i_bas ^ for_bas;
+        }
     }
 
     if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
@@ -175,9 +225,9 @@ void LandingGear::computeForceAndMoment()
 Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
                                    double surf_coef, double vel_break )
 {
-    double deflection = ( wheel.r_u_bas - r_i_bas ).getLength();
+    double deflection_norm = m_aircraft->getNormal_BAS() * ( r_i_bas - wheel.r_u_bas );
 
-    if ( deflection > 1.0e-6 )
+    if ( deflection_norm > 1.0e-6 )
     {
         // intersection velocities components
         Vector3 v_i_bas = m_aircraft->getVel_BAS() + ( m_aircraft->getOmg_BAS() ^ r_i_bas );
@@ -187,7 +237,7 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         double v_tang = v_tang_bas.getLength();
 
         // normal force
-        double for_norm = wheel.k * deflection - wheel.c * v_norm;
+        double for_norm = wheel.k * deflection_norm - wheel.c * v_norm;
 
         // longitudal and lateral directions
         Vector3 dir_lon_bas = ( m_aircraft->getNormal_BAS() ^ Vector3::m_uy ).getNormalized();

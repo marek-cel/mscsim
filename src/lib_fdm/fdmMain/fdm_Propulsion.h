@@ -49,27 +49,26 @@ public:
     virtual ~Propulsion();
 
     /**
-     * @brief Initializes engine due to initial engine state.
-     * @param engineOn specifies if engine is working at start
-     */
-    virtual void initialize( bool engineOn );
-
-    /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
     /**
+     * Initializes data referneces.
+     */
+    virtual void initDataRefs();
+
+    /**
+     * @brief Initializes engine due to initial engine state.
+     * @param engineOn specifies if engine is working at start
+     */
+    virtual void initialize( bool engineOn );
+
+    /**
      * Computes force and moment.
      */
     virtual void computeForceAndMoment() = 0;
-
-    /**
-     * Integrates model.
-     * @param timeStep [s] time step
-     */
-    virtual void integrate( double timeStep ) = 0;
 
     /**
      * Updates propulsion.

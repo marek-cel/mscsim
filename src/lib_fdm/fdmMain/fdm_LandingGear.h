@@ -72,6 +72,10 @@ public:
     /** Wheel data. */
     struct Wheel
     {
+        std::string input;  ///< input data reference path
+
+        DataRef drInput;    ///< input data reference
+
         Vector3 r_a_bas;    ///< [m] strut attachment point coordinates expressed in BAS
         Vector3 r_u_bas;    ///< [m] unloaded wheel coordinates expressed in BAS
 
@@ -94,6 +98,7 @@ public:
 
     /**
      * Returns landing gear strut and ground plane intersection point.
+     * @see O'Rourke J.: Computational Geometry in C, 1998, p.226
      * @see http://paulbourke.net/geometry/pointlineplane/
      * @param b [m] landing gear strut attachment point coordinates (beginning)
      * @param e [m] landing gear unloaded wheel coordinates (end)
@@ -130,6 +135,11 @@ public:
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
+
+    /**
+     * Initializes data referneces.
+     */
+    virtual void initDataRefs();
 
     /**
      * Computes force and moment.

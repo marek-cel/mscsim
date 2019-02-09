@@ -34,6 +34,7 @@ using namespace fdm;
 PistonEngine::PistonEngine() :
     m_power_max ( 0.0 ),
     m_rpm_min ( 0.0 ),
+    m_rpm_max ( 0.0 ),
     m_specFuelCons ( 0.0 ),
     m_inertia ( 0.0 ),
     m_map ( 0.0 ),
@@ -58,6 +59,7 @@ void PistonEngine::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_power_max    , "power_max"    );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_starter      , "starter"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_rpm_min      , "rpm_min"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_rpm_max      , "rpm_max"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_specFuelCons , "sfc"          );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_inertia      , "inertia"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_mixture      , "mixture"      );
@@ -136,7 +138,7 @@ double PistonEngine::getManifoldAbsolutePressure( double throttle, double rpm,
                                                   double airPressure )
 {
     // Allerton D.: Principles of Flight Simulation, p.129
-    double map = airPressure + Units::inhg2pa( ( 0.04635 * throttle - 0.0469 ) * rpm );
+    double map = airPressure + ( 156.9411 * throttle - 158.8034 ) * rpm;
     map = Misc::max( 0.0, map );
 
     return map;
@@ -182,11 +184,11 @@ double PistonEngine::getPowerLosses( double rpm )
 {
     // Power losses of a 160 HP (horsepower) engine proportional to the square
     // of RPM are given by:
-    // fpow = 0.0413 * n^2 /2700
+    // fpow = 0.0413 * n^2 / n_max
     // Allerton D.: Principles of Flight Simulation, p.130
     // 1/160 = 0.00625
     // 0.00625 * 0.0413 = 0.000258125
-    double powerLosses = m_power_max * 0.000258125 * ( rpm * rpm ) / 2700.0;
+    double powerLosses = m_power_max * 2.58125e-4 * ( rpm * rpm ) / m_rpm_max;
     powerLosses = Misc::max( 0.0, powerLosses );
 
     return powerLosses;
@@ -201,7 +203,9 @@ double PistonEngine::getStaticPower( double rpm, double map )
     // shp = mp * (0.0039 * n - 1)
     // Allerton D.: Principles of Flight Simulation, p.130
     // 1/160 = 0.00625
-    double staticPower = m_power_max * 0.00625 * Units::pa2inhg( map ) * ( 0.0039 * rpm - 1.0 );
+    // 0.00625 * 0.0039 =
+    //double staticPower = m_power_max * 0.00625 * Units::pa2inhg( map ) * ( 0.0039 * rpm - 1.0 );
+    double staticPower = m_power_max * map * ( 7.198759595625e-9 * rpm - 1.84583579375e-6 );
     staticPower = Misc::max( 0.0, staticPower );
 
     return staticPower;

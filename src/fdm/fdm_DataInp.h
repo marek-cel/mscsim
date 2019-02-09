@@ -146,11 +146,29 @@ struct DataInp
         bool starter;                   ///< specifies if starter is enabled
     };
 
+    /** Masses data. */
+    struct Masses
+    {
+        double pilot;                   ///< [kg] pilot
+        double pilot_l;                 ///< [kg] left pilot
+        double pilot_r;                 ///< [kg] right pilot
+        double pilot_f;                 ///< [kg] forward pilot
+        double pilot_a;                 ///< [kg] aft pilot
+        double fuel;                    ///< [kg] total internal fuel
+        double fuel_l;                  ///< [kg] left internal fuel tank
+        double fuel_r;                  ///< [kg] right internal fuel tank
+        double fuel_f;                  ///< [kg] forward internal fuel tank
+        double fuel_a;                  ///< [kg] aft internal fuel tank
+        double cabin;                   ///< [kg] cabin load
+        double trunk;                   ///< [kg] cargo trunk
+    };
+
     Initial     initial;                ///< initial conditions
     Environment environment;            ///< environment data
     Ground      ground;                 ///< ground data
     Controls    controls;               ///< controls data
     Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
+    Masses      masses;                 ///< masses data
 
     AircraftType aircraftType;          ///< input aircraft type
     PhaseInp phaseInp;                  ///< input phase

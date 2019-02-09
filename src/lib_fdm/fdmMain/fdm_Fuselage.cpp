@@ -34,7 +34,10 @@ using namespace fdm;
 Fuselage::Fuselage() :
     m_length ( 0.0 ),
     m_area ( 0.0 ),
-    m_sl ( 0.0 )
+    m_sl ( 0.0 ),
+
+    m_angleOfAttack ( 0.0 ),
+    m_sideslipAngle ( 0.0 )
 {
     m_cx = Table::createOneRecordTable( 0.0 );
     m_cy = Table::createOneRecordTable( 0.0 );
@@ -55,6 +58,13 @@ void Fuselage::readData( XmlNode &dataNode )
     if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
+
+        m_cx = Table::createOneRecordTable( 0.0 );
+        m_cy = Table::createOneRecordTable( 0.0 );
+        m_cz = Table::createOneRecordTable( 0.0 );
+        m_cl = Table::createOneRecordTable( 0.0 );
+        m_cm = Table::createOneRecordTable( 0.0 );
+        m_cn = Table::createOneRecordTable( 0.0 );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_bas, "aero_center" );
 
@@ -103,25 +113,25 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
     Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
-    double sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
+    m_angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
+    m_sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
 
     // dynamic pressure
     double dynPress = 0.5 * airDensity * vel_f_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * m_area,
-                      dynPress * getCy( sideslipAngle ) * m_area,
-                      dynPress * getCz( angleOfAttack ) * m_area );
+    Vector3 for_aero( dynPress * getCx( m_angleOfAttack ) * m_area,
+                      dynPress * getCy( m_sideslipAngle ) * m_area,
+                      dynPress * getCz( m_angleOfAttack ) * m_area );
 
-    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * m_sl,
-                      dynPress * getCm( angleOfAttack ) * m_sl,
-                      dynPress * getCn( sideslipAngle ) * m_sl );
+    Vector3 mom_stab( dynPress * getCl( m_sideslipAngle ) * m_sl,
+                      dynPress * getCm( m_angleOfAttack ) * m_sl,
+                      dynPress * getCn( m_sideslipAngle ) * m_sl );
 
 
-    double sinAlpha = sin( angleOfAttack );
-    double cosAlpha = cos( angleOfAttack );
-    double sinBeta  = sin( sideslipAngle );
-    double cosBeta  = cos( sideslipAngle );
+    double sinAlpha = sin( m_angleOfAttack );
+    double cosAlpha = cos( m_angleOfAttack );
+    double sinBeta  = sin( m_sideslipAngle );
+    double cosBeta  = cos( m_sideslipAngle );
 
     Vector3 for_bas = Aerodynamics::getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab

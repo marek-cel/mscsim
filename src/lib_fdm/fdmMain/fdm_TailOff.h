@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_WING_H
-#define FDM_WING_H
+#ifndef FDM_TAILOFF_H
+#define FDM_TAILOFF_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,7 +37,7 @@ namespace fdm
 {
 
 /**
- * @brief Wing class.
+ * @brief Tail-off aircraft aerodynamics class.
  *
  * <p>Forces and moments are calculated, considering different airflow
  * conditions, separately for left and right half wings. Half wing aerodynamic
@@ -46,49 +46,49 @@ namespace fdm
  *
  * <h3>XML configuration file format:</h3>
  * @code
- * <wing>
- *   <aerodynamic_center_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center_l>
- *   <aerodynamic_center_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center_r>
+ * <tail_off>
+ *   <aero_center_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center_l>
+ *   <aero_center_r> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center_r>
  *   <mac> { [m] wing mean aerodynamic chord } </mac>
  *   <area> { [m^2] wing area } </area>
  *   <cx>
- *     { [deg] angle of attack } { [-] drag coefficient }
+ *     { [rad] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle of sideslip } { [-] sideforce coefficient }
+ *     { [rad] angle of sideslip } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
- *     { [deg] angle of attack } { [-] lift coefficient }
+ *     { [rad] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
  *   <cl>
- *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
+ *     { [rad] angle of sideslip } { [-] rolling moment coefficient }
  *     ... { more entries }
  *   </cl>
  *   <cm>
- *     { [deg] angle of attack } { [-] pitching moment coefficient }
+ *     { [rad] angle of attack } { [-] pitching moment coefficient }
  *     ... { more entries }
  *   </cm>
  *   <cn>
- *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
+ *     { [rad] angle of sideslip } { [-] yawing moment coefficient }
  *     ... { more entries }
  *   </cn>
- * </wing>
+ * </tail_off>
  * @endcode
  *
  * <p>Optional elements: "cy", "cl", "cn"</p>
  */
-class FDMEXPORT Wing : public Base
+class FDMEXPORT TailOff : public Base
 {
 public:
 
     /** Constructor. */
-    Wing();
+    TailOff();
 
     /** Destructor. */
-    virtual ~Wing();
+    virtual ~TailOff();
 
     /**
      * Reads data.
@@ -102,16 +102,16 @@ public:
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
      */
-    void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                const Vector3 &omg_air_bas,
-                                double airDensity );
+    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                        const Vector3 &omg_air_bas,
+                                        double airDensity );
 
     /**
      * Updates wing.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      */
-    void update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas );
+    virtual void update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas );
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }
@@ -157,10 +157,10 @@ protected:
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
      */
-    void addForceAndMoment( const Vector3 &r_ac_bas,
-                            const Vector3 &vel_air_bas,
-                            const Vector3 &omg_air_bas,
-                            double airDensity );
+    virtual void addForceAndMoment( const Vector3 &r_ac_bas,
+                                    const Vector3 &vel_air_bas,
+                                    const Vector3 &omg_air_bas,
+                                    double airDensity );
 
     /**
      * Computes drag coefficient.
@@ -209,4 +209,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_WING_H
+#endif // FDM_TAILOFF_H

@@ -39,32 +39,59 @@ public:
     /** Aircraft controls data struct. */
     struct Controls
     {
-        bool collective;    ///<
-        bool landingGear;   ///<
-        bool flaps;         ///<
-        int  throttle;      ///<
-        int  propeller;     ///<
-        int  mixture;       ///<
-        bool airbrake;      ///<
-        bool spoilers;      ///<
+        bool collective;        ///<
+        bool landingGear;       ///<
+        bool flaps;             ///<
+        int  throttle;          ///<
+        int  propeller;         ///<
+        int  mixture;           ///<
+        bool airbrake;          ///<
+        bool spoilers;          ///<
     };
 
     /** Aircraft propulsion data struct. */
     struct Propulsion
     {
-        int engines;        ///<
+        int engines;            ///<
 
-        bool rpm;           ///<
-        bool prop;          ///<
-        bool ng;            ///<
-        bool n1;            ///<
-        bool n2;            ///<
-        bool trq;           ///<
-        bool epr;           ///<
-        bool map;           ///<
-        bool egt;           ///<
-        bool tot;           ///<
-        bool itt;           ///<
+        bool rpm;               ///<
+        bool prop;              ///<
+        bool ng;                ///<
+        bool n1;                ///<
+        bool n2;                ///<
+        bool trq;               ///<
+        bool epr;               ///<
+        bool map;               ///<
+        bool egt;               ///<
+        bool tot;               ///<
+        bool itt;               ///<
+    };
+
+    /** Aircraft variable masses data struct. */
+    struct Masses
+    {
+        /** Variable mass data struct. */
+        struct Mass
+        {
+            bool enabled;       ///< specifies if mass is enabled
+            double max;         ///< [kg] maximum mass
+            double def;         ///< [kg] default mass
+        };
+
+        Mass pilot;             ///<
+        Mass pilotL;            ///<
+        Mass pilotR;            ///<
+        Mass pilotA;            ///<
+        Mass pilotF;            ///<
+
+        Mass fuel;              ///<
+        Mass fuelL;             ///<
+        Mass fuelR;             ///<
+        Mass fuelA;             ///<
+        Mass fuelF;             ///<
+
+        Mass cabin;             ///<
+        Mass trunk;             ///<
     };
 
     /** */
@@ -76,6 +103,7 @@ public:
 
         Controls   controls;    ///< controls data
         Propulsion propulsion;  ///< propulsion data
+        Masses     masses;      ///< masses data
 
         float mainRotorCoef;    ///< [-] main rotor rotation coefficient (sign)
         float tailRotorCoef;    ///< [-] tail rotor rotation coefficient (sign)
@@ -120,6 +148,8 @@ private:
     void parseAircraft( const QDomElement &node );
     void parseAircraftControls( const QDomElement &node, Controls &controls );
     void parseAircraftPropulsion( const QDomElement &node, Propulsion &propulsion );
+    void parseAircraftMasses( const QDomElement &node, Masses &masses );
+    void parseAircraftMass( QDomElement &massNode, Masses::Mass &mass );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

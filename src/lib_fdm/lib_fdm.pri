@@ -1,10 +1,8 @@
 HEADERS += \
-    lib_fdm/fdmAuto/fdm_FlightDirector.h \
-    lib_fdm/fdmAuto/fdm_PID.h
+    lib_fdm/fdmAuto/fdm_FlightDirector.h
 
 SOURCES += \
-    lib_fdm/fdmAuto/fdm_FlightDirector.cpp \
-    lib_fdm/fdmAuto/fdm_PID.cpp
+    lib_fdm/fdmAuto/fdm_FlightDirector.cpp
 
 ################################################################################
 
@@ -22,7 +20,6 @@ HEADERS += \
     lib_fdm/fdmMain/fdm_Exception.h \
     lib_fdm/fdmMain/fdm_Fuselage.h \
     lib_fdm/fdmMain/fdm_HingeMoment.h \
-    lib_fdm/fdmMain/fdm_Inertia.h \
     lib_fdm/fdmMain/fdm_Intersections.h \
     lib_fdm/fdmMain/fdm_LandingGear.h \
     lib_fdm/fdmMain/fdm_MainRotor.h \
@@ -32,9 +29,10 @@ HEADERS += \
     lib_fdm/fdmMain/fdm_Propulsion.h \
     lib_fdm/fdmMain/fdm_Schrenk.h \
     lib_fdm/fdmMain/fdm_Stabilizer.h \
+    lib_fdm/fdmMain/fdm_TailOff.h \
+    lib_fdm/fdmMain/fdm_TailRotor.h \
     lib_fdm/fdmMain/fdm_Types.h \
-    lib_fdm/fdmMain/fdm_WindShear.h \
-    lib_fdm/fdmMain/fdm_Wing.h
+    lib_fdm/fdmMain/fdm_WindShear.h
 
 SOURCES += \
     lib_fdm/fdmMain/fdm_Aerodynamics.cpp \
@@ -47,7 +45,6 @@ SOURCES += \
     lib_fdm/fdmMain/fdm_Environment.cpp \
     lib_fdm/fdmMain/fdm_Fuselage.cpp \
     lib_fdm/fdmMain/fdm_HingeMoment.cpp \
-    lib_fdm/fdmMain/fdm_Inertia.cpp \
     lib_fdm/fdmMain/fdm_Intersections.cpp \
     lib_fdm/fdmMain/fdm_LandingGear.cpp \
     lib_fdm/fdmMain/fdm_MainRotor.cpp \
@@ -57,8 +54,21 @@ SOURCES += \
     lib_fdm/fdmMain/fdm_Propulsion.cpp \
     lib_fdm/fdmMain/fdm_Schrenk.cpp \
     lib_fdm/fdmMain/fdm_Stabilizer.cpp \
-    lib_fdm/fdmMain/fdm_WindShear.cpp \
-    lib_fdm/fdmMain/fdm_Wing.cpp
+    lib_fdm/fdmMain/fdm_TailOff.cpp \
+    lib_fdm/fdmMain/fdm_TailRotor.cpp \
+    lib_fdm/fdmMain/fdm_WindShear.cpp
+
+################################################################################
+
+HEADERS += \
+    lib_fdm/fdmSys/fdm_Inertia.h \
+    lib_fdm/fdmSys/fdm_Inertia2.h \
+    lib_fdm/fdmSys/fdm_PID.h
+
+SOURCES += \
+    lib_fdm/fdmSys/fdm_Inertia.cpp \
+    lib_fdm/fdmSys/fdm_Inertia2.cpp \
+    lib_fdm/fdmSys/fdm_PID.cpp
 
 ################################################################################
 

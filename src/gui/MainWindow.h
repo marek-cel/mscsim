@@ -115,6 +115,8 @@ private:
     void setPhasePause();
     void setPhaseStop();
 
+    void setAircraftType( int typeIndex );
+
     void setSideDockAreasFullHeight( bool left, bool rght );
 
     void settingsRead();
@@ -135,7 +137,6 @@ private:
 
     void updateMenu();
     void updateStatusBar();
-    void updateWidgetCGI();
 
     void updateOutputData();
 

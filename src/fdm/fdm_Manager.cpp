@@ -109,21 +109,48 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 void Manager::dataRefsInit()
 {
     // controls
-    m_dr.ctrlRoll    = m_aircraft->getDataRef( "input/controls/roll"         );
-    m_dr.ctrlPitch   = m_aircraft->getDataRef( "input/controls/pitch"        );
-    m_dr.ctrlYaw     = m_aircraft->getDataRef( "input/controls/yaw"          );
-    m_dr.trimRoll    = m_aircraft->getDataRef( "input/controls/roll_trim"    );
-    m_dr.trimPitch   = m_aircraft->getDataRef( "input/controls/pitch_trim"   );
-    m_dr.trimYaw     = m_aircraft->getDataRef( "input/controls/yaw_trim"     );
-    m_dr.brakeLeft   = m_aircraft->getDataRef( "input/controls/brake_l"      );
-    m_dr.brakeRight  = m_aircraft->getDataRef( "input/controls/brake_r"      );
-    m_dr.landingGear = m_aircraft->getDataRef( "input/controls/landing_gear" );
-    m_dr.noseWheel   = m_aircraft->getDataRef( "input/controls/nose_wheel"   );
-    m_dr.nwSteering  = m_aircraft->getDataRef( "input/controls/nw_steering"  );
-    m_dr.flaps       = m_aircraft->getDataRef( "input/controls/flaps"        );
-    m_dr.airbrake    = m_aircraft->getDataRef( "input/controls/airbrake"     );
-    m_dr.spoilers    = m_aircraft->getDataRef( "input/controls/spoilers"     );
-    m_dr.collective  = m_aircraft->getDataRef( "input/controls/collective"   );
+    m_dr.ctrlRoll    = m_aircraft->getDataRef( "input/controls/roll"        );
+    m_dr.ctrlPitch   = m_aircraft->getDataRef( "input/controls/pitch"       );
+    m_dr.ctrlYaw     = m_aircraft->getDataRef( "input/controls/yaw"         );
+    m_dr.trimRoll    = m_aircraft->getDataRef( "input/controls/roll_trim"   );
+    m_dr.trimPitch   = m_aircraft->getDataRef( "input/controls/pitch_trim"  );
+    m_dr.trimYaw     = m_aircraft->getDataRef( "input/controls/yaw_trim"    );
+    m_dr.brakeLeft   = m_aircraft->getDataRef( "input/controls/brake_l"     );
+    m_dr.brakeRight  = m_aircraft->getDataRef( "input/controls/brake_r"     );
+    m_dr.noseWheel   = m_aircraft->getDataRef( "input/controls/nose_wheel"  );
+    m_dr.nwSteering  = m_aircraft->getDataRef( "input/controls/nw_steering" );
+    m_dr.flaps       = m_aircraft->getDataRef( "input/controls/flaps"       );
+    m_dr.airbrake    = m_aircraft->getDataRef( "input/controls/airbrake"    );
+    m_dr.spoilers    = m_aircraft->getDataRef( "input/controls/spoilers"    );
+    m_dr.collective  = m_aircraft->getDataRef( "input/controls/collective"  );
+
+    m_dr.outAilerons = m_aircraft->getDataRef( "output/controls/ailerons" );
+    m_dr.outElevator = m_aircraft->getDataRef( "output/controls/elevator" );
+    m_dr.outRudder   = m_aircraft->getDataRef( "output/controls/rudder"   );
+    m_dr.outFlaps    = m_aircraft->getDataRef( "output/controls/flaps"    );
+    m_dr.outFlaps_le = m_aircraft->getDataRef( "output/controls/flaps_le" );
+    m_dr.outAirbrake = m_aircraft->getDataRef( "output/controls/airbrake" );
+
+    // landing gear
+    m_dr.wheelN = m_aircraft->getDataRef( "input/landing_gear/wheel_n" );
+    m_dr.wheelL = m_aircraft->getDataRef( "input/landing_gear/wheel_l" );
+    m_dr.wheelR = m_aircraft->getDataRef( "input/landing_gear/wheel_r" );
+
+    // variable masses
+    m_dr.pilot  = m_aircraft->getDataRef( "input/mass/pilot"   );
+    m_dr.pilotL = m_aircraft->getDataRef( "input/mass/pilot_l" );
+    m_dr.pilotR = m_aircraft->getDataRef( "input/mass/pilot_r" );
+    m_dr.pilotF = m_aircraft->getDataRef( "input/mass/pilot_f" );
+    m_dr.pilotA = m_aircraft->getDataRef( "input/mass/pilot_a" );
+
+    m_dr.fuelTank  = m_aircraft->getDataRef( "input/mass/fuel_tank"   );
+    m_dr.fuelTankL = m_aircraft->getDataRef( "input/mass/fuel_tank_l" );
+    m_dr.fuelTankR = m_aircraft->getDataRef( "input/mass/fuel_tank_r" );
+    m_dr.fuelTankF = m_aircraft->getDataRef( "input/mass/fuel_tank_f" );
+    m_dr.fuelTankA = m_aircraft->getDataRef( "input/mass/fuel_tank_a" );
+
+    m_dr.cabinLoad  = m_aircraft->getDataRef( "input/mass/cabin_load"  );
+    m_dr.cargoTrunk = m_aircraft->getDataRef( "input/mass/cargo_trunk" );
 
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -137,61 +164,48 @@ void Manager::dataRefsInit()
         m_dr.ignition  [ i ] = m_aircraft->getDataRef( "input/propulsion/ignition_"  + number );
         m_dr.starter   [ i ] = m_aircraft->getDataRef( "input/propulsion/starter_"   + number );
 
-        m_dr.engineOn  [ i ] = m_aircraft->getDataRef( "output/propulsion/state_" + number );
-        m_dr.engineMAP [ i ] = m_aircraft->getDataRef( "output/propulsion/map_"   + number );
-        m_dr.engineRPM [ i ] = m_aircraft->getDataRef( "output/propulsion/rpm_"   + number );
-        m_dr.engineFF  [ i ] = m_aircraft->getDataRef( "output/propulsion/ff_"    + number );
+        m_dr.engineOn   [ i ] = m_aircraft->getDataRef( "output/propulsion/state_" + number );
+        m_dr.engineRPM  [ i ] = m_aircraft->getDataRef( "output/propulsion/rpm_"   + number );
+        m_dr.engineProp [ i ] = m_aircraft->getDataRef( "output/propulsion/prop_"  + number );
+        m_dr.engineNG   [ i ] = m_aircraft->getDataRef( "output/propulsion/ng_"    + number );
+        m_dr.engineN1   [ i ] = m_aircraft->getDataRef( "output/propulsion/n1_"    + number );
+        m_dr.engineN2   [ i ] = m_aircraft->getDataRef( "output/propulsion/n2_"    + number );
+        m_dr.engineTRQ  [ i ] = m_aircraft->getDataRef( "output/propulsion/trq_"   + number );
+        m_dr.engineEPR  [ i ] = m_aircraft->getDataRef( "output/propulsion/epr_"   + number );
+        m_dr.engineMAP  [ i ] = m_aircraft->getDataRef( "output/propulsion/map_"   + number );
+        m_dr.engineEGT  [ i ] = m_aircraft->getDataRef( "output/propulsion/egt_"   + number );
+        m_dr.engineITT  [ i ] = m_aircraft->getDataRef( "output/propulsion/itt_"   + number );
+        m_dr.engineFF   [ i ] = m_aircraft->getDataRef( "output/propulsion/ff_"    + number );
     }
 
-    if ( !m_dr.throttle[ 0 ].isValid() )
-    {
-        m_dr.throttle[ 0 ] = m_aircraft->getDataRef( "input/propulsion/throttle" );
-    }
+    if ( !m_dr.throttle  [ 0 ].isValid() ) m_dr.throttle  [ 0 ] = m_aircraft->getDataRef( "input/propulsion/throttle"  );
+    if ( !m_dr.mixture   [ 0 ].isValid() ) m_dr.mixture   [ 0 ] = m_aircraft->getDataRef( "input/propulsion/mixture"   );
+    if ( !m_dr.propeller [ 0 ].isValid() ) m_dr.propeller [ 0 ] = m_aircraft->getDataRef( "input/propulsion/propeller" );
+    if ( !m_dr.fuel      [ 0 ].isValid() ) m_dr.fuel      [ 0 ] = m_aircraft->getDataRef( "input/propulsion/fuel"      );
+    if ( !m_dr.ignition  [ 0 ].isValid() ) m_dr.ignition  [ 0 ] = m_aircraft->getDataRef( "input/propulsion/ignition"  );
+    if ( !m_dr.starter   [ 0 ].isValid() ) m_dr.starter   [ 0 ] = m_aircraft->getDataRef( "input/propulsion/starter"   );
 
-    if ( !m_dr.mixture[ 0 ].isValid() )
-    {
-       m_dr.mixture[ 0 ] = m_aircraft->getDataRef( "input/propulsion/mixture" );
-    }
+    if ( !m_dr.engineOn   [ 0 ].isValid() ) m_dr.engineOn   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/state" );
+    if ( !m_dr.engineRPM  [ 0 ].isValid() ) m_dr.engineRPM  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/rpm"   );
+    if ( !m_dr.engineProp [ 0 ].isValid() ) m_dr.engineProp [ 0 ] = m_aircraft->getDataRef( "output/propulsion/prop"  );
+    if ( !m_dr.engineNG   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ng"    );
+    if ( !m_dr.engineN1   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n1"    );
+    if ( !m_dr.engineN2   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n2"    );
+    if ( !m_dr.engineTRQ  [ 0 ].isValid() ) m_dr.engineTRQ  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/trq"   );
+    if ( !m_dr.engineEPR  [ 0 ].isValid() ) m_dr.engineEPR  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/epr"   );
+    if ( !m_dr.engineMAP  [ 0 ].isValid() ) m_dr.engineMAP  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/map"   );
+    if ( !m_dr.engineEGT  [ 0 ].isValid() ) m_dr.engineEGT  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/egt"   );
+    if ( !m_dr.engineITT  [ 0 ].isValid() ) m_dr.engineITT  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/itt"   );
+    if ( !m_dr.engineFF   [ 0 ].isValid() ) m_dr.engineFF   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ff"    );
 
-    if ( !m_dr.propeller[ 0 ].isValid() )
-    {
-        m_dr.propeller[ 0 ] = m_aircraft->getDataRef( "input/propulsion/propeller" );
-    }
-
-    if ( !m_dr.fuel[ 0 ].isValid() )
-    {
-        m_dr.fuel[ 0 ] = m_aircraft->getDataRef( "input/propulsion/fuel" );
-    }
-
-    if ( !m_dr.ignition[ 0 ].isValid() )
-    {
-        m_dr.ignition[ 0 ] = m_aircraft->getDataRef( "input/propulsion/ignition" );
-    }
-
-    if ( !m_dr.starter[ 0 ].isValid() )
-    {
-        m_dr.starter[ 0 ] = m_aircraft->getDataRef( "input/propulsion/starter" );
-    }
-
-    if ( !m_dr.engineOn[ 0 ].isValid() )
-    {
-        m_dr.engineOn[ 0 ] = m_aircraft->getDataRef( "output/propulsion/state" );
-    }
-
-    if ( !m_dr.engineMAP[ 0 ].isValid() )
-    {
-        m_dr.engineMAP[ 0 ] = m_aircraft->getDataRef( "output/propulsion/map" );
-    }
-
-    if ( !m_dr.engineRPM[ 0 ].isValid() )
-    {
-        m_dr.engineRPM[ 0 ] = m_aircraft->getDataRef( "output/propulsion/rpm" );
-    }
-
-    if ( !m_dr.engineFF[ 0 ].isValid() )
-    {
-        m_dr.engineFF[ 0 ] = m_aircraft->getDataRef( "output/propulsion/ff" );
-    }
+    m_dr.mainRotorAzimuth     = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/azimuth"      );
+    m_dr.mainRotorConingAngle = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/coning_angle" );
+    m_dr.mainRotorDiskRoll    = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/disk_roll"    );
+    m_dr.mainRotorDiskPitch   = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/disk_pitch"   );
+    m_dr.mainRotorCollective  = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/collective"   );
+    m_dr.mainRotorCyclicLon   = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/cyclic_lon"   );
+    m_dr.mainRotorCyclicLat   = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/cyclic_lat"   );
+    m_dr.tailRotorAzimuth     = m_aircraft->getDataRef( "output/aerodynamics/tail_rotor/azimuth"      );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,13 +220,38 @@ void Manager::dataRefsReset()
     m_dr.trimYaw     .reset();
     m_dr.brakeLeft   .reset();
     m_dr.brakeRight  .reset();
-    m_dr.landingGear .reset();
     m_dr.noseWheel   .reset();
     m_dr.nwSteering  .reset();
     m_dr.flaps       .reset();
     m_dr.airbrake    .reset();
     m_dr.spoilers    .reset();
     m_dr.collective  .reset();
+
+    m_dr.outAilerons .reset();
+    m_dr.outElevator .reset();
+    m_dr.outRudder   .reset();
+    m_dr.outFlaps    .reset();
+    m_dr.outFlaps_le .reset();
+    m_dr.outAirbrake .reset();
+
+    m_dr.wheelN.reset();
+    m_dr.wheelL.reset();
+    m_dr.wheelR.reset();
+
+    m_dr.pilot  .reset();
+    m_dr.pilotL .reset();
+    m_dr.pilotR .reset();
+    m_dr.pilotF .reset();
+    m_dr.pilotA .reset();
+
+    m_dr.fuelTank  .reset();
+    m_dr.fuelTankL .reset();
+    m_dr.fuelTankR .reset();
+    m_dr.fuelTankF .reset();
+    m_dr.fuelTankA .reset();
+
+    m_dr.cabinLoad  .reset();
+    m_dr.cargoTrunk .reset();
 
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -224,11 +263,28 @@ void Manager::dataRefsReset()
         m_dr.ignition  [ i ].reset();
         m_dr.starter   [ i ].reset();
 
-        m_dr.engineOn  [ i ].reset();
-        m_dr.engineMAP [ i ].reset();
-        m_dr.engineRPM [ i ].reset();
-        m_dr.engineFF  [ i ].reset();
+        m_dr.engineOn   [ i ].reset();
+        m_dr.engineRPM  [ i ].reset();
+        m_dr.engineProp [ i ].reset();
+        m_dr.engineNG   [ i ].reset();
+        m_dr.engineN1   [ i ].reset();
+        m_dr.engineN2   [ i ].reset();
+        m_dr.engineTRQ  [ i ].reset();
+        m_dr.engineEPR  [ i ].reset();
+        m_dr.engineMAP  [ i ].reset();
+        m_dr.engineEGT  [ i ].reset();
+        m_dr.engineITT  [ i ].reset();
+        m_dr.engineFF   [ i ].reset();
     }
+
+    m_dr.mainRotorAzimuth     .reset();
+    m_dr.mainRotorConingAngle .reset();
+    m_dr.mainRotorDiskRoll    .reset();
+    m_dr.mainRotorDiskPitch   .reset();
+    m_dr.mainRotorCollective  .reset();
+    m_dr.mainRotorCyclicLon   .reset();
+    m_dr.mainRotorCyclicLat   .reset();
+    m_dr.tailRotorAzimuth     .reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -355,11 +411,10 @@ void Manager::initEquilibriumOnGround()
                 m_init_alt += dn_dt * coef;
             }
 
-            double delta = dp_dt * dp_dt
-                         + dq_dt * dq_dt
-                         + dn_dt * dn_dt;
-
-            if ( delta < 1.0e-9 && m_init_alt > 0.0 )
+            if ( m_init_alt > 0.0
+              && fabs( dp_dt ) < 1.0e-3
+              && fabs( dq_dt ) < 1.0e-3
+              && fabs( dn_dt ) < 1.0e-3 )
             {
                 m_stateOut = DataOut::Ready;
             }
@@ -375,21 +430,6 @@ void Manager::initEquilibriumOnGround()
 
 void Manager::updateDataInput()
 {
-    updateDataInput_Common();
-
-    switch ( m_aircraftType )
-    {
-        case DataInp::C130: updateDataInput_C130(); break;
-        case DataInp::C172: updateDataInput_C172(); break;
-        case DataInp::F16C: updateDataInput_F16C(); break;
-        case DataInp::UH60: updateDataInput_UH60(); break;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataInput_Common()
-{
     // controls
     if ( m_dr.ctrlRoll    .isValid() ) m_dr.ctrlRoll    .setDatad( m_dataInp.controls.ctrl_roll    );
     if ( m_dr.ctrlPitch   .isValid() ) m_dr.ctrlPitch   .setDatad( m_dataInp.controls.ctrl_pitch   );
@@ -399,13 +439,17 @@ void Manager::updateDataInput_Common()
     if ( m_dr.trimYaw     .isValid() ) m_dr.trimYaw     .setDatad( m_dataInp.controls.trim_yaw     );
     if ( m_dr.brakeLeft   .isValid() ) m_dr.brakeLeft   .setDatad( m_dataInp.controls.brake_l      );
     if ( m_dr.brakeRight  .isValid() ) m_dr.brakeRight  .setDatad( m_dataInp.controls.brake_r      );
-    if ( m_dr.landingGear .isValid() ) m_dr.landingGear .setDatad( m_dataInp.controls.landing_gear );
     if ( m_dr.noseWheel   .isValid() ) m_dr.noseWheel   .setDatad( m_dataInp.controls.nose_wheel   );
     if ( m_dr.nwSteering  .isValid() ) m_dr.nwSteering  .setDatab( m_dataInp.controls.nw_steering  );
     if ( m_dr.flaps       .isValid() ) m_dr.flaps       .setDatad( m_dataInp.controls.flaps        );
     if ( m_dr.airbrake    .isValid() ) m_dr.airbrake    .setDatad( m_dataInp.controls.airbrake     );
     if ( m_dr.spoilers    .isValid() ) m_dr.spoilers    .setDatad( m_dataInp.controls.spoilers     );
     if ( m_dr.collective  .isValid() ) m_dr.collective  .setDatad( m_dataInp.controls.collective   );
+
+    // landing gear
+    if ( m_dr.wheelN.isValid() ) m_dr.wheelN.setDatad( m_dataInp.controls.landing_gear );
+    if ( m_dr.wheelL.isValid() ) m_dr.wheelL.setDatad( m_dataInp.controls.landing_gear );
+    if ( m_dr.wheelR.isValid() ) m_dr.wheelR.setDatad( m_dataInp.controls.landing_gear );
 
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -417,54 +461,27 @@ void Manager::updateDataInput_Common()
         if ( m_dr.ignition  [ i ].isValid() ) m_dr.ignition  [ i ].setDatab( m_dataInp.engine[ i ].ignition  );
         if ( m_dr.starter   [ i ].isValid() ) m_dr.starter   [ i ].setDatab( m_dataInp.engine[ i ].starter   );
     }
-}
 
-////////////////////////////////////////////////////////////////////////////////
+    // masses
+    if ( m_dr.pilot  .isValid() ) m_dr.pilot  .setDatad( m_dataInp.masses.pilot   );
+    if ( m_dr.pilotL .isValid() ) m_dr.pilotL .setDatad( m_dataInp.masses.pilot_l );
+    if ( m_dr.pilotR .isValid() ) m_dr.pilotR .setDatad( m_dataInp.masses.pilot_r );
+    if ( m_dr.pilotF .isValid() ) m_dr.pilotF .setDatad( m_dataInp.masses.pilot_f );
+    if ( m_dr.pilotA .isValid() ) m_dr.pilotA .setDatad( m_dataInp.masses.pilot_a );
 
-void Manager::updateDataInput_C130()
-{
-    // TODO
-}
+    if ( m_dr.fuelTank  .isValid() ) m_dr.fuelTank  .setDatad( m_dataInp.masses.fuel   );
+    if ( m_dr.fuelTankL .isValid() ) m_dr.fuelTankL .setDatad( m_dataInp.masses.fuel_l );
+    if ( m_dr.fuelTankR .isValid() ) m_dr.fuelTankR .setDatad( m_dataInp.masses.fuel_r );
+    if ( m_dr.fuelTankF .isValid() ) m_dr.fuelTankF .setDatad( m_dataInp.masses.fuel_f );
+    if ( m_dr.fuelTankA .isValid() ) m_dr.fuelTankA .setDatad( m_dataInp.masses.fuel_a );
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataInput_C172()
-{
-    // TODO
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataInput_F16C()
-{
-    // TODO
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataInput_UH60()
-{
-    // TODO
+    if ( m_dr.cabinLoad  .isValid() ) m_dr.cabinLoad  .setDatad( m_dataInp.masses.cabin );
+    if ( m_dr.cargoTrunk .isValid() ) m_dr.cargoTrunk .setDatad( m_dataInp.masses.trunk );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateDataOutput()
-{
-    updateDataOutput_Common();
-
-    switch ( m_aircraftType )
-    {
-        case DataInp::C130: updateDataOutput_C130(); break;
-        case DataInp::C172: updateDataOutput_C172(); break;
-        case DataInp::F16C: updateDataOutput_F16C(); break;
-        case DataInp::UH60: updateDataOutput_UH60(); break;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataOutput_Common()
 {
     m_dataOut.flight.latitude  = m_aircraft->getWGS().getPos_Geo().lat;
     m_dataOut.flight.longitude = m_aircraft->getWGS().getPos_Geo().lon;
@@ -533,53 +550,43 @@ void Manager::updateDataOutput_Common()
     m_dataOut.flight.onGround = m_aircraft->getGear()->getOnGround();
     m_dataOut.flight.stall    = m_aircraft->getAero()->getStall();
 
+    // controls
+    m_dataOut.controls.ailerons = m_dr.outAilerons .getValue( 0.0 );
+    m_dataOut.controls.elevator = m_dr.outElevator .getValue( 0.0 );
+    m_dataOut.controls.rudder   = m_dr.outRudder   .getValue( 0.0 );
+    m_dataOut.controls.flaps    = m_dr.outFlaps    .getValue( 0.0 );
+    m_dataOut.controls.flaps_le = m_dr.outFlaps_le .getValue( 0.0 );
+    m_dataOut.controls.airbrake = m_dr.outAirbrake .getValue( 0.0 );
+
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        m_dataOut.engine[ i ].state = m_dr.engineOn[ i ].getDatab();
-        m_dataOut.engine[ i ].rpm   = (float)m_dr.engineRPM[ i ].getValue();
-        m_dataOut.engine[ i ].prop  = 0.0f;
-        m_dataOut.engine[ i ].ng    = 0.0f;
-        m_dataOut.engine[ i ].n1    = 0.0f;
-        m_dataOut.engine[ i ].n2    = 0.0f;
-        m_dataOut.engine[ i ].trq   = 0.0f;
-        m_dataOut.engine[ i ].epr   = 0.0f;
-        m_dataOut.engine[ i ].map   = (float)m_dr.engineMAP[ i ].getValue();
-        m_dataOut.engine[ i ].egt   = 0.0f;
-        m_dataOut.engine[ i ].itt   = 0.0f;
-        m_dataOut.engine[ i ].ff    = (float)m_dr.engineFF[ i ].getValue();
+        m_dataOut.engine[ i ].state = m_dr.engineOn[ i ].getDatab( false );
+        m_dataOut.engine[ i ].rpm   = (float)m_dr.engineRPM  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].prop  = (float)m_dr.engineProp [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].ng    = (float)m_dr.engineNG   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].n1    = (float)m_dr.engineN1   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].n2    = (float)m_dr.engineN2   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].trq   = (float)m_dr.engineTRQ  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].epr   = (float)m_dr.engineEPR  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].map   = (float)m_dr.engineMAP  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].egt   = (float)m_dr.engineEGT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].itt   = (float)m_dr.engineITT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].ff    = (float)m_dr.engineFF   [ i ].getValue( 0.0 );
     }
+
+    // rotor
+    m_dataOut.rotor.mainRotor_azimuth     = (float)m_dr.mainRotorAzimuth     .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_coningAngle = (float)m_dr.mainRotorConingAngle .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_diskRoll    = (float)m_dr.mainRotorDiskRoll    .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_diskPitch   = (float)m_dr.mainRotorDiskPitch   .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_collective  = (float)m_dr.mainRotorCollective  .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_cyclicLon   = (float)m_dr.mainRotorCyclicLon   .getValue( 0.0 );
+    m_dataOut.rotor.mainRotor_cyclicLat   = (float)m_dr.mainRotorCyclicLat   .getValue( 0.0 );
+    m_dataOut.rotor.tailRotor_azimuth     = (float)m_dr.tailRotorAzimuth     .getValue( 0.0 );
 
     // crash
     m_dataOut.crash = m_aircraft->getCrash();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataOutput_C130()
-{
-    // TODO
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataOutput_C172()
-{
-    // TODO
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataOutput_F16C()
-{
-    // TODO
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateDataOutput_UH60()
-{
-    // TODO
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -771,6 +778,14 @@ void Manager::updatePhaseIdle()
     m_dataOut.flight.onGround = onGround;
     m_dataOut.flight.stall = false;
 
+    // controls
+    m_dataOut.controls.ailerons = 0.0;
+    m_dataOut.controls.elevator = 0.0;
+    m_dataOut.controls.rudder   = 0.0;
+    m_dataOut.controls.flaps    = 0.0;
+    m_dataOut.controls.flaps_le = 0.0;
+    m_dataOut.controls.airbrake = 0.0;
+
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
@@ -787,6 +802,16 @@ void Manager::updatePhaseIdle()
         m_dataOut.engine[ i ].itt   = 0.0;
         m_dataOut.engine[ i ].ff    = 0.0;
     }
+
+    // rotor
+    m_dataOut.rotor.mainRotor_azimuth     = 0.0;
+    m_dataOut.rotor.mainRotor_coningAngle = 0.0;
+    m_dataOut.rotor.mainRotor_diskRoll    = 0.0;
+    m_dataOut.rotor.mainRotor_diskPitch   = 0.0;
+    m_dataOut.rotor.mainRotor_collective  = 0.0;
+    m_dataOut.rotor.mainRotor_cyclicLon   = 0.0;
+    m_dataOut.rotor.mainRotor_cyclicLat   = 0.0;
+    m_dataOut.rotor.tailRotor_azimuth     = 0.0;
 
     // crash
     m_dataOut.crash = Aircraft::NoCrash;
@@ -828,12 +853,14 @@ void Manager::updatePhaseInit()
 
                 if ( m_aircraft != 0 )
                 {
+                    m_aircraft->initDataRefs();
                     dataRefsInit();
 
                     m_aircraft->getProp()->initialize( m_dataInp.initial.engineOn );
                 }
             }
 
+            updateDataInput();
             initAircraft();
         }
         catch ( Exception &e )
@@ -870,6 +897,28 @@ void Manager::updatePhaseWork()
             else
             {
                 m_stateOut = DataOut::Stopped;
+
+                if ( m_verbose )
+                {
+                    switch ( m_aircraft->getCrash() )
+                    {
+                    case fdm::Aircraft::Collision:
+                        std::cout << "CRASH: Collision with terrain or obstacle." << std::endl;
+                        break;
+
+                    case fdm::Aircraft::Overspeed:
+                        std::cout << "CRASH: Airspeed too high." << std::endl;
+                        break;
+
+                    case fdm::Aircraft::Overstressed:
+                        std::cout << "CRASH: Load factor too high. Gz= " << m_aircraft->getGForce().z() << std::endl;
+                        break;
+
+                    default:
+                        std::cout << "CRASH: Unknown crash cause." << std::endl;
+                        break;
+                    }
+                }
             }
         }
         catch ( Exception &e )

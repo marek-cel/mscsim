@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <QDialog>
+#include <QSettings>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -53,9 +54,68 @@ public:
     void readData();
     void saveData();
 
+    inline double getPilot()  const { return m_pilot;  }
+    inline double getPilotL() const { return m_pilotL; }
+    inline double getPilotR() const { return m_pilotR; }
+    inline double getPilotF() const { return m_pilotF; }
+    inline double getPilotA() const { return m_pilotA; }
+
+    inline double getFuel()  const { return m_fuel;  }
+    inline double getFuelL() const { return m_fuelL; }
+    inline double getFuelR() const { return m_fuelR; }
+    inline double getFuelF() const { return m_fuelF; }
+    inline double getFuelA() const { return m_fuelA; }
+
+    inline double getCabin()  const { return m_cabin; }
+    inline double getTrunk()  const { return m_trunk; }
+
+    void setAircraftType( int type );
+
 private:
 
     Ui::DialogMass *m_ui;
+
+    int m_type;
+
+    double m_pilot;     ///< [kg]
+    double m_pilotL;    ///< [kg]
+    double m_pilotR;    ///< [kg]
+    double m_pilotF;    ///< [kg]
+    double m_pilotA;    ///< [kg]
+
+    double m_fuel;      ///< [kg]
+    double m_fuelL;     ///< [kg]
+    double m_fuelR;     ///< [kg]
+    double m_fuelF;     ///< [kg]
+    double m_fuelA;     ///< [kg]
+
+    double m_cabin;     ///< [kg]
+    double m_trunk;     ///< [kg]
+
+    void settingsRead();
+    void settingsRead_MassData( QSettings &settings );
+    void settingsRead_UnitCombos( QSettings &settings );
+
+    void settingsSave();
+    void settingsSave_MassData( QSettings &settings );
+    void settingsSave_UnitCombos( QSettings &settings );
+
+private slots:
+
+    void on_comboBoxPilot_currentIndexChanged( int index );
+    void on_comboBoxPilotL_currentIndexChanged( int index );
+    void on_comboBoxPilotR_currentIndexChanged( int index );
+    void on_comboBoxPilotF_currentIndexChanged( int index );
+    void on_comboBoxPilotA_currentIndexChanged( int index );
+
+    void on_comboBoxFuel_currentIndexChanged( int index );
+    void on_comboBoxFuelL_currentIndexChanged( int index );
+    void on_comboBoxFuelR_currentIndexChanged( int index );
+    void on_comboBoxFuelF_currentIndexChanged( int index );
+    void on_comboBoxFuelA_currentIndexChanged( int index );
+
+    void on_comboBoxCabin_currentIndexChanged( int index );
+    void on_comboBoxTrunk_currentIndexChanged( int index );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

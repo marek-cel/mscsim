@@ -100,20 +100,6 @@ public:
         WindShear windShear;                ///< wind shear model type
     };
 
-    /** Ground data. */
-    struct Ground
-    {
-        double elevation;                   ///< [m] elevation above mean sea level
-
-        double r_x_wgs;                     ///< [m] ground x coordinate expressed in WGS
-        double r_y_wgs;                     ///< [m] ground y coordinate expressed in WGS
-        double r_z_wgs;                     ///< [m] ground z coordinate expressed in WGS
-
-        double n_x_wgs;                     ///< [-] vector normal to ground x coordinate expressed in WGS
-        double n_y_wgs;                     ///< [-] vector normal to ground y coordinate expressed in WGS
-        double n_z_wgs;                     ///< [-] vector normal to ground z coordinate expressed in WGS
-    };
-
     /** HUD data. */
     struct HUD
     {
@@ -141,16 +127,21 @@ public:
         bool stall;                         ///< stall flag
     };
 
-    /** Initial conditions. */
-    struct Initial
+    /** Navigation data. */
+    struct Navigation
     {
-        double latitude;                    ///< [rad] geodetic latitude (positive: north)
-        double longitude;                   ///< [rad] geodetic longitude (positive: east)
-        double altitude_agl;                ///< [m] altitude above ground level
-        double heading;                     ///< [rad] true heading
-        double airspeed;                    ///< [m/s] airspeed
+        bool  adf_visible;                  ///<
+        float adf_bearing;                  ///< [rad]
 
-        bool engineOn;                      ///< specifies if engine is working at start
+        bool  ils_visible;                  ///<
+        bool  ils_gs_visible;               ///<
+        bool  ils_lc_visible;               ///<
+        float ils_gs_deviation;             ///< [1.0,1.0] horizontal deviation
+        float ils_lc_deviation;             ///< [1.0,1.0] vertical deviation
+
+        bool  nav_visible;                  ///<
+        float nav_deviation;                ///<
+        float nav_distance;                 ///<
     };
 
     /** Ownship data. */
@@ -198,45 +189,29 @@ public:
         double att_ey_wgs;                  ///< [-] attitude quaternion ey component expressed as rotation from WGS to BAS
         double att_ez_wgs;                  ///< [-] attitude quaternion ez component expressed as rotation from WGS to BAS
 
-        float ailerons;                     ///< [-1.0,1.0] ailerons normalized deflection (positive left aileron in the upward direction)
-        float elevator;                     ///< [-1.0,1.0] elevator normalized deflection (positive in the downward direction)
-        float rudder;                       ///< [-1.0,1.0] rudder normalized deflection (positive in the port direction)
-        float flaps;                        ///< [0.0,1.0] flaps normalized deflection
-        float airbrake;                     ///< [0.0,1.0] airbrake normalized deflection
+        float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
+        float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
+        float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
+        float flaps;                        ///< [rad] flaps deflection
+        float flaps_le;                     ///< [rad] leading edge flaps deflection
+        float airbrake;                     ///< [rad] airbrake deflection
         float landingGear;                  ///< [0.0,1.0] landing gear normalized deflection
 
         float propeller[ FDM_MAX_ENGINES ]; ///< [rad] propeller angle
 
-        float mainRotor_psi;                ///< [rad] main rotor rotation angle (azimuth)
-        float mainRotor_beta_0;             ///< [rad] main rotor coning angle
-        float mainRotor_beta_1c;            ///< [rad] main rotor longitudinal flapping angle
-        float mainRotor_beta_1s;            ///< [rad] main rotor lateral flapping angle
-        float mainRotor_theta_0;            ///< [rad] main rotor collective pitch angle
-        float mainRotor_theta_1c;           ///< [rad] main rotor longitudinal cyclic pitch angle
-        float mainRotor_theta_1s;           ///< [rad] main rotor lateral cyclic pitch angle
-        float tailRotor_psi;                ///< [rad] tail rotor rotation angle
+        float mainRotor_azimuth;            ///< [rad] main rotor rotation angle (azimuth)
+        float mainRotor_coningAngle;        ///< [rad] main rotor coning angle
+        float mainRotor_diskRoll;           ///< [rad] main rotor disk roll angle
+        float mainRotor_diskPitch;          ///< [rad] main rotor disk pitch angle
+        float mainRotor_collective;         ///< [rad] main rotor collective pitch angle
+        float mainRotor_cyclicLon;          ///< [rad] main rotor longitudinal cyclic pitch angle
+        float mainRotor_cyclicLat;          ///< [rad] main rotor lateral cyclic pitch angle
+        float tailRotor_azimuth;            ///< [rad] tail rotor rotation angle
         float mainRotor_coef;               ///< [-] main rotor rotation coefficient (sign)
         float tailRotor_coef;               ///< [-] tail rotor rotation coefficient (sign)
 
         bool onGround;                      ///< specifies if aircraft is on ground
         bool stall;                         ///< specifies if aircraft is stalling
-    };
-
-    /** Navigation data. */
-    struct Navigation
-    {
-        bool  adf_visible;                  ///<
-        float adf_bearing;                  ///< [rad]
-
-        bool  ils_visible;                  ///<
-        bool  ils_gs_visible;               ///<
-        bool  ils_lc_visible;               ///<
-        float ils_gs_deviation;             ///< [1.0,1.0] horizontal deviation
-        float ils_lc_deviation;             ///< [1.0,1.0] vertical deviation
-
-        bool  nav_visible;                  ///<
-        float nav_deviation;                ///<
-        float nav_distance;                 ///<
     };
 
     /** Propulsion data. */
@@ -283,6 +258,10 @@ public:
         typedef fdm::DataInp::PhaseInp PhaseInp;
         typedef fdm::DataOut::StateOut StateOut;
 
+        typedef fdm::DataInp::Ground  Ground;
+        typedef fdm::DataInp::Initial Initial;
+        typedef fdm::DataInp::Masses  Masses;
+
         Airport     airport;                ///< airport data
         Camera      camera;                 ///< camera data
         DateTime    dateTime;               ///< date time data
@@ -290,8 +269,9 @@ public:
         Ground      ground;                 ///< ground data
         HUD         hud;                    ///< HUD data
         Initial     initial;                ///< initial conditions
-        Ownship     ownship;                ///< ownship data
+        Masses      masses;                 ///< masses data
         Navigation  navigation;             ///< navigation data
+        Ownship     ownship;                ///< ownship data
         Propulsion  propulsion;             ///< propulsion data
         SkyDome     skyDome;                ///< sky dome data
 

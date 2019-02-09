@@ -19,54 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdmMain/fdm_Inertia.h>
-
-#include <math.h>
+#ifndef UH60_FUSELAGE_H
+#define UH60_FUSELAGE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace fdm;
+#include <fdmMain/fdm_Fuselage.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Inertia::update( double timeStep, double currentValue,
-                        double setpoint, double timeConstant )
+namespace fdm
 {
-    return currentValue + ( 1.0 - exp( -timeStep / timeConstant ) ) * ( setpoint - currentValue );
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-Inertia::Inertia() :
-    m_timeConstant( 1.0 ),
-    m_currentValue( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Inertia::Inertia( double timeConstant, double currentValue ) :
-    m_timeConstant( timeConstant ),
-    m_currentValue( currentValue )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Inertia::setCurrentValue( double currentValue )
+/**
+ * @brief UH-60 fuselage class.
+ */
+class UH60_Fuselage : public Fuselage
 {
-    m_currentValue = currentValue;
-}
+public:
+
+    /** Constructor. */
+    UH60_Fuselage();
+
+    /** Destructor. */
+    ~UH60_Fuselage();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+private:
+
+    Table m_cx_beta;            ///< [-] incremental drag coefficient vs [rad] angle of sideslip
+    Table m_cz_beta;            ///< [-] incremental lift coefficient vs [rad] angle of sideslip
+    Table m_cm_beta;            ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
+
+    /**
+     * Computes drag coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] drag coefficient
+     */
+    double getCx( double angleOfAttack ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] lift coefficient
+     */
+    double getCz( double angleOfAttack ) const;
+
+    /**
+     * Computes pitching moment coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] pitching moment coefficient
+     */
+    double getCm( double angleOfAttack ) const;
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia::setTimeConstant( double timeConstant )
-{
-    m_timeConstant = timeConstant;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Inertia::update( double timeStep, double setpoint )
-{
-    m_currentValue = update( timeStep, m_currentValue, setpoint, m_timeConstant );
-}
+#endif // UH60_FUSELAGE_H

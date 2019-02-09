@@ -49,27 +49,26 @@ public:
     ~C172_Propulsion();
 
     /**
-     * Initializes engine due to initial engine state.
-     * @param engineOn specifies if engine is working at start
-     */
-    void initialize( bool engineOn );
-
-    /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
 
     /**
+     * Initializes engine due to initial engine state.
+     * @param engineOn specifies if engine is working at start
+     */
+    void initialize( bool engineOn );
+
+    /**
+     * Initializes data referneces.
+     */
+    void initDataRefs();
+
+    /**
      * Computes force and moment.
      */
     void computeForceAndMoment();
-
-    /**
-     * Integrates model.
-     * @param timeStep [s] time step
-     */
-    void integrate( double timeStep );
 
     /**
      * Updates model.

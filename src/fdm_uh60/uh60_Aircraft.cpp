@@ -31,6 +31,12 @@ using namespace fdm;
 UH60_Aircraft::UH60_Aircraft() :
     Aircraft()
 {
+    Aircraft::m_aero = m_aero = new UH60_Aerodynamics( this );
+    Aircraft::m_ctrl = m_ctrl = new UH60_Controls( this );
+    Aircraft::m_gear = m_gear = new UH60_LandingGear( this );
+    Aircraft::m_mass = m_mass = new UH60_Mass( this );
+    Aircraft::m_prop = m_prop = new UH60_Propulsion( this );
+
     readData( "data/fdm/uh60/uh60_fdm.xml" );
 }
 

@@ -30,7 +30,6 @@ using namespace fdm;
 
 C172_Controls::C172_Controls( const C172_Aircraft *aircraft ) :
     Controls( aircraft ),
-
     m_aircraft ( aircraft ),
 
     m_channelAilerons     ( 0 ),
@@ -58,11 +57,36 @@ C172_Controls::~C172_Controls() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Controls::readData( XmlNode &dataNode )
+void C172_Controls::initDataRefs()
 {
-    ///////////////////////////////
-    Controls::readData( dataNode );
-    ///////////////////////////////
+    /////////////////////////
+    Controls::initDataRefs();
+    /////////////////////////
+
+    int result = FDM_SUCCESS;
+
+    // inputs
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/ailerons" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/elevator" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/rudder"   , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/flaps"    , DataNode::Double );
+
+    if ( result == FDM_SUCCESS )
+    {
+        m_outputAilerons  = getDataRef( "output/controls/ailerons" );
+        m_outputElevator  = getDataRef( "output/controls/elevator" );
+        m_outputRudder    = getDataRef( "output/controls/rudder"   );
+        m_outputFlaps     = getDataRef( "output/controls/flaps"    );
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "ERROR! Initializing data references failed." );
+
+        FDM_THROW( e );
+    }
 
     m_channelAilerons     = getChannelByName( "ailerons"      );
     m_channelElevator     = getChannelByName( "elevator"      );
@@ -126,4 +150,9 @@ void C172_Controls::update()
 
     m_nose_wheel = m_channelNoseWheel->output;
     m_nwSteering = m_drNwSteering.getDatab();
+
+    m_outputAilerons .setDatad( m_ailerons );
+    m_outputElevator .setDatad( m_elevator );
+    m_outputRudder   .setDatad( m_rudder   );
+    m_outputFlaps    .setDatad( m_flaps    );
 }

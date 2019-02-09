@@ -26,7 +26,7 @@
 
 #include <fdmMain/fdm_Aerodynamics.h>
 
-#include <fdm_c172/c172_Wing.h>
+#include <fdm_c172/c172_TailOff.h>
 #include <fdm_c172/c172_StabilizerHor.h>
 #include <fdm_c172/c172_StabilizerVer.h>
 
@@ -70,13 +70,13 @@ public:
      * Returns true if aircraft is stalling, otherwise returns false.
      * @return true if aircraft is stalling, false otherwise
      */
-    inline bool getStall() const { return m_wing->getStall(); }
+    inline bool getStall() const { return m_tailOff->getStall(); }
 
 private:
 
     const C172_Aircraft *m_aircraft;    ///< aircraft model main object
 
-    C172_Wing          *m_wing;         ///< wing model
+    C172_TailOff       *m_tailOff;      ///< wing model
     C172_StabilizerHor *m_stabHor;      ///< horizontal stabilizer model
     C172_StabilizerVer *m_stabVer;      ///< vertical stabilizer model
 

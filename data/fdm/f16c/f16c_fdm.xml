@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fdm>
+  
+  <!-- F-16 Flight Dynamics Model Data File -->
+  
+  <!-- collision points -->
+  <collision_points>
+    
+    <collision_point>  8.29  0.0   0.27 </collision_point> <!-- [m] nose -->
+    <collision_point> -6.18  0.0   0.42 </collision_point> <!-- [m] tail -->
+    <collision_point> -6.61  0.0  -3.29 </collision_point> <!-- [m] vertical stabilizer -->
+    <collision_point> -2.50 -0.65  1.32 </collision_point> <!-- [m] ventral fin (left) -->
+    <collision_point> -2.50  0.65  1.32 </collision_point> <!-- [m] ventral fin (right) -->
+    <collision_point> -2.00 -4.72  0.00 </collision_point> <!-- [m] wing tip (left) -->
+    <collision_point> -2.00  4.72  0.00 </collision_point> <!-- [m] wing tip (right) -->
+    
+  </collision_points>
+  
+  <!-- limitations -->
+  <limitations>
+    
+    <airspeed_max factor="1.5"> 700.0 </airspeed_max>   <!-- [m/s] maximum airspeed (exceeding this value causes crash) -->
+    
+    <load_aero_min factor="1.5"> -9.0 </load_aero_min>  <!-- [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_aero_max factor="1.5">  9.0 </load_aero_max>  <!-- [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_gear_max factor="1.5"> 13.0 </load_gear_max>  <!-- [-] maximum absolute load factor due to landing gear (exceeding this value causes crash) -->
+    
+  </limitations>
+  
+  <!-- pilot position -->
+  <pilot_position> 4.1 0.0 -0.9 </pilot_position>       <!-- [m] pilot position expressed in BAS -->
+  
+  <!-- aerodynamics -->
+  <aerodynamics>
+    
+    <span>  9.144 </span>
+    <mac>   3.45  </mac>
+    <area> 27.87  </area>
+    
+    <cx keys_unit="deg">
+      -20.0      0.4694
+      -15.0      0.3427
+      -10.0      0.2169
+       -5.0      0.1031
+        0.0      0.0489
+        5.0      0.0386
+       10.0      0.0820
+       15.0      0.1843
+       20.0      0.3644
+       25.0      0.5829
+       30.0      0.8710
+       35.0      1.1304
+       40.0      1.3775
+       45.0      1.5364
+       50.0      1.6995
+       55.0      1.7759
+       60.0      1.8548
+       70.0      1.9702
+       80.0      1.9593
+       90.0      2.1400
+    </cx>
+    
+    <!-- TODO: cx_delta_h, cx_lef, cx_sb -->
+    
+    <cy keys_unit="deg">
+      -30.0      0.6218
+      -25.0      0.5258
+      -20.0      0.4208
+      -15.0      0.3088
+      -10.0      0.2014
+       -8.0      0.1553
+       -6.0      0.1138
+       -4.0      0.0726
+       -2.0      0.0371
+        0.0      0.0000
+        2.0     -0.0394
+        4.0     -0.0764
+        6.0     -0.1191
+        8.0     -0.1674
+       10.0     -0.2134
+       15.0     -0.3198
+       20.0     -0.4315
+       25.0     -0.5369
+       30.0     -0.6400
+    </cy>
+    
+    <cz keys_unit="deg">
+      -20.0     -1.017
+      -15.0     -0.901
+      -10.0     -0.664
+       -5.0     -0.279
+        0.0      0.025
+        5.0      0.365
+       10.0      0.747
+       15.0      1.102
+       20.0      1.376
+       25.0      1.558
+       30.0      1.816
+       35.0      1.894
+       40.0      1.883
+       45.0      1.732
+       50.0      1.593
+       55.0      1.390
+       60.0      1.203
+       70.0      0.826
+       80.0      0.429
+       90.0      0.086
+    </cz>
+    
+    <!-- TODO: cz_delta_h, cz_lef, cz_sb -->
+    
+    <cl keys_unit="deg">
+      -30.0      0.0157
+      -25.0      0.0190
+      -20.0      0.0199
+      -15.0      0.0207
+      -10.0      0.0185
+       -8.0      0.0153
+       -6.0      0.0110
+       -4.0      0.0071
+       -2.0      0.0033
+        0.0      0.0000
+        2.0     -0.0030
+        4.0     -0.0067
+        6.0     -0.0107
+        8.0     -0.0147
+       10.0     -0.0182
+       15.0     -0.0204
+       20.0     -0.0196
+       25.0     -0.0187
+       30.0     -0.0154
+    </cl>
+    
+    <cl_p keys_unit="deg">
+      -20.0     -0.366
+      -15.0     -0.366
+      -10.0     -0.366
+       -5.0     -0.377
+        0.0     -0.345
+        5.0     -0.434
+       10.0     -0.408
+       15.0     -0.388
+       20.0     -0.329
+       25.0     -0.294
+       30.0     -0.230
+       35.0     -0.210
+       40.0     -0.120
+       45.0     -0.100
+       50.0     -0.100
+       55.0     -0.120
+       60.0     -0.140
+       70.0     -0.100
+       80.0     -0.150
+       90.0     -0.200
+    </cl_p>
+    
+    <cl_delta_a keys_unit="deg">
+      -20.0     -0.0647
+      -15.0     -0.0937
+      -10.0     -0.0940
+       -5.0     -0.1149
+        0.0     -0.1378
+        5.0     -0.1464
+       10.0     -0.1430
+       15.0     -0.1407
+       20.0     -0.1197
+       25.0     -0.1066
+       30.0     -0.0882
+       35.0     -0.0733
+       40.0     -0.0476
+       45.0     -0.0350
+       50.0     -0.0209
+       55.0     -0.0272
+       60.0     -0.0264
+       70.0     -0.0215
+       80.0     -0.0117
+       90.0      0.0063
+    </cl_delta_a>
+    
+    <cm keys_unit="deg">
+     -180.0      0.00
+     -135.0      0.55
+      -90.0      0.60
+      -45.0      0.35
+      -20.0      0.0127
+      -15.0     -0.0755
+      -10.0     -0.1025
+       -5.0     -0.0744
+        0.0     -0.0598
+        5.0     -0.0498
+       10.0     -0.0437
+       15.0     -0.0407
+       20.0     -0.0342
+       25.0     -0.0507
+       30.0     -0.0459
+       35.0     -0.0605
+       40.0     -0.0835
+       45.0     -0.0923
+       50.0     -0.0826
+       55.0     -0.0738
+       60.0     -0.1414
+       70.0     -0.3216
+       80.0     -0.4678
+       90.0     -0.6184
+      135.0     -0.55
+      180.0      0.00
+    </cm>
+    
+    <cm_q keys_unit="deg">
+      -20.0     -6.84
+      -15.0     -6.84
+      -10.0     -6.84
+       -5.0     -3.42
+        0.0     -5.48
+        5.0     -5.45
+       10.0     -6.02
+       15.0     -6.70
+       20.0     -5.69
+       25.0     -6.00
+       30.0     -6.20
+       35.0     -6.40
+       40.0     -6.60
+       45.0     -6.00
+       50.0     -5.50
+       55.0     -5.00
+       60.0     -4.50
+       70.0     -3.50
+       80.0     -5.60
+       90.0     -4.04
+    </cm_q>
+    
+    <cm_delta_h keys_unit="deg">
+      -20.0     -0.4636
+      -15.0     -0.5604
+      -10.0     -0.5997
+       -5.0     -0.4524
+        0.0     -0.5177
+        5.0     -0.5391
+       10.0     -0.5530
+       15.0     -0.5523
+       20.0     -0.5249
+       25.0     -0.5362
+       30.0     -0.4974
+       35.0     -0.4261
+       40.0     -0.3545
+       45.0     -0.2598
+       50.0     -0.2393
+       55.0     -0.2203
+       60.0     -0.1813
+       70.0      0.1619
+       80.0     -0.1455
+       90.0     -0.1189
+    </cm_delta_h>
+    
+    <!-- TODO: cm_lef, cm_sb -->
+    
+    <cn keys_unit="deg">
+      -30.0     -0.1058
+      -25.0     -0.0916
+      -20.0     -0.0749
+      -15.0     -0.0578
+      -10.0     -0.0413
+       -8.0     -0.0317
+       -6.0     -0.0226
+       -4.0     -0.0138
+       -2.0     -0.0066
+        0.0      0.0000
+        2.0      0.0061
+        4.0      0.0135
+        6.0      0.0225
+        8.0      0.0324
+       10.0      0.0414
+       15.0      0.0579
+       20.0      0.0746
+       25.0      0.0914
+       30.0      0.1055
+    </cn>
+    
+    <cn_r keys_unit="deg">
+      -20.0     -0.517
+      -15.0     -0.517
+      -10.0     -0.517
+       -5.0     -0.461
+        0.0     -0.414
+        5.0     -0.397
+       10.0     -0.373
+       15.0     -0.455
+       20.0     -0.550
+       25.0     -0.582
+       30.0     -0.595
+       35.0     -0.637
+       40.0     -1.020
+       45.0     -0.840
+       50.0     -0.541
+       55.0     -0.350
+       60.0     -0.350
+       70.0     -0.070
+       80.0     -0.150
+       90.0     -0.150
+    </cn_r>
+    
+    <cn_delta_r keys_unit="deg">
+      -30.0     -0.0989
+      -25.0     -0.0888
+      -20.0     -0.0825
+      -15.0     -0.0770
+      -10.0     -0.0722
+       -8.0     -0.0890
+       -6.0     -0.0892
+       -4.0     -0.0901
+       -2.0     -0.0880
+        0.0     -0.0861
+        2.0     -0.0859
+        4.0     -0.0875
+        6.0     -0.0869
+        8.0     -0.0840
+       10.0     -0.0791
+       15.0     -0.0743
+       20.0     -0.0682
+       25.0     -0.0630
+       30.0     -0.0518
+    </cn_delta_r>
+    
+  </aerodynamics>
+  
+  <!-- controls -->
+  <controls>
+    
+    <ailerons_max unit="deg"> 21.5 </ailerons_max>
+    <elevator_max unit="deg"> 25.0 </elevator_max>
+    <rudder_max unit="deg">   30.0 </rudder_max>
+    <flaps_le_max unit="deg"> 25.0 </flaps_le_max>
+    <airbrake_max unit="deg"> 60.0 </airbrake_max>
+    
+    <!-- [-] normalized roll command vs [-] normalized roll input -->
+    <control_channel name="roll" input="input/controls/roll">
+      -1.0   -1.0
+      -0.7   -0.25
+      -0.3   -0.1
+       0.0    0.0
+       0.3    0.1
+       0.7    0.25
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized pitch command vs [-] normalized pitch input -->
+    <control_channel name="pitch" input="input/controls/pitch">
+      -1.0   -1.0
+      -0.2   -0.1    
+       0.0    0.0
+       0.5    0.25
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized yaw command vs [-] normalized yaw input -->
+    <control_channel name="yaw" input="input/controls/yaw">
+      -1.0   -1.0
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized roll trim vs [-] normalized roll trim input -->
+    <control_channel name="roll_trim" input="input/controls/roll_trim">
+      -1.0   -1.0
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized pitch trim vs [-] normalized pitch trim input -->
+    <control_channel name="pitch_trim" input="input/controls/pitch_trim">
+      -1.0   -1.0
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized yaw trim vs [-] normalized yaw trim input -->
+    <control_channel name="yaw_trim" input="input/controls/yaw_trim">
+      -1.0   -1.0
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized airbrake deflection vs [-] normalized airbrake input -->
+    <control_channel name="airbrake" input="input/controls/airbrake">
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized left brake force vs [-] normalized left brake input -->
+    <control_channel name="brake_l" input="input/controls/brake_l">
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized right brake force vs [-] normalized right brake input -->
+    <control_channel name="brake_r" input="input/controls/brake_r">
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [rad] nose wheel turn angle vs [-] normalized nose wheel steering input -->
+    <control_channel name="nose_wheel" input="input/controls/nose_wheel" unit="deg">
+      -1.0  -10.0
+       0.0    0.0
+       1.0   10.0
+    </control_channel>
+    
+  </controls>
+  
+  <!-- landing gear -->
+  <landing_gear>
+    
+    <!-- nose wheel -->
+    <wheel steerable="1" caster="0" brake_group="0" input="input/landing_gear/wheel_n">
+      <attachment_point>  3.1   0.0   0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    3.1   0.0   1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness_coef>  3.0e+5  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    3.0e+4  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02 </friction_rolling>                  <!-- [-] coefficient of rolling friction -->
+      
+      <max_angle unit="deg"> 10.0 </max_angle>                      <!-- [rad] max turn angle -->
+    </wheel>
+    
+    <!-- left wheel -->
+    <wheel steerable="0" caster="0" brake_group="1" input="input/landing_gear/wheel_l">
+      <attachment_point> -0.9  -1.18  0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>   -0.9  -1.18  1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness_coef>  7.0e+5  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    4.0e+4  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02 </friction_rolling>                  <!-- [-] coefficient of rolling friction -->
+    </wheel>
+    
+    <!-- right wheel -->
+    <wheel steerable="0" caster="0" brake_group="2" input="input/landing_gear/wheel_r">
+      <attachment_point> -0.9   1.18  0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>   -0.9   1.18  1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness_coef>  7.0e+5  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    4.0e+4  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02 </friction_rolling>                  <!-- [-] coefficient of rolling friction -->
+    </wheel>
+    
+  </landing_gear>
+  
+  <!-- mass -->
+  <mass>
+    
+    <empty_mass> 9017.0 </empty_mass> <!-- [kg] empty aircraft mass -->
+    
+    <!-- [kg*m^2] empty aircraft inertia tensor -->
+    <inertia_tensor>
+     11672.2       0.0   -1560.6
+         0.0   74088.0       0.0
+     -1560.6       0.0   82841.7
+    </inertia_tensor>
+    
+    <center_of_mass> -0.37  0.0  0.0 </center_of_mass>  <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
+    
+    <!-- pilot -->
+    <variable_mass name="pilot" input="input/mass/pilot">
+      <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  4.1  0.0 -0.7 </coordinates>       <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- left wing fuel tank -->
+    <variable_mass name="fuel_tank_l" input="input/mass/fuel_tank_l">
+      <mass_max> 249.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>   0.0   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS --> <!-- TODO -->
+    </variable_mass>
+    
+    <!-- right wing fuel tank -->
+    <variable_mass name="fuel_tank_r" input="input/mass/fuel_tank_r">
+      <mass_max> 249.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>   0.0   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS --> <!-- TODO -->
+    </variable_mass>
+    
+    <!-- fuselage forward fuel tank -->
+    <variable_mass name="fuel_tank_f" input="input/mass/fuel_tank_f">
+      <mass_max> 1474.0 </mass_max>                     <!-- [kg] maximum mass -->
+      <coordinates>   0.0   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS --> <!-- TODO -->
+    </variable_mass>
+    
+    <!-- fuselage aft fuel tank -->
+    <variable_mass name="fuel_tank_a" input="input/mass/fuel_tank_a">
+      <mass_max> 1275.0 </mass_max>                     <!-- [kg] maximum mass -->
+      <coordinates>   0.0   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS --> <!-- TODO -->
+    </variable_mass>
+    
+  </mass>
+  
+  <!-- propulsion -->
+  <propulsion>
+    
+    <!-- TODO -->
+    
+  </propulsion>
+  
+</fdm>

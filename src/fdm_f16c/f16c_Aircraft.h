@@ -26,6 +26,12 @@
 
 #include <fdmMain/fdm_Aircraft.h>
 
+#include <fdm_f16c/f16c_Aerodynamics.h>
+#include <fdm_f16c/f16c_Controls.h>
+#include <fdm_f16c/f16c_LandingGear.h>
+#include <fdm_f16c/f16c_Mass.h>
+#include <fdm_f16c/f16c_Propulsion.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -43,6 +49,26 @@ public:
 
     /** Destructor. */
     ~F16C_Aircraft();
+
+    inline F16C_Aerodynamics* getAero() { return m_aero; }
+    inline F16C_Controls*     getCtrl() { return m_ctrl; }
+    inline F16C_LandingGear*  getGear() { return m_gear; }
+    inline F16C_Mass*         getMass() { return m_mass; }
+    inline F16C_Propulsion*   getProp() { return m_prop; }
+
+    inline const F16C_Aerodynamics* getAero() const { return m_aero; }
+    inline const F16C_Controls*     getCtrl() const { return m_ctrl; }
+    inline const F16C_LandingGear*  getGear() const { return m_gear; }
+    inline const F16C_Mass*         getMass() const { return m_mass; }
+    inline const F16C_Propulsion*   getProp() const { return m_prop; }
+
+private:
+
+    F16C_Aerodynamics *m_aero;  ///< aerodynamics model
+    F16C_Controls     *m_ctrl;  ///< controls model
+    F16C_LandingGear  *m_gear;  ///< landing gear model
+    F16C_Mass         *m_mass;  ///< mass and inertia model
+    F16C_Propulsion   *m_prop;  ///< propulsion model
 };
 
 } // end of fdm namespace

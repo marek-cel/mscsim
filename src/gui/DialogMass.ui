@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>531</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,23 +19,277 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>240</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelPilot">
+     <property name="text">
+      <string>Pilot:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxPilot</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxPilot"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxPilot"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelPilotL">
+     <property name="text">
+      <string>Pilot (left):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxPilotL</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxPilotL"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxPilotL"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelPilotR">
+     <property name="text">
+      <string>Pilot (right):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxPilotR</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxPilotR"/>
+   </item>
+   <item row="2" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxPilotR"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelPilotF">
+     <property name="text">
+      <string>Pilot (forward):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxPilotF</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxPilotF"/>
+   </item>
+   <item row="3" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxPilotF"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelPilotA">
+     <property name="text">
+      <string>Pilot (aft):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxPilotA</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxPilotA"/>
+   </item>
+   <item row="4" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxPilotA"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelFuel">
+     <property name="text">
+      <string>Fuel:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxFuel</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxFuel"/>
+   </item>
+   <item row="5" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxFuel"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="labelFuelL">
+     <property name="text">
+      <string>Fuel (left):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxFuelL</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxFuelL"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxFuelL"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="labelFuelR">
+     <property name="text">
+      <string>Fuel (right):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxFuelR</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxFuelR"/>
+   </item>
+   <item row="7" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxFuelR"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="labelFuelF">
+     <property name="text">
+      <string>Fuel (forward):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxFuelF</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxFuelF"/>
+   </item>
+   <item row="8" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxFuelF"/>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="labelFuelA">
+     <property name="text">
+      <string>Fuel (aft):</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxFuelA</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxFuelA"/>
+   </item>
+   <item row="9" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxFuelA"/>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="labelCabin">
+     <property name="text">
+      <string>Cabin:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxCabin</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxCabin"/>
+   </item>
+   <item row="10" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxCabin"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="labelTrunk">
+     <property name="text">
+      <string>Trunk:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>spinBoxTrunk</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QDoubleSpinBox" name="spinBoxTrunk"/>
+   </item>
+   <item row="11" column="2">
+    <widget class="ComboUnitsMass" name="comboBoxTrunk"/>
+   </item>
+   <item row="12" column="0" colspan="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>375</width>
+       <height>78</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="13" column="0" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ComboUnitsMass</class>
+   <extends>QComboBox</extends>
+   <header>gui/ComboUnitsMass.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>spinBoxPilot</tabstop>
+  <tabstop>comboBoxPilot</tabstop>
+  <tabstop>spinBoxPilotL</tabstop>
+  <tabstop>comboBoxPilotL</tabstop>
+  <tabstop>spinBoxFuel</tabstop>
+  <tabstop>comboBoxFuel</tabstop>
+  <tabstop>spinBoxCabin</tabstop>
+  <tabstop>comboBoxCabin</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

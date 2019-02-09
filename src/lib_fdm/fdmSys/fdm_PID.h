@@ -33,7 +33,7 @@ namespace fdm
 
 /**
  * @brief Proportional-Integral-Derivative controller with anti-windup filter class.
- *
+ * G(s) = Kp + Ki*(1/s) + Kd*s
  * @see Duzinkiewicz K., et al.: Zadania do cwiczen laboratoryjnych T10: Sterowanie predkoscia obrotowa silnika pradu stalego, 2016. [in Polish]
  */
 class FDMEXPORT PID

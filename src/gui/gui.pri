@@ -4,6 +4,7 @@ HEADERS += \
     gui/ComboUnitsAngle.h \
     gui/ComboUnitsFlowRate.h \
     gui/ComboUnitsLength.h \
+    gui/ComboUnitsMass.h \
     gui/ComboUnitsNumber.h \
     gui/ComboUnitsPressure.h \
     gui/ComboUnitsRotation.h \
@@ -38,6 +39,7 @@ SOURCES += \
     gui/ComboUnitsAngle.cpp \
     gui/ComboUnitsFlowRate.cpp \
     gui/ComboUnitsLength.cpp \
+    gui/ComboUnitsMass.cpp \
     gui/ComboUnitsNumber.cpp \
     gui/ComboUnitsPressure.cpp \
     gui/ComboUnitsRotation.cpp \

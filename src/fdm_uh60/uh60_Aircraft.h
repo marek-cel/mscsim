@@ -26,6 +26,12 @@
 
 #include <fdmMain/fdm_Aircraft.h>
 
+#include <fdm_uh60/uh60_Aerodynamics.h>
+#include <fdm_uh60/uh60_Controls.h>
+#include <fdm_uh60/uh60_LandingGear.h>
+#include <fdm_uh60/uh60_Mass.h>
+#include <fdm_uh60/uh60_Propulsion.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -43,6 +49,26 @@ public:
 
     /** Destructor. */
     ~UH60_Aircraft();
+
+    inline UH60_Aerodynamics* getAero() { return m_aero; }
+    inline UH60_Controls*     getCtrl() { return m_ctrl; }
+    inline UH60_LandingGear*  getGear() { return m_gear; }
+    inline UH60_Mass*         getMass() { return m_mass; }
+    inline UH60_Propulsion*   getProp() { return m_prop; }
+
+    inline const UH60_Aerodynamics* getAero() const { return m_aero; }
+    inline const UH60_Controls*     getCtrl() const { return m_ctrl; }
+    inline const UH60_LandingGear*  getGear() const { return m_gear; }
+    inline const UH60_Mass*         getMass() const { return m_mass; }
+    inline const UH60_Propulsion*   getProp() const { return m_prop; }
+
+private:
+
+    UH60_Aerodynamics *m_aero;  ///< aerodynamics model
+    UH60_Controls     *m_ctrl;  ///< controls model
+    UH60_LandingGear  *m_gear;  ///< landing gear model
+    UH60_Mass         *m_mass;  ///< mass and inertia model
+    UH60_Propulsion   *m_prop;  ///< propulsion model
 };
 
 } // end of fdm namespace

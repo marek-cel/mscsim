@@ -164,6 +164,20 @@ void Simulation::updateDataInp()
         m_dataInp.engine[ i ].starter   = Data::get()->propulsion.engine[ i ].starter;
     }
 
+    // masses
+    m_dataInp.masses.pilot   = Data::get()->masses.pilot;
+    m_dataInp.masses.pilot_l = Data::get()->masses.pilot_l;
+    m_dataInp.masses.pilot_r = Data::get()->masses.pilot_r;
+    m_dataInp.masses.pilot_f = Data::get()->masses.pilot_f;
+    m_dataInp.masses.pilot_a = Data::get()->masses.pilot_a;
+    m_dataInp.masses.fuel    = Data::get()->masses.fuel;
+    m_dataInp.masses.fuel_l  = Data::get()->masses.fuel_l;
+    m_dataInp.masses.fuel_r  = Data::get()->masses.fuel_r;
+    m_dataInp.masses.fuel_f  = Data::get()->masses.fuel_f;
+    m_dataInp.masses.fuel_a  = Data::get()->masses.fuel_a;
+    m_dataInp.masses.cabin   = Data::get()->masses.cabin;
+    m_dataInp.masses.trunk   = Data::get()->masses.trunk;
+
     // aircraft type
     m_dataInp.aircraftType = Data::get()->aircraftType;
 
@@ -238,11 +252,12 @@ void Simulation::updateDataOut()
     Data::get()->ownship.att_ey_wgs = m_dataOut.flight.att_ey_wgs;
     Data::get()->ownship.att_ez_wgs = m_dataOut.flight.att_ez_wgs;
 
-    Data::get()->ownship.ailerons    = -hid::Manager::instance()->getCtrlRoll();
-    Data::get()->ownship.elevator    = -hid::Manager::instance()->getCtrlPitch();
-    Data::get()->ownship.rudder      = -hid::Manager::instance()->getCtrlYaw();
-    Data::get()->ownship.flaps       =  hid::Manager::instance()->getFlaps();
-    Data::get()->ownship.airbrake    =  hid::Manager::instance()->getAirbrake();
+    Data::get()->ownship.ailerons    = m_dataOut.controls.ailerons;
+    Data::get()->ownship.elevator    = m_dataOut.controls.elevator;
+    Data::get()->ownship.rudder      = m_dataOut.controls.rudder;
+    Data::get()->ownship.flaps       = m_dataOut.controls.flaps;
+    Data::get()->ownship.flaps_le    = m_dataOut.controls.flaps_le;
+    Data::get()->ownship.airbrake    = m_dataOut.controls.airbrake;
     Data::get()->ownship.landingGear =  hid::Manager::instance()->getLandingGear();
 
     if ( m_dataOut.stateOut == fdm::DataOut::Working )
@@ -263,19 +278,16 @@ void Simulation::updateDataOut()
         {
             Data::get()->ownship.propeller[ i ] = 0.0;
         }
-
-        Data::get()->ownship.mainRotor_psi = 0.0;
-        Data::get()->ownship.tailRotor_psi = 0.0;
     }
 
-    Data::get()->ownship.mainRotor_psi      = 0.0;
-    Data::get()->ownship.mainRotor_beta_0   = 0.0;
-    Data::get()->ownship.mainRotor_beta_1c  = 0.0;
-    Data::get()->ownship.mainRotor_beta_1s  = 0.0;
-    Data::get()->ownship.mainRotor_theta_0  = 0.0;
-    Data::get()->ownship.mainRotor_theta_1c = 0.0;
-    Data::get()->ownship.mainRotor_theta_1s = 0.0;
-    Data::get()->ownship.tailRotor_psi      = 0.0;
+    Data::get()->ownship.mainRotor_azimuth     = m_dataOut.rotor.mainRotor_azimuth;
+    Data::get()->ownship.mainRotor_coningAngle = m_dataOut.rotor.mainRotor_coningAngle;
+    Data::get()->ownship.mainRotor_diskRoll    = m_dataOut.rotor.mainRotor_diskRoll;
+    Data::get()->ownship.mainRotor_diskPitch   = m_dataOut.rotor.mainRotor_diskPitch;
+    Data::get()->ownship.mainRotor_collective  = m_dataOut.rotor.mainRotor_collective;
+    Data::get()->ownship.mainRotor_cyclicLon   = m_dataOut.rotor.mainRotor_cyclicLon;
+    Data::get()->ownship.mainRotor_cyclicLat   = m_dataOut.rotor.mainRotor_cyclicLat;
+    Data::get()->ownship.tailRotor_azimuth     = m_dataOut.rotor.tailRotor_azimuth;
 
     Data::get()->ownship.onGround = m_dataOut.flight.onGround;
     Data::get()->ownship.stall = m_dataOut.flight.stall;

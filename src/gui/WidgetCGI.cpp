@@ -33,6 +33,8 @@
 #include <cgi/cgi_Manager.h>
 #include <cgi/cgi_WGS84.h>
 
+#include <gui/gui_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 const double WidgetCGI::m_zNear = 0.55;
@@ -44,6 +46,8 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget ( parent ),
 
     m_gridLayout ( 0 ),
+
+    m_timerId ( 0 ),
 
     m_camManipulatorInited ( false )
 {
@@ -70,36 +74,15 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     getEventHandlers().push_front( m_keyHandler.get() );
 
     setLayout( m_gridLayout );
+
+    m_timerId = startTimer( CGI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::~WidgetCGI() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::update()
+WidgetCGI::~WidgetCGI()
 {
-    if ( !m_camManipulatorInited )
-    {
-        osg::ref_ptr<cgi::ManipulatorOrbit> manipulator =
-                dynamic_cast<cgi::ManipulatorOrbit*>( cgi::Manager::instance()->getCameraManipulator() );
-
-        if ( manipulator.valid() )
-        {
-            manipulator->setDistance( 50.0 );
-        }
-
-        m_camManipulatorInited = true;
-    }
-
-    cgi::Manager::instance()->update();
-
-    m_keyHandler->update();
-
-    //////////////////
-    QWidget::update();
-    //////////////////
+    if ( m_timerId ) killTimer( m_timerId );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,6 +149,34 @@ void WidgetCGI::paintEvent( QPaintEvent *event )
     /////////////////////////////
 
     frame();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::timerEvent( QTimerEvent *event )
+{
+    /////////////////////////////
+    QWidget::timerEvent( event );
+    /////////////////////////////
+
+    update();
+
+    if ( !m_camManipulatorInited )
+    {
+        osg::ref_ptr<cgi::ManipulatorOrbit> manipulator =
+                dynamic_cast<cgi::ManipulatorOrbit*>( cgi::Manager::instance()->getCameraManipulator() );
+
+        if ( manipulator.valid() )
+        {
+            manipulator->setDistance( 50.0 );
+        }
+
+        m_camManipulatorInited = true;
+    }
+
+    cgi::Manager::instance()->update();
+
+    m_keyHandler->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

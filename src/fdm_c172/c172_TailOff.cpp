@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_c172/c172_Wing.h>
+#include <fdm_c172/c172_TailOff.h>
 
 #include <fdmMain/fdm_Aerodynamics.h>
 #include <fdmXml/fdm_XmlUtils.h>
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Wing::C172_Wing() :
+C172_TailOff::C172_TailOff() :
     m_ailerons ( 0.0 ),
     m_flaps    ( 0.0 ),
 
@@ -43,15 +43,15 @@ C172_Wing::C172_Wing() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Wing::~C172_Wing() {}
+C172_TailOff::~C172_TailOff() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Wing::readData( XmlNode &dataNode )
+void C172_TailOff::readData( XmlNode &dataNode )
 {
-    ///////////////////////////
-    Wing::readData( dataNode );
-    ///////////////////////////
+    //////////////////////////////
+    TailOff::readData( dataNode );
+    //////////////////////////////
 
     if ( dataNode.isValid() )
     {
@@ -86,69 +86,69 @@ void C172_Wing::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Wing::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                       const Vector3 &omg_air_bas,
-                                       double airDensity,
-                                       double ailerons,
-                                       double flaps )
+void C172_TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                          const Vector3 &omg_air_bas,
+                                          double airDensity,
+                                          double ailerons,
+                                          double flaps )
 {
     m_ailerons = ailerons;
     m_flaps    = flaps;
 
-    ////////////////////////////////////////////////////////////////////
-    Wing::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
-    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    TailOff::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
+    ///////////////////////////////////////////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Wing::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
+void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 {
-    /////////////////////////////////////////
-    Wing::update( vel_air_bas, omg_air_bas );
-    /////////////////////////////////////////
+    ////////////////////////////////////////////
+    TailOff::update( vel_air_bas, omg_air_bas );
+    ////////////////////////////////////////////
 
     //m_ailerons->getHingeMoment( dynPress, alpha, m_delta_a );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCx( double angleOfAttack ) const
+double C172_TailOff::getCx( double angleOfAttack ) const
 {
-    return Wing::getCx( angleOfAttack ) + m_flaps * m_dcx_dflaps;
+    return TailOff::getCx( angleOfAttack ) + m_flaps * m_dcx_dflaps;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCy( double sideslipAngle ) const
+double C172_TailOff::getCy( double sideslipAngle ) const
 {
-    return Wing::getCy( sideslipAngle );
+    return TailOff::getCy( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCz( double angleOfAttack ) const
+double C172_TailOff::getCz( double angleOfAttack ) const
 {
-    return Wing::getCz( angleOfAttack ) + m_flaps * m_dcz_dflaps;
+    return TailOff::getCz( angleOfAttack ) + m_flaps * m_dcz_dflaps;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCl( double sideslipAngle ) const
+double C172_TailOff::getCl( double sideslipAngle ) const
 {
-    return Wing::getCl( sideslipAngle ) + m_ailerons * m_dcl_dailerons;
+    return TailOff::getCl( sideslipAngle ) + m_ailerons * m_dcl_dailerons;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCm( double angleOfAttack ) const
+double C172_TailOff::getCm( double angleOfAttack ) const
 {
-    return Wing::getCm( angleOfAttack ) + m_flaps * m_dcm_dflaps;
+    return TailOff::getCm( angleOfAttack ) + m_flaps * m_dcm_dflaps;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double C172_Wing::getCn( double sideslipAngle ) const
+double C172_TailOff::getCn( double sideslipAngle ) const
 {
-    return Wing::getCn( sideslipAngle );
+    return TailOff::getCn( sideslipAngle );
 }

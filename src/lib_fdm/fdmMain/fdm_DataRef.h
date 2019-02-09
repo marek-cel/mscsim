@@ -55,79 +55,79 @@ public:
     /**
      * @return returns data value on success or NaN on failure
      */
-    inline bool getDatab() const
+    inline bool getDatab( bool def = false ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getDatab();
         }
 
-        return std::numeric_limits< bool >::quiet_NaN();
+        return def;
     }
 
     /**
      * @return returns data value on success or NaN on failure
      */
-    inline int getDatai() const
+    inline int getDatai( int def = std::numeric_limits< int >::quiet_NaN() ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getDatai();
         }
 
-        return std::numeric_limits< int >::quiet_NaN();
+        return def;
     }
 
     /**
      * @return returns data value on success or NaN on failure
      */
-    inline long getDatal() const
+    inline long getDatal( long def = std::numeric_limits< long >::quiet_NaN() ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getDatal();
         }
 
-        return std::numeric_limits< long >::quiet_NaN();
+        return def;
     }
 
     /**
      * @return returns data value on success or NaN on failure
      */
-    inline float getDataf() const
+    inline float getDataf( float def = std::numeric_limits< float >::quiet_NaN() ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getDataf();
         }
 
-        return std::numeric_limits< float >::quiet_NaN();
+        return def;
     }
 
     /**
      * @return returns data value on success or NaN on failure
      */
-    inline double getDatad() const
+    inline double getDatad( double def = std::numeric_limits< double >::quiet_NaN() ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getDatad();
         }
 
-        return std::numeric_limits< double >::quiet_NaN();
+        return def;
     }
 
     /**
      * @return data value on success or NaN on failure
      */
-    inline double getValue() const
+    inline double getValue( double def = std::numeric_limits< double >::quiet_NaN() ) const
     {
         if ( m_dataNode )
         {
             return m_dataNode->getValue();
         }
 
-        return std::numeric_limits< double >::quiet_NaN();
+        return def;
     }
 
     /**

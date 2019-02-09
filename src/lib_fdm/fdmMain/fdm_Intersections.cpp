@@ -22,8 +22,10 @@
 
 #include <fdmMain/fdm_Intersections.h>
 
-#include <cgi/cgi_Intersections.h>
-#include <cgi/cgi_WGS84.h>
+#ifdef SIM_INTERSECTIONS
+#   include <cgi/cgi_Intersections.h>
+#   include <cgi/cgi_WGS84.h>
+#endif
 
 #include <fdmUtils/fdm_WGS84.h>
 
@@ -43,6 +45,7 @@ Intersections::~Intersections() {}
 
 void Intersections::update( double lat, double lon )
 {
+#   ifdef SIM_INTERSECTIONS
     cgi::WGS84 wgs_b( lat, lon, 10000.0 );
     cgi::WGS84 wgs_e( lat, lon, -1000.0 );
 
@@ -56,6 +59,7 @@ void Intersections::update( double lat, double lon )
         m_ground_wgs = Vector3( r.x(), r.y(), r.z() );
         m_normal_wgs = Vector3( n.x(), n.y(), n.z() );
     }
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

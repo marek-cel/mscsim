@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmMain/fdm_Wing.h>
+#include <fdmMain/fdm_TailOff.h>
 
 #include <fdmMain/fdm_Aerodynamics.h>
 #include <fdmXml/fdm_XmlUtils.h>
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wing::Wing() :
+TailOff::TailOff() :
     m_mac ( 0.0 ),
     m_area ( 0.0 ),
     m_area_2 ( 0.0 ),
@@ -52,11 +52,11 @@ Wing::Wing() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wing::~Wing() {}
+TailOff::~TailOff() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::readData( XmlNode &dataNode )
+void TailOff::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -106,9 +106,9 @@ void Wing::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                  const Vector3 &omg_air_bas,
-                                  double airDensity )
+void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                     const Vector3 &omg_air_bas,
+                                     double airDensity )
 {
     m_for_bas.zeroize();
     m_mom_bas.zeroize();
@@ -129,7 +129,7 @@ void Wing::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
+void TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 {
     Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_l_bas );
     Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_r_bas );
@@ -145,10 +145,10 @@ void Wing::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wing::addForceAndMoment( const Vector3 &r_ac_bas,
-                              const Vector3 &vel_air_bas,
-                              const Vector3 &omg_air_bas,
-                              double airDensity )
+void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
+                                 const Vector3 &vel_air_bas,
+                                 const Vector3 &omg_air_bas,
+                                 double airDensity )
 {
     // wing velocity
     Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas ^ r_ac_bas );
@@ -184,42 +184,42 @@ void Wing::addForceAndMoment( const Vector3 &r_ac_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCx( double angleOfAttack ) const
+double TailOff::getCx( double angleOfAttack ) const
 {
     return m_cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCy( double sideslipAngle ) const
+double TailOff::getCy( double sideslipAngle ) const
 {
     return m_cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCz( double angleOfAttack ) const
+double TailOff::getCz( double angleOfAttack ) const
 {
     return m_cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCl( double sideslipAngle ) const
+double TailOff::getCl( double sideslipAngle ) const
 {
     return m_cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCm( double angleOfAttack ) const
+double TailOff::getCm( double angleOfAttack ) const
 {
     return m_cm.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wing::getCn( double sideslipAngle ) const
+double TailOff::getCn( double sideslipAngle ) const
 {
     return m_cn.getValue( sideslipAngle );
 }

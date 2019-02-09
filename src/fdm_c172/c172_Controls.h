@@ -47,29 +47,24 @@ public:
     ~C172_Controls();
 
     /**
-     * Reads data.
-     * @param dataNode XML node
+     * Initializes data referneces.
      */
-    void readData( XmlNode &dataNode );
+    void initDataRefs();
 
     /**
      * Updates model.
      */
     void update();
 
-    inline double getAilerons() const { return m_ailerons; }
-    inline double getElevator() const { return m_elevator; }
-    inline double getRudder()   const { return m_rudder;   }
-
+    inline double getAilerons()     const { return m_ailerons;      }
+    inline double getElevator()     const { return m_elevator;      }
+    inline double getRudder()       const { return m_rudder;        }
     inline double getElevatorTrim() const { return m_elevator_trim; }
-
-    inline double getFlaps() const { return m_flaps; }
-
-    inline double getBrakeL() const { return m_brake_l; }
-    inline double getBrakeR() const { return m_brake_r; }
-
-    inline double getNoseWheel() const { return m_nose_wheel; }
-    inline bool getNwSteering() const { return m_nwSteering; }
+    inline double getFlaps()        const { return m_flaps;         }
+    inline double getBrakeL()       const { return m_brake_l;       }
+    inline double getBrakeR()       const { return m_brake_r;       }
+    inline double getNoseWheel()    const { return m_nose_wheel;    }
+    inline bool   getNwSteering()   const { return m_nwSteering;    }
 
 private:
 
@@ -96,6 +91,11 @@ private:
     bool m_nwSteering;                  ///< nose wheel steering
 
     DataRef m_drNwSteering;             ///< nose wheel steering data refernce
+
+    DataRef m_outputAilerons;           ///<
+    DataRef m_outputElevator;           ///<
+    DataRef m_outputRudder;             ///<
+    DataRef m_outputFlaps;              ///<
 };
 
 } // end of fdm namespace

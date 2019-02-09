@@ -60,6 +60,8 @@ public:
 
     /**
      * Returns sideslip angle.
+     * It is positive when the aircraft velocity component along the transverse
+     * axis is positive. [ISO 1151-1:1988]
      * @param vel_bas [m/s] airspeed vector
      * @param vel_min [m/s] minimum airspeed of calculations
      * @return [rad] sideslip angle
@@ -87,12 +89,12 @@ public:
      * Returns rotation matrix from aerodynamic axes system to BAS.
      * @param sinAlpha [-] sine of angle of attack cosine
      * @param cosAlpha [-] cosine of angle of attack cosine
-     * @param sinBeta [-] sine of sideslip angle cosine
-     * @param cosBeta [-] cosine of sideslip angle cosine
+     * @param sinBeta  [-] sine of sideslip angle cosine
+     * @param cosBeta  [-] cosine of sideslip angle cosine
      * @return rotation matrix from WAS to BAS
      */
-    static Matrix3x3 getAero2BAS( double sinAlpha, double cosAlpha,
-                                  double sinBeta, double cosBeta );
+    static Matrix3x3 getAero2BAS( double sinAlpha , double cosAlpha,
+                                  double sinBeta  , double cosBeta );
 
     /**
      * Returns rotation matrix from stability axes system to BAS.
@@ -120,6 +122,11 @@ public:
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
+
+    /**
+     * Initializes data referneces.
+     */
+    virtual void initDataRefs();
 
     /**
      * Computes force and moment.

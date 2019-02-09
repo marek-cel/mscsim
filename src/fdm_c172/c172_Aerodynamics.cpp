@@ -32,16 +32,16 @@ using namespace fdm;
 
 C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
-
     m_aircraft ( aircraft ),
-    m_wing ( 0 ),
+
+    m_tailOff ( 0 ),
     m_stabHor ( 0 ),
     m_stabVer ( 0 ),
 
     m_dl_dtorque ( 0.0 ),
     m_dn_dtorque ( 0.0 )
 {
-    m_wing    = new C172_Wing();
+    m_tailOff = new C172_TailOff();
     m_stabHor = new C172_StabilizerHor();
     m_stabVer = new C172_StabilizerVer();
 }
@@ -50,8 +50,8 @@ C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft ) :
 
 C172_Aerodynamics::~C172_Aerodynamics()
 {
-    if ( m_wing ) delete m_wing;
-    m_wing = 0;
+    if ( m_tailOff ) delete m_tailOff;
+    m_tailOff = 0;
 
     if ( m_stabHor ) delete m_stabHor;
     m_stabHor = 0;
@@ -84,11 +84,11 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
             FDM_THROW( e );
         }
 
-        XmlNode nodeWing    = dataNode.getFirstChildElement( "wing" );
-        XmlNode nodeStabHor = dataNode.getFirstChildElement( "horizontal_stabilizer" );
-        XmlNode nodeStabVer = dataNode.getFirstChildElement( "vertical_stabilizer" );
+        XmlNode nodeTailOff = dataNode.getFirstChildElement( "tail_off" );
+        XmlNode nodeStabHor = dataNode.getFirstChildElement( "stab_hor" );
+        XmlNode nodeStabVer = dataNode.getFirstChildElement( "stab_ver" );
 
-        m_wing->readData( nodeWing );
+        m_tailOff->readData( nodeTailOff );
         m_stabHor->readData( nodeStabHor );
         m_stabVer->readData( nodeStabVer );
     }
@@ -109,11 +109,11 @@ void C172_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-    m_wing->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
-                                   m_aircraft->getOmg_air_BAS(),
-                                   m_aircraft->getEnvir()->getDensity(),
-                                   m_aircraft->getCtrl()->getAilerons(),
-                                   m_aircraft->getCtrl()->getFlaps() );
+    m_tailOff->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
+                                      m_aircraft->getOmg_air_BAS(),
+                                      m_aircraft->getEnvir()->getDensity(),
+                                      m_aircraft->getCtrl()->getAilerons(),
+                                      m_aircraft->getCtrl()->getFlaps() );
 
     m_stabHor->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
                                       m_aircraft->getOmg_air_BAS(),
@@ -127,8 +127,8 @@ void C172_Aerodynamics::computeForceAndMoment()
                                       m_aircraft->getEnvir()->getDensity(),
                                       m_aircraft->getCtrl()->getRudder() );
 
-    m_for_bas = m_wing->getFor_BAS() + m_stabHor->getFor_BAS() + m_stabVer->getFor_BAS();
-    m_mom_bas = m_wing->getMom_BAS() + m_stabHor->getMom_BAS() + m_stabVer->getMom_BAS();
+    m_for_bas = m_tailOff->getFor_BAS() + m_stabHor->getFor_BAS() + m_stabVer->getFor_BAS();
+    m_mom_bas = m_tailOff->getMom_BAS() + m_stabHor->getMom_BAS() + m_stabVer->getMom_BAS();
 
     // computing forces expressed in Aerodynamic Axes System
     // computing moments expressed in Stability Axes System
@@ -169,5 +169,5 @@ void C172_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    m_wing->update( m_aircraft->getVel_air_BAS(),  m_aircraft->getOmg_air_BAS() );
+    m_tailOff->update( m_aircraft->getVel_air_BAS(),  m_aircraft->getOmg_air_BAS() );
 }

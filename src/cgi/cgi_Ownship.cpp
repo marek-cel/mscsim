@@ -87,85 +87,77 @@ void Ownship::update()
     m_pat->setAttitude( q_wgs );
     m_pat->setPosition( r_wgs );
 
-    // controls
-    float ailerons = -m_ailerons.getValue( Data::get()->ownship.ailerons );
-    float elevator =  m_elevator.getValue( Data::get()->ownship.elevator );
-    float rudder   = -m_rudder.getValue( Data::get()->ownship.rudder );
-    float flaps_le =  0.0f  * Data::get()->ownship.flaps;
-    float flaps_te =  m_flaps.getValue( Data::get()->ownship.flaps );
-    float airbrake =  m_airbrake * Data::get()->ownship.airbrake;
-
     // ailerons
     if ( m_aileronL.valid() && m_aileronR.valid() )
     {
-        m_aileronL->setAttitude( osg::Quat(  ailerons, osg::Y_AXIS ) );
-        m_aileronR->setAttitude( osg::Quat( -ailerons, osg::Y_AXIS ) );
+        m_aileronL->setAttitude( osg::Quat( -Data::get()->ownship.ailerons, osg::Y_AXIS ) );
+        m_aileronR->setAttitude( osg::Quat(  Data::get()->ownship.ailerons, osg::Y_AXIS ) );
     }
 
     // elevator
     if ( m_elevatorL.valid() )
     {
-        m_elevatorL->setAttitude( osg::Quat( elevator, osg::Y_AXIS ) );
+        m_elevatorL->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
     }
 
     if ( m_elevatorR.valid() )
     {
-        m_elevatorR->setAttitude( osg::Quat( elevator, osg::Y_AXIS ) );
+        m_elevatorR->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
     }
 
     // rudder
     if ( m_rudderL.valid() )
     {
-        m_rudderL->setAttitude( osg::Quat( -rudder, osg::Z_AXIS ) );
+        m_rudderL->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
     }
 
     if ( m_rudderR.valid() )
     {
-        m_rudderR->setAttitude( osg::Quat( -rudder, osg::Z_AXIS ) );
+        m_rudderR->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
     }
 
     // elevons
     if ( m_elevonL.valid() && m_elevonR.valid() )
     {
-        float elevon_l = Data::get()->ownship.elevator - m_coefElev * Data::get()->ownship.ailerons;
-        float elevon_r = Data::get()->ownship.elevator + m_coefElev * Data::get()->ownship.ailerons;
+        float angle_l = 0.5f * Data::get()->ownship.elevator - 0.5f * Data::get()->ownship.ailerons;
+        float angle_r = 0.5f * Data::get()->ownship.elevator + 0.5f * Data::get()->ownship.ailerons;
 
-        m_elevonL->setAttitude( osg::Quat( m_elevator.getValue( elevon_l ), osg::Y_AXIS ) );
-        m_elevonR->setAttitude( osg::Quat( m_elevator.getValue( elevon_r ), osg::Y_AXIS ) );
+        m_elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        m_elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
     }
 
     // flaperons
     if ( m_flaperonL.valid() && m_flaperonR.valid() )
     {
-        float flaperon_l = Data::get()->ownship.flaps - m_coefFlap * Data::get()->ownship.ailerons;
-        float flaperon_r = Data::get()->ownship.flaps + m_coefFlap * Data::get()->ownship.ailerons;
+        float angle_l = 0.5f * Data::get()->ownship.flaps - 0.5f * Data::get()->ownship.ailerons;
+        float angle_r = 0.5f * Data::get()->ownship.flaps + 0.5f * Data::get()->ownship.ailerons;
 
-        m_flaperonL->setAttitude( osg::Quat( m_ailerons.getValue( flaperon_l ), osg::Y_AXIS ) );
-        m_flaperonR->setAttitude( osg::Quat( m_ailerons.getValue( flaperon_r ), osg::Y_AXIS ) );
+        m_flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        m_flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
     }
 
     // flaps
     if ( m_flapLEL.valid() && m_flapLER.valid() )
     {
-        m_flapLEL->setAttitude( osg::Quat( -flaps_le, osg::Y_AXIS ) );
-        m_flapLER->setAttitude( osg::Quat( -flaps_le, osg::Y_AXIS ) );
+        m_flapLEL->setAttitude( osg::Quat( -Data::get()->ownship.flaps_le, osg::Y_AXIS ) );
+        m_flapLER->setAttitude( osg::Quat( -Data::get()->ownship.flaps_le, osg::Y_AXIS ) );
     }
 
     if ( m_flapTEL.valid() && m_flapTER.valid() )
     {
-        m_flapTEL->setAttitude( osg::Quat( flaps_te, osg::Y_AXIS ) );
-        m_flapTER->setAttitude( osg::Quat( flaps_te, osg::Y_AXIS ) );
+        m_flapTEL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        m_flapTER->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
     }
 
     // airbrake
     if ( m_airbrakeP.valid() )
     {
-        m_airbrakeP->setAttitude( osg::Quat(  airbrake, osg::Y_AXIS ) );
+        m_airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
     }
 
     if ( m_airbrakeN.valid() )
     {
-        m_airbrakeN->setAttitude( osg::Quat( -airbrake, osg::Y_AXIS ) );
+        m_airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
     }
 
     // landing gear
@@ -207,14 +199,14 @@ void Ownship::update()
     // main rotor
     if ( m_mainRotor.valid() )
     {
-        double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_psi;
+        double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_azimuth;
         m_mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
     }
 
     // tail rotor
     if ( m_tailRotor.valid() )
     {
-        double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_psi;
+        double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_azimuth;
         m_tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
     }
 
@@ -224,19 +216,20 @@ void Ownship::update()
 
     for ( unsigned int i = 0; i < bladesCount; i++ )
     {
-        double psi = Data::get()->ownship.mainRotor_psi + (double)(i*psiStep);
+        double psi = Data::get()->ownship.mainRotor_azimuth
+                   + (double)(i*psiStep) * Data::get()->ownship.mainRotor_coef;
 
         double sinPsi = sin( psi );
         double cosPsi = cos( psi );
 
         // pitching
-        double pitching = Data::get()->ownship.mainRotor_theta_0
-                        + Data::get()->ownship.mainRotor_theta_1c * cosPsi
-                        + Data::get()->ownship.mainRotor_theta_1s * sinPsi;
+        double pitching = Data::get()->ownship.mainRotor_collective
+                        - Data::get()->ownship.mainRotor_cyclicLon * cosPsi * Data::get()->ownship.mainRotor_coef
+                        + Data::get()->ownship.mainRotor_cyclicLat * sinPsi;
 
-        double flapping = Data::get()->ownship.mainRotor_beta_0
-                        + Data::get()->ownship.mainRotor_beta_1c * cosPsi
-                        + Data::get()->ownship.mainRotor_beta_1s * sinPsi;
+        double flapping = Data::get()->ownship.mainRotor_coningAngle
+                        + Data::get()->ownship.mainRotor_diskPitch * cosPsi
+                        - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
 
         m_mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
                                                         flapping, osg::Y_AXIS,
@@ -366,18 +359,6 @@ void Ownship::reload()
             if ( result == FDM_SUCCESS )
             {
                 loadModel( modelFile );
-
-                fdm::XmlNode ctrlNode = rootNode.getFirstChildElement( "controls" );
-
-                fdm::XmlUtils::read( ctrlNode, m_ailerons , "ailerons" );
-                fdm::XmlUtils::read( ctrlNode, m_elevator , "elevator" );
-                fdm::XmlUtils::read( ctrlNode, m_rudder   , "rudder"   );
-                fdm::XmlUtils::read( ctrlNode, m_flaps    , "flaps"    );
-
-                fdm::XmlUtils::read( ctrlNode, m_airbrake , "airbrake" );
-
-                fdm::XmlUtils::read( ctrlNode, m_coefElev , "elevon_coef"   );
-                fdm::XmlUtils::read( ctrlNode, m_coefFlap , "flaperon_coef" );
             }
         }
     }
@@ -416,13 +397,4 @@ void Ownship::reset()
     m_tailRotor = 0;
 
     m_mainRotorBlades.clear();
-
-    m_ailerons = fdm::Table::createOneRecordTable( 0.0 );
-    m_elevator = fdm::Table::createOneRecordTable( 0.0 );
-    m_rudder   = fdm::Table::createOneRecordTable( 0.0 );
-    m_flaps    = fdm::Table::createOneRecordTable( 0.0 );
-
-    m_airbrake = 0.0;
-    m_coefElev = 0.0;
-    m_coefFlap = 0.0;
 }

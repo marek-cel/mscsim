@@ -102,10 +102,10 @@ public:
      * @param airDensity [kg/m^3] air density
      * @param wingAngleOfAttack [rad] wing angle of attack
      */
-    void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                const Vector3 &omg_air_bas,
-                                double airDensity,
-                                double wingAngleOfAttack = 0.0 );
+    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                        const Vector3 &omg_air_bas,
+                                        double airDensity,
+                                        double wingAngleOfAttack = 0.0 );
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }

@@ -42,6 +42,7 @@ namespace fdm
  *   <power_max> { [W] engine maximum power } </power_max>
  *   <starter> { [N*m] starter torque } </starter>
  *   <rpm_min> { [rpm] minimum rpm } </rpm_min>
+ *   <rpm_max> { [rpm] maximum rpm } </rpm_max>
  *   <sfc> { [kg/(W*s)] specific fuel consumption } </sfc>
  *   <inertia> { [kg*m^2] polar moment of inertia } </inertia>
  *   <mixture>
@@ -175,6 +176,7 @@ protected:
     double m_power_max;         ///< [W] maximum power
     double m_starter;           ///< [N*m] starter torque
     double m_rpm_min;           ///< [rpm] engine minimum rpm
+    double m_rpm_max;           ///< [rpm] engine maximum rpm
     double m_specFuelCons;      ///< [kg/(W*s)] specific fuel consumption
     double m_inertia;           ///< [kg*m^2] polar moment of inertia
 
@@ -188,7 +190,7 @@ protected:
 
     /**
      * Computes manifold absolute pressure.
-     * @param throttle [0.0,1.0] throttle
+     * @param throttle <0.0;1.0> throttle
      * @param rpm [rpm] engine rpm
      * @param airPressure [Pa] air pressure
      * @return [Pa] manifold absolute pressure

@@ -79,9 +79,6 @@ public:
     virtual ~WidgetCGI();
 
     /** */
-    void update();
-
-    /** */
     void setCameraManipulatorOrbit();
 
     /** */
@@ -95,12 +92,17 @@ protected:
     /** */
     void paintEvent( QPaintEvent *event );
 
+    /** */
+    void timerEvent( QTimerEvent *event );
+
 private:
 
     QGridLayout  *m_gridLayout;
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> m_graphicsWindow;
     osg::ref_ptr<KeyHandler> m_keyHandler;
+
+    int m_timerId;                  ///< timer ID
 
     bool m_camManipulatorInited;
 
