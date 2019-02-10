@@ -188,7 +188,7 @@ public:
     inline const StateVector& getStateVect() const { return m_stateVect; }
     inline const StateVector& getDerivVect() const { return m_derivVect; }
 
-    inline const double getTimeStep() const { return m_timeStep; }
+    inline double getTimeStep() const { return m_timeStep; }
 
     inline const Vector3&    getPos_WGS() const { return m_pos_wgs; }
     inline const Quaternion& getAtt_WGS() const { return m_att_wgs; }
