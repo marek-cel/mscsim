@@ -82,7 +82,7 @@ void PID::update( double timeStep, double error )
     // integration with anti-windup filter
     m_error_i = m_error_i + ( error - m_delta ) * timeStep;
 
-    m_error_d = ( error - m_error ) / timeStep;
+    m_error_d = ( timeStep > 0.0 ) ? ( error - m_error ) / timeStep : 0.0;
 
     m_error = error;
 
