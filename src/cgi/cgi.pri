@@ -12,7 +12,7 @@ HEADERS += \
     cgi/cgi_Intersections.h \
     cgi/cgi_Manager.h \
     cgi/cgi_ManipulatorOrbit.h \
-    cgi/cgi_ManipulatorPilot.h \
+    cgi/cgi_ManipulatorShift.h \
     cgi/cgi_ManipulatorWorld.h \
     cgi/cgi_Models.h \
     cgi/cgi_Module.h \
@@ -38,7 +38,7 @@ SOURCES += \
     cgi/cgi_Intersections.cpp \
     cgi/cgi_Manager.cpp \
     cgi/cgi_ManipulatorOrbit.cpp \
-    cgi/cgi_ManipulatorPilot.cpp \
+    cgi/cgi_ManipulatorShift.cpp \
     cgi/cgi_ManipulatorWorld.cpp \
     cgi/cgi_Models.cpp \
     cgi/cgi_Module.cpp \

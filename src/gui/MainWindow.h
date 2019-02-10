@@ -97,6 +97,7 @@ private:
     QShortcut *m_scTimeFaster;      ///<
     QShortcut *m_scTimeSlower;      ///<
 
+    bool m_viewChase;               ///<
     bool m_viewOrbit;               ///<
     bool m_viewPilot;               ///<
     bool m_viewWorld;               ///<
@@ -161,6 +162,7 @@ private slots:
 
     void on_actionQuit_triggered();
 
+    void on_actionViewChase_triggered();
     void on_actionViewOrbit_triggered();
     void on_actionViewPilot_triggered();
     void on_actionViewWorld_triggered();

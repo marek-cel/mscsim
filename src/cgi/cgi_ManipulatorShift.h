@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_MANIPULATORPILOT_H
-#define CGI_MANIPULATORPILOT_H
+#ifndef CGI_MANIPULATORSHIFT_H
+#define CGI_MANIPULATORSHIFT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,19 +32,19 @@ namespace cgi
 {
 
 /**
- * @brief Pilot camera manipulator class.
+ * @brief Shift camera manipulator class.
  */
-class ManipulatorPilot : public osgGA::CameraManipulator
+class ManipulatorShift : public osgGA::CameraManipulator
 {
-    typedef CameraManipulator inherited;
+    typedef osgGA::CameraManipulator inherited;
 
 public:
 
     /** Constructor. */
-    ManipulatorPilot();
+    ManipulatorShift();
 
     /** Constructor. */
-    ManipulatorPilot( const ManipulatorPilot &cmi,
+    ManipulatorShift( const ManipulatorShift &cmi,
                       const osg::CopyOp &copyOp = osg::CopyOp::SHALLOW_COPY );
 
     void setByMatrix( const osg::Matrixd &matrix );
@@ -54,9 +54,15 @@ public:
 
     bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us );
 
+    inline double getDistance() const { return m_distance; }
+
+    void setDistance( double distance );
+
 private:
 
     osg::Matrixd m_matrix;
+
+    double m_distance;
 
     /** */
     void updateMatrix();
@@ -66,4 +72,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CGI_MANIPULATORPILOT_H
+#endif // CGI_MANIPULATORSHIFT_H

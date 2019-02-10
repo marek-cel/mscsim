@@ -27,7 +27,7 @@
 #include <Data.h>
 
 #include <cgi/cgi_ManipulatorOrbit.h>
-#include <cgi/cgi_ManipulatorPilot.h>
+#include <cgi/cgi_ManipulatorShift.h>
 #include <cgi/cgi_ManipulatorWorld.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +41,8 @@ namespace cgi
 class Camera
 {
 public:
+
+    static const double m_downAngle;    ///< [rad]
 
     /** Constructor. */
     Camera();
@@ -78,6 +80,13 @@ public:
     /** Sets world manipulator node. */
     void setWorldNode( osg::Node *node );
 
+    /** Sets chase view. */
+    inline void setViewChase()
+    {
+        m_viewType = Data::Camera::ViewChase;
+        m_manipulator = m_manipulatorShift.get();
+    }
+
     /** Sets orbit view. */
     inline void setViewOrbit()
     {
@@ -89,7 +98,7 @@ public:
     inline void setViewPilot()
     {
         m_viewType = Data::Camera::ViewPilot;
-        m_manipulator = m_manipulatorPilot.get();
+        m_manipulator = m_manipulatorShift.get();
     }
 
     /** Sets world view. */
@@ -106,7 +115,7 @@ private:
     osg::ref_ptr<osgGA::CameraManipulator> m_manipulator;   ///< current manipulator
 
     osg::ref_ptr<ManipulatorOrbit> m_manipulatorOrbit;      ///< orbit view manipulator
-    osg::ref_ptr<ManipulatorPilot> m_manipulatorPilot;      ///< pilot view manipulator
+    osg::ref_ptr<ManipulatorShift> m_manipulatorShift;      ///< shift view manipulator
     osg::ref_ptr<ManipulatorWorld> m_manipulatorWorld;      ///< world view manipulator
 
     osg::ref_ptr<osg::Node> m_trackNode;    ///< orbit manipulator track node

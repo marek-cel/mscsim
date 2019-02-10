@@ -58,9 +58,10 @@ public:
         /** Camera manipulator types. */
         enum ViewType
         {
-            ViewPilot = 1,                  ///< pilot view camera manipulator
-            ViewOrbit = 2,                  ///< orbit view camera manipulator
-            ViewWorld = 3                   ///< world view camera manipulator
+            ViewChase = 1,                  ///< chase view camera manipulator
+            ViewPilot = 2,                  ///< pilot view camera manipulator
+            ViewOrbit = 3,                  ///< orbit view camera manipulator
+            ViewWorld = 4                   ///< world view camera manipulator
         };
 
         double latitude;                    ///< [rad] camera latitude

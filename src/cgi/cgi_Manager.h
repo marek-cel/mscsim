@@ -81,6 +81,9 @@ public:
     }
 
     /** */
+    void setCameraManipulatorChase();
+
+    /** */
     void setCameraManipulatorOrbit();
 
     /** */

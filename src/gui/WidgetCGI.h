@@ -79,6 +79,9 @@ public:
     virtual ~WidgetCGI();
 
     /** */
+    void setCameraManipulatorChase();
+
+    /** */
     void setCameraManipulatorOrbit();
 
     /** */

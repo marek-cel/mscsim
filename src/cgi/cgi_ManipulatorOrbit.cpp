@@ -29,7 +29,7 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 ManipulatorOrbit::ManipulatorOrbit() :
-    osgGA::NodeTrackerManipulator()
+    inherited()
 {
     setTrackerMode( NODE_CENTER );
     setWheelZoomFactor( -getWheelZoomFactor() );
@@ -39,9 +39,9 @@ ManipulatorOrbit::ManipulatorOrbit() :
 
 bool ManipulatorOrbit::handleFrame( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us )
 {
-    ///////////////////////////////////////////////////////////////////
-    bool result = osgGA::NodeTrackerManipulator::handleFrame( ea, us );
-    ///////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    bool result = inherited::handleFrame( ea, us );
+    ///////////////////////////////////////////////
 
     boundDistance();
 

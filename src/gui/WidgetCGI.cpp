@@ -87,6 +87,16 @@ WidgetCGI::~WidgetCGI()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WidgetCGI::setCameraManipulatorChase()
+{
+    cgi::Manager::instance()->setCameraManipulatorChase();
+    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+
+    m_camManipulatorInited = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void WidgetCGI::setCameraManipulatorOrbit()
 {
     cgi::Manager::instance()->setCameraManipulatorOrbit();

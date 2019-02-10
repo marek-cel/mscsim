@@ -36,6 +36,8 @@ namespace cgi
  */
 class ManipulatorOrbit : public osgGA::NodeTrackerManipulator
 {
+    typedef osgGA::NodeTrackerManipulator inherited;
+
 public:
 
     /** Constructor. */

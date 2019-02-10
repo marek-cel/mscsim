@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_ManipulatorPilot.h>
+#include <cgi/cgi_ManipulatorShift.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,50 +28,50 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ManipulatorPilot::ManipulatorPilot() :
+ManipulatorShift::ManipulatorShift() :
     inherited()
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ManipulatorPilot::ManipulatorPilot( const ManipulatorPilot &cmi,
+ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi,
                                     const osg::CopyOp &copyOp ) :
-                                    osg::Object( cmi, copyOp ),
-                                    inherited( cmi, copyOp ),
-                                    m_matrix( cmi.m_matrix )
+    osg::Object( cmi, copyOp ),
+    inherited( cmi, copyOp ),
+    m_matrix( cmi.m_matrix )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ManipulatorPilot::setByMatrix( const osg::Matrixd &matrix )
+void ManipulatorShift::setByMatrix( const osg::Matrixd &matrix )
 {
     m_matrix = matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ManipulatorPilot::setByInverseMatrix( const osg::Matrixd &matrix )
+void ManipulatorShift::setByInverseMatrix( const osg::Matrixd &matrix )
 {
     setByMatrix( osg::Matrixd::inverse( matrix ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Matrixd ManipulatorPilot::getMatrix() const
+osg::Matrixd ManipulatorShift::getMatrix() const
 {
     return m_matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Matrixd ManipulatorPilot::getInverseMatrix() const
+osg::Matrixd ManipulatorShift::getInverseMatrix() const
 {
     return osg::Matrixd::inverse( m_matrix );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool ManipulatorPilot::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &/*us*/ )
+bool ManipulatorShift::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &/*us*/ )
 {
     switch ( ea.getEventType() )
     {
@@ -79,6 +79,17 @@ bool ManipulatorPilot::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActio
         updateMatrix();
         return false;
         break;
+
+    case osgGA::GUIEventAdapter::SCROLL:
+        switch ( ea.getScrollingMotion() )
+        {
+            case osgGA::GUIEventAdapter::SCROLL_UP:   setDistance( m_distance - 0.1 * m_distance ); break;
+            case osgGA::GUIEventAdapter::SCROLL_DOWN: setDistance( m_distance + 0.1 * m_distance ); break;
+            default: break;
+        }
+        return false;
+        break;
+
     default:
         break;
     }
@@ -88,4 +99,22 @@ bool ManipulatorPilot::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActio
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ManipulatorPilot::updateMatrix() {}
+void ManipulatorShift::setDistance( double distance )
+{
+    if ( distance > 5000.0 )
+    {
+        m_distance = 5000.0;
+    }
+    else if ( distance < 5.0 )
+    {
+        m_distance = 5.0;
+    }
+    else
+    {
+        m_distance = distance;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void ManipulatorShift::updateMatrix() {}

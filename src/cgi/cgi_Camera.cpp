@@ -33,14 +33,18 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+const double Camera::m_downAngle = osg::DegreesToRadians( 10.0 );
+
+////////////////////////////////////////////////////////////////////////////////
+
 Camera::Camera()
 {
     m_manipulatorOrbit = new ManipulatorOrbit();
-    m_manipulatorPilot = new ManipulatorPilot();
+    m_manipulatorShift = new ManipulatorShift();
     m_manipulatorWorld = new ManipulatorWorld();
 
     m_viewType = Data::Camera::ViewPilot;
-    m_manipulator = m_manipulatorPilot.get();
+    m_manipulator = m_manipulatorShift.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +55,8 @@ Camera::~Camera() {}
 
 void Camera::update()
 {
-    if ( m_viewType == Data::Camera::ViewPilot )
+    if ( m_viewType == Data::Camera::ViewChase
+      || m_viewType == Data::Camera::ViewPilot )
     {
         osg::Quat q_tmp( -M_PI / 2.0, osg::X_AXIS,
                                  0.0, osg::Y_AXIS,
@@ -66,11 +71,38 @@ void Camera::update()
                           Data::get()->ownship.pos_y_wgs,
                           Data::get()->ownship.pos_z_wgs );
 
-        osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
-                           * osg::Matrixd::rotate( q_wgs )
-                           * osg::Matrixd::translate( r_wgs ) );
+        if ( m_viewType == Data::Camera::ViewChase )
+        {
+            double d_phi =  0.0;
+            double d_tht = -0.5 * Data::get()->ownship.pitchRate;
+            double d_psi =  0.0 * Data::get()->ownship.yawRate;
 
-        m_manipulatorPilot->setByMatrix( matrix );
+            double d_x = -m_manipulatorShift->getDistance();
+            double d_y = d_x * tan( d_psi ) * ( -1.0 );
+            double d_z = d_x * tan( m_downAngle - d_tht );
+
+            osg::Vec3d r_camera_bas( d_x, d_y, d_z );
+            osg::Quat q_camera_bas( d_phi, osg::X_AXIS,
+                                    d_tht, osg::Y_AXIS,
+                                    d_psi, osg::Z_AXIS );
+
+            osg::Vec3d r_camera_wgs = r_wgs + q_wgs * r_camera_bas;
+
+            osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
+                               * osg::Matrixd::rotate( q_camera_bas )
+                               * osg::Matrixd::rotate( q_wgs )
+                               * osg::Matrixd::translate( r_camera_wgs ) );
+
+            m_manipulatorShift->setByMatrix( matrix );
+        }
+        else if ( m_viewType == Data::Camera::ViewPilot )
+        {
+            osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
+                               * osg::Matrixd::rotate( q_wgs )
+                               * osg::Matrixd::translate( r_wgs ) );
+
+            m_manipulatorShift->setByMatrix( matrix );
+        }
     }
 
     m_attitude = m_manipulator->getMatrix().getRotate();

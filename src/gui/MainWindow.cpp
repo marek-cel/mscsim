@@ -58,6 +58,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_scTimeFaster ( 0 ),
     m_scTimeSlower ( 0 ),
 
+    m_viewChase ( false ),
     m_viewOrbit ( false ),
     m_viewPilot ( true  ),
     m_viewWorld ( false ),
@@ -392,18 +393,28 @@ void MainWindow::settingsRead_View( QSettings &settings )
 {
     settings.beginGroup( "view" );
 
+    m_viewChase = settings.value( "view_chase", 0 ).toInt();
     m_viewOrbit = settings.value( "view_orbit", 0 ).toInt();
     m_viewPilot = settings.value( "view_pilot", 1 ).toInt();
     m_viewWorld = settings.value( "view_world", 0 ).toInt();
 
     m_showHUD = settings.value( "show_hud", 1 ).toInt();
 
-    if ( m_viewOrbit || m_viewPilot || m_viewWorld )
+    if ( m_viewChase || m_viewOrbit || m_viewPilot || m_viewWorld )
     {
         m_ui->stackedMain->setCurrentIndex( 1 );
 
-        if ( m_viewOrbit )
+        if ( m_viewChase )
         {
+            m_viewOrbit = false;
+            m_viewPilot = false;
+            m_viewWorld = false;
+
+            m_ui->widgetCGI->setCameraManipulatorChase();
+        }
+        else if ( m_viewOrbit )
+        {
+            m_viewChase = false;
             m_viewPilot = false;
             m_viewWorld = false;
 
@@ -411,6 +422,7 @@ void MainWindow::settingsRead_View( QSettings &settings )
         }
         else if ( m_viewPilot )
         {
+            m_viewChase = false;
             m_viewOrbit = false;
             m_viewWorld = false;
 
@@ -418,6 +430,7 @@ void MainWindow::settingsRead_View( QSettings &settings )
         }
         else if ( m_viewWorld )
         {
+            m_viewChase = false;
             m_viewOrbit = false;
             m_viewPilot = false;
 
@@ -433,6 +446,7 @@ void MainWindow::settingsRead_View( QSettings &settings )
         m_ui->widgetCGI->setCameraManipulatorPilot();
     }
 
+    m_ui->actionViewChase->setChecked( m_viewChase );
     m_ui->actionViewOrbit->setChecked( m_viewOrbit );
     m_ui->actionViewPilot->setChecked( m_viewPilot );
     m_ui->actionViewWorld->setChecked( m_viewWorld );
@@ -485,6 +499,7 @@ void MainWindow::settingsSave_View( QSettings &settings )
 {
     settings.beginGroup( "view" );
 
+    settings.setValue( "view_chase", (int)m_viewChase );
     settings.setValue( "view_orbit", (int)m_viewOrbit );
     settings.setValue( "view_pilot", (int)m_viewPilot );
     settings.setValue( "view_world", (int)m_viewWorld );
@@ -975,12 +990,33 @@ void MainWindow::on_actionQuit_triggered()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_actionViewChase_triggered()
+{
+    m_viewChase = true;
+    m_viewOrbit = false;
+    m_viewPilot = false;
+    m_viewWorld = false;
+
+    m_ui->actionViewChase->setChecked( true  );
+    m_ui->actionViewOrbit->setChecked( false );
+    m_ui->actionViewPilot->setChecked( false );
+    m_ui->actionViewWorld->setChecked( false );
+
+    m_ui->stackedMain->setCurrentIndex( 1 );
+
+    m_ui->widgetCGI->setCameraManipulatorChase();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_actionViewOrbit_triggered()
 {
+    m_viewChase = false;
     m_viewOrbit = true;
     m_viewPilot = false;
     m_viewWorld = false;
 
+    m_ui->actionViewChase->setChecked( false );
     m_ui->actionViewOrbit->setChecked( true  );
     m_ui->actionViewPilot->setChecked( false );
     m_ui->actionViewWorld->setChecked( false );
@@ -994,10 +1030,12 @@ void MainWindow::on_actionViewOrbit_triggered()
 
 void MainWindow::on_actionViewPilot_triggered()
 {
+    m_viewChase = false;
     m_viewOrbit = false;
     m_viewPilot = true;
     m_viewWorld = false;
 
+    m_ui->actionViewChase->setChecked( false );
     m_ui->actionViewOrbit->setChecked( false );
     m_ui->actionViewPilot->setChecked( true  );
     m_ui->actionViewWorld->setChecked( false );
@@ -1011,10 +1049,12 @@ void MainWindow::on_actionViewPilot_triggered()
 
 void MainWindow::on_actionViewWorld_triggered()
 {
+    m_viewChase = false;
     m_viewOrbit = false;
     m_viewPilot = false;
     m_viewWorld = true;
 
+    m_ui->actionViewChase->setChecked( false );
     m_ui->actionViewOrbit->setChecked( false );
     m_ui->actionViewPilot->setChecked( false );
     m_ui->actionViewWorld->setChecked( true  );
