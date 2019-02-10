@@ -46,20 +46,10 @@ F16C_Controls::F16C_Controls( const F16C_Aircraft *aircraft ) :
     m_channelBrakeR    ( 0 ),
     m_channelNoseWheel ( 0 ),
 
-    m_ailerons_max ( 0.0 ),
-    m_elevator_max ( 0.0 ),
-    m_rudder_max   ( 0.0 ),
-    m_flaps_le_max ( 0.0 ),
+    m_flcs ( 0 ),
+
     m_airbrake_max ( 0.0 ),
 
-    m_ailerons      ( 0.0 ),
-    m_ailerons_norm ( 0.0 ),
-    m_elevator      ( 0.0 ),
-    m_elevator_norm ( 0.0 ),
-    m_rudder        ( 0.0 ),
-    m_rudder_norm   ( 0.0 ),
-    m_flaps_le      ( 0.0 ),
-    m_flaps_le_norm ( 0.0 ),
     m_airbrake      ( 0.0 ),
     m_airbrake_norm ( 0.0 ),
     m_brake_l       ( 0.0 ),
@@ -68,17 +58,27 @@ F16C_Controls::F16C_Controls( const F16C_Aircraft *aircraft ) :
 
     m_nwSteering ( false ),
 
-    m_cat   ( CAT_I  ),
-    m_gains ( Cruise ),
-
-    m_alpha_deg ( 0.0 ),
-    m_pitch_int ( 0.0 )
-{}
+    m_angleOfAttack ( 0.0 ),
+    m_gz            ( 0.0 ),
+    m_rollRate      ( 0.0 ),
+    m_pitchRate     ( 0.0 ),
+    m_stickLat      ( 0.0 ),
+    m_stickLon      ( 0.0 ),
+    m_trimLat       ( 0.0 ),
+    m_trimLon       ( 0.0 ),
+    m_staticPress   ( 0.0 ),
+    m_dynPress      ( 0.0 )
+{
+    m_flcs = new F16C_FLCS();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 F16C_Controls::~F16C_Controls()
-{}
+{
+    if ( m_flcs ) delete m_flcs;
+    m_flcs = 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -92,16 +92,26 @@ void F16C_Controls::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        m_flaps_le_max = 0.0;
+        double ailerons_max = 0.0;
+        double elevator_max = 0.0;
+        double rudder_max   = 0.0;
+        double flaps_le_max = 0.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_flaps_le_max , "flaps_le_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_airbrake_max , "airbrake_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, flaps_le_max , "flaps_le_max" );
 
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_airbrake_max, "airbrake_max" );
 
-        if ( result != FDM_SUCCESS )
+        if ( result == FDM_SUCCESS )
+        {
+            m_flcs->setAilerons_max( ailerons_max );
+            m_flcs->setElevator_max( elevator_max );
+            m_flcs->setRudder_max( rudder_max );
+            m_flcs->setFlaps_le_max( flaps_le_max );
+        }
+        else
         {
             Exception e;
 
@@ -207,231 +217,45 @@ void F16C_Controls::update()
     m_nose_wheel = m_channelNoseWheel->output;
     m_nwSteering = m_drNwSteering.getDatab();
 
-    updateAFCS();
+    int steps = 1;
+    double timeStep = m_aircraft->getTimeStep() / (double)steps;
+    for ( int i = 0; i < steps; i++ )
+    {
+        double coef = ( (double)i + 1.0 ) / (double)steps;
 
-    m_outputAilerons  .setDatad( m_ailerons );
-    m_outputElevator  .setDatad( m_elevator );
-    m_outputRudder    .setDatad( m_rudder   );
+        double angleOfAttack = m_angleOfAttack + coef * ( m_aircraft->getAngleOfAttack()        - m_angleOfAttack  );
+        double g_z           = m_gz            + coef * ( m_aircraft->getGForce().z()           - m_gz             );
+        double rollRate      = m_rollRate      + coef * ( m_aircraft->getOmg_BAS()( i_p )       - m_rollRate       );
+        double pitchRate     = m_pitchRate     + coef * ( m_aircraft->getOmg_BAS()( i_q )       - m_pitchRate      );
+        double stickLat      = m_stickLat      + coef * ( m_channelRoll->output                 - m_stickLat       );
+        double stickLon      = m_stickLon      + coef * ( m_channelPitch->output                - m_stickLon       );
+        double trimLat       = m_trimLat       + coef * ( m_channelRollTrim->output             - m_trimLat        );
+        double trimLon       = m_trimLon       + coef * ( m_channelPitchTrim->output            - m_trimLon        );
+        double staticPress   = m_staticPress   + coef * ( m_aircraft->getEnvir()->getPressure() - m_staticPress    );
+        double dynPress      = m_dynPress      + coef * ( m_aircraft->getDynPress()             - m_dynPress       );
+
+        m_flcs->update( timeStep, angleOfAttack, g_z,
+                        rollRate, pitchRate,
+                        stickLat, trimLat,
+                        stickLon, trimLon,
+                        staticPress, dynPress );
+    }
+
+    m_angleOfAttack = m_aircraft->getAngleOfAttack();
+    m_gz            = m_aircraft->getGForce().z();
+    m_rollRate      = m_aircraft->getOmg_BAS()( i_p );
+    m_pitchRate     = m_aircraft->getOmg_BAS()( i_q );
+    m_stickLat      = m_channelRoll->output;
+    m_stickLon      = m_channelPitch->output;
+    m_trimLat       = m_channelRollTrim->output;
+    m_trimLon       = m_channelPitchTrim->output;
+    m_staticPress   = m_aircraft->getEnvir()->getPressure();
+    m_dynPress      = m_aircraft->getDynPress();
+
+    m_outputAilerons  .setDatad( m_flcs->getAilerons() );
+    m_outputElevator  .setDatad( m_flcs->getElevator() );
+    m_outputRudder    .setDatad( m_flcs->getRudder() );
     m_outputFlaps     .setDatad( 0.0 );
-    m_outputFlapsLE   .setDatad( m_flaps_le );
+    m_outputFlapsLE   .setDatad( m_flcs->getFlapsLE() );
     m_outputAirbrake  .setDatad( m_airbrake );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_Controls::updateAFCS()
-{
-    m_alpha_deg = Units::rad2deg( m_aircraft->getAngleOfAttack() );
-
-    // TODO: Aileron Rudder Interconnect (ARI), rudder authority limiter, yaw rate limiter
-
-    // TODO (GR1F-16CJ-1, p.1-127)
-//    if ( ( Units::mps2kts( m_aircraft->getAirspeed() ) < 400.0 && ( alt_flaps_extend || air_refuel_open ) )
-//      || landing_gear_dn )
-//    {
-//        m_gains = Takeoff;
-//    }
-//    else
-//    {
-//        m_gains = Cruise;
-//    }
-
-    updateAFCS_Flaps();
-    updateAFCS_Pitch(); // before roll
-    updateAFCS_Roll();
-    updateAFCS_Yaw();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_Controls::updateAFCS_Flaps()
-{
-    // NASA-TP-1538, p.34
-    // d_lef = 1.38 (2s+7.25)/(s+7.25) AoA - 9.05 q/p_s + 1.45
-    double flaps_le_deg = 1.38 * ( m_alpha_deg )
-            - 9.05 * m_aircraft->getDynPress() / m_aircraft->getEnvir()->getPressure() + 1.45;
-
-    m_flaps_le = Misc::satur( 0.0, m_flaps_le_max, Units::deg2rad( flaps_le_deg ) );
-    m_flaps_le_norm = m_flaps_le / m_flaps_le_max;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_Controls::updateAFCS_Pitch()
-{
-    // TODO lags
-    double q_com = 0.0;
-
-    if ( m_gains == Cruise )
-    {
-        double g_com = ( m_aircraft->getGear()->getOnGround() ? 1.0 : 0.5 ) * getGCommand();
-        q_com = g_com - ( m_aircraft->getGForce().z() - 1.0 );
-    }
-    else
-    {
-        // TODO pitch rate (Takeoff gains)
-    }
-
-    // Marchand, p.21
-    double delta_q = 0.167 * m_aircraft->getOmg_BAS()( i_q ) - q_com;
-
-    // NASA-TP-1538, p.210
-    // Marchand, p.20
-    // TO 1F-16A-1, p.1-124
-    double pitch_u = 3.0 * getPitchLoopGain() * Units::deg2rad( delta_q );
-    m_pitch_int = m_pitch_int + m_aircraft->getTimeStep() * pitch_u;
-    m_pitch_int = Misc::satur( -m_elevator_max, m_elevator_max, m_pitch_int );
-    double elevator_rad = pitch_u + m_pitch_int;
-
-    // NASA-TP-1538, p.210
-    double elevator_delta_max = Units::deg2rad( 60.0 ) * m_aircraft->getTimeStep();
-    if ( fabs( elevator_rad - m_elevator ) < elevator_delta_max )
-    {
-        m_elevator = elevator_rad;
-    }
-    else
-    {
-        m_elevator += Misc::sign( elevator_rad - m_elevator ) * elevator_delta_max;
-    }
-
-    m_elevator = Misc::satur( -m_elevator_max, m_elevator_max, m_elevator );
-    m_elevator_norm = m_elevator / m_elevator_max;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_Controls::updateAFCS_Roll()
-{
-    // TODO according to scheme
-    double p_com = getRollRateCommand( Units::rad2deg( m_elevator ) );
-    double delta_p = p_com - m_aircraft->getOmg_BAS()( i_p );
-    double ailerons_deg = -0.12 * Units::rad2deg( delta_p );
-    double ailerons_rad = Units::deg2rad( ailerons_deg );
-
-    m_ailerons = Misc::satur( -m_ailerons_max, m_ailerons_max, ailerons_rad );
-    m_ailerons_norm = m_ailerons / m_ailerons_max;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_Controls::updateAFCS_Yaw()
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_Controls::getGCommand()
-{
-    // negative g limit
-    // NASA-TP-1538, p.211 - 62(b)
-    // Marchand, p.20 - F1
-    double g_min = -4.0;
-    if ( m_aircraft->getDynPress() < 1628.0 ) // 34 psf
-    {
-        g_min = -1.0;
-    }
-    else if ( m_aircraft->getDynPress() < 8810.0 ) // 184 psf
-    {
-        g_min = -1.0 - ( 3.0 / ( 8810.0 - 1628.0 ) ) * ( m_aircraft->getDynPress() - 1628.0 );
-    }
-
-    double g_max = getMaxG();
-
-    // NASA-TP-1538, p.210
-    double g_com = -9.0 * m_channelPitch->output - 2.4 * m_channelPitchTrim->output;
-
-    return Misc::satur( g_min, g_max, g_com );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_Controls::getMaxG()
-{
-    // AoA/G Limiter
-    // NASA-TP-1538, p.34
-    // Droste, p.94
-    // GR1F-16CJ-1, p.1-125
-    double g_max = 9.0;
-
-    if ( m_cat == CAT_I )
-    {
-        if ( m_alpha_deg >= 25.2 )
-        {
-            g_max = 0.0;
-        }
-        else if ( m_alpha_deg >= 20.4 )
-        {
-            g_max = 7.2612 - ( m_alpha_deg - 20.4 ) * 1.322;
-        }
-        else if ( m_alpha_deg >= 15.0 )
-        {
-            g_max = 9.0 - ( m_alpha_deg - 15.0 ) * 0.322;
-        }
-    }
-    else
-    {
-        // TODO
-    }
-
-
-    return g_max;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_Controls::getPitchRateGain()
-{
-    // NASA-TP-1538, p.211 - 62(c)
-    // Marchand, p.20 - F3
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_Controls::getPitchLoopGain()
-{
-    // NASA-TP-1538, p.211 - 62(d)
-    // Marchand, p.20 - F3
-    double gain = 1.0;
-
-    if ( m_aircraft->getDynPress() > 143640.0 ) // 3,000 psf
-    {
-        gain = 0.083;
-    }
-    else if ( m_aircraft->getDynPress() > 38304.0 ) // 800 psf
-    {
-        gain = 0.533 - ( 0.533 - 0.083 ) / ( 143640.0 - 38304.0 ) * ( m_aircraft->getDynPress() - 38304.0 );
-    }
-    else if ( m_aircraft->getDynPress() > 14364.0 ) // 300 psf
-    {
-        gain = 1.0 - ( 1.0 - 0.533 ) / ( 38304.0 - 14364.0 ) * ( m_aircraft->getDynPress() - 14364.0 );
-    }
-
-    return gain;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_Controls::getRollRateCommand( double delta_h )
-{
-    // NASA-TP-1538, p.214
-    double p_com_pilot = -308.0 * m_channelRoll->output - 40.0 * m_channelRollTrim->output * 1.67;
-
-    // NASA-TP-1538, p.129
-    // Droste, p.99
-    // GR1F-16CJ-1, p.1-125
-    double delta_p_max = -0.0115 * std::min( m_aircraft->getDynPress() - 10500.0, 0.0 )
-            + 4.0 * std::max( m_alpha_deg - 15.0, 0.0 )
-            + 4.0 * std::max( delta_h     -  5.0, 0.0 );
-            // TODO Total rudder command (from pilot and FLCS) exceeding 20deg (GR1F-16CJ-1, p.1-125)
-            // TODO Combination of horizontal tail greater than 15deg trailing edge down and AoA above 22deg (GR1F-16CJ-1, p.1-125)
-
-    double p_max = 308.0 - std::min( delta_p_max, 228.0 );
-
-    if ( m_cat == CAT_III )
-    {
-        p_max *= 0.6;
-    }
-
-    return Units::deg2rad( Misc::satur( -p_max, p_max, p_com_pilot ) );
 }

@@ -26,7 +26,7 @@
 
 #include <fdmMain/fdm_Controls.h>
 
-#include <fdmSys/fdm_PID.h>
+#include <fdm_f16c/f16c_FLCS.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -37,32 +37,10 @@ class F16C_Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief F-16 controls class.
- *
- * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
- * @see Droste T., Walker J.: The General Dynamics Case Study on the F-16 Fly-by-Wire Flight Control System
- * @see Marchand M.: Pitch Rate Flight Control for the F-16 Aircraft to improve Air-to-Air Combat, 1977
- * @see Kassan M.: F-16 Simulator for Man-in-the-Loop Testing of Aircraft Control Systems, 1987
- * @see Dameron G.: A Real-Time Simulator for Man-in-the-Loop Testing of Aircraft Control System, 1988
- * @see Flight Manual USAF/EPAF Series Aircraft F-16A/B Blocks 10 and 15. T.O. 1F-16A-1, 2003
- * @see Flight Manual HAF Series Aircraft F-16C/D Blocks 50 and 52+. T.O. GR1F-16CJ-1, 2003
  */
 class F16C_Controls : public Controls
 {
 public:
-
-    /** Loading category. */
-    enum CAT
-    {
-        CAT_I   = 0,    ///< category I loadings
-        CAT_III = 1     ///< category III loadings
-    };
-
-    /** FLCS gains. */
-    enum Gains
-    {
-        Cruise  = 0,
-        Takeoff = 1
-    };
 
     /** Constructor. */
     F16C_Controls( const F16C_Aircraft *aircraft );
@@ -86,14 +64,14 @@ public:
      */
     void update();
 
-    inline double getAilerons()     const { return m_ailerons;      }
-    inline double getAileronsNorm() const { return m_ailerons_norm; }
-    inline double getElevator()     const { return m_elevator;      }
-    inline double getElevatorNorm() const { return m_elevator_norm; }
-    inline double getRudder()       const { return m_rudder;        }
-    inline double getRudderNorm()   const { return m_rudder_norm;   }
-    inline double getFlapsLE()      const { return m_flaps_le;      }
-    inline double getFlapsLENorm()  const { return m_flaps_le_norm; }
+    inline double getAilerons()     const { return m_flcs->getAilerons();     }
+    inline double getAileronsNorm() const { return m_flcs->getAileronsNorm(); }
+    inline double getElevator()     const { return m_flcs->getElevator();     }
+    inline double getElevatorNorm() const { return m_flcs->getElevatorNorm(); }
+    inline double getRudder()       const { return m_flcs->getRudder();       }
+    inline double getRudderNorm()   const { return m_flcs->getRudderNorm();   }
+    inline double getFlapsLE()      const { return m_flcs->getFlapsLE();      }
+    inline double getFlapsLENorm()  const { return m_flcs->getFlapsLENorm();  }
     inline double getAirbrake()     const { return m_airbrake;      }
     inline double getAirbrakeNorm() const { return m_airbrake_norm; }
     inline double getBrakeL()       const { return m_brake_l;       }
@@ -116,20 +94,10 @@ private:
     Channel *m_channelBrakeR;           ///< right brake channel
     Channel *m_channelNoseWheel;        ///< nose wheel channel
 
-    double m_ailerons_max;
-    double m_elevator_max;              ///< [rad] elevator deflection limit
-    double m_rudder_max;
-    double m_flaps_le_max;              ///< [rad] leading edgle flaps deflection limit
-    double m_airbrake_max;
+    F16C_FLCS *m_flcs;                  ///< Fligt Control System
 
-    double m_ailerons;                  ///< [rad] ailerons deflection
-    double m_ailerons_norm;             ///< [-] normalized ailerons deflection
-    double m_elevator;                  ///< [rad] elevator deflection
-    double m_elevator_norm;             ///< [-] normalized elevator deflection
-    double m_rudder;                    ///< [rad] rudder deflection
-    double m_rudder_norm;               ///< [-] normalized rudder deflection
-    double m_flaps_le;                  ///< [rad] leading edge flaps deflection
-    double m_flaps_le_norm;             ///< [-] normalized leading edge flaps deflection
+    double m_airbrake_max;              ///< [rad] airbrake deflection limit
+
     double m_airbrake;                  ///< [rad] airbrake deflection
     double m_airbrake_norm;             ///< [-] normalized airbrake deflection
     double m_brake_l;                   ///< [-] normalized left brake force
@@ -140,11 +108,16 @@ private:
 
     DataRef m_drNwSteering;             ///< nose wheel steering data refernce
 
-    CAT   m_cat;                        ///< loading category
-    Gains m_gains;                      ///< FLCS gains mode
-
-    double m_alpha_deg;                 ///< [deg] angle of attack
-    double m_pitch_int;                 ///< [rad] pitch integral
+    double m_angleOfAttack;
+    double m_gz;
+    double m_rollRate;
+    double m_pitchRate;
+    double m_stickLat;
+    double m_stickLon;
+    double m_trimLat;
+    double m_trimLon;
+    double m_staticPress;
+    double m_dynPress;
 
     DataRef m_outputAilerons;           ///<
     DataRef m_outputElevator;           ///<
@@ -152,32 +125,6 @@ private:
     DataRef m_outputFlaps;              ///<
     DataRef m_outputFlapsLE;            ///<
     DataRef m_outputAirbrake;           ///<
-
-    void updateAFCS();
-    void updateAFCS_Flaps();
-    void updateAFCS_Pitch();
-    void updateAFCS_Roll();
-    void updateAFCS_Yaw();
-
-    /**
-     * @brief getGCommandCAT_I
-     * @param alpha [deg] angle of attack
-     * @return [-] g command
-     */
-    double getGCommand();
-
-    double getMaxG();
-
-    double getPitchRateGain();
-
-    double getPitchLoopGain();
-
-    /**
-     * @brief getRollRateCommand
-     * @param delta_h [deg] horizontal stabilator deflection commanded by the control system
-     * @return [rad/s] roll rate command
-     */
-    double getRollRateCommand( double delta_h );
 };
 
 } // end of fdm namespace
