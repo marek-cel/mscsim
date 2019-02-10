@@ -175,10 +175,25 @@ public:
      */
     inline static double satur( const double &min, const double &max, const double &val )
     {
-        if ( val < min ) return min;
-        if ( val > max ) return max;
+        if      ( val < min ) return min;
+        else if ( val > max ) return max;
 
         return val;
+    }
+
+    /**
+     * Deadband function. Returns zero within the given deadband.
+     * @param start deadband start
+     * @param end deadband end
+     * @param val variable to test
+     * @return zero if value is greater than min and less than max
+     */
+    inline static double deadband( const double &start, const double &end, const double &val )
+    {
+        if      ( val > end   ) return val - end;
+        else if ( val < start ) return val - start;
+
+        return 0.0;
     }
 
     /**
