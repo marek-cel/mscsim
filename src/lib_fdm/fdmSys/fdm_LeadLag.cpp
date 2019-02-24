@@ -20,12 +20,10 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmSys/fdm_PID.h>
+#include <fdmSys/fdm_LeadLag.h>
 
 #include <algorithm>
-#include <limits>
-
-#include <fdmUtils/fdm_Misc.h>
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,85 +31,78 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::PID( double kp, double ki, double kd ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( std::numeric_limits< double >::min() ),
-    m_max ( std::numeric_limits< double >::max() ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( false )
+LeadLag::LeadLag() :
+    m_c1 ( 0.0 ),
+    m_c2 ( 0.0 ),
+    m_c3 ( 0.0 ),
+    m_c4 ( 0.0 ),
+    m_u_prev ( 0.0 ),
+    m_y_prev ( 0.0 ),
+    m_y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::PID( double kp, double ki, double kd, double min, double max ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( min ),
-    m_max ( max ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( true )
+LeadLag::LeadLag( double c1, double c2, double c3, double c4, double y ) :
+    m_c1 ( c1 ),
+    m_c2 ( c2 ),
+    m_c3 ( c3 ),
+    m_c4 ( c4 ),
+    m_u_prev ( 0.0 ),
+    m_y_prev ( y ),
+    m_y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::~PID() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void PID::update( double timeStep, double error )
+void LeadLag::setValue( double y )
 {
-    if ( timeStep > 0.0 )
-    {
-        // integration with anti-windup filter
-        m_error_i = m_error_i + ( error - m_delta ) * timeStep;
-
-        m_error_d = ( timeStep > 0.0 ) ? ( error - m_error ) / timeStep : 0.0;
-
-        m_error = error;
-
-        double value = m_kp * m_error + m_ki * m_error_i + m_kd * m_error_d;
-
-        // saturation
-        if ( m_saturation )
-        {
-            m_value = Misc::satur( m_min, m_max, value );
-        }
-        else
-        {
-            m_value = value;
-        }
-
-        m_delta = value - m_value;
-    }
+    m_y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PID::setValue( double value )
+void LeadLag::setC1( double c1 )
 {
-    m_error   = 0.0;
-    m_error_i = 0.0;
-    m_error_d = 0.0;
+    m_c1 = c1;
+}
 
-    m_value = value;
-    m_delta = 0.0;
+////////////////////////////////////////////////////////////////////////////////
+
+void LeadLag::setC2( double c2 )
+{
+    m_c2 = c2;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void LeadLag::setC3( double c3 )
+{
+    m_c3 = c3;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void LeadLag::setC4( double c4 )
+{
+    m_c4 = c4;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void LeadLag::update( double u, double dt )
+{
+    if ( dt > 0.0 )
+    {
+        double den = 2.0 * m_c3 + dt * m_c4;
+
+        double ca = ( 2.0 * m_c1 + dt  * m_c2 ) / den;
+        double cb = ( dt  * m_c2 - 2.0 * m_c1 ) / den;
+        double cc = ( 2.0 * m_c3 - dt  * m_c4 ) / den;
+
+        m_y = u * ca + m_u_prev * cb + m_y_prev * cc;
+
+        m_u_prev = u;
+        m_y_prev = m_y;
+    }
 }

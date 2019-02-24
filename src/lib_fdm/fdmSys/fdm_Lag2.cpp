@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmSys/fdm_Inertia.h>
+#include <fdmSys/fdm_Lag2.h>
 
 #include <math.h>
 
@@ -30,45 +30,57 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Inertia::update( double u, double y, double dt, double tc )
-{
-    return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Inertia::Inertia() :
-    m_tc( 1.0 ),
+Lag2::Lag2() :
+    m_lag1 ( new Lag( 0.0, 0.0 ) ),
+    m_tc2 ( 0.0 ),
     m_y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Inertia::Inertia( double tc, double y ) :
-    m_tc ( tc ),
-    m_y  ( y  )
+Lag2::Lag2( double tc1, double tc2, double y ) :
+    m_lag1 ( new Lag( tc1, y ) ),
+    m_tc2 ( tc2 ),
+    m_y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia::setValue( double y )
+Lag2::~Lag2()
 {
+    if ( m_lag1 ) delete m_lag1;
+    m_lag1 = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Lag2::setValue( double y )
+{
+    m_lag1->setValue( y );
     m_y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia::setTimeConstant( double tc )
+void Lag2::setTimeConstant1( double tc1 )
 {
-    if ( tc > 0.0 )
-    {
-        m_tc = tc;
-    }
+    m_lag1->setTimeConstant( tc1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia::update( double u, double dt )
+void Lag2::setTimeConstant2( double tc2 )
 {
-    m_y = update( u, m_y, dt, m_tc );
+    m_tc2 = tc2;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Lag2::update( double u, double dt )
+{
+    if ( dt > 0.0 )
+    {
+        m_lag1->update( u, dt );
+        m_y = Lag::update( m_lag1->getValue(), m_y, dt, m_tc2 );
+    }
 }

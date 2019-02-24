@@ -19,57 +19,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_INERTIA_H
-#define FDM_INERTIA_H
+
+#include <fdmSys/fdm_Lag.h>
+
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Defines.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+double Lag::update( double u, double y, double dt, double tc )
 {
-
-/**
- * @brief Inertia class.
- * G(s) = 1 / ( 1 + s*Tc )
- */
-class FDMEXPORT Inertia
-{
-public:
-
-    /**
-     * @brief update
-     * @param u input
-     * @param y current valuye
-     * @param dt [s] time step
-     * @param tc [s] time constant
-     * @return
-     */
-    static double update( double u, double y, double dt, double tc );
-
-    Inertia();
-
-    Inertia( double tc, double y = 0.0 );
-
-    inline double getValue() const { return m_y;  }
-    inline double getTimeConstant() const { return m_tc; }
-
-    void setValue( double y );
-    void setTimeConstant( double tc );
-
-    void update( double u, double dt );
-
-private:
-
-    double m_tc;    ///< time constant
-    double m_y;     ///< current value
-
-};
-
-} // end of fdm namespace
+    return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_INERTIA_H
+Lag::Lag() :
+    m_tc( 1.0 ),
+    m_y ( 0.0 )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Lag::Lag( double tc, double y ) :
+    m_tc ( tc ),
+    m_y ( y )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Lag::setValue( double y )
+{
+    m_y = y;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Lag::setTimeConstant( double tc )
+{
+    if ( tc > 0.0 )
+    {
+        m_tc = tc;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Lag::update( double u, double dt )
+{
+    if ( dt > 0.0 )
+    {
+        m_y = update( u, m_y, dt, m_tc );
+    }
+}

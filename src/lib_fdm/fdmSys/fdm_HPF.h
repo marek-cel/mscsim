@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_INERTIA2_H
-#define FDM_INERTIA2_H
+#ifndef FDM_HPF_H
+#define FDM_HPF_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmSys/fdm_Inertia.h>
+#include <fdmMain/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,37 +32,39 @@ namespace fdm
 {
 
 /**
- * @brief 2nd order inertia class.
- * G(s) = 1 / ( 1 + s*Tc1 )( 1 + s*Tc2 )
+ * @brief First-order high-pass filter (HPF) or washout filter class.
+ * Transfer function: G(s) = s / ( s + omega ) = ( s / omega ) / ( 1 + s/omega )
  */
-class FDMEXPORT Inertia2
+class FDMEXPORT HPF
 {
 public:
 
-    Inertia2();
+    HPF();
 
-    Inertia2( double tc1, double tc2, double y = 0.0 );
+    HPF( double omega, double y = 0.0 );
 
-    virtual ~Inertia2();
-
-    inline double getValue() const { return m_y; }
+    inline double getValue() const { return m_y;  }
+    inline double getOmega() const { return m_omega; }
 
     void setValue( double y );
-    void setTimeConstant1( double tc1 );
-    void setTimeConstant2( double tc2 );
+    void setOmega( double omega );
+
+    void setCutoffFreq( double freq );
 
     void update( double u, double dt );
 
 private:
 
-    Inertia *m_inertia1;
+    double m_omega;     ///< [rad/s]
+    double m_tc;        ///< time constant
 
-    double m_tc2;   ///< time constant
-    double m_y;     ///< current value
+    double m_u_prev;    ///<
+
+    double m_y;         ///< current value
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_INERTIA2_H
+#endif // FDM_HPF_H

@@ -20,12 +20,10 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdmSys/fdm_PID.h>
+#include <fdmSys/fdm_LPF.h>
 
 #include <algorithm>
-#include <limits>
-
-#include <fdmUtils/fdm_Misc.h>
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,85 +31,49 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::PID( double kp, double ki, double kd ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( std::numeric_limits< double >::min() ),
-    m_max ( std::numeric_limits< double >::max() ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( false )
+LPF::LPF() :
+    m_omega ( 1.0 ),
+    m_tc ( 1.0 ),
+    m_y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::PID( double kp, double ki, double kd, double min, double max ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
-
-    m_min ( min ),
-    m_max ( max ),
-
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
-
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
-
-    m_saturation ( true )
+LPF::LPF( double omega, double y ) :
+    m_omega ( omega ),
+    m_tc ( 1.0 / omega ),
+    m_y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PID::~PID() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void PID::update( double timeStep, double error )
+void LPF::setValue( double y )
 {
-    if ( timeStep > 0.0 )
-    {
-        // integration with anti-windup filter
-        m_error_i = m_error_i + ( error - m_delta ) * timeStep;
-
-        m_error_d = ( timeStep > 0.0 ) ? ( error - m_error ) / timeStep : 0.0;
-
-        m_error = error;
-
-        double value = m_kp * m_error + m_ki * m_error_i + m_kd * m_error_d;
-
-        // saturation
-        if ( m_saturation )
-        {
-            m_value = Misc::satur( m_min, m_max, value );
-        }
-        else
-        {
-            m_value = value;
-        }
-
-        m_delta = value - m_value;
-    }
+    m_y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PID::setValue( double value )
+void LPF::setOmega( double omega )
 {
-    m_error   = 0.0;
-    m_error_i = 0.0;
-    m_error_d = 0.0;
+    m_omega = std::max( 0.0, omega );
+    m_tc = 1.0 / m_omega;
+}
 
-    m_value = value;
-    m_delta = 0.0;
+////////////////////////////////////////////////////////////////////////////////
+
+void LPF::setCutoffFreq( double freq )
+{
+    m_omega = 2.0 * M_PI * std::max( 0.0, freq );
+    m_tc = 1.0 / m_omega;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void LPF::update( double u, double dt )
+{
+    if ( dt > 0.0 )
+    {
+        m_y = m_y + ( 1.0 - exp( -dt / m_tc ) ) * ( u - m_y );
+    }
 }
