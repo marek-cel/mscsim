@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include <QString>
 #include <QtTest>
 

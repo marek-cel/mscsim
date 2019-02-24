@@ -3,14 +3,16 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_Inertia2.h>
+#include <fdmSys/fdm_LeadLag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TIME_STEP 0.1
 
-#define TIME_CONSTANT_1 2.0
-#define TIME_CONSTANT_2 3.0
+#define C_1 1.0
+#define C_2 0.0
+#define C_3 1.0
+#define C_4 1.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -18,39 +20,39 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class Inertia2Test : public QObject
+class LeadLagTest : public QObject
 {
     Q_OBJECT
 
 public:
 
-    Inertia2Test();
+    LeadLagTest();
 
 private:
 
     std::vector< double > m_y;
 
-    fdm::Inertia2 *m_inertia;
+    fdm::LeadLag *m_leadLag;
 
 private Q_SLOTS:
 
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void sampleTest();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Inertia2Test::Inertia2Test() {}
+LeadLagTest::LeadLagTest() : m_leadLag ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia2Test::initTestCase()
+void LeadLagTest::initTestCase()
 {
-    m_inertia = new fdm::Inertia2( TIME_CONSTANT_1, TIME_CONSTANT_2 );
+    m_leadLag = new fdm::LeadLag( C_1, C_2, C_3, C_4 );
 
-    FILE *file = fopen( "data/tst_fdm_inertia2.bin", "r" );
+    FILE *file = fopen( "data/tst_fdm_lead_lag.bin", "r" );
 
     if ( file )
     {
@@ -68,43 +70,49 @@ void Inertia2Test::initTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia2Test::cleanupTestCase()
+void LeadLagTest::cleanupTestCase()
 {
-    if ( m_inertia ) delete m_inertia;
-    m_inertia = 0;
+    if ( m_leadLag ) delete m_leadLag;
+    m_leadLag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Inertia2Test::testUpdate()
+void LeadLagTest::sampleTest()
 {
     double t = 0.0;
     double y = 0.0;
 
-    for ( unsigned int i = 0; i < m_y.size(); i++ )
+    int devider = 10;
+    int index = 0;
+    double dt = TIME_STEP / (double)devider;
+
+    for ( unsigned int i = 0; i < devider * m_y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        int steps = 10;
-        for ( int j = 0; j < steps; j++ )
+        m_leadLag->update( u, dt );
+        y = m_leadLag->getValue();
+
+        if ( i % devider == 0 )
         {
-            double dt = TIME_STEP / (double)steps;
-            m_inertia->update( u, dt );
-            y = m_inertia->getValue();
+            if ( index > 0 )
+            {
+                cout << y << " " << m_y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - m_y.at( index - 1 ) ) < 1.0e-1, "Failure" );
+            }
+
+            index++;
         }
 
-        cout << y << " " << m_y.at( i ) << endl;
-
-        QVERIFY2( fabs( y - m_y.at( i ) ) < 1.0e-3, "Failure" );
-
-        t += TIME_STEP;
+        t += dt;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(Inertia2Test)
+QTEST_APPLESS_MAIN(LeadLagTest)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "tst_fdm_inertia2.moc"
+#include "tst_fdm_lead_lag.moc"

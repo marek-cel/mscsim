@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<XcosDiagram debugLevel="0" finalIntegrationTime="10.0" integratorAbsoluteTolerance="1.0E-6" integratorRelativeTolerance="1.0E-6" toleranceOnTime="1.0E-10" maxIntegrationTimeInterval="100001.0" maximumStepSize="0.0" realTimeScaling="0.0" solver="1.0" background="-1" gridEnabled="1" title="tst_fdm_inertia2"><!--Xcos - 2.0 - scilab-6.0.1 - 20180306 1607-->
+<XcosDiagram debugLevel="0" finalIntegrationTime="10.0" integratorAbsoluteTolerance="1.0E-6" integratorRelativeTolerance="1.0E-6" toleranceOnTime="1.0E-10" maxIntegrationTimeInterval="100001.0" maximumStepSize="0.0" realTimeScaling="0.0" solver="1.0" background="-1" gridEnabled="1" title="tst_fdm_lag2"><!--Xcos - 2.0 - scilab-6.0.1 - 20180306 1607-->
   <Array as="context" scilabClass="String[]"></Array>
   <mxGraphModel as="model">
     <root>
@@ -104,14 +104,14 @@
       <BasicBlock id="-3970764d:168cc132886:-7ff2" parent="0:2:0" interfaceFunctionName="WRITEC_f" blockType="d" dependsOnU="1" dependsOnT="0" simulationFunctionName="writec" simulationFunctionType="TYPE_2" style="WRITEC_f">
         <ScilabString as="exprs" height="5" width="1">
           <data line="0" column="0" value="1"/>
-          <data line="1" column="0" value="tst_fdm_inertia2.bin"/>
+          <data line="1" column="0" value="tst_fdm_lag2.bin"/>
           <data line="2" column="0" value="f"/>
           <data line="3" column="0" value="2"/>
           <data line="4" column="0" value="0"/>
         </ScilabString>
         <ScilabDouble as="realParameters" height="0" width="0"/>
-        <ScilabInteger as="integerParameters" height="1" width="26" intPrecision="sci_int32">
-          <data line="0" column="0" value="20"/>
+        <ScilabInteger as="integerParameters" height="1" width="22" intPrecision="sci_int32">
+          <data line="0" column="0" value="16"/>
           <data line="0" column="1" value="102"/>
           <data line="0" column="2" value="32"/>
           <data line="0" column="3" value="32"/>
@@ -125,18 +125,14 @@
           <data line="0" column="11" value="100"/>
           <data line="0" column="12" value="109"/>
           <data line="0" column="13" value="95"/>
-          <data line="0" column="14" value="105"/>
-          <data line="0" column="15" value="110"/>
-          <data line="0" column="16" value="101"/>
-          <data line="0" column="17" value="114"/>
-          <data line="0" column="18" value="116"/>
-          <data line="0" column="19" value="105"/>
-          <data line="0" column="20" value="97"/>
-          <data line="0" column="21" value="50"/>
-          <data line="0" column="22" value="46"/>
-          <data line="0" column="23" value="98"/>
-          <data line="0" column="24" value="105"/>
-          <data line="0" column="25" value="110"/>
+          <data line="0" column="14" value="108"/>
+          <data line="0" column="15" value="97"/>
+          <data line="0" column="16" value="103"/>
+          <data line="0" column="17" value="50"/>
+          <data line="0" column="18" value="46"/>
+          <data line="0" column="19" value="98"/>
+          <data line="0" column="20" value="105"/>
+          <data line="0" column="21" value="110"/>
         </ScilabInteger>
         <Array as="objectsParameters" scilabClass="ScilabList"/>
         <ScilabInteger as="nbZerosCrossing" height="1" width="1" intPrecision="sci_int32">

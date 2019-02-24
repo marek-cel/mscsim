@@ -3,12 +3,14 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_Inertia.h>
+#include <fdmSys/fdm_Lag2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TIME_STEP 0.1
-#define TIME_CONSTANT 2.0
+
+#define TIME_CONSTANT_1 2.0
+#define TIME_CONSTANT_2 3.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,17 +18,19 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class InertiaTest : public QObject
+class Lag2Test : public QObject
 {
     Q_OBJECT
 
 public:
 
-    InertiaTest();
+    Lag2Test();
 
 private:
 
     std::vector< double > m_y;
+
+    fdm::Lag2 *m_lag;
 
 private Q_SLOTS:
 
@@ -38,13 +42,15 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-InertiaTest::InertiaTest() {}
+Lag2Test::Lag2Test() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void InertiaTest::initTestCase()
+void Lag2Test::initTestCase()
 {
-    FILE *file = fopen( "data/tst_fdm_inertia.bin", "r" );
+    m_lag = new fdm::Lag2( TIME_CONSTANT_1, TIME_CONSTANT_2 );
+
+    FILE *file = fopen( "data/tst_fdm_lag2.bin", "r" );
 
     if ( file )
     {
@@ -62,11 +68,15 @@ void InertiaTest::initTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void InertiaTest::cleanupTestCase() {}
+void Lag2Test::cleanupTestCase()
+{
+    if ( m_lag ) delete m_lag;
+    m_lag = 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void InertiaTest::testUpdate()
+void Lag2Test::testUpdate()
 {
     double t = 0.0;
     double y = 0.0;
@@ -79,7 +89,8 @@ void InertiaTest::testUpdate()
         for ( int j = 0; j < steps; j++ )
         {
             double dt = TIME_STEP / (double)steps;
-            y = fdm::Inertia::update( u, y, dt, TIME_CONSTANT );
+            m_lag->update( u, dt );
+            y = m_lag->getValue();
         }
 
         cout << y << " " << m_y.at( i ) << endl;
@@ -92,8 +103,8 @@ void InertiaTest::testUpdate()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(InertiaTest)
+QTEST_APPLESS_MAIN(Lag2Test)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "tst_fdm_inertia.moc"
+#include "tst_fdm_lag2.moc"
