@@ -26,6 +26,8 @@
 
 #include <fdmMain/fdm_Aircraft.h>
 
+#include <fdm/fdm_Common.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -125,9 +127,11 @@ struct DataOut
     {
         float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
         float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
+        float elevons;                      ///< [rad] elevons differential deflection
         float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
         float flaps;                        ///< [rad] flaps deflection
-        float flaps_le;                     ///< [rad] leading edge flaps deflection
+        float flaperons;                    ///< [rad] flaperons differtial deflection
+        float lef;                          ///< [rad] leading edge flaps deflection
         float airbrake;                     ///< [rad] airbrake deflection
     };
 

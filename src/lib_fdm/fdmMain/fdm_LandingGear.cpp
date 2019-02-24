@@ -222,6 +222,13 @@ void LandingGear::computeForceAndMoment()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void LandingGear::update()
+{
+    m_onGround = m_for_bas.getLength2() > 0.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
                                    double surf_coef, double vel_break )
 {

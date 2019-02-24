@@ -192,9 +192,11 @@ public:
 
         float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
         float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
+        float elevons;                      ///< [rad] elevons differential deflection
         float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
         float flaps;                        ///< [rad] flaps deflection
-        float flaps_le;                     ///< [rad] leading edge flaps deflection
+        float flaperons;                    ///< [rad] flaperons differtial deflection
+        float lef;                          ///< [rad] leading edge flaps deflection
         float airbrake;                     ///< [rad] airbrake deflection
         float landingGear;                  ///< [0.0,1.0] landing gear normalized deflection
 
@@ -234,6 +236,10 @@ public:
             float itt;                      ///< [K]
             float ff;                       ///< [kg/s]
 
+            float throttle;                 ///< [0.0,1.0] throttle
+            float mixture;                  ///< [0.0,1.0] mixture lever
+            float propeller;                ///< [0.0,1.0] propeller lever
+
             bool fuel;                      ///<
             bool ignition;                  ///<
             bool starter;                   ///<
@@ -259,12 +265,14 @@ public:
         typedef fdm::DataInp::PhaseInp PhaseInp;
         typedef fdm::DataOut::StateOut StateOut;
 
-        typedef fdm::DataInp::Ground  Ground;
-        typedef fdm::DataInp::Initial Initial;
-        typedef fdm::DataInp::Masses  Masses;
+        typedef fdm::DataInp::Controls Controls;
+        typedef fdm::DataInp::Ground   Ground;
+        typedef fdm::DataInp::Initial  Initial;
+        typedef fdm::DataInp::Masses   Masses;
 
         Airport     airport;                ///< airport data
         Camera      camera;                 ///< camera data
+        Controls    controls;               ///< controls data
         DateTime    dateTime;               ///< date time data
         Environment environment;            ///< environment data
         Ground      ground;                 ///< ground data

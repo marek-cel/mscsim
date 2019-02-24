@@ -27,7 +27,8 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 DEFINES += \
 #    SIM_OSGDEBUGINFO \
     SIM_INTERSECTIONS \
-    SIM_SKYDOMESCALING
+    SIM_SKYDOMESCALING \
+    SIM_USETHREADS
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -111,11 +112,13 @@ unix: LIBS += \
 
 HEADERS += \
     Data.h \
+    Manager.h \
     Navigation.h \
     Simulation.h
 
 SOURCES += \
     main.cpp \
+    Manager.cpp \
     Navigation.cpp \
     Simulation.cpp
 

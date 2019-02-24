@@ -19,46 +19,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_f16c/f16c_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef SPINBOXHIGHLIGHT_H
+#define SPINBOXHIGHLIGHT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::F16C_LandingGear( const F16C_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#include <QDoubleSpinBox>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::~F16C_LandingGear() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_LandingGear::readData( XmlNode &dataNode )
+/** */
+class SpinBoxHighlight : public QDoubleSpinBox
 {
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
-}
+    Q_OBJECT
+
+public:
+
+    /** Constructor. */
+    explicit SpinBoxHighlight( QWidget *parent = 0 );
+
+    /** Destructor. */
+    virtual ~SpinBoxHighlight();
+
+    inline bool isHighlighted() const { return m_highlighted; }
+
+    void setHighlighted( bool highlighted );
+
+    void toggleHighlight();
+
+protected:
+
+    bool m_highlighted;
+
+    bool eventFilter( QObject *, QEvent *event );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_LandingGear::update()
-{
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
-
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
-
-    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
-
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
-}
+#endif // SPINBOXHIGHLIGHT_H

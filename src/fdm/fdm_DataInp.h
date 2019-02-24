@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Defines.h>
+#include <fdm/fdm_Common.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -125,6 +125,7 @@ struct DataInp
         double landing_gear;            ///< [0.0,1.0] landing gear
         double nose_wheel;              ///< [-1.0,1.0] nose wheel steering (positive when the left foot moves in the forward direction)
 
+        bool lg_handle;                 ///< specifies if landing gear handle is down
         bool nw_steering;               ///< specifies if nose wheel seering is enabled
 
         double flaps;                   ///< [0.0,1.0] flaps

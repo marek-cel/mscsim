@@ -22,9 +22,10 @@
 
 #include <fdm_f16c/f16c_FLCS.h>
 
+#include <iostream>
 #include <algorithm>
 
-#include <fdmSys/fdm_Inertia.h>
+#include <fdmSys/fdm_Lag.h>
 #include <fdmUtils/fdm_Misc.h>
 #include <fdmUtils/fdm_Units.h>
 
@@ -40,6 +41,11 @@ F16C_FLCS::F16C_FLCS() :
     m_rudder_max   ( 0.0 ),
     m_flaps_le_max ( 0.0 ),
 
+    m_ailerons_max_deg ( 0.0 ),
+    m_elevator_max_deg ( 0.0 ),
+    m_rudder_max_deg   ( 0.0 ),
+    m_flaps_le_max_deg ( 0.0 ),
+
     m_ailerons      ( 0.0 ),
     m_ailerons_norm ( 0.0 ),
     m_elevator      ( 0.0 ),
@@ -48,82 +54,293 @@ F16C_FLCS::F16C_FLCS() :
     m_rudder_norm   ( 0.0 ),
     m_flaps_le      ( 0.0 ),
     m_flaps_le_norm ( 0.0 ),
+    m_flaps_te      ( 0.0 ),
+    m_flaps_te_norm ( 0.0 ),
 
     m_timeStep ( 0.0 ),
 
     m_cat   ( CAT_I  ),
     m_gains ( Cruise ),
 
-    m_alpha_deg ( 0.0 ),
-    m_alpha_lag ( 0.0 ),
-    m_alpha_dif ( 0.0 ),
+    m_alpha_lef ( 0 ),
 
-    m_aoa_lef_1 ( 0.0 ),
-    m_aoa_lef_2 ( 0.0 ),
+    m_delta_fl_lag ( 0 ),
+    m_delta_fr_lag ( 0 ),
+    m_delta_fl_com ( 0.0 ),
+    m_delta_fr_com ( 0.0 ),
+    m_delta_fl     ( 0.0 ),
+    m_delta_fr     ( 0.0 ),
 
-    m_omg_q_lag  ( 0.0 ),
-    m_omg_q_dif  ( 0.0 ),
-    m_stick_lon  ( 0.0 ),
-    m_g_response ( 0.0 ),
-    m_g_command  ( 0.0 ),
-    m_sca        ( 0.0 ),
-    m_sca_1_dif  ( 0.0 ),
-    m_sca_1_lag  ( 0.0 ),
-    m_sca_2_lag  ( 0.0 ),
+    m_stick_lat   ( 0 ),
+    m_p_com_lag   ( 0 ),
+    m_p_com_pos   ( 0 ),
+    m_p_com_neg   ( 0 ),
+    m_omg_p_lag   ( 0 ),
+    m_omg_p_fil   ( 0 ),
+    m_delta_a_lag ( 0 ),
+    m_delta_ac  ( 0.0 ),
+    m_delta_dc  ( 0.0 ),
+    m_delta_a   ( 0.0 ),
+
+    m_stick_lon  ( 0 ),
+    m_alpha_lag  ( 0 ),
+    m_g_com_lag  ( 0 ),
+    m_omg_q_lag  ( 0 ),
+    m_omg_q_fil  ( 0 ),
+    m_g_z_input  ( 0 ),
+    m_g_z_stick  ( 0 ),
+    m_sca_bias_1 ( 0 ),
+    m_sca_bias_2 ( 0 ),
+    m_sca_bias_3 ( 0 ),
+    m_u_sca_fil  ( 0 ),
+    m_u_sca_fil2 ( 0 ),
+    m_actuator_1 ( 0 ),
+    m_actuator_2 ( 0 ),
     m_pitch_int  ( 0.0 ),
     m_pitch_nfl  ( 0.0 ),
     m_elevator_1 ( 0.0 ),
-    m_elevator_2 ( 0.0 )
-{}
+    m_elevator_2 ( 0.0 ),
+    m_delta_h    ( 0.0 ),
+    m_delta_d    ( 0.0 ),
 
-////////////////////////////////////////////////////////////////////////////////
-
-F16C_FLCS::~F16C_FLCS() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_FLCS::update( double timeStep, double angleOfAttack, double g_z,
-                        double rollRate, double pitchRate,
-                        double stickLat, double trimLat,
-                        double stickLon, double trimLon,
-                        double statPress, double dynPress )
+    m_pedals      ( 0 ),
+    m_omg_r_lag   ( 0 ),
+    m_omg_p_yaw   ( 0 ),
+    m_u_sum_ll1   ( 0 ),
+    m_u_sum_ll2   ( 0 ),
+    m_delta_r_lag ( 0 ),
+    m_delta_r   ( 0.0 )
 {
-    m_timeStep = timeStep;
+    // lef
+    m_alpha_lef = new LeadLag( 2.0, 7.25, 1.0, 7.25 );
 
-    double alpha_deg_new = Units::rad2deg( angleOfAttack );
-    m_alpha_dif = ( m_timeStep > 0.0 ) ? ( alpha_deg_new - m_alpha_deg ) / m_timeStep : 0.0;
-    m_alpha_deg = alpha_deg_new;
-    m_alpha_lag = Inertia::update( m_alpha_deg, m_alpha_lag, m_timeStep, 0.1 );
+    // tef
+    m_delta_fl_lag = new Lag( 1.0 / 20.0 );
+    m_delta_fr_lag = new Lag( 1.0 / 20.0 );
 
-    // TODO: Aileron Rudder Interconnect (ARI), rudder authority limiter, yaw rate limiter
+    // lat
+    m_stick_lat   = new Lag( 1.0 / 60.0 );
+    m_p_com_lag   = new Lag( 1.0 / 10.0 );
+    m_p_com_pos   = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
+    m_p_com_neg   = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
+    m_omg_p_lag   = new Lag( 1.0 / 50.0 );
+    m_omg_p_fil   = new Filter2( 4.0, 64.0, 6400.0, 1.0, 80.0, 6400.0 );
+    m_delta_a_lag = new Lag( 1.0 / 20.0 );
 
-    // TODO (GR1F-16CJ-1, p.1-127)
-//    if ( ( Units::mps2kts( m_aircraft->getAirspeed() ) < 400.0 && ( alt_flaps_extend || air_refuel_open ) )
-//      || landing_gear_dn )
-//    {
-//        m_gains = Takeoff;
-//    }
-//    else
-//    {
-//        m_gains = Cruise;
-//    }
+    // lon
+    m_stick_lon  = new Lag( 1.0 / 60.0 );
+    m_alpha_lag  = new Lag( 1.0 / 10.0 );
+    m_g_com_lag  = new Lag( 1.0 / 8.3 );
+    m_omg_q_lag  = new Lag( 1.0 / 50.0 );
+    m_omg_q_fil  = new LeadLag( 1.0, 0.0, 1.0, 1.0 );
+    m_g_z_input  = new Lag( 1.0 / 50.0 );
+    m_g_z_stick  = new Lag( 1.0 / 8.3 );
+    m_sca_bias_1 = new Lag( 1.0 / 10.0 );
+    m_sca_bias_2 = new Lag( 1.0 / 0.125 );
+    m_sca_bias_3 = new Lag( 1.0 / 0.125 );
+    m_u_sca_fil  = new LeadLag( 3.0, 12.0, 1.0, 12.0 );
+    m_u_sca_fil2 = new Filter2( 2.0, 20.0, 3500.0, 1.0, 40.0, 3500.0 );
+    m_actuator_1 = new Lag( 1.0 / 20.0 );
+    m_actuator_2 = new Lag( 1.0 / 20.0 );
 
-    updateLEF( statPress, dynPress );
-    updatePitch( pitchRate, g_z, stickLon, trimLon, dynPress ); // before roll
-    updateRoll( rollRate, stickLat, trimLat, dynPress );
-    updateYaw();
+    // yaw
+    m_pedals      = new Lag( 1.0 / 60.0 );
+    m_omg_r_lag   = new Lag( 1.0 / 50.0 );
+    m_omg_p_yaw   = new Filter2( 1.0, 0.0, 3025.0, 1.0, 110.0, 3025.0 );
+    m_u_sum_ll1   = new LeadLag( 3.0, 15.0, 1.0, 15.0 );
+    m_u_sum_ll2   = new LeadLag( 1.5,  0.0, 1.0,  1.0 );
+    m_delta_r_lag = new Lag( 1.0 / 20.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateLEF( double statPress, double dynPress )
+F16C_FLCS::~F16C_FLCS()
 {
-    m_aoa_lef_1 = Inertia::update( 2.0 * m_alpha_dif / 7.25, m_aoa_lef_1, m_timeStep, 1.0 / 7.25 );
-    m_aoa_lef_2 = Inertia::update( m_alpha_deg, m_aoa_lef_2, m_timeStep, 1.0 / 7.25 );
+    // lef
+    if ( m_alpha_lef ) delete m_alpha_lef;
+    m_alpha_lef = 0;
+
+    // tef
+    if ( m_delta_fl_lag ) delete m_delta_fl_lag;
+    m_delta_fl_lag = 0;
+
+    if ( m_delta_fr_lag ) delete m_delta_fr_lag;
+    m_delta_fr_lag = 0;
+
+    // lat
+    if ( m_stick_lat ) delete m_stick_lat;
+    m_stick_lat = 0;
+
+    if ( m_p_com_lag ) delete m_p_com_lag;
+    m_p_com_lag = 0;
+
+    if ( m_p_com_pos ) delete m_p_com_pos;
+    m_p_com_pos = 0;
+
+    if ( m_p_com_neg ) delete m_p_com_neg;
+    m_p_com_neg = 0;
+
+    if ( m_omg_p_lag ) delete m_omg_p_lag;
+    m_omg_p_lag = 0;
+
+    if ( m_omg_p_fil ) delete m_omg_p_fil;
+    m_omg_p_fil = 0;
+
+    if ( m_delta_a_lag ) delete m_delta_a_lag;
+    m_delta_a_lag = 0;
+
+    // lon
+    if ( m_stick_lon ) delete m_stick_lon;
+    m_stick_lon = 0;
+
+    if ( m_alpha_lag ) delete m_alpha_lag;
+    m_alpha_lag = 0;
+
+    if ( m_g_com_lag ) delete m_g_com_lag;
+    m_g_com_lag = 0;
+
+    if ( m_omg_q_lag ) delete m_omg_q_lag;
+    m_omg_q_lag = 0;
+
+    if ( m_omg_q_fil ) delete m_omg_q_fil;
+    m_omg_q_fil = 0;
+
+    if ( m_g_z_input ) delete m_g_z_input;
+    m_g_z_input = 0;
+
+    if ( m_g_z_stick ) delete m_g_z_stick;
+    m_g_z_stick = 0;
+
+    if ( m_sca_bias_1 ) delete m_sca_bias_1;
+    m_sca_bias_1 = 0;
+
+    if ( m_sca_bias_2 ) delete m_sca_bias_2;
+    m_sca_bias_2 = 0;
+
+    if ( m_sca_bias_3 ) delete m_sca_bias_3;
+    m_sca_bias_3 = 0;
+
+    if ( m_u_sca_fil ) delete m_u_sca_fil;
+    m_u_sca_fil = 0;
+
+    if ( m_u_sca_fil2 ) delete m_u_sca_fil2;
+    m_u_sca_fil2 = 0;
+
+    if ( m_actuator_1 ) delete m_actuator_1;
+    m_actuator_1 = 0;
+
+    if ( m_actuator_2 ) delete m_actuator_2;
+    m_actuator_2 = 0;
+
+    // yaw
+    if ( m_pedals ) delete m_pedals;
+    m_pedals = 0;
+
+    if ( m_omg_r_lag ) delete m_omg_r_lag;
+    m_omg_r_lag = 0;
+
+    if ( m_omg_p_yaw ) delete m_omg_p_yaw;
+    m_omg_p_yaw = 0;
+
+    if ( m_u_sum_ll1 ) delete m_u_sum_ll1;
+    m_u_sum_ll1 = 0;
+
+    if ( m_u_sum_ll2 ) delete m_u_sum_ll2;
+    m_u_sum_ll2 = 0;
+
+    if ( m_delta_r_lag ) delete m_delta_r_lag;
+    m_delta_r_lag = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::update( double timeStep, double angleOfAttack, double airspeed,
+                        double g_y, double g_z,
+                        double rollRate, double pitchRate, double yawRate,
+                        double ctrlLat, double trimLat,
+                        double ctrlLon, double trimLon,
+                        double ctrlYaw, double trimYaw,
+                        double statPress, double dynPress,
+                        bool alt_flaps_ext, bool refuel_door_open,
+                        bool lg_handle_dn, bool touchdown )
+{
+    if ( timeStep > 0.0 )
+    {
+        m_timeStep = timeStep;
+
+//        if ( ( airspeed < Units::kts2mps( 400.0 ) && ( alt_flaps_ext || refuel_door_open ) )
+//          || lg_handle_dn ) // (GR1F-16CJ-1, p.1-127)
+        // (Marchand, p.20, Note A)
+        // 646 psf = 30,930.6473 Pa
+        if ( ( dynPress < 30930.6473 && refuel_door_open ) || lg_handle_dn || alt_flaps_ext )
+        {
+            m_gains = Landing;
+        }
+        else
+        {
+            m_gains = Cruise;
+        }
+
+        // stanby gains
+        if ( 0 )
+        {
+            // (Marchand, p.20)
+            //   200 psf =   9,576.0518 Pa
+            // 1,400 psf =  67,032.3626 Pa
+            // 2,116 psf = 101,314.6280 Pa
+            dynPress = ( m_gains == Landing ) ? 9576.0518 : 67032.3626;
+            statPress = 101314.628;
+        }
+
+        updateTEF( alt_flaps_ext, lg_handle_dn );
+        updateLEF( angleOfAttack, statPress, dynPress );
+        updateLat( ctrlLat, trimLat, rollRate );
+        updateLon( ctrlLon, trimLon, pitchRate, angleOfAttack, dynPress, g_z, touchdown );
+        updateYaw( ctrlYaw, trimYaw, yawRate, statPress, dynPress, g_y );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::setAilerons_max( double ailerons_max )
+{
+    m_ailerons_max = ailerons_max;
+    m_ailerons_max_deg = Units::rad2deg( m_ailerons_max );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::setElevator_max( double elevator_max )
+{
+    m_elevator_max = elevator_max;
+    m_elevator_max_deg = Units::rad2deg( m_elevator_max );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::setRudder_max( double rudder_max )
+{
+    m_rudder_max = rudder_max;
+    m_rudder_max_deg = Units::rad2deg( m_rudder_max );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::setFlaps_le_max( double flaps_le_max )
+{
+    m_flaps_le_max = flaps_le_max;
+    m_flaps_le_max_deg = Units::rad2deg( m_flaps_le_max );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_FLCS::updateLEF( double angleOfAttack, double statPress, double dynPress )
+{
+    m_alpha_lef->update( Units::rad2deg( angleOfAttack ), m_timeStep );
 
     // (NASA-TP-1538, p.34)
     // d_lef = 1.38 (2s+7.25)/(s+7.25) AoA - 9.05 q/p_s + 1.45
-    double flaps_le_deg = 1.38 * ( m_aoa_lef_1 + m_aoa_lef_2 )
+    double flaps_le_deg = 1.38 * m_alpha_lef->getValue()
             - 9.05 * dynPress / statPress + 1.45;
 
     m_flaps_le = Misc::satur( 0.0, m_flaps_le_max, Units::deg2rad( flaps_le_deg ) );
@@ -132,228 +349,343 @@ void F16C_FLCS::updateLEF( double statPress, double dynPress )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updatePitch( double pitchRate, double g_z,
-                             double stickLon, double trimLon,
-                             double dynPress )
+void F16C_FLCS::updateTEF( bool alt_flaps_ext, bool lg_handle_dn )
 {
-    double omg_q_deg = Units::rad2deg( pitchRate );
-    double omg_q_lag_new = Inertia::update( omg_q_deg, m_omg_q_lag, m_timeStep, 1.0 );
-    m_omg_q_dif = ( m_timeStep > 0.0 ) ? ( omg_q_lag_new - m_omg_q_lag ) / m_timeStep : 0.0;
-    m_omg_q_lag = omg_q_lag_new;
-    m_stick_lon = Inertia::update( stickLon, m_stick_lon, m_timeStep, 1.0/60.0 );
-    m_g_response = Inertia::update( g_z - 1.0, m_g_response, m_timeStep, 0.02 );
+    // (Marchand, p.20)
+    double flaps_com = ( alt_flaps_ext || lg_handle_dn ) ? 20.0 : 0.0;
 
-    double q_dif_gained = 0.7 * getPitchRateGain( dynPress ) * m_omg_q_dif;
+    // TODO flaps_com
 
-    double g_command_new = getGCommand( m_stick_lon, trimLon, dynPress, q_dif_gained );
-    m_g_command = Inertia::update( g_command_new, m_g_command, m_timeStep, 1.0/8.3 );
+    double limit_fl = std::max( 0.0, m_delta_fl_com - 21.5 );
+    double limit_fr = std::max( 0.0, m_delta_fr_com - 21.5 );
 
-    // stability/command augumentation (NASA-TP-1538, p.210)
-    double sca_new = std::max( 0.0, 0.322 * ( q_dif_gained + m_alpha_lag - 15.0 ) )
-            + 0.334 * m_omg_q_dif + m_g_response;
+    m_delta_fl_com = flaps_com - m_delta_ac - limit_fr;
+    m_delta_fr_com = flaps_com + m_delta_ac - limit_fl;
 
-    m_sca_1_dif = ( m_timeStep > 0.0 ) ? ( sca_new - m_sca ) / m_timeStep : 0.0;
-    m_sca = sca_new;
-    m_sca_1_lag = Inertia::update( 0.25 * m_sca_1_dif, m_sca_1_lag, m_timeStep, 1.0 / 12.0 );
-    m_sca_2_lag = Inertia::update( m_sca, m_sca_2_lag, m_timeStep, 1.0 / 12.0 );
+    double flaperons_max_deg = Units::rad2deg( m_ailerons_max );
+    double delta_fl_com = Misc::satur( -flaperons_max_deg, flaperons_max_deg, m_delta_fl_com );
+    double delta_fr_com = Misc::satur( -flaperons_max_deg, flaperons_max_deg, m_delta_fr_com );
 
-    // (NASA-TP-1538, p.210)
-    double g_command = 1.5 * getPitchLoopGain( dynPress ) * ( m_g_command + m_sca_1_lag + m_sca_2_lag );
+    m_delta_fl_lag->update( delta_fl_com, m_timeStep );
+    m_delta_fr_lag->update( delta_fr_com, m_timeStep );
 
-    double elevator_max_deg = Units::rad2deg( m_elevator_max );
+    double flaperons_delta_max = 80.0 * m_timeStep;
+    m_delta_fl = getSurfaceMaxRate( m_delta_fl, m_delta_fl_lag->getValue(), flaperons_delta_max );
+    m_delta_fr = getSurfaceMaxRate( m_delta_fr, m_delta_fr_lag->getValue(), flaperons_delta_max );
 
-    // (NASA-TP-1538, p.210)
-    // (TO 1F-16A-1, p.1-124)
-    m_pitch_int = m_pitch_int + 5.0 * ( g_command - m_pitch_nfl ) * m_timeStep;
-    double selector_input = m_pitch_int + g_command + 0.5 * m_alpha_lag;
-    m_pitch_nfl = 5.0 * Misc::deadband( -elevator_max_deg, elevator_max_deg, selector_input );
+    double flaperon_l = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_fl ) );
+    double flaperon_r = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_fr ) );
 
-    double elevator_1 = Inertia::update( selector_input + 0.0, m_elevator_1, m_timeStep, 1.0 / 20.2 );
-    double elevator_2 = Inertia::update( selector_input - 0.0, m_elevator_2, m_timeStep, 1.0 / 20.2 );
+    double flaps_te_r = flaperon_r - m_ailerons;
+    double flaps_te_l = flaperon_l + m_ailerons;
 
-    // (NASA-TP-1538, p.210)
-    double elevator_delta_max = 60.0 * m_timeStep;
-    m_elevator_1 = getElevatorMaxRate( m_elevator_1, elevator_1, elevator_delta_max );
-    m_elevator_2 = getElevatorMaxRate( m_elevator_2, elevator_2, elevator_delta_max );
-
-    m_elevator_1 = Misc::satur( -elevator_max_deg, elevator_max_deg, m_elevator_1 );
-    m_elevator_2 = Misc::satur( -elevator_max_deg, elevator_max_deg, m_elevator_2 );
-
-    double delta_h = 0.5 * ( m_elevator_1 + m_elevator_2 );
-    double delta_d = 0.5 * ( m_elevator_1 - m_elevator_2 );
-
-    m_elevator = Units::deg2rad( delta_h );
-    m_elevator_norm = m_elevator / m_elevator_max;
+    m_flaps_te_norm = 0.5 * ( flaps_te_r + flaps_te_l ) / m_ailerons_max;
+    m_flaps_te = m_flaps_te_norm * m_ailerons_max - Units::deg2rad( 1.5 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateRoll( double rollRate, double stickLat, double trimLat, double dynPress )
+void F16C_FLCS::updateLat( double ctrlLat, double trimLat,
+                           double rollRate )
 {
-    // TODO according to scheme
-    double p_com = getRollRateCommand( stickLat, trimLat, dynPress, Units::rad2deg( m_elevator ) );
-    double delta_p = p_com - rollRate;
-    double ailerons_deg = -0.12 * Units::rad2deg( delta_p );
-    double ailerons_rad = Units::deg2rad( ailerons_deg );
+    double omg_p_deg = Units::rad2deg( rollRate );
 
-    m_ailerons = Misc::satur( -m_ailerons_max, m_ailerons_max, ailerons_rad );
+    m_stick_lat->update( ctrlLat, m_timeStep );
+
+    // (NASA-TP-1538, p.214)
+    double p_com = m_stick_lat->getValue();
+
+    // (Marchand, p.20 - FIG. C)
+    if ( m_gains == Landing ) p_com *= 0.542;
+
+    double p_loop_pos = std::max( 0.0, m_p_com_pos->getValue() );
+    double p_loop_neg = std::min( 0.0, m_p_com_neg->getValue() );
+    m_p_com_lag->update( p_com - p_loop_pos - p_loop_neg, m_timeStep );
+
+    m_p_com_pos->update( std::max( 0.0, m_p_com_lag->getValue() ), m_timeStep );
+    m_p_com_neg->update( std::min( 0.0, m_p_com_lag->getValue() ), m_timeStep );
+
+    m_omg_p_lag->update( omg_p_deg, m_timeStep );
+    m_omg_p_fil->update( m_omg_p_lag->getValue(), m_timeStep );
+
+    double roll_control = m_omg_p_fil->getValue() - ( m_p_com_lag->getValue() + trimLat * 1.67 );
+
+    if ( m_alpha_lag->getValue() > 29.0 )
+    {
+        roll_control = 8.34 * m_omg_r_lag->getValue();
+    }
+
+    m_delta_ac = Misc::satur( -m_ailerons_max_deg, m_ailerons_max_deg, 0.12 * roll_control );
+    m_delta_dc = 0.25 * m_delta_ac;
+
+    m_delta_a_lag->update( m_delta_ac, m_timeStep );
+
+    double ailerons_delta_max = 80.0 * m_timeStep;
+    m_delta_a = getSurfaceMaxRate( m_delta_a, m_delta_a_lag->getValue(), ailerons_delta_max );
+
+    m_ailerons = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_a ) );
     m_ailerons_norm = m_ailerons / m_ailerons_max;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateYaw()
+void F16C_FLCS::updateLon( double ctrlLon, double trimLon,
+                           double pitchRate,
+                           double angleOfAttack, double dynPress, double g_z,
+                           bool touchdown )
 {
+    double alpha_deg = Units::rad2deg( angleOfAttack );
+    double omg_q_deg = Units::rad2deg( pitchRate );
 
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_FLCS::getElevatorMaxRate( double elevator_old, double elevator_new,
-                                      double delta_max )
-{
-    if ( fabs( elevator_new - elevator_old ) < delta_max )
-    {
-        return elevator_new;
-    }
-    else
-    {
-        return elevator_old + Misc::sign( elevator_new - elevator_old ) * delta_max;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_FLCS::getGCommand( double stickLon, double trimLon, double dynPress,
-                               double q_dif_gained )
-{
-    // negative g limit (NASA-TP-1538, p.211 - 62b)
-    double g_min = -4.0;
-    if ( dynPress < 1628.0 ) // 34 psf
-    {
-        g_min = -1.0;
-    }
-    else if ( dynPress < 8810.0 ) // 184 psf
-    {
-        g_min = -1.0 - ( 3.0 / ( 8810.0 - 1628.0 ) ) * ( dynPress - 1628.0 );
-    }
-
-    double g_max = getMaxG( q_dif_gained );
+    m_alpha_lag->update( Misc::satur( -5.0, 30.0, alpha_deg ), m_timeStep );
+    m_stick_lon->update( ctrlLon   , m_timeStep );
+    m_g_z_input->update( g_z - 1.0 , m_timeStep );
+    m_omg_q_lag->update( omg_q_deg , m_timeStep );
+    m_omg_q_fil->update( m_omg_q_lag->getValue(), m_timeStep );
 
     // (NASA-TP-1538, p.210)
-    double g_com = 9.0 * stickLon + 2.4 * trimLon;
+    // (Marchand, p.20)
+    double g_com = m_stick_lon->getValue() + trimLon;
 
-    return Misc::satur( -g_max, -g_min, g_com );
+    double g_max = 8.0;
+
+    // negative g limit
+    // (NASA-TP-1538, p.211 - 62b)
+    // (Marchand, p.20)
+    double g_min = -4.0;
+    if ( m_gains == Cruise )
+    {
+        if ( dynPress < 1628.0 ) // 34 psf
+        {
+            g_min = -1.0;
+        }
+        else if ( dynPress < 8810.0 ) // 184 psf
+        {
+            g_min = -1.0 - ( 3.0 / ( 8810.0 - 1628.0 ) ) * ( dynPress - 1628.0 );
+        }
+    }
+
+    m_g_z_stick->update( Misc::satur( g_min, g_max, g_com ), m_timeStep );
+    m_g_com_lag->update( m_g_z_stick->getValue(), m_timeStep );
+
+    double q_gained = 0.7 * getGainPitchRate( dynPress ) * m_omg_q_fil->getValue();
+    double aoa_limit = std::max( 0.0, /*0.5*/ 1.0 * ( m_alpha_lag->getValue() - 20.4 + q_gained ) );
+
+    double pitch_ap_tie_in = 0.0; // TODO
+    double g_command = aoa_limit - m_g_com_lag->getValue() - pitch_ap_tie_in;
+
+    // stability/command augumentation
+    // (NASA-TP-1538, p.210)
+    // (Marchand, p.20)
+    m_sca_bias_1->update( touchdown ? 0.0 : 6.0, m_timeStep );
+    m_sca_bias_2->update( m_gains == Landing ? 9.0 : 0.0, m_timeStep );
+    m_sca_bias_3->update( m_gains == Landing ? 1.0 : 0.0, m_timeStep );
+
+    double aoa_bias = 9.0 - m_sca_bias_2->getValue() + m_sca_bias_1->getValue();
+    std::cout << aoa_bias << std::endl;
+
+    double u_sca_new = std::max( 0.0, 0.322 * ( q_gained + m_alpha_lag->getValue() - aoa_bias ) )
+            + 0.334 * m_omg_q_fil->getValue() + m_g_z_input->getValue();
+
+    m_u_sca_fil->update( u_sca_new, m_timeStep );
+
+    // (NASA-TP-1538, p.210)
+    double pitch_int_input = /*3.0*/1.5 * getGainPitchLoop( dynPress ) * ( g_command + m_u_sca_fil->getValue() );
+
+    // (NASA-TP-1538, p.210)
+    // (TO 1F-16A-1, p.1-124)
+    m_pitch_int = m_pitch_int + 5.0 * ( pitch_int_input - m_pitch_nfl ) * m_timeStep;
+    double selector_input = m_pitch_int + pitch_int_input + 0.5 * m_alpha_lag->getValue();
+    m_pitch_nfl = 5.0 * Misc::deadband( -m_elevator_max_deg, m_elevator_max_deg, selector_input );
+
+    m_actuator_1->update( selector_input + m_delta_dc, m_timeStep );
+    m_actuator_2->update( selector_input - m_delta_dc, m_timeStep );
+
+    // (NASA-TP-1538, p.210)
+    double elevator_delta_max = 60.0 * m_timeStep;
+    m_elevator_1 = getSurfaceMaxRate( m_elevator_1, m_actuator_1->getValue(), elevator_delta_max );
+    m_elevator_2 = getSurfaceMaxRate( m_elevator_2, m_actuator_2->getValue(), elevator_delta_max );
+
+    m_elevator_1 = Misc::satur( -m_elevator_max_deg, m_elevator_max_deg, m_elevator_1 );
+    m_elevator_2 = Misc::satur( -m_elevator_max_deg, m_elevator_max_deg, m_elevator_2 );
+
+    m_delta_h = 0.5 * ( m_elevator_1 + m_elevator_2 );
+    m_delta_d = 0.5 * ( m_elevator_1 - m_elevator_2 );
+
+    m_elevator = Units::deg2rad( m_delta_h );
+    m_elevator_norm = m_elevator / m_elevator_max;
+
+    m_elevons = Units::deg2rad( m_delta_d );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getMaxG( double q_dif_gained )
+void F16C_FLCS::updateYaw( double ctrlYaw, double trimYaw,
+                           double yawRate,
+                           double statPress, double dynPress, double g_y )
 {
-    // AoA/G Limiter (NASA-TP-1538, p.34, Droste, p.94, GR1F-16CJ-1, p.1-125)
-    double g_max = 9.0;
+    double omg_r_deg = Units::rad2deg( yawRate  );
 
-    if ( m_cat == CAT_I )
+    m_pedals->update( ctrlYaw, m_timeStep );
+    m_omg_r_lag->update( omg_r_deg, m_timeStep );
+    m_omg_p_yaw->update( m_omg_p_lag->getValue(), m_timeStep );
+
+    double alpha_gain = 1.0;
+
+    if ( m_alpha_lag->getValue() > 30.0 )
     {
-        double angle = m_alpha_lag + q_dif_gained;
+        alpha_gain = 0.0;
+    }
+    else if ( m_alpha_lag->getValue() > 20.0 )
+    {
+        alpha_gain = 1.0 - ( m_alpha_lag->getValue() - 20.0 ) / ( 30.0 - 20.0 );
+    }
 
-        if ( angle >= 25.2 )
-        {
-            g_max = 0.0;
-        }
-        else if ( angle >= 20.4 )
-        {
-            g_max = 7.2612 - ( angle - 20.4 ) * 1.322;
-        }
-        else if ( angle >= 15.0 )
-        {
-            g_max = 9.0 - ( angle - 15.0 ) * 0.322;
-        }
+    double r_com = alpha_gain * ( m_pedals->getValue() + trimYaw );
+    double u_sum = m_omg_r_lag->getValue() - ( 1.0 / 57.3 ) * m_omg_p_yaw->getValue() * m_alpha_lag->getValue();
+
+    m_u_sum_ll1->update( u_sum, m_timeStep );
+    m_u_sum_ll2->update( m_u_sum_ll1->getValue(), m_timeStep );
+
+    // Aileron Rudder Interconnect (ARI)
+    double ari = 0.075 * m_alpha_lag->getValue() - m_alpha_lag->getValue() * getGainARI( statPress, dynPress );
+
+    double r_auto = 0.5 * ( m_u_sum_ll2->getValue() - 19.32 * g_y ) + m_delta_ac * ari;
+
+    if ( m_alpha_lag->getValue() > 29.0 )
+    {
+        r_auto = 0.75 * m_omg_r_lag->getValue();
+    }
+
+    double delta_rc = r_com + r_auto;
+
+    m_delta_r_lag->update( delta_rc, m_timeStep );
+
+    double rudder_delta_max = 120.0 * m_timeStep;
+    m_delta_r = getSurfaceMaxRate( m_delta_r, m_delta_r_lag->getValue(), rudder_delta_max );
+    m_delta_r = Misc::satur( -m_rudder_max_deg, m_rudder_max_deg, m_delta_r );
+
+    m_rudder = Units::deg2rad( m_delta_r );
+    m_rudder_norm = m_rudder / m_rudder_max;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double F16C_FLCS::getGainARI( double statPress, double dynPress )
+{
+    double gain_1 = 0.0;
+    double gain_2 = 1.0;
+
+    // (NASA-TP-1538, p.216)
+    if ( -10.0 < m_alpha_lag->getValue() && m_alpha_lag->getValue() < 10.0 )
+    {
+        gain_1 = 1.0 - fabs( m_alpha_lag->getValue() ) / 10.0;
+    }
+
+    double q_p = dynPress / statPress;
+
+//    // (NASA-TP-1538, p.216)
+//    if ( q_p <= 0.187 )
+//    {
+//        gain_2 = 0.0;
+//    }
+//    else if ( 0.187 <= q_p && q_p < 1.129 )
+//    {
+//        gain_2 = ( q_p - 0.187 ) / ( 1.129 - 0.187 );
+//    }
+//    else
+//    {
+//        gain_2 = 1.0;
+//    }
+
+//    return gain_1 * gain_2;
+
+    // (Marchand, p.20 - F7)
+    if ( q_p <= 0.187 )
+    {
+        gain_2 = 0.0;
+    }
+    else if ( 0.187 <= q_p && q_p < 1.129 )
+    {
+        gain_2 = ( q_p - 0.187 ) / ( 1.129 - 0.187 );
+    }
+    else if ( 1.129 <= q_p && q_p < 1.709 )
+    {
+        gain_2 = 1.0 - ( q_p - 1.129 ) / ( 1.709 - 1.129 );
     }
     else
     {
-        // TODO
+        gain_2 = 0.0;
     }
 
-    return g_max;
+    return gain_1 * 0.65 * gain_2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getPitchRateGain( double dynPress )
+double F16C_FLCS::getGainPitchRate( double dynPress )
+{
+//    double gain = 1.0;
+
+//    // (NASA-TP-1538, p.211 - 62c)
+//    if ( dynPress > 15280.0 )
+//    {
+//        gain = 0.32;
+//    }
+//    else if ( dynPress > 5250.0 )
+//    {
+//        gain = 1.0 - ( 1.0 - 0.32 ) / ( 15280.0 - 5250.0 ) * ( dynPress - 5250.0 );
+//    }
+
+//    return gain;
+
+    // (Marchand, p.20 - F3)
+    return getGainPitchLoop( dynPress );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double F16C_FLCS::getGainPitchLoop( double dynPress )
 {
     double gain = 1.0;
 
-    // (NASA-TP-1538, p.211 - 62c)
-    if ( dynPress > 15280.0 )
-    {
-        gain = 0.32;
-    }
-    else if ( dynPress > 5250.0 )
-    {
-        gain = 1.0 - ( 1.0 - 0.32 ) / ( 15280.0 - 5250.0 ) * ( dynPress - 5250.0 );
-    }
+//    // (NASA-TP-1538, p.211 - 62d)
+//    if ( dynPress > 43200.0 )
+//    {
+//        gain = 0.44;
+//    }
+//    else if ( dynPress > 12500.0 )
+//    {
+//        gain = 1.0 - ( 1.0 - 0.44 ) / ( 43200.0 - 12500.0 ) * ( dynPress - 12500.0 );
+//    }
 
-//    // (Marchand, p.20 - F3)
-//    gain = getPitchLoopGain( dynPress );
+    // (Marchand, p.20 - F3)
+    if ( dynPress > 143640.0 ) // 3,000 psf
+    {
+        gain = 0.083;
+    }
+    else if ( dynPress > 38304.0 ) // 800 psf
+    {
+        gain = 0.533 - ( 0.533 - 0.083 ) / ( 143640.0 - 38304.0 ) * ( dynPress - 38304.0 );
+    }
+    else if ( dynPress > 14364.0 ) // 300 psf
+    {
+        gain = 1.0 - ( 1.0 - 0.533 ) / ( 38304.0 - 14364.0 ) * ( dynPress - 14364.0 );
+    }
 
     return gain;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getPitchLoopGain( double dynPress )
+double F16C_FLCS::getSurfaceMaxRate( double d_old, double d_new, double delta_max )
 {
-    double gain = 1.0;
-
-    // (NASA-TP-1538, p.211 - 62d)
-    if ( dynPress > 43200.0 )
+    if ( fabs( d_new - d_old ) < delta_max )
     {
-        gain = 0.44;
+        return d_new;
     }
-    else if ( dynPress > 12500.0 )
+    else
     {
-        gain = 1.0 - ( 1.0 - 0.44 ) / ( 43200.0 - 12500.0 ) * ( dynPress - 12500.0 );
+        return d_old + Misc::sign( d_new - d_old ) * delta_max;
     }
-
-//    // (Marchand, p.20 - F3)
-//    if ( dynPress > 143640.0 ) // 3,000 psf
-//    {
-//        gain = 0.083;
-//    }
-//    else if ( dynPress > 38304.0 ) // 800 psf
-//    {
-//        gain = 0.533 - ( 0.533 - 0.083 ) / ( 143640.0 - 38304.0 ) * ( dynPress - 38304.0 );
-//    }
-//    else if ( dynPress > 14364.0 ) // 300 psf
-//    {
-//        gain = 1.0 - ( 1.0 - 0.533 ) / ( 38304.0 - 14364.0 ) * ( dynPress - 14364.0 );
-//    }
-
-    return gain;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double F16C_FLCS::getRollRateCommand( double stickLat, double trimLat, double dynPress,
-                                      double delta_h )
-{
-    // (NASA-TP-1538, p.214)
-    double p_com_pilot = -308.0 * stickLat - 40.0 * trimLat * 1.67;
-
-    // (NASA-TP-1538, p.129, Droste, p.99, GR1F-16CJ-1, p.1-125)
-    double delta_p_max = -0.0115 * std::min( dynPress - 10500.0, 0.0 )
-            + 4.0 * std::max( m_alpha_deg - 15.0, 0.0 )
-            + 4.0 * std::max( delta_h     -  5.0, 0.0 );
-            // TODO Total rudder command (from pilot and FLCS) exceeding 20deg (GR1F-16CJ-1, p.1-125)
-            // TODO Combination of horizontal tail greater than 15deg trailing edge down and AoA above 22deg (GR1F-16CJ-1, p.1-125)
-
-    double p_max = 308.0 - std::min( delta_p_max, 228.0 );
-
-    if ( m_cat == CAT_III )
-    {
-        p_max *= 0.6;
-    }
-
-    return Units::deg2rad( Misc::satur( -p_max, p_max, p_com_pilot ) );
 }

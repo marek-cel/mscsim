@@ -375,8 +375,8 @@ void Manager::getRealValue( Assignment::Action toggleAction,
     if ( !state && value > min ) value  = value - speed * m_timeStep;
     if (  state && value < max ) value  = value + speed * m_timeStep;
 
-    if ( value < min ) value = min;
-    if ( value > max ) value = max;
+    if      ( value < min ) value = min;
+    else if ( value > max ) value = max;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

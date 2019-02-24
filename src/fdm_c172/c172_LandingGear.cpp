@@ -50,6 +50,10 @@ void C172_LandingGear::readData( XmlNode &dataNode )
 
 void C172_LandingGear::update()
 {
+    //////////////////////
+    LandingGear::update();
+    //////////////////////
+
     m_brake_l = m_aircraft->getCtrl()->getBrakeL();
     m_brake_r = m_aircraft->getCtrl()->getBrakeR();
 
@@ -57,6 +61,4 @@ void C172_LandingGear::update()
 
     m_antiskid = true;
     m_steering = m_aircraft->getCtrl()->getNwSteering();
-
-    m_onGround = m_for_bas.getLength2() > 0.0;
 }

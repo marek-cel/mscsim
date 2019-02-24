@@ -43,6 +43,8 @@ public:
     /** Constructor. */
     ManipulatorOrbit();
 
+    void setDistanceMin( double distance_min );
+
 protected:
 
     /** */
@@ -52,6 +54,8 @@ protected:
     bool performMovementRightMouseButton( const double /*eventTimeDelta*/, const double /*dx*/, const double /*dy*/ );
 
 private:
+
+    double m_distance_min;
 
     void boundDistance();
 };

@@ -83,6 +83,8 @@ private:
         DataRef brakeRight;     ///< right brake data reference
 
         DataRef noseWheel;      ///< nose wheel data reference
+
+        DataRef lgHandle;       ///< landing gear handle
         DataRef nwSteering;     ///< nose wheel steering data reference
 
         DataRef flaps;          ///< flaps data reference
@@ -95,9 +97,11 @@ private:
 
         DataRef outAilerons;    ///<
         DataRef outElevator;    ///<
+        DataRef outElevons;     ///<
         DataRef outRudder;      ///<
         DataRef outFlaps;       ///<
-        DataRef outFlaps_le;    ///<
+        DataRef outFlaperons;   ///<
+        DataRef outLEF;         ///<
         DataRef outAirbrake;    ///<
 
         // landing gear inputs
@@ -181,7 +185,7 @@ private:
     double m_timeStep;              ///< [s] simulation time step
     double m_realTime;              ///< [s] simulation real time
 
-    bool m_verbose;                 ///<
+    bool m_verbose;                 ///< specify if extra information should be printed
 
     /**
      * Initializes data references.

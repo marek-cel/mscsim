@@ -149,7 +149,7 @@ public:
     /**
      * Updates landing gear.
      */
-    virtual void update() = 0;
+    virtual void update();
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }

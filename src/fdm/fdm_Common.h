@@ -19,46 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_f16c/f16c_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef FDM_COMMON_H
+#define FDM_COMMON_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::F16C_LandingGear( const F16C_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#define FDM_TIME_STEP 0.01  /* 100 Hz */
+//#define FDM_TIME_STEP 0.005  /* 200 Hz */
+
+#define FDM_TIME_STEP_MIN 0.001
+#define FDM_TIME_STEP_MAX 0.1
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::~F16C_LandingGear() {}
+#define FDM_MAX_ENGINES 4
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_LandingGear::readData( XmlNode &dataNode )
-{
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
-}
+#define FDM_MIN_INIT_ALTITUDE 30.0
+#define FDM_MAX_INIT_STEPS 20000
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_LandingGear::update()
-{
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
-
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
-
-    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
-
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
-}
+#endif // FDM_COMMON_H

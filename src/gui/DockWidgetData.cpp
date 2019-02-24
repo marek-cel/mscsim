@@ -278,7 +278,37 @@ void DockWidgetData::settingsRead()
     
     settings.beginGroup( "dock_widget_data" );
 
+    settingsRead_Highlight( settings );
     settingsRead_UnitCombos( settings );
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::settingsRead_Highlight( QSettings &settings )
+{
+    settings.beginGroup( "highlight" );
+
+    m_ui->spinAltitudeASL   ->setHighlighted( settings.value( "altitude_asl"    , 0 ).toBool() );
+    m_ui->spinAltitudeAGL   ->setHighlighted( settings.value( "altitude_agl"    , 0 ).toBool() );
+    m_ui->spinAirspeed      ->setHighlighted( settings.value( "airspeed"        , 0 ).toBool() );
+    m_ui->spinClimbRate     ->setHighlighted( settings.value( "climb_rate"      , 0 ).toBool() );
+    m_ui->spinMachNumber    ->setHighlighted( settings.value( "mach_number"     , 0 ).toBool() );
+    m_ui->spinRollAngle     ->setHighlighted( settings.value( "roll_angle"      , 0 ).toBool() );
+    m_ui->spinPitchAngle    ->setHighlighted( settings.value( "pitch_angle"     , 0 ).toBool() );
+    m_ui->spinHeading       ->setHighlighted( settings.value( "heading"         , 0 ).toBool() );
+    m_ui->spinAngleOfAttack ->setHighlighted( settings.value( "angle_of_attack" , 0 ).toBool() );
+    m_ui->spinSideslipAngle ->setHighlighted( settings.value( "sideslip_angle"  , 0 ).toBool() );
+    m_ui->spinPathAngle     ->setHighlighted( settings.value( "path_angle"      , 0 ).toBool() );
+    m_ui->spinCourse        ->setHighlighted( settings.value( "course"          , 0 ).toBool() );
+    m_ui->spinRollRate      ->setHighlighted( settings.value( "roll_rate"       , 0 ).toBool() );
+    m_ui->spinPitchRate     ->setHighlighted( settings.value( "pitch_rate"      , 0 ).toBool() );
+    m_ui->spinYawRate       ->setHighlighted( settings.value( "yaw_rate"        , 0 ).toBool() );
+    m_ui->spinGx            ->setHighlighted( settings.value( "gx"              , 0 ).toBool() );
+    m_ui->spinGy            ->setHighlighted( settings.value( "gy"              , 0 ).toBool() );
+    m_ui->spinGz            ->setHighlighted( settings.value( "gz"              , 0 ).toBool() );
+    m_ui->spinMaxGz         ->setHighlighted( settings.value( "max_gz"          , 0 ).toBool() );
 
     settings.endGroup();
 }
@@ -289,25 +319,25 @@ void DockWidgetData::settingsRead_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
-    m_ui->comboAltitudeASL->setCurrentIndex( settings.value( "altitude_asl", 0 ).toInt() );
-    m_ui->comboAltitudeAGL->setCurrentIndex( settings.value( "altitude_agl", 0 ).toInt() );
-    m_ui->comboAirspeed->setCurrentIndex( settings.value( "airspeed", 0 ).toInt() );
-    m_ui->comboClimbRate->setCurrentIndex( settings.value( "climb_rate", 0 ).toInt() );
-    m_ui->comboMachNumber->setCurrentIndex( settings.value( "mach_number", 0 ).toInt() );
-    m_ui->comboRollAngle->setCurrentIndex( settings.value( "roll_angle", 1 ).toInt() );
-    m_ui->comboPitchAngle->setCurrentIndex( settings.value( "pitch_angle", 1 ).toInt() );
-    m_ui->comboHeading->setCurrentIndex( settings.value( "heading", 1 ).toInt() );
-    m_ui->comboAngleOfAttack->setCurrentIndex( settings.value( "angle_of_attack", 1 ).toInt() );
-    m_ui->comboSideslipAngle->setCurrentIndex( settings.value( "sideslip_angle", 1 ).toInt() );
-    m_ui->comboPathAngle->setCurrentIndex( settings.value( "path_angle", 1 ).toInt() );
-    m_ui->comboCourse->setCurrentIndex( settings.value( "course", 1 ).toInt() );
-    m_ui->comboRollRate->setCurrentIndex( settings.value( "roll_rate", 1 ).toInt() );
-    m_ui->comboPitchRate->setCurrentIndex( settings.value( "pitch_rate", 1 ).toInt() );
-    m_ui->comboYawRate->setCurrentIndex( settings.value( "yaw_rate", 1 ).toInt() );
-    m_ui->comboGx->setCurrentIndex( settings.value( "gx", 0 ).toInt() );
-    m_ui->comboGy->setCurrentIndex( settings.value( "gy", 0 ).toInt() );
-    m_ui->comboGz->setCurrentIndex( settings.value( "gz", 0 ).toInt() );
-    m_ui->comboMaxGz->setCurrentIndex( settings.value( "max_gz", 0 ).toInt() );
+    m_ui->comboAltitudeASL   ->setCurrentIndex( settings.value( "altitude_asl"    , 0 ).toInt() );
+    m_ui->comboAltitudeAGL   ->setCurrentIndex( settings.value( "altitude_agl"    , 0 ).toInt() );
+    m_ui->comboAirspeed      ->setCurrentIndex( settings.value( "airspeed"        , 0 ).toInt() );
+    m_ui->comboClimbRate     ->setCurrentIndex( settings.value( "climb_rate"      , 0 ).toInt() );
+    m_ui->comboMachNumber    ->setCurrentIndex( settings.value( "mach_number"     , 0 ).toInt() );
+    m_ui->comboRollAngle     ->setCurrentIndex( settings.value( "roll_angle"      , 1 ).toInt() );
+    m_ui->comboPitchAngle    ->setCurrentIndex( settings.value( "pitch_angle"     , 1 ).toInt() );
+    m_ui->comboHeading       ->setCurrentIndex( settings.value( "heading"         , 1 ).toInt() );
+    m_ui->comboAngleOfAttack ->setCurrentIndex( settings.value( "angle_of_attack" , 1 ).toInt() );
+    m_ui->comboSideslipAngle ->setCurrentIndex( settings.value( "sideslip_angle"  , 1 ).toInt() );
+    m_ui->comboPathAngle     ->setCurrentIndex( settings.value( "path_angle"      , 1 ).toInt() );
+    m_ui->comboCourse        ->setCurrentIndex( settings.value( "course"          , 1 ).toInt() );
+    m_ui->comboRollRate      ->setCurrentIndex( settings.value( "roll_rate"       , 1 ).toInt() );
+    m_ui->comboPitchRate     ->setCurrentIndex( settings.value( "pitch_rate"      , 1 ).toInt() );
+    m_ui->comboYawRate       ->setCurrentIndex( settings.value( "yaw_rate"        , 1 ).toInt() );
+    m_ui->comboGx            ->setCurrentIndex( settings.value( "gx"              , 0 ).toInt() );
+    m_ui->comboGy            ->setCurrentIndex( settings.value( "gy"              , 0 ).toInt() );
+    m_ui->comboGz            ->setCurrentIndex( settings.value( "gz"              , 0 ).toInt() );
+    m_ui->comboMaxGz         ->setCurrentIndex( settings.value( "max_gz"          , 0 ).toInt() );
 
     settings.endGroup();
 }
@@ -320,7 +350,37 @@ void DockWidgetData::settingsSave()
 
     settings.beginGroup( "dock_widget_data" );
 
+    settingsSave_Highlight( settings );
     settingsSave_UnitCombos( settings );
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::settingsSave_Highlight( QSettings &settings )
+{
+    settings.beginGroup( "highlight" );
+
+    settings.setValue( "altitude_asl"    , m_ui->spinAltitudeASL   ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "altitude_agl"    , m_ui->spinAltitudeAGL   ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "airspeed"        , m_ui->spinAirspeed      ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "climb_rate"      , m_ui->spinClimbRate     ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "mach_number"     , m_ui->spinMachNumber    ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "roll_angle"      , m_ui->spinRollAngle     ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "pitch_angle"     , m_ui->spinPitchAngle    ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "heading"         , m_ui->spinHeading       ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "angle_of_attack" , m_ui->spinAngleOfAttack ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "sideslip_angle"  , m_ui->spinSideslipAngle ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "path_angle"      , m_ui->spinPathAngle     ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "course"          , m_ui->spinCourse        ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "roll_rate"       , m_ui->spinRollRate      ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "pitch_rate"      , m_ui->spinPitchRate     ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "yaw_rate"        , m_ui->spinYawRate       ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "gx"              , m_ui->spinGx            ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "gy"              , m_ui->spinGy            ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "gz"              , m_ui->spinGz            ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "max_gz"          , m_ui->spinMaxGz         ->isHighlighted() ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -331,25 +391,25 @@ void DockWidgetData::settingsSave_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
-    settings.setValue( "altitude_asl", m_ui->comboAltitudeASL->currentIndex() );
-    settings.setValue( "altitude_agl", m_ui->comboAltitudeAGL->currentIndex() );
-    settings.setValue( "airspeed", m_ui->comboAirspeed->currentIndex() );
-    settings.setValue( "climb_rate", m_ui->comboClimbRate->currentIndex() );
-    settings.setValue( "mach_number", m_ui->comboMachNumber->currentIndex() );
-    settings.setValue( "roll_angle", m_ui->comboRollAngle->currentIndex() );
-    settings.setValue( "pitch_angle", m_ui->comboPitchAngle->currentIndex() );
-    settings.setValue( "heading", m_ui->comboHeading->currentIndex() );
-    settings.setValue( "angle_of_attack", m_ui->comboAngleOfAttack->currentIndex() );
-    settings.setValue( "sideslip_angle", m_ui->comboSideslipAngle->currentIndex() );
-    settings.setValue( "path_angle", m_ui->comboPathAngle->currentIndex() );
-    settings.setValue( "course", m_ui->comboCourse->currentIndex() );
-    settings.setValue( "roll_rate", m_ui->comboRollRate->currentIndex() );
-    settings.setValue( "pitch_rate", m_ui->comboPitchRate->currentIndex() );
-    settings.setValue( "yaw_rate", m_ui->comboYawRate->currentIndex() );
-    settings.setValue( "gx", m_ui->comboGx->currentIndex() );
-    settings.setValue( "gy", m_ui->comboGy->currentIndex() );
-    settings.setValue( "gz", m_ui->comboGz->currentIndex() );
-    settings.setValue( "max_gz", m_ui->comboMaxGz->currentIndex() );
+    settings.setValue( "altitude_asl"    , m_ui->comboAltitudeASL   ->currentIndex() );
+    settings.setValue( "altitude_agl"    , m_ui->comboAltitudeAGL   ->currentIndex() );
+    settings.setValue( "airspeed"        , m_ui->comboAirspeed      ->currentIndex() );
+    settings.setValue( "climb_rate"      , m_ui->comboClimbRate     ->currentIndex() );
+    settings.setValue( "mach_number"     , m_ui->comboMachNumber    ->currentIndex() );
+    settings.setValue( "roll_angle"      , m_ui->comboRollAngle     ->currentIndex() );
+    settings.setValue( "pitch_angle"     , m_ui->comboPitchAngle    ->currentIndex() );
+    settings.setValue( "heading"         , m_ui->comboHeading       ->currentIndex() );
+    settings.setValue( "angle_of_attack" , m_ui->comboAngleOfAttack ->currentIndex() );
+    settings.setValue( "sideslip_angle"  , m_ui->comboSideslipAngle ->currentIndex() );
+    settings.setValue( "path_angle"      , m_ui->comboPathAngle     ->currentIndex() );
+    settings.setValue( "course"          , m_ui->comboCourse        ->currentIndex() );
+    settings.setValue( "roll_rate"       , m_ui->comboRollRate      ->currentIndex() );
+    settings.setValue( "pitch_rate"      , m_ui->comboPitchRate     ->currentIndex() );
+    settings.setValue( "yaw_rate"        , m_ui->comboYawRate       ->currentIndex() );
+    settings.setValue( "gx"              , m_ui->comboGx            ->currentIndex() );
+    settings.setValue( "gy"              , m_ui->comboGy            ->currentIndex() );
+    settings.setValue( "gz"              , m_ui->comboGz            ->currentIndex() );
+    settings.setValue( "max_gz"          , m_ui->comboMaxGz         ->currentIndex() );
 
     settings.endGroup();
 }

@@ -208,6 +208,19 @@ double Table2D::getValue( double rowValue, double colValue ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double Table2D::getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const
+{
+    if ( m_rows > 0 && rowIndex < m_rows
+      && m_cols > 0 && colIndex < m_cols )
+    {
+        return m_tableData[ rowIndex * m_cols + colIndex ];
+    }
+
+    return std::numeric_limits< double >::quiet_NaN();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 bool Table2D::isValid() const
 {
     bool result = ( m_size > 0 ) ? true : false;

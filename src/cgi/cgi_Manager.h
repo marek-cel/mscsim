@@ -92,6 +92,12 @@ public:
     /** */
     void setCameraManipulatorWorld();
 
+    /** */
+    void setDistanceDef( double distance_def );
+
+    /** */
+    void setDistanceMin( double distance_min );
+
 private:
 
     HUD *m_hud;         ///<

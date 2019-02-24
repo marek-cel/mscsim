@@ -110,9 +110,11 @@ private:
     double m_maxGz;         ///< [-]
 
     void settingsRead();
+    void settingsRead_Highlight( QSettings &settings );
     void settingsRead_UnitCombos( QSettings &settings );
 
     void settingsSave();
+    void settingsSave_Highlight( QSettings &settings );
     void settingsSave_UnitCombos( QSettings &settings );
 
 private slots:

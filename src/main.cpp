@@ -19,11 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #include <QApplication>
 
 #include <gui/gui_Defines.h>
 
-#include <Simulation.h>
+#include <Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,13 +44,13 @@ int main( int argc, char *argv[] )
     app->setOrganizationDomain( GUI_ORG_DOMAIN );
     app->setOrganizationName( GUI_ORG_NAME   );
 
-    Simulation *sim = new Simulation();
+    Manager *mgr = new Manager();
 
-    sim->init();
+    mgr->init();
 
     int result = app->exec();
 
-    delete sim; sim = 0;
+    delete mgr; mgr = 0;
     delete app; app = 0;
 
     return result;

@@ -119,8 +119,8 @@ void Ownship::update()
     // elevons
     if ( m_elevonL.valid() && m_elevonR.valid() )
     {
-        float angle_l = 0.5f * Data::get()->ownship.elevator - 0.5f * Data::get()->ownship.ailerons;
-        float angle_r = 0.5f * Data::get()->ownship.elevator + 0.5f * Data::get()->ownship.ailerons;
+        float angle_l = Data::get()->ownship.elevator - Data::get()->ownship.elevons;
+        float angle_r = Data::get()->ownship.elevator + Data::get()->ownship.elevons;
 
         m_elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
         m_elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
@@ -129,24 +129,25 @@ void Ownship::update()
     // flaperons
     if ( m_flaperonL.valid() && m_flaperonR.valid() )
     {
-        float angle_l = 0.5f * Data::get()->ownship.flaps - 0.5f * Data::get()->ownship.ailerons;
-        float angle_r = 0.5f * Data::get()->ownship.flaps + 0.5f * Data::get()->ownship.ailerons;
+        float angle_l = Data::get()->ownship.flaps - Data::get()->ownship.flaperons;
+        float angle_r = Data::get()->ownship.flaps + Data::get()->ownship.flaperons;
 
         m_flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
         m_flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
     }
 
     // flaps
-    if ( m_flapLEL.valid() && m_flapLER.valid() )
+    if ( m_flapL.valid() && m_flapR.valid() )
     {
-        m_flapLEL->setAttitude( osg::Quat( -Data::get()->ownship.flaps_le, osg::Y_AXIS ) );
-        m_flapLER->setAttitude( osg::Quat( -Data::get()->ownship.flaps_le, osg::Y_AXIS ) );
+        m_flapL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        m_flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
     }
 
-    if ( m_flapTEL.valid() && m_flapTER.valid() )
+    // lefs
+    if ( m_lefL.valid() && m_lefR.valid() )
     {
-        m_flapTEL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
-        m_flapTER->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        m_lefL->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
+        m_lefR->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
     }
 
     // airbrake
@@ -272,16 +273,22 @@ void Ownship::loadModel( const std::string &modelFile )
         m_flaperonL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonL" ) );
         m_flaperonR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonR" ) );
 
-        m_flapLEL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLEL" ) );
-        m_flapLER = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLER" ) );
+        m_flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTEL" ) );
+        m_flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTER" ) );
 
-        m_flapTEL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTEL" ) );
-        m_flapTER = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTER" ) );
-
-        if ( !m_flapTEL.valid() && !m_flapTER.valid() )
+        if ( !m_flapL.valid() && !m_flapR.valid() )
         {
-            m_flapTEL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapL" ) );
-            m_flapTER = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapR" ) );
+            m_flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapL" ) );
+            m_flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapR" ) );
+        }
+
+        m_lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLEL" ) );
+        m_lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLER" ) );
+
+        if ( !m_lefL.valid() && !m_lefR.valid() )
+        {
+            m_lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFL" ) );
+            m_lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFR" ) );
         }
 
         m_airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeP" ) );
@@ -381,10 +388,10 @@ void Ownship::reset()
     m_elevonR   = 0;
     m_flaperonL = 0;
     m_flaperonR = 0;
-    m_flapLEL   = 0;
-    m_flapLER   = 0;
-    m_flapTEL   = 0;
-    m_flapTER   = 0;
+    m_flapL     = 0;
+    m_flapR     = 0;
+    m_lefL      = 0;
+    m_lefR      = 0;
     m_rudderL   = 0;
     m_rudderR   = 0;
 

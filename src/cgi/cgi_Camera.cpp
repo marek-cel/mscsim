@@ -122,6 +122,22 @@ void Camera::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Camera::setDistanceDef( double distance_def )
+{
+    m_manipulatorOrbit->setDistance( distance_def );
+    m_manipulatorShift->setDistance( distance_def );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Camera::setDistanceMin( double distance_min )
+{
+    m_manipulatorOrbit->setDistanceMin( distance_min );
+    m_manipulatorShift->setDistanceMin( distance_min );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Camera::setTrackNode( osg::Node *node )
 {
     m_trackNode = node;

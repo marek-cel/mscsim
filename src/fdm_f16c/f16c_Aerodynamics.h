@@ -26,12 +26,8 @@
 
 #include <fdmMain/fdm_Aerodynamics.h>
 
-#include <fdmMain/fdm_MainRotor.h>
-#include <fdmMain/fdm_TailRotor.h>
-#include <fdmMain/fdm_Stabilizer.h>
-
-#include <fdm_uh60/uh60_Fuselage.h>
-#include <fdm_uh60/uh60_StabilizerHor.h>
+#include <fdmUtils/fdm_Table.h>
+#include <fdmUtils/fdm_Table2D.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +38,9 @@ class F16C_Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief F-16 aerodynamics class.
+ *
+ * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
+ * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176
  */
 class F16C_Aerodynamics : public Aerodynamics
 {
@@ -79,21 +78,74 @@ private:
 
     const F16C_Aircraft *m_aircraft;    ///< aircraft model main object
 
-    Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
-    Table m_cy;                 ///< [-] sideforce coefficient vs [rad] angle of sideslip
-    Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
+    Table2D m_cx_dh_n25;        ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2D m_cx_dh_n10;        ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2D m_cx_dh_0;          ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2D m_cx_dh_p10;        ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2D m_cx_dh_p25;        ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2D m_cx_lef;           ///<
+    Table m_delta_cx_sb;        ///<
+    Table m_cx_q;               ///<
+    Table m_delta_cx_q_lef;     ///<
 
-    Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-    Table m_cl_p;               ///< [1/rad] rolling moment coefficient due to roll rate
-    Table m_cl_delta_a;         ///< [1/rad] rolling moment coefficient due to ailerons deflection
+    Table2D m_cy;               ///< [-] sideforce coefficient vs angle of attack and sideslip
+    Table2D m_cy_lef;           ///<
+    Table2D m_cy_da_20;         ///<
+    Table2D m_cy_da_20_lef;     ///<
+    Table2D m_cy_dr_30;         ///<
+    Table m_cy_r;               ///<
+    Table m_delta_cy_r_lef;     ///<
+    Table m_cy_p;               ///<
+    Table m_delta_cy_p_lef;     ///<
 
-    Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
-    Table m_cm_q;               ///< [1/rad] pitching moment coefficient due to pitch rate
-    Table m_cm_delta_h;         ///< [1/rad] pitching moment coefficient due to elevator deflection
+    Table2D m_cz_dh_n25;        ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2D m_cz_dh_n10;        ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2D m_cz_dh_0;          ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2D m_cz_dh_p10;        ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2D m_cz_dh_p25;        ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2D m_cz_lef;           ///<
+    Table m_delta_cz_sb;        ///<
+    Table m_cz_q;               ///<
+    Table m_delta_cz_q_lef;     ///<
+    Table m_eta_delta_h;        ///< horizontal stabilator effectiveness factor
 
-    Table m_cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
-    Table m_cn_r;               ///< [1/rad] yawing moment coefficient due to yaw rate
-    Table m_cn_delta_r;         ///< [1/rad] yawing moment coefficient due to rudder deflection
+    Table2D m_cl_dh_n25;        ///<
+    Table2D m_cl_dh_0;          ///<
+    Table2D m_cl_dh_p25;        ///<
+    Table2D m_cl_lef;           ///<
+    Table2D m_cl_da_20;         ///<
+    Table2D m_cl_da_20_lef;     ///<
+    Table2D m_cl_dr_30;         ///<
+    Table m_cl_r;               ///<
+    Table m_delta_cl_beta;      ///<
+    Table m_delta_cl_r_lef;     ///<
+    Table m_cl_p;               ///<
+    Table m_delta_cl_p_lef;     ///<
+
+    Table2D m_cm_dh_n25;        ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2D m_cm_dh_n10;        ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2D m_cm_dh_0;          ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2D m_cm_dh_p10;        ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2D m_cm_dh_p25;        ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2D m_cm_lef;           ///<
+    Table m_delta_cm_sb;        ///<
+    Table m_cm_q;               ///<
+    Table m_delta_cm_q_lef;     ///<
+    Table m_delta_cm;           ///<
+    Table2D m_delta_cm_ds;      ///< (deep stall)
+
+    Table2D m_cn_dh_n25;        ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2D m_cn_dh_0;          ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2D m_cn_dh_p25;        ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2D m_cn_lef;           ///<
+    Table2D m_cn_da_20;         ///<
+    Table2D m_cn_da_20_lef;     ///<
+    Table2D m_cn_dr_30;         ///<
+    Table m_cn_r;               ///<
+    Table m_delta_cn_beta;      ///<
+    Table m_delta_cn_r_lef;     ///<
+    Table m_cn_p;               ///<
+    Table m_delta_cn_p_lef;     ///<
 
     double m_span;              ///< [m] wing span
     double m_mac;               ///< [m] wing mean aerodynamic chord
@@ -101,8 +153,21 @@ private:
 
     double m_mac_s;             ///< [m^3] MAC*S where MAC is mean aerodynamic chord and S is wing area
 
+    double m_alpha;             ///< [rad] angle of attack
+    double m_alpha_deg;         ///< [deg] angle of attack
+    double m_beta;              ///< [rad] angle of sideslip
+    double m_beta_deg;          ///< [deg] angle of sideslip
+
     double m_b_2v;              ///< [s] b/(2*V) where b is a wing span and V is an airspeed
     double m_c_2v;              ///< [s] c/(2*V) where c is a mean chord and V is an airspeed
+
+    double m_cx_delta_h;        ///< [-] body x-force coefficient due to angle of attack, sideslip and elevator deflection
+    double m_cz_delta_h;        ///< [-] body z-force coefficient due to angle of attack, sideslip and elevator deflection
+    double m_cl_delta_h;
+    double m_cm_delta_h;        ///< [-] body pitching moment coefficient due to angle of attack, sideslip and elevator deflection
+    double m_cn_delta_h;
+
+    double m_lef_factor;        ///< [-] leading edge flaps factor
 
     double getCx() const;
     double getCy() const;
@@ -111,6 +176,8 @@ private:
     double getCl() const;
     double getCm() const;
     double getCn() const;
+
+    void updateCoefsDueToElevator();
 };
 
 } // end of fdm namespace

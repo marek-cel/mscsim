@@ -67,10 +67,10 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> m_flaperonR;   ///< right flaperon deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> m_elevonL;     ///< left elevon deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> m_elevonR;     ///< right elevon deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapLEL;     ///< left leading edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapLER;     ///< right leading edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapTEL;     ///< left trailing edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapTER;     ///< right trailing edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapL;       ///< left trailing edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapR;       ///< right trailing edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_lefL;        ///< left leading edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_lefR;        ///< right leading edge flap deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> m_airbrakeP;   ///< positive airbrake
     osg::ref_ptr<osg::PositionAttitudeTransform> m_airbrakeN;   ///< negative airbrake
 

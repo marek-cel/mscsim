@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include <fdmMain/fdm_Defines.h>
+#include <fdm/fdm_Common.h>
 
 #include <hid/hid_Assignment.h>
 
@@ -107,6 +107,8 @@ public:
     float getThrottle  ( int num ) const { return m_throttle  [ num ]; }
     float getMixture   ( int num ) const { return m_mixture   [ num ]; }
     float getPropeller ( int num ) const { return m_propeller [ num ]; }
+
+    bool isLgHandleDown() const { return m_stateLandingGear; }
 
     /** */
     void setAssingment( Assignment::Action action, const Assignment &assignment );

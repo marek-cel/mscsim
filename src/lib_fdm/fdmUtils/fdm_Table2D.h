@@ -67,6 +67,14 @@ public:
      */
     double getValue( double rowValue, double colValue ) const;
 
+    /**
+     * Returns table value for the given key index.
+     * @param rowIndex row index
+     * @param colIndex col index
+     * @return value on success or NaN on failure
+     */
+    double getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const;
+
     /** */
     bool isValid() const;
 

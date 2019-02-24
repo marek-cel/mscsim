@@ -67,6 +67,9 @@ void Aircrafts::parseAircraft(const QDomElement &node )
     QDomElement nodeType = node.firstChildElement( "type" );
     QDomElement nodeFile = node.firstChildElement( "file" );
 
+    QDomElement nodeDistDef = node.firstChildElement( "distance_def" );
+    QDomElement nodeDistMin = node.firstChildElement( "distance_min" );
+
     if ( !nodeName.isNull() && !nodeType.isNull() && !nodeFile.isNull() )
     {
         Aircraft aircraft;
@@ -74,6 +77,9 @@ void Aircrafts::parseAircraft(const QDomElement &node )
         aircraft.name = nodeName.text();
         aircraft.type = nodeType.text().toInt( NULL, 16 );
         aircraft.file = nodeFile.text();
+
+        aircraft.distance_def = nodeDistDef.isNull() ? 5.0 : nodeDistDef.text().toFloat();
+        aircraft.distance_min = nodeDistMin.isNull() ? 5.0 : nodeDistMin.text().toFloat();
 
         parseAircraftControls( node, aircraft.controls );
         parseAircraftPropulsion( node, aircraft.propulsion );

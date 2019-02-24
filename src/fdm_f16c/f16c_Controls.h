@@ -77,7 +77,9 @@ public:
     inline double getBrakeL()       const { return m_brake_l;       }
     inline double getBrakeR()       const { return m_brake_r;       }
     inline double getNoseWheel()    const { return m_nose_wheel;    }
-    inline bool   getNwSteering()   const { return m_nwSteering;    }
+
+    inline bool getNwSteering() const { return m_nwSteering; }
+    inline bool getLgHandle()   const { return m_lgHandle;   }
 
 private:
 
@@ -104,27 +106,35 @@ private:
     double m_brake_r;                   ///< [-] normalized right brake force
     double m_nose_wheel;                ///< [rad] nose wheel turn angle
 
+    bool m_lgHandle;                    ///< landing gear handle
     bool m_nwSteering;                  ///< nose wheel steering
 
-    DataRef m_drNwSteering;             ///< nose wheel steering data refernce
+    DataRef m_drLgHandle;               ///< landing gear handle data reference
+    DataRef m_drNwSteering;             ///< nose wheel steering data reference
 
     double m_angleOfAttack;
-    double m_gz;
+    double m_airspeed;
+    double m_g_y;
+    double m_g_z;
     double m_rollRate;
     double m_pitchRate;
-    double m_stickLat;
-    double m_stickLon;
+    double m_yawRate;
+    double m_ctrlLat;
     double m_trimLat;
+    double m_ctrlLon;
     double m_trimLon;
-    double m_staticPress;
+    double m_ctrlYaw;
+    double m_trimYaw;
+    double m_statPress;
     double m_dynPress;
 
-    DataRef m_outputAilerons;           ///<
-    DataRef m_outputElevator;           ///<
-    DataRef m_outputRudder;             ///<
-    DataRef m_outputFlaps;              ///<
-    DataRef m_outputFlapsLE;            ///<
-    DataRef m_outputAirbrake;           ///<
+    DataRef m_outElevator;              ///<
+    DataRef m_outElevons;               ///<
+    DataRef m_outRudder;                ///<
+    DataRef m_outFlaps;                 ///<
+    DataRef m_outFlaperons;             ///<
+    DataRef m_outLEF;                   ///<
+    DataRef m_outAirbrake;              ///<
 };
 
 } // end of fdm namespace

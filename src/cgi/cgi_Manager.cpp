@@ -120,6 +120,20 @@ void Manager::setCameraManipulatorWorld()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Manager::setDistanceDef( double distance_def )
+{
+    m_camera->setDistanceDef( distance_def );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::setDistanceMin( double distance_min )
+{
+    m_camera->setDistanceMin( distance_min );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Manager::updateGround()
 {
     WGS84 wgs_b( Data::get()->ownship.latitude, Data::get()->ownship.longitude, 10000.0 );

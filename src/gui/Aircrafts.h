@@ -101,6 +101,9 @@ public:
         int     type;           ///< type
         QString file;           ///< file
 
+        float distance_def;     ///< [m] minimum distance
+        float distance_min;     ///< [m] minimum distance
+
         Controls   controls;    ///< controls data
         Propulsion propulsion;  ///< propulsion data
         Masses     masses;      ///< masses data

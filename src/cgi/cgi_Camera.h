@@ -74,6 +74,12 @@ public:
         return m_worldNode.valid();
     }
 
+    /** Sets default distance to aircraft. */
+    void setDistanceDef( double distance_def );
+
+    /** Sets minimum distance to aircraft. */
+    void setDistanceMin( double distance_min );
+
     /** Sets orbit manipulator track node. */
     void setTrackNode( osg::Node *node );
 

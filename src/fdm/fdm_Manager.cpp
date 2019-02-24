@@ -34,11 +34,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FDM_MIN_INIT_ALTITUDE 30.0
-#define FDM_MAX_INIT_STEPS 20000
-
-////////////////////////////////////////////////////////////////////////////////
-
 using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,18 +113,21 @@ void Manager::dataRefsInit()
     m_dr.brakeLeft   = m_aircraft->getDataRef( "input/controls/brake_l"     );
     m_dr.brakeRight  = m_aircraft->getDataRef( "input/controls/brake_r"     );
     m_dr.noseWheel   = m_aircraft->getDataRef( "input/controls/nose_wheel"  );
+    m_dr.lgHandle    = m_aircraft->getDataRef( "input/controls/lg_handle"   );
     m_dr.nwSteering  = m_aircraft->getDataRef( "input/controls/nw_steering" );
     m_dr.flaps       = m_aircraft->getDataRef( "input/controls/flaps"       );
     m_dr.airbrake    = m_aircraft->getDataRef( "input/controls/airbrake"    );
     m_dr.spoilers    = m_aircraft->getDataRef( "input/controls/spoilers"    );
     m_dr.collective  = m_aircraft->getDataRef( "input/controls/collective"  );
 
-    m_dr.outAilerons = m_aircraft->getDataRef( "output/controls/ailerons" );
-    m_dr.outElevator = m_aircraft->getDataRef( "output/controls/elevator" );
-    m_dr.outRudder   = m_aircraft->getDataRef( "output/controls/rudder"   );
-    m_dr.outFlaps    = m_aircraft->getDataRef( "output/controls/flaps"    );
-    m_dr.outFlaps_le = m_aircraft->getDataRef( "output/controls/flaps_le" );
-    m_dr.outAirbrake = m_aircraft->getDataRef( "output/controls/airbrake" );
+    m_dr.outAilerons  = m_aircraft->getDataRef( "output/controls/ailerons"  );
+    m_dr.outElevator  = m_aircraft->getDataRef( "output/controls/elevator"  );
+    m_dr.outElevons   = m_aircraft->getDataRef( "output/controls/elevons"   );
+    m_dr.outRudder    = m_aircraft->getDataRef( "output/controls/rudder"    );
+    m_dr.outFlaps     = m_aircraft->getDataRef( "output/controls/flaps"     );
+    m_dr.outFlaperons = m_aircraft->getDataRef( "output/controls/flaperons" );
+    m_dr.outLEF       = m_aircraft->getDataRef( "output/controls/lef"       );
+    m_dr.outAirbrake  = m_aircraft->getDataRef( "output/controls/airbrake"  );
 
     // landing gear
     m_dr.wheelN = m_aircraft->getDataRef( "input/landing_gear/wheel_n" );
@@ -221,18 +219,21 @@ void Manager::dataRefsReset()
     m_dr.brakeLeft   .reset();
     m_dr.brakeRight  .reset();
     m_dr.noseWheel   .reset();
+    m_dr.lgHandle    .reset();
     m_dr.nwSteering  .reset();
     m_dr.flaps       .reset();
     m_dr.airbrake    .reset();
     m_dr.spoilers    .reset();
     m_dr.collective  .reset();
 
-    m_dr.outAilerons .reset();
-    m_dr.outElevator .reset();
-    m_dr.outRudder   .reset();
-    m_dr.outFlaps    .reset();
-    m_dr.outFlaps_le .reset();
-    m_dr.outAirbrake .reset();
+    m_dr.outAilerons  .reset();
+    m_dr.outElevator  .reset();
+    m_dr.outElevons   .reset();
+    m_dr.outRudder    .reset();
+    m_dr.outFlaps     .reset();
+    m_dr.outFlaperons .reset();
+    m_dr.outLEF       .reset();
+    m_dr.outAirbrake  .reset();
 
     m_dr.wheelN.reset();
     m_dr.wheelL.reset();
@@ -440,6 +441,7 @@ void Manager::updateDataInput()
     if ( m_dr.brakeLeft   .isValid() ) m_dr.brakeLeft   .setDatad( m_dataInp.controls.brake_l      );
     if ( m_dr.brakeRight  .isValid() ) m_dr.brakeRight  .setDatad( m_dataInp.controls.brake_r      );
     if ( m_dr.noseWheel   .isValid() ) m_dr.noseWheel   .setDatad( m_dataInp.controls.nose_wheel   );
+    if ( m_dr.lgHandle    .isValid() ) m_dr.lgHandle    .setDatab( m_dataInp.controls.lg_handle    );
     if ( m_dr.nwSteering  .isValid() ) m_dr.nwSteering  .setDatab( m_dataInp.controls.nw_steering  );
     if ( m_dr.flaps       .isValid() ) m_dr.flaps       .setDatad( m_dataInp.controls.flaps        );
     if ( m_dr.airbrake    .isValid() ) m_dr.airbrake    .setDatad( m_dataInp.controls.airbrake     );
@@ -551,12 +553,14 @@ void Manager::updateDataOutput()
     m_dataOut.flight.stall    = m_aircraft->getAero()->getStall();
 
     // controls
-    m_dataOut.controls.ailerons = m_dr.outAilerons .getValue( 0.0 );
-    m_dataOut.controls.elevator = m_dr.outElevator .getValue( 0.0 );
-    m_dataOut.controls.rudder   = m_dr.outRudder   .getValue( 0.0 );
-    m_dataOut.controls.flaps    = m_dr.outFlaps    .getValue( 0.0 );
-    m_dataOut.controls.flaps_le = m_dr.outFlaps_le .getValue( 0.0 );
-    m_dataOut.controls.airbrake = m_dr.outAirbrake .getValue( 0.0 );
+    m_dataOut.controls.ailerons  = m_dr.outAilerons  .getValue( 0.0 );
+    m_dataOut.controls.elevator  = m_dr.outElevator  .getValue( 0.0 );
+    m_dataOut.controls.elevons   = m_dr.outElevons   .getValue( 0.0 );
+    m_dataOut.controls.rudder    = m_dr.outRudder    .getValue( 0.0 );
+    m_dataOut.controls.flaps     = m_dr.outFlaps     .getValue( 0.0 );
+    m_dataOut.controls.flaperons = m_dr.outFlaperons .getValue( 0.0 );
+    m_dataOut.controls.lef       = m_dr.outLEF       .getValue( 0.0 );
+    m_dataOut.controls.airbrake  = m_dr.outAirbrake  .getValue( 0.0 );
 
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -779,12 +783,14 @@ void Manager::updatePhaseIdle()
     m_dataOut.flight.stall = false;
 
     // controls
-    m_dataOut.controls.ailerons = 0.0;
-    m_dataOut.controls.elevator = 0.0;
-    m_dataOut.controls.rudder   = 0.0;
-    m_dataOut.controls.flaps    = 0.0;
-    m_dataOut.controls.flaps_le = 0.0;
-    m_dataOut.controls.airbrake = 0.0;
+    m_dataOut.controls.ailerons  = 0.0;
+    m_dataOut.controls.elevator  = 0.0;
+    m_dataOut.controls.elevons   = 0.0;
+    m_dataOut.controls.rudder    = 0.0;
+    m_dataOut.controls.flaps     = 0.0;
+    m_dataOut.controls.flaperons = 0.0;
+    m_dataOut.controls.lef       = 0.0;
+    m_dataOut.controls.airbrake  = 0.0;
 
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )

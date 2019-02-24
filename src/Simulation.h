@@ -24,19 +24,20 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <QThread>
+#include <QTimer>
+#include <QElapsedTimer>
 
-#include <gui/MainWindow.h>
 #include <fdm/fdm_Manager.h>
 
-#include <Navigation.h>
+#include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief Simulation class.
  */
-class Simulation : public QObject
+class Simulation : public QThread
 {
     Q_OBJECT
 
@@ -48,27 +49,41 @@ public:
 
     void init();
 
+    void run();
+
+public slots:
+
+    /** */
+    void onDataInpUpdated( const Data::DataBuf *data );
+
+signals:
+
+    /** */
+    void dataOutUpdated( const fdm::DataOut &dataOut );
+
 protected:
 
+    /** */
     void timerEvent( QTimerEvent *event );
 
 private:
 
-    Navigation   *m_nav;        ///< navigation
-    fdm::Manager *m_sim;        ///< simulation
-    MainWindow   *m_win;        ///< GUI
+    QTimer        *m_timeoutTimer;  ///<
+    QElapsedTimer *m_elapsedTimer;  ///<
 
-    fdm::DataInp m_dataInp;     ///< simulation input data
-    fdm::DataOut m_dataOut;     ///< simulation output data
+    fdm::Manager *m_fdm;            ///< flight dynamics model
 
-    QElapsedTimer *m_timer;     ///< elapsed timer
+    fdm::DataInp m_dataInp;         ///< flight dynamics model input data
+    fdm::DataOut m_dataOut;         ///< flight dynamics model output data
 
-    int m_timerId;              ///< timer Id
+    double m_timeStep;
+    double m_timeCoef;
 
-    double m_timeStep;          ///< [s] time step
+    int m_timerId;
 
-    void updateDataInp();
-    void updateDataOut();
+private slots:
+
+    void update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

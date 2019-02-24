@@ -7,6 +7,9 @@
         <type>0</type>
         <file>data/cgi/entities/c130.xml</file>
   
+        <distance_def> 30.0 </distance_def>
+        <distance_min> 30.0 </distance_min>
+  
         <controls>
             <landing_gear />
             <flaps />
@@ -38,6 +41,9 @@
         <type>1</type>
         <file>data/cgi/entities/c172.xml</file>
         
+        <distance_def> 25.0 </distance_def>
+        <distance_min>  5.0 </distance_min>
+        
         <controls>
             <flaps />
             <throttle count="1" />
@@ -67,6 +73,9 @@
         <name>F-16</name>
         <type>2</type>
         <file>data/cgi/entities/f16c.xml</file>
+        
+        <distance_def> 33.0 </distance_def>
+        <distance_min>  5.0 </distance_min>
     
         <controls>
             <landing_gear />
@@ -98,6 +107,9 @@
         <name>UH-60</name>
         <type>3</type>
         <file>data/cgi/entities/uh60.xml</file>
+        
+        <distance_def> 40.0 </distance_def>
+        <distance_min>  5.0 </distance_min>
         
         <controls>
             <collective />

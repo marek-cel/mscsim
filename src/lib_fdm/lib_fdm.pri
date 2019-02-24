@@ -61,13 +61,25 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    lib_fdm/fdmSys/fdm_Inertia.h \
-    lib_fdm/fdmSys/fdm_Inertia2.h \
+    lib_fdm/fdmSys/fdm_BPF.h \
+    lib_fdm/fdmSys/fdm_BSF.h \
+    lib_fdm/fdmSys/fdm_Filter2.h \
+    lib_fdm/fdmSys/fdm_HPF.h \
+    lib_fdm/fdmSys/fdm_Lag.h \
+    lib_fdm/fdmSys/fdm_Lag2.h \
+    lib_fdm/fdmSys/fdm_LeadLag.h \
+    lib_fdm/fdmSys/fdm_LPF.h \
     lib_fdm/fdmSys/fdm_PID.h
 
 SOURCES += \
-    lib_fdm/fdmSys/fdm_Inertia.cpp \
-    lib_fdm/fdmSys/fdm_Inertia2.cpp \
+    lib_fdm/fdmSys/fdm_BPF.cpp \
+    lib_fdm/fdmSys/fdm_BSF.cpp \
+    lib_fdm/fdmSys/fdm_Filter2.cpp \
+    lib_fdm/fdmSys/fdm_HPF.cpp \
+    lib_fdm/fdmSys/fdm_Lag.cpp \
+    lib_fdm/fdmSys/fdm_Lag2.cpp \
+    lib_fdm/fdmSys/fdm_LeadLag.cpp \
+    lib_fdm/fdmSys/fdm_LPF.cpp \
     lib_fdm/fdmSys/fdm_PID.cpp
 
 ################################################################################

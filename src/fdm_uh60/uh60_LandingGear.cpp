@@ -50,6 +50,10 @@ void UH60_LandingGear::readData( XmlNode &dataNode )
 
 void UH60_LandingGear::update()
 {
+    //////////////////////
+    LandingGear::update();
+    //////////////////////
+
     m_brake_l = m_aircraft->getCtrl()->getBrakeL();
     m_brake_r = m_aircraft->getCtrl()->getBrakeR();
 
@@ -57,6 +61,4 @@ void UH60_LandingGear::update()
 
     m_antiskid = true;
     m_steering = false;
-
-    m_onGround = m_for_bas.getLength2() > 0.0;
 }

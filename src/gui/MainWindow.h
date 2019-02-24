@@ -107,6 +107,8 @@ private:
 
     int m_timerId;                  ///< timer ID
 
+    int m_typeIndex;                ///<
+
     fdm::DataInp::PhaseInp m_phaseInp; ///< simulation input phase
     fdm::DataOut::StateOut m_stateOut; ///< simulation output state
 

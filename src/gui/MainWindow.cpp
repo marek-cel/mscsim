@@ -68,6 +68,8 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     m_timerId ( 0 ),
 
+    m_typeIndex ( 0 ),
+
     m_phaseInp ( fdm::DataInp::Idle ),
     m_stateOut ( fdm::DataOut::Idle )
 {
@@ -306,10 +308,15 @@ void MainWindow::setPhaseStop()
 
 void MainWindow::setAircraftType( int typeIndex )
 {
+    m_typeIndex = typeIndex;
+
     m_dialogMass->setAircraftType( typeIndex );
 
     m_dockCtrl->setAircraftType( typeIndex );
     m_dockProp->setAircraftType( typeIndex );
+
+    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( typeIndex ).distance_def );
+    m_ui->widgetCGI->setDistanceMin( Aircrafts::instance()->getAircraft( typeIndex ).distance_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1005,6 +1012,7 @@ void MainWindow::on_actionViewChase_triggered()
     m_ui->stackedMain->setCurrentIndex( 1 );
 
     m_ui->widgetCGI->setCameraManipulatorChase();
+    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( m_typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1024,6 +1032,7 @@ void MainWindow::on_actionViewOrbit_triggered()
     m_ui->stackedMain->setCurrentIndex( 1 );
 
     m_ui->widgetCGI->setCameraManipulatorOrbit();
+    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( m_typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

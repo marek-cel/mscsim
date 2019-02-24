@@ -20,45 +20,67 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <gui/SpinBoxHighlight.h>
+
+#include <QMouseEvent>
+#include <QLineEdit>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace fdm;
-
-////////////////////////////////////////////////////////////////////////////////
-
-F16C_LandingGear::F16C_LandingGear( const F16C_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    m_aircraft ( aircraft )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-F16C_LandingGear::~F16C_LandingGear() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_LandingGear::readData( XmlNode &dataNode )
+SpinBoxHighlight::SpinBoxHighlight( QWidget *parent ) :
+    QDoubleSpinBox ( parent ),
+    m_highlighted ( false )
 {
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
+    installEventFilter( this );
+
+    QObjectList list = children();
+
+    for ( QObjectList::iterator it = list.begin(); it != list.end(); it++ )
+    {
+        QLineEdit *lineEdit = qobject_cast< QLineEdit* >( *it );
+
+        if ( lineEdit )
+        {
+            lineEdit->installEventFilter( this );
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_LandingGear::update()
+SpinBoxHighlight::~SpinBoxHighlight() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SpinBoxHighlight::setHighlighted( bool highlighted )
 {
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
+    m_highlighted = highlighted;
 
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
+    if ( m_highlighted )
+    {
+        setStyleSheet( "QDoubleSpinBox { background-color: #ff9; }" );
+    }
+    else
+    {
+        setStyleSheet( "" );
+    }
+}
 
-    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
+////////////////////////////////////////////////////////////////////////////////
 
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
+void SpinBoxHighlight::toggleHighlight()
+{
+    setHighlighted( !m_highlighted );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool SpinBoxHighlight::eventFilter( QObject *, QEvent *event )
+{
+    if ( event->type() == QMouseEvent::MouseButtonDblClick )
+    {
+        toggleHighlight();
+    }
+
+    return false;
 }

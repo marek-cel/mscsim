@@ -58,11 +58,14 @@ public:
 
     void setDistance( double distance );
 
+    void setDistanceMin( double distance_min );
+
 private:
 
     osg::Matrixd m_matrix;
 
     double m_distance;
+    double m_distance_min;
 
     /** */
     void updateMatrix();

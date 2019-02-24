@@ -30,6 +30,7 @@ HEADERS += \
     gui/MainWindow.h \
     gui/PageControls.h \
     gui/PageGeneral.h \
+    gui/SpinBoxHighlight.h \
     gui/WidgetCGI.h \
     gui/WidgetSquare.h
 
@@ -69,6 +70,7 @@ SOURCES += \
     gui/MainWindow.cpp \
     gui/PageControls.cpp \
     gui/PageGeneral.cpp \
+    gui/SpinBoxHighlight.cpp \
     gui/WidgetCGI.cpp \
     gui/WidgetCGI_KeyHandler.cpp \
     gui/WidgetSquare.cpp

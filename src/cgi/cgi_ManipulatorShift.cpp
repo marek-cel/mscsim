@@ -29,7 +29,8 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 ManipulatorShift::ManipulatorShift() :
-    inherited()
+    inherited(),
+    m_distance_min ( 5.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,8 @@ ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi,
                                     const osg::CopyOp &copyOp ) :
     osg::Object( cmi, copyOp ),
     inherited( cmi, copyOp ),
-    m_matrix( cmi.m_matrix )
+    m_matrix( cmi.m_matrix ),
+    m_distance_min ( 5.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,14 +107,26 @@ void ManipulatorShift::setDistance( double distance )
     {
         m_distance = 5000.0;
     }
-    else if ( distance < 5.0 )
+    else if ( distance < m_distance_min )
     {
-        m_distance = 5.0;
+        m_distance = m_distance_min;
     }
     else
     {
         m_distance = distance;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void ManipulatorShift::setDistanceMin( double distance_min )
+{
+    if ( distance_min > 0.0 )
+    {
+        m_distance_min = distance_min;
+    }
+
+    setDistance( m_distance );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
