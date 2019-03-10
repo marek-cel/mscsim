@@ -185,7 +185,7 @@ void C172_Propulsion::update()
                          m_aircraft->getAirspeed(),
                          m_aircraft->getEnvir()->getDensity() );
 
-    m_drEngineOn  .setDatab( m_engine->getState() == PistonEngine::Running );
+    m_drEngineOn  .setDatab( m_engine->getState() == Engine::Running );
     m_drEngineRPM .setDatad( m_engine->getRPM() );
     m_drEngineMAP .setDatad( m_engine->getMAP() );
     m_drEngineFF  .setDatad( m_engine->getFuelFlow() );
