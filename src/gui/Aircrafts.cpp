@@ -170,6 +170,7 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
     propulsion.egt  = false;
     propulsion.tot  = false;
     propulsion.itt  = false;
+    propulsion.tit  = false;
 
     QDomElement nodePropulsion = node.firstChildElement( "propulsion" );
 
@@ -188,18 +189,20 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
         QDomElement nodeEGT  = nodePropulsion.firstChildElement( "egt"  );
         QDomElement nodeTOT  = nodePropulsion.firstChildElement( "tot"  );
         QDomElement nodeITT  = nodePropulsion.firstChildElement( "itt"  );
+        QDomElement nodeTIT  = nodePropulsion.firstChildElement( "tit"  );
 
-        propulsion.rpm  = !nodeRPM.isNull();
-        propulsion.prop = !nodePROP.isNull();
-        propulsion.ng   = !nodeNG.isNull();
-        propulsion.n1   = !nodeN1.isNull();
-        propulsion.n2   = !nodeN2.isNull();
-        propulsion.trq  = !nodeTRQ.isNull();
-        propulsion.epr  = !nodeEPR.isNull();
-        propulsion.map  = !nodeMAP.isNull();
-        propulsion.egt  = !nodeEGT.isNull();
-        propulsion.tot  = !nodeTOT.isNull();
-        propulsion.itt  = !nodeITT.isNull();
+        propulsion.rpm  = !nodeRPM  .isNull();
+        propulsion.prop = !nodePROP .isNull();
+        propulsion.ng   = !nodeNG   .isNull();
+        propulsion.n1   = !nodeN1   .isNull();
+        propulsion.n2   = !nodeN2   .isNull();
+        propulsion.trq  = !nodeTRQ  .isNull();
+        propulsion.epr  = !nodeEPR  .isNull();
+        propulsion.map  = !nodeMAP  .isNull();
+        propulsion.egt  = !nodeEGT  .isNull();
+        propulsion.tot  = !nodeTOT  .isNull();
+        propulsion.itt  = !nodeITT  .isNull();
+        propulsion.tit  = !nodeTIT  .isNull();
     }
 }
 

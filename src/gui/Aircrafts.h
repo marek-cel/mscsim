@@ -63,6 +63,7 @@ public:
         bool epr;               ///<
         bool map;               ///<
         bool egt;               ///<
+        bool tit;               ///<
         bool tot;               ///<
         bool itt;               ///<
     };

@@ -68,6 +68,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     m_spinEPR  [ 0 ] = m_ui->spinEPR_1;
     m_spinMAP  [ 0 ] = m_ui->spinMAP_1;
     m_spinEGT  [ 0 ] = m_ui->spinEGT_1;
+    m_spinTIT  [ 0 ] = m_ui->spinTIT_1;
     m_spinTOT  [ 0 ] = m_ui->spinTOT_1;
     m_spinITT  [ 0 ] = m_ui->spinITT_1;
     m_spinFF   [ 0 ] = m_ui->spinFF_1;
@@ -81,6 +82,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     m_spinEPR  [ 1 ] = m_ui->spinEPR_2;
     m_spinMAP  [ 1 ] = m_ui->spinMAP_2;
     m_spinEGT  [ 1 ] = m_ui->spinEGT_2;
+    m_spinTIT  [ 1 ] = m_ui->spinTIT_2;
     m_spinTOT  [ 1 ] = m_ui->spinTOT_2;
     m_spinITT  [ 1 ] = m_ui->spinITT_2;
     m_spinFF   [ 1 ] = m_ui->spinFF_2;
@@ -94,6 +96,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     m_spinEPR  [ 2 ] = m_ui->spinEPR_3;
     m_spinMAP  [ 2 ] = m_ui->spinMAP_3;
     m_spinEGT  [ 2 ] = m_ui->spinEGT_3;
+    m_spinTIT  [ 2 ] = m_ui->spinTIT_3;
     m_spinTOT  [ 2 ] = m_ui->spinTOT_3;
     m_spinITT  [ 2 ] = m_ui->spinITT_3;
     m_spinFF   [ 2 ] = m_ui->spinFF_3;
@@ -107,6 +110,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     m_spinEPR  [ 3 ] = m_ui->spinEPR_4;
     m_spinMAP  [ 3 ] = m_ui->spinMAP_4;
     m_spinEGT  [ 3 ] = m_ui->spinEGT_4;
+    m_spinTIT  [ 3 ] = m_ui->spinTIT_4;
     m_spinTOT  [ 3 ] = m_ui->spinTOT_4;
     m_spinITT  [ 3 ] = m_ui->spinITT_4;
     m_spinFF   [ 3 ] = m_ui->spinFF_4;
@@ -179,52 +183,55 @@ void DockWidgetProp::setAircraftType( int typeIndex )
         };
 
         // labels
-        m_ui->labelRPM->setVisible( propulsion.rpm );
-        m_ui->labelPROP->setVisible( propulsion.prop );
-        m_ui->labelNG->setVisible( propulsion.ng );
-        m_ui->labelN1->setVisible( propulsion.n1 );
-        m_ui->labelN2->setVisible( propulsion.n2 );
-        m_ui->labelTRQ->setVisible( propulsion.trq );
-        m_ui->labelEPR->setVisible( propulsion.epr );
-        m_ui->labelMAP->setVisible( propulsion.map );
-        m_ui->labelEGT->setVisible( propulsion.egt );
-        m_ui->labelTOT->setVisible( propulsion.tot );
-        m_ui->labelITT->setVisible( propulsion.itt );
+        m_ui->labelRPM  ->setVisible( propulsion.rpm  );
+        m_ui->labelPROP ->setVisible( propulsion.prop );
+        m_ui->labelNG   ->setVisible( propulsion.ng   );
+        m_ui->labelN1   ->setVisible( propulsion.n1   );
+        m_ui->labelN2   ->setVisible( propulsion.n2   );
+        m_ui->labelTRQ  ->setVisible( propulsion.trq  );
+        m_ui->labelEPR  ->setVisible( propulsion.epr  );
+        m_ui->labelMAP  ->setVisible( propulsion.map  );
+        m_ui->labelEGT  ->setVisible( propulsion.egt  );
+        m_ui->labelTIT  ->setVisible( propulsion.tit  );
+        m_ui->labelTOT  ->setVisible( propulsion.tot  );
+        m_ui->labelITT  ->setVisible( propulsion.itt  );
 
         // combos
-        m_ui->comboRPM->setVisible( propulsion.rpm );
-        m_ui->comboPROP->setVisible( propulsion.prop );
-        m_ui->comboNG->setVisible( propulsion.ng );
-        m_ui->comboN1->setVisible( propulsion.n1 );
-        m_ui->comboN2->setVisible( propulsion.n2 );
-        m_ui->comboTRQ->setVisible( propulsion.trq );
-        m_ui->comboEPR->setVisible( propulsion.epr );
-        m_ui->comboMAP->setVisible( propulsion.map );
-        m_ui->comboEGT->setVisible( propulsion.egt );
-        m_ui->comboTOT->setVisible( propulsion.tot );
-        m_ui->comboITT->setVisible( propulsion.itt );
+        m_ui->comboRPM  ->setVisible( propulsion.rpm  );
+        m_ui->comboPROP ->setVisible( propulsion.prop );
+        m_ui->comboNG   ->setVisible( propulsion.ng   );
+        m_ui->comboN1   ->setVisible( propulsion.n1   );
+        m_ui->comboN2   ->setVisible( propulsion.n2   );
+        m_ui->comboTRQ  ->setVisible( propulsion.trq  );
+        m_ui->comboEPR  ->setVisible( propulsion.epr  );
+        m_ui->comboMAP  ->setVisible( propulsion.map  );
+        m_ui->comboEGT  ->setVisible( propulsion.egt  );
+        m_ui->comboTIT  ->setVisible( propulsion.tit  );
+        m_ui->comboTOT  ->setVisible( propulsion.tot  );
+        m_ui->comboITT  ->setVisible( propulsion.itt  );
 
         for ( int i = 0; i < 4; i++ )
         {
             m_label[ i ]->setVisible( visible[ i ] );
 
-            m_pushButtonState[ i ]->setVisible( visible[ i ] );
-            m_pushButtonFuel[ i ]->setVisible( visible[ i ] );
-            m_pushButtonIgnition[ i ]->setVisible( visible[ i ] );
-            m_pushButtonStart[ i ]->setVisible( visible[ i ] );
+            m_pushButtonState    [ i ]->setVisible( visible[ i ] );
+            m_pushButtonFuel     [ i ]->setVisible( visible[ i ] );
+            m_pushButtonIgnition [ i ]->setVisible( visible[ i ] );
+            m_pushButtonStart    [ i ]->setVisible( visible[ i ] );
 
-            m_spinRPM[ i ]->setVisible( visible[ i ] && propulsion.rpm );
-            m_spinPROP[ i ]->setVisible( visible[ i ] && propulsion.prop );
-            m_spinNG[ i ]->setVisible( visible[ i ] && propulsion.ng );
-            m_spinN1[ i ]->setVisible( visible[ i ] && propulsion.n1 );
-            m_spinN2[ i ]->setVisible( visible[ i ] && propulsion.n2 );
-            m_spinTRQ[ i ]->setVisible( visible[ i ] && propulsion.trq );
-            m_spinEPR[ i ]->setVisible( visible[ i ] && propulsion.epr );
-            m_spinMAP[ i ]->setVisible( visible[ i ] && propulsion.map );
-            m_spinEGT[ i ]->setVisible( visible[ i ] && propulsion.egt );
-            m_spinTOT[ i ]->setVisible( visible[ i ] && propulsion.tot );
-            m_spinITT[ i ]->setVisible( visible[ i ] && propulsion.itt );
-            m_spinFF[ i ]->setVisible( visible[ i ] );
+            m_spinRPM  [ i ]->setVisible( visible[ i ] && propulsion.rpm );
+            m_spinPROP [ i ]->setVisible( visible[ i ] && propulsion.prop );
+            m_spinNG   [ i ]->setVisible( visible[ i ] && propulsion.ng );
+            m_spinN1   [ i ]->setVisible( visible[ i ] && propulsion.n1 );
+            m_spinN2   [ i ]->setVisible( visible[ i ] && propulsion.n2 );
+            m_spinTRQ  [ i ]->setVisible( visible[ i ] && propulsion.trq );
+            m_spinEPR  [ i ]->setVisible( visible[ i ] && propulsion.epr );
+            m_spinMAP  [ i ]->setVisible( visible[ i ] && propulsion.map );
+            m_spinEGT  [ i ]->setVisible( visible[ i ] && propulsion.egt );
+            m_spinTIT  [ i ]->setVisible( visible[ i ] && propulsion.tit );
+            m_spinTOT  [ i ]->setVisible( visible[ i ] && propulsion.tot );
+            m_spinITT  [ i ]->setVisible( visible[ i ] && propulsion.itt );
+            m_spinFF   [ i ]->setVisible( visible[ i ] );
         }
     }
     else
@@ -335,7 +342,17 @@ void DockWidgetProp::setEGT( unsigned int index, float val )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetProp::setTOT  ( unsigned int index, float val )
+void DockWidgetProp::setTIT( unsigned int index, float val )
+{
+    if ( index < FDM_MAX_ENGINES )
+    {
+        m_spinTIT[ index ]->setValue( m_ui->comboTIT->convert( val ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetProp::setTOT( unsigned int index, float val )
 {
     if ( index < FDM_MAX_ENGINES )
     {
@@ -391,6 +408,7 @@ void DockWidgetProp::settingsRead_UnitCombos( QSettings &settings )
     m_ui->comboEPR->setCurrentIndex( settings.value( "epr", 1 ).toInt() );
     m_ui->comboMAP->setCurrentIndex( settings.value( "map", 1 ).toInt() );
     m_ui->comboEGT->setCurrentIndex( settings.value( "egt", 1 ).toInt() );
+    m_ui->comboTIT->setCurrentIndex( settings.value( "tit", 1 ).toInt() );
     m_ui->comboTOT->setCurrentIndex( settings.value( "tot", 1 ).toInt() );
     m_ui->comboITT->setCurrentIndex( settings.value( "itt", 1 ).toInt() );
     m_ui->comboFF->setCurrentIndex( settings.value( "ff", 1 ).toInt() );
@@ -426,6 +444,7 @@ void DockWidgetProp::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "epr"  , m_ui->comboEPR->currentIndex() );
     settings.setValue( "map"  , m_ui->comboMAP->currentIndex() );
     settings.setValue( "egt"  , m_ui->comboEGT->currentIndex() );
+    settings.setValue( "tit"  , m_ui->comboTIT->currentIndex() );
     settings.setValue( "tot"  , m_ui->comboTOT->currentIndex() );
     settings.setValue( "itt"  , m_ui->comboITT->currentIndex() );
     settings.setValue( "ff"   , m_ui->comboFF->currentIndex() );

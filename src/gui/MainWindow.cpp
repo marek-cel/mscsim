@@ -694,8 +694,12 @@ void MainWindow::updateDockProp()
             m_dockProp->setEPR   ( i, Data::get()->propulsion.engine[ i ].epr );
             m_dockProp->setMAP   ( i, Data::get()->propulsion.engine[ i ].map );
             m_dockProp->setEGT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
+            m_dockProp->setTIT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].tit ) );
+            m_dockProp->setTOT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
             m_dockProp->setITT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].itt ) );
             m_dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].ff );
+
+
         }
     }
 }

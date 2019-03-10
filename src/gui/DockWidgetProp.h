@@ -74,6 +74,7 @@ public:
     void setEPR  ( unsigned int index, float val );
     void setMAP  ( unsigned int index, float val );
     void setEGT  ( unsigned int index, float val );
+    void setTIT  ( unsigned int index, float val );
     void setTOT  ( unsigned int index, float val );
     void setITT  ( unsigned int index, float val );
     void setFF   ( unsigned int index, float val );
@@ -98,6 +99,7 @@ private:
     QDoubleSpinBox *m_spinEPR  [ FDM_MAX_ENGINES ];
     QDoubleSpinBox *m_spinMAP  [ FDM_MAX_ENGINES ];
     QDoubleSpinBox *m_spinEGT  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *m_spinTIT  [ FDM_MAX_ENGINES ];
     QDoubleSpinBox *m_spinTOT  [ FDM_MAX_ENGINES ];
     QDoubleSpinBox *m_spinITT  [ FDM_MAX_ENGINES ];
     QDoubleSpinBox *m_spinFF   [ FDM_MAX_ENGINES ];
