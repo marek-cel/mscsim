@@ -24,8 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FDM_TIME_STEP 0.01  /* 100 Hz */
-//#define FDM_TIME_STEP 0.005  /* 200 Hz */
+//#define FDM_TIME_STEP 0.01  /* 100 Hz */
+#define FDM_TIME_STEP 0.005  /* 200 Hz */
 
 #define FDM_TIME_STEP_MIN 0.001
 #define FDM_TIME_STEP_MAX 0.1

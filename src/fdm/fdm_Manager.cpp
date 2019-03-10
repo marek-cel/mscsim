@@ -53,7 +53,9 @@ Manager::Manager() :
     m_timeStep ( 0.0 ),
     m_realTime ( 0.0 ),
 
-    m_verbose ( false )
+    m_timeSteps ( 0 ),
+
+    m_verbose ( true )
 {
     memset( &m_dataInp, 0, sizeof(DataInp) );
     memset( &m_dataOut, 0, sizeof(DataOut) );
@@ -173,6 +175,7 @@ void Manager::dataRefsInit()
         m_dr.engineMAP  [ i ] = m_aircraft->getDataRef( "output/propulsion/map_"   + number );
         m_dr.engineEGT  [ i ] = m_aircraft->getDataRef( "output/propulsion/egt_"   + number );
         m_dr.engineITT  [ i ] = m_aircraft->getDataRef( "output/propulsion/itt_"   + number );
+        m_dr.engineTIT  [ i ] = m_aircraft->getDataRef( "output/propulsion/tit_"   + number );
         m_dr.engineFF   [ i ] = m_aircraft->getDataRef( "output/propulsion/ff_"    + number );
     }
 
@@ -187,13 +190,14 @@ void Manager::dataRefsInit()
     if ( !m_dr.engineRPM  [ 0 ].isValid() ) m_dr.engineRPM  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/rpm"   );
     if ( !m_dr.engineProp [ 0 ].isValid() ) m_dr.engineProp [ 0 ] = m_aircraft->getDataRef( "output/propulsion/prop"  );
     if ( !m_dr.engineNG   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ng"    );
-    if ( !m_dr.engineN1   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n1"    );
-    if ( !m_dr.engineN2   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n2"    );
+    if ( !m_dr.engineN1   [ 0 ].isValid() ) m_dr.engineN1   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n1"    );
+    if ( !m_dr.engineN2   [ 0 ].isValid() ) m_dr.engineN2   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/n2"    );
     if ( !m_dr.engineTRQ  [ 0 ].isValid() ) m_dr.engineTRQ  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/trq"   );
     if ( !m_dr.engineEPR  [ 0 ].isValid() ) m_dr.engineEPR  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/epr"   );
     if ( !m_dr.engineMAP  [ 0 ].isValid() ) m_dr.engineMAP  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/map"   );
     if ( !m_dr.engineEGT  [ 0 ].isValid() ) m_dr.engineEGT  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/egt"   );
     if ( !m_dr.engineITT  [ 0 ].isValid() ) m_dr.engineITT  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/itt"   );
+    if ( !m_dr.engineTIT  [ 0 ].isValid() ) m_dr.engineTIT  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/tit"   );
     if ( !m_dr.engineFF   [ 0 ].isValid() ) m_dr.engineFF   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ff"    );
 
     m_dr.mainRotorAzimuth     = m_aircraft->getDataRef( "output/aerodynamics/main_rotor/azimuth"      );
@@ -576,6 +580,7 @@ void Manager::updateDataOutput()
         m_dataOut.engine[ i ].map   = (float)m_dr.engineMAP  [ i ].getValue( 0.0 );
         m_dataOut.engine[ i ].egt   = (float)m_dr.engineEGT  [ i ].getValue( 0.0 );
         m_dataOut.engine[ i ].itt   = (float)m_dr.engineITT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].tit   = (float)m_dr.engineTIT  [ i ].getValue( 0.0 );
         m_dataOut.engine[ i ].ff    = (float)m_dr.engineFF   [ i ].getValue( 0.0 );
     }
 
@@ -806,6 +811,7 @@ void Manager::updatePhaseIdle()
         m_dataOut.engine[ i ].map   = 0.0;
         m_dataOut.engine[ i ].egt   = 0.0;
         m_dataOut.engine[ i ].itt   = 0.0;
+        m_dataOut.engine[ i ].tit   = 0.0;
         m_dataOut.engine[ i ].ff    = 0.0;
     }
 
@@ -892,6 +898,9 @@ void Manager::updatePhaseWork()
     {
         try
         {
+            m_realTime += m_timeStep;
+            m_timeSteps++;
+
             updateDataInput();
             m_aircraft->step( m_timeStep );
             updateDataOutput();
@@ -957,6 +966,18 @@ void Manager::updatePhasePause()
 
 void Manager::updatePhaseStop()
 {
+    if ( m_verbose )
+    {
+        if ( m_timeSteps > 0 )
+        {
+            double meanStep = m_realTime / (double)m_timeSteps;
+            std::cout << "Mean time step: " << meanStep << " s." << std::endl;
+        }
+    }
+
+    m_realTime = 0.0;
+    m_timeSteps = 0;
+
     if ( m_aircraft ) delete m_aircraft;
     m_aircraft = 0;
 

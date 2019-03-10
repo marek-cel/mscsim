@@ -149,6 +149,7 @@ private:
         DataRef engineMAP  [ FDM_MAX_ENGINES ]; ///< engine MAP data references
         DataRef engineEGT  [ FDM_MAX_ENGINES ]; ///< engine EGT data references
         DataRef engineITT  [ FDM_MAX_ENGINES ]; ///< engine ITT data references
+        DataRef engineTIT  [ FDM_MAX_ENGINES ]; ///< engine TIT data references
         DataRef engineFF   [ FDM_MAX_ENGINES ]; ///< engine fuel flow data references
 
         DataRef mainRotorAzimuth;       ///< main rotor rotation angle (azimuth) data references
@@ -184,6 +185,8 @@ private:
 
     double m_timeStep;              ///< [s] simulation time step
     double m_realTime;              ///< [s] simulation real time
+
+    unsigned int m_timeSteps;       ///< number of time steps
 
     bool m_verbose;                 ///< specify if extra information should be printed
 
