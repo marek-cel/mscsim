@@ -1,5 +1,6 @@
 HEADERS += \
     fdm_uh60/uh60_Aerodynamics.h \
+    fdm_uh60/uh60_AFCS.h \
     fdm_uh60/uh60_Aircraft.h \
     fdm_uh60/uh60_Controls.h \
     fdm_uh60/uh60_Fuselage.h \
@@ -10,6 +11,7 @@ HEADERS += \
 
 SOURCES += \
     fdm_uh60/uh60_Aerodynamics.cpp \
+    fdm_uh60/uh60_AFCS.cpp \
     fdm_uh60/uh60_Aircraft.cpp \
     fdm_uh60/uh60_Controls.cpp \
     fdm_uh60/uh60_Fuselage.cpp \

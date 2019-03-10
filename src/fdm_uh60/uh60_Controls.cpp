@@ -40,6 +40,8 @@ UH60_Controls::UH60_Controls( const UH60_Aircraft *aircraft ) :
     m_channelBrakeL     ( 0 ),
     m_channelBrakeR     ( 0 ),
 
+    m_afcs ( 0 ),
+
     m_cyclic_lat ( 0.0 ),
     m_cyclic_lon ( 0.0 ),
     m_collective ( 0.0 ),
@@ -47,11 +49,17 @@ UH60_Controls::UH60_Controls( const UH60_Aircraft *aircraft ) :
     m_elevator   ( 0.0 ),
     m_brake_l    ( 0.0 ),
     m_brake_r    ( 0.0 )
-{}
+{
+    m_afcs = new UH60_AFCS();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Controls::~UH60_Controls() {}
+UH60_Controls::~UH60_Controls()
+{
+    if ( m_afcs ) delete m_afcs;
+    m_afcs = 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -113,11 +121,11 @@ void UH60_Controls::update()
     Controls::update();
     ///////////////////
 
-    m_cyclic_lat = m_channelCyclicLat->output;
+    m_cyclic_lat = m_channelCyclicLat->output - 0.15 * m_channelCollective->output;
     m_cyclic_lon = m_channelCyclicLon->output;
     m_collective = m_channelCollective->output;
     m_tail_pitch = m_channelTailPitch->output;
-    m_elevator   = m_channelElevator->output; // TODO
+    m_elevator   = 0.0;//m_channelElevator->output; // TODO
 
     m_brake_l = m_channelBrakeL->output;
     m_brake_r = m_channelBrakeR->output;

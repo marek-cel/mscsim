@@ -180,21 +180,21 @@ void UH60_Aerodynamics::computeForceAndMoment()
                                         m_aircraft->getCtrl()->getCyclicLat(),
                                         m_aircraft->getCtrl()->getCyclicLon() );
 
-    m_tailRotor->computeForceAndMoment( m_aircraft->getVel_air_BAS() + m_mainRotor->getVel_i_BAS(),
+    m_tailRotor->computeForceAndMoment( m_aircraft->getVel_air_BAS() - m_mainRotor->getVel_i_BAS(),
                                         m_aircraft->getOmg_air_BAS(),
                                         m_aircraft->getEnvir()->getDensity(),
                                         m_aircraft->getCtrl()->getTailPitch() );
 
-    m_fuselage->computeForceAndMoment( m_aircraft->getVel_air_BAS() + m_mainRotor->getVel_i_BAS(),
+    m_fuselage->computeForceAndMoment( m_aircraft->getVel_air_BAS() - m_mainRotor->getVel_i_BAS(),
                                        m_aircraft->getOmg_air_BAS(),
                                        m_aircraft->getEnvir()->getDensity() );
 
-    m_stabHor->computeForceAndMoment( m_aircraft->getVel_air_BAS() + m_mainRotor->getVel_i_BAS(),
+    m_stabHor->computeForceAndMoment( m_aircraft->getVel_air_BAS() - m_mainRotor->getVel_i_BAS(),
                                       m_aircraft->getOmg_air_BAS(),
                                       m_aircraft->getEnvir()->getDensity(),
                                       m_aircraft->getCtrl()->getElevator() );
 
-    m_stabVer->computeForceAndMoment( m_aircraft->getVel_air_BAS() + m_tailRotor->getVel_i_BAS(),
+    m_stabVer->computeForceAndMoment( m_aircraft->getVel_air_BAS() - m_tailRotor->getVel_i_BAS(),
                                       m_aircraft->getOmg_air_BAS(),
                                       m_aircraft->getEnvir()->getDensity() );
 
@@ -206,30 +206,30 @@ void UH60_Aerodynamics::computeForceAndMoment()
               + m_fuselage->getMom_BAS()
               + m_stabHor->getMom_BAS() + m_stabVer->getMom_BAS();
 
-    // damping
-    double R_2v = 0.0;
+//        // damping
+//        double R_2v = 0.0;
 
-    if ( m_aircraft->getAirspeed() > 0.1 )
-    {
-        R_2v = m_mainRotor->getRadius() / ( 2.0 * m_aircraft->getAirspeed() );
-    }
+//        if ( m_aircraft->getAirspeed() > 0.1 )
+//        {
+//            R_2v = m_mainRotor->getRadius() / ( 2.0 * m_aircraft->getAirspeed() );
+//        }
 
-    Vector3 omg_air_stab = m_bas2stab * m_aircraft->getOmg_air_BAS();
+//        Vector3 omg_air_stab = m_bas2stab * m_aircraft->getOmg_air_BAS();
 
-    double cl = m_dcl_dpR_2v * omg_air_stab.x() * R_2v;
-    double cm = m_dcm_dqR_2v * omg_air_stab.y() * R_2v;
-    double cn = m_dcn_drR_2v * omg_air_stab.z() * R_2v;
+//        double cl = m_dcl_dpR_2v * omg_air_stab.x() * R_2v;
+//        double cm = m_dcm_dqR_2v * omg_air_stab.y() * R_2v;
+//        double cn = m_dcn_drR_2v * omg_air_stab.z() * R_2v;
 
-    // dynamic pressure
-    double dynPress = m_aircraft->getDynPress();
+//        // dynamic pressure
+//        double dynPress = m_aircraft->getDynPress();
 
-    double aR = m_mainRotor->getDiskArea() * m_mainRotor->getRadius();
+//        double aR = m_mainRotor->getDiskArea() * m_mainRotor->getRadius();
 
-    Vector3 mom_aero( dynPress * aR * cl,
-                      dynPress * aR * cm,
-                      dynPress * aR * cn );
+//        Vector3 mom_aero( dynPress * aR * cl,
+//                          dynPress * aR * cm,
+//                          dynPress * aR * cn );
 
-    m_mom_bas += m_stab2bas * mom_aero;
+//        m_mom_bas += m_stab2bas * mom_aero;
 
     // computing forces expressed in Aerodynamic Axes System
     // computing moments expressed in Stability Axes System

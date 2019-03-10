@@ -26,6 +26,8 @@
 
 #include <fdmMain/fdm_Controls.h>
 
+#include <fdm_uh60/uh60_AFCS.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -75,6 +77,8 @@ private:
     Channel *m_channelElevator;         ///<
     Channel *m_channelBrakeL;           ///<
     Channel *m_channelBrakeR;           ///<
+
+    UH60_AFCS *m_afcs;                  ///< Automatic Flight Control System
 
     double m_cyclic_lat;                ///< [rad]
     double m_cyclic_lon;                ///< [rad]
