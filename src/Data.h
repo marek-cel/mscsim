@@ -232,8 +232,9 @@ public:
             float trq;                      ///< [%]
             float epr;                      ///< [-]
             float map;                      ///< [Pa]
-            float egt;                      ///< [K]
-            float itt;                      ///< [K]
+            float egt;                      ///< [deg C]
+            float itt;                      ///< [deg C]
+            float tit;                      ///< [deg C]
             float ff;                       ///< [kg/s]
 
             float throttle;                 ///< [0.0,1.0] throttle

@@ -261,6 +261,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
         Data::get()->propulsion.engine[ i ].map   = dataOut.engine[ i ].map;
         Data::get()->propulsion.engine[ i ].egt   = dataOut.engine[ i ].egt;
         Data::get()->propulsion.engine[ i ].itt   = dataOut.engine[ i ].itt;
+        Data::get()->propulsion.engine[ i ].tit   = dataOut.engine[ i ].tit;
         Data::get()->propulsion.engine[ i ].ff    = dataOut.engine[ i ].ff;
     }
 
