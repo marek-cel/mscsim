@@ -60,7 +60,6 @@ F16C_Controls::F16C_Controls( const F16C_Aircraft *aircraft ) :
     m_nwSteering ( false ),
 
     m_angleOfAttack ( 0.0 ),
-    m_airspeed ( 0.0 ),
     m_g_y ( 0.0 ),
     m_g_z ( 0.0 ),
     m_rollRate ( 0.0 ),
@@ -249,7 +248,6 @@ void F16C_Controls::update()
 
     const double timeStep = m_aircraft->getTimeStep() / ( (double)steps );
     const double delta_angleOfAttack = m_aircraft->getAngleOfAttack()  - m_angleOfAttack;
-    const double delta_airspeed = m_aircraft->getAirspeed() - m_airspeed;
     const double delta_g_y = m_aircraft->getGForce().y() - m_g_y;
     const double delta_g_z = m_aircraft->getGForce().z() - m_g_z;
     const double delta_rollRate  = m_aircraft->getOmg_BAS()( i_p ) - m_rollRate;
@@ -269,7 +267,6 @@ void F16C_Controls::update()
         const double coef = ( (double)( i + 1 ) ) / ( (double)steps );
 
         double angleOfAttack = m_angleOfAttack + coef * delta_angleOfAttack;
-        double airspeed = m_airspeed + coef * delta_airspeed;
         double g_y = m_g_y + coef * delta_g_y;
         double g_z = m_g_z + coef * delta_g_z;
         double rollRate  = m_rollRate  + coef * delta_rollRate;
@@ -284,7 +281,7 @@ void F16C_Controls::update()
         double statPress = m_statPress + coef * delta_statPress;
         double dynPress  = m_dynPress  + coef * delta_dynPress;
 
-        m_flcs->update( timeStep, angleOfAttack, airspeed,
+        m_flcs->update( timeStep, angleOfAttack,
                         g_y, g_z,
                         rollRate, pitchRate, yawRate,
                         ctrlLat, trimLat,
@@ -294,7 +291,7 @@ void F16C_Controls::update()
                         false, false, m_lgHandle, m_aircraft->getGear()->getOnGround() );
 
 //        m_flcs->update( m_aircraft->getTimeStep(),
-//                        m_aircraft->getAngleOfAttack(), m_aircraft->getAirspeed(),
+//                        m_aircraft->getAngleOfAttack(),
 //                        m_aircraft->getGForce().y(), m_aircraft->getGForce().z(),
 //                        m_aircraft->getOmg_BAS()( i_p ), m_aircraft->getOmg_BAS()( i_q ), m_aircraft->getOmg_BAS()( i_r ),
 //                        m_channelRoll->output  , m_channelRollTrim->output,
@@ -305,7 +302,6 @@ void F16C_Controls::update()
     }
 
     m_angleOfAttack = m_aircraft->getAngleOfAttack();
-    m_airspeed = m_aircraft->getAirspeed();
     m_g_y = m_aircraft->getGForce().y();
     m_g_z = m_aircraft->getGForce().z();
     m_rollRate  = m_aircraft->getOmg_BAS()( i_p );

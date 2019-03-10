@@ -32,12 +32,20 @@ using namespace fdm;
 
 F16C_Propulsion::F16C_Propulsion( const F16C_Aircraft *aircraft ) :
     Propulsion( aircraft ),
-    m_aircraft ( aircraft )
-{}
+    m_aircraft ( aircraft ),
+
+    m_engine ( 0 )
+{
+    m_engine = new Turbojet();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Propulsion::~F16C_Propulsion() {}
+F16C_Propulsion::~F16C_Propulsion()
+{
+    if ( m_engine ) delete m_engine;
+    m_engine = 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +53,9 @@ void F16C_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        // TODO
+        XmlNode nodeEngine = dataNode.getFirstChildElement( "turbojet" );
+
+        m_engine->readData( nodeEngine );
     }
     else
     {
@@ -62,7 +72,7 @@ void F16C_Propulsion::readData( XmlNode &dataNode )
 
 void F16C_Propulsion::initialize( bool engineOn )
 {
-    // TODO
+    m_engine->initialize( engineOn );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,12 +91,23 @@ void F16C_Propulsion::initDataRefs()
     if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/ignition" , DataNode::Bool   );
     if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/starter"  , DataNode::Bool   );
 
+    // outputs
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/state" , DataNode::Bool   );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/n2"    , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/tit"   , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/ff"    , DataNode::Double );
+
     if ( result == FDM_SUCCESS )
     {
         m_drThrottle  = getDataRef( "input/propulsion/throttle" );
         m_drFuel      = getDataRef( "input/propulsion/fuel"     );
         m_drIgnition  = getDataRef( "input/propulsion/ignition" );
         m_drStarter   = getDataRef( "input/propulsion/starter"  );
+
+        m_drEngineOn  = getDataRef( "output/propulsion/state" );
+        m_drEngineN2  = getDataRef( "output/propulsion/n2"    );
+        m_drEngineTIT = getDataRef( "output/propulsion/tit"   );
+        m_drEngineFF  = getDataRef( "output/propulsion/ff"    );
     }
     else
     {
@@ -103,7 +124,15 @@ void F16C_Propulsion::initDataRefs()
 
 void F16C_Propulsion::computeForceAndMoment()
 {
-    m_for_bas.x() = 131223.0 * m_drThrottle.getValue();
+    m_engine->computeThrust( m_aircraft->getMachNumber(),
+                             m_aircraft->getAltitude_ASL() );
+
+    // thrust and moment due to thrust
+    Vector3 for_bas( m_engine->getThrust(), 0.0, 0.0 );
+    Vector3 mom_bas = m_engine->getPos_BAS() ^ for_bas;
+
+    m_for_bas = for_bas;
+    m_mom_bas = mom_bas;
 
     if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
     {
@@ -120,5 +149,12 @@ void F16C_Propulsion::computeForceAndMoment()
 
 void F16C_Propulsion::update()
 {
-    // TODO
+    m_engine->integrate( m_aircraft->getTimeStep() );
+    m_engine->update( m_drThrottle.getDatad(),
+                      m_drFuel.getDatab(), m_drStarter.getDatab() );
+
+    m_drEngineOn  .setDatab( m_engine->getState() == Engine::Running );
+    m_drEngineN2  .setDatad( m_engine->getN2() );
+    m_drEngineTIT .setDatad( m_engine->getTIT() );
+    m_drEngineFF  .setDatad( m_engine->getFuelFlow() );
 }

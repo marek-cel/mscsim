@@ -473,7 +473,7 @@ void F16C_FLCS::updateLon( double ctrlLon, double trimLon,
     double u_sca_2 = ( touchdown ? 0.231 : 0.167 ) * m_omg_q_fil->getValue()
             + 0.5 * m_g_z_input->getValue();
 
-    double u_sca = std::max( 0.0, u_sca_1 ) //+ std::min( 0.0, u_sca_1 ) * m_sca_bias_3->getValue()
+    double u_sca = std::max( 0.0, u_sca_1 ) + std::min( 0.0, u_sca_1 ) * m_sca_bias_3->getValue()
             + u_sca_2;
 
     m_u_sca_fil->update( u_sca, m_timeStep );

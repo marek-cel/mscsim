@@ -72,6 +72,8 @@ public:
     inline double getRudderNorm()   const { return m_flcs->getRudderNorm();   }
     inline double getFlapsLE()      const { return m_flcs->getFlapsLE();      }
     inline double getFlapsLENorm()  const { return m_flcs->getFlapsLENorm();  }
+    inline double getFlapsTE()      const { return m_flcs->getFlapsTE();      }
+    inline double getFlapsTENorm()  const { return m_flcs->getFlapsTENorm();  }
     inline double getAirbrake()     const { return m_airbrake;      }
     inline double getAirbrakeNorm() const { return m_airbrake_norm; }
     inline double getBrakeL()       const { return m_brake_l;       }
@@ -113,7 +115,6 @@ private:
     DataRef m_drNwSteering;             ///< nose wheel steering data reference
 
     double m_angleOfAttack;
-    double m_airspeed;
     double m_g_y;
     double m_g_z;
     double m_rollRate;

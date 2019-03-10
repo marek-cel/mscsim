@@ -87,6 +87,7 @@ private:
     Table m_delta_cx_sb;        ///<
     Table m_cx_q;               ///<
     Table m_delta_cx_q_lef;     ///<
+    Table m_delta_cx_tef;       ///<
 
     Table2D m_cy;               ///< [-] sideforce coefficient vs angle of attack and sideslip
     Table2D m_cy_lef;           ///<
@@ -107,7 +108,7 @@ private:
     Table m_delta_cz_sb;        ///<
     Table m_cz_q;               ///<
     Table m_delta_cz_q_lef;     ///<
-    Table m_eta_delta_h;        ///< horizontal stabilator effectiveness factor
+    Table m_delta_cz_tef;       ///<
 
     Table2D m_cl_dh_n25;        ///<
     Table2D m_cl_dh_0;          ///<
@@ -133,6 +134,8 @@ private:
     Table m_delta_cm_q_lef;     ///<
     Table m_delta_cm;           ///<
     Table2D m_delta_cm_ds;      ///< (deep stall)
+    Table m_delta_cm_tef;       ///<
+    Table m_eta_delta_h;        ///< horizontal stabilator effectiveness factor
 
     Table2D m_cn_dh_n25;        ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=-25)
     Table2D m_cn_dh_0;          ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=0)
@@ -146,6 +149,8 @@ private:
     Table m_delta_cn_r_lef;     ///<
     Table m_cn_p;               ///<
     Table m_delta_cn_p_lef;     ///<
+
+    Table m_wave_drag;          ///< wave drag coefficient
 
     double m_span;              ///< [m] wing span
     double m_mac;               ///< [m] wing mean aerodynamic chord

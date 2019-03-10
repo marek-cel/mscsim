@@ -36,8 +36,8 @@ namespace fdm
 /**
  * @brief F-16 Flight Control System class.
  *
- * @see Marchand M.: Pitch Rate Flight Control for the F-16 Aircraft to improve Air-to-Air Combat, AD-A055-417, 1977
- * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538, 1979
+ * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
+ * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176
  * @see Droste T., Walker J.: The General Dynamics Case Study on the F-16 Fly-by-Wire Flight Control System
  */
 class F16C_FLCS
@@ -75,7 +75,7 @@ public:
                  double ctrlYaw, double trimYaw,
                  double statPress, double dynPress,
                  bool alt_flaps_ext, bool refuel_door_open,
-                 bool lg_handle_dn, bool touchdown );
+                 bool lg_handle_dn );
 
     inline double getAilerons()     const { return m_ailerons;      }
     inline double getAileronsNorm() const { return m_ailerons_norm; }
@@ -87,7 +87,6 @@ public:
     inline double getFlapsLE()      const { return m_flaps_le;      }
     inline double getFlapsLENorm()  const { return m_flaps_le_norm; }
     inline double getFlapsTE()      const { return m_flaps_te;      }
-    inline double getFlapsTENorm()  const { return m_flaps_te_norm; }
 
     void setAilerons_max( double ailerons_max );
     void setElevator_max( double elevator_max );
@@ -123,16 +122,21 @@ private:
     CAT   m_cat;                        ///< loading category
     Gains m_gains;                      ///< FLCS gains mode
 
-    // leading edge flaps
+    // LEF
 
     LeadLag *m_alpha_lef;               ///<
 
-    // trailing edge flaps
+    // TEF
 
-    double m_flaps_int;                 ///<
-    double m_flaps_com;                 ///<
+    Lag *m_delta_fl_lag;                ///<
+    Lag *m_delta_fr_lag;                ///<
 
-    // roll channel
+    double m_delta_fl_com;              ///< [deg] left flaperon deflection commanded by control system
+    double m_delta_fr_com;              ///< [deg] right flaperon deflection commanded by control system
+    double m_delta_fl;                  ///< [deg] left flaperon deflection
+    double m_delta_fr;                  ///< [deg] right flaperon deflection
+
+    // lat channel
 
     Lag     *m_stick_lat;               ///< lateral stick input lagged
     Lag     *m_p_com_lag;               ///< roll rate command
@@ -140,17 +144,13 @@ private:
     LeadLag *m_p_com_neg;               ///< roll rate command "negative" feedback loop
     Lag     *m_omg_p_lag;               ///< filtered roll rate (p_f)
     Filter2 *m_omg_p_fil;               ///<
-    Lag     *m_delta_fl_lag;            ///<
-    Lag     *m_delta_fr_lag;            ///<
+    Lag     *m_delta_a_lag;             ///<
 
-    double m_delta_flc;                 ///< [deg] left flaperon deflection commanded by control system
-    double m_delta_frc;                 ///< [deg] right flaperon deflection commanded by control system
-    double m_delta_fl;                  ///< [deg] left flaperon deflection
-    double m_delta_fr;                  ///< [deg] right flaperon deflection
-    double m_delta_ac;                  ///< [deg] ailerons deflection
+    double m_delta_ac;                  ///< [deg] ailerons deflection commanded by control system
+    double m_delta_dc;                  ///< [deg] differential horizontal tail deflection commanded by control system
     double m_delta_a;                   ///< [deg] ailerons deflection
 
-    // pitch channel
+    // lon channel
 
     Lag     *m_stick_lon;               ///< longitudinal stick input lagged
     Lag     *m_alpha_lag;               ///< [deg] filtered angle of attack (alpha_f)
@@ -158,17 +158,17 @@ private:
     Lag     *m_omg_q_lag;               ///< filtered pitch rate (q_f)
     LeadLag *m_omg_q_fil;               ///< pitch rate filtered
     Lag     *m_g_z_input;               ///< filtered normal acceleration (Az_f)
-    Lag     *m_sca_bias_1;              ///<
-    Lag     *m_sca_bias_2;              ///<
-    Lag     *m_sca_bias_3;              ///<
+    Lag     *m_sca_bias_1;
+    Lag     *m_sca_bias_2;
+    Lag     *m_sca_bias_3;
     LeadLag *m_u_sca_fil;               ///<
-    Filter2 *m_u_sca_fil2;              ///<
-    Lag     *m_actuator_l;              ///<
-    Lag     *m_actuator_r;              ///<
+    Lag     *m_actuator_1;              ///<
+    Lag     *m_actuator_2;              ///<
 
     double m_pitch_int;                 ///< [deg] pitch integral
-    double m_delta_htl;                 ///<
-    double m_delta_htr;                 ///<
+    double m_pitch_nfl;                 ///< [deg] pitch negative feedback loop
+    double m_elevator_1;                ///<
+    double m_elevator_2;                ///<
     double m_delta_h;                   ///< [deg] horizontal stabilator deflection
     double m_delta_d;                   ///< [deg] differential horizontal tail deflection
 
@@ -179,37 +179,30 @@ private:
     Filter2 *m_omg_p_yaw;               ///<
     LeadLag *m_u_sum_ll1;               ///<
     LeadLag *m_u_sum_ll2;               ///<
-    Filter2 *m_delta_r_fil;             ///<
     Lag     *m_delta_r_lag;             ///<
 
     double m_delta_r;                   ///< [deg] rudder deflection
 
-    // gun compensation
+    void updateLEF( double angleOfAttack, double statPress, double dynPress );
 
-    double m_gun_compensation;          ///<
-
-    void updateLEF( double angleOfAttack, double q_p );
-
-    void updateTEF( double q_p, bool alt_flaps_ext, bool lg_handle_dn );
+    void updateTEF( bool alt_flaps_ext, bool lg_handle_dn );
 
     void updateLat( double ctrlLat, double trimLat,
                     double rollRate );
 
     void updateLon( double ctrlLon, double trimLon,
                     double pitchRate,
-                    double angleOfAttack, double q_p, double dynPress, double g_z,
-                    bool touchdown );
+                    double angleOfAttack, double dynPress, double g_z );
 
     void updateYaw( double ctrlYaw, double trimYaw,
                     double yawRate,
-                    double q_p, double g_y );
+                    double statPress, double dynPress, double g_y );
 
-    double getGainF2( double q_p );
-    double getGainF3( double dynPress );
-    double getGainF7( double q_p );
-    double getGainF8( double q_p );
-    double getGainF9( double q_p );
-    double getGainF10( double q_p );
+    double getGainARI( double statPress, double dynPress );
+
+    double getGainPitchRate( double dynPress );
+
+    double getGainPitchLoop( double dynPress );
 
     double getSurfaceMaxRate( double d_old, double d_new, double delta_max );
 };
