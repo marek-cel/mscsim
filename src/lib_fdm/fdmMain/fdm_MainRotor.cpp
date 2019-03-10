@@ -208,11 +208,11 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
 
     // controls
     double theta_0      = collective;
-    double theta_1c_ras = m_direction == CW ? cyclicLon : -cyclicLon;
-    double theta_1s_ras = cyclicLat;
+    double theta_1c_ras = m_direction == CW ? cyclicLat : -cyclicLat;
+    double theta_1s_ras = cyclicLon; // ????????????????????????????????????????????????????
 
     // RAS <-> CAS
-    m_ras2cas = Matrix3x3( Angles( cyclicLat, cyclicLon, 0.0 ) );
+    m_ras2cas = Matrix3x3( Angles( theta_1c_ras, theta_1s_ras, 0.0 ) );
 
     m_cas2ras = m_ras2cas.getTransposed();
 

@@ -97,6 +97,18 @@ public:
      */
     double getValueByIndex( unsigned int keyIndex ) const;
 
+    /**
+     * Returns table first value.
+     * @return value on success or NaN on failure
+     */
+    double getFirstValue() const;
+
+    /**
+     * Returns table last value.
+     * @return value on success or NaN on failure
+     */
+    double getLastValue() const;
+
     /** */
     double getValueFirst() const;
 

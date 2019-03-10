@@ -24,7 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Base.h>
+#include <fdmMain/fdm_Engine.h>
+
 #include <fdmUtils/fdm_Table.h>
 #include <fdmXml/fdm_XmlNode.h>
 
@@ -62,17 +63,9 @@ namespace fdm
  *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.128
  */
-class FDMEXPORT PistonEngine : public Base
+class FDMEXPORT PistonEngine : public Engine
 {
 public:
-
-    /** Engine state enum. */
-    enum State
-    {
-        Stopped  = 0,   ///< engine stopped
-        Starting = 1,   ///< engine starting
-        Running  = 2    ///< engine running
-    };
 
     /** Constructor. */
     PistonEngine();
@@ -149,15 +142,6 @@ public:
     }
 
     /**
-     * Returns engine state.
-     * @return engine state
-     */
-    inline State getState() const
-    {
-        return m_state;
-    }
-
-    /**
      * Returns engine torque.
      * @return [N*m] engine torque
      */
@@ -185,8 +169,6 @@ protected:
     double m_power;             ///< [W] net power
     double m_torque;            ///< [N*m] torque
     double m_fuelFlow;          ///< [kg/s] fuel flow
-
-    State m_state;              ///< engine state
 
     /**
      * Computes manifold absolute pressure.

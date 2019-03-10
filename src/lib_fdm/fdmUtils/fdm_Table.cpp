@@ -241,6 +241,20 @@ double Table::getValueByIndex( unsigned int keyIndex ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double Table::getFirstValue() const
+{
+    return getValueByIndex( 0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Table::getLastValue() const
+{
+    return getValueByIndex( m_size - 1 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 double Table::getValueFirst() const
 {
     if ( m_size > 0 )
@@ -287,7 +301,7 @@ double Table::getValueMin() const
 {
     double result = std::numeric_limits< double >::max();
 
-    for ( unsigned int i = 1; i < m_size; i++ )
+    for ( unsigned int i = 0; i < m_size; i++ )
     {
         if ( m_tableData[ i ] < result )
         {
@@ -304,7 +318,7 @@ double Table::getValueMax() const
 {
     double result = std::numeric_limits< double >::min();
 
-    for ( unsigned int i = 1; i < m_size; i++ )
+    for ( unsigned int i = 0; i < m_size; i++ )
     {
         if ( m_tableData[ i ] > result )
         {

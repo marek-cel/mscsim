@@ -30,47 +30,52 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Units::factorSI( const char *name )
+Units::fptr Units::getConverter( const char *name )
 {
     if ( 0 == String::icompare( name, "deg" ) )
-        return deg2rad();
+        return &Units::deg2rad;
 
     else if ( 0 == String::icompare( name, "ft" ) )
-        return ft2m();
+        return &Units::ft2m;
     else if ( 0 == String::icompare( name, "km" ) )
-        return km2m();
+        return &Units::km2m;
     else if ( 0 == String::icompare( name, "nmi" ) )
-        return nmi2m();
+        return &Units::nmi2m;
 
     else if ( 0 == String::icompare( name, "ft_min" ) )
-        return fpm2mps();
+        return &Units::fpm2mps;
     else if ( 0 == String::icompare( name, "ft_s" ) )
-        return fps2mps();
+        return &Units::fps2mps;
     else if ( 0 == String::icompare( name, "km_h" ) )
-        return kmh2mps();
+        return &Units::kmh2mps;
     else if ( 0 == String::icompare( name, "kts" ) )
-        return kts2mps();
+        return &Units::kts2mps;
 
     else if ( 0 == String::icompare( name, "lb" ) )
-        return lb2kg();
+        return &Units::lb2kg;
 
     else if ( 0 == String::icompare( name, "lbf" ) )
-        return lbf2n();
+        return &Units::lbf2n;
 
     else if ( 0 == String::icompare( name, "psi" ) )
-        return psi2pa();
+        return &Units::psi2pa;
     else if ( 0 == String::icompare( name, "inHg" ) )
-        return inhg2pa();
+        return &Units::inhg2pa;
 
     else if ( 0 == String::icompare( name, "PS" ) )
-        return ps2w();
+        return &Units::ps2w;
     else if ( 0 == String::icompare( name, "hp" ) )
-        return hp2w();
+        return &Units::hp2w;
     else if ( 0 == String::icompare( name, "kW" ) )
-        return kw2w();
+        return &Units::kw2w;
+
+    else if ( 0 == String::icompare( name, "degC" ) )
+        return &Units::c2k;
+    else if ( 0 == String::icompare( name, "degF" ) )
+        return &Units::f2k;
 
     else if ( 0 == String::icompare( name, "g_kWh" ) )
-        return g_kWh_2_kg_Ws();
+        return &Units::g_kWh_2_kg_Ws;
 
-    return 1.0;
+    return &Units::dummy;
 }

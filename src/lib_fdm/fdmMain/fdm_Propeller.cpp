@@ -22,7 +22,7 @@
 
 #include <fdmMain/fdm_Propeller.h>
 
-#include <fdmSys/fdm_Lag.h>
+#include <fdmUtils/fdm_Misc.h>
 #include <fdmUtils/fdm_String.h>
 #include <fdmXml/fdm_XmlUtils.h>
 
@@ -127,7 +127,7 @@ void Propeller::integrate( double timeStep, double engineInertia )
     // engine friction stops propeller
     if ( m_torqueAvailable < m_torqueRequired && m_speed_rps < 1.0 )
     {
-        m_speed_rps = m_speed_rps < 0.1 ? 0.0 : Lag::update( 0.0, m_speed_rps, timeStep, 0.1 );
+        m_speed_rps = m_speed_rps < 0.1 ? 0.0 : Misc::inertia( 0.0, m_speed_rps, timeStep, 0.1 );
         m_omega = 2.0 * M_PI * m_speed_rps;
     }
 

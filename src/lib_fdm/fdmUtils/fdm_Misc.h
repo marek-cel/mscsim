@@ -54,6 +54,11 @@ class FDMEXPORT Misc
 {
 public:
 
+    inline static double inertia( double u, double y, double dt, double tc )
+    {
+        return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
+    }
+
     /**
      * Checks if given varaible is Infinite.
      * @param val double precision value to test

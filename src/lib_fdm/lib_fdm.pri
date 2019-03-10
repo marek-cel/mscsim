@@ -16,6 +16,7 @@ HEADERS += \
     lib_fdm/fdmMain/fdm_DataNode.h \
     lib_fdm/fdmMain/fdm_DataRef.h \
     lib_fdm/fdmMain/fdm_Defines.h \
+    lib_fdm/fdmMain/fdm_Engine.h \
     lib_fdm/fdmMain/fdm_Environment.h \
     lib_fdm/fdmMain/fdm_Exception.h \
     lib_fdm/fdmMain/fdm_Fuselage.h \
@@ -31,6 +32,7 @@ HEADERS += \
     lib_fdm/fdmMain/fdm_Stabilizer.h \
     lib_fdm/fdmMain/fdm_TailOff.h \
     lib_fdm/fdmMain/fdm_TailRotor.h \
+    lib_fdm/fdmMain/fdm_Turbojet.h \
     lib_fdm/fdmMain/fdm_Types.h \
     lib_fdm/fdmMain/fdm_WindShear.h
 
@@ -56,6 +58,7 @@ SOURCES += \
     lib_fdm/fdmMain/fdm_Stabilizer.cpp \
     lib_fdm/fdmMain/fdm_TailOff.cpp \
     lib_fdm/fdmMain/fdm_TailRotor.cpp \
+    lib_fdm/fdmMain/fdm_Turbojet.cpp \
     lib_fdm/fdmMain/fdm_WindShear.cpp
 
 ################################################################################

@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <math.h>
+#include <string>
 
 #include <fdmMain/fdm_Defines.h>
 
@@ -42,11 +43,13 @@ class FDMEXPORT Units
 {
 public:
 
+    typedef double (*fptr)(double);
+
     /**
-     * @brief Returns scaling factor to the SI unit.
+     * @brief Returns converter function pointer.
      *
-     * @param name name of unit
-     * @return SI unit scaling factor
+     * @param name name of the unit
+     * @return conversion function pointer
      *
      * <h5>SI units of certain values types</h5>
      * <ul>
@@ -57,6 +60,7 @@ public:
      * <li>Force: newton [N]</li>
      * <li>Pressure: pascal [Pa]</li>
      * <li>Power: watt [W]</li>
+     * <li>Temperature: kelvin [K]</li>
      * <li>Specific fuel consumption: kilograms per watt-second [kg/(W*s)]</li>
      * </ul>
      *
@@ -69,10 +73,19 @@ public:
      * <li>Force: lbf (pound of force)</li>
      * <li>Pressure: psi (pound per square inch), inHg (inch of mercury)</li>
      * <li>Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)</li>
+     * <li>Temperature: degC (degree Celsius), degF (degree Fahrenheit)</li>
      * <li>Specific fuel consumption: g_kWh (grams per kilowatt-hour)</li>
      * </ul>
      */
-    static double factorSI( const char *name );
+    static fptr getConverter( const char *name );
+
+    /**
+     * Dummy function.
+     */
+    static inline double dummy( double val = 1.0 )
+    {
+        return val;
+    }
 
     /**
      * Converts given angle from degrees to radians.

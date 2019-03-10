@@ -40,8 +40,7 @@ PistonEngine::PistonEngine() :
     m_map ( 0.0 ),
     m_power ( 0.0 ),
     m_torque ( 0.0 ),
-    m_fuelFlow ( 0.0 ),
-    m_state ( Stopped )
+    m_fuelFlow ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
