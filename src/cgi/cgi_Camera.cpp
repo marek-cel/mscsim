@@ -73,9 +73,9 @@ void Camera::update()
 
         if ( m_viewType == Data::Camera::ViewChase )
         {
-            double d_phi =  0.0;
-            double d_tht = -0.5 * Data::get()->ownship.pitchRate;
-            double d_psi =  0.0 * Data::get()->ownship.yawRate;
+            double d_phi = 0.0;
+            double d_tht = 0.0;// -0.5 * Data::get()->ownship.pitchRate;
+            double d_psi = 0.0;//  0.0 * Data::get()->ownship.yawRate;
 
             double d_x = -m_manipulatorShift->getDistance();
             double d_y = d_x * tan( d_psi ) * ( -1.0 );
