@@ -47,30 +47,21 @@ public:
     ~UH60_Propulsion();
 
     /**
+     * Initializes propulsion.
+     * @param engineOn specifies if engine is working at start
+     */
+    void init( bool engineOn );
+
+    /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes engine due to initial engine state.
-     * @param engineOn specifies if engine is working at start
-     */
-    void initialize( bool engineOn );
-
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     void computeForceAndMoment();
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
     inline double getMainRotorPsi() const { return m_mainRotorPsi; }

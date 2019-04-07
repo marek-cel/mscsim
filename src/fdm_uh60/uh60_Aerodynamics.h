@@ -53,25 +53,19 @@ public:
     /** Destructor. */
     ~UH60_Aerodynamics();
 
+    /** Initializes aerodynamics. */
+    void init();
+
     /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     void computeForceAndMoment();
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
 private:
@@ -92,10 +86,6 @@ private:
     DataRef m_drMainRotorCyclicLon;     ///<
     DataRef m_drMainRotorCyclicLat;     ///<
     DataRef m_drTailRotorAzimuth;       ///<
-
-    double m_dcl_dpR_2v;                ///< [1/rad]
-    double m_dcm_dqR_2v;                ///< [1/rad]
-    double m_dcn_drR_2v;                ///< [1/rad]
 };
 
 } // end of fdm namespace

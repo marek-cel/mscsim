@@ -98,13 +98,13 @@ Aircraft::~Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::initDataRefs()
+void Aircraft::init( bool engineOn )
 {
-    m_aero->initDataRefs();
-    m_ctrl->initDataRefs();
-    m_gear->initDataRefs();
-    m_mass->initDataRefs();
-    m_prop->initDataRefs();
+    m_aero->init();
+    m_ctrl->init();
+    m_gear->init();
+    m_mass->init();
+    m_prop->init( engineOn );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

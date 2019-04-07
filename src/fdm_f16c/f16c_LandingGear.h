@@ -52,9 +52,7 @@ public:
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
 private:

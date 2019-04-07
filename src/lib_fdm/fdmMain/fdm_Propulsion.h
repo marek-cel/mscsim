@@ -49,30 +49,21 @@ public:
     virtual ~Propulsion();
 
     /**
+     * @brief Initializes propulsion.
+     * @param engineOn specifies if engine is working at start
+     */
+    virtual void init( bool engineOn );
+
+    /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /**
-     * Initializes data referneces.
-     */
-    virtual void initDataRefs();
-
-    /**
-     * @brief Initializes engine due to initial engine state.
-     * @param engineOn specifies if engine is working at start
-     */
-    virtual void initialize( bool engineOn );
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     virtual void computeForceAndMoment() = 0;
 
-    /**
-     * Updates propulsion.
-     */
+    /** Updates propulsion. */
     virtual void update() = 0;
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }

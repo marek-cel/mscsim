@@ -55,10 +55,11 @@ namespace fdm
  *   <cq_max> { [-] maximum thrust coefficient } </cq_max>
  *   <thrust_factor> { [-] thrust scaling factor } </thrust_factor>
  *   <torque_factor> { [-] torque scaling factor } </torque_factor>
+ *   <vel_i_factor> { [-] induced velocity scaling factor } </vel_i_factor>
  * </tail_rotor>
  * @endcode
  *
- * <p>Optional elements: "thrust_factor", "torque_factor"</p>
+ * <p>Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"</p>
  *
  * @see Gessow A., Myers G.: Aerodynamics of the Helicopter, 1985
  * @see Bramwell A.: Bramwells Helicopter Dynamics, 2001
@@ -130,6 +131,7 @@ protected:
 
     double m_thrust_factor;     ///< [-] thrust scaling factor
     double m_torque_factor;     ///< [-] torque scaling factor
+    double m_vel_i_factor;      ///< [-] induced velocity scaling factor
 
     double m_r2;                ///< [m^2] rotor radius squared
     double m_r3;                ///< [m^3] rotor radius cubed

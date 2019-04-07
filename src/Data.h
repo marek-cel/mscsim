@@ -223,6 +223,7 @@ public:
         struct Engine
         {
             bool state;                     ///< specifies if engine is working
+            bool afterburner;               ///<
 
             float rpm;                      ///< [rpm]
             float prop;                     ///< [rpm]

@@ -42,8 +42,6 @@ F16C_Aircraft::F16C_Aircraft() :
     Aircraft::m_gear = m_gear = new F16C_LandingGear( this );
     Aircraft::m_mass = m_mass = new F16C_Mass( this );
     Aircraft::m_prop = m_prop = new F16C_Propulsion( this );
-
-    readData( "data/fdm/f16c/f16c_fdm.xml" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,4 +62,15 @@ F16C_Aircraft::~F16C_Aircraft()
 
     if ( m_prop ) delete m_prop;
     m_prop = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16C_Aircraft::init( bool engineOn )
+{
+    readData( "data/fdm/f16c/f16c_fdm.xml" );
+
+    ///////////////////////////
+    Aircraft::init( engineOn );
+    ///////////////////////////
 }

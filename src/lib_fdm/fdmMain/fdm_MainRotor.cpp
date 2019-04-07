@@ -54,6 +54,7 @@ MainRotor::MainRotor() :
 
     m_thrust_factor ( 1.0 ),
     m_torque_factor ( 1.0 ),
+    m_vel_i_factor  ( 1.0 ),
 
     m_r2  ( 0.0 ),
     m_r3  ( 0.0 ),
@@ -86,6 +87,7 @@ MainRotor::MainRotor() :
     m_bas2cas = Matrix3x3::createIdentityMatrix();
 
     m_ras2rwas = Matrix3x3::createIdentityMatrix();
+    m_rwas2ras = Matrix3x3::createIdentityMatrix();
 
     m_cas2cwas = Matrix3x3::createIdentityMatrix();
     m_cwas2cas = Matrix3x3::createIdentityMatrix();
@@ -119,6 +121,7 @@ void MainRotor::readData( XmlNode &dataNode )
 
         m_thrust_factor = 1.0;
         m_torque_factor = 1.0;
+        m_vel_i_factor  = 1.0;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_hub_bas, "hub_center" );
 
@@ -143,8 +146,9 @@ void MainRotor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ct_max, "ct_max" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cq_max, "cq_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_factor, "thrust_factor", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_torque_factor, "torque_factor", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_factor , "thrust_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_torque_factor , "torque_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_vel_i_factor  , "vel_i_factor"  , true );
 
         if ( result == FDM_SUCCESS )
         {
@@ -229,6 +233,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
 
     // RAS -> RWAS
     m_ras2rwas = Matrix3x3( Angles( 0.0, 0.0, beta_ras ) );
+    m_rwas2ras = m_ras2rwas.getTransposed();
 
     // CAS <-> CWAS
     m_cas2cwas = Matrix3x3( Angles( 0.0, 0.0, beta_cas ) );
@@ -363,11 +368,19 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
     m_rotorDiskPitch = -m_beta_1c_ras;
     m_rotorDiskRoll = m_direction == CW ? m_beta_1s_ras : -m_beta_1s_ras;
 
-    // DAS -> BAS
+    // DAS <-> BAS
     m_das2bas = Matrix3x3( Angles( m_rotorDiskRoll, m_rotorDiskPitch, 0.0 ) ).getTransposed() * m_ras2bas;
+    m_bas2das = m_das2bas.getTransposed();
 
-    // induced velocity
-    m_vel_i_bas = m_das2bas * Vector3( 0.0, 0.0, lambda_i * omegaR );
+    Vector3 vel_air_das = m_bas2das * ( vel_air_bas + ( omg_air_bas ^ m_r_hub_bas ) );
+    double beta_das = Aerodynamics::getSideslipAngle( vel_air_das );
+    Matrix3x3 dwas2das = Matrix3x3( Angles( 0.0, 0.0, beta_das ) ).getTransposed();
+
+    // induced velocity (Padfield p.121)
+    double chi = atan2( mu, lambda_i - mu_z );
+    double vel_i = m_vel_i_factor * lambda_i * omegaR;
+
+    m_vel_i_bas = m_das2bas * ( dwas2das * Vector3( -vel_i * sin( chi ), 0.0, vel_i * cos( chi ) ) );
 
     m_thrust = m_thrust_factor * airDensity * m_ad * m_r2 * omega2 * ct;
     m_torque = m_torque_factor * airDensity * m_ad * m_r3 * omega2 * cq;

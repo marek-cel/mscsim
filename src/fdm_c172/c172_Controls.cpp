@@ -57,11 +57,11 @@ C172_Controls::~C172_Controls() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Controls::initDataRefs()
+void C172_Controls::init()
 {
-    /////////////////////////
-    Controls::initDataRefs();
-    /////////////////////////
+    /////////////////
+    Controls::init();
+    /////////////////
 
     int result = FDM_SUCCESS;
 

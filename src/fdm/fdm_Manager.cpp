@@ -165,6 +165,7 @@ void Manager::dataRefsInit()
         m_dr.starter   [ i ] = m_aircraft->getDataRef( "input/propulsion/starter_"   + number );
 
         m_dr.engineOn   [ i ] = m_aircraft->getDataRef( "output/propulsion/state_" + number );
+        m_dr.engineAB   [ i ] = m_aircraft->getDataRef( "output/propulsion/ab_"    + number );
         m_dr.engineRPM  [ i ] = m_aircraft->getDataRef( "output/propulsion/rpm_"   + number );
         m_dr.engineProp [ i ] = m_aircraft->getDataRef( "output/propulsion/prop_"  + number );
         m_dr.engineNG   [ i ] = m_aircraft->getDataRef( "output/propulsion/ng_"    + number );
@@ -187,6 +188,7 @@ void Manager::dataRefsInit()
     if ( !m_dr.starter   [ 0 ].isValid() ) m_dr.starter   [ 0 ] = m_aircraft->getDataRef( "input/propulsion/starter"   );
 
     if ( !m_dr.engineOn   [ 0 ].isValid() ) m_dr.engineOn   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/state" );
+    if ( !m_dr.engineAB   [ 0 ].isValid() ) m_dr.engineAB   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ab"    );
     if ( !m_dr.engineRPM  [ 0 ].isValid() ) m_dr.engineRPM  [ 0 ] = m_aircraft->getDataRef( "output/propulsion/rpm"   );
     if ( !m_dr.engineProp [ 0 ].isValid() ) m_dr.engineProp [ 0 ] = m_aircraft->getDataRef( "output/propulsion/prop"  );
     if ( !m_dr.engineNG   [ 0 ].isValid() ) m_dr.engineNG   [ 0 ] = m_aircraft->getDataRef( "output/propulsion/ng"    );
@@ -269,6 +271,7 @@ void Manager::dataRefsReset()
         m_dr.starter   [ i ].reset();
 
         m_dr.engineOn   [ i ].reset();
+        m_dr.engineAB   [ i ].reset();
         m_dr.engineRPM  [ i ].reset();
         m_dr.engineProp [ i ].reset();
         m_dr.engineNG   [ i ].reset();
@@ -569,19 +572,21 @@ void Manager::updateDataOutput()
     // propulsion
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        m_dataOut.engine[ i ].state = m_dr.engineOn[ i ].getDatab( false );
-        m_dataOut.engine[ i ].rpm   = (float)m_dr.engineRPM  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].prop  = (float)m_dr.engineProp [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].ng    = (float)m_dr.engineNG   [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].n1    = (float)m_dr.engineN1   [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].n2    = (float)m_dr.engineN2   [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].trq   = (float)m_dr.engineTRQ  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].epr   = (float)m_dr.engineEPR  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].map   = (float)m_dr.engineMAP  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].egt   = (float)m_dr.engineEGT  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].itt   = (float)m_dr.engineITT  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].tit   = (float)m_dr.engineTIT  [ i ].getValue( 0.0 );
-        m_dataOut.engine[ i ].ff    = (float)m_dr.engineFF   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].state       = m_dr.engineOn[ i ].getDatab( false );
+        m_dataOut.engine[ i ].afterburner = m_dr.engineAB[ i ].getDatab( false );
+
+        m_dataOut.engine[ i ].rpm  = (float)m_dr.engineRPM  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].prop = (float)m_dr.engineProp [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].ng   = (float)m_dr.engineNG   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].n1   = (float)m_dr.engineN1   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].n2   = (float)m_dr.engineN2   [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].trq  = (float)m_dr.engineTRQ  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].epr  = (float)m_dr.engineEPR  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].map  = (float)m_dr.engineMAP  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].egt  = (float)m_dr.engineEGT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].itt  = (float)m_dr.engineITT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].tit  = (float)m_dr.engineTIT  [ i ].getValue( 0.0 );
+        m_dataOut.engine[ i ].ff   = (float)m_dr.engineFF   [ i ].getValue( 0.0 );
     }
 
     // rotor
@@ -865,10 +870,9 @@ void Manager::updatePhaseInit()
 
                 if ( m_aircraft != 0 )
                 {
-                    m_aircraft->initDataRefs();
-                    dataRefsInit();
+                    m_aircraft->init( m_dataInp.initial.engineOn );
 
-                    m_aircraft->getProp()->initialize( m_dataInp.initial.engineOn );
+                    dataRefsInit();
                 }
             }
 
@@ -971,7 +975,9 @@ void Manager::updatePhaseStop()
         if ( m_timeSteps > 0 )
         {
             double meanStep = m_realTime / (double)m_timeSteps;
-            std::cout << "Mean time step: " << meanStep << " s." << std::endl;
+            double meanFreq = 1.0 / meanStep;
+            std::cout << "Mean time step: " << meanStep << " s"  << std::endl;
+            std::cout << "Mean frequency: " << meanFreq << " Hz" << std::endl;
         }
     }
 

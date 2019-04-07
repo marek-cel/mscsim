@@ -94,6 +94,39 @@ LandingGear::~LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void LandingGear::init()
+{
+    for ( Wheels::iterator it = m_wheels.begin(); it != m_wheels.end(); it++ )
+    {
+        Wheel &wheel = (*it);
+
+        if ( wheel.input.length() > 0 )
+        {
+            wheel.drInput = getDataRef( wheel.input );
+
+            if ( !wheel.drInput.isValid() )
+            {
+                if ( FDM_SUCCESS == addDataRef( wheel.input, DataNode::Double ) )
+                {
+                    wheel.drInput = getDataRef( wheel.input );
+                }
+            }
+
+            if ( !wheel.drInput.isValid() )
+            {
+                Exception e;
+
+                e.setType( Exception::UnknownException );
+                e.setInfo( "ERROR! Initializing data refernce \"" + wheel.input + "\" failed." );
+
+                FDM_THROW( e );
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void LandingGear::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -154,39 +187,6 @@ void LandingGear::readData( XmlNode &dataNode )
         e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LandingGear::initDataRefs()
-{
-    for ( Wheels::iterator it = m_wheels.begin(); it != m_wheels.end(); it++ )
-    {
-        Wheel &wheel = (*it);
-
-        if ( wheel.input.length() > 0 )
-        {
-            wheel.drInput = getDataRef( wheel.input );
-
-            if ( !wheel.drInput.isValid() )
-            {
-                if ( FDM_SUCCESS == addDataRef( wheel.input, DataNode::Double ) )
-                {
-                    wheel.drInput = getDataRef( wheel.input );
-                }
-            }
-
-            if ( !wheel.drInput.isValid() )
-            {
-                Exception e;
-
-                e.setType( Exception::UnknownException );
-                e.setInfo( "ERROR! Initializing data refernce \"" + wheel.input + "\" failed." );
-
-                FDM_THROW( e );
-            }
-        }
     }
 }
 

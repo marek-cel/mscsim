@@ -117,25 +117,19 @@ public:
     /** Destructor. */
     virtual ~Aerodynamics();
 
+    /** Initializes aerodynamics. */
+    virtual void init();
+
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /**
-     * Initializes data referneces.
-     */
-    virtual void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     virtual void computeForceAndMoment() = 0;
 
-    /**
-     * Updates aerodynamics.
-     */
+    /** Updates aerodynamics. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }

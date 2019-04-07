@@ -95,25 +95,19 @@ public:
     /** Destructor. */
     virtual ~Mass();
 
+    /** Initializes mass. */
+    virtual void init();
+
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes data referneces.
-     */
-    virtual void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     virtual void computeForceAndMoment();
 
-    /**
-     * Updates mass.
-     */
+    /** Updates mass. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }

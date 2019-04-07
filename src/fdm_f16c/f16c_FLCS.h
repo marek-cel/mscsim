@@ -64,9 +64,7 @@ public:
     /** Destructor. */
     ~F16C_FLCS();
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update( double timeStep, double angleOfAttack,
                  double g_y, double g_z,
                  double rollRate, double pitchRate, double yawRate,

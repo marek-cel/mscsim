@@ -56,14 +56,10 @@ public:
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     void computeForceAndMoment();
 
-    /**
-     * Updates model.
-     */
+    /** Updates aerodynamics. */
     void update();
 
     /**

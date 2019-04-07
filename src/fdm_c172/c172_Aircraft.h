@@ -53,6 +53,9 @@ public:
     /** Destructor. */
     ~C172_Aircraft();
 
+    /** Initializes aircraft. */
+    void init( bool engineOn = false );
+
     inline C172_Aerodynamics* getAero() { return m_aero; }
     inline C172_Controls*     getCtrl() { return m_ctrl; }
     inline C172_LandingGear*  getGear() { return m_gear; }

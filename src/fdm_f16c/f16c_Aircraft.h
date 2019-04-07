@@ -50,6 +50,9 @@ public:
     /** Destructor. */
     ~F16C_Aircraft();
 
+    /** Initializes aircraft. */
+    void init( bool engineOn = false );
+
     inline F16C_Aerodynamics* getAero() { return m_aero; }
     inline F16C_Controls*     getCtrl() { return m_ctrl; }
     inline F16C_LandingGear*  getGear() { return m_gear; }

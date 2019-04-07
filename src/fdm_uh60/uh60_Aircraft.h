@@ -50,6 +50,9 @@ public:
     /** Destructor. */
     ~UH60_Aircraft();
 
+    /** Initializes aircraft. */
+    void init( bool engineOn = false );
+
     inline UH60_Aerodynamics* getAero() { return m_aero; }
     inline UH60_Controls*     getCtrl() { return m_ctrl; }
     inline UH60_LandingGear*  getGear() { return m_gear; }

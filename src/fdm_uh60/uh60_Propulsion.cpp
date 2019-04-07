@@ -47,27 +47,12 @@ UH60_Propulsion::~UH60_Propulsion() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Propulsion::readData( XmlNode &dataNode )
+void UH60_Propulsion::init( bool engineOn )
 {
-    if ( dataNode.isValid() )
-    {
-        // TODO
-    }
-    else
-    {
-        Exception e;
+    /////////////////////////////
+    Propulsion::init( engineOn );
+    /////////////////////////////
 
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Propulsion::initialize( bool engineOn )
-{
     // TODO
 
     if ( engineOn )
@@ -84,11 +69,21 @@ void UH60_Propulsion::initialize( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Propulsion::initDataRefs()
+void UH60_Propulsion::readData( XmlNode &dataNode )
 {
-    ///////////////////////////
-    Propulsion::initDataRefs();
-    ///////////////////////////
+    if ( dataNode.isValid() )
+    {
+        // TODO
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

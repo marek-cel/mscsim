@@ -42,8 +42,6 @@ C172_Aircraft::C172_Aircraft() :
     Aircraft::m_gear = m_gear = new C172_LandingGear( this );
     Aircraft::m_mass = m_mass = new C172_Mass( this );
     Aircraft::m_prop = m_prop = new C172_Propulsion( this );
-
-    readData( "data/fdm/c172/c172_fdm.xml" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,4 +62,15 @@ C172_Aircraft::~C172_Aircraft()
 
     if ( m_prop ) delete m_prop;
     m_prop = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Aircraft::init( bool engineOn )
+{
+    readData( "data/fdm/c172/c172_fdm.xml" );
+
+    ///////////////////////////
+    Aircraft::init( engineOn );
+    ///////////////////////////
 }

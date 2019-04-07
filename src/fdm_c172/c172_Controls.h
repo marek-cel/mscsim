@@ -46,14 +46,10 @@ public:
     /** Destructor. */
     ~C172_Controls();
 
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
+    /** Initializes controls. */
+    void init();
 
-    /**
-     * Updates model.
-     */
+    /** Updates controls. */
     void update();
 
     inline double getAilerons()     const { return m_ailerons;      }

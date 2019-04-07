@@ -48,14 +48,10 @@ public:
     /** Destructor. */
     ~UH60_Controls();
 
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
+    /** Initializes controls. */
+    void init();
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
     inline double getCyclicLat()  const { return m_cyclic_lat; }

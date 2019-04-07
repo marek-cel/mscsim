@@ -48,20 +48,16 @@ public:
     /** Destructor. */
     ~F16C_Controls();
 
+    /** Initializes controls. */
+    void init();
+
     /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
-
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
     inline double getAilerons()     const { return m_flcs->getAilerons();     }
@@ -114,20 +110,20 @@ private:
     DataRef m_drLgHandle;               ///< landing gear handle data reference
     DataRef m_drNwSteering;             ///< nose wheel steering data reference
 
-    double m_angleOfAttack;
-    double m_g_y;
-    double m_g_z;
-    double m_rollRate;
-    double m_pitchRate;
-    double m_yawRate;
-    double m_ctrlLat;
-    double m_trimLat;
-    double m_ctrlLon;
-    double m_trimLon;
-    double m_ctrlYaw;
-    double m_trimYaw;
-    double m_statPress;
-    double m_dynPress;
+    double m_angleOfAttack;             ///<
+    double m_g_y;                       ///<
+    double m_g_z;                       ///<
+    double m_rollRate;                  ///<
+    double m_pitchRate;                 ///<
+    double m_yawRate;                   ///<
+    double m_ctrlLat;                   ///<
+    double m_trimLat;                   ///<
+    double m_ctrlLon;                   ///<
+    double m_trimLon;                   ///<
+    double m_ctrlYaw;                   ///<
+    double m_trimYaw;                   ///<
+    double m_statPress;                 ///<
+    double m_dynPress;                  ///<
 
     DataRef m_outElevator;              ///<
     DataRef m_outElevons;               ///<

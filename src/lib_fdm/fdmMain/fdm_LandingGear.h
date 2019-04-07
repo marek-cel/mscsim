@@ -130,25 +130,19 @@ public:
     /** Destructor. */
     virtual ~LandingGear();
 
+    /** Initializes landing gear. */
+    virtual void init();
+
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes data referneces.
-     */
-    virtual void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     virtual void computeForceAndMoment();
 
-    /**
-     * Updates landing gear.
-     */
+    /** Updates landing gear. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return m_for_bas; }

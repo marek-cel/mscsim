@@ -30,9 +30,7 @@ using namespace fdm;
 
 C130_Aircraft::C130_Aircraft() :
     Aircraft()
-{
-    readData( "data/fdm/c130/c130_fdm.xml" );
-}
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -52,4 +50,15 @@ C130_Aircraft::~C130_Aircraft()
 
     if ( m_prop ) delete m_prop;
     m_prop = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C130_Aircraft::init( bool engineOn )
+{
+    readData( "data/fdm/c130/c130_fdm.xml" );
+
+    ///////////////////////////
+    Aircraft::init( engineOn );
+    ///////////////////////////
 }

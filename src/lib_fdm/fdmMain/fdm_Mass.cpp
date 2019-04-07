@@ -45,6 +45,36 @@ Mass::~Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Mass::init()
+{
+    for ( Masses::iterator it = m_masses.begin(); it != m_masses.end(); it++ )
+    {
+        VarMass &mass = (*it);
+
+        mass.drInput = getDataRef( mass.input );
+
+        if ( !mass.drInput.isValid() )
+        {
+            if ( FDM_SUCCESS == addDataRef( mass.input, DataNode::Double ) )
+            {
+                mass.drInput = getDataRef( mass.input );
+            }
+        }
+
+        if ( !mass.drInput.isValid() )
+        {
+            Exception e;
+
+            e.setType( Exception::UnknownException );
+            e.setInfo( "ERROR! Initializing data refernce \"" + mass.input + "\" failed." );
+
+            FDM_THROW( e );
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Mass::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -93,36 +123,6 @@ void Mass::readData( XmlNode &dataNode )
         e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Mass::initDataRefs()
-{
-    for ( Masses::iterator it = m_masses.begin(); it != m_masses.end(); it++ )
-    {
-        VarMass &mass = (*it);
-
-        mass.drInput = getDataRef( mass.input );
-
-        if ( !mass.drInput.isValid() )
-        {
-            if ( FDM_SUCCESS == addDataRef( mass.input, DataNode::Double ) )
-            {
-                mass.drInput = getDataRef( mass.input );
-            }
-        }
-
-        if ( !mass.drInput.isValid() )
-        {
-            Exception e;
-
-            e.setType( Exception::UnknownException );
-            e.setInfo( "ERROR! Initializing data refernce \"" + mass.input + "\" failed." );
-
-            FDM_THROW( e );
-        }
     }
 }
 

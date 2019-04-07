@@ -104,6 +104,10 @@ void Manager::timerEvent( QTimerEvent *event )
     {
         hid::Manager::instance()->reset();
     }
+    else if ( Data::get()->phaseInp == fdm::DataInp::Work )
+    {
+        // TODO
+    }
 
     hid::Manager::instance()->update( m_timeStep );
     m_nav->update();
@@ -250,19 +254,21 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        Data::get()->propulsion.engine[ i ].state = dataOut.engine[ i ].state;
-        Data::get()->propulsion.engine[ i ].rpm   = dataOut.engine[ i ].rpm;
-        Data::get()->propulsion.engine[ i ].prop  = dataOut.engine[ i ].prop;
-        Data::get()->propulsion.engine[ i ].ng    = dataOut.engine[ i ].ng;
-        Data::get()->propulsion.engine[ i ].n1    = dataOut.engine[ i ].n1;
-        Data::get()->propulsion.engine[ i ].n2    = dataOut.engine[ i ].n2;
-        Data::get()->propulsion.engine[ i ].trq   = dataOut.engine[ i ].trq;
-        Data::get()->propulsion.engine[ i ].epr   = dataOut.engine[ i ].epr;
-        Data::get()->propulsion.engine[ i ].map   = dataOut.engine[ i ].map;
-        Data::get()->propulsion.engine[ i ].egt   = dataOut.engine[ i ].egt;
-        Data::get()->propulsion.engine[ i ].itt   = dataOut.engine[ i ].itt;
-        Data::get()->propulsion.engine[ i ].tit   = dataOut.engine[ i ].tit;
-        Data::get()->propulsion.engine[ i ].ff    = dataOut.engine[ i ].ff;
+        Data::get()->propulsion.engine[ i ].state       = dataOut.engine[ i ].state;
+        Data::get()->propulsion.engine[ i ].afterburner = dataOut.engine[ i ].afterburner;
+
+        Data::get()->propulsion.engine[ i ].rpm  = dataOut.engine[ i ].rpm;
+        Data::get()->propulsion.engine[ i ].prop = dataOut.engine[ i ].prop;
+        Data::get()->propulsion.engine[ i ].ng   = dataOut.engine[ i ].ng;
+        Data::get()->propulsion.engine[ i ].n1   = dataOut.engine[ i ].n1;
+        Data::get()->propulsion.engine[ i ].n2   = dataOut.engine[ i ].n2;
+        Data::get()->propulsion.engine[ i ].trq  = dataOut.engine[ i ].trq;
+        Data::get()->propulsion.engine[ i ].epr  = dataOut.engine[ i ].epr;
+        Data::get()->propulsion.engine[ i ].map  = dataOut.engine[ i ].map;
+        Data::get()->propulsion.engine[ i ].egt  = dataOut.engine[ i ].egt;
+        Data::get()->propulsion.engine[ i ].itt  = dataOut.engine[ i ].itt;
+        Data::get()->propulsion.engine[ i ].tit  = dataOut.engine[ i ].tit;
+        Data::get()->propulsion.engine[ i ].ff   = dataOut.engine[ i ].ff;
     }
 
     // output state

@@ -38,11 +38,7 @@ UH60_Aerodynamics::UH60_Aerodynamics( const UH60_Aircraft *aircraft ) :
     m_tailRotor ( 0 ),
     m_fuselage  ( 0 ),
     m_stabHor   ( 0 ),
-    m_stabVer   ( 0 ),
-
-    m_dcl_dpR_2v ( 0.0 ),
-    m_dcm_dqR_2v ( 0.0 ),
-    m_dcn_drR_2v ( 0.0 )
+    m_stabVer   ( 0 )
 {
     m_mainRotor = new MainRotor();
     m_tailRotor = new TailRotor();
@@ -73,60 +69,11 @@ UH60_Aerodynamics::~UH60_Aerodynamics()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Aerodynamics::readData( XmlNode &dataNode )
+void UH60_Aerodynamics::init()
 {
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        m_dcl_dpR_2v = 0.0;
-        m_dcm_dqR_2v = 0.0;
-        m_dcn_drR_2v = 0.0;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcl_dpR_2v, "dcl_dpR_2v", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcm_dqR_2v, "dcm_dqR_2v", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcn_drR_2v, "dcn_drR_2v", true );
-
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
-
-        XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor" );
-        XmlNode nodeTailRotor = dataNode.getFirstChildElement( "tail_rotor" );
-        XmlNode nodeFuselage  = dataNode.getFirstChildElement( "fuselage" );
-        XmlNode nodeStabHor   = dataNode.getFirstChildElement( "stab_hor" );
-        XmlNode nodeStabVer   = dataNode.getFirstChildElement( "stab_ver" );
-
-        m_mainRotor->readData( nodeMainRotor );
-        m_tailRotor->readData( nodeTailRotor );
-        m_fuselage->readData( nodeFuselage );
-        m_stabHor->readData( nodeStabHor );
-        m_stabVer->readData( nodeStabVer );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Aerodynamics::initDataRefs()
-{
-    /////////////////////////////
-    Aerodynamics::initDataRefs();
-    /////////////////////////////
+    /////////////////////
+    Aerodynamics::init();
+    /////////////////////
 
     int result = FDM_SUCCESS;
 
@@ -157,6 +104,35 @@ void UH60_Aerodynamics::initDataRefs()
 
         e.setType( Exception::UnknownException );
         e.setInfo( "ERROR! Initializing data references failed." );
+
+        FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Aerodynamics::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor" );
+        XmlNode nodeTailRotor = dataNode.getFirstChildElement( "tail_rotor" );
+        XmlNode nodeFuselage  = dataNode.getFirstChildElement( "fuselage" );
+        XmlNode nodeStabHor   = dataNode.getFirstChildElement( "stab_hor" );
+        XmlNode nodeStabVer   = dataNode.getFirstChildElement( "stab_ver" );
+
+        m_mainRotor->readData( nodeMainRotor );
+        m_tailRotor->readData( nodeTailRotor );
+        m_fuselage->readData( nodeFuselage );
+        m_stabHor->readData( nodeStabHor );
+        m_stabVer->readData( nodeStabVer );
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -206,30 +182,30 @@ void UH60_Aerodynamics::computeForceAndMoment()
               + m_fuselage->getMom_BAS()
               + m_stabHor->getMom_BAS() + m_stabVer->getMom_BAS();
 
-//        // damping
-//        double R_2v = 0.0;
+//            // damping
+//            double R_2v = 0.0;
 
-//        if ( m_aircraft->getAirspeed() > 0.1 )
-//        {
-//            R_2v = m_mainRotor->getRadius() / ( 2.0 * m_aircraft->getAirspeed() );
-//        }
+//            if ( m_aircraft->getAirspeed() > 0.1 )
+//            {
+//                R_2v = m_mainRotor->getRadius() / ( 2.0 * m_aircraft->getAirspeed() );
+//            }
 
-//        Vector3 omg_air_stab = m_bas2stab * m_aircraft->getOmg_air_BAS();
+//            Vector3 omg_air_stab = m_bas2stab * m_aircraft->getOmg_air_BAS();
 
-//        double cl = m_dcl_dpR_2v * omg_air_stab.x() * R_2v;
-//        double cm = m_dcm_dqR_2v * omg_air_stab.y() * R_2v;
-//        double cn = m_dcn_drR_2v * omg_air_stab.z() * R_2v;
+//            double cl = -0.240 * omg_air_stab.x() * R_2v;
+//            double cm = -0.120 * omg_air_stab.y() * R_2v;
+//            double cn = -0.120 * omg_air_stab.z() * R_2v;
 
-//        // dynamic pressure
-//        double dynPress = m_aircraft->getDynPress();
+//            // dynamic pressure
+//            double dynPress = m_aircraft->getDynPress();
 
-//        double aR = m_mainRotor->getDiskArea() * m_mainRotor->getRadius();
+//            double aR = m_mainRotor->getDiskArea() * m_mainRotor->getRadius();
 
-//        Vector3 mom_aero( dynPress * aR * cl,
-//                          dynPress * aR * cm,
-//                          dynPress * aR * cn );
+//            Vector3 mom_aero( dynPress * aR * cl,
+//                              dynPress * aR * cm,
+//                              dynPress * aR * cn );
 
-//        m_mom_bas += m_stab2bas * mom_aero;
+//            m_mom_bas += m_stab2bas * mom_aero;
 
     // computing forces expressed in Aerodynamic Axes System
     // computing moments expressed in Stability Axes System

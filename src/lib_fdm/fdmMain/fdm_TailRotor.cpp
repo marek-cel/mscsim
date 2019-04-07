@@ -47,6 +47,7 @@ TailRotor::TailRotor() :
 
     m_thrust_factor ( 1.0 ),
     m_torque_factor ( 1.0 ),
+    m_vel_i_factor  ( 1.0 ),
 
     m_r2  ( 0.0 ),
     m_r3  ( 0.0 ),
@@ -80,6 +81,7 @@ void TailRotor::readData( XmlNode &dataNode )
 
         m_thrust_factor = 1.0;
         m_torque_factor = 1.0;
+        m_vel_i_factor  = 1.0;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_hub_bas, "hub_center" );
 
@@ -101,8 +103,9 @@ void TailRotor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ct_max, "ct_max" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cq_max, "cq_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_factor, "thrust_factor", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_torque_factor, "torque_factor", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_factor , "thrust_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_torque_factor , "torque_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_vel_i_factor  , "vel_i_factor"  , true );
 
         if ( result == FDM_SUCCESS )
         {
@@ -214,7 +217,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     if ( cq > m_cq_max ) cq = m_cq_max;
 
     // induced velocity
-    m_vel_i_bas = m_ras2bas * Vector3( 0.0, 0.0, lambda_i * omegaR );
+    m_vel_i_bas = m_ras2bas * Vector3( 0.0, 0.0, m_vel_i_factor * lambda_i * omegaR );
 
     m_thrust = m_thrust_factor * airDensity * m_ad * m_r2 * omega2 * ct;
     m_torque = m_torque_factor * airDensity * m_ad * m_r3 * omega2 * cq;

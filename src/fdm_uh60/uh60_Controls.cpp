@@ -63,11 +63,11 @@ UH60_Controls::~UH60_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Controls::initDataRefs()
+void UH60_Controls::init()
 {
-    /////////////////////////
-    Controls::initDataRefs();
-    /////////////////////////
+    /////////////////
+    Controls::init();
+    /////////////////
 
     int result = FDM_SUCCESS;
 
@@ -121,7 +121,7 @@ void UH60_Controls::update()
     Controls::update();
     ///////////////////
 
-    m_cyclic_lat = m_channelCyclicLat->output - 0.15 * m_channelCollective->output;
+    m_cyclic_lat = m_channelCyclicLat->output - 0.2 * m_channelCollective->output;
     m_cyclic_lon = m_channelCyclicLon->output;
     m_collective = m_channelCollective->output;
     m_tail_pitch = m_channelTailPitch->output;

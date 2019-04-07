@@ -48,30 +48,21 @@ public:
     ~F16C_Propulsion();
 
     /**
+     * Initializes propulsion.
+     * @param engineOn specifies if engine is working at start
+     */
+    void init( bool engineOn );
+
+    /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
 
-    /**
-     * Initializes engine due to initial engine state.
-     * @param engineOn specifies if engine is working at start
-     */
-    void initialize( bool engineOn );
-
-    /**
-     * Initializes data referneces.
-     */
-    void initDataRefs();
-
-    /**
-     * Computes force and moment.
-     */
+    /** Computes force and moment. */
     void computeForceAndMoment();
 
-    /**
-     * Updates model.
-     */
+    /** Updates model. */
     void update();
 
 private:
@@ -86,6 +77,7 @@ private:
     DataRef m_drStarter;                ///< engine starter data reference
 
     DataRef m_drEngineOn;               ///< engine state data refenrence
+    DataRef m_drEngineAB;               ///< engine afterburner data refenrence
     DataRef m_drEngineN2;               ///< engine N2 data reference
     DataRef m_drEngineTIT;              ///< engine TIT data reference
     DataRef m_drEngineFF;               ///< engine fuel flow data reference

@@ -139,6 +139,7 @@ private:
         // engine outputs
 
         DataRef engineOn   [ FDM_MAX_ENGINES ]; ///< engine state data references
+        DataRef engineAB   [ FDM_MAX_ENGINES ]; ///< engine afterburner data references
         DataRef engineRPM  [ FDM_MAX_ENGINES ]; ///< engine RPM data references
         DataRef engineProp [ FDM_MAX_ENGINES ]; ///< propeller RPM data references
         DataRef engineNG   [ FDM_MAX_ENGINES ]; ///< NG data references

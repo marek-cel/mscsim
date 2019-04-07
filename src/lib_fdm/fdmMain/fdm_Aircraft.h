@@ -144,20 +144,14 @@ public:
         Overstressed    ///< load factor too high
     };
 
-    /**
-     * Constructor.
-     * @param envir environment interface object pointer
-     * @param isect intersection interface object pointer
-     */
+    /** Constructor. */
     Aircraft();
 
     /** Destructor. */
     virtual ~Aircraft();
 
-    /**
-     * Initializes aircraft data references.
-     */
-    virtual void initDataRefs();
+    /** Initializes aircraft. */
+    virtual void init( bool engineOn = false );
 
     /**
      * Updates aircraft due to simulation time step.
@@ -170,12 +164,6 @@ public:
 
     inline const Environment*   getEnvir() const { return m_envir; }
     inline const Intersections* getIsect() const { return m_isect; }
-
-    inline Aerodynamics* getAero() { return m_aero; }
-    inline Controls*     getCtrl() { return m_ctrl; }
-    inline LandingGear*  getGear() { return m_gear; }
-    inline Mass*         getMass() { return m_mass; }
-    inline Propulsion*   getProp() { return m_prop; }
 
     inline const Aerodynamics* getAero() const { return m_aero; }
     inline const Controls*     getCtrl() const { return m_ctrl; }
@@ -368,24 +356,16 @@ protected:
      */
     virtual void readData( const std::string &dataFilePath );
 
-    /**
-     * This function is called just before time integration step.
-     */
+    /** This function is called just before time integration step. */
     virtual void anteIntegration();
 
-    /**
-     * This function integrates aircraft flight dynamics model.
-     */
+    /** This function integrates aircraft flight dynamics model. */
     virtual void integrate();
 
-    /**
-     * This function is called just after time integration step.
-     */
+    /** This function is called just after time integration step. */
     virtual void postIntegration();
 
-    /**
-     * This function checks collisions.
-     */
+    /** This function checks collisions. */
     virtual void detectCrash();
 
     /**

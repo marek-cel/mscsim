@@ -43,6 +43,9 @@ public:
 
     /** Destructor. */
     ~C130_Aircraft();
+
+    /** Initializes aircraft. */
+    void init( bool engineOn = false );
 };
 
 } // end of fdm namespace

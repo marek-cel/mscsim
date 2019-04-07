@@ -94,10 +94,11 @@ namespace fdm
  *   <cq_max> { [-] maximum thrust coefficient } </cq_max>
  *   <thrust_factor> { [-] thrust scaling factor } </thrust_factor>
  *   <torque_factor> { [-] torque scaling factor } </torque_factor>
+ *   <vel_i_factor> { [-] induced velocity scaling factor } </vel_i_factor>
  * </main_rotor>
  * @endcode
  *
- * <p>Optional elements: "thrust_factor", "torque_factor"</p>
+ * <p>Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"</p>
  *
  * @see Mil M.: Helicopters: Calculation and Design. Volume 1: Aerodynamics, NASA, TM-X-74335, 1967
  * @see Gessow A., Myers G.: Aerodynamics of the Helicopter, 1985
@@ -194,9 +195,11 @@ protected:
     Matrix3x3 m_cas2ras;        ///< matrix of rotation from CAS to RAS
 
     Matrix3x3 m_bas2cas;        ///< matrix of rotation from BAS to CAS
+    Matrix3x3 m_bas2das;        ///< matrix of rotation from BAS to DAS
     Matrix3x3 m_das2bas;        ///< matrix of rotation from DAS to BAS
 
     Matrix3x3 m_ras2rwas;       ///< matrix of rotation from RAS to RWAS
+    Matrix3x3 m_rwas2ras;
 
     Matrix3x3 m_cas2cwas;       ///< matrix of rotation from CAS to CWAS
     Matrix3x3 m_cwas2cas;       ///< matrix of rotation from CWAS to CAS
@@ -224,6 +227,7 @@ protected:
 
     double m_thrust_factor;     ///< [-] thrust scaling factor
     double m_torque_factor;     ///< [-] torque scaling factor
+    double m_vel_i_factor;      ///< [-] induced velocity scaling factor
 
     double m_r2;                ///< [m^2] rotor radius squared
     double m_r3;                ///< [m^3] rotor radius cubed

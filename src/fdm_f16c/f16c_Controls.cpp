@@ -139,11 +139,11 @@ void F16C_Controls::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Controls::initDataRefs()
+void F16C_Controls::init()
 {
-    /////////////////////////
-    Controls::initDataRefs();
-    /////////////////////////
+    /////////////////
+    Controls::init();
+    /////////////////
 
     int result = FDM_SUCCESS;
 

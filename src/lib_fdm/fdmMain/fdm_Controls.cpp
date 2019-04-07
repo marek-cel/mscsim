@@ -42,6 +42,36 @@ Controls::~Controls() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Controls::init()
+{
+    for ( Channels::iterator it = m_channels.begin(); it != m_channels.end(); it++ )
+    {
+        Channel &channel = (*it);
+
+        channel.drInput = getDataRef( channel.input );
+
+        if ( !channel.drInput.isValid() )
+        {
+            if ( FDM_SUCCESS == addDataRef( channel.input, DataNode::Double ) )
+            {
+                channel.drInput = getDataRef( channel.input );
+            }
+        }
+
+        if ( !channel.drInput.isValid() )
+        {
+            Exception e;
+
+            e.setType( Exception::UnknownException );
+            e.setInfo( "ERROR! Initializing data refernce \"" + channel.input + "\" failed." );
+
+            FDM_THROW( e );
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Controls::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -96,36 +126,6 @@ void Controls::readData( XmlNode &dataNode )
         e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Controls::initDataRefs()
-{
-    for ( Channels::iterator it = m_channels.begin(); it != m_channels.end(); it++ )
-    {
-        Channel &channel = (*it);
-
-        channel.drInput = getDataRef( channel.input );
-
-        if ( !channel.drInput.isValid() )
-        {
-            if ( FDM_SUCCESS == addDataRef( channel.input, DataNode::Double ) )
-            {
-                channel.drInput = getDataRef( channel.input );
-            }
-        }
-
-        if ( !channel.drInput.isValid() )
-        {
-            Exception e;
-
-            e.setType( Exception::UnknownException );
-            e.setInfo( "ERROR! Initializing data refernce \"" + channel.input + "\" failed." );
-
-            FDM_THROW( e );
-        }
     }
 }
 

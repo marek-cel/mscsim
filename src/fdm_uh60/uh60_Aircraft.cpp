@@ -36,8 +36,6 @@ UH60_Aircraft::UH60_Aircraft() :
     Aircraft::m_gear = m_gear = new UH60_LandingGear( this );
     Aircraft::m_mass = m_mass = new UH60_Mass( this );
     Aircraft::m_prop = m_prop = new UH60_Propulsion( this );
-
-    readData( "data/fdm/uh60/uh60_fdm.xml" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,4 +56,15 @@ UH60_Aircraft::~UH60_Aircraft()
 
     if ( m_prop ) delete m_prop;
     m_prop = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Aircraft::init( bool engineOn )
+{
+    readData( "data/fdm/uh60/uh60_fdm.xml" );
+
+    ///////////////////////////
+    Aircraft::init( engineOn );
+    ///////////////////////////
 }

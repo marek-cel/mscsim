@@ -54,41 +54,11 @@ C172_Propulsion::~C172_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Propulsion::readData( XmlNode &dataNode )
+void C172_Propulsion::init( bool engineOn )
 {
-    if ( dataNode.isValid() )
-    {
-        XmlNode nodeEngine    = dataNode.getFirstChildElement( "piston_engine" );
-        XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller"     );
-
-        m_engine->readData( nodeEngine );
-        m_propeller->readData( nodePropeller );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Propulsion::initialize( bool engineOn )
-{
-    m_propeller->setRPM( engineOn ? 2700.0 : 0.0 );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Propulsion::initDataRefs()
-{
-    ///////////////////////////
-    Propulsion::initDataRefs();
-    ///////////////////////////
+    /////////////////////////////
+    Propulsion::init( engineOn );
+    /////////////////////////////
 
     int result = FDM_SUCCESS;
 
@@ -124,6 +94,31 @@ void C172_Propulsion::initDataRefs()
 
         e.setType( Exception::UnknownException );
         e.setInfo( "ERROR! Initializing data references failed." );
+
+        FDM_THROW( e );
+    }
+
+    m_propeller->setRPM( engineOn ? 2700.0 : 0.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Propulsion::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        XmlNode nodeEngine    = dataNode.getFirstChildElement( "piston_engine" );
+        XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller"     );
+
+        m_engine->readData( nodeEngine );
+        m_propeller->readData( nodePropeller );
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
