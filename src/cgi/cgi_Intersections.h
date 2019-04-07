@@ -24,10 +24,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osg/LineSegment>
 #include <osg/Node>
 
-#include <osgUtil/IntersectVisitor>
+#include <osgUtil/IntersectionVisitor>
 
 #include <cgi/cgi_Singleton.h>
 
@@ -44,6 +43,11 @@ class Intersections : public Singleton< Intersections >
     friend class Singleton< Intersections >;
 
 public:
+
+    struct ReadCallback : public osgUtil::IntersectionVisitor::ReadCallback
+    {
+        virtual osg::Node* readNodeFile( const std::string &filename );
+    };
 
     /** Destructor. */
     virtual ~Intersections();
@@ -71,6 +75,11 @@ public:
 private:
 
     osg::ref_ptr<osg::Node> m_scenery;
+
+    osg::ref_ptr<ReadCallback> m_rc;
+
+//    osg::ref_ptr<osgUtil::IntersectionVisitor> m_iv;
+//    osg::ref_ptr<osgUtil::IntersectorGroup>    m_ig;
 
     /**
      * You should use static function instance() due to get refernce

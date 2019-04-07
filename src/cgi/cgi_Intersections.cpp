@@ -24,6 +24,10 @@
 
 #include <limits>
 
+#include <osgDB/ReadFile>
+
+#include <osgUtil/LineSegmentIntersector>
+
 #include <cgi/cgi_WGS84.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +36,25 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Intersections::Intersections() {}
+osg::Node* Intersections::ReadCallback::readNodeFile( const std::string &filename )
+{
+    return osgDB::readRefNodeFile( filename ).release();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Intersections::Intersections()
+{
+    m_rc = new ReadCallback();
+
+//    m_iv = new osgUtil::IntersectionVisitor();
+//    m_iv->setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
+//    m_iv->setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
+//    m_iv->setReadCallback( m_rc.get() );
+
+//    m_ig = new osgUtil::IntersectorGroup();
+//    m_iv->setIntersector( m_ig.get() );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,24 +65,37 @@ Intersections::~Intersections() {}
 bool Intersections::findFirst( const osg::Vec3d &b, const osg::Vec3d &e,
                                osg::Vec3d &r, osg::Vec3d &n )
 {
+//    m_iv->reset();
+//    m_ig->clear();
+
     if ( m_scenery.valid() )
     {
         if ( ( e - b ).length2() > 0.0 )
         {
-            osg::ref_ptr<osg::LineSegment> lineSegment = new osg::LineSegment( b, e );
+            osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector =
+                    new osgUtil::LineSegmentIntersector( b, e );
 
-            osgUtil::IntersectVisitor intersectVisitor;
-            intersectVisitor.addLineSegment( lineSegment );
-            m_scenery->accept( intersectVisitor );
+            osgUtil::IntersectionVisitor iv( intersector.get(), m_rc.get() );
+            iv.setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
+            iv.setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
+            m_scenery->accept( iv );
 
-            osgUtil::IntersectVisitor::HitList hitList = intersectVisitor.getHitList( lineSegment );
+//            osg::ref_ptr<osgUtil::IntersectionVisitor> iv = new osgUtil::IntersectionVisitor( intersector.get(), m_rc.get() );
+//            iv->setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
+//            iv->setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
+//            m_scenery->accept( *iv );
 
-            if ( !hitList.empty() )
+//            m_iv->setIntersector( intersector.get() );
+//            m_ig->addIntersector( intersector.get() );
+
+//            m_scenery->accept( *m_iv );
+
+            if ( intersector->containsIntersections() )
             {
-                osgUtil::Hit hit = hitList.front();
+                osgUtil::LineSegmentIntersector::Intersection intersection = intersector->getFirstIntersection();
 
-                r = hit.getWorldIntersectPoint();
-                n = hit.getWorldIntersectNormal();
+                r = intersection.getWorldIntersectPoint();
+                n = intersection.getWorldIntersectNormal();
 
                 return true;
             }
@@ -76,20 +111,12 @@ double Intersections::getElevation( double lat, double lon )
 {
     osg::Vec3d b_wgs = WGS84( lat, lon, 10000.0 ).getPosition();
     osg::Vec3d e_wgs = WGS84( lat, lon, -1000.0 ).getPosition();
+    osg::Vec3d r_wgs;
+    osg::Vec3d n_wgs;
 
-    osg::ref_ptr<osg::LineSegment> lineSegment = new osg::LineSegment( b_wgs, e_wgs );
-
-    osgUtil::IntersectVisitor intersectVisitor;
-    intersectVisitor.addLineSegment( lineSegment );
-    m_scenery->accept( intersectVisitor );
-
-    osgUtil::IntersectVisitor::HitList hitList = intersectVisitor.getHitList( lineSegment );
-
-    if ( !hitList.empty() )
+    if ( findFirst( b_wgs, e_wgs, r_wgs, n_wgs ) )
     {
-        osgUtil::Hit hit = hitList.front();
-
-        return WGS84( hit.getWorldIntersectPoint() ).getAlt();
+        return WGS84( r_wgs ).getAlt();
     }
 
     return std::numeric_limits< double >::quiet_NaN();
