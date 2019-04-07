@@ -159,6 +159,7 @@ void Aircrafts::parseAircraftControls( const QDomElement &node, Controls &contro
 void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &propulsion )
 {
     propulsion.engines = 0;
+    propulsion.ab   = false;
     propulsion.rpm  = false;
     propulsion.prop = false;
     propulsion.ng   = false;
@@ -178,6 +179,7 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
     {
         propulsion.engines = nodePropulsion.attributeNode( "engines" ).value().toInt();
 
+        QDomElement nodeAB   = nodePropulsion.firstChildElement( "ab"   );
         QDomElement nodeRPM  = nodePropulsion.firstChildElement( "rpm"  );
         QDomElement nodePROP = nodePropulsion.firstChildElement( "prop" );
         QDomElement nodeNG   = nodePropulsion.firstChildElement( "ng"   );
@@ -191,6 +193,7 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
         QDomElement nodeITT  = nodePropulsion.firstChildElement( "itt"  );
         QDomElement nodeTIT  = nodePropulsion.firstChildElement( "tit"  );
 
+        propulsion.ab   = !nodeAB   .isNull();
         propulsion.rpm  = !nodeRPM  .isNull();
         propulsion.prop = !nodePROP .isNull();
         propulsion.ng   = !nodeNG   .isNull();

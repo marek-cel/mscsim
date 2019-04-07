@@ -64,6 +64,7 @@ public:
     void setAircraftType( int typeIndex );
 
     void setState( unsigned int index, bool working );
+    void setAB( unsigned int index, bool afterburner );
 
     void setRPM  ( unsigned int index, float val );
     void setPROP ( unsigned int index, float val );
@@ -86,6 +87,7 @@ private:
     QLabel *m_label[ FDM_MAX_ENGINES ];
 
     QPushButton *m_pushButtonState    [ FDM_MAX_ENGINES ];
+    QPushButton *m_pushButtonAB       [ FDM_MAX_ENGINES ];
     QPushButton *m_pushButtonFuel     [ FDM_MAX_ENGINES ];
     QPushButton *m_pushButtonIgnition [ FDM_MAX_ENGINES ];
     QPushButton *m_pushButtonStart    [ FDM_MAX_ENGINES ];

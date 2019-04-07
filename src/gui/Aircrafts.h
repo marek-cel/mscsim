@@ -54,6 +54,7 @@ public:
     {
         int engines;            ///<
 
+        bool ab;                ///<
         bool rpm;               ///<
         bool prop;              ///<
         bool ng;                ///<

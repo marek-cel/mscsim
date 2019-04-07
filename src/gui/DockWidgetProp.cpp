@@ -40,21 +40,25 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     m_label[ 3 ] = m_ui->label_4;
 
     m_pushButtonState    [ 0 ] = m_ui->pushButtonState_1;
+    m_pushButtonAB       [ 0 ] = m_ui->pushButtonAB_1;
     m_pushButtonFuel     [ 0 ] = m_ui->pushButtonFuel_1;
     m_pushButtonIgnition [ 0 ] = m_ui->pushButtonIgnition_1;
     m_pushButtonStart    [ 0 ] = m_ui->pushButtonStart_1;
 
     m_pushButtonState    [ 1 ] = m_ui->pushButtonState_2;
+    m_pushButtonAB       [ 1 ] = m_ui->pushButtonAB_2;
     m_pushButtonFuel     [ 1 ] = m_ui->pushButtonFuel_2;
     m_pushButtonIgnition [ 1 ] = m_ui->pushButtonIgnition_2;
     m_pushButtonStart    [ 1 ] = m_ui->pushButtonStart_2;
 
     m_pushButtonState    [ 2 ] = m_ui->pushButtonState_3;
+    m_pushButtonAB       [ 2 ] = m_ui->pushButtonAB_3;
     m_pushButtonFuel     [ 2 ] = m_ui->pushButtonFuel_3;
     m_pushButtonIgnition [ 2 ] = m_ui->pushButtonIgnition_3;
     m_pushButtonStart    [ 2 ] = m_ui->pushButtonStart_3;
 
     m_pushButtonState    [ 3 ] = m_ui->pushButtonState_4;
+    m_pushButtonAB       [ 3 ] = m_ui->pushButtonAB_4;
     m_pushButtonFuel     [ 3 ] = m_ui->pushButtonFuel_4;
     m_pushButtonIgnition [ 3 ] = m_ui->pushButtonIgnition_4;
     m_pushButtonStart    [ 3 ] = m_ui->pushButtonStart_4;
@@ -215,6 +219,7 @@ void DockWidgetProp::setAircraftType( int typeIndex )
             m_label[ i ]->setVisible( visible[ i ] );
 
             m_pushButtonState    [ i ]->setVisible( visible[ i ] );
+            m_pushButtonAB       [ i ]->setVisible( visible[ i ] && propulsion.ab );
             m_pushButtonFuel     [ i ]->setVisible( visible[ i ] );
             m_pushButtonIgnition [ i ]->setVisible( visible[ i ] );
             m_pushButtonStart    [ i ]->setVisible( visible[ i ] );
@@ -247,6 +252,16 @@ void DockWidgetProp::setState( unsigned int index, bool working )
     if ( index < FDM_MAX_ENGINES )
     {
         m_pushButtonState[ index ]->setChecked( working );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetProp::setAB( unsigned int index, bool afterburner )
+{
+    if ( index < FDM_MAX_ENGINES )
+    {
+        m_pushButtonAB[ index ]->setChecked( afterburner );
     }
 }
 

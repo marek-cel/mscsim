@@ -685,6 +685,7 @@ void MainWindow::updateDockProp()
         for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
             m_dockProp->setState ( i, Data::get()->propulsion.engine[ i ].state );
+            m_dockProp->setAB    ( i, Data::get()->propulsion.engine[ i ].afterburner );
             m_dockProp->setRPM   ( i, M_PI * Data::get()->propulsion.engine[ i ].rpm  / 30.0f );
             m_dockProp->setPROP  ( i, M_PI * Data::get()->propulsion.engine[ i ].prop / 30.0f );
             m_dockProp->setNG    ( i, Data::get()->propulsion.engine[ i ].ng  / 100.0f );
@@ -698,8 +699,6 @@ void MainWindow::updateDockProp()
             m_dockProp->setTOT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
             m_dockProp->setITT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].itt ) );
             m_dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].ff );
-
-
         }
     }
 }
