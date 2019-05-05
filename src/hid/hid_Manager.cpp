@@ -118,7 +118,7 @@ const float Manager::m_speedFlaps      = 0.25f;
 const float Manager::m_speedAirbrake   = 0.5f;
 const float Manager::m_speedSpoilers   = 2.0f;
 const float Manager::m_speedCollective = 0.5f;
-const float Manager::m_speedThrottle   = 0.25f;
+const float Manager::m_speedThrottle   = 0.5f;
 const float Manager::m_speedMixture    = 0.25f;
 const float Manager::m_speedPropeller  = 0.25f;
 
