@@ -1,6 +1,8 @@
 #include <QString>
 #include <QtTest>
 
+#include <iostream>
+
 #include <fdmMain/fdm_Atmosphere.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,11 +154,24 @@ void AtmosphereTest::stdConditions()
     {
         m_atmosphere->update( m_h[ i ] );
 
+        double h   = m_h[ i ];
         double t   = m_atmosphere->getTemperature();
         double p   = m_atmosphere->getPressure();
         double rho = m_atmosphere->getDensity();
         double c   = m_atmosphere->getSpeedOfSound();
-        double mu  = m_atmosphere->getViscosity();
+        double mu  = m_atmosphere->getDynViscosity();
+        double nu  = m_atmosphere->getKinViscosity();
+
+        if ( i == 0 )
+        {
+            std::cout << "h: "   << h   << std::endl;
+            std::cout << "t: "   << t   << std::endl;
+            std::cout << "p: "   << p   << std::endl;
+            std::cout << "rho: " << rho << std::endl;
+            std::cout << "c: "   << c   << std::endl;
+            std::cout << "mu: "  << mu  << std::endl;
+            std::cout << "nu: "  << nu  << std::endl;
+        }
 
         QVERIFY2( fabs( t   - m_t   [ i ] ) < 1.0e-2 * fabs( m_t   [ i ] ) , "Failure" );
         QVERIFY2( fabs( p   - m_p   [ i ] ) < 1.0e-2 * fabs( m_p   [ i ] ) , "Failure" );
@@ -181,7 +196,7 @@ void AtmosphereTest::modifiedSeaLevelConditions()
         double p   = m_atmosphere->getPressure();
         double rho = m_atmosphere->getDensity();
         double c   = m_atmosphere->getSpeedOfSound();
-        double mu  = m_atmosphere->getViscosity();
+        double mu  = m_atmosphere->getDynViscosity();
 
         QVERIFY2( fabs( t   - m_t   [ i ] ) < 1.0e-2 * fabs( m_t   [ i ] ) , "Failure" );
         QVERIFY2( fabs( p   - m_p   [ i ] ) < 1.0e-2 * fabs( m_p   [ i ] ) , "Failure" );
