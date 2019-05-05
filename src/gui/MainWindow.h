@@ -71,6 +71,12 @@ public:
 protected:
 
     /** */
+    void keyPressEvent( QKeyEvent *event );
+
+    /** */
+    void keyReleaseEvent( QKeyEvent *event );
+
+    /** */
     void closeEvent( QCloseEvent *event );
 
     /** */
@@ -111,6 +117,8 @@ private:
 
     fdm::DataInp::PhaseInp m_phaseInp; ///< simulation input phase
     fdm::DataOut::StateOut m_stateOut; ///< simulation output state
+
+    hid::Assignment::Key getKey( int key );
 
     void setPhaseIdle();
     void setPhaseInit();

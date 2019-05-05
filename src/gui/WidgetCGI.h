@@ -62,6 +62,9 @@ public:
         /** */
         void update();
 
+        void keyDn( hid::Assignment::Key key );
+        void keyUp( hid::Assignment::Key key );
+
     private:
 
         WidgetCGI *m_widgetCGI;
@@ -77,6 +80,9 @@ public:
 
     /** Destructor. */
     virtual ~WidgetCGI();
+
+    inline void keyDn( hid::Assignment::Key key ) { m_keyHandler->keyDn( key ); }
+    inline void keyUp( hid::Assignment::Key key ) { m_keyHandler->keyUp( key ); }
 
     /** */
     void setCameraManipulatorChase();

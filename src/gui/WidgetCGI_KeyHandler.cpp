@@ -64,6 +64,20 @@ void WidgetCGI::KeyHandler::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WidgetCGI::KeyHandler::keyDn( hid::Assignment::Key key )
+{
+    m_keysState[ key ] = true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::KeyHandler::keyUp( hid::Assignment::Key key )
+{
+    m_keysState[ key ] = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 {
     switch ( ea.getKey() )

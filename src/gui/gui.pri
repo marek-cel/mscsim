@@ -25,6 +25,7 @@ HEADERS += \
     gui/GraphicsPedals.h \
     gui/GraphicsStick.h \
     gui/gui_Defines.h \
+    gui/Keys.h \
     gui/LayoutSquare.h \
     gui/Locations.h \
     gui/MainWindow.h \
@@ -65,6 +66,7 @@ SOURCES += \
     gui/GraphicsEHSI.cpp \
     gui/GraphicsPedals.cpp \
     gui/GraphicsStick.cpp \
+    gui/Keys.cpp \
     gui/LayoutSquare.cpp \
     gui/Locations.cpp \
     gui/MainWindow.cpp \
