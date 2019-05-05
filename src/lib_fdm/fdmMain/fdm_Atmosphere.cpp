@@ -214,7 +214,10 @@ void Atmosphere::update( double altitude )
     m_speedOfSound = sqrt( ( m_gamma * m_r * m_temperature ) / m_m );
 
     // [Pa*s] dynamic viscosity, US Standard Atmosphere 1976, p.19
-    m_viscosity = m_beta * pow( m_temperature, 3.0 / 2.0 ) / ( m_temperature + m_s );
+    m_dynViscosity = m_beta * pow( m_temperature, 3.0 / 2.0 ) / ( m_temperature + m_s );
+
+    // [m^2/s] kinematic viscosity, US Standard Atmosphere 1976, p.19
+    m_kinViscosity = m_dynViscosity / m_density;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

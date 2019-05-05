@@ -106,7 +106,8 @@ public:
     inline double getPressure()     const { return m_pressure;     }
     inline double getDensity()      const { return m_density;      }
     inline double getSpeedOfSound() const { return m_speedOfSound; }
-    inline double getViscosity()    const { return m_viscosity;    }
+    inline double getDynViscosity() const { return m_dynViscosity; }
+    inline double getKinViscosity() const { return m_kinViscosity; }
 
 private:
 
@@ -117,7 +118,8 @@ private:
     double m_pressure;          ///< [Pa] air static pressure
     double m_density;           ///< [kg/m^3] air density
     double m_speedOfSound;      ///< [m/s] speed of sound
-    double m_viscosity;         ///< [Pa*s] dynamic viscosity
+    double m_dynViscosity;      ///< [Pa*s] dynamic viscosity
+    double m_kinViscosity;      ///< [m^2/s] kinematic viscosity
 };
 
 } // end of fdm namespace
