@@ -32,10 +32,6 @@
   <!-- aerodynamics -->
   <aerodynamics>
     
-    <dcl_dpR_2v> -0.240 </dcl_dpR_2v> <!-- [1/rad] -->
-    <dcm_dqR_2v> -0.120 </dcm_dqR_2v> <!-- [1/rad] -->
-    <dcn_drR_2v> -0.120 </dcn_drR_2v> <!-- [1/rad] -->
-    
     <!-- main rotor -->
     <main_rotor counter-clockwise="1">
       <hub_center> 0.0 0.0 -1.62 </hub_center>        <!-- [m] rotor hub coordinates -->
@@ -52,8 +48,9 @@
       <beta_max unit="deg"> 20.0 </beta_max>          <!-- [rad] maximum flapping angle -->
       <ct_max> 0.1846 </ct_max>                       <!-- [-] maximum thrust coefficient -->
       <cq_max> 1.0 </cq_max>                          <!-- [-] maximum torque coefficient -->
-      <thrust_factor>0.5</thrust_factor>              <!-- [-] thrust scaling factor -->
-      <torque_factor>0.5</torque_factor>              <!-- [-] torque scaling factor -->
+      <thrust_factor> 0.4 </thrust_factor>            <!-- [-] thrust scaling factor -->
+      <torque_factor> 0.4 </torque_factor>            <!-- [-] torque scaling factor -->
+      <vel_i_factor>  0.4 </vel_i_factor>             <!-- [-] induced velocity scaling factor -->
     </main_rotor>
     
     <!-- tail rotor -->
@@ -70,8 +67,9 @@
       <delta_2> 0.001 </delta_2>                      <!-- [-] drag coefficient quadratic component -->
       <ct_max> 0.1846 </ct_max>                       <!-- [-] maximum thrust coefficient -->
       <cq_max> 1.0 </cq_max>                          <!-- [-] maximum torque coefficient -->
-      <thrust_factor>0.5</thrust_factor>              <!-- [-] thrust scaling factor -->
-      <torque_factor>0.5</torque_factor>              <!-- [-] torque scaling factor -->
+      <thrust_factor> 0.4 </thrust_factor>            <!-- [-] thrust scaling factor -->
+      <torque_factor> 0.4 </torque_factor>            <!-- [-] torque scaling factor -->
+      <vel_i_factor>  0.4 </vel_i_factor>             <!-- [-] induced velocity scaling factor -->
     </tail_rotor>
     
     <!-- fuselage -->
@@ -528,14 +526,14 @@
   <controls>
     
     <!-- [rad] lateral cyclic pitch vs [-] normalized roll input -->
-    <control_channel name="cyclic_lon" input="input/controls/roll" unit="deg">
+    <control_channel name="cyclic_lat" input="input/controls/roll" unit="deg">
       -1.0    8.0
        0.0    0.0
        1.0   -8.0
     </control_channel>
     
     <!-- [rad] longitudinal cyclic pitch vs [-] normalized pitch input -->
-    <control_channel name="cyclic_lat" input="input/controls/pitch" unit="deg">
+    <control_channel name="cyclic_lon" input="input/controls/pitch" unit="deg">
       -1.0   12.3
        1.0  -16.5
     </control_channel>
