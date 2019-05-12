@@ -1,11 +1,10 @@
-/*--------------------------------*- C++ -*-----------------------------------*\
-| =========                 |                                                  |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox            |
-|  \\    /   O peration     | Version:  5                                      |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                       |
-|    \\/     M anipulation  |                                                  |
-\*----------------------------------------------------------------------------*/
-
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
@@ -13,57 +12,41 @@ FoamFile
     class       volScalarField;
     object      p;
 }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-////////////////////////////////////////////////////////////////////////////////
+#include "include/initialConditions"
 
-#include        "include/initialConditions"
+dimensions [ 0 2 -2 0 0 0 0 ];
 
-dimensions      [0 2 -2 0 0 0 0];
-
-internalField   uniform $pressure;
+internalField uniform $pressure;
 
 boundaryField
 {
     inlet
     {
-        type            zeroGradient;
+        type        zeroGradient;
     }
 
     outlet
     {
-        type            fixedValue;
-        value           $internalField;
+        type        fixedValue;
+        value       $internalField;
     }
 
-    left
+    walls
     {
-        type zeroGradient;
-    }
-
-    right
-    {
-        type zeroGradient;
-    }
-
-    bottom
-    {
-        type zeroGradient;
-    }
-
-    top
-    {
-        type zeroGradient;
+        type        zeroGradient;
     }
     
     model
     {
-        type zeroGradient;
+        type        zeroGradient;
     }
     
     "proc.*"
     {
-        type    processor;
+        type        processor;
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
+// ************************************************************************* //

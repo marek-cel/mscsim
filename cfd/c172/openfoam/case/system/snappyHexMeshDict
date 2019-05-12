@@ -1,11 +1,10 @@
-/*--------------------------------*- C++ -*-----------------------------------*\
-| =========                 |                                                  |
-| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox            |
-|  \\    /   O peration     | Version:  5                                      |
-|   \\  /    A nd           | Web:      www.OpenFOAM.org                       |
-|    \\/     M anipulation  |                                                  |
-\*----------------------------------------------------------------------------*/
-
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
@@ -13,15 +12,19 @@ FoamFile
     class       dictionary;
     object      snappyHexMeshDict;
 }
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-////////////////////////////////////////////////////////////////////////////////
+rb_x_min -4.0;
+rb_x_max 10.0;
+rb_y_min -8.0;
+rb_y_max  8.0;
+rb_z_min -8.0;
+rb_z_max  8.0;
 
 // Which of the steps to run
 castellatedMesh true;
 snap            true;
 addLayers       true;
-
-////////////////////////////////////////////////////////////////////////////////
 
 // Geometry. Definition of all surfaces. All surfaces are of class
 // searchableSurface.
@@ -40,12 +43,10 @@ geometry
     refinementBox
     {
         type searchableBox;
-        min ( -1.0 -15.0 -5.0 );
-        max (  8.0  15.0  5.0 );
+        min ( $rb_x_min $rb_y_min $rb_z_min );
+        max ( $rb_x_max $rb_y_max $rb_z_max );
     }
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 // Settings for the castellatedMesh generation.
 castellatedMeshControls
@@ -128,7 +129,6 @@ castellatedMeshControls
         {
             // Surface-wise min and max refinement level
             //level ( 5 6 );
-            //level ( 4 5 );
             level ( 2 2 );
 
             // Optional specification of patch type (default is wall). No
@@ -166,8 +166,6 @@ castellatedMeshControls
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 // Settings for the snapping.
 snapControls
 {
@@ -203,8 +201,6 @@ snapControls
         // Detect points on multiple surfaces (only for explicitFeatureSnap)
         multiRegionFeatureSnap false;
 }
-
-////////////////////////////////////////////////////////////////////////////////
 
 // Settings for the layer addition.
 addLayersControls
@@ -301,8 +297,6 @@ addLayersControls
     nRelaxedIter 20;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
 // Generic mesh quality settings. At any undoable phase these determine
 // where to undo.
 meshQualityControls
@@ -365,7 +359,6 @@ meshQualityControls
     }
 }
 
-
 // Advanced
 
 // Write flags
@@ -376,11 +369,9 @@ writeFlags
     layerFields     // write volScalarField for layer coverage
 );
 
-
 // Merge tolerance as fraction of bounding box of initial mesh. 
 // Is fraction of overall bounding box of initial mesh.
 // Note: the write tolerance needs to be higher than this.
 mergeTolerance 1e-6;
 
-
-////////////////////////////////////////////////////////////////////////////////
+// ************************************************************************* //

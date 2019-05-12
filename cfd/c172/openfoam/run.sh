@@ -11,7 +11,7 @@ function run()
     cd $EXECDIR
     rm -rf $DESTDIR
     cp -r case $DESTDIR
-    osgconv -o $1-0,1,0 models/stl/c172.stl $DESTDIR/constant/triSurface/model.stl
+    surfaceTransformPoints -rollPitchYaw "( 0 $1 0 )" models/stl/c172.stl $DESTDIR/constant/triSurface/model.stl
     cd $DESTDIR
     ./run.sh
 }
