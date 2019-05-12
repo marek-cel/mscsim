@@ -1,139 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aircrafts>
   
-    <!--<aircraft>
-  
-        <name>C-130</name>
-        <type>0</type>
-        <file>data/cgi/entities/c130.xml</file>
-  
-        <distance_def> 30.0 </distance_def>
-        <distance_min> 30.0 </distance_min>
-  
-        <controls>
-            <landing_gear />
-            <flaps />
-            <throttle count="4" />
-        </controls>
-  
-        <propulsion engines="4">
-            <n1 />
-            <n2 />
-            <trq />
-            <tot />
-        </propulsion>
-        
-        <masses>
-  
-          <pilot_l maximum="120.0" default="80.0" />
-          <pilot_r maximum="120.0" default="80.0" />
-          <fuel_l  maximum="0.0"   default="0.0"  />
-          <fuel_r  maximum="0.0"   default="0.0"  />
-          <cabin   maximum="0.0"   default="0.0"  />
-          
-        </masses>
-  
-    </aircraft>-->
+  <!--<aircraft>
 
-    <aircraft>
+    <name>C-130</name>
+    <type>0</type>
+    <file>data/cgi/entities/c130.xml</file>
+
+    <distance_def> 30.0 </distance_def>
+    <distance_min> 30.0 </distance_min>
+
+    <controls>
+      <landing_gear />
+      <flaps />
+      <throttle count="4" />
+    </controls>
+
+    <propulsion engines="4">
+      <n1 />
+      <n2 />
+      <trq />
+      <tot />
+    </propulsion>
+    
+    <masses>
+      <pilot_l maximum="120.0" default="80.0" />
+      <pilot_r maximum="120.0" default="80.0" />
+      <fuel_l  maximum="0.0"   default="0.0"  />
+      <fuel_r  maximum="0.0"   default="0.0"  />
+      <cabin   maximum="0.0"   default="0.0"  />
+    </masses>
+
+  </aircraft>-->
+
+  <aircraft>
+    
+    <name>Cessna 172</name>
+    <type>1</type>
+    <file>data/cgi/entities/c172.xml</file>
+    
+    <distance_def> 25.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <controls>
+      <flaps />
+      <throttle count="1" />
+      <mixture count="1" />
+    </controls>
+    
+    <propulsion engines="1">
+      <rpm />
+      <map />
+    </propulsion>
+    
+    <masses>
+      <pilot_l maximum="120.0" default="80.0" />
+      <pilot_r maximum="120.0" default="80.0" />
+      <fuel_l  maximum="76.3"  default="76.3" />
+      <fuel_r  maximum="76.3"  default="76.3" />
+      <cabin   maximum="240.0" default="0.0"  />
+      <trunk   maximum="54.0"  default="0.0"  />
+    </masses>
       
-        <name>Cessna 172</name>
-        <type>1</type>
-        <file>data/cgi/entities/c172.xml</file>
-        
-        <distance_def> 25.0 </distance_def>
-        <distance_min>  5.0 </distance_min>
-        
-        <controls>
-            <flaps />
-            <throttle count="1" />
-            <mixture count="1" />
-        </controls>
-        
-        <propulsion engines="1">
-            <rpm />
-            <map />
-        </propulsion>
-        
-        <masses>
-          
-          <pilot_l maximum="120.0" default="80.0" />
-          <pilot_r maximum="120.0" default="80.0" />
-          <fuel_l  maximum="76.3"  default="76.3" />
-          <fuel_r  maximum="76.3"  default="76.3" />
-          <cabin   maximum="240.0" default="0.0"  />
-          <trunk   maximum="54.0"  default="0.0"  />
-          
-        </masses>
-        
-    </aircraft>
+  </aircraft>
 
-    <aircraft>
+  <aircraft>
+  
+    <name>F-16</name>
+    <type>2</type>
+    <file>data/cgi/entities/f16c.xml</file>
     
-        <name>F-16</name>
-        <type>2</type>
-        <file>data/cgi/entities/f16c.xml</file>
-        
-        <distance_def> 33.0 </distance_def>
-        <distance_min>  5.0 </distance_min>
-    
-        <controls>
-            <landing_gear />
-            <airbrake />
-            <throttle count="1" />
-        </controls>
-    
-        <propulsion engines="1">
-            <n1 />
-            <n2 />
-            <epr />
-            <egt />
-        </propulsion>
-        
-        <masses>
-          
-          <pilot  maximum="120.0"  default="80.0"  />
-          <fuel_l maximum="249.0"  default="124.5" />
-          <fuel_r maximum="249.0"  default="124.5" />
-          <fuel_f maximum="1474.0" default="737.0" />
-          <fuel_a maximum="1275.0" default="637.5" />
-          
-        </masses>
-    
-    </aircraft>
+    <distance_def> 33.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
 
-    <aircraft>
+    <controls>
+      <landing_gear />
+      <airbrake />
+      <throttle count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <ab />
+      <n2 />
+      <tit />
+    </propulsion>
+    
+    <masses>
+      <pilot  maximum="120.0"  default="80.0"  />
+      <fuel_l maximum="249.0"  default="124.5" />
+      <fuel_r maximum="249.0"  default="124.5" />
+      <fuel_f maximum="1474.0" default="737.0" />
+      <fuel_a maximum="1275.0" default="637.5" />
+    </masses>
+  
+  </aircraft>
+
+  <aircraft>
+    
+    <name>UH-60</name>
+    <type>3</type>
+    <file>data/cgi/entities/uh60.xml</file>
+    
+    <distance_def> 40.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <controls>
+      <collective />
+    </controls>
+    
+    <propulsion engines="2">
+      <ng />
+      <n2 />
+      <trq />
+      <itt />
+    </propulsion>
+    
+    <main_rotor_coef> -1.0 </main_rotor_coef>
+    <tail_rotor_coef> -1.0 </tail_rotor_coef>
+    
+    <masses>
+      <pilot_l maximum="120.0"  default="80.0"   />
+      <pilot_r maximum="120.0"  default="80.0"   />
+      <fuel    maximum="1100.0" default="1100.0" />
+      <cabin   maximum="1200.0" default="880.0"  />
+    </masses>
       
-        <name>UH-60</name>
-        <type>3</type>
-        <file>data/cgi/entities/uh60.xml</file>
-        
-        <distance_def> 40.0 </distance_def>
-        <distance_min>  5.0 </distance_min>
-        
-        <controls>
-            <collective />
-        </controls>
-        
-        <propulsion engines="2">
-            <ng />
-            <n2 />
-            <trq />
-            <itt />
-        </propulsion>
-        
-        <main_rotor_coef> -1.0 </main_rotor_coef>
-        <tail_rotor_coef> -1.0 </tail_rotor_coef>
-        
-        <masses>
-          
-          <pilot_l maximum="120.0"  default="80.0"   />
-          <pilot_r maximum="120.0"  default="80.0"   />
-          <fuel    maximum="1100.0" default="1100.0" />
-          <cabin   maximum="1200.0" default="880.0"  />
-          
-        </masses>
-        
-    </aircraft>
+  </aircraft>
 
 </aircrafts>
