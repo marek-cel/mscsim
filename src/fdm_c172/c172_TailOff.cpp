@@ -35,11 +35,12 @@ C172_TailOff::C172_TailOff() :
     m_ailerons ( 0.0 ),
     m_flaps    ( 0.0 ),
 
-    m_dcl_dailerons ( 0.0 ),
-    m_dcx_dflaps ( 0.0 ),
-    m_dcz_dflaps ( 0.0 ),
-    m_dcm_dflaps ( 0.0 )
-{}
+    m_dcl_dailerons ( 0.0 )
+{
+    m_dcx_dflaps = Table::createOneRecordTable( 0.0 );
+    m_dcz_dflaps = Table::createOneRecordTable( 0.0 );
+    m_dcm_dflaps = Table::createOneRecordTable( 0.0 );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -108,6 +109,11 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
+    Table cz_total = m_cz + m_flaps * m_dcz_dflaps;
+
+    m_aoa_critical_neg = cz_total.getKeyOfValueMin();
+    m_aoa_critical_pos = cz_total.getKeyOfValueMax();
+
     //m_ailerons->getHingeMoment( dynPress, alpha, m_delta_a );
 }
 
@@ -115,7 +121,7 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
 
 double C172_TailOff::getCx( double angleOfAttack ) const
 {
-    return TailOff::getCx( angleOfAttack ) + m_flaps * m_dcx_dflaps;
+    return TailOff::getCx( angleOfAttack ) + m_flaps * m_dcx_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +135,7 @@ double C172_TailOff::getCy( double sideslipAngle ) const
 
 double C172_TailOff::getCz( double angleOfAttack ) const
 {
-    return TailOff::getCz( angleOfAttack ) + m_flaps * m_dcz_dflaps;
+    return TailOff::getCz( angleOfAttack ) + m_flaps * m_dcz_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +149,7 @@ double C172_TailOff::getCl( double sideslipAngle ) const
 
 double C172_TailOff::getCm( double angleOfAttack ) const
 {
-    return TailOff::getCm( angleOfAttack ) + m_flaps * m_dcm_dflaps;
+    return TailOff::getCm( angleOfAttack ) + m_flaps * m_dcm_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -78,9 +78,9 @@ private:
 
     double m_dcl_dailerons;         ///< [1/rad]
 
-    double m_dcx_dflaps;            ///< [1/rad]
-    double m_dcz_dflaps;            ///< [1/rad]
-    double m_dcm_dflaps;            ///< [1/rad]
+    Table m_dcx_dflaps;             ///< [1/rad]
+    Table m_dcz_dflaps;             ///< [1/rad]
+    Table m_dcm_dflaps;             ///< [1/rad]
 
     /**
      * Computes drag coefficient.
