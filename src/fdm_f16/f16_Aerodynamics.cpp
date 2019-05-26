@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <fdm_f16/f16_Aircraft.h>
 
 #include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Aerodynamics::F16C_Aerodynamics( const F16C_Aircraft *aircraft ) :
+F16_Aerodynamics::F16_Aerodynamics( const F16_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     m_aircraft ( aircraft ),
 
@@ -60,11 +60,11 @@ F16C_Aerodynamics::F16C_Aerodynamics( const F16C_Aircraft *aircraft ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Aerodynamics::~F16C_Aerodynamics() {}
+F16_Aerodynamics::~F16_Aerodynamics() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Aerodynamics::readData( XmlNode &dataNode )
+void F16_Aerodynamics::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -175,7 +175,7 @@ void F16C_Aerodynamics::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Aerodynamics::computeForceAndMoment()
+void F16_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
@@ -229,7 +229,7 @@ void F16C_Aerodynamics::computeForceAndMoment()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Aerodynamics::update()
+void F16_Aerodynamics::update()
 {
     ///////////////////////
     Aerodynamics::update();
@@ -243,7 +243,7 @@ void F16C_Aerodynamics::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCx() const
+double F16_Aerodynamics::getCx() const
 {
     // (NASA-TP-1538, p.37)
     double delta_cx_lef = m_cx_lef  .getValue( m_alpha, m_beta )
@@ -259,7 +259,7 @@ double F16C_Aerodynamics::getCx() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCy() const
+double F16_Aerodynamics::getCy() const
 {
     // (NASA-TP-1538, p.38)
     double cy     = m_cy     .getValue( m_alpha, m_beta );
@@ -279,7 +279,7 @@ double F16C_Aerodynamics::getCy() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCz() const
+double F16_Aerodynamics::getCz() const
 {
     // (NASA-TP-1538, p.37)
     double delta_cz_lef = m_cz_lef  .getValue( m_alpha, m_beta )
@@ -295,7 +295,7 @@ double F16C_Aerodynamics::getCz() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCl() const
+double F16_Aerodynamics::getCl() const
 {
     // (NASA-TP-1538, p.39-40)
     double cl_dh_0  = m_cl_dh_0  .getValue( m_alpha, m_beta );
@@ -318,7 +318,7 @@ double F16C_Aerodynamics::getCl() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCm() const
+double F16_Aerodynamics::getCm() const
 {
     // (NASA-TP-1538, p.38)
     double delta_cm_lef = m_cm_lef  .getValue( m_alpha, m_beta )
@@ -337,7 +337,7 @@ double F16C_Aerodynamics::getCm() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_Aerodynamics::getCn() const
+double F16_Aerodynamics::getCn() const
 {
     // (NASA-TP-1538, p.39)
     double cn_dh_0  = m_cn_dh_0  .getValue( m_alpha, m_beta );
@@ -360,7 +360,7 @@ double F16C_Aerodynamics::getCn() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Aerodynamics::updateCoefsDueToElevator()
+void F16_Aerodynamics::updateCoefsDueToElevator()
 {
     double coef_1 = 0.0;
     double coef_2 = 0.0;

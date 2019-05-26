@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <fdm_f16/f16_Aircraft.h>
 
 #include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Controls::F16C_Controls( const F16C_Aircraft *aircraft ) :
+F16_Controls::F16_Controls( const F16_Aircraft *aircraft ) :
     Controls( aircraft ),
     m_aircraft ( aircraft ),
 
@@ -74,12 +74,12 @@ F16C_Controls::F16C_Controls( const F16C_Aircraft *aircraft ) :
     m_statPress ( 0.0 ),
     m_dynPress ( 0.0 )
 {
-    m_flcs = new F16C_FLCS();
+    m_flcs = new F16_FLCS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Controls::~F16C_Controls()
+F16_Controls::~F16_Controls()
 {
     if ( m_flcs ) delete m_flcs;
     m_flcs = 0;
@@ -87,7 +87,7 @@ F16C_Controls::~F16C_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Controls::readData( XmlNode &dataNode )
+void F16_Controls::readData( XmlNode &dataNode )
 {
     ///////////////////////////////
     Controls::readData( dataNode );
@@ -139,7 +139,7 @@ void F16C_Controls::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Controls::init()
+void F16_Controls::init()
 {
     /////////////////
     Controls::init();
@@ -226,7 +226,7 @@ void F16C_Controls::init()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Controls::update()
+void F16_Controls::update()
 {
     ///////////////////
     Controls::update();

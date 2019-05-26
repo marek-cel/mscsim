@@ -19,40 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F16C_MASS_H
-#define F16C_MASS_H
+
+#include <fdm_f16/f16_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Mass.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
+    LandingGear( aircraft ),
+    m_aircraft ( aircraft )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+F16_LandingGear::~F16_LandingGear() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16_LandingGear::readData( XmlNode &dataNode )
 {
-
-class F16C_Aircraft; ///< aircraft class forward declaration
-
-/**
- * @brief F-16 mass class.
- */
-class F16C_Mass : public Mass
-{
-public:
-
-    /** Constructor. */
-    F16C_Mass( const F16C_Aircraft *aircraft );
-
-    /** Destructor. */
-    ~F16C_Mass();
-
-private:
-
-    const F16C_Aircraft *m_aircraft;    ///< aircraft model main object
-};
-
-} // end of fdm namespace
+    //////////////////////////////////
+    LandingGear::readData( dataNode );
+    //////////////////////////////////
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F16C_MASS_H
+void F16_LandingGear::update()
+{
+    //////////////////////
+    LandingGear::update();
+    //////////////////////
+
+    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
+    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
+
+    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
+
+    m_antiskid = true;
+    m_steering = m_aircraft->getCtrl()->getNwSteering();
+}

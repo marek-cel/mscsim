@@ -29,7 +29,7 @@
 
 #include <fdm_c130/c130_Aircraft.h>
 #include <fdm_c172/c172_Aircraft.h>
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <fdm_f16/f16_Aircraft.h>
 #include <fdm_uh60/uh60_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -859,8 +859,8 @@ void Manager::updatePhaseInit()
                     m_aircraft = new C172_Aircraft();
                     break;
 
-                case DataInp::F16C:
-                    m_aircraft = new F16C_Aircraft();
+                case DataInp::F16:
+                    m_aircraft = new F16_Aircraft();
                     break;
 
                 case DataInp::UH60:

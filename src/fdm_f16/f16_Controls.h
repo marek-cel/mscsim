@@ -19,34 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F16C_CONTROLS_H
-#define F16C_CONTROLS_H
+#ifndef F16_CONTROLS_H
+#define F16_CONTROLS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdmMain/fdm_Controls.h>
 
-#include <fdm_f16c/f16c_FLCS.h>
+#include <fdm_f16/f16_FLCS.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class F16C_Aircraft; ///< aircraft class forward declaration
+class F16_Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief F-16 controls class.
  */
-class F16C_Controls : public Controls
+class F16_Controls : public Controls
 {
 public:
 
     /** Constructor. */
-    F16C_Controls( const F16C_Aircraft *aircraft );
+    F16_Controls( const F16_Aircraft *aircraft );
 
     /** Destructor. */
-    ~F16C_Controls();
+    ~F16_Controls();
 
     /** Initializes controls. */
     void init();
@@ -81,61 +81,61 @@ public:
 
 private:
 
-    const F16C_Aircraft *m_aircraft;    ///< aircraft model main object
+    const F16_Aircraft *m_aircraft; ///< aircraft model main object
 
-    Channel *m_channelRoll;             ///< roll channel
-    Channel *m_channelPitch;            ///< pitch channel
-    Channel *m_channelYaw;              ///< yaw channel
-    Channel *m_channelRollTrim;         ///< roll trim channel
-    Channel *m_channelPitchTrim;        ///< pitch trim channel
-    Channel *m_channelYawTrim;          ///< yaw trim channel
-    Channel *m_channelAirbrake;         ///< airbrake channel
-    Channel *m_channelBrakeL;           ///< left brake channel
-    Channel *m_channelBrakeR;           ///< right brake channel
-    Channel *m_channelNoseWheel;        ///< nose wheel channel
+    Channel *m_channelRoll;         ///< roll channel
+    Channel *m_channelPitch;        ///< pitch channel
+    Channel *m_channelYaw;          ///< yaw channel
+    Channel *m_channelRollTrim;     ///< roll trim channel
+    Channel *m_channelPitchTrim;    ///< pitch trim channel
+    Channel *m_channelYawTrim;      ///< yaw trim channel
+    Channel *m_channelAirbrake;     ///< airbrake channel
+    Channel *m_channelBrakeL;       ///< left brake channel
+    Channel *m_channelBrakeR;       ///< right brake channel
+    Channel *m_channelNoseWheel;    ///< nose wheel channel
 
-    F16C_FLCS *m_flcs;                  ///< Fligt Control System
+    F16_FLCS *m_flcs;               ///< Fligt Control System
 
-    double m_airbrake_max;              ///< [rad] airbrake deflection limit
+    double m_airbrake_max;          ///< [rad] airbrake deflection limit
 
-    double m_airbrake;                  ///< [rad] airbrake deflection
-    double m_airbrake_norm;             ///< [-] normalized airbrake deflection
-    double m_brake_l;                   ///< [-] normalized left brake force
-    double m_brake_r;                   ///< [-] normalized right brake force
-    double m_nose_wheel;                ///< [rad] nose wheel turn angle
+    double m_airbrake;              ///< [rad] airbrake deflection
+    double m_airbrake_norm;         ///< [-] normalized airbrake deflection
+    double m_brake_l;               ///< [-] normalized left brake force
+    double m_brake_r;               ///< [-] normalized right brake force
+    double m_nose_wheel;            ///< [rad] nose wheel turn angle
 
-    bool m_lgHandle;                    ///< landing gear handle
-    bool m_nwSteering;                  ///< nose wheel steering
+    bool m_lgHandle;                ///< landing gear handle
+    bool m_nwSteering;              ///< nose wheel steering
 
-    DataRef m_drLgHandle;               ///< landing gear handle data reference
-    DataRef m_drNwSteering;             ///< nose wheel steering data reference
+    DataRef m_drLgHandle;           ///< landing gear handle data reference
+    DataRef m_drNwSteering;         ///< nose wheel steering data reference
 
-    double m_angleOfAttack;             ///<
-    double m_g_y;                       ///<
-    double m_g_z;                       ///<
-    double m_rollRate;                  ///<
-    double m_pitchRate;                 ///<
-    double m_yawRate;                   ///<
-    double m_ctrlLat;                   ///<
-    double m_trimLat;                   ///<
-    double m_ctrlLon;                   ///<
-    double m_trimLon;                   ///<
-    double m_ctrlYaw;                   ///<
-    double m_trimYaw;                   ///<
-    double m_statPress;                 ///<
-    double m_dynPress;                  ///<
+    double m_angleOfAttack;         ///<
+    double m_g_y;                   ///<
+    double m_g_z;                   ///<
+    double m_rollRate;              ///<
+    double m_pitchRate;             ///<
+    double m_yawRate;               ///<
+    double m_ctrlLat;               ///<
+    double m_trimLat;               ///<
+    double m_ctrlLon;               ///<
+    double m_trimLon;               ///<
+    double m_ctrlYaw;               ///<
+    double m_trimYaw;               ///<
+    double m_statPress;             ///<
+    double m_dynPress;              ///<
 
-    DataRef m_outElevator;              ///<
-    DataRef m_outElevons;               ///<
-    DataRef m_outRudder;                ///<
-    DataRef m_outFlaps;                 ///<
-    DataRef m_outFlaperons;             ///<
-    DataRef m_outLEF;                   ///<
-    DataRef m_outAirbrake;              ///<
+    DataRef m_outElevator;          ///<
+    DataRef m_outElevons;           ///<
+    DataRef m_outRudder;            ///<
+    DataRef m_outFlaps;             ///<
+    DataRef m_outFlaperons;         ///<
+    DataRef m_outLEF;               ///<
+    DataRef m_outAirbrake;          ///<
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F16C_CONTROLS_H
+#endif // F16_CONTROLS_H

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <fdm_f16/f16_Aircraft.h>
 
 #include <fdmUtils/fdm_Units.h>
 #include <fdmXml/fdm_XmlUtils.h>
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Propulsion::F16C_Propulsion( const F16C_Aircraft *aircraft ) :
+F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
     Propulsion( aircraft ),
     m_aircraft ( aircraft ),
 
@@ -42,7 +42,7 @@ F16C_Propulsion::F16C_Propulsion( const F16C_Aircraft *aircraft ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Propulsion::~F16C_Propulsion()
+F16_Propulsion::~F16_Propulsion()
 {
     if ( m_engine ) delete m_engine;
     m_engine = 0;
@@ -50,7 +50,7 @@ F16C_Propulsion::~F16C_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Propulsion::init( bool engineOn )
+void F16_Propulsion::init( bool engineOn )
 {
     /////////////////////////////
     Propulsion::init( engineOn );
@@ -99,7 +99,7 @@ void F16C_Propulsion::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Propulsion::readData( XmlNode &dataNode )
+void F16_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -120,7 +120,7 @@ void F16C_Propulsion::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Propulsion::computeForceAndMoment()
+void F16_Propulsion::computeForceAndMoment()
 {
     m_engine->computeThrust( m_aircraft->getMachNumber(),
                              m_aircraft->getAltitude_ASL() );
@@ -145,7 +145,7 @@ void F16C_Propulsion::computeForceAndMoment()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_Propulsion::update()
+void F16_Propulsion::update()
 {
     m_engine->integrate( m_aircraft->getTimeStep() );
     m_engine->update( m_drThrottle.getDatad(), Units::k2c( m_aircraft->getEnvir()->getTemperature() ),

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_Aircraft.h>
+#include <fdm_f16/f16_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,11 +28,49 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Mass::F16C_Mass( const F16C_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
-{}
+F16_Aircraft::F16_Aircraft() :
+    Aircraft(),
+
+    m_aero ( 0 ),
+    m_ctrl ( 0 ),
+    m_gear ( 0 ),
+    m_mass ( 0 ),
+    m_prop ( 0 )
+{
+    Aircraft::m_aero = m_aero = new F16_Aerodynamics( this );
+    Aircraft::m_ctrl = m_ctrl = new F16_Controls( this );
+    Aircraft::m_gear = m_gear = new F16_LandingGear( this );
+    Aircraft::m_mass = m_mass = new F16_Mass( this );
+    Aircraft::m_prop = m_prop = new F16_Propulsion( this );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_Mass::~F16C_Mass() {}
+F16_Aircraft::~F16_Aircraft()
+{
+    if ( m_aero ) delete m_aero;
+    m_aero = 0;
+
+    if ( m_ctrl ) delete m_ctrl;
+    m_ctrl = 0;
+
+    if ( m_gear ) delete m_gear;
+    m_gear = 0;
+
+    if ( m_mass ) delete m_mass;
+    m_mass = 0;
+
+    if ( m_prop ) delete m_prop;
+    m_prop = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16_Aircraft::init( bool engineOn )
+{
+    readData( "data/fdm/f16/f16_fdm.xml" );
+
+    ///////////////////////////
+    Aircraft::init( engineOn );
+    ///////////////////////////
+}

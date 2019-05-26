@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16c/f16c_FLCS.h>
+#include <fdm_f16/f16_FLCS.h>
 
 #include <iostream>
 #include <algorithm>
@@ -35,7 +35,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_FLCS::F16C_FLCS() :
+F16_FLCS::F16_FLCS() :
     m_ailerons_max ( 0.0 ),
     m_elevator_max ( 0.0 ),
     m_rudder_max   ( 0.0 ),
@@ -156,7 +156,7 @@ F16C_FLCS::F16C_FLCS() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_FLCS::~F16C_FLCS()
+F16_FLCS::~F16_FLCS()
 {
     // lef
     if ( m_alpha_lef ) delete m_alpha_lef;
@@ -252,15 +252,15 @@ F16C_FLCS::~F16C_FLCS()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::update( double timeStep, double angleOfAttack,
-                        double g_y, double g_z,
-                        double rollRate, double pitchRate, double yawRate,
-                        double ctrlLat, double trimLat,
-                        double ctrlLon, double trimLon,
-                        double ctrlYaw, double trimYaw,
-                        double statPress, double dynPress,
-                        bool alt_flaps_ext, bool refuel_door_open,
-                        bool lg_handle_dn, bool touchdown )
+void F16_FLCS::update( double timeStep, double angleOfAttack,
+                       double g_y, double g_z,
+                       double rollRate, double pitchRate, double yawRate,
+                       double ctrlLat, double trimLat,
+                       double ctrlLon, double trimLon,
+                       double ctrlYaw, double trimYaw,
+                       double statPress, double dynPress,
+                       bool alt_flaps_ext, bool refuel_door_open,
+                       bool lg_handle_dn, bool touchdown )
 {
     if ( timeStep > 0.0 )
     {
@@ -300,7 +300,7 @@ void F16C_FLCS::update( double timeStep, double angleOfAttack,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::setAilerons_max( double ailerons_max )
+void F16_FLCS::setAilerons_max( double ailerons_max )
 {
     m_ailerons_max = ailerons_max;
     m_ailerons_max_deg = Units::rad2deg( m_ailerons_max );
@@ -308,7 +308,7 @@ void F16C_FLCS::setAilerons_max( double ailerons_max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::setElevator_max( double elevator_max )
+void F16_FLCS::setElevator_max( double elevator_max )
 {
     m_elevator_max = elevator_max;
     m_elevator_max_deg = Units::rad2deg( m_elevator_max );
@@ -316,7 +316,7 @@ void F16C_FLCS::setElevator_max( double elevator_max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::setRudder_max( double rudder_max )
+void F16_FLCS::setRudder_max( double rudder_max )
 {
     m_rudder_max = rudder_max;
     m_rudder_max_deg = Units::rad2deg( m_rudder_max );
@@ -324,7 +324,7 @@ void F16C_FLCS::setRudder_max( double rudder_max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::setFlaps_le_max( double flaps_le_max )
+void F16_FLCS::setFlaps_le_max( double flaps_le_max )
 {
     m_flaps_le_max = flaps_le_max;
     m_flaps_le_max_deg = Units::rad2deg( m_flaps_le_max );
@@ -332,7 +332,7 @@ void F16C_FLCS::setFlaps_le_max( double flaps_le_max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateLEF( double angleOfAttack, double q_p )
+void F16_FLCS::updateLEF( double angleOfAttack, double q_p )
 {
     m_alpha_lef->update( Units::rad2deg( angleOfAttack ), m_timeStep );
 
@@ -347,7 +347,7 @@ void F16C_FLCS::updateLEF( double angleOfAttack, double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateTEF( double q_p, bool alt_flaps_ext, bool lg_handle_dn )
+void F16_FLCS::updateTEF( double q_p, bool alt_flaps_ext, bool lg_handle_dn )
 {
     // (AD-A055-417, p.20)
     double flaps_com = ( alt_flaps_ext || lg_handle_dn ) ? 20.0 : 0.0;
@@ -369,8 +369,8 @@ void F16C_FLCS::updateTEF( double q_p, bool alt_flaps_ext, bool lg_handle_dn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateLat( double ctrlLat, double trimLat,
-                           double rollRate )
+void F16_FLCS::updateLat( double ctrlLat, double trimLat,
+                          double rollRate )
 {
     // (AD-A055-417, p.20)
     double omg_p_deg = Units::rad2deg( rollRate );
@@ -423,10 +423,10 @@ void F16C_FLCS::updateLat( double ctrlLat, double trimLat,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateLon( double ctrlLon, double trimLon,
-                           double pitchRate,
-                           double angleOfAttack, double q_p, double dynPress, double g_z,
-                           bool touchdown )
+void F16_FLCS::updateLon( double ctrlLon, double trimLon,
+                          double pitchRate,
+                          double angleOfAttack, double q_p, double dynPress, double g_z,
+                          bool touchdown )
 {
     // (AD-A055-417, p.20)
     double alpha_deg = Units::rad2deg( angleOfAttack );
@@ -516,9 +516,9 @@ void F16C_FLCS::updateLon( double ctrlLon, double trimLon,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_FLCS::updateYaw( double ctrlYaw, double trimYaw,
-                           double yawRate,
-                           double q_p, double g_y )
+void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
+                          double yawRate,
+                          double q_p, double g_y )
 {
     double omg_r_deg = Units::rad2deg( yawRate  );
 
@@ -562,7 +562,7 @@ void F16C_FLCS::updateYaw( double ctrlYaw, double trimYaw,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF2( double q_p )
+double F16_FLCS::getGainF2( double q_p )
 {
     double gain = 1.0;
 
@@ -585,7 +585,7 @@ double F16C_FLCS::getGainF2( double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF3( double dynPress )
+double F16_FLCS::getGainF3( double dynPress )
 {
     double gain = 1.0;
 
@@ -608,7 +608,7 @@ double F16C_FLCS::getGainF3( double dynPress )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF7( double q_p )
+double F16_FLCS::getGainF7( double q_p )
 {
     double gain = 1.0;
 
@@ -635,7 +635,7 @@ double F16C_FLCS::getGainF7( double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF8( double q_p )
+double F16_FLCS::getGainF8( double q_p )
 {
     double gain = 1.0;
 
@@ -654,7 +654,7 @@ double F16C_FLCS::getGainF8( double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF9( double q_p )
+double F16_FLCS::getGainF9( double q_p )
 {
     double gain = 0.0;
 
@@ -673,7 +673,7 @@ double F16C_FLCS::getGainF9( double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getGainF10( double q_p )
+double F16_FLCS::getGainF10( double q_p )
 {
     double gain = 0.5;
 
@@ -692,7 +692,7 @@ double F16C_FLCS::getGainF10( double q_p )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16C_FLCS::getSurfaceMaxRate( double d_old, double d_new, double delta_max )
+double F16_FLCS::getSurfaceMaxRate( double d_old, double d_new, double delta_max )
 {
     if ( fabs( d_new - d_old ) < delta_max )
     {

@@ -19,18 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F16C_AIRCRAFT_H
-#define F16C_AIRCRAFT_H
+#ifndef F16_AIRCRAFT_H
+#define F16_AIRCRAFT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdmMain/fdm_Aircraft.h>
 
-#include <fdm_f16c/f16c_Aerodynamics.h>
-#include <fdm_f16c/f16c_Controls.h>
-#include <fdm_f16c/f16c_LandingGear.h>
-#include <fdm_f16c/f16c_Mass.h>
-#include <fdm_f16c/f16c_Propulsion.h>
+#include <fdm_f16/f16_Aerodynamics.h>
+#include <fdm_f16/f16_Controls.h>
+#include <fdm_f16/f16_LandingGear.h>
+#include <fdm_f16/f16_Mass.h>
+#include <fdm_f16/f16_Propulsion.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,42 +40,42 @@ namespace fdm
 /**
  * @brief F-16 aircraft class.
  */
-class F16C_Aircraft : public Aircraft
+class F16_Aircraft : public Aircraft
 {
 public:
 
     /** Constructor. */
-    F16C_Aircraft();
+    F16_Aircraft();
 
     /** Destructor. */
-    ~F16C_Aircraft();
+    ~F16_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
 
-    inline F16C_Aerodynamics* getAero() { return m_aero; }
-    inline F16C_Controls*     getCtrl() { return m_ctrl; }
-    inline F16C_LandingGear*  getGear() { return m_gear; }
-    inline F16C_Mass*         getMass() { return m_mass; }
-    inline F16C_Propulsion*   getProp() { return m_prop; }
+    inline F16_Aerodynamics* getAero() { return m_aero; }
+    inline F16_Controls*     getCtrl() { return m_ctrl; }
+    inline F16_LandingGear*  getGear() { return m_gear; }
+    inline F16_Mass*         getMass() { return m_mass; }
+    inline F16_Propulsion*   getProp() { return m_prop; }
 
-    inline const F16C_Aerodynamics* getAero() const { return m_aero; }
-    inline const F16C_Controls*     getCtrl() const { return m_ctrl; }
-    inline const F16C_LandingGear*  getGear() const { return m_gear; }
-    inline const F16C_Mass*         getMass() const { return m_mass; }
-    inline const F16C_Propulsion*   getProp() const { return m_prop; }
+    inline const F16_Aerodynamics* getAero() const { return m_aero; }
+    inline const F16_Controls*     getCtrl() const { return m_ctrl; }
+    inline const F16_LandingGear*  getGear() const { return m_gear; }
+    inline const F16_Mass*         getMass() const { return m_mass; }
+    inline const F16_Propulsion*   getProp() const { return m_prop; }
 
 private:
 
-    F16C_Aerodynamics *m_aero;  ///< aerodynamics model
-    F16C_Controls     *m_ctrl;  ///< controls model
-    F16C_LandingGear  *m_gear;  ///< landing gear model
-    F16C_Mass         *m_mass;  ///< mass and inertia model
-    F16C_Propulsion   *m_prop;  ///< propulsion model
+    F16_Aerodynamics *m_aero;   ///< aerodynamics model
+    F16_Controls     *m_ctrl;   ///< controls model
+    F16_LandingGear  *m_gear;   ///< landing gear model
+    F16_Mass         *m_mass;   ///< mass and inertia model
+    F16_Propulsion   *m_prop;   ///< propulsion model
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F16C_AIRCRAFT_H
+#endif // F16_AIRCRAFT_H

@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F16C_FLCS_H
-#define F16C_FLCS_H
+#ifndef F16_FLCS_H
+#define F16_FLCS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +40,7 @@ namespace fdm
  * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538, 1979
  * @see Droste T., Walker J.: The General Dynamics Case Study on the F-16 Fly-by-Wire Flight Control System
  */
-class F16C_FLCS
+class F16_FLCS
 {
 public:
 
@@ -59,10 +59,10 @@ public:
     };
 
     /** Constructor. */
-    F16C_FLCS();
+    F16_FLCS();
 
     /** Destructor. */
-    ~F16C_FLCS();
+    ~F16_FLCS();
 
     /** Updates model. */
     void update( double timeStep, double angleOfAttack,
@@ -216,4 +216,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F16C_FLCS_H
+#endif // F16_FLCS_H

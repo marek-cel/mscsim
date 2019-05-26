@@ -7,7 +7,7 @@ TEMPLATE = app
 ################################################################################
 
 DESTDIR = ../bin
-TARGET = sim
+TARGET = mscsim
 
 ################################################################################
 
@@ -131,7 +131,7 @@ include(cgi/cgi.pri)
 include(fdm/fdm.pri)
 include(fdm_c130/fdm_c130.pri)
 include(fdm_c172/fdm_c172.pri)
-include(fdm_f16c/fdm_f16c.pri)
+include(fdm_f16/fdm_f16.pri)
 include(fdm_uh60/fdm_uh60.pri)
 include(gui/gui.pri)
 include(hid/hid.pri)

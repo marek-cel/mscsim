@@ -68,7 +68,7 @@
   
     <name>F-16</name>
     <type>2</type>
-    <file>data/cgi/entities/f16c.xml</file>
+    <file>data/cgi/entities/f16.xml</file>
     
     <distance_def> 33.0 </distance_def>
     <distance_min>  5.0 </distance_min>

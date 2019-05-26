@@ -19,46 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_f16c/f16c_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef F16_LANDINGGEAR_H
+#define F16_LANDINGGEAR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::F16C_LandingGear( const F16C_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#include <fdmMain/fdm_LandingGear.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16C_LandingGear::~F16C_LandingGear() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16C_LandingGear::readData( XmlNode &dataNode )
+namespace fdm
 {
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
-}
+
+class F16_Aircraft; ///< aircraft class forward declaration
+
+/**
+ * @brief F-16 landing gear class.
+ */
+class F16_LandingGear : public LandingGear
+{
+public:
+
+    /** Constructor. */
+    F16_LandingGear( const F16_Aircraft *aircraft );
+
+    /** Destructor. */
+    ~F16_LandingGear();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /** Updates model. */
+    void update();
+
+private:
+
+    const F16_Aircraft *m_aircraft; ///< aircraft model main object
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16C_LandingGear::update()
-{
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
-
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
-
-    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
-
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
-}
+#endif // F16_LANDINGGEAR_H
