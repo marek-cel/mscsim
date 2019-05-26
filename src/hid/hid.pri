@@ -1,8 +1,8 @@
 HEADERS += \
-    hid/hid_Assignment.h \
-    hid/hid_Joysticks.h \
-    hid/hid_Manager.h
+    $$PWD/hid_Assignment.h \
+    $$PWD/hid_Joysticks.h \
+    $$PWD/hid_Manager.h
 
 SOURCES += \
-    hid/hid_Joysticks.cpp \
-    hid/hid_Manager.cpp
+    $$PWD/hid_Joysticks.cpp \
+    $$PWD/hid_Manager.cpp

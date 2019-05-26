@@ -18,7 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 ################################################################################
 
-INCLUDEPATH += . ./lib_fdm
+INCLUDEPATH += . ../lib_fdm
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/ \

@@ -1,8 +1,8 @@
 HEADERS += \
-    fdm/fdm_Common.h \
-    fdm/fdm_DataInp.h \
-    fdm/fdm_DataOut.h \
-    fdm/fdm_Manager.h
+    $$PWD/fdm_Common.h \
+    $$PWD/fdm_DataInp.h \
+    $$PWD/fdm_DataOut.h \
+    $$PWD/fdm_Manager.h
 
 SOURCES += \
-    fdm/fdm_Manager.cpp
+    $$PWD/fdm_Manager.cpp

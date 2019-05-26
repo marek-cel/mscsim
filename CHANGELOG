@@ -11,3 +11,9 @@
     * F-16 renamed
     
     * cppcheck run script
+    
+    * unit tests added
+    
+    * Qt projects source and header files relative paths
+
+    * aerodynamic characteristics approximation tool added

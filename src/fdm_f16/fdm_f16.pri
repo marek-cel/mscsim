@@ -1,17 +1,17 @@
 HEADERS += \
-    fdm_f16/f16_Aerodynamics.h \
-    fdm_f16/f16_Aircraft.h \
-    fdm_f16/f16_Controls.h \
-    fdm_f16/f16_FLCS.h \
-    fdm_f16/f16_LandingGear.h \
-    fdm_f16/f16_Mass.h \
-    fdm_f16/f16_Propulsion.h
+    $$PWD/f16_Aerodynamics.h \
+    $$PWD/f16_Aircraft.h \
+    $$PWD/f16_Controls.h \
+    $$PWD/f16_FLCS.h \
+    $$PWD/f16_LandingGear.h \
+    $$PWD/f16_Mass.h \
+    $$PWD/f16_Propulsion.h
 
 SOURCES += \
-    fdm_f16/f16_Aerodynamics.cpp \
-    fdm_f16/f16_Aircraft.cpp \
-    fdm_f16/f16_Controls.cpp \
-    fdm_f16/f16_FLCS.cpp \
-    fdm_f16/f16_LandingGear.cpp \
-    fdm_f16/f16_Mass.cpp \
-    fdm_f16/f16_Propulsion.cpp
+    $$PWD/f16_Aerodynamics.cpp \
+    $$PWD/f16_Aircraft.cpp \
+    $$PWD/f16_Controls.cpp \
+    $$PWD/f16_FLCS.cpp \
+    $$PWD/f16_LandingGear.cpp \
+    $$PWD/f16_Mass.cpp \
+    $$PWD/f16_Propulsion.cpp

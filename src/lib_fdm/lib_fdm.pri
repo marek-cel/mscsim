@@ -1,139 +1,139 @@
 HEADERS += \
-    lib_fdm/fdmAuto/fdm_FlightDirector.h
+    $$PWD/fdmAuto/fdm_FlightDirector.h
 
 SOURCES += \
-    lib_fdm/fdmAuto/fdm_FlightDirector.cpp
+    $$PWD/fdmAuto/fdm_FlightDirector.cpp
 
 ################################################################################
 
 HEADERS += \
-    lib_fdm/fdmMain/fdm_Aerodynamics.h \
-    lib_fdm/fdmMain/fdm_Aircraft.h \
-    lib_fdm/fdmMain/fdm_Atmosphere.h \
-    lib_fdm/fdmMain/fdm_Base.h \
-    lib_fdm/fdmMain/fdm_Controls.h \
-    lib_fdm/fdmMain/fdm_DataManager.h \
-    lib_fdm/fdmMain/fdm_DataNode.h \
-    lib_fdm/fdmMain/fdm_DataRef.h \
-    lib_fdm/fdmMain/fdm_Defines.h \
-    lib_fdm/fdmMain/fdm_Engine.h \
-    lib_fdm/fdmMain/fdm_Environment.h \
-    lib_fdm/fdmMain/fdm_Exception.h \
-    lib_fdm/fdmMain/fdm_Fuselage.h \
-    lib_fdm/fdmMain/fdm_HingeMoment.h \
-    lib_fdm/fdmMain/fdm_Intersections.h \
-    lib_fdm/fdmMain/fdm_LandingGear.h \
-    lib_fdm/fdmMain/fdm_MainRotor.h \
-    lib_fdm/fdmMain/fdm_Mass.h \
-    lib_fdm/fdmMain/fdm_PistonEngine.h \
-    lib_fdm/fdmMain/fdm_Propeller.h \
-    lib_fdm/fdmMain/fdm_Propulsion.h \
-    lib_fdm/fdmMain/fdm_Schrenk.h \
-    lib_fdm/fdmMain/fdm_Stabilizer.h \
-    lib_fdm/fdmMain/fdm_TailOff.h \
-    lib_fdm/fdmMain/fdm_TailRotor.h \
-    lib_fdm/fdmMain/fdm_Turbojet.h \
-    lib_fdm/fdmMain/fdm_Types.h \
-    lib_fdm/fdmMain/fdm_WindShear.h
+    $$PWD/fdmMain/fdm_Aerodynamics.h \
+    $$PWD/fdmMain/fdm_Aircraft.h \
+    $$PWD/fdmMain/fdm_Atmosphere.h \
+    $$PWD/fdmMain/fdm_Base.h \
+    $$PWD/fdmMain/fdm_Controls.h \
+    $$PWD/fdmMain/fdm_DataManager.h \
+    $$PWD/fdmMain/fdm_DataNode.h \
+    $$PWD/fdmMain/fdm_DataRef.h \
+    $$PWD/fdmMain/fdm_Defines.h \
+    $$PWD/fdmMain/fdm_Engine.h \
+    $$PWD/fdmMain/fdm_Environment.h \
+    $$PWD/fdmMain/fdm_Exception.h \
+    $$PWD/fdmMain/fdm_Fuselage.h \
+    $$PWD/fdmMain/fdm_HingeMoment.h \
+    $$PWD/fdmMain/fdm_Intersections.h \
+    $$PWD/fdmMain/fdm_LandingGear.h \
+    $$PWD/fdmMain/fdm_MainRotor.h \
+    $$PWD/fdmMain/fdm_Mass.h \
+    $$PWD/fdmMain/fdm_PistonEngine.h \
+    $$PWD/fdmMain/fdm_Propeller.h \
+    $$PWD/fdmMain/fdm_Propulsion.h \
+    $$PWD/fdmMain/fdm_Schrenk.h \
+    $$PWD/fdmMain/fdm_Stabilizer.h \
+    $$PWD/fdmMain/fdm_TailOff.h \
+    $$PWD/fdmMain/fdm_TailRotor.h \
+    $$PWD/fdmMain/fdm_Turbojet.h \
+    $$PWD/fdmMain/fdm_Types.h \
+    $$PWD/fdmMain/fdm_WindShear.h
 
 SOURCES += \
-    lib_fdm/fdmMain/fdm_Aerodynamics.cpp \
-    lib_fdm/fdmMain/fdm_Aircraft.cpp \
-    lib_fdm/fdmMain/fdm_Atmosphere.cpp \
-    lib_fdm/fdmMain/fdm_Base.cpp \
-    lib_fdm/fdmMain/fdm_Controls.cpp \
-    lib_fdm/fdmMain/fdm_DataManager.cpp \
-    lib_fdm/fdmMain/fdm_DataNode.cpp \
-    lib_fdm/fdmMain/fdm_Environment.cpp \
-    lib_fdm/fdmMain/fdm_Fuselage.cpp \
-    lib_fdm/fdmMain/fdm_HingeMoment.cpp \
-    lib_fdm/fdmMain/fdm_Intersections.cpp \
-    lib_fdm/fdmMain/fdm_LandingGear.cpp \
-    lib_fdm/fdmMain/fdm_MainRotor.cpp \
-    lib_fdm/fdmMain/fdm_Mass.cpp \
-    lib_fdm/fdmMain/fdm_PistonEngine.cpp \
-    lib_fdm/fdmMain/fdm_Propeller.cpp \
-    lib_fdm/fdmMain/fdm_Propulsion.cpp \
-    lib_fdm/fdmMain/fdm_Schrenk.cpp \
-    lib_fdm/fdmMain/fdm_Stabilizer.cpp \
-    lib_fdm/fdmMain/fdm_TailOff.cpp \
-    lib_fdm/fdmMain/fdm_TailRotor.cpp \
-    lib_fdm/fdmMain/fdm_Turbojet.cpp \
-    lib_fdm/fdmMain/fdm_WindShear.cpp
+    $$PWD/fdmMain/fdm_Aerodynamics.cpp \
+    $$PWD/fdmMain/fdm_Aircraft.cpp \
+    $$PWD/fdmMain/fdm_Atmosphere.cpp \
+    $$PWD/fdmMain/fdm_Base.cpp \
+    $$PWD/fdmMain/fdm_Controls.cpp \
+    $$PWD/fdmMain/fdm_DataManager.cpp \
+    $$PWD/fdmMain/fdm_DataNode.cpp \
+    $$PWD/fdmMain/fdm_Environment.cpp \
+    $$PWD/fdmMain/fdm_Fuselage.cpp \
+    $$PWD/fdmMain/fdm_HingeMoment.cpp \
+    $$PWD/fdmMain/fdm_Intersections.cpp \
+    $$PWD/fdmMain/fdm_LandingGear.cpp \
+    $$PWD/fdmMain/fdm_MainRotor.cpp \
+    $$PWD/fdmMain/fdm_Mass.cpp \
+    $$PWD/fdmMain/fdm_PistonEngine.cpp \
+    $$PWD/fdmMain/fdm_Propeller.cpp \
+    $$PWD/fdmMain/fdm_Propulsion.cpp \
+    $$PWD/fdmMain/fdm_Schrenk.cpp \
+    $$PWD/fdmMain/fdm_Stabilizer.cpp \
+    $$PWD/fdmMain/fdm_TailOff.cpp \
+    $$PWD/fdmMain/fdm_TailRotor.cpp \
+    $$PWD/fdmMain/fdm_Turbojet.cpp \
+    $$PWD/fdmMain/fdm_WindShear.cpp
 
 ################################################################################
 
 HEADERS += \
-    lib_fdm/fdmSys/fdm_BPF.h \
-    lib_fdm/fdmSys/fdm_BSF.h \
-    lib_fdm/fdmSys/fdm_Filter2.h \
-    lib_fdm/fdmSys/fdm_HPF.h \
-    lib_fdm/fdmSys/fdm_Lag.h \
-    lib_fdm/fdmSys/fdm_Lag2.h \
-    lib_fdm/fdmSys/fdm_LeadLag.h \
-    lib_fdm/fdmSys/fdm_LPF.h \
-    lib_fdm/fdmSys/fdm_PID.h
+    $$PWD/fdmSys/fdm_BPF.h \
+    $$PWD/fdmSys/fdm_BSF.h \
+    $$PWD/fdmSys/fdm_Filter2.h \
+    $$PWD/fdmSys/fdm_HPF.h \
+    $$PWD/fdmSys/fdm_Lag.h \
+    $$PWD/fdmSys/fdm_Lag2.h \
+    $$PWD/fdmSys/fdm_LeadLag.h \
+    $$PWD/fdmSys/fdm_LPF.h \
+    $$PWD/fdmSys/fdm_PID.h
 
 SOURCES += \
-    lib_fdm/fdmSys/fdm_BPF.cpp \
-    lib_fdm/fdmSys/fdm_BSF.cpp \
-    lib_fdm/fdmSys/fdm_Filter2.cpp \
-    lib_fdm/fdmSys/fdm_HPF.cpp \
-    lib_fdm/fdmSys/fdm_Lag.cpp \
-    lib_fdm/fdmSys/fdm_Lag2.cpp \
-    lib_fdm/fdmSys/fdm_LeadLag.cpp \
-    lib_fdm/fdmSys/fdm_LPF.cpp \
-    lib_fdm/fdmSys/fdm_PID.cpp
+    $$PWD/fdmSys/fdm_BPF.cpp \
+    $$PWD/fdmSys/fdm_BSF.cpp \
+    $$PWD/fdmSys/fdm_Filter2.cpp \
+    $$PWD/fdmSys/fdm_HPF.cpp \
+    $$PWD/fdmSys/fdm_Lag.cpp \
+    $$PWD/fdmSys/fdm_Lag2.cpp \
+    $$PWD/fdmSys/fdm_LeadLag.cpp \
+    $$PWD/fdmSys/fdm_LPF.cpp \
+    $$PWD/fdmSys/fdm_PID.cpp
 
 ################################################################################
 
 HEADERS += \
-    lib_fdm/fdmUtils/fdm_Angles.h \
-    lib_fdm/fdmUtils/fdm_EulerRect.h \
-    lib_fdm/fdmUtils/fdm_GaussJordan.h \
-    lib_fdm/fdmUtils/fdm_Integrator.h \
-    lib_fdm/fdmUtils/fdm_Matrix.h \
-    lib_fdm/fdmUtils/fdm_Matrix3x3.h \
-    lib_fdm/fdmUtils/fdm_Matrix4x4.h \
-    lib_fdm/fdmUtils/fdm_Matrix6x6.h \
-    lib_fdm/fdmUtils/fdm_Misc.h \
-    lib_fdm/fdmUtils/fdm_Quaternion.h \
-    lib_fdm/fdmUtils/fdm_Random.h \
-    lib_fdm/fdmUtils/fdm_RungeKutta4.h \
-    lib_fdm/fdmUtils/fdm_String.h \
-    lib_fdm/fdmUtils/fdm_Table.h \
-    lib_fdm/fdmUtils/fdm_Table2D.h \
-    lib_fdm/fdmUtils/fdm_Units.h \
-    lib_fdm/fdmUtils/fdm_Vector.h \
-    lib_fdm/fdmUtils/fdm_Vector3.h \
-    lib_fdm/fdmUtils/fdm_Vector4.h \
-    lib_fdm/fdmUtils/fdm_Vector6.h \
-    lib_fdm/fdmUtils/fdm_WGS84.h
+    $$PWD/fdmUtils/fdm_Angles.h \
+    $$PWD/fdmUtils/fdm_EulerRect.h \
+    $$PWD/fdmUtils/fdm_GaussJordan.h \
+    $$PWD/fdmUtils/fdm_Integrator.h \
+    $$PWD/fdmUtils/fdm_Matrix.h \
+    $$PWD/fdmUtils/fdm_Matrix3x3.h \
+    $$PWD/fdmUtils/fdm_Matrix4x4.h \
+    $$PWD/fdmUtils/fdm_Matrix6x6.h \
+    $$PWD/fdmUtils/fdm_Misc.h \
+    $$PWD/fdmUtils/fdm_Quaternion.h \
+    $$PWD/fdmUtils/fdm_Random.h \
+    $$PWD/fdmUtils/fdm_RungeKutta4.h \
+    $$PWD/fdmUtils/fdm_String.h \
+    $$PWD/fdmUtils/fdm_Table.h \
+    $$PWD/fdmUtils/fdm_Table2D.h \
+    $$PWD/fdmUtils/fdm_Units.h \
+    $$PWD/fdmUtils/fdm_Vector.h \
+    $$PWD/fdmUtils/fdm_Vector3.h \
+    $$PWD/fdmUtils/fdm_Vector4.h \
+    $$PWD/fdmUtils/fdm_Vector6.h \
+    $$PWD/fdmUtils/fdm_WGS84.h
 
 SOURCES += \
-    lib_fdm/fdmUtils/fdm_Angles.cpp \
-    lib_fdm/fdmUtils/fdm_Matrix3x3.cpp \
-    lib_fdm/fdmUtils/fdm_Matrix4x4.cpp \
-    lib_fdm/fdmUtils/fdm_Matrix6x6.cpp \
-    lib_fdm/fdmUtils/fdm_Quaternion.cpp \
-    lib_fdm/fdmUtils/fdm_Random.cpp \
-    lib_fdm/fdmUtils/fdm_String.cpp \
-    lib_fdm/fdmUtils/fdm_Table.cpp \
-    lib_fdm/fdmUtils/fdm_Table2D.cpp \
-    lib_fdm/fdmUtils/fdm_Units.cpp \
-    lib_fdm/fdmUtils/fdm_Vector3.cpp \
-    lib_fdm/fdmUtils/fdm_Vector4.cpp \
-    lib_fdm/fdmUtils/fdm_Vector6.cpp \
-    lib_fdm/fdmUtils/fdm_WGS84.cpp
+    $$PWD/fdmUtils/fdm_Angles.cpp \
+    $$PWD/fdmUtils/fdm_Matrix3x3.cpp \
+    $$PWD/fdmUtils/fdm_Matrix4x4.cpp \
+    $$PWD/fdmUtils/fdm_Matrix6x6.cpp \
+    $$PWD/fdmUtils/fdm_Quaternion.cpp \
+    $$PWD/fdmUtils/fdm_Random.cpp \
+    $$PWD/fdmUtils/fdm_String.cpp \
+    $$PWD/fdmUtils/fdm_Table.cpp \
+    $$PWD/fdmUtils/fdm_Table2D.cpp \
+    $$PWD/fdmUtils/fdm_Units.cpp \
+    $$PWD/fdmUtils/fdm_Vector3.cpp \
+    $$PWD/fdmUtils/fdm_Vector4.cpp \
+    $$PWD/fdmUtils/fdm_Vector6.cpp \
+    $$PWD/fdmUtils/fdm_WGS84.cpp
 
 ################################################################################
 
 HEADERS += \
-    lib_fdm/fdmXml/fdm_XmlDoc.h \
-    lib_fdm/fdmXml/fdm_XmlNode.h \
-    lib_fdm/fdmXml/fdm_XmlUtils.h
+    $$PWD/fdmXml/fdm_XmlDoc.h \
+    $$PWD/fdmXml/fdm_XmlNode.h \
+    $$PWD/fdmXml/fdm_XmlUtils.h
 
 SOURCES += \
-    lib_fdm/fdmXml/fdm_XmlDoc.cpp \
-    lib_fdm/fdmXml/fdm_XmlNode.cpp \
-    lib_fdm/fdmXml/fdm_XmlUtils.cpp
+    $$PWD/fdmXml/fdm_XmlDoc.cpp \
+    $$PWD/fdmXml/fdm_XmlNode.cpp \
+    $$PWD/fdmXml/fdm_XmlUtils.cpp
