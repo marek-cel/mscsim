@@ -2,47 +2,78 @@
 
 ################################################################################
 
-EXECDIR=$(pwd)
+TIME_0=$(date +%s)
 
-function run()
+export EXEC_DIR=$(pwd)
+
+# export MODEL_FILE=$EXEC_DIR/models/stl/c172_half.stl
+export MODEL_FILE=$EXEC_DIR/models/stl/c172_flaps_30_half.stl
+
+
+# export MODEL_FILE=$EXEC_DIR/models/stl/c172_tail_off_half.stl
+# export MODEL_FILE=$EXEC_DIR/models/stl/c172_tail_off_flaps_30_half.stl
+
+
+################################################################################
+
+function runCase()
 {
-    export DESTDIR=$FOAM_RUN/c172_$1
+    export DEST_DIR=$FOAM_RUN/c172_$1
 
-    cd $EXECDIR
-    rm -rf $DESTDIR
-    cp -r case $DESTDIR
-    surfaceTransformPoints -rollPitchYaw "( 0 $1 0 )" models/stl/c172.stl $DESTDIR/constant/triSurface/model.stl
-    cd $DESTDIR
+    cd $EXEC_DIR
+    rm -rf $DEST_DIR
+    cp -r case $DEST_DIR
+    surfaceTransformPoints -rollPitchYaw "( 0 $1 0 )" $MODEL_FILE $DEST_DIR/constant/triSurface/model.stl
+    cd $DEST_DIR
     ./run.sh
+    cd $FOAM_RUN
+    printf "%d\t" $1 &>> forceCoeffs.dat
+    tail -n 1 c172_$1/postProcessing/forceCoeffs1/0/forceCoeffs.dat &>> forceCoeffs.dat
 }
 
 ################################################################################
 
-run 10
+function run()
+{
+    for i in {-180..-30..10}
+    do
+      runCase $i
+    done
 
-# for i in {-180..-30..10}
-# do
-#    run $i
-# done
-# 
-# for i in -25 -20 -17 -14 -12
-# do
-#    run $i
-# done
+    for i in -25 -20 -17 -14 -12
+    do
+      runCase $i
+    done
 
-# for i in {-10..10..1}
-# do
-#    run $i
-# done
+    for i in {-10..15..1}
+    do
+      runCase $i
+    done
 
-# for i in 12 14 17 20 25
-# do
-#    run $i
-# done
-# 
-# for i in {30..180..10}
-# do
-#    run $i
-# done
+    for i in 17 20 25
+    do
+      runCase $i
+    done
+
+    for i in {30..180..10}
+    do
+      runCase $i
+    done
+}
 
 ################################################################################
+
+run 
+# runCase 15 
+
+################################################################################
+
+TIME_1=$(date +%s)
+TIME_T=$(expr $TIME_1 - $TIME_0 )
+TIME_H=$(expr $TIME_T / 3600 )
+TIME_M=$(expr $(expr $TIME_T - 3600 \* $TIME_H ) / 60 )
+TIME_S=$(expr $TIME_T - 3600 \* $TIME_H - 60 \* $TIME_M )
+TIME_F=`printf %02d ${TIME_H}`:`printf %02d ${TIME_M}`:`printf %02d ${TIME_S}`
+
+echo "OpenFOAM computations finished in $TIME_F"
+notify-send "OpenFOAM computations finished." "OpenFOAM computations finished in $TIME_F"
