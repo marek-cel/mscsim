@@ -1,0 +1,13 @@
+2019-05-26 Marek M. Cel <marekcel@marekcel.pl>
+
+    * Cessna 172 3D models for CFD
+    
+    * Cessna 172 OpenFOAM simulations case and run script
+
+    * addition and multiplication operators added to fdm::Table class
+    
+    * Cessna 172 aerodynamic characteristics based on OpenFOAM simulations
+    
+    * F-16 renamed
+    
+    * cppcheck run script
