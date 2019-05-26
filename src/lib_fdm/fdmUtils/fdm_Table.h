@@ -138,6 +138,12 @@ public:
     /** Assignment operator. */
     const Table& operator= ( const Table &table );
 
+    /** Addition operator. */
+    Table operator+ ( const Table &table ) const;
+
+    /** Multiplication operator (by scalar). */
+    Table operator* ( double val ) const;
+
 private:
 
     unsigned int m_size;    ///< number of table elements
@@ -152,6 +158,14 @@ private:
 };
 
 } // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+/** Multiplication operator (by scalar). */
+inline fdm::Table operator* ( double val, const fdm::Table &table )
+{
+    return ( table * val );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

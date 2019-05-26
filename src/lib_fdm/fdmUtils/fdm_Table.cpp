@@ -401,6 +401,40 @@ const Table& Table::operator= ( const Table &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Table Table::operator+ ( const Table &table ) const
+{
+    std::vector< double > keyValues;
+    std::vector< double > tableData;
+
+    for ( unsigned int i = 0; i < m_size; i++ )
+    {
+        double keyValue = m_keyValues[ i ];
+
+        keyValues.push_back( keyValue );
+        tableData.push_back( getValue( keyValue ) + table.getValue( keyValue ) );
+    }
+
+    return Table( keyValues, tableData );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Table Table::operator* ( double val ) const
+{
+    std::vector< double > keyValues;
+    std::vector< double > tableData;
+
+    for ( unsigned int i = 0; i < m_size; i++ )
+    {
+        keyValues.push_back( m_keyValues[ i ] );
+        tableData.push_back( m_tableData[ i ] * val );
+    }
+
+    return Table( keyValues, tableData );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Table::updateInterpolationData()
 {
     for ( unsigned int i = 0; i < m_size - 1; i++ )
