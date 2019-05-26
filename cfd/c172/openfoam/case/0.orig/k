@@ -35,6 +35,11 @@ boundaryField
         value       $internalField;
     }
     
+    sym
+    {
+        type        symmetryPlane;
+    }
+    
     walls
     {
         type        slip;

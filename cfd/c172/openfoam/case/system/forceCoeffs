@@ -24,9 +24,9 @@ forceCoeffs1
     dragDir         (1 0 0);
     CofR            (0 0 0);
     pitchAxis       (0 1 0);
-    magUInf         64;
+    magUInf         50.0;
     lRef            1.49;        // Mean aerodynamic chord
-    Aref            16.17;       // Wing area
+    Aref            8.085;       // Wing area
     /*
     binData
     {

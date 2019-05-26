@@ -35,6 +35,11 @@ boundaryField
         inletValue  uniform ( 0 0 0 );
         value       $internalField;
     }
+    
+    sym
+    {
+        type        symmetryPlane;
+    }
 
     walls
     {

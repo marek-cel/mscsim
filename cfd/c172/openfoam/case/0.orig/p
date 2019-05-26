@@ -32,6 +32,11 @@ boundaryField
         type        fixedValue;
         value       $internalField;
     }
+    
+    sym
+    {
+        type        symmetryPlane;
+    }
 
     walls
     {

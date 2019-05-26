@@ -14,17 +14,17 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-rb_x_min -4.0;
-rb_x_max 10.0;
-rb_y_min -8.0;
-rb_y_max  8.0;
-rb_z_min -8.0;
-rb_z_max  8.0;
+rb_x_min -2.0;
+rb_x_max 12.0;
+rb_y_min -7.0;
+rb_y_max  7.0;
+rb_z_min -6.0;
+rb_z_max  6.0;
 
 // Which of the steps to run
 castellatedMesh true;
 snap            true;
-addLayers       true;
+addLayers       false;
 
 // Geometry. Definition of all surfaces. All surfaces are of class
 // searchableSurface.
@@ -74,7 +74,7 @@ castellatedMeshControls
     // If local number of cells is >= maxLocalCells on any processor
     // switches from from refinement followed by balancing
     // (current method) to (weighted) balancing before refinement.
-    maxLocalCells 100000;
+    maxLocalCells 1000000;
 
     // Overall cell limit (approximately). Refinement will stop immediately
     // upon reaching this number so a refinement level might not complete.
@@ -87,13 +87,13 @@ castellatedMeshControls
     // few cells. This setting will cause refinement to stop if <= minimumRefine
     // are selected for refinement. Note: it will at least do one iteration
     // (unless the number of cells to refine is 0)
-    minRefinementCells 10;
+    minRefinementCells 0;
     
     // Allow a certain level of imbalance during refining
     // (since balancing is quite expensive)
     // Expressed as fraction of perfect balance (= overall number of cells /
     // nProcs). 0=balance always.
-    maxLoadUnbalance 0.10;
+    maxLoadUnbalance 0.1;
     
     // Number of buffer layers of cells between successive levels of refinement
     // (typically set to 3).
@@ -110,8 +110,12 @@ castellatedMeshControls
     (
         {
             file "model.eMesh";
-            //level 6;
-            level 2;
+            level 6;
+        }
+        
+        {
+            file "model.eMesh";
+            levels ((1.0 3));
         }
     );
     
@@ -128,8 +132,7 @@ castellatedMeshControls
         model
         {
             // Surface-wise min and max refinement level
-            //level ( 5 6 );
-            level ( 2 2 );
+            level ( 4 5 );
 
             // Optional specification of patch type (default is wall). No
             // constraint types (cyclic, symmetry) etc. are allowed.
@@ -161,7 +164,7 @@ castellatedMeshControls
         refinementBox
         {
             mode inside;
-            levels ( ( 1E15 4 ) );
+            levels ( ( 1.0e15 2 ) );
         }
     }
 }
@@ -176,7 +179,7 @@ snapControls
     // Relative distance for points to be attracted by surface feature point
     // or edge. True distance is this factor times local
     // maximum edge length.
-    tolerance 2.0;
+    tolerance 1.0;
 
     // Number of mesh displacement relaxation iterations (typically 30-100).
     nSolveIter 30;
@@ -223,7 +226,7 @@ addLayersControls
 
     // Eexpansion factor for layer mesh, increase in size from one layer
     // to the next. 
-    expansionRatio 1.0;
+    expansionRatio 2.0;
 
     // Thickness of layer furthest from the wall, usually in combination with
     // relative sizes according to the relativeSizes entry. 
@@ -231,12 +234,33 @@ addLayersControls
     // is the thickness of the layer furthest away from the wall.
     // Relative to undistorted size of cell outside layer.
     // See relativeSizes parameter.
-    finalLayerThickness 0.3;
+    finalLayerThickness 0.4;
+    
+    // Wanted thickness of the layer next to the wall.
+    // If relativeSizes this is relative to undistorted size of cell
+    // outside layer.
+    // firstLayerThickness 0.3;
+    
+    // Wanted overall thickness of layers.
+    // If relativeSizes this is relative to undistorted size of cell
+    // outside layer.
+    // thickness 0.5;
 
     // Minimum thickness of cell layer, either relative or absolute.
     // If for any reason layer cannot be above minThickness do not add layer.
     // Relative to undistorted size of cell outside layer.
-    minThickness 0.1;
+    minThickness 0.2;
+    
+    
+    // Per final patch (so not geometry !) the layer information
+    // Note : This behaviour changed after 21x . Any non−mentioned patches
+    //        now slide unless:
+    //          − nSurfaceLayers is explicitly mentioned to be 0.
+    //          − angle to nearest surface < slipFeatureAngle (see below)
+    layers
+    {
+    }
+
 
     // Number of layers of connected faces that are not grown if points do not
     // get extruded; helps convergence of layer addition close to features. 
@@ -262,7 +286,7 @@ addLayersControls
     nRelaxIter 5;
 
     // Number of smoothing iterations of surface normals (typically 1). 
-    nSmoothSurfaceNormals 3;
+    nSmoothSurfaceNormals 1;
 
     // Number of smoothing iterations of interior mesh movement direction
     // (typically 3). 
@@ -302,7 +326,8 @@ addLayersControls
 meshQualityControls
 {
     // maximum non-orthogonality allowed (degrees, typically 65). 
-    maxNonOrtho 65;
+    // Set to 180 to disable.
+    maxNonOrtho 45;
     
     // max boundary face skewness allowed (typically 20). 
     maxBoundarySkewness 20;
@@ -311,6 +336,7 @@ meshQualityControls
     maxInternalSkewness 4;
     
     // max concaveness allowed (typically 80). 
+    // Set to 180 to disable.
     maxConcave 80;
     
     // ratio of minimum projected area to actual area (typically 0.5) 
@@ -318,12 +344,15 @@ meshQualityControls
     
     // minimum quality of tetrahedral cells from cell decomposition;
     // generally deactivated by setting large negative number since v5.0 when
-    // new barycentric tracking was introduced, which could handle negative tets. 
-    minTetQuality 1e-15;
+    // new barycentric tracking was introduced, which could handle negative tets.
+    //     <0 - inside out tet,
+    //      0 - flat tet
+    //      1 - regular tet
+    minTetQuality 1e-9;
     
     // minimum cell pyramid volume
     // (typically 1e-13, large negative number disables). 
-    minVol 1.00E-13;
+    minVol 1.0e-13;
     
     // minimum face area (typically -1). 
     minArea -1;

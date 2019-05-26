@@ -22,15 +22,15 @@ startTime         0;
 
 stopAt            endTime;
 
-endTime           15.0;
+endTime           300;
 
-deltaT            1.0;
+deltaT            1;
 
 writeControl      timeStep;
 
-writeInterval     15;
+writeInterval     1;
 
-purgeWrite        0;
+purgeWrite        1;
 
 writeFormat       binary;
 
