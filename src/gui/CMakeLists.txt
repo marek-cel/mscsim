@@ -1,0 +1,102 @@
+qt4_wrap_cpp( MOC_SRCS
+    ComboUnits.h
+    ComboUnitsAngle.h
+    ComboUnitsFlowRate.h
+    ComboUnitsLength.h
+    ComboUnitsMass.h
+    ComboUnitsNumber.h
+    ComboUnitsPressure.h
+    ComboUnitsRotation.h
+    ComboUnitsTemperature.h
+    ComboUnitsVelocity.h
+    DialogAction.h
+    DialogConf.h
+    DialogEnvr.h
+    DialogInit.h
+    DialogMass.h
+    DockWidgetAuto.h
+    DockWidgetCtrl.h
+    DockWidgetData.h
+    DockWidgetEFIS.h
+    DockWidgetMain.h
+    DockWidgetProp.h
+    GraphicsEADI.h
+    GraphicsEHSI.h
+    GraphicsPedals.h
+    GraphicsStick.h
+    LayoutSquare.h
+    MainWindow.h
+    PageControls.h
+    PageGeneral.h
+    SpinBoxHighlight.h
+    WidgetCGI.h
+    WidgetSquare.h
+)
+
+################################################################################
+
+qt4_wrap_ui( UI_HEADERS
+    DialogAction.ui
+    DialogConf.ui
+    DialogEnvr.ui
+    DialogInit.ui
+    DialogMass.ui
+    DockWidgetAuto.ui
+    DockWidgetCtrl.ui
+    DockWidgetData.ui
+    DockWidgetEFIS.ui
+    DockWidgetMain.ui
+    DockWidgetProp.ui
+    MainWindow.ui
+    PageControls.ui
+    PageGeneral.ui
+)
+
+################################################################################
+
+add_library( gui STATIC
+    Aircrafts.cpp
+    ComboUnits.cpp
+    ComboUnitsAngle.cpp
+    ComboUnitsFlowRate.cpp
+    ComboUnitsLength.cpp
+    ComboUnitsMass.cpp
+    ComboUnitsNumber.cpp
+    ComboUnitsPressure.cpp
+    ComboUnitsRotation.cpp
+    ComboUnitsTemperature.cpp
+    ComboUnitsVelocity.cpp
+    DialogAction.cpp
+    DialogConf.cpp
+    DialogEnvr.cpp
+    DialogInit.cpp
+    DialogMass.cpp
+    DockWidgetAuto.cpp
+    DockWidgetCtrl.cpp
+    DockWidgetData.cpp
+    DockWidgetEFIS.cpp
+    DockWidgetMain.cpp
+    DockWidgetProp.cpp
+    GraphicsEADI.cpp
+    GraphicsEADI_ADI.cpp
+    GraphicsEADI_ALT.cpp
+    GraphicsEADI_ASI.cpp
+    GraphicsEADI_HDG.cpp
+    GraphicsEADI_VSI.cpp
+    GraphicsEHSI.cpp
+    GraphicsPedals.cpp
+    GraphicsStick.cpp
+    Keys.cpp
+    LayoutSquare.cpp
+    Locations.cpp
+    MainWindow.cpp
+    PageControls.cpp
+    PageGeneral.cpp
+    SpinBoxHighlight.cpp
+    WidgetCGI.cpp
+    WidgetCGI_KeyHandler.cpp
+    WidgetSquare.cpp
+
+    ${MOC_SRCS}
+    ${UI_HEADERS}
+)

@@ -1,0 +1,25 @@
+add_library( cgi STATIC
+    cgi_Airport.cpp
+    cgi_Camera.cpp
+    cgi_Color.cpp
+    cgi_Ephemeris.cpp
+    cgi_FindNode.cpp
+    cgi_FogScene.cpp
+    cgi_Fonts.cpp
+    cgi_Geometry.cpp
+    cgi_HUD.cpp
+    cgi_Intersections.cpp
+    cgi_Manager.cpp
+    cgi_ManipulatorOrbit.cpp
+    cgi_ManipulatorShift.cpp
+    cgi_ManipulatorWorld.cpp
+    cgi_Models.cpp
+    cgi_Module.cpp
+    cgi_OTW.cpp
+    cgi_Ownship.cpp
+    cgi_Scenery.cpp
+    cgi_SkyDome.cpp
+    cgi_Terrain.cpp
+    cgi_Textures.cpp
+    cgi_WGS84.cpp
+)
