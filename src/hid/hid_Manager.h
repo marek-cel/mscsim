@@ -26,7 +26,7 @@
 
 #include <string>
 
-#include <fdm/fdm_Common.h>
+#include <fdm/fdm_Defines.h>
 
 #include <hid/hid_Assignment.h>
 
@@ -182,7 +182,8 @@ private:
                        float &value,
                        float speed,
                        float min,
-                       float max );
+                       float max,
+                       bool autocenter = false );
 
     /** */
     void getRealValue( Assignment::Action applyAction,

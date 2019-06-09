@@ -71,7 +71,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSimulation">
@@ -96,11 +96,13 @@
     <property name="title">
      <string>Windows</string>
     </property>
+    <addaction name="actionDockAuto"/>
     <addaction name="actionDockCtrl"/>
     <addaction name="actionDockData"/>
     <addaction name="actionDockEFIS"/>
     <addaction name="actionDockMain"/>
     <addaction name="actionDockProp"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -456,6 +458,14 @@
    </property>
    <property name="text">
     <string>Chase View</string>
+   </property>
+  </action>
+  <action name="actionDockAuto">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Autopilot</string>
    </property>
   </action>
  </widget>

@@ -22,7 +22,7 @@
 
 #include <gui/ComboUnitsMass.h>
 
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

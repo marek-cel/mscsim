@@ -29,7 +29,7 @@ unix: DEFINES += _LINUX_
 
 ################################################################################
 
-INCLUDEPATH += . ../lib_fdm
+INCLUDEPATH += . ..
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/ \
@@ -90,5 +90,5 @@ unix: LIBS += \
 
 ################################################################################
 
-include(../lib_fdm/lib_fdm.pri)
+include(../fdm/fdm.pri)
 include(test_rotor/test_rotor.pri)

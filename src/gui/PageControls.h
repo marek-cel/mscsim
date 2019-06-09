@@ -84,9 +84,6 @@ private:
 
     void setButtonsState( int action, int device );
 
-    void settingsRead();
-    void settingsSave();
-
     void initDefaultAssignments();
 
     void assignmentsRead();

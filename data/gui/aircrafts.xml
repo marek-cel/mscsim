@@ -24,11 +24,11 @@
     </propulsion>
     
     <masses>
-      <pilot_l maximum="120.0" default="80.0" />
-      <pilot_r maximum="120.0" default="80.0" />
-      <fuel_l  maximum="0.0"   default="0.0"  />
-      <fuel_r  maximum="0.0"   default="0.0"  />
-      <cabin   maximum="0.0"   default="0.0"  />
+      <pilot_1     name="Pilot (Left)"      maximum="120.0" default="80.0" />
+      <pilot_2     name="Pilot (Right)"     maximum="120.0" default="80.0" />
+      <fuel_tank_1 name="Fuel Tank (Left)"  maximum="0.0"   default="0.0"  />
+      <fuel_tank_2 name="Fuel Tank (Right)" maximum="0.0"   default="0.0"  />
+      <cabin       name="Cabin"             maximum="0.0"   default="0.0"  />
     </masses>
 
   </aircraft>-->
@@ -54,12 +54,12 @@
     </propulsion>
     
     <masses>
-      <pilot_l maximum="120.0" default="80.0" />
-      <pilot_r maximum="120.0" default="80.0" />
-      <fuel_l  maximum="76.3"  default="76.3" />
-      <fuel_r  maximum="76.3"  default="76.3" />
-      <cabin   maximum="240.0" default="0.0"  />
-      <trunk   maximum="54.0"  default="0.0"  />
+      <pilot_1      name="Pilot (Left)"      maximum="120.0" default="80.0" />
+      <pilot_2      name="Pilot (Right)"     maximum="120.0" default="80.0" />
+      <fuel_tank_1  name="Fuel Tank (Left)"  maximum="76.3"  default="76.3" />
+      <fuel_tank_2  name="Fuel Tank (Right)" maximum="76.3"  default="76.3" />
+      <cabin        name="Cabin"             maximum="240.0" default="0.0"  />
+      <cargo_trunk  name="Cargo Trunk"       maximum="54.0"  default="0.0"  />
     </masses>
       
   </aircraft>
@@ -86,11 +86,11 @@
     </propulsion>
     
     <masses>
-      <pilot  maximum="120.0"  default="80.0"  />
-      <fuel_l maximum="249.0"  default="124.5" />
-      <fuel_r maximum="249.0"  default="124.5" />
-      <fuel_f maximum="1474.0" default="737.0" />
-      <fuel_a maximum="1275.0" default="637.5" />
+      <pilot_1     name="Pilot"             maximum="120.0"  default="80.0"  />
+      <fuel_tank_1 name="Fuel Tank (Left)"  maximum="249.0"  default="124.5" />
+      <fuel_tank_2 name="Fuel Tank (Right)" maximum="249.0"  default="124.5" />
+      <fuel_tank_3 name="Fuel Tank (Fwd)"   maximum="1474.0" default="737.0" />
+      <fuel_tank_4 name="Fuel Tank (Aft)"   maximum="1275.0" default="637.5" />
     </masses>
   
   </aircraft>
@@ -119,10 +119,10 @@
     <tail_rotor_coef> -1.0 </tail_rotor_coef>
     
     <masses>
-      <pilot_l maximum="120.0"  default="80.0"   />
-      <pilot_r maximum="120.0"  default="80.0"   />
-      <fuel    maximum="1100.0" default="1100.0" />
-      <cabin   maximum="1200.0" default="880.0"  />
+      <pilot_1     name="Pilot (Left)"  maximum="120.0"  default="80.0"   />
+      <pilot_2     name="Pilot (Right)" maximum="120.0"  default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank"     maximum="1100.0" default="1100.0" />
+      <cabin       name="Cabin"         maximum="1200.0" default="880.0"  />
     </masses>
       
   </aircraft>

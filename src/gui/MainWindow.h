@@ -35,6 +35,7 @@
 #include "DialogInit.h"
 #include "DialogMass.h"
 
+#include "DockWidgetAuto.h"
 #include "DockWidgetCtrl.h"
 #include "DockWidgetData.h"
 #include "DockWidgetEFIS.h"
@@ -94,6 +95,7 @@ private:
     DialogInit *m_dialogInit;       ///< initial conditions dialog
     DialogMass *m_dialogMass;       ///< mass configuration dialog
 
+    DockWidgetAuto *m_dockAuto;     ///<
     DockWidgetCtrl *m_dockCtrl;     ///<
     DockWidgetData *m_dockData;     ///<
     DockWidgetEFIS *m_dockEFIS;     ///<
@@ -129,6 +131,7 @@ private:
     void setAircraftType( int typeIndex );
 
     void setSideDockAreasFullHeight( bool left, bool rght );
+    void setWidescreenDockLayout( bool enabled );
 
     void settingsRead();
     void settingsRead_Airport( QSettings &settings );
@@ -140,6 +143,7 @@ private:
 
     void updateDateTime();
 
+    void updateDockAuto();
     void updateDockCtrl();
     void updateDockData();
     void updateDockEFIS();
@@ -158,6 +162,7 @@ private slots:
     void on_actionDialogInit_triggered();
     void on_actionDialogMass_triggered();
 
+    void on_actionDockAuto_triggered();
     void on_actionDockCtrl_triggered();
     void on_actionDockData_triggered();
     void on_actionDockEFIS_triggered();

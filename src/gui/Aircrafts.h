@@ -76,21 +76,18 @@ public:
         struct Mass
         {
             bool enabled;       ///< specifies if mass is enabled
+            QString name;       ///< name
             double max;         ///< [kg] maximum mass
             double def;         ///< [kg] default mass
         };
 
-        Mass pilot;             ///<
-        Mass pilotL;            ///<
-        Mass pilotR;            ///<
-        Mass pilotA;            ///<
-        Mass pilotF;            ///<
+        Mass pilot_1;           ///<
+        Mass pilot_2;           ///<
 
-        Mass fuel;              ///<
-        Mass fuelL;             ///<
-        Mass fuelR;             ///<
-        Mass fuelA;             ///<
-        Mass fuelF;             ///<
+        Mass fuel_tank_1;       ///<
+        Mass fuel_tank_2;       ///<
+        Mass fuel_tank_3;       ///<
+        Mass fuel_tank_4;       ///<
 
         Mass cabin;             ///<
         Mass trunk;             ///<

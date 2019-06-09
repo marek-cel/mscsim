@@ -22,7 +22,7 @@
 
 #include <gui/ComboUnitsLength.h>
 
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

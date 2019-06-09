@@ -110,7 +110,7 @@ const std::string Manager::m_keysNames[] = {
 #   error 'HID_MAX_KEYS' has been changed! Check code following this line!
 #endif
 
-const float Manager::m_speedCtrl       = 0.50f;
+const float Manager::m_speedCtrl       = 1.0f;
 const float Manager::m_speedTrim       = 0.1f;
 const float Manager::m_speedBrakes     = 2.0f;
 const float Manager::m_speedGear       = 0.25f;
@@ -324,13 +324,24 @@ void Manager::getRealValue( Assignment::Action decreaseAction,
                             float &value,
                             float speed,
                             float min,
-                            float max )
+                            float max,
+                            bool autocenter )
 {
     bool tempDecrease = getButtState( m_assignments[ decreaseAction ] );
     bool tempIncrease = getButtState( m_assignments[ increaseAction ] );
 
-    if ( tempDecrease && value > min ) value = value - speed * m_timeStep;
-    if ( tempIncrease && value < max ) value = value + speed * m_timeStep;
+    if ( autocenter && !tempDecrease && !tempIncrease )
+    {
+        double delta = speed * m_timeStep;
+
+        if ( value > 0.0 ) value = ( value >  delta ) ? value - delta : 0.0;
+        if ( value < 0.0 ) value = ( value < -delta ) ? value + delta : 0.0;
+    }
+    else
+    {
+        if ( tempDecrease && value > min ) value = value - speed * m_timeStep;
+        if ( tempIncrease && value < max ) value = value + speed * m_timeStep;
+    }
 
     if ( value < min ) value = min;
     if ( value > max ) value = max;
@@ -427,7 +438,7 @@ void Manager::updateAxisActions()
     {
         getRealValue( Assignment::RollBankLeft,
                       Assignment::RollBankRight,
-                      m_ctrlRoll, m_speedCtrl, -1.0f, 1.0f );
+                      m_ctrlRoll, m_speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {
@@ -439,7 +450,7 @@ void Manager::updateAxisActions()
     {
         getRealValue( Assignment::PitchNoseDown,
                       Assignment::PitchNoseUp,
-                      m_ctrlPitch, m_speedCtrl, -1.0f, 1.0f );
+                      m_ctrlPitch, m_speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {
@@ -451,7 +462,7 @@ void Manager::updateAxisActions()
     {
         getRealValue( Assignment::YawTurnLeft,
                       Assignment::YawTurnRight,
-                      m_ctrlYaw, m_speedCtrl, -1.0f, 1.0f );
+                      m_ctrlYaw, m_speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {

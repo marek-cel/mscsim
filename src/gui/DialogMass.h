@@ -54,17 +54,13 @@ public:
     void readData();
     void saveData();
 
-    inline double getPilot()  const { return m_pilot;  }
-    inline double getPilotL() const { return m_pilotL; }
-    inline double getPilotR() const { return m_pilotR; }
-    inline double getPilotF() const { return m_pilotF; }
-    inline double getPilotA() const { return m_pilotA; }
+    inline double getPilot1() const { return m_pilot_1; }
+    inline double getPilot2() const { return m_pilot_2; }
 
-    inline double getFuel()  const { return m_fuel;  }
-    inline double getFuelL() const { return m_fuelL; }
-    inline double getFuelR() const { return m_fuelR; }
-    inline double getFuelF() const { return m_fuelF; }
-    inline double getFuelA() const { return m_fuelA; }
+    inline double getFuelTank1() const { return m_fuel_tank_1; }
+    inline double getFuelTank2() const { return m_fuel_tank_2; }
+    inline double getFuelTank3() const { return m_fuel_tank_3; }
+    inline double getFuelTank4() const { return m_fuel_tank_4; }
 
     inline double getCabin()  const { return m_cabin; }
     inline double getTrunk()  const { return m_trunk; }
@@ -77,20 +73,16 @@ private:
 
     int m_type;
 
-    double m_pilot;     ///< [kg]
-    double m_pilotL;    ///< [kg]
-    double m_pilotR;    ///< [kg]
-    double m_pilotF;    ///< [kg]
-    double m_pilotA;    ///< [kg]
+    double m_pilot_1;       ///< [kg]
+    double m_pilot_2;       ///< [kg]
 
-    double m_fuel;      ///< [kg]
-    double m_fuelL;     ///< [kg]
-    double m_fuelR;     ///< [kg]
-    double m_fuelF;     ///< [kg]
-    double m_fuelA;     ///< [kg]
+    double m_fuel_tank_1;   ///< [kg]
+    double m_fuel_tank_2;   ///< [kg]
+    double m_fuel_tank_3;   ///< [kg]
+    double m_fuel_tank_4;   ///< [kg]
 
-    double m_cabin;     ///< [kg]
-    double m_trunk;     ///< [kg]
+    double m_cabin;         ///< [kg]
+    double m_trunk;         ///< [kg]
 
     void settingsRead();
     void settingsRead_MassData( QSettings &settings );
@@ -102,17 +94,13 @@ private:
 
 private slots:
 
-    void on_comboBoxPilot_currentIndexChanged( int index );
-    void on_comboBoxPilotL_currentIndexChanged( int index );
-    void on_comboBoxPilotR_currentIndexChanged( int index );
-    void on_comboBoxPilotF_currentIndexChanged( int index );
-    void on_comboBoxPilotA_currentIndexChanged( int index );
+    void on_comboBoxPilot_1_currentIndexChanged( int index );
+    void on_comboBoxPilot_2_currentIndexChanged( int index );
 
-    void on_comboBoxFuel_currentIndexChanged( int index );
-    void on_comboBoxFuelL_currentIndexChanged( int index );
-    void on_comboBoxFuelR_currentIndexChanged( int index );
-    void on_comboBoxFuelF_currentIndexChanged( int index );
-    void on_comboBoxFuelA_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_1_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_2_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_3_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_4_currentIndexChanged( int index );
 
     void on_comboBoxCabin_currentIndexChanged( int index );
     void on_comboBoxTrunk_currentIndexChanged( int index );

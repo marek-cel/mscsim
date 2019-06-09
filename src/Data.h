@@ -106,6 +106,12 @@ public:
     {
         bool enabled;                       ///< specifies if HUD is enabled
 
+        float color_r;                      ///< [-] HUD color red component
+        float color_g;                      ///< [-] HUD color green component
+        float color_b;                      ///< [-] HUD color blue component
+
+        float opacity;                      ///< [-] HUD opacity
+
         float roll;                         ///< [rad] roll angle
         float pitch;                        ///< [rad] pitch angle
         float heading;                      ///< [rad] true heading

@@ -50,12 +50,34 @@ public:
     /** Destructor. */
     virtual ~PageGeneral();
 
-    /** */
-    void init();
+    void readData();
+    void saveData();
+
+    inline const QColor& getHudColor() const { return m_hud_color; }
+
+    inline int getHudOpacity() const { return m_hud_opacity; }
+
+    inline bool getWidescreen() const { return m_widescreen; }
 
 private:
 
-    Ui::PageGeneral *m_ui;
+    Ui::PageGeneral *m_ui;      ///<
+
+    QColor m_hud_color;         ///<
+    QColor m_hud_color_temp;    ///<
+
+    int m_hud_opacity;          ///< [%]
+
+    bool m_widescreen;          ///< widescreen dock window layout
+
+    void setFrameHudColor( const QColor &color );
+
+    void settingsRead();
+    void settingsSave();
+
+private slots:
+
+    void on_pushButtonHudColor_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

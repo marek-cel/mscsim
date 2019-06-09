@@ -3,7 +3,7 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_LPF.h>
+#include <fdm/sys/fdm_LPF.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

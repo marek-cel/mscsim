@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <fdmMain/fdm_Atmosphere.h>
+#include <fdm/main/fdm_Atmosphere.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

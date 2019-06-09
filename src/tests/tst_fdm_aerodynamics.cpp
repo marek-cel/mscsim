@@ -1,8 +1,8 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

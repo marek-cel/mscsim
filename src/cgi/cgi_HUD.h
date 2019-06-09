@@ -25,8 +25,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <osg/Geode>
+#include <osg/Material>
 #include <osg/PositionAttitudeTransform>
 #include <osg/Switch>
+
+#include <osgText/Text>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -72,7 +75,7 @@ private:
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderRoll;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderPitch;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderWind;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderSlip;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patRollIndicator;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_patHeadingScale;
@@ -90,6 +93,12 @@ private:
     osg::ref_ptr<osg::Geode> m_heading;
     osg::ref_ptr<osg::Geode> m_gForce;
     osg::ref_ptr<osg::Geode> m_radioAlt;
+
+    osg::ref_ptr<osg::Material> m_material;
+
+    std::vector< osg::ref_ptr<osgText::Text> > m_texts;
+
+    osg::Vec4 m_color;
 
     float m_sideslipAngleFPM_deg;
     float m_angleOfAttackFPM_deg;

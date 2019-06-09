@@ -258,4 +258,6 @@ hid::Assignment::Key Keys::getKey( int key )
         return hid::Assignment::KeyPageDown;
         break;
     }
+
+    return (hid::Assignment::Key)0;
 }

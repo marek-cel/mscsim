@@ -3,12 +3,12 @@
 
 #include <iostream>
 
-#include <fdmUtils/fdm_String.h>
-#include <fdmUtils/fdm_Table.h>
-#include <fdmUtils/fdm_Table2D.h>
+#include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table2D.h>
 
-#include <fdmXml/fdm_XmlDoc.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlDoc.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

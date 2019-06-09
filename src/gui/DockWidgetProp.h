@@ -30,7 +30,7 @@
 #include <QPushButton>
 #include <QSettings>
 
-#include <fdm/fdm_Common.h>
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

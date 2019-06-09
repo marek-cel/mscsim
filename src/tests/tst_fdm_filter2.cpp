@@ -3,7 +3,7 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_Filter2.h>
+#include <fdm/sys/fdm_Filter2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

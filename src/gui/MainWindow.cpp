@@ -27,7 +27,7 @@
 #include <QFile>
 #include <QMessageBox>
 
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/utils/fdm_Units.h>
 
 #include <Data.h>
 
@@ -51,6 +51,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dialogInit ( 0 ),
     m_dialogMass ( 0 ),
 
+    m_dockAuto ( 0 ),
     m_dockCtrl ( 0 ),
     m_dockData ( 0 ),
     m_dockEFIS ( 0 ),
@@ -77,13 +78,14 @@ MainWindow::MainWindow( QWidget *parent ) :
 {
     m_ui->setupUi( this );
 
-    m_dialogConf  = new DialogConf( this );
-    m_dialogEnvr  = new DialogEnvr( this );
-    m_dialogInit  = new DialogInit( this );
-    m_dialogMass  = new DialogMass( this );
+    m_dialogConf = new DialogConf( this );
+    m_dialogEnvr = new DialogEnvr( this );
+    m_dialogInit = new DialogInit( this );
+    m_dialogMass = new DialogMass( this );
 
-    setSideDockAreasFullHeight( true, true );
+    setWidescreenDockLayout( m_dialogConf->getWidescreen() );
 
+    m_dockAuto = new DockWidgetAuto( this );
     m_dockCtrl = new DockWidgetCtrl( this );
     m_dockData = new DockWidgetData( this );
     m_dockEFIS = new DockWidgetEFIS( this );
@@ -96,6 +98,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockMain->setObjectName( "DockMain" );
     m_dockProp->setObjectName( "DockProp" );
 
+    addDockWidget( Qt::BottomDockWidgetArea , m_dockAuto );
     addDockWidget( Qt::BottomDockWidgetArea , m_dockCtrl );
     addDockWidget( Qt::RightDockWidgetArea  , m_dockData );
     addDockWidget( Qt::BottomDockWidgetArea , m_dockEFIS );
@@ -140,6 +143,9 @@ MainWindow::~MainWindow()
 
     if ( m_dialogMass ) delete m_dialogMass;
     m_dialogMass = 0;
+
+    if ( m_dockAuto ) delete m_dockAuto;
+    m_dockAuto = 0;
 
     if ( m_dockCtrl ) delete m_dockCtrl;
     m_dockCtrl = 0;
@@ -189,7 +195,10 @@ void MainWindow::keyPressEvent( QKeyEvent *event )
     QMainWindow::keyPressEvent( event );
     ////////////////////////////////////
 
-    m_ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
+    if ( !event->isAutoRepeat() )
+    {
+        m_ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,7 +209,10 @@ void MainWindow::keyReleaseEvent( QKeyEvent *event )
     QMainWindow::keyReleaseEvent( event );
     //////////////////////////////////////
 
-    m_ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
+    if ( !event->isAutoRepeat() )
+    {
+        m_ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +263,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
     updateDockCtrl();
     updateDockProp();
     updateDockEFIS();
+    updateDockAuto();
 
     updateMenu();
     updateStatusBar();
@@ -368,6 +381,13 @@ void MainWindow::setSideDockAreasFullHeight( bool left, bool rght )
         setCorner( Qt::TopRightCorner    , Qt::TopDockWidgetArea    );
         setCorner( Qt::BottomRightCorner , Qt::BottomDockWidgetArea );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::setWidescreenDockLayout( bool enabled )
+{
+    setSideDockAreasFullHeight( enabled, enabled );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -556,6 +576,10 @@ void MainWindow::updateDateTime()
         m_flightTime = m_flightTime.addMSecs( m_timeCoef * GUI_TIME_STEP );
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updateDockAuto() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -789,9 +813,9 @@ void MainWindow::updateStatusBar()
 
     QString text = "";
 
-    text += "Frame Rate: " + QString::number( frameRate, 'd', 2 );
-    text += " ";
     text += "Time Coef: " + QString::number( m_timeCoef, 'd', 1 );
+    text += "   ";
+    text += "Frame Rate: " + QString::number( frameRate, 'd', 2 );
 
     m_ui->statusBar->showMessage( text );
 }
@@ -831,6 +855,10 @@ void MainWindow::updateOutputData()
 
     // HUD
     Data::get()->hud.enabled = m_showHUD;
+    Data::get()->hud.color_r = m_dialogConf->getHudColorR();
+    Data::get()->hud.color_g = m_dialogConf->getHudColorG();
+    Data::get()->hud.color_b = m_dialogConf->getHudColorB();
+    Data::get()->hud.opacity = (double)m_dialogConf->getHudOpacity() / 100.0f;
 
     // initial conditions
     Data::get()->initial.latitude     = m_dialogInit->getLat();
@@ -857,18 +885,14 @@ void MainWindow::updateOutputData()
     }
 
     // masses
-    Data::get()->masses.pilot   = m_dialogMass->getPilot();
-    Data::get()->masses.pilot_l = m_dialogMass->getPilotL();
-    Data::get()->masses.pilot_r = m_dialogMass->getPilotR();
-    Data::get()->masses.pilot_f = m_dialogMass->getPilotF();
-    Data::get()->masses.pilot_a = m_dialogMass->getPilotA();
-    Data::get()->masses.fuel    = m_dialogMass->getFuel();
-    Data::get()->masses.fuel_l  = m_dialogMass->getFuelL();
-    Data::get()->masses.fuel_r  = m_dialogMass->getFuelR();
-    Data::get()->masses.fuel_f  = m_dialogMass->getFuelF();
-    Data::get()->masses.fuel_a  = m_dialogMass->getFuelA();
-    Data::get()->masses.cabin   = m_dialogMass->getCabin();
-    Data::get()->masses.trunk   = m_dialogMass->getTrunk();
+    Data::get()->masses.pilot_1     = m_dialogMass->getPilot1();
+    Data::get()->masses.pilot_2     = m_dialogMass->getPilot2();
+    Data::get()->masses.fuel_tank_1 = m_dialogMass->getFuelTank1();
+    Data::get()->masses.fuel_tank_2 = m_dialogMass->getFuelTank2();
+    Data::get()->masses.fuel_tank_3 = m_dialogMass->getFuelTank3();
+    Data::get()->masses.fuel_tank_4 = m_dialogMass->getFuelTank4();
+    Data::get()->masses.cabin       = m_dialogMass->getCabin();
+    Data::get()->masses.trunk       = m_dialogMass->getTrunk();
 
     // aircraft type
     Data::get()->aircraftType = (fdm::DataInp::AircraftType)aircraft.type;
@@ -890,6 +914,7 @@ void MainWindow::on_actionDialogConf_triggered()
     {
         m_dialogConf->saveData();
         m_dialogConf->updateAssignments();
+        setWidescreenDockLayout( m_dialogConf->getWidescreen() );
     }
     else
     {
@@ -943,6 +968,13 @@ void MainWindow::on_actionDialogMass_triggered()
     {
         m_dialogMass->readData();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionDockAuto_triggered()
+{
+    m_dockAuto->setVisible( true );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

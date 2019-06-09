@@ -27,7 +27,7 @@
 #include <osgGA/TrackballManipulator>
 #include <osgViewer/ViewerEventHandlers>
 
-#include <fdmUtils/fdm_WGS84.h>
+#include <fdm/utils/fdm_WGS84.h>
 
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_Manager.h>
@@ -231,12 +231,11 @@ void WidgetCGI::createCameraOTW()
 
     const osg::GraphicsContext::Traits *traits = m_graphicsWindow->getTraits();
 
-    double w2h = static_cast<double>( traits->width )
-               / static_cast<double>( traits->height );
+    double w2h = (double)(traits->width) / (double)(traits->height);
 
     cameraOTW->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
     cameraOTW->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-    cameraOTW->setProjectionMatrixAsPerspective( 30.0, w2h, m_zNear, m_zFar );
+    cameraOTW->setProjectionMatrixAsPerspective( CGI_FOV_Y, w2h, m_zNear, m_zFar );
     cameraOTW->setNearFarRatio( m_zNear / m_zFar );
 }
 
@@ -252,7 +251,7 @@ void WidgetCGI::createCameraHUD()
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
-    cameraHUD->setProjectionMatrixAsOrtho2D( -100.0 * w2h, 100.0 * w2h, -100.0, 100.0 );
+    cameraHUD->setProjectionMatrixAsOrtho2D( -CGI_HUD_Y_2 * w2h, CGI_HUD_Y_2 * w2h, -CGI_HUD_Y_2, CGI_HUD_Y_2 );
     cameraHUD->setReferenceFrame( osg::Transform::ABSOLUTE_RF );
     cameraHUD->setViewMatrix( osg::Matrix::identity() );
     cameraHUD->setClearMask( GL_DEPTH_BUFFER_BIT );

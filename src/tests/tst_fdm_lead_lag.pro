@@ -18,7 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 ################################################################################
 
-INCLUDEPATH += . ../lib_fdm
+INCLUDEPATH += . ..
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/ \
@@ -40,7 +40,11 @@ unix: LIBS += \
 
 ################################################################################
 
-include(../lib_fdm/lib_fdm.pri)
+include(../fdm/fdm.pri)
+include(../fdm_c130/fdm_c130.pri)
+include(../fdm_c172/fdm_c172.pri)
+include(../fdm_f16/fdm_f16.pri)
+include(../fdm_uh60/fdm_uh60.pri)
 
 ################################################################################
 

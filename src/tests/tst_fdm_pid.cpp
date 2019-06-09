@@ -3,8 +3,8 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_Inertia.h>
-#include <fdmSys/fdm_PID.h>
+#include <fdm/sys/fdm_Lag.h>
+#include <fdm/sys/fdm_PID.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +87,7 @@ void TestPID::testUpdate()
             double dt = DT / (double)steps;
             double e = u - y;
             pid->update( dt, e );
-            y = fdm::Inertia::update( pid->getValue(), y, dt, TC );
+            y = fdm::Lag::update( pid->getValue(), y, dt, TC );
         }
 
         if ( t >= 5.0 )

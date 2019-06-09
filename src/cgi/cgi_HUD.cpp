@@ -32,9 +32,7 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/Switch>
 
-#include <osgText/Text>
-
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/utils/fdm_Units.h>
 
 #include <Data.h>
 
@@ -48,12 +46,13 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 const float HUD::m_charSize  = 5.0f;
-const float HUD::m_angleCoef = 600.0f / 90.0f;
+const float HUD::m_angleCoef = CGI_HUD_Y / CGI_FOV_Y;
 const float HUD::m_rollLimit = osg::DegreesToRadians( 75.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
-HUD::HUD()
+HUD::HUD() :
+    m_color( Color::hud, 1.0f )
 {
     m_root = new osg::Group();
 
@@ -86,6 +85,15 @@ HUD::HUD()
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_HUD, "RenderBin" );
 
+    // material
+    m_material = new osg::Material();
+    m_material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    m_material->setAmbient( osg::Material::FRONT, m_color );
+    m_material->setDiffuse( osg::Material::FRONT, m_color );
+
+    stateSet->setAttribute( m_material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
+
+    // lines
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
     lineWidth->setWidth( 2.0f );
 
@@ -139,6 +147,26 @@ void HUD::update()
 
         updateTextL();
         updateTextR();
+
+        // update color
+        osg::Vec4 color( Data::get()->hud.color_r,
+                         Data::get()->hud.color_g,
+                         Data::get()->hud.color_b,
+                         Data::get()->hud.opacity );
+
+        if ( color != m_color )
+        {
+            m_color = color;
+
+            for ( std::vector< osg::ref_ptr<osgText::Text> >::iterator it = m_texts.begin(); it != m_texts.end(); it++ )
+            {
+                (*it)->setColor( m_color );
+            }
+
+            m_material->setAmbient( osg::Material::FRONT, m_color );
+            m_material->setDiffuse( osg::Material::FRONT, m_color );
+            //m_material->setTransparency( osg::Material::FRONT_AND_BACK, 1.0f - Data::get()->hud.opacity );
+        }
     }
     else
     {
@@ -162,7 +190,6 @@ void HUD::createWaterLine()
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
     v->push_back( osg::Vec3( -d * 3.0f,  0.0f, -1.0f ) ); // 1
     v->push_back( osg::Vec3( -d * 2.0f,  0.0f, -1.0f ) ); // 2
@@ -174,16 +201,14 @@ void HUD::createWaterLine()
 
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-    c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
     geometry->setVertexArray( v.get() );
     geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, v->size() ) );
 
     geometry->setNormalArray( n.get() );
     geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
-    geometry->setColorArray( c.get() );
-    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+//    geometry->setColorArray( c.get() );
+//    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
     geode->addDrawable( geometry.get() );
 }
@@ -213,7 +238,6 @@ void HUD::createRollIndicator()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         float a = 0.0;
 
@@ -310,16 +334,11 @@ void HUD::createRollIndicator()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -336,7 +355,6 @@ void HUD::createRollIndicator()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         v->push_back( osg::Vec3(  0.0f, r0, -1.0f ) );
         v->push_back( osg::Vec3( -2.0f, r0 - 5.0f, -1.0f ) );
@@ -344,16 +362,11 @@ void HUD::createRollIndicator()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -369,13 +382,11 @@ void HUD::createPitchLadder()
     m_patPitchLadderPitch = new osg::PositionAttitudeTransform();
     m_patPitchLadderRoll->addChild( m_patPitchLadderPitch.get() );
 
-    m_patPitchLadderWind = new osg::PositionAttitudeTransform();
-    m_patPitchLadderPitch->addChild( m_patPitchLadderWind.get() );
+    m_patPitchLadderSlip = new osg::PositionAttitudeTransform();
+    m_patPitchLadderPitch->addChild( m_patPitchLadderSlip.get() );
 
     m_switchPitchLadder = new osg::Switch();
-    m_patPitchLadderWind->addChild( m_switchPitchLadder.get() );
-
-    const float px_deg = m_angleCoef;
+    m_patPitchLadderSlip->addChild( m_switchPitchLadder.get() );
 
     for ( int i = -90; i < 0; i++ )
     {
@@ -384,7 +395,7 @@ void HUD::createPitchLadder()
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
             m_switchPitchLadder->addChild( geode.get() );
 
-            createPitchLadderBar( geode.get(), ((float)i)*px_deg, i );
+            createPitchLadderBar( geode.get(), ((float)i)*m_angleCoef, i );
         }
     }
 
@@ -400,7 +411,6 @@ void HUD::createPitchLadder()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         v->push_back( osg::Vec3( -w / 2.0f, 0.0f, -1.0f ) );
         v->push_back( osg::Vec3( -g / 2.0f, 0.0f, -1.0f ) );
@@ -410,16 +420,11 @@ void HUD::createPitchLadder()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -431,7 +436,7 @@ void HUD::createPitchLadder()
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
             m_switchPitchLadder->addChild( geode.get() );
 
-            createPitchLadderBar( geode.get(), ((float)i)*px_deg, i );
+            createPitchLadderBar( geode.get(), ((float)i)*m_angleCoef, i );
         }
     }
 }
@@ -464,7 +469,6 @@ void HUD::createHeadingScale()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         // marker
         v->push_back( osg::Vec3( -box_w / 6.0f, y_del + box_h * 0.5f, -1.0f ) );
@@ -479,16 +483,11 @@ void HUD::createHeadingScale()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -499,8 +498,9 @@ void HUD::createHeadingScale()
         m_switch->addChild( m_heading.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( 0.0f, y_del + box_h * 0.5f + 1.5f, -1.0f ) );
@@ -520,7 +520,6 @@ void HUD::createHeadingScale()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         // marker
         v->push_back( osg::Vec3( -scale_w / 2.0f, y_del, -1.0f ) );
@@ -528,16 +527,11 @@ void HUD::createHeadingScale()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
 
@@ -582,7 +576,6 @@ void HUD::createFPM()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         v->push_back( osg::Vec3( -r1, 0.0f, -1.0f ) );
         v->push_back( osg::Vec3( -r0, 0.0f, -1.0f ) );
@@ -595,16 +588,11 @@ void HUD::createFPM()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -615,7 +603,6 @@ void HUD::createFPM()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         for ( int i = 0; i < 360; i = i + 10 )
         {
@@ -629,16 +616,11 @@ void HUD::createFPM()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -655,7 +637,6 @@ void HUD::createFPM()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         v->push_back( osg::Vec3( -r0,  r0, -1.0f ) );
         v->push_back( osg::Vec3(  r0, -r0, -1.0f ) );
@@ -665,16 +646,11 @@ void HUD::createFPM()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geodeCross->addDrawable( geometry.get() );
     }
@@ -705,7 +681,6 @@ void HUD::createILS()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         // bar
         v->push_back( osg::Vec3( -bar_w/2.0f, 0.0f, -1.0f ) );
@@ -733,16 +708,11 @@ void HUD::createILS()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -759,7 +729,6 @@ void HUD::createILS()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         // bar
         v->push_back( osg::Vec3( 0.0f, -bar_w/2.0f, -1.0f ) );
@@ -787,16 +756,11 @@ void HUD::createILS()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -813,8 +777,9 @@ void HUD::createStall()
     m_switchStall->addChild( geode.get() );
 
     osg::ref_ptr<osgText::Text> text = new osgText::Text();
+    m_texts.push_back( text );
     //text->setFont(font);
-    text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+    text->setColor( m_color );
     text->setCharacterSize( 2 * m_charSize );
     text->setAxisAlignment( osgText::TextBase::XY_PLANE );
     text->setPosition( osg::Vec3( 0.0f, 20.0f, -1.0f ) );
@@ -845,7 +810,7 @@ void HUD::createTextL()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
         v->push_back( osg::Vec3( -x     , y     , -1.0f ) );
         v->push_back( osg::Vec3( -x     , y + h , -1.0f ) );
         v->push_back( osg::Vec3( -x - w , y + h , -1.0f ) );
@@ -853,16 +818,11 @@ void HUD::createTextL()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -875,8 +835,9 @@ void HUD::createTextL()
         m_switch->addChild( m_airspeed.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y + 2.5f, -1.0f ) );
@@ -894,8 +855,9 @@ void HUD::createTextL()
         m_switch->addChild( m_machNo.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 7.5f, -1.0f ) );
@@ -912,8 +874,9 @@ void HUD::createTextL()
         m_switch->addChild( m_gForce.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 15.0f, -1.0f ) );
@@ -944,7 +907,6 @@ void HUD::createTextR()
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         v->push_back( osg::Vec3( x     , y     , -1.0f ) );
         v->push_back( osg::Vec3( x     , y + h , -1.0f ) );
@@ -953,16 +915,11 @@ void HUD::createTextR()
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
         geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -975,8 +932,9 @@ void HUD::createTextR()
         m_switch->addChild( m_altitude.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y + 2.5f, -1.0f ) );
@@ -993,8 +951,9 @@ void HUD::createTextR()
         m_switch->addChild( m_climbRate.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 7.5f, -1.0f ) );
@@ -1011,8 +970,9 @@ void HUD::createTextR()
         m_switch->addChild( m_radioAlt.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 15.0f, -1.0f ) );
@@ -1038,7 +998,6 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
 
         osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
         osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
         if ( deg < 0 )
         {
@@ -1084,8 +1043,6 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
 
         n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-        c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
         geometry->setVertexArray( v.get() );
 
         if ( deg < 0 )
@@ -1099,9 +1056,6 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
 
         geometry->setNormalArray( n.get() );
         geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
         geode->addDrawable( geometry.get() );
     }
@@ -1130,8 +1084,9 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
     // text L
     {
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -w / 2.0f, y + y_del, -1.0f ) );
@@ -1145,8 +1100,9 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
     // text R
     {
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
+        m_texts.push_back( text );
         //text->setFont(font);
-        text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+        text->setColor( m_color );
         text->setCharacterSize( m_charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( w / 2.0f, y + y_del, -1.0f ) );
@@ -1171,8 +1127,9 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x, int deg1
     sprintf( deg10_srt, "%02d", deg10 );
 
     osg::ref_ptr<osgText::Text> text = new osgText::Text();
+    m_texts.push_back( text );
     //text->setFont(font);
-    text->setColor( osg::Vec4( Color::hud, 1.0f ) );
+    text->setColor( m_color );
     text->setCharacterSize( m_charSize );
     text->setAxisAlignment( osgText::TextBase::XY_PLANE );
     text->setPosition( osg::Vec3( x, y_del - m_charSize - 3.0f, -1.0f ) );
@@ -1194,7 +1151,6 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x )
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
-    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
     // bar
     v->push_back( osg::Vec3( x, y_del    , -1.0f ) );
@@ -1202,16 +1158,11 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x )
 
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-    c->push_back( osg::Vec4( Color::hud, 1.0f ) );
-
     geometry->setVertexArray( v.get() );
     geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
 
     geometry->setNormalArray( n.get() );
     geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-
-    geometry->setColorArray( c.get() );
-    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
     geode->addDrawable( geometry.get() );
 }
@@ -1254,7 +1205,7 @@ void HUD::updatePitchLadder()
 
     float x = -m_angleCoef * ( -m_sideslipAngleFPM_deg * cosRoll + m_angleOfAttackFPM_deg * sinRoll );
 
-    m_patPitchLadderWind->setPosition( osg::Vec3( x, 0.0, 0.0 ) );
+    m_patPitchLadderSlip->setPosition( osg::Vec3( x, 0.0, 0.0 ) );
 
     short i_pitch = floor( ( 90.0 + pitch_deg ) / 5.0 + 0.5 );
 

@@ -3,7 +3,7 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdmSys/fdm_LeadLag.h>
+#include <fdm/sys/fdm_LeadLag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

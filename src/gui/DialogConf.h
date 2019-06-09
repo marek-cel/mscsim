@@ -56,6 +56,14 @@ public:
     void saveData();
 
     void updateAssignments();
+
+    qreal getHudColorR() const;
+    qreal getHudColorG() const;
+    qreal getHudColorB() const;
+
+    int getHudOpacity() const;
+
+    bool getWidescreen() const;
     
 private:
 

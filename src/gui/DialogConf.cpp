@@ -52,6 +52,7 @@ DialogConf::~DialogConf()
 
 void DialogConf::readData()
 {
+    m_ui->pageGeneral->readData();
     m_ui->pageControls->readData();
 }
 
@@ -59,6 +60,7 @@ void DialogConf::readData()
 
 void DialogConf::saveData()
 {
+    m_ui->pageGeneral->saveData();
     m_ui->pageControls->saveData();
 }
 
@@ -67,6 +69,41 @@ void DialogConf::saveData()
 void DialogConf::updateAssignments()
 {
     m_ui->pageControls->updateAssignments();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+qreal DialogConf::getHudColorR() const
+{
+    return m_ui->pageGeneral->getHudColor().redF();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+qreal DialogConf::getHudColorG() const
+{
+    return m_ui->pageGeneral->getHudColor().greenF();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+qreal DialogConf::getHudColorB() const
+{
+    return m_ui->pageGeneral->getHudColor().blueF();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int DialogConf::getHudOpacity() const
+{
+    return m_ui->pageGeneral->getHudOpacity();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool DialogConf::getWidescreen() const
+{
+    return m_ui->pageGeneral->getWidescreen();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
