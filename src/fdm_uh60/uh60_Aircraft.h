@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aircraft.h>
+#include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm_uh60/uh60_Aerodynamics.h>
 #include <fdm_uh60/uh60_Controls.h>
@@ -45,13 +45,16 @@ class UH60_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    UH60_Aircraft();
+    UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~UH60_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
+
+    /** Writes output data. */
+    void dataOutput();
 
     inline UH60_Aerodynamics* getAero() { return m_aero; }
     inline UH60_Controls*     getCtrl() { return m_ctrl; }

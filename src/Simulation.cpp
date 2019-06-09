@@ -129,9 +129,9 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     m_dataInp.ground.n_z_wgs   = data->ground.n_z_wgs;
 
     // controls
-    m_dataInp.controls.ctrl_roll    = data->controls.ctrl_roll;
-    m_dataInp.controls.ctrl_pitch   = data->controls.ctrl_pitch;
-    m_dataInp.controls.ctrl_yaw     = data->controls.ctrl_yaw;
+    m_dataInp.controls.roll         = data->controls.roll;
+    m_dataInp.controls.pitch        = data->controls.pitch;
+    m_dataInp.controls.yaw          = data->controls.yaw;
     m_dataInp.controls.trim_roll    = data->controls.trim_roll;
     m_dataInp.controls.trim_pitch   = data->controls.trim_pitch;
     m_dataInp.controls.trim_yaw     = data->controls.trim_yaw;
@@ -158,18 +158,14 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     }
 
     // masses
-    m_dataInp.masses.pilot   = data->masses.pilot;
-    m_dataInp.masses.pilot_l = data->masses.pilot_l;
-    m_dataInp.masses.pilot_r = data->masses.pilot_r;
-    m_dataInp.masses.pilot_f = data->masses.pilot_f;
-    m_dataInp.masses.pilot_a = data->masses.pilot_a;
-    m_dataInp.masses.fuel    = data->masses.fuel;
-    m_dataInp.masses.fuel_l  = data->masses.fuel_l;
-    m_dataInp.masses.fuel_r  = data->masses.fuel_r;
-    m_dataInp.masses.fuel_f  = data->masses.fuel_f;
-    m_dataInp.masses.fuel_a  = data->masses.fuel_a;
-    m_dataInp.masses.cabin   = data->masses.cabin;
-    m_dataInp.masses.trunk   = data->masses.trunk;
+    m_dataInp.masses.pilot_1     = data->masses.pilot_1;
+    m_dataInp.masses.pilot_2     = data->masses.pilot_2;
+    m_dataInp.masses.fuel_tank_1 = data->masses.fuel_tank_1;
+    m_dataInp.masses.fuel_tank_2 = data->masses.fuel_tank_2;
+    m_dataInp.masses.fuel_tank_3 = data->masses.fuel_tank_3;
+    m_dataInp.masses.fuel_tank_4 = data->masses.fuel_tank_4;
+    m_dataInp.masses.cabin       = data->masses.cabin;
+    m_dataInp.masses.trunk       = data->masses.trunk;
 
     // aircraft type
     m_dataInp.aircraftType = data->aircraftType;

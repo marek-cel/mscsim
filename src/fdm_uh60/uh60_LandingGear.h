@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_LandingGear.h>
+#include <fdm/main/fdm_LandingGear.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,12 +45,6 @@ public:
 
     /** Destructor. */
     ~UH60_LandingGear();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
 
     /** Updates model. */
     void update();

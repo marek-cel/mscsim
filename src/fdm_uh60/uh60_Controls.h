@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Controls.h>
+#include <fdm/main/fdm_Controls.h>
 
 #include <fdm_uh60/uh60_AFCS.h>
 
@@ -83,8 +83,6 @@ private:
     double m_elevator;                  ///< [rad]
     double m_brake_l;                   ///< [-]
     double m_brake_r;                   ///< [-]
-
-    DataRef m_outputElevator;           ///<
 };
 
 } // end of fdm namespace

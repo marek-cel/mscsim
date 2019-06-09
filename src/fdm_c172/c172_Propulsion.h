@@ -24,9 +24,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Propulsion.h>
-#include <fdmMain/fdm_PistonEngine.h>
-#include <fdmMain/fdm_Propeller.h>
+#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/main/fdm_PistonEngine.h>
+#include <fdm/main/fdm_Propeller.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -66,11 +66,8 @@ public:
     /** Updates propulsion. */
     void update();
 
-    /** */
-    inline double getTorque() const
-    {
-        return m_propeller->getTorque();
-    }
+    inline const PistonEngine* getEngine() const { return m_engine; }
+    inline const Propeller* getPropeller() const { return m_propeller; }
 
 private:
 
@@ -78,17 +75,6 @@ private:
 
     PistonEngine *m_engine;             ///< engine model
     Propeller *m_propeller;             ///< propeller model
-
-    DataRef m_drThrottle;               ///< engine throttle data reference
-    DataRef m_drMixture;                ///< engine mixture lever data reference
-    DataRef m_drFuel;                   ///< engine fuel data reference
-    DataRef m_drIgnition;               ///< engine ignition data reference
-    DataRef m_drStarter;                ///< engine starter data reference
-
-    DataRef m_drEngineOn;               ///< engine state data refenrence
-    DataRef m_drEngineRPM;              ///< engine rpm data reference
-    DataRef m_drEngineMAP;              ///< engine manifold absolute pressure data reference
-    DataRef m_drEngineFF;               ///< engine fuel flow data reference
 };
 
 } // end of fdm namespace

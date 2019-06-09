@@ -61,7 +61,15 @@ Manager::~Manager()
     if ( m_nav ) delete m_nav;
     m_nav = 0;
 
-    if ( m_sim ) delete m_sim;
+    if ( m_sim )
+    {
+        while ( m_sim->isRunning() )
+        {
+            m_sim->quit();
+        }
+
+        delete m_sim;
+    }
     m_sim = 0;
 
     if ( m_win ) delete m_win;
@@ -113,9 +121,9 @@ void Manager::timerEvent( QTimerEvent *event )
     m_nav->update();
 
     // controls
-    Data::get()->controls.ctrl_roll    = -hid::Manager::instance()->getCtrlRoll();
-    Data::get()->controls.ctrl_pitch   = -hid::Manager::instance()->getCtrlPitch();
-    Data::get()->controls.ctrl_yaw     = -hid::Manager::instance()->getCtrlYaw();
+    Data::get()->controls.roll         = -hid::Manager::instance()->getCtrlRoll();
+    Data::get()->controls.pitch        = -hid::Manager::instance()->getCtrlPitch();
+    Data::get()->controls.yaw          = -hid::Manager::instance()->getCtrlYaw();
     Data::get()->controls.trim_roll    = -hid::Manager::instance()->getTrimRoll();
     Data::get()->controls.trim_pitch   = -hid::Manager::instance()->getTrimPitch();
     Data::get()->controls.trim_yaw     = -hid::Manager::instance()->getTrimYaw();
@@ -123,12 +131,13 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.brake_r      =  hid::Manager::instance()->getBrakeRight();
     Data::get()->controls.landing_gear =  hid::Manager::instance()->getLandingGear();
     Data::get()->controls.nose_wheel   =  hid::Manager::instance()->getCtrlYaw();
-    Data::get()->controls.lg_handle    =  hid::Manager::instance()->isLgHandleDown();
-    Data::get()->controls.nw_steering  =  true; // TODO
     Data::get()->controls.flaps        =  hid::Manager::instance()->getFlaps();
     Data::get()->controls.airbrake     =  hid::Manager::instance()->getAirbrake();
     Data::get()->controls.spoilers     =  hid::Manager::instance()->getSpoilers();
     Data::get()->controls.collective   =  hid::Manager::instance()->getCollective();
+    Data::get()->controls.lg_handle    =  hid::Manager::instance()->isLgHandleDown();
+    Data::get()->controls.nw_steering  =  true; // TODO
+    Data::get()->controls.antiskid     =  true; // TODO
 
     // engines
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )

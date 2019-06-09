@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_LandingGear.h>
+#include <fdm/main/fdm_LandingGear.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -46,11 +46,8 @@ public:
     /** Destructor. */
     ~F16_LandingGear();
 
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
+    /** Initializes landing gear. */
+    virtual void init();
 
     /** Updates model. */
     void update();

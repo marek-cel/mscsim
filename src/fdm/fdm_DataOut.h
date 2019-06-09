@@ -24,9 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aircraft.h>
-
-#include <fdm/fdm_Common.h>
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -38,8 +36,6 @@ namespace fdm
  */
 struct DataOut
 {
-    typedef Aircraft::Crash Crash;
-
     /** State output. */
     enum StateOut
     {
@@ -49,6 +45,15 @@ struct DataOut
         Working,                        ///< working
         Paused,                         ///< paused
         Stopped                         ///< stopped
+    };
+
+    /** Aircraft crash condition. */
+    enum Crash
+    {
+        NoCrash = 0,                    ///< no crash
+        Collision,                      ///< collision with terrain or obstacle
+        Overspeed,                      ///< airspeed too high
+        Overstressed                    ///< load factor too high
     };
 
     /** Flight data. */
@@ -125,21 +130,21 @@ struct DataOut
     /** Controls data. */
     struct Controls
     {
-        float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
-        float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
-        float elevons;                      ///< [rad] elevons differential deflection
-        float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
-        float flaps;                        ///< [rad] flaps deflection
-        float flaperons;                    ///< [rad] flaperons differtial deflection
-        float lef;                          ///< [rad] leading edge flaps deflection
-        float airbrake;                     ///< [rad] airbrake deflection
+        float ailerons;                 ///< [rad] ailerons deflection (positive left aileron in the upward direction)
+        float elevator;                 ///< [rad] elevator deflection (positive in the downward direction)
+        float elevons;                  ///< [rad] elevons differential deflection
+        float rudder;                   ///< [rad] rudder deflection (positive in the port direction)
+        float flaps;                    ///< [rad] flaps deflection
+        float flaperons;                ///< [rad] flaperons differtial deflection
+        float lef;                      ///< [rad] leading edge flaps deflection
+        float airbrake;                 ///< [rad] airbrake deflection
     };
 
     /** Engine data. */
     struct Engine
     {
         bool state;                     ///< specifies if engine is working
-        bool afterburner;               ///<
+        bool afterburner;               ///< afterburner
 
         float rpm;                      ///< [rpm]
         float prop;                     ///< [rpm]

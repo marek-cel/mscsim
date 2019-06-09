@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Common.h>
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -111,9 +111,9 @@ struct DataInp
      */
     struct Controls
     {
-        double ctrl_roll;               ///< [-1.0,1.0] roll control (positive in the port direction)
-        double ctrl_pitch;              ///< [-1.0,1.0] pitch control (positive in the forward direction)
-        double ctrl_yaw;                ///< [-1.0,1.0] yaw control (positive when the left foot moves in the forward direction)
+        double roll;                    ///< [-1.0,1.0] roll control (positive in the port direction)
+        double pitch;                   ///< [-1.0,1.0] pitch control (positive in the forward direction)
+        double yaw;                     ///< [-1.0,1.0] yaw control (positive when the left foot moves in the forward direction)
 
         double trim_roll;               ///< [-1.0,1.0] roll trim
         double trim_pitch;              ///< [-1.0,1.0] pitch trim
@@ -125,14 +125,15 @@ struct DataInp
         double landing_gear;            ///< [0.0,1.0] landing gear
         double nose_wheel;              ///< [-1.0,1.0] nose wheel steering (positive when the left foot moves in the forward direction)
 
-        bool lg_handle;                 ///< specifies if landing gear handle is down
-        bool nw_steering;               ///< specifies if nose wheel seering is enabled
-
         double flaps;                   ///< [0.0,1.0] flaps
         double airbrake;                ///< [0.0,1.0] airbrake
         double spoilers;                ///< [0.0,1.0] spoilers
 
         double collective;              ///< [0.0,1.0] collective control (positive in the upward direction)
+
+        bool lg_handle;                 ///< specifies if landing gear handle is down
+        bool nw_steering;               ///< specifies if nose wheel seering is enabled
+        bool antiskid;                  ///< specifies if antiskid system is enabled
     };
 
     /** Engine data. */
@@ -150,17 +151,13 @@ struct DataInp
     /** Masses data. */
     struct Masses
     {
-        double pilot;                   ///< [kg] pilot
-        double pilot_l;                 ///< [kg] left pilot
-        double pilot_r;                 ///< [kg] right pilot
-        double pilot_f;                 ///< [kg] forward pilot
-        double pilot_a;                 ///< [kg] aft pilot
-        double fuel;                    ///< [kg] total internal fuel
-        double fuel_l;                  ///< [kg] left internal fuel tank
-        double fuel_r;                  ///< [kg] right internal fuel tank
-        double fuel_f;                  ///< [kg] forward internal fuel tank
-        double fuel_a;                  ///< [kg] aft internal fuel tank
-        double cabin;                   ///< [kg] cabin load
+        double pilot_1;                 ///< [kg] pilot 1
+        double pilot_2;                 ///< [kg] pilot 2
+        double fuel_tank_1;             ///< [kg] fuel tank 1
+        double fuel_tank_2;             ///< [kg] fuel tank 2
+        double fuel_tank_3;             ///< [kg] fuel tank 3
+        double fuel_tank_4;             ///< [kg] fuel tank 4
+        double cabin;                   ///< [kg] cabin
         double trunk;                   ///< [kg] cargo trunk
     };
 

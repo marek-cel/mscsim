@@ -24,11 +24,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aerodynamics.h>
+#include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdmMain/fdm_MainRotor.h>
-#include <fdmMain/fdm_TailRotor.h>
-#include <fdmMain/fdm_Stabilizer.h>
+#include <fdm/main/fdm_MainRotor.h>
+#include <fdm/main/fdm_TailRotor.h>
+#include <fdm/main/fdm_Stabilizer.h>
 
 #include <fdm_uh60/uh60_Fuselage.h>
 #include <fdm_uh60/uh60_StabilizerHor.h>
@@ -68,6 +68,8 @@ public:
     /** Updates model. */
     void update();
 
+    inline const MainRotor* getMainRotor() const { return m_mainRotor; }
+
 private:
 
     const UH60_Aircraft *m_aircraft;    ///< aircraft model main object
@@ -77,15 +79,6 @@ private:
     UH60_Fuselage *m_fuselage;          ///<
     UH60_StabilizerHor *m_stabHor;      ///<
     Stabilizer *m_stabVer;              ///<
-
-    DataRef m_drMainRotorAzimuth;       ///<
-    DataRef m_drMainRotorConingAngle;   ///<
-    DataRef m_drMainRotorDiskRoll;      ///<
-    DataRef m_drMainRotorDiskPitch;     ///<
-    DataRef m_drMainRotorCollective;    ///<
-    DataRef m_drMainRotorCyclicLon;     ///<
-    DataRef m_drMainRotorCyclicLat;     ///<
-    DataRef m_drTailRotorAzimuth;       ///<
 };
 
 } // end of fdm namespace

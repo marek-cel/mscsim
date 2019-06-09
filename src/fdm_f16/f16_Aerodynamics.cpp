@@ -22,8 +22,8 @@
 
 #include <fdm_f16/f16_Aircraft.h>
 
-#include <fdmUtils/fdm_Units.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/utils/fdm_Units.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

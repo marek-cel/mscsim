@@ -36,3 +36,37 @@ UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 UH60_Mass::~UH60_Mass() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Mass::init()
+{
+    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
+    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
+    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
+    VarMass *cabin     = getVariableMassByName( "cabin" );
+
+    if ( 0 != pilot_l
+      && 0 != pilot_r
+      && 0 != fuel_tank
+      && 0 != cabin )
+    {
+        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
+        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
+        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "ERROR! Obtaining variable masses failed." );
+
+        FDM_THROW( e );
+    }
+
+    /////////////
+    Mass::init();
+    /////////////
+}

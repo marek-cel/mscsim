@@ -22,8 +22,8 @@
 
 #include <fdm_f16/f16_Aircraft.h>
 
-#include <fdmUtils/fdm_Units.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/utils/fdm_Units.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -55,9 +55,6 @@ F16_Controls::F16_Controls( const F16_Aircraft *aircraft ) :
     m_brake_l       ( 0.0 ),
     m_brake_r       ( 0.0 ),
     m_nose_wheel    ( 0.0 ),
-
-    m_lgHandle   ( false ),
-    m_nwSteering ( false ),
 
     m_angleOfAttack ( 0.0 ),
     m_g_y ( 0.0 ),
@@ -141,42 +138,6 @@ void F16_Controls::readData( XmlNode &dataNode )
 
 void F16_Controls::init()
 {
-    /////////////////
-    Controls::init();
-    /////////////////
-
-    int result = FDM_SUCCESS;
-
-    // inputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/ailerons"  , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/elevator"  , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/elevons"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/rudder"    , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/flaps"     , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/flaperons" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/lef"       , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/airbrake"  , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_outElevator  = getDataRef( "output/controls/elevator"  );
-        m_outElevons   = getDataRef( "output/controls/elevons"   );
-        m_outRudder    = getDataRef( "output/controls/rudder"    );
-        m_outFlaps     = getDataRef( "output/controls/flaps"     );
-        m_outFlaperons = getDataRef( "output/controls/flaperons" );
-        m_outLEF       = getDataRef( "output/controls/lef"       );
-        m_outAirbrake  = getDataRef( "output/controls/airbrake"  );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
-
     m_channelRoll      = getChannelByName( "roll"       );
     m_channelPitch     = getChannelByName( "pitch"      );
     m_channelYaw       = getChannelByName( "yaw"        );
@@ -188,16 +149,29 @@ void F16_Controls::init()
     m_channelBrakeR    = getChannelByName( "brake_r"    );
     m_channelNoseWheel = getChannelByName( "nose_wheel" );
 
-    if ( 0 == m_channelRoll
-      || 0 == m_channelPitch
-      || 0 == m_channelYaw
-      || 0 == m_channelRollTrim
-      || 0 == m_channelPitchTrim
-      || 0 == m_channelYawTrim
-      || 0 == m_channelAirbrake
-      || 0 == m_channelBrakeL
-      || 0 == m_channelBrakeR
-      || 0 == m_channelNoseWheel )
+    if ( 0 != m_channelRoll
+      && 0 != m_channelPitch
+      && 0 != m_channelYaw
+      && 0 != m_channelRollTrim
+      && 0 != m_channelPitchTrim
+      && 0 != m_channelYawTrim
+      && 0 != m_channelAirbrake
+      && 0 != m_channelBrakeL
+      && 0 != m_channelBrakeR
+      && 0 != m_channelNoseWheel )
+    {
+        m_channelRoll      ->input = &m_aircraft->getDataInp()->controls.roll;
+        m_channelPitch     ->input = &m_aircraft->getDataInp()->controls.pitch;
+        m_channelYaw       ->input = &m_aircraft->getDataInp()->controls.yaw;
+        m_channelRollTrim  ->input = &m_aircraft->getDataInp()->controls.trim_roll;
+        m_channelPitchTrim ->input = &m_aircraft->getDataInp()->controls.trim_pitch;
+        m_channelYawTrim   ->input = &m_aircraft->getDataInp()->controls.trim_yaw;
+        m_channelAirbrake  ->input = &m_aircraft->getDataInp()->controls.airbrake;
+        m_channelBrakeL    ->input = &m_aircraft->getDataInp()->controls.brake_l;
+        m_channelBrakeR    ->input = &m_aircraft->getDataInp()->controls.brake_r;
+        m_channelNoseWheel ->input = &m_aircraft->getDataInp()->controls.nose_wheel;
+    }
+    else
     {
         Exception e;
 
@@ -207,21 +181,9 @@ void F16_Controls::init()
         FDM_THROW( e );
     }
 
-    if ( FDM_SUCCESS == addDataRef( "input/controls/lg_handle"   , DataNode::Bool )
-      && FDM_SUCCESS == addDataRef( "input/controls/nw_steering" , DataNode::Bool ) )
-    {
-        m_drLgHandle   = getDataRef( "input/controls/lg_handle" );
-        m_drNwSteering = getDataRef( "input/controls/nw_steering" );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Creating data references failed." );
-
-        FDM_THROW( e );
-    }
+    /////////////////
+    Controls::init();
+    /////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -239,9 +201,6 @@ void F16_Controls::update()
     m_brake_r = m_channelBrakeR->output;
 
     m_nose_wheel = m_channelNoseWheel->output;
-
-    m_lgHandle   = m_drLgHandle   .getDatab();
-    m_nwSteering = m_drNwSteering .getDatab();
 
     // 1000 Hz
     const unsigned int steps = ceil( m_aircraft->getTimeStep() / 0.001 );
@@ -288,7 +247,9 @@ void F16_Controls::update()
                         ctrlLon, trimLon,
                         ctrlYaw, trimYaw,
                         statPress, dynPress,
-                        false, false, m_lgHandle, m_aircraft->getGear()->getOnGround() );
+                        false, false,
+                        m_aircraft->getDataInp()->controls.lg_handle,
+                        m_aircraft->getGear()->getOnGround() );
 
 //        m_flcs->update( m_aircraft->getTimeStep(),
 //                        m_aircraft->getAngleOfAttack(),
@@ -315,12 +276,4 @@ void F16_Controls::update()
     m_trimYaw = m_channelYawTrim->output;
     m_statPress = m_aircraft->getEnvir()->getPressure();
     m_dynPress  = m_aircraft->getDynPress();
-
-    m_outElevator  .setDatad( m_flcs->getElevator() );
-    m_outElevons   .setDatad( m_flcs->getElevons() );
-    m_outRudder    .setDatad( m_flcs->getRudder() );
-    m_outFlaps     .setDatad( m_flcs->getFlapsTE() );
-    m_outFlaperons .setDatad( m_flcs->getAilerons() ); // sic!
-    m_outLEF       .setDatad( m_flcs->getFlapsLE() );
-    m_outAirbrake  .setDatad( m_airbrake );
 }

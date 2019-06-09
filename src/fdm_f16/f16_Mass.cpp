@@ -36,3 +36,41 @@ F16_Mass::F16_Mass( const F16_Aircraft *aircraft ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 F16_Mass::~F16_Mass() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16_Mass::init()
+{
+    VarMass *pilot       = getVariableMassByName( "pilot" );
+    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
+    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
+    VarMass *fuel_tank_f = getVariableMassByName( "fuel_tank_f" );
+    VarMass *fuel_tank_a = getVariableMassByName( "fuel_tank_a" );
+
+    if ( 0 != pilot
+      && 0 != fuel_tank_l
+      && 0 != fuel_tank_r
+      && 0 != fuel_tank_f
+      && 0 != fuel_tank_a )
+    {
+        pilot->input = &m_aircraft->getDataInp()->masses.pilot_1;
+
+        fuel_tank_l->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
+        fuel_tank_r->input = &m_aircraft->getDataInp()->masses.fuel_tank_2;
+        fuel_tank_f->input = &m_aircraft->getDataInp()->masses.fuel_tank_3;
+        fuel_tank_a->input = &m_aircraft->getDataInp()->masses.fuel_tank_4;
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "ERROR! Obtaining variable masses failed." );
+
+        FDM_THROW( e );
+    }
+
+    /////////////
+    Mass::init();
+    /////////////
+}

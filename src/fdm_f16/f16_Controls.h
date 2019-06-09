@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Controls.h>
+#include <fdm/main/fdm_Controls.h>
 
 #include <fdm_f16/f16_FLCS.h>
 
@@ -60,6 +60,8 @@ public:
     /** Updates model. */
     void update();
 
+    inline const F16_FLCS* getFLCS() const { return m_flcs; }
+
     inline double getAilerons()     const { return m_flcs->getAilerons();     }
     inline double getAileronsNorm() const { return m_flcs->getAileronsNorm(); }
     inline double getElevator()     const { return m_flcs->getElevator();     }
@@ -75,9 +77,6 @@ public:
     inline double getBrakeL()       const { return m_brake_l;       }
     inline double getBrakeR()       const { return m_brake_r;       }
     inline double getNoseWheel()    const { return m_nose_wheel;    }
-
-    inline bool getNwSteering() const { return m_nwSteering; }
-    inline bool getLgHandle()   const { return m_lgHandle;   }
 
 private:
 
@@ -104,12 +103,6 @@ private:
     double m_brake_r;               ///< [-] normalized right brake force
     double m_nose_wheel;            ///< [rad] nose wheel turn angle
 
-    bool m_lgHandle;                ///< landing gear handle
-    bool m_nwSteering;              ///< nose wheel steering
-
-    DataRef m_drLgHandle;           ///< landing gear handle data reference
-    DataRef m_drNwSteering;         ///< nose wheel steering data reference
-
     double m_angleOfAttack;         ///<
     double m_g_y;                   ///<
     double m_g_z;                   ///<
@@ -124,14 +117,6 @@ private:
     double m_trimYaw;               ///<
     double m_statPress;             ///<
     double m_dynPress;              ///<
-
-    DataRef m_outElevator;          ///<
-    DataRef m_outElevons;           ///<
-    DataRef m_outRudder;            ///<
-    DataRef m_outFlaps;             ///<
-    DataRef m_outFlaperons;         ///<
-    DataRef m_outLEF;               ///<
-    DataRef m_outAirbrake;          ///<
 };
 
 } // end of fdm namespace

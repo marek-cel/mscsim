@@ -22,9 +22,9 @@
 
 #include <cgi/cgi_Scenery.h>
 
-#include <fdmUtils/fdm_String.h>
+#include <fdm/utils/fdm_String.h>
 
-#include <fdmXml/fdm_XmlDoc.h>
+#include <fdm/xml/fdm_XmlDoc.h>
 
 #include <cgi/cgi_Intersections.h>
 

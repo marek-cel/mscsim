@@ -49,7 +49,7 @@ unix: DEFINES += _LINUX_
 
 ################################################################################
 
-INCLUDEPATH += ./ ./lib_fdm
+INCLUDEPATH += ./
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/ \
@@ -135,4 +135,3 @@ include(fdm_f16/fdm_f16.pri)
 include(fdm_uh60/fdm_uh60.pri)
 include(gui/gui.pri)
 include(hid/hid.pri)
-include(lib_fdm/lib_fdm.pri)

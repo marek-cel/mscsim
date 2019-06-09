@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmUtils/fdm_Table.h>
+#include <fdm/utils/fdm_Table.h>
 
 #include <cgi/cgi_Module.h>
 
@@ -40,7 +40,17 @@ class Ownship : public Module
 {
 public:
 
+    struct LandingGearElementData
+    {
+        double input_min;
+        double input_max;
+        double angle_min;   ///< [rad]
+        double angle_max;   ///< [rad]
+    };
+
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
+    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > LandingGearElements;
+    typedef std::vector< LandingGearElementData > LandingGearElementsData;
 
     /** Constructor. */
     Ownship( Module *parent = 0 );
@@ -76,6 +86,8 @@ private:
 
     osg::ref_ptr<osg::Switch> m_landingGear;                    ///<
 
+    LandingGearElements m_landingGearElements;                  ///<
+
     osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller1;  ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller2;  ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller3;  ///<
@@ -87,6 +99,8 @@ private:
     Blades m_mainRotorBlades;
 
     std::string m_aircraftFile;
+
+    LandingGearElementsData m_landingGearElementsData;
 
     void loadModel( const std::string &modelFile );
 

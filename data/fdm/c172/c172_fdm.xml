@@ -427,31 +427,55 @@
         -180.0     0.0305
         -150.0     0.6429
         -120.0     1.5804
-         -90.0     2.6000
-         -70.0     1.9400
+         -90.0     2.4000
+         -60.0     1.5804
          -50.0     1.2300
+         -40.0     0.9103
          -30.0     0.6429
          -25.0     0.4134
          -20.0     0.2534
+         -17.0     0.1836
+         -16.0     0.1640
+         -15.0     0.1461
          -14.0     0.1298
+         -13.0     0.1150
+         -12.0     0.1016
+         -11.0     0.0896
          -10.0     0.0788
+          -9.0     0.0693
           -8.0     0.0609
+          -7.0     0.0536
           -6.0     0.0473
+          -5.0     0.0421
           -4.0     0.0379
+          -3.0     0.0347
           -2.0     0.0323
+          -1.0     0.0310
            0.0     0.0305
+           1.0     0.0310
            2.0     0.0323
+           3.0     0.0347
            4.0     0.0379
+           5.0     0.0421
            6.0     0.0473
+           7.0     0.0536
            8.0     0.0609
+           9.0     0.0693
           10.0     0.0788
+          11.0     0.0896
+          12.0     0.1016
+          13.0     0.1150
           14.0     0.1298
+          15.0     0.1461
+          16.0     0.1640
+          17.0     0.1836
           20.0     0.2534
           25.0     0.4134
           30.0     0.6429
+          40.0     0.9103
           50.0     1.2300
-          70.0     1.9400
-          90.0     2.6000
+          60.0     1.5804
+          90.0     2.4000
          120.0     1.5804
          150.0     0.6429
          180.0     0.0305
@@ -460,18 +484,55 @@
       <!-- [-] lift coefficient vs [deg] angle of attack -->
       <cz keys_unit="deg">
         -180.0     0.000
-        -180.0     0.000
         -150.0     1.093
         -120.0     1.441
          -90.0     0.000
          -60.0    -1.441
-         -45.0    -1.491
-         -35.0    -1.275
-         -27.0    -0.960
+         -50.0    -1.524
+         -40.0    -1.408
+         -30.0    -1.093
+         -25.0    -1.287
+         -20.0    -1.208
+         -17.0    -1.027
+         -16.0    -0.967
+         -15.0    -0.906
+         -14.0    -0.846
+         -13.0    -0.785
+         -12.0    -0.725
+         -11.0    -0.665
+         -10.0    -0.604
+          -9.0    -0.544
+          -8.0    -0.483
+          -7.0    -0.423
+          -6.0    -0.363
+          -5.0    -0.302
+          -4.0    -0.242
+          -3.0    -0.181
+          -2.0    -0.121
+          -1.0    -0.060
            0.0     0.000
-          28.0     1.750
-          35.0     1.610
-          45.0     1.410
+           1.0     0.063
+           2.0     0.125
+           3.0     0.188
+           4.0     0.250
+           5.0     0.313
+           6.0     0.375
+           7.0     0.438
+           8.0     0.500
+           9.0     0.563
+          10.0     0.625
+          11.0     0.688
+          12.0     0.750
+          13.0     0.813
+          14.0     0.875
+          15.0     0.938
+          16.0     1.000
+          17.0     1.063
+          20.0     1.250
+          25.0     1.563
+          30.0     1.710
+          40.0     1.510
+          50.0     1.416
           60.0     1.550
           90.0     0.000
          120.0    -1.550
@@ -547,7 +608,7 @@
   <controls>
     
     <!-- [rad] ailerons deflection vs [-] normalized roll input -->
-    <control_channel name="ailerons" input="input/controls/roll" unit="deg">
+    <control_channel name="ailerons" unit="deg">
       -1.0  -17.5
       -0.5   -7.0
        0.0    0.0
@@ -556,7 +617,7 @@
     </control_channel>
     
     <!-- [rad] elevator deflection vs [-] normalized pitch input -->
-    <control_channel name="elevator" input="input/controls/pitch" unit="deg">
+    <control_channel name="elevator" unit="deg">
       -1.0  -28.0
       -0.5   -5.6
        0.0    0.0
@@ -565,7 +626,7 @@
     </control_channel>
     
     <!-- [rad] rudder deflection vs [-] normalized yaw input -->
-    <control_channel name="rudder" input="input/controls/yaw" unit="deg">
+    <control_channel name="rudder" unit="deg">
       -1.0  -17.7
       -0.5   -7.0
        0.0    0.0
@@ -574,32 +635,32 @@
     </control_channel>
     
     <!-- [rad] elevator trim deflection vs [-] normalized pitch trim input -->
-    <control_channel name="elevator_trim" input="input/controls/pitch_trim" unit="deg">
+    <control_channel name="elevator_trim" unit="deg">
       -1.0  -22.0
        0.0    0.0
        1.0   19.0
     </control_channel>
     
     <!-- [rad] flaps deflection vs [-] normalized flaps input -->
-    <control_channel name="flaps" input="input/controls/flaps" unit="deg">
+    <control_channel name="flaps" unit="deg">
        0.0    0.0
        1.0   30.0
     </control_channel>
     
     <!-- [-] normalized left brake force vs [-] normalized left brake input -->
-    <control_channel name="brake_l" input="input/controls/brake_l">
+    <control_channel name="brake_l">
        0.0    0.0
        1.0    1.0
     </control_channel>
     
     <!-- [-] normalized right brake force vs [-] normalized right brake input -->
-    <control_channel name="brake_r" input="input/controls/brake_r">
+    <control_channel name="brake_r">
        0.0    0.0
        1.0    1.0
     </control_channel>
     
     <!-- [rad] nose wheel turn angle vs [-] normalized nose wheel steering input -->
-    <control_channel name="nose_wheel" input="input/controls/nose_wheel" unit="deg">
+    <control_channel name="nose_wheel" unit="deg">
       -1.0  -10.0
       -0.5   -2.0
        0.0    0.0
@@ -613,11 +674,11 @@
   <landing_gear>
     
     <!-- nose wheel -->
-    <wheel steerable="1" caster="1" brake_group="0">
+    <wheel name="wheel_n" steerable="1" caster="1" brake_group="0">
       <attachment_point>   1.15   0.0  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>     1.15   0.0  1.2   </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness_coef>  2.9e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <stiffness_coef>  3.4e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
       <damping_coef>    2.8e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
@@ -628,11 +689,11 @@
     </wheel>
     
     <!-- left wheel -->
-    <wheel steerable="0" caster="0" brake_group="1">
+    <wheel name="wheel_l" steerable="0" caster="0" brake_group="1">
       <attachment_point>  -0.48  -1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>    -0.48  -1.27  1.15  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness_coef>  3.8e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <stiffness_coef>  4.2e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
       <damping_coef>    4.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
@@ -641,11 +702,11 @@
     </wheel>
     
     <!-- right wheel -->
-    <wheel steerable="0" caster="0" brake_group="2">
+    <wheel name="wheel_r" steerable="0" caster="0" brake_group="2">
       <attachment_point>  -0.48   1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>    -0.48   1.27  1.15  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness_coef>  3.8e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <stiffness_coef>  4.2e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
       <damping_coef>    4.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
@@ -670,37 +731,37 @@
     <center_of_mass>  -0.2  0.0 -0.1  </center_of_mass> <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
     
      <!-- left pilot -->
-    <variable_mass name="pilot_l" input="input/mass/pilot_l">
+    <variable_mass name="pilot_l">
       <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>   0.1  -0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- right pilot -->
-    <variable_mass name="pilot_r" input="input/mass/pilot_r">
+    <variable_mass name="pilot_r">
       <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>   0.1   0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- left fuel tank -->
-    <variable_mass name="fuel_tank_l" input="input/mass/fuel_tank_l">
+    <variable_mass name="fuel_tank_l">
       <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>  -0.2  -0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- right fuel tank -->
-    <variable_mass name="fuel_tank_r" input="input/mass/fuel_tank_r">
+    <variable_mass name="fuel_tank_r">
       <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>  -0.2   0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- passengers -->
-    <variable_mass name="cabin_load" input="input/mass/cabin_load">
+    <variable_mass name="cabin">
       <mass_max> 240.0 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>  -0.8   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- cargo trunk -->
-    <variable_mass name="cargo_trunk" input="input/mass/cargo_trunk">
+    <variable_mass name="cargo_trunk">
       <mass_max>  54.0 </mass_max>                      <!-- [kg] maximum mass -->
       <coordinates>  -1.7   0.0   0.1  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>

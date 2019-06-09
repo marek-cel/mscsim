@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aerodynamics.h>
+#include <fdm/main/fdm_Aerodynamics.h>
 
 #include <fdm_c172/c172_TailOff.h>
 #include <fdm_c172/c172_StabilizerHor.h>

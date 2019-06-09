@@ -22,8 +22,8 @@
 
 #include <fdm_c172/c172_TailOff.h>
 
-#include <fdmMain/fdm_Aerodynamics.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

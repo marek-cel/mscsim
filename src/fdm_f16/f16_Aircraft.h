@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aircraft.h>
+#include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm_f16/f16_Aerodynamics.h>
 #include <fdm_f16/f16_Controls.h>
@@ -45,13 +45,16 @@ class F16_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    F16_Aircraft();
+    F16_Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~F16_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
+
+    /** Writes output data. */
+    void dataOutput();
 
     inline F16_Aerodynamics* getAero() { return m_aero; }
     inline F16_Controls*     getCtrl() { return m_ctrl; }

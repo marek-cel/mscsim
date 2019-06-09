@@ -5,6 +5,14 @@
     * variable masses names added
     
     * DockWidgetAuto added
+    
+    * keyboard controls roll, pitch and yaw channels modified
+    
+    * CGI landing gear modifies
+    
+    * on-ground initialization speed up fix
+    
+    * data references removed, static data structures used instead
 
 
 

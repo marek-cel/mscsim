@@ -22,7 +22,7 @@
 
 #include <fdm_uh60/uh60_Aircraft.h>
 
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

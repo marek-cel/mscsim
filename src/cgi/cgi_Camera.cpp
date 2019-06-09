@@ -22,7 +22,7 @@
 
 #include <cgi/cgi_Camera.h>
 
-#include <fdmUtils/fdm_WGS84.h>
+#include <fdm/utils/fdm_WGS84.h>
 
 #include <cgi/cgi_Intersections.h>
 #include <cgi/cgi_WGS84.h>

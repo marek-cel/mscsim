@@ -22,7 +22,7 @@
 
 #include <fdm_c172/c172_Aircraft.h>
 
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -59,44 +59,6 @@ void C172_Propulsion::init( bool engineOn )
     /////////////////////////////
     Propulsion::init( engineOn );
     /////////////////////////////
-
-    int result = FDM_SUCCESS;
-
-    // inputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/throttle" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/mixture"  , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/fuel"     , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/ignition" , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/starter"  , DataNode::Bool   );
-
-    // outputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/state" , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/rpm"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/map"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/ff"    , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_drThrottle  = getDataRef( "input/propulsion/throttle" );
-        m_drMixture   = getDataRef( "input/propulsion/mixture"  );
-        m_drFuel      = getDataRef( "input/propulsion/fuel"     );
-        m_drIgnition  = getDataRef( "input/propulsion/ignition" );
-        m_drStarter   = getDataRef( "input/propulsion/starter"  );
-
-        m_drEngineOn  = getDataRef( "output/propulsion/state" );
-        m_drEngineRPM = getDataRef( "output/propulsion/rpm"   );
-        m_drEngineMAP = getDataRef( "output/propulsion/map"   );
-        m_drEngineFF  = getDataRef( "output/propulsion/ff"    );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
 
     m_propeller->setRPM( engineOn ? 2700.0 : 0.0 );
 }
@@ -169,19 +131,18 @@ void C172_Propulsion::update()
 {
     m_propeller->integrate( m_aircraft->getTimeStep(), m_engine->getInertia() );
 
-    m_engine->update( m_drThrottle.getDatad(), m_drMixture.getDatad(),
+    m_engine->update( m_aircraft->getDataInp()->engine[ 0 ].throttle,
+                      m_aircraft->getDataInp()->engine[ 0 ].mixture,
                       m_propeller->getEngineRPM(),
                       m_aircraft->getEnvir()->getPressure(),
                       m_aircraft->getEnvir()->getDensity(),
-                      m_drFuel.getDatab(), m_drStarter.getDatab(),
-                      m_drIgnition.getDatab(), m_drIgnition.getDatab() );
+                      m_aircraft->getDataInp()->engine[ 0 ].fuel,
+                      m_aircraft->getDataInp()->engine[ 0 ].starter,
+                      m_aircraft->getDataInp()->engine[ 0 ].ignition,
+                      m_aircraft->getDataInp()->engine[ 0 ].ignition );
 
-    m_propeller->update( 1.0, m_engine->getTorque(),
+    m_propeller->update( m_aircraft->getDataInp()->engine[ 0 ].propeller,
+                         m_engine->getTorque(),
                          m_aircraft->getAirspeed(),
                          m_aircraft->getEnvir()->getDensity() );
-
-    m_drEngineOn  .setDatab( m_engine->getState() == Engine::Running );
-    m_drEngineRPM .setDatad( m_engine->getRPM() );
-    m_drEngineMAP .setDatad( m_engine->getMAP() );
-    m_drEngineFF  .setDatad( m_engine->getFuelFlow() );
 }

@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aircraft.h>
+#include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm_c172/c172_Aerodynamics.h>
 #include <fdm_c172/c172_Controls.h>
@@ -48,13 +48,16 @@ class C172_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    C172_Aircraft();
+    C172_Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~C172_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
+
+    /** Writes output data. */
+    void dataOutput();
 
     inline C172_Aerodynamics* getAero() { return m_aero; }
     inline C172_Controls*     getCtrl() { return m_ctrl; }

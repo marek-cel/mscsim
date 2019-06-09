@@ -24,8 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Propulsion.h>
-#include <fdmMain/fdm_Turbojet.h>
+#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/main/fdm_Turbojet.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,22 +65,13 @@ public:
     /** Updates model. */
     void update();
 
+    inline const Turbojet* getEngine() const { return m_engine; }
+
 private:
 
     const F16_Aircraft *m_aircraft; ///< aircraft model main object
 
     Turbojet *m_engine;             ///< engine model
-
-    DataRef m_drThrottle;           ///< engine throttle data reference
-    DataRef m_drFuel;               ///< engine fuel data reference
-    DataRef m_drIgnition;           ///< engine ignition data reference
-    DataRef m_drStarter;            ///< engine starter data reference
-
-    DataRef m_drEngineOn;           ///< engine state data refenrence
-    DataRef m_drEngineAB;           ///< engine afterburner data refenrence
-    DataRef m_drEngineN2;           ///< engine N2 data reference
-    DataRef m_drEngineTIT;          ///< engine TIT data reference
-    DataRef m_drEngineFF;           ///< engine fuel flow data reference
 };
 
 } // end of fdm namespace

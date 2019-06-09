@@ -39,11 +39,33 @@ F16_LandingGear::~F16_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::readData( XmlNode &dataNode )
+void F16_LandingGear::init()
 {
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
+    Wheel *wheel_n = getWheelByName( "wheel_n" );
+    Wheel *wheel_l = getWheelByName( "wheel_l" );
+    Wheel *wheel_r = getWheelByName( "wheel_r" );
+
+    if ( 0 != wheel_n
+      && 0 != wheel_l
+      && 0 != wheel_r )
+    {
+        wheel_n->input = &m_aircraft->getDataInp()->controls.landing_gear;
+        wheel_l->input = &m_aircraft->getDataInp()->controls.landing_gear;
+        wheel_r->input = &m_aircraft->getDataInp()->controls.landing_gear;
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "ERROR! Obtaining wheels failed." );
+
+        FDM_THROW( e );
+    }
+
+    ////////////////////
+    LandingGear::init();
+    ////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +81,6 @@ void F16_LandingGear::update()
 
     m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
 
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
+    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
+    m_steering = m_aircraft->getDataInp()->controls.nw_steering;
 }

@@ -22,8 +22,8 @@
 
 #include <fdm_f16/f16_Aircraft.h>
 
-#include <fdmUtils/fdm_Units.h>
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/utils/fdm_Units.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -55,44 +55,6 @@ void F16_Propulsion::init( bool engineOn )
     /////////////////////////////
     Propulsion::init( engineOn );
     /////////////////////////////
-
-    int result = FDM_SUCCESS;
-
-    // inputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/throttle" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/fuel"     , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/ignition" , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "input/propulsion/starter"  , DataNode::Bool   );
-
-    // outputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/state" , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/ab"    , DataNode::Bool   );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/n2"    , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/tit"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/propulsion/ff"    , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_drThrottle  = getDataRef( "input/propulsion/throttle" );
-        m_drFuel      = getDataRef( "input/propulsion/fuel"     );
-        m_drIgnition  = getDataRef( "input/propulsion/ignition" );
-        m_drStarter   = getDataRef( "input/propulsion/starter"  );
-
-        m_drEngineOn  = getDataRef( "output/propulsion/state" );
-        m_drEngineAB  = getDataRef( "output/propulsion/ab"    );
-        m_drEngineN2  = getDataRef( "output/propulsion/n2"    );
-        m_drEngineTIT = getDataRef( "output/propulsion/tit"   );
-        m_drEngineFF  = getDataRef( "output/propulsion/ff"    );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
 
     m_engine->initialize( engineOn );
 }
@@ -148,12 +110,8 @@ void F16_Propulsion::computeForceAndMoment()
 void F16_Propulsion::update()
 {
     m_engine->integrate( m_aircraft->getTimeStep() );
-    m_engine->update( m_drThrottle.getDatad(), Units::k2c( m_aircraft->getEnvir()->getTemperature() ),
-                      m_drFuel.getDatab(), m_drStarter.getDatab() );
-
-    m_drEngineOn  .setDatab( m_engine->getState() == Engine::Running );
-    m_drEngineAB  .setDatab( m_engine->getAfterburner() );
-    m_drEngineN2  .setDatad( m_engine->getN2() );
-    m_drEngineTIT .setDatad( m_engine->getTIT() );
-    m_drEngineFF  .setDatad( m_engine->getFuelFlow() );
+    m_engine->update( m_aircraft->getDataInp()->engine[ 0 ].throttle,
+                      Units::k2c( m_aircraft->getEnvir()->getTemperature() ),
+                      m_aircraft->getDataInp()->engine[ 0 ].fuel,
+                      m_aircraft->getDataInp()->engine[ 0 ].starter );
 }

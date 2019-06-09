@@ -39,7 +39,7 @@ const osg::Vec3 Color::red    = osg::Vec3( 1.00f, 0.00f, 0.00f );
 const osg::Vec3 Color::white  = osg::Vec3( 1.00f, 1.00f, 1.00f );
 const osg::Vec3 Color::yellow = osg::Vec3( 1.00f, 1.00f, 0.00f );
 
-const osg::Vec3 Color::hud = osg::Vec3( 0.0f, 0.8f, 0.0f );
+const osg::Vec3 Color::hud = osg::Vec3( 0.05f, 0.7f, 0.05f );
 
 const osg::Vec3 Color::sky[] = {
     osg::Vec3(   5.0f/255.0f,   5.0f/255.0f,   8.0f/255.0f ), //  0) 05:20 (-10 deg)

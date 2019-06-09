@@ -22,7 +22,7 @@
 
 #include <fdm_c172/c172_Aircraft.h>
 
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -139,8 +139,8 @@ void C172_Aerodynamics::computeForceAndMoment()
     m_for_aero.x() *= getPrandtlGlauertCoef( m_aircraft->getMachNumber() );
 
     // propwash effect
-    m_mom_stab.x() += m_aircraft->getProp()->getTorque() * m_dl_dtorque;
-    m_mom_stab.z() += m_aircraft->getProp()->getTorque() * m_dn_dtorque;
+    m_mom_stab.x() += m_aircraft->getProp()->getPropeller()->getTorque() * m_dl_dtorque;
+    m_mom_stab.z() += m_aircraft->getProp()->getPropeller()->getTorque() * m_dn_dtorque;
 
     // ground effect
     m_for_aero.x() *= m_drag_ground_effect.getValue( m_aircraft->getAltitude_AGL() );

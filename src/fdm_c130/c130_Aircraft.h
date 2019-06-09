@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aircraft.h>
+#include <fdm/main/fdm_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,13 +39,16 @@ class C130_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    C130_Aircraft();
+    C130_Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~C130_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
+
+    /** Writes output data. */
+    void dataOutput();
 };
 
 } // end of fdm namespace

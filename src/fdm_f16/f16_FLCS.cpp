@@ -25,9 +25,9 @@
 #include <iostream>
 #include <algorithm>
 
-#include <fdmSys/fdm_Lag.h>
-#include <fdmUtils/fdm_Misc.h>
-#include <fdmUtils/fdm_Units.h>
+#include <fdm/sys/fdm_Lag.h>
+#include <fdm/utils/fdm_Misc.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

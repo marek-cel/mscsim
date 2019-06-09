@@ -36,3 +36,45 @@ C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_Mass::~C172_Mass() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Mass::init()
+{
+    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
+    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
+    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
+    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
+    VarMass *cabin       = getVariableMassByName( "cabin" );
+    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
+
+    if ( 0 != pilot_l
+      && 0 != pilot_r
+      && 0 != fuel_tank_l
+      && 0 != fuel_tank_r
+      && 0 != cabin
+      && 0 != trunk )
+    {
+        pilot_l->input = &m_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input = &m_aircraft->getDataInp()->masses.pilot_2;
+
+        fuel_tank_l->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
+        fuel_tank_r->input = &m_aircraft->getDataInp()->masses.fuel_tank_2;
+
+        cabin->input = &m_aircraft->getDataInp()->masses.cabin;
+        trunk->input = &m_aircraft->getDataInp()->masses.trunk;
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "ERROR! Obtaining variable masses failed." );
+
+        FDM_THROW( e );
+    }
+
+    /////////////
+    Mass::init();
+    /////////////
+}

@@ -39,15 +39,6 @@ UH60_LandingGear::~UH60_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_LandingGear::readData( XmlNode &dataNode )
-{
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void UH60_LandingGear::update()
 {
     //////////////////////
@@ -59,6 +50,6 @@ void UH60_LandingGear::update()
 
     m_ctrlAngle = 0.0;
 
-    m_antiskid = true;
+    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
     m_steering = false;
 }

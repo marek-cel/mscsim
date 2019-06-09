@@ -65,29 +65,6 @@ UH60_Controls::~UH60_Controls()
 
 void UH60_Controls::init()
 {
-    /////////////////
-    Controls::init();
-    /////////////////
-
-    int result = FDM_SUCCESS;
-
-    // inputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/elevator" , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_outputElevator  = getDataRef( "output/controls/elevator" );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
-
     m_channelCyclicLat  = getChannelByName( "cyclic_lat" );
     m_channelCyclicLon  = getChannelByName( "cyclic_lon" );
     m_channelCollective = getChannelByName( "collective" );
@@ -96,13 +73,23 @@ void UH60_Controls::init()
     m_channelBrakeL     = getChannelByName( "brake_l"    );
     m_channelBrakeR     = getChannelByName( "brake_r"    );
 
-    if ( 0 == m_channelCyclicLat
-      || 0 == m_channelCyclicLon
-      || 0 == m_channelCollective
-      || 0 == m_channelTailPitch
-      || 0 == m_channelElevator
-      || 0 == m_channelBrakeL
-      || 0 == m_channelBrakeR )
+    if ( 0 != m_channelCyclicLat
+      && 0 != m_channelCyclicLon
+      && 0 != m_channelCollective
+      && 0 != m_channelTailPitch
+      && 0 != m_channelElevator
+      && 0 != m_channelBrakeL
+      && 0 != m_channelBrakeR )
+    {
+        m_channelCyclicLat  ->input = &m_aircraft->getDataInp()->controls.roll;
+        m_channelCyclicLon  ->input = &m_aircraft->getDataInp()->controls.pitch;
+        m_channelCollective ->input = &m_aircraft->getDataInp()->controls.collective;
+        m_channelTailPitch  ->input = &m_aircraft->getDataInp()->controls.yaw;
+        m_channelElevator   ->input = &m_aircraft->getDataInp()->controls.pitch;
+        m_channelBrakeL     ->input = &m_aircraft->getDataInp()->controls.brake_l;
+        m_channelBrakeR     ->input = &m_aircraft->getDataInp()->controls.brake_r;
+    }
+    else
     {
         Exception e;
 
@@ -111,6 +98,10 @@ void UH60_Controls::init()
 
         FDM_THROW( e );
     }
+
+    /////////////////
+    Controls::init();
+    /////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +120,4 @@ void UH60_Controls::update()
 
     m_brake_l = m_channelBrakeL->output;
     m_brake_r = m_channelBrakeR->output;
-
-    m_outputElevator.setDatad( m_elevator );
 }

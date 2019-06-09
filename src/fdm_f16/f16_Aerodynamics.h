@@ -24,10 +24,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Aerodynamics.h>
+#include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdmUtils/fdm_Table.h>
-#include <fdmUtils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table2D.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

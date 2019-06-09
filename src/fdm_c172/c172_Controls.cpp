@@ -59,35 +59,6 @@ C172_Controls::~C172_Controls() {}
 
 void C172_Controls::init()
 {
-    /////////////////
-    Controls::init();
-    /////////////////
-
-    int result = FDM_SUCCESS;
-
-    // inputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/ailerons" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/elevator" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/rudder"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/controls/flaps"    , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_outputAilerons  = getDataRef( "output/controls/ailerons" );
-        m_outputElevator  = getDataRef( "output/controls/elevator" );
-        m_outputRudder    = getDataRef( "output/controls/rudder"   );
-        m_outputFlaps     = getDataRef( "output/controls/flaps"    );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
-
     m_channelAilerons     = getChannelByName( "ailerons"      );
     m_channelElevator     = getChannelByName( "elevator"      );
     m_channelRudder       = getChannelByName( "rudder"        );
@@ -97,14 +68,25 @@ void C172_Controls::init()
     m_channelBrakeR       = getChannelByName( "brake_r"       );
     m_channelNoseWheel    = getChannelByName( "nose_wheel"    );
 
-    if ( 0 == m_channelAilerons
-      || 0 == m_channelElevator
-      || 0 == m_channelRudder
-      || 0 == m_channelElevatorTrim
-      || 0 == m_channelFlaps
-      || 0 == m_channelBrakeL
-      || 0 == m_channelBrakeR
-      || 0 == m_channelNoseWheel )
+    if ( 0 != m_channelAilerons
+      && 0 != m_channelElevator
+      && 0 != m_channelRudder
+      && 0 != m_channelElevatorTrim
+      && 0 != m_channelFlaps
+      && 0 != m_channelBrakeL
+      && 0 != m_channelBrakeR
+      && 0 != m_channelNoseWheel )
+    {
+        m_channelAilerons     ->input = &m_aircraft->getDataInp()->controls.roll;
+        m_channelElevator     ->input = &m_aircraft->getDataInp()->controls.pitch;
+        m_channelRudder       ->input = &m_aircraft->getDataInp()->controls.yaw;
+        m_channelElevatorTrim ->input = &m_aircraft->getDataInp()->controls.trim_pitch;
+        m_channelFlaps        ->input = &m_aircraft->getDataInp()->controls.flaps;
+        m_channelBrakeL       ->input = &m_aircraft->getDataInp()->controls.brake_l;
+        m_channelBrakeR       ->input = &m_aircraft->getDataInp()->controls.brake_r;
+        m_channelNoseWheel    ->input = &m_aircraft->getDataInp()->controls.nose_wheel;
+    }
+    else
     {
         Exception e;
 
@@ -114,19 +96,9 @@ void C172_Controls::init()
         FDM_THROW( e );
     }
 
-    if ( FDM_SUCCESS == addDataRef( "input/controls/nw_steering", DataNode::Bool ) )
-    {
-        m_drNwSteering = getDataRef( "input/controls/nw_steering" );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Creating data references failed." );
-
-        FDM_THROW( e );
-    }
+    /////////////////
+    Controls::init();
+    /////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -149,10 +121,4 @@ void C172_Controls::update()
     m_brake_r = m_channelBrakeR->output;
 
     m_nose_wheel = m_channelNoseWheel->output;
-    m_nwSteering = m_drNwSteering.getDatab();
-
-    m_outputAilerons .setDatad( m_ailerons );
-    m_outputElevator .setDatad( m_elevator );
-    m_outputRudder   .setDatad( m_rudder   );
-    m_outputFlaps    .setDatad( m_flaps    );
 }

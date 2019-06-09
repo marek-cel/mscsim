@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmXml/fdm_XmlNode.h>
+#include <fdm/xml/fdm_XmlNode.h>
 
 #include <cgi/cgi_Module.h>
 

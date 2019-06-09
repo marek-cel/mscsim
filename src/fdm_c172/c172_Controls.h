@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdmMain/fdm_Controls.h>
+#include <fdm/main/fdm_Controls.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -60,7 +60,6 @@ public:
     inline double getBrakeL()       const { return m_brake_l;       }
     inline double getBrakeR()       const { return m_brake_r;       }
     inline double getNoseWheel()    const { return m_nose_wheel;    }
-    inline bool   getNwSteering()   const { return m_nwSteering;    }
 
 private:
 
@@ -83,15 +82,6 @@ private:
     double m_brake_l;                   ///< [-] normalized left brake force
     double m_brake_r;                   ///< [-] normalized right brake force
     double m_nose_wheel;                ///< [rad] nose wheel turn angle
-
-    bool m_nwSteering;                  ///< nose wheel steering
-
-    DataRef m_drNwSteering;             ///< nose wheel steering data refernce
-
-    DataRef m_outputAilerons;           ///<
-    DataRef m_outputElevator;           ///<
-    DataRef m_outputRudder;             ///<
-    DataRef m_outputFlaps;              ///<
 };
 
 } // end of fdm namespace

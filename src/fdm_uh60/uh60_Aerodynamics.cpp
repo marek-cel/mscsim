@@ -22,7 +22,7 @@
 
 #include <fdm_uh60/uh60_Aircraft.h>
 
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,39 +74,6 @@ void UH60_Aerodynamics::init()
     /////////////////////
     Aerodynamics::init();
     /////////////////////
-
-    int result = FDM_SUCCESS;
-
-    // outputs
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/azimuth"      , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/coning_angle" , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/disk_roll"    , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/disk_pitch"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/collective"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/cyclic_lon"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/main_rotor/cyclic_lat"   , DataNode::Double );
-    if ( result == FDM_SUCCESS ) result = addDataRef( "output/aerodynamics/tail_rotor/azimuth"      , DataNode::Double );
-
-    if ( result == FDM_SUCCESS )
-    {
-        m_drMainRotorAzimuth     = getDataRef( "output/aerodynamics/main_rotor/azimuth"      );
-        m_drMainRotorConingAngle = getDataRef( "output/aerodynamics/main_rotor/coning_angle" );
-        m_drMainRotorDiskRoll    = getDataRef( "output/aerodynamics/main_rotor/disk_roll"    );
-        m_drMainRotorDiskPitch   = getDataRef( "output/aerodynamics/main_rotor/disk_pitch"   );
-        m_drMainRotorCollective  = getDataRef( "output/aerodynamics/main_rotor/collective"   );
-        m_drMainRotorCyclicLon   = getDataRef( "output/aerodynamics/main_rotor/cyclic_lon"   );
-        m_drMainRotorCyclicLat   = getDataRef( "output/aerodynamics/main_rotor/cyclic_lat"   );
-        m_drTailRotorAzimuth     = getDataRef( "output/aerodynamics/tail_rotor/azimuth"      );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Initializing data references failed." );
-
-        FDM_THROW( e );
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -233,13 +200,4 @@ void UH60_Aerodynamics::update()
 
     m_mainRotor->update( m_aircraft->getProp()->getMainRotorOmega() );
     m_tailRotor->update( m_aircraft->getProp()->getTailRotorOmega() );
-
-    m_drMainRotorAzimuth     .setDatad( m_aircraft->getProp()->getMainRotorPsi() );
-    m_drMainRotorConingAngle .setDatad( m_mainRotor->getConingAngle()    );
-    m_drMainRotorDiskRoll    .setDatad( m_mainRotor->getDiskRoll()  );
-    m_drMainRotorDiskPitch   .setDatad( m_mainRotor->getDiskPitch() );
-    m_drMainRotorCollective  .setDatad( m_aircraft->getCtrl()->getCollective() );
-    m_drMainRotorCyclicLon   .setDatad( m_aircraft->getCtrl()->getCyclicLon() );
-    m_drMainRotorCyclicLat   .setDatad( m_aircraft->getCtrl()->getCyclicLat() );
-    m_drTailRotorAzimuth     .setDatad( m_aircraft->getProp()->getTailRotorPsi() );
 }

@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_Aircraft::F16_Aircraft() :
-    Aircraft(),
+F16_Aircraft::F16_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( dataInp, dataOut ),
 
     m_aero ( 0 ),
     m_ctrl ( 0 ),
@@ -73,4 +73,29 @@ void F16_Aircraft::init( bool engineOn )
     ///////////////////////////
     Aircraft::init( engineOn );
     ///////////////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16_Aircraft::dataOutput()
+{
+    ///////////////////////
+    Aircraft::dataOutput();
+    ///////////////////////
+
+    // controls
+    m_dataOut->controls.elevator  = m_ctrl->getFLCS()->getElevator();
+    m_dataOut->controls.elevons   = m_ctrl->getFLCS()->getElevons();
+    m_dataOut->controls.rudder    = m_ctrl->getFLCS()->getRudder();
+    m_dataOut->controls.flaps     = m_ctrl->getFLCS()->getFlapsTE();
+    m_dataOut->controls.flaperons = m_ctrl->getFLCS()->getAilerons(); // sic!
+    m_dataOut->controls.lef       = m_ctrl->getFLCS()->getFlapsLE();
+    m_dataOut->controls.airbrake  = m_ctrl->getAirbrake();
+
+    // propulsion
+    m_dataOut->engine[ 0 ].state = m_prop->getEngine()->getState() == Engine::Running;
+    m_dataOut->engine[ 0 ].afterburner = m_prop->getEngine()->getAfterburner();
+    m_dataOut->engine[ 0 ].n2  = m_prop->getEngine()->getN2();
+    m_dataOut->engine[ 0 ].tit = m_prop->getEngine()->getTIT();
+    m_dataOut->engine[ 0 ].ff  = m_prop->getEngine()->getFuelFlow();
 }

@@ -1,4 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aircraft>
   <model>data/cgi/entities/f16c.osgb</model>
+  
+  <landing_gear_1>
+      <input_min>  0.0 </input_min>
+      <input_max>  0.6 </input_max>
+      <angle_min> 72.0 </angle_min>
+      <angle_max> 00.0 </angle_max>
+  </landing_gear_1>
+  
+  <landing_gear_2>
+      <input_min>  0.0 </input_min>
+      <input_max>  0.6 </input_max>
+      <angle_min> 90.0 </angle_min>
+      <angle_max>  0.0 </angle_max>
+  </landing_gear_2>
+  
+  <landing_gear_3>
+      <input_min>  0.0 </input_min>
+      <input_max>  0.6 </input_max>
+      <angle_min> 72.0 </angle_min>
+      <angle_max>  0.0 </angle_max>
+  </landing_gear_3>
+  
+  <landing_gear_4>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min> 101.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+  </landing_gear_4>
+  
+  <landing_gear_5>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min> 100.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+  </landing_gear_5>
+  
+  <landing_gear_6>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min> 101.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+  </landing_gear_6>
+  
 </aircraft>

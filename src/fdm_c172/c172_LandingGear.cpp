@@ -39,15 +39,6 @@ C172_LandingGear::~C172_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_LandingGear::readData( XmlNode &dataNode )
-{
-    //////////////////////////////////
-    LandingGear::readData( dataNode );
-    //////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void C172_LandingGear::update()
 {
     //////////////////////
@@ -59,6 +50,6 @@ void C172_LandingGear::update()
 
     m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
 
-    m_antiskid = true;
-    m_steering = m_aircraft->getCtrl()->getNwSteering();
+    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
+    m_steering = m_aircraft->getDataInp()->controls.nw_steering;
 }

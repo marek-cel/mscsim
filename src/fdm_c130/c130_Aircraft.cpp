@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C130_Aircraft::C130_Aircraft() :
-    Aircraft()
+C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( dataInp, dataOut )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,4 +61,25 @@ void C130_Aircraft::init( bool engineOn )
     ///////////////////////////
     Aircraft::init( engineOn );
     ///////////////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C130_Aircraft::dataOutput()
+{
+    ///////////////////////
+    Aircraft::dataOutput();
+    ///////////////////////
+
+//    // controls
+//    m_dataOut->controls.ailerons = m_ctrl->getAilerons();
+//    m_dataOut->controls.elevator = m_ctrl->getElevator();
+//    m_dataOut->controls.rudder   = m_ctrl->getRudder();
+//    m_dataOut->controls.flaps    = m_ctrl->getFlaps();
+
+//    // propulsion
+//    m_dataOut->engine[ 0 ].state = m_prop->getEngine()->getState() == Engine::Running;
+//    m_dataOut->engine[ 0 ].rpm = m_prop->getEngine()->getRPM();
+//    m_dataOut->engine[ 0 ].map = m_prop->getEngine()->getMAP();
+//    m_dataOut->engine[ 0 ].ff  = m_prop->getEngine()->getFuelFlow();
 }

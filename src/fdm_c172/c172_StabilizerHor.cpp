@@ -22,7 +22,7 @@
 
 #include <fdm_c172/c172_StabilizerHor.h>
 
-#include <fdmXml/fdm_XmlUtils.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

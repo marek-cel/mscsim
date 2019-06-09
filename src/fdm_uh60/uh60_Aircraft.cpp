@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Aircraft::UH60_Aircraft() :
-    Aircraft()
+UH60_Aircraft::UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( dataInp, dataOut )
 {
     Aircraft::m_aero = m_aero = new UH60_Aerodynamics( this );
     Aircraft::m_ctrl = m_ctrl = new UH60_Controls( this );
@@ -67,4 +67,32 @@ void UH60_Aircraft::init( bool engineOn )
     ///////////////////////////
     Aircraft::init( engineOn );
     ///////////////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Aircraft::dataOutput()
+{
+    ///////////////////////
+    Aircraft::dataOutput();
+    ///////////////////////
+
+    // controls
+    m_dataOut->controls.elevator = m_ctrl->getElevator();
+
+//    // propulsion
+//    m_dataOut->engine[ 0 ].state = m_prop->getEngine()->getState() == Engine::Running;
+//    m_dataOut->engine[ 0 ].rpm = m_prop->getEngine()->getRPM();
+//    m_dataOut->engine[ 0 ].map = m_prop->getEngine()->getMAP();
+//    m_dataOut->engine[ 0 ].ff  = m_prop->getEngine()->getFuelFlow();
+
+    // rotor
+    m_dataOut->rotor.mainRotor_azimuth     = m_prop->getMainRotorPsi();
+    m_dataOut->rotor.mainRotor_coningAngle = m_aero->getMainRotor()->getConingAngle();
+    m_dataOut->rotor.mainRotor_diskRoll    = m_aero->getMainRotor()->getDiskRoll();
+    m_dataOut->rotor.mainRotor_diskPitch   = m_aero->getMainRotor()->getDiskPitch();
+    m_dataOut->rotor.mainRotor_collective  = m_ctrl->getCollective();
+    m_dataOut->rotor.mainRotor_cyclicLon   = m_ctrl->getCyclicLon();
+    m_dataOut->rotor.mainRotor_cyclicLat   = m_ctrl->getCyclicLat();
+    m_dataOut->rotor.tailRotor_azimuth     = m_prop->getTailRotorPsi();
 }
