@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fdm/main/fdm_Controls.h>
 #include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm/utils/fdm_String.h>

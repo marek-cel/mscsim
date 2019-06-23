@@ -38,7 +38,7 @@
 namespace fdm
 {
 
-class UH60_Aircraft; ///< aircraft class forward declaration
+class UH60_Aircraft;    ///< aircraft class forward declaration
 
 /**
  * @brief UH-60 aerodynamics class.

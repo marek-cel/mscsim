@@ -32,30 +32,108 @@ using namespace fdm;
 
 Vector3 WindShear::getWindModel1( double distance )
 {
-    // TODO
-    return Vector3();
+    Vector3 result( 0.0, 0.0, 0.0 );
+
+    if ( distance < 1371.6 )        // 4,500 ft
+    {
+        // 46 kts = 23.66 m/s
+        double grad = 23.66 / 1371.6;
+        result.x() = distance * grad;
+    }
+    else if ( distance < 2286.0 )   // 7,500 ft
+    {
+        // 46 kts = 23.66 m/s
+        result.x() = 23.66;
+    }
+    else if ( distance < 3657.6 )   // 12,000 ft
+    {
+        // 46 kts = 23.66 m/s
+        double grad = 23.66 / ( 3657.6 - 2286.0 );
+        result.x() = 23.66 - ( distance - 2286.0 ) * grad;
+    }
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Vector3 WindShear::getWindModel2( double distance )
 {
-    // TODO
-    return Vector3();
+    Vector3 result( 0.0, 0.0, 0.0 );
+
+    if ( distance < 2133.6 )        // 7,000 ft
+    {
+        // 60 kts = 30.87 m/s
+        double grad = 30.87 / 2133.6;
+        result.x() = distance * grad;
+    }
+    else if ( distance < 3413.76 )  // 11,200 ft
+    {
+        // 60 kts = 30.87 m/s
+        result.x() = 30.87;
+    }
+    else if ( distance < 5120.64 )  // 16,800 ft
+    {
+        // 60 kts = 30.87 m/s
+        double grad = 30.87 / ( 5120.64 - 3413.76 );
+        result.x() = 30.87 - ( distance - 3413.76 ) * grad;
+    }
+
+    if ( distance < 640.08 )        // 2,100 ft
+    {
+        // 18 kts = 9.26 m/s
+        double grad = 9.26 / 640.08;
+        result.z() = distance * grad;
+    }
+    else if ( distance < 1371.6 )   // 4,500 ft
+    {
+        // 18 kts = 9.26 m/s
+        result.z() = 9.26;
+    }
+    else if ( distance < 2133.6 )   // 7,000 ft
+    {
+        // 18 kts = 9.26 m/s
+        double grad = 9.26 / ( 2133.6 - 1371.6 );
+        result.z() = 9.26 - ( distance - 1371.6 ) * grad;
+    }
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Vector3 WindShear::getWindModel3( double distance )
 {
+    Vector3 result( 0.0, 0.0, 0.0 );
+
+    if ( distance < 1524.0 )        // 5,000 ft
+    {
+        // 52 kts = 26.75 m/s
+        double grad = 26.75 / 1524.0;
+        result.x() = distance * grad;
+    }
+    else if ( distance < 2438.4 )  // 8,000 ft
+    {
+        // 52 kts = 26.75 m/s
+        result.x() = 26.75;
+    }
+    else if ( distance < 3901.44 )  // 12,800 ft
+    {
+        // 52 kts = 26.75 m/s
+        double grad = 26.75 / ( 3901.44 - 2438.4 );
+        result.x() = 26.75 - ( distance - 2438.4 ) * grad;
+    }
+
     // TODO
-    return Vector3();
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Vector3 WindShear::getWindModel4( double distance )
 {
+    Vector3 result( 0.0, 0.0, 0.0 );
     // TODO
-    return Vector3();
+    return result;
 }

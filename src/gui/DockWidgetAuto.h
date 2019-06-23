@@ -37,6 +37,7 @@ namespace Ui
 
 /**
  * @brief Autopilot dock widget class.
+ * Based on Bendix King KMV 321 Mode Controller.
  */
 class DockWidgetAuto : public QDockWidget
 {

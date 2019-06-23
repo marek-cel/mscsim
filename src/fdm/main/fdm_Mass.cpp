@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fdm/main/fdm_Mass.h>
 #include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm/utils/fdm_String.h>

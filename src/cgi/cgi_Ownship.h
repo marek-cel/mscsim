@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_ENTITIES_H
-#define CGI_ENTITIES_H
+#ifndef CGI_OWNSHIP_H
+#define CGI_OWNSHIP_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -112,4 +112,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CGI_ENTITIES_H
+#endif // CGI_OWNSHIP_H

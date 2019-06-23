@@ -35,7 +35,7 @@
 namespace fdm
 {
 
-class C172_Aircraft; ///< aircraft class forward declaration
+class C172_Aircraft;    ///< aircraft class forward declaration
 
 /**
  * @brief Cessna 172 aerodynamics class.

@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fdm_c172/c172_Aerodynamics.h>
 #include <fdm_c172/c172_Aircraft.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>

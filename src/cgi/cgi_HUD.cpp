@@ -19,9 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
+
 #include <cgi/cgi_HUD.h>
 
-#include <stdio.h>
+#include <sstream>
 
 #include <osg/Drawable>
 #include <osg/Geode>
@@ -506,7 +507,6 @@ void HUD::createHeadingScale()
         text->setPosition( osg::Vec3( 0.0f, y_del + box_h * 0.5f + 1.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::CENTER_BASE_LINE );
-
         text->setText( "360" );
         m_heading->addDrawable( text );
     }
@@ -785,9 +785,7 @@ void HUD::createStall()
     text->setPosition( osg::Vec3( 0.0f, 20.0f, -1.0f ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
     text->setAlignment( osgText::Text::CENTER_BASE_LINE );
-
     text->setText( "STALL" );
-
     geode->addDrawable( text );
 }
 
@@ -843,9 +841,7 @@ void HUD::createTextL()
         text->setPosition( osg::Vec3( -x - 1.0f, y + 2.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "9999" );
-
         m_airspeed->addDrawable( text );
     }
 
@@ -863,7 +859,6 @@ void HUD::createTextL()
         text->setPosition( osg::Vec3( -x - 1.0f, y - 7.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "2.15" );
         m_machNo->addDrawable( text );
     }
@@ -882,7 +877,6 @@ void HUD::createTextL()
         text->setPosition( osg::Vec3( -x - 1.0f, y - 15.0f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "1.0G" );
         m_gForce->addDrawable( text );
     }
@@ -940,7 +934,6 @@ void HUD::createTextR()
         text->setPosition( osg::Vec3( x + w - 1.0f, y + 2.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "99,999" );
         m_altitude->addDrawable( text );
     }
@@ -959,7 +952,6 @@ void HUD::createTextR()
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 7.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "6000" );
         m_climbRate->addDrawable( text );
     }
@@ -978,7 +970,6 @@ void HUD::createTextR()
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 15.0f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
         text->setText( "RA 9999" );
         m_radioAlt->addDrawable( text );
     }
@@ -1060,16 +1051,8 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
         geode->addDrawable( geometry.get() );
     }
 
-    char deg_srt[256];
-
-    if ( deg < 0 )
-    {
-        sprintf( deg_srt, "%d", -deg );
-    }
-    else
-    {
-        sprintf( deg_srt, "%d",  deg );
-    }
+    std::stringstream deg_str;
+    deg_str << ( deg < 0 ? -deg : deg );
 
     // TEXT
     float y_del = m_charSize - 3.0;
@@ -1092,9 +1075,8 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
         text->setPosition( osg::Vec3( -w / 2.0f, y + y_del, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::LEFT_BASE_LINE );
-
-        text->setText( deg_srt );
-        geode->addDrawable(text);
+        text->setText( deg_str.str() );
+        geode->addDrawable( text );
     }
 
     // text R
@@ -1108,9 +1090,8 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
         text->setPosition( osg::Vec3( w / 2.0f, y + y_del, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
-
-        text->setText( deg_srt );
-        geode->addDrawable(text);
+        text->setText( deg_str.str() );
+        geode->addDrawable( text );
     }
 }
 
@@ -1135,10 +1116,8 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x, int deg1
     text->setPosition( osg::Vec3( x, y_del - m_charSize - 3.0f, -1.0f ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
     text->setAlignment( osgText::Text::CENTER_BASE_LINE );
-
     text->setText( deg10_srt );
-
-    geode->addDrawable(text);
+    geode->addDrawable( text );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

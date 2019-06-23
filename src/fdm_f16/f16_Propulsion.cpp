@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fdm_f16/f16_Propulsion.h>
 #include <fdm_f16/f16_Aircraft.h>
 
 #include <fdm/utils/fdm_Units.h>

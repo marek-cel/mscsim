@@ -195,7 +195,7 @@ void Manager::initEquilibriumOnGround()
                                     derivVector( is_w ) );
 
             // attitude updating only on the ground
-            if ( m_aircraft->getGear()->getFor_BAS().getLength2() > 0 )
+            if ( m_aircraft->getGear()->getFor_BAS().getLength2() > 0.0 )
             {
                 m_init_phi += dp_dt * coef;
                 m_init_tht += dq_dt * coef;

@@ -44,7 +44,7 @@ public:
      * getWindModel1
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #1, p. 4.3-146
      * @param distance [m]
-     * @return [m/s] wind speed vector expressed in Body-Axis-System
+     * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
      */
     static Vector3 getWindModel1( double distance );
 
@@ -52,7 +52,7 @@ public:
      * getWindModel2
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #2, p. 4.3-148
      * @param distance [m]
-     * @return [m/s] wind speed vector expressed in Body-Axis-System
+     * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
      */
     static Vector3 getWindModel2( double distance );
 
@@ -60,7 +60,7 @@ public:
      * getWindModel3
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #3, p. 4.3-150
      * @param distance [m]
-     * @return [m/s] wind speed vector expressed in Body-Axis-System
+     * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
      */
     static Vector3 getWindModel3( double distance );
 
@@ -68,7 +68,7 @@ public:
      * getWindModel4
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #4, p. 4.3-152
      * @param distance [m]
-     * @return [m/s] wind speed vector expressed in Body-Axis-System
+     * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
      */
     static Vector3 getWindModel4( double distance );
 };

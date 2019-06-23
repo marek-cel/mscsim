@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/main/fdm_Base.h>
+
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Vector3.h>
 
