@@ -1,6 +1,10 @@
 2019-06-23 Marek M. Cel <marekcel@marekcel.pl>
     
     * source code minor changes
+    
+    * F-16 3D models for CFD
+    
+    * F-16 OpenFOAM simulations case and run script
 
 
 
