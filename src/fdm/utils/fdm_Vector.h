@@ -29,7 +29,7 @@
 #include <sstream>
 #include <string>
 
-#include <fdm/main/fdm_Exception.h>
+#include <fdm/fdm_Exception.h>
 #include <fdm/utils/fdm_Misc.h>
 
 ////////////////////////////////////////////////////////////////////////////////

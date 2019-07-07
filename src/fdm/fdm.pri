@@ -1,11 +1,14 @@
 HEADERS += \
+    $$PWD/fdm_Base.h \
     $$PWD/fdm_DataInp.h \
     $$PWD/fdm_DataOut.h \
     $$PWD/fdm_Defines.h \
+    $$PWD/fdm_Exception.h \
     $$PWD/fdm_Manager.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \
+    $$PWD/fdm_Base.cpp \
     $$PWD/fdm_Manager.cpp
 
 ################################################################################
@@ -21,50 +24,55 @@ SOURCES += \
 HEADERS += \
     $$PWD/main/fdm_Aerodynamics.h \
     $$PWD/main/fdm_Aircraft.h \
-    $$PWD/main/fdm_Atmosphere.h \
-    $$PWD/main/fdm_Base.h \
     $$PWD/main/fdm_Controls.h \
-    $$PWD/main/fdm_Engine.h \
     $$PWD/main/fdm_Environment.h \
-    $$PWD/main/fdm_Exception.h \
-    $$PWD/main/fdm_Fuselage.h \
-    $$PWD/main/fdm_HingeMoment.h \
     $$PWD/main/fdm_Intersections.h \
     $$PWD/main/fdm_LandingGear.h \
-    $$PWD/main/fdm_MainRotor.h \
     $$PWD/main/fdm_Mass.h \
-    $$PWD/main/fdm_PistonEngine.h \
-    $$PWD/main/fdm_Propeller.h \
-    $$PWD/main/fdm_Propulsion.h \
-    $$PWD/main/fdm_Schrenk.h \
-    $$PWD/main/fdm_Stabilizer.h \
-    $$PWD/main/fdm_TailOff.h \
-    $$PWD/main/fdm_TailRotor.h \
-    $$PWD/main/fdm_Turbojet.h \
-    $$PWD/main/fdm_WindShear.h
+    $$PWD/main/fdm_Propulsion.h
 
 SOURCES += \
     $$PWD/main/fdm_Aerodynamics.cpp \
     $$PWD/main/fdm_Aircraft.cpp \
-    $$PWD/main/fdm_Atmosphere.cpp \
-    $$PWD/main/fdm_Base.cpp \
     $$PWD/main/fdm_Controls.cpp \
     $$PWD/main/fdm_Environment.cpp \
-    $$PWD/main/fdm_Fuselage.cpp \
-    $$PWD/main/fdm_HingeMoment.cpp \
     $$PWD/main/fdm_Intersections.cpp \
     $$PWD/main/fdm_LandingGear.cpp \
-    $$PWD/main/fdm_MainRotor.cpp \
     $$PWD/main/fdm_Mass.cpp \
-    $$PWD/main/fdm_PistonEngine.cpp \
-    $$PWD/main/fdm_Propeller.cpp \
-    $$PWD/main/fdm_Propulsion.cpp \
-    $$PWD/main/fdm_Schrenk.cpp \
-    $$PWD/main/fdm_Stabilizer.cpp \
-    $$PWD/main/fdm_TailOff.cpp \
-    $$PWD/main/fdm_TailRotor.cpp \
-    $$PWD/main/fdm_Turbojet.cpp \
-    $$PWD/main/fdm_WindShear.cpp
+    $$PWD/main/fdm_Propulsion.cpp
+
+################################################################################
+
+HEADERS += \
+    $$PWD/models/fdm_Atmosphere.h \
+    $$PWD/models/fdm_Engine.h \
+    $$PWD/models/fdm_Fuselage.h \
+    $$PWD/models/fdm_HingeMoment.h \
+    $$PWD/models/fdm_MainRotor.h \
+    $$PWD/models/fdm_PistonEngine.h \
+    $$PWD/models/fdm_Propeller.h \
+    $$PWD/models/fdm_Schrenk.h \
+    $$PWD/models/fdm_Stabilizer.h \
+    $$PWD/models/fdm_TailOff.h \
+    $$PWD/models/fdm_TailRotor.h \
+    $$PWD/models/fdm_Turbofan.h \
+    $$PWD/models/fdm_TurbofanAB.h \
+    $$PWD/models/fdm_WindShear.h
+
+SOURCES += \
+    $$PWD/models/fdm_Atmosphere.cpp \
+    $$PWD/models/fdm_Fuselage.cpp \
+    $$PWD/models/fdm_HingeMoment.cpp \
+    $$PWD/models/fdm_MainRotor.cpp \
+    $$PWD/models/fdm_PistonEngine.cpp \
+    $$PWD/models/fdm_Propeller.cpp \
+    $$PWD/models/fdm_Schrenk.cpp \
+    $$PWD/models/fdm_Stabilizer.cpp \
+    $$PWD/models/fdm_TailOff.cpp \
+    $$PWD/models/fdm_TailRotor.cpp \
+    $$PWD/models/fdm_Turbofan.cpp \
+    $$PWD/models/fdm_TurbofanAB.cpp \
+    $$PWD/models/fdm_WindShear.cpp
 
 ################################################################################
 

@@ -1,0 +1,41 @@
+#ifndef F16_FLCS_RECORDER_H
+#define F16_FLCS_RECORDER_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fstream>
+#include <vector>
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define F16_FLCS_REC_SIZE 32
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
+
+class F16_FLCS_Recorder
+{
+public:
+
+    F16_FLCS_Recorder();
+
+    ~F16_FLCS_Recorder();
+
+    void set( int index, double x );
+
+    void write( double t );
+
+private:
+
+    std::ofstream m_file;
+
+    double m_x[ F16_FLCS_REC_SIZE ];
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // F16_FLCS_RECORDER_H

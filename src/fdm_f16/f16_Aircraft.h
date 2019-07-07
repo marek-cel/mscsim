@@ -53,8 +53,8 @@ public:
     /** Initializes aircraft. */
     void init( bool engineOn = false );
 
-    /** Writes output data. */
-    void dataOutput();
+    /** Updates output data. */
+    void updateOutputData();
 
     inline F16_Aerodynamics* getAero() { return m_aero; }
     inline F16_Controls*     getCtrl() { return m_ctrl; }

@@ -80,7 +80,7 @@ public:
     void init();
 
     /** */
-    void reset();
+    void reset( bool onGround = true );
 
     /**
      * @param time step [s]

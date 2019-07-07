@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_HingeMoment.h>
+#include <fdm/models/fdm_HingeMoment.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 

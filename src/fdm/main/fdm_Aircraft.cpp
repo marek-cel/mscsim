@@ -135,7 +135,7 @@ void Aircraft::step( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::dataOutput()
+void Aircraft::updateOutputData()
 {
     // flight data
     m_dataOut->flight.latitude  = m_wgs.getPos_Geo().lat;

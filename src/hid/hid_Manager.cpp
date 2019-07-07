@@ -223,7 +223,7 @@ void Manager::init()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::reset()
+void Manager::reset( bool onGround )
 {
     m_timeStep = 0.0f;
 
@@ -241,7 +241,7 @@ void Manager::reset()
     m_brakeRight   = 0.0f;
     m_parkingBrake = 0.0f;
 
-    m_landingGear = 1.0f;
+    m_landingGear = onGround ? 1.0f : 0.0f;
 
     m_flaps    = 0.0f;
     m_airbrake = 0.0f;
@@ -264,7 +264,7 @@ void Manager::reset()
     m_prevParkingBrakeToggle = false;
     m_prevSpoilersToggle     = false;
 
-    m_stateLandingGear  = true;
+    m_stateLandingGear  = onGround;
     m_stateParkingBrake = false;
     m_stateSpoilers     = false;
 }

@@ -542,7 +542,8 @@ void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
     {
         ari_gain = 1.0 - alpha_abs / 10.0;
     }
-    double ari = 0.0375 * m_alpha_lag->getValue() - 0.65 * ari_gain * m_alpha_lag->getValue() * getGainF7( q_p );
+    double ari = //0.0375 * m_alpha_lag->getValue()
+        - 0.65 * ari_gain * m_alpha_lag->getValue() * getGainF7( q_p );
 
     double u_gy = -g_y; // TODO
     double r_auto = getGainF8( q_p ) * ( m_u_sum_ll2->getValue() + 19.32 * u_gy ) + 0.5 * m_delta_ac * ari;
@@ -562,23 +563,24 @@ void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double F16_FLCS::getGainF2( double q_p )
+double F16_FLCS::getGainF2( double /*q_p*/ )
 {
-    double gain = 1.0;
+//    double gain = 0.5;  // (NASA-TP-1538, p.210)
+    double gain = 0.38; // (AD-A202-599, p.3-12)
 
-    // (AD-A055-417, p.20 - F2)
-    if ( q_p <= 0.53 )
-    {
-        gain = 0.5;
-    }
-    else if ( q_p <= 1.79 )
-    {
-        gain = 0.5 - 1.5 * ( q_p - 0.53 ) / ( 1.79 - 0.53 );
-    }
-    else
-    {
-        gain = -1.0;
-    }
+//    // (AD-A055-417, p.20 - F2)
+//    if ( q_p <= 0.53 )
+//    {
+//        gain = 0.5;
+//    }
+//    else if ( q_p <= 1.79 )
+//    {
+//        gain = 0.5 - 1.5 * ( q_p - 0.53 ) / ( 1.79 - 0.53 );
+//    }
+//    else
+//    {
+//        gain = -1.0;
+//    }
 
     return gain;
 }
@@ -621,9 +623,13 @@ double F16_FLCS::getGainF7( double q_p )
     {
         gain = ( q_p - 0.187 ) / ( 1.129 - 0.187 );
     }
-    else if ( 1.129 <= q_p && q_p < 1.709 )
+//    else if ( 1.709 <= q_p && q_p < 3.29 )
+//    {
+//        gain = 1.0 - ( q_p - 1.709 ) / ( 3.29 - 1.709 );
+//    }
+    else if ( 1.129 <= q_p && q_p < 1.2 )
     {
-        gain = 1.0 - ( q_p - 1.129 ) / ( 1.709 - 1.129 );
+        gain = 1.0 - ( q_p - 1.129 ) / ( 1.2 - 1.129 );
     }
     else
     {
@@ -637,16 +643,29 @@ double F16_FLCS::getGainF7( double q_p )
 
 double F16_FLCS::getGainF8( double q_p )
 {
-    double gain = 1.0;
+    double gain = 0.5; // (NASA-TP-1538, p.216 & AD-A202-599, p.3-12)
 
-    // (AD-A055-417, p.20 - F8)
-    if ( q_p < 2.04 )
+//    // (AD-A055-417, p.20 - F8)
+//    if ( q_p < 2.04 )
+//    {
+//        gain = 0.5;
+//    }
+//    else if ( q_p < 3.23 )
+//    {
+//        gain = 0.5 + 0.5 * ( q_p - 2.04 ) / ( 3.23 - 2.04 );
+//    }
+//    else
+//    {
+//        gain = 1.0;
+//    }
+
+    if ( q_p > 1.0 && q_p <= 1.2 )
     {
-        gain = 0.5;
+        gain = 0.5 - 0.5 * ( q_p - 1.0 ) / ( 1.2 - 1.0 );
     }
-    else if ( q_p < 3.23 )
+    else if ( q_p > 1.0 )
     {
-        gain = 0.5 + 0.5 * ( q_p - 2.04 ) / ( 3.23 - 2.04 );
+        gain = 0.0;
     }
 
     return gain;

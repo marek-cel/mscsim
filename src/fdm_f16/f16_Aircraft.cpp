@@ -77,11 +77,11 @@ void F16_Aircraft::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_Aircraft::dataOutput()
+void F16_Aircraft::updateOutputData()
 {
-    ///////////////////////
-    Aircraft::dataOutput();
-    ///////////////////////
+    /////////////////////////////
+    Aircraft::updateOutputData();
+    /////////////////////////////
 
     // controls
     m_dataOut->controls.elevator  = m_ctrl->getFLCS()->getElevator();

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Atmosphere.h>
+#include <fdm/models/fdm_Atmosphere.h>
 
 #include <fdm/utils/fdm_WGS84.h>
 

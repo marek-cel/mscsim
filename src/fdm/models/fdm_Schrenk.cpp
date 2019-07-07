@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Schrenk.h>
+#include <fdm/models/fdm_Schrenk.h>
 
 #include <fdm/utils/fdm_Misc.h>
 

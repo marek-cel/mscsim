@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_PistonEngine.h>
+#include <fdm/models/fdm_PistonEngine.h>
 
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>

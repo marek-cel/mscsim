@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_WindShear.h>
+#include <fdm/models/fdm_WindShear.h>
 
 #include <math.h>
 

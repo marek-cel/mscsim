@@ -85,6 +85,7 @@ void F16_Aerodynamics::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx_q           , "cx_q"           );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cx_q_lef , "delta_cx_q_lef" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cx_tef   , "delta_cx_tef"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cx_gear  , "delta_cx_gear"  );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy             , "cy"             );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy_lef         , "cy_lef"         );
@@ -106,6 +107,7 @@ void F16_Aerodynamics::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz_q           , "cz_q"           );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cz_q_lef , "delta_cz_q_lef" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cz_tef   , "delta_cz_tef"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_cz_gear  , "delta_cz_gear"  );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl_dh_n25      , "cl_dh_n25"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl_dh_0        , "cl_dh_0"        );
@@ -255,7 +257,8 @@ double F16_Aerodynamics::getCx() const
     return m_cx_delta_h + delta_cx_lef * m_lef_factor
             + m_delta_cx_sb.getValue( m_alpha ) * m_aircraft->getCtrl()->getAirbrakeNorm()
             + m_c_2v * cx_q * m_aircraft->getOmg_air_BAS()( i_q )
-            + m_delta_cx_tef.getValue( m_alpha ) * m_aircraft->getCtrl()->getFlapsTENorm();
+            + m_delta_cx_tef.getValue( m_alpha ) * m_aircraft->getCtrl()->getFlapsTENorm()
+            + m_delta_cx_gear.getValue( m_alpha ) * m_aircraft->getDataInp()->controls.landing_gear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -291,7 +294,8 @@ double F16_Aerodynamics::getCz() const
     return m_cz_delta_h + delta_cz_lef * m_lef_factor
             + m_delta_cz_sb.getValue( m_alpha ) * m_aircraft->getCtrl()->getAirbrakeNorm()
             + m_c_2v * cz_q * m_aircraft->getOmg_air_BAS()( i_q )
-            + m_delta_cz_tef.getValue( m_alpha ) * m_aircraft->getCtrl()->getFlapsTENorm();
+            + m_delta_cz_tef.getValue( m_alpha ) * m_aircraft->getCtrl()->getFlapsTENorm()
+            + m_delta_cz_gear.getValue( m_alpha ) * m_aircraft->getDataInp()->controls.landing_gear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

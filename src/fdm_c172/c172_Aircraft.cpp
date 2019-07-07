@@ -77,11 +77,11 @@ void C172_Aircraft::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Aircraft::dataOutput()
+void C172_Aircraft::updateOutputData()
 {
-    ///////////////////////
-    Aircraft::dataOutput();
-    ///////////////////////
+    /////////////////////////////
+    Aircraft::updateOutputData();
+    /////////////////////////////
 
     // controls
     m_dataOut->controls.ailerons = m_ctrl->getAilerons();

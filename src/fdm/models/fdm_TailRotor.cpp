@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_TailRotor.h>
+#include <fdm/models/fdm_TailRotor.h>
 #include <fdm/main/fdm_Aerodynamics.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>

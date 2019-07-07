@@ -38,7 +38,7 @@ F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
 
     m_engine ( 0 )
 {
-    m_engine = new Turbojet();
+    m_engine = new TurbofanAB();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ void F16_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        XmlNode nodeEngine = dataNode.getFirstChildElement( "turbojet" );
+        XmlNode nodeEngine = dataNode.getFirstChildElement( "turbofan_ab" );
 
         m_engine->readData( nodeEngine );
     }
@@ -113,6 +113,8 @@ void F16_Propulsion::update()
     m_engine->integrate( m_aircraft->getTimeStep() );
     m_engine->update( m_aircraft->getDataInp()->engine[ 0 ].throttle,
                       Units::k2c( m_aircraft->getEnvir()->getTemperature() ),
+                      m_aircraft->getMachNumber(),
+                      m_aircraft->getAltitude_ASL(),
                       m_aircraft->getDataInp()->engine[ 0 ].fuel,
                       m_aircraft->getDataInp()->engine[ 0 ].starter );
 }

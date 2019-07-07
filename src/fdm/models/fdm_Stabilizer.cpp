@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Stabilizer.h>
+#include <fdm/models/fdm_Stabilizer.h>
 
 #include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/utils/fdm_String.h>

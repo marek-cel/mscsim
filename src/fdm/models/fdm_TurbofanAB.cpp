@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Turbojet.h>
+#include <fdm/models/fdm_TurbofanAB.h>
 
 #include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_Units.h>
@@ -32,14 +32,11 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Turbojet::Turbojet() :
+TurbofanAB::TurbofanAB() :
     m_thrust_mil ( 0.0 ),
-    m_thrust_max ( 0.0 ),
+    m_thrust_ab  ( 0.0 ),
 
-    m_n1_tc ( 1.0 ),
-    m_n2_tc ( 1.0 ),
-
-    m_tit_tc ( 1.0 ),
+    m_tc_tit ( 1.0 ),
 
     m_tsfc    ( 0.0 ),
     m_tsfc_ab ( 0.0 ),
@@ -75,11 +72,11 @@ Turbojet::Turbojet() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Turbojet::~Turbojet() {}
+TurbofanAB::~TurbofanAB() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Turbojet::readData( XmlNode &dataNode )
+void TurbofanAB::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -94,15 +91,17 @@ void Turbojet::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_pos_bas, "position" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_mil, "thrust_mil" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_max, "thrust_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_mil , "thrust_mil" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_ab  , "thrust_ab"  );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ab_threshold, "ab_threshold" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_n1_tc, "time_constant_n1" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_n2_tc, "time_constant_n2" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tc_n1, "time_constant_n1" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tc_n2, "time_constant_n2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tit_tc, "time_constant_tit" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tc_thrust, "time_constant_thrust" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tc_tit, "time_constant_tit" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tsfc    , "tsfc"    );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tsfc_ab , "tsfc_ab" );
@@ -114,7 +113,7 @@ void Turbojet::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tf_idle , "thrust_factor_idle" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tf_mil  , "thrust_factor_mil"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tf_max  , "thrust_factor_max"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_tf_ab   , "thrust_factor_ab"   );
 
         if ( result == FDM_SUCCESS )
         {
@@ -150,7 +149,7 @@ void Turbojet::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Turbojet::initialize( bool engineOn )
+void TurbofanAB::initialize( bool engineOn )
 {
     if ( engineOn )
     {
@@ -170,7 +169,7 @@ void Turbojet::initialize( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Turbojet::computeThrust( double machNumber, double densityAltitude )
+void TurbofanAB::computeThrust( double machNumber, double densityAltitude )
 {
     if ( m_state == Running )
     {
@@ -178,10 +177,10 @@ void Turbojet::computeThrust( double machNumber, double densityAltitude )
         // (NASA-TN-D-8176, p.152)
         if ( m_afterburner )
         {
-            double t_mil = m_thrust_mil * m_tf_mil  .getValue( machNumber, densityAltitude );
-            double t_max = m_thrust_max * m_tf_max  .getValue( machNumber, densityAltitude );
+            double t_mil = m_thrust_mil * m_tf_mil .getValue( machNumber, densityAltitude );
+            double t_ab  = m_thrust_ab  * m_tf_ab  .getValue( machNumber, densityAltitude );
 
-            m_thrust = t_mil + ( t_max - t_mil ) * ( m_pow - 0.5 ) / 0.5;
+            m_thrust = t_mil + ( t_ab - t_mil ) * ( m_pow - 0.5 ) / 0.5;
         }
         else
         {
@@ -199,7 +198,7 @@ void Turbojet::computeThrust( double machNumber, double densityAltitude )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Turbojet::integrate( double timeStep )
+void TurbofanAB::integrate( double timeStep )
 {
     double pow_deriv = m_thrust_tc_inv * ( m_pow_command - m_pow );
     m_pow = m_pow + timeStep * pow_deriv;
@@ -207,8 +206,8 @@ void Turbojet::integrate( double timeStep )
     double epsilon_n1 = 0.01 * ( m_n1 < m_n1_idle ? m_n1_idle : m_n1_max );
     double epsilon_n2 = 0.01 * ( m_n2 < m_n2_idle ? m_n2_idle : m_n2_max );
 
-    double n1_tc = getTimeConstant( m_n1_setpoint - m_n1, m_n1_max, m_n1_tc );
-    double n2_tc = getTimeConstant( m_n2_setpoint - m_n2, m_n2_max, m_n2_tc );
+    double n1_tc = m_tc_n1.getValue( m_n1_setpoint - m_n1 );
+    double n2_tc = m_tc_n1.getValue( m_n2_setpoint - m_n2 );
 
     m_n1 = fabs( m_n1 - m_n1_setpoint ) < epsilon_n1 ? m_n1_setpoint : Misc::inertia( m_n1_setpoint, m_n1, timeStep, n1_tc );
     m_n2 = fabs( m_n2 - m_n2_setpoint ) < epsilon_n2 ? m_n2_setpoint : Misc::inertia( m_n2_setpoint, m_n2, timeStep, n2_tc );
@@ -218,9 +217,12 @@ void Turbojet::integrate( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Turbojet::update( double throttle, double temperature,
-                       bool fuel, bool starter )
+void TurbofanAB::update( double throttle, double temperature,
+                         double machNumber, double densityAltitude,
+                         bool fuel, bool starter )
 {
+    computeThrust( machNumber, densityAltitude );
+
     m_temperature = temperature;
 
     if ( m_n1 >= m_n1_idle && m_n2 >= m_n2_idle && fuel )
@@ -233,7 +235,7 @@ void Turbojet::update( double throttle, double temperature,
             if ( m_pow < 0.5 )
             {
                 m_pow_command = 0.5 * throttle / m_ab_threshold;
-                m_thrust_tc_inv = getThrustTimeConstantInverse( m_pow_command - m_pow );
+                m_thrust_tc_inv = 1.0 / m_tc_thrust.getValue( m_pow_command - m_pow );
 
                 m_n1_setpoint = m_n1_throttle.getValue( throttle );
                 m_n2_setpoint = m_n2_throttle.getValue( throttle );
@@ -253,7 +255,7 @@ void Turbojet::update( double throttle, double temperature,
             if ( m_pow < 0.5 )
             {
                 m_pow_command = 0.6;
-                m_thrust_tc_inv = getThrustTimeConstantInverse( m_pow_command - m_pow );
+                m_thrust_tc_inv = 1.0 / m_tc_thrust.getValue( m_pow_command - m_pow );
 
                 m_n1_setpoint = m_n1 < m_n2_ab ? 1.2 * m_n2_ab : m_n1_throttle.getValue( throttle );
                 m_n2_setpoint = m_n2 < m_n2_ab ? 1.2 * m_n2_ab : m_n2_throttle.getValue( throttle );
@@ -268,12 +270,19 @@ void Turbojet::update( double throttle, double temperature,
             }
         }
 
-        m_tit_tc_actual = m_tit_tc;
+        m_tit_tc_actual = m_tc_tit;
         m_tit_setpoint = m_tit_n2.getValue( m_n2 );
 
-        m_fuelFlow = 0.0; // TODO
-
         m_afterburner = m_pow >= 0.5 && m_n1 >= m_n1_ab && m_n2 >= m_n2_ab;
+
+        if ( m_afterburner )
+        {
+            m_fuelFlow = m_thrust * m_tsfc_ab;
+        }
+        else
+        {
+            m_fuelFlow = m_thrust * m_tsfc;
+        }
     }
     else
     {
@@ -309,42 +318,4 @@ void Turbojet::update( double throttle, double temperature,
 
         m_afterburner = false;
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Turbojet::getTimeConstant( double delta_n, double n_max, double tc )
-{
-    double tc_out = tc;
-
-    if ( delta_n > 0.5 * n_max )
-    {
-        tc_out = 10.0;
-    }
-    else if ( delta_n > 0.3 * n_max )
-    {
-        tc_out = tc + ( 10.0 - tc ) * ( delta_n - 0.3 * n_max ) / ( ( 0.5 - 0.3 ) * n_max );
-    }
-
-    return tc_out;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Turbojet::getThrustTimeConstantInverse( double delta_pow )
-{
-    // (NASA-TP-1538, p.220)
-    // (NASA-TN-D-8176, p.153)
-    double tc_inv = 1.0;
-
-    if ( delta_pow > 0.5 )
-    {
-        tc_inv = 0.1;
-    }
-    else if ( delta_pow > 0.3 )
-    {
-        tc_inv = 1.0 - 0.9 * ( delta_pow - 0.3 ) / ( 0.5 - 0.3 );
-    }
-
-    return tc_inv;
 }

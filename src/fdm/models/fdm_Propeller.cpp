@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Propeller.h>
+#include <fdm/models/fdm_Propeller.h>
 
 #include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_String.h>

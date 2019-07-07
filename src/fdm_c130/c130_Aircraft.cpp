@@ -65,11 +65,11 @@ void C130_Aircraft::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_Aircraft::dataOutput()
+void C130_Aircraft::updateOutputData()
 {
-    ///////////////////////
-    Aircraft::dataOutput();
-    ///////////////////////
+    /////////////////////////////
+    Aircraft::updateOutputData();
+    /////////////////////////////
 
 //    // controls
 //    m_dataOut->controls.ailerons = m_ctrl->getAilerons();

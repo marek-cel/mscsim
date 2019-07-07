@@ -75,7 +75,7 @@
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
-#include <fdm/main/fdm_Base.h>
+#include <fdm/fdm_Base.h>
 
 #include <fdm/main/fdm_Environment.h>
 #include <fdm/main/fdm_Intersections.h>
@@ -157,10 +157,8 @@ public:
      */
     virtual void step( double timeStep );
 
-    /**
-     * Writes output data.
-     */
-    virtual void dataOutput();
+    /** Updates output data. */
+    virtual void updateOutputData();
 
     inline const DataInp* getDataInp() const { return m_dataInp; }
     inline const DataOut* getDataOut() const { return m_dataOut; }

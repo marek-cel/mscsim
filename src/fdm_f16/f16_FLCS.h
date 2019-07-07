@@ -39,6 +39,7 @@ namespace fdm
  * @see Marchand M.: Pitch Rate Flight Control for the F-16 Aircraft to improve Air-to-Air Combat, AD-A055-417, 1977
  * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538, 1979
  * @see Droste T., Walker J.: The General Dynamics Case Study on the F-16 Fly-by-Wire Flight Control System
+ * @see Dameron G.: A Real-Time Simulator for Man-In-The-Loop Testing of Aircraft Control Systems, AD-A202-599, 1988
  */
 class F16_FLCS
 {

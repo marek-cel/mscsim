@@ -25,7 +25,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/main/fdm_Propulsion.h>
-#include <fdm/main/fdm_Turbojet.h>
+
+#include <fdm/models/fdm_TurbofanAB.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,13 +66,13 @@ public:
     /** Updates model. */
     void update();
 
-    inline const Turbojet* getEngine() const { return m_engine; }
+    inline const TurbofanAB* getEngine() const { return m_engine; }
 
 private:
 
     const F16_Aircraft *m_aircraft; ///< aircraft model main object
 
-    Turbojet *m_engine;             ///< engine model
+    TurbofanAB *m_engine;           ///< engine model
 };
 
 } // end of fdm namespace

@@ -26,9 +26,9 @@
 
 #include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdm/main/fdm_MainRotor.h>
-#include <fdm/main/fdm_TailRotor.h>
-#include <fdm/main/fdm_Stabilizer.h>
+#include <fdm/models/fdm_MainRotor.h>
+#include <fdm/models/fdm_TailRotor.h>
+#include <fdm/models/fdm_Stabilizer.h>
 
 #include <fdm_uh60/uh60_Fuselage.h>
 #include <fdm_uh60/uh60_StabilizerHor.h>

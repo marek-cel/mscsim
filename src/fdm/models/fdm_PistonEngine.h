@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Engine.h>
+#include <fdm/models/fdm_Engine.h>
 
 #include <fdm/utils/fdm_Table.h>
 #include <fdm/xml/fdm_XmlNode.h>

@@ -504,7 +504,7 @@ void Manager::updatePhaseInit()
                     initEquilibriumInFlight();
                 }
 
-                m_aircraft->dataOutput();
+                m_aircraft->updateOutputData();
             }
         }
         catch ( Exception &e )
@@ -534,7 +534,7 @@ void Manager::updatePhaseWork()
             m_timeSteps++;
 
             m_aircraft->step( m_timeStep );
-            m_aircraft->dataOutput();
+            m_aircraft->updateOutputData();
 
             if ( DataOut::NoCrash == m_aircraft->getCrash() )
             {

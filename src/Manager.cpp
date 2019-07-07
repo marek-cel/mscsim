@@ -110,7 +110,7 @@ void Manager::timerEvent( QTimerEvent *event )
 
     if ( Data::get()->phaseInp == fdm::DataInp::Idle )
     {
-        hid::Manager::instance()->reset();
+        hid::Manager::instance()->reset( Data::get()->initial.altitude_agl < FDM_MIN_INIT_ALTITUDE );
     }
     else if ( Data::get()->phaseInp == fdm::DataInp::Work )
     {

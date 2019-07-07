@@ -53,8 +53,8 @@ public:
     /** Initializes aircraft. */
     void init( bool engineOn = false );
 
-    /** Writes output data. */
-    void dataOutput();
+    /** Updates output data. */
+    void updateOutputData();
 
     inline UH60_Aerodynamics* getAero() { return m_aero; }
     inline UH60_Controls*     getCtrl() { return m_ctrl; }

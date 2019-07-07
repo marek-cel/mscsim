@@ -84,6 +84,7 @@ private:
     Table m_cx_q;                   ///<
     Table m_delta_cx_q_lef;         ///<
     Table m_delta_cx_tef;           ///<
+    Table m_delta_cx_gear;          ///<
 
     Table2D m_cy;                   ///< [-] sideforce coefficient vs angle of attack and sideslip
     Table2D m_cy_lef;               ///<
@@ -105,6 +106,7 @@ private:
     Table m_cz_q;                   ///<
     Table m_delta_cz_q_lef;         ///<
     Table m_delta_cz_tef;           ///<
+    Table m_delta_cz_gear;          ///<
 
     Table2D m_cl_dh_n25;            ///<
     Table2D m_cl_dh_0;              ///<

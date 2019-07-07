@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_TURBOJET_H
-#define FDM_TURBOJET_H
+#ifndef FDM_TURBOFANAB_H
+#define FDM_TURBOFANAB_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Engine.h>
+#include <fdm/models/fdm_Engine.h>
 
 #include <fdm/utils/fdm_Table.h>
 #include <fdm/utils/fdm_Table2D.h>
@@ -38,20 +38,30 @@ namespace fdm
 {
 
 /**
- * @brief Twin-spool low by-pass ratio turbojet class.
+ * @brief Twin-spool low by-pass ratio afterburning turbofan engine class.
  *
  * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
  * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176
  *
  * <h5>XML configuration file format:</h5>
  * @code
- * <turbojet>
+ * <turbofan_ab>
  *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>
  *   <thrust_mil> { [N] maximum military thrust } </thrust_mil>
- *   <thrust_max> { [N] maximum thrust (afterburner) } </thrust_max>
+ *   <thrust_ab> { [N] maximum afterburner thrust } </thrust_ab>
  *   <ab_threshold> { afterburner throttle threshold } </ab_threshold>
- *   <time_constant_n1> { N1 time constant } </time_constant_n1>
- *   <time_constant_n2> { N2 time constant } </time_constant_n2>
+ *   <time_constant_n1>
+ *     { [-] difference of N1 setpoint and N1 } { [s] N1 time constant }
+ *     ... { more entries }
+ *   </time_constant_n1>
+ *   <time_constant_n2>
+ *     { [-] difference of N2 setpoint and N2 } { [s] N2 time constant }
+ *     ... { more entries }
+ *   </time_constant_n2>
+ *   <time_constant_thrust>
+ *     { [-] difference of normalized engine power command and engine power } { [s] thrust time constant }
+ *     ... { more entries }
+ *   </time_constant_thrust>
  *   <time_constant_tit> { TIT time constant } </time_constant_tit>
  *   <n1_throttle>
  *     { throttle position } { N1 }
@@ -77,23 +87,23 @@ namespace fdm
  *     { [-] Mach number } { [-] thrust factor } ... { more values of thrust }
  *     ... { more entries }
  *   </thrust_factor_mil>
- *   <thrust_factor_max>
+ *   <thrust_factor_ab>
  *     { [kg/m^3] air density } ... { more values of air density }
  *     { [-] Mach number } { [-] thrust factor } ... { more values of thrust }
  *     ... { more entries }
- *   </thrust_factor_max>
- * </turbojet>
+ *   </thrust_factor_ab>
+ * </turbofan_ab>
  * @endcode
  */
-class FDMEXPORT Turbojet : public Engine
+class FDMEXPORT TurbofanAB : public Engine
 {
 public:
 
     /** Constructor. */
-    Turbojet();
+    TurbofanAB();
 
     /** Destructor. */
-    virtual ~Turbojet();
+    virtual ~TurbofanAB();
 
     /**
      * Reads data.
@@ -107,7 +117,7 @@ public:
     /**
      * Computes thrust.
      * @param machNumber [-] Mach number
-     * @param airDensity [kg/m^3] air density
+     * @param densityAltitude [m] air density altitude
      */
     virtual void computeThrust( double machNumber, double densityAltitude );
 
@@ -121,10 +131,13 @@ public:
      * Updates engine.
      * @param throttle [0.0,1.0] throttle lever position
      * @param temperature [deg C] air temperature
+     * @param machNumber [-] Mach number
+     * @param densityAltitude [m] air density altitude
      * @param fuel specifies if fuel is provided
      * @param starter specifies if starter is enabled
      */
     virtual void update( double throttle, double temperature,
+                         double machNumber, double densityAltitude,
                          bool fuel, bool starter );
 
     /**
@@ -189,17 +202,19 @@ protected:
 
     Table2D m_tf_idle;      ///< [-] idle thrust factor
     Table2D m_tf_mil;       ///< [-] military thrust factor
-    Table2D m_tf_max;       ///< [-] maximum thrust factor
+    Table2D m_tf_ab;        ///< [-] afterburner thrust factor
 
-    double m_thrust_mil;    ///< [N] specific military thrust
-    double m_thrust_max;    ///< [N] specific maximum thrust
+    Table m_tc_n1;
+    Table m_tc_n2;
+
+    Table m_tc_thrust;      ///< thrust time constant [s] vs difference of normalized engine power command and engine power [-]
+
+    double m_thrust_mil;    ///< [N] specific maximum military thrust
+    double m_thrust_ab;     ///< [N] specific maximum afterburner thrust
 
     double m_ab_threshold;  ///< [-] throttle afterburner threshold
 
-    double m_n1_tc;         ///< [s] low  pressure compressor rpm time constant
-    double m_n2_tc;         ///< [s] high pressure compressor rpm time constant
-
-    double m_tit_tc;        ///< [s] turbine inlet temperature (TIT) time constant
+    double m_tc_tit;        ///< [s] turbine inlet temperature (TIT) time constant
 
     double m_tsfc;          ///< [kg/(N*s)] thrust specific fuel consumption
     double m_tsfc_ab;       ///< [kg/(N*s)] thrust specific fuel consumption (afterburner)
@@ -235,12 +250,10 @@ protected:
     bool m_afterburner;     ///< specifies if afterburner is engaged
 
     double getTimeConstant( double delta_n, double n_max, double tc );
-
-    double getThrustTimeConstantInverse( double delta_pow );
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_TURBOJET_H
+#endif // FDM_TURBOFANAB_H

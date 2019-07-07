@@ -5,6 +5,16 @@
     * Cessna 172 vertical tail aerodynamic characteristics due to CFD results
 
     * F-16 3D models for CFD
+    
+    * F-16 aerodynamic characteristics due to CFD results
+    
+    * F-16 mass data fixes
+    
+    * F-16 specific fuel consumption
+    
+    * FDM models moved to separate directory
+    
+    * Low-bypass ratio turbofan engine model class
 
 
 

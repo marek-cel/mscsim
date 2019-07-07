@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Base.h>
+#include <fdm/fdm_Base.h>
 
 #include <fdm/utils/fdm_Vector3.h>
 #include <fdm/xml/fdm_XmlNode.h>

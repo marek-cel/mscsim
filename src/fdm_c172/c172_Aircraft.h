@@ -56,8 +56,8 @@ public:
     /** Initializes aircraft. */
     void init( bool engineOn = false );
 
-    /** Writes output data. */
-    void dataOutput();
+    /** Updates output data. */
+    void updateOutputData();
 
     inline C172_Aerodynamics* getAero() { return m_aero; }
     inline C172_Controls*     getCtrl() { return m_ctrl; }

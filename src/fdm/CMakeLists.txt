@@ -1,29 +1,31 @@
 add_library( fdm STATIC
+    fdm_Base.cpp
     fdm_Manager.cpp
     
     auto/fdm_FlightDirector.cpp
     
     main/fdm_Aerodynamics.cpp
     main/fdm_Aircraft.cpp
-    main/fdm_Atmosphere.cpp
-    main/fdm_Base.cpp
     main/fdm_Controls.cpp
     main/fdm_Environment.cpp
-    main/fdm_Fuselage.cpp
-    main/fdm_HingeMoment.cpp
     main/fdm_Intersections.cpp
     main/fdm_LandingGear.cpp
-    main/fdm_MainRotor.cpp
     main/fdm_Mass.cpp
-    main/fdm_PistonEngine.cpp
-    main/fdm_Propeller.cpp
     main/fdm_Propulsion.cpp
-    main/fdm_Schrenk.cpp
-    main/fdm_Stabilizer.cpp
-    main/fdm_TailOff.cpp
-    main/fdm_TailRotor.cpp
-    main/fdm_Turbojet.cpp
-    main/fdm_WindShear.cpp
+    
+    models/fdm_Atmosphere.cpp
+    models/fdm_Fuselage.cpp
+    models/fdm_HingeMoment.cpp
+    models/fdm_MainRotor.cpp
+    models/fdm_PistonEngine.cpp
+    models/fdm_Propeller.cpp
+    models/fdm_Schrenk.cpp
+    models/fdm_Stabilizer.cpp
+    models/fdm_TailOff.cpp
+    models/fdm_TailRotor.cpp
+    models/fdm_Turbofan.cpp
+    models/fdm_TurbofanAB.cpp
+    models/fdm_WindShear.cpp
     
     sys/fdm_BPF.cpp
     sys/fdm_BSF.cpp

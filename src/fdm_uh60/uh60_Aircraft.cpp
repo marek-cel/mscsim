@@ -71,11 +71,11 @@ void UH60_Aircraft::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Aircraft::dataOutput()
+void UH60_Aircraft::updateOutputData()
 {
-    ///////////////////////
-    Aircraft::dataOutput();
-    ///////////////////////
+    /////////////////////////////
+    Aircraft::updateOutputData();
+    /////////////////////////////
 
     // controls
     m_dataOut->controls.elevator = m_ctrl->getElevator();

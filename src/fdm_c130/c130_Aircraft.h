@@ -47,8 +47,8 @@ public:
     /** Initializes aircraft. */
     void init( bool engineOn = false );
 
-    /** Writes output data. */
-    void dataOutput();
+    /** Updates output data. */
+    void updateOutputData();
 };
 
 } // end of fdm namespace
