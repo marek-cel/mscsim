@@ -1,3 +1,13 @@
+2019-07-07 Marek M. Cel <marekcel@marekcel.pl>
+
+    * Cessna 172 and F-16 OpenFOAM case setup and run script
+    
+    * Cessna 172 vertical tail aerodynamic characteristics due to CFD results
+
+    * F-16 3D models for CFD
+
+
+
 2019-06-23 Marek M. Cel <marekcel@marekcel.pl>
     
     * source code minor changes

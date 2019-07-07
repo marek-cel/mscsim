@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  5                                     |
+|  \\    /   O peration     | Version:  6                                     |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -26,13 +26,13 @@ boundaryField
     inlet
     {
         type        calculated;
-        value       uniform 0;
+        value       $internalField;
     }
 
     outlet
     {
         type        calculated;
-        value       uniform 0;
+        value       $internalField;
     }
     
     sym
@@ -43,13 +43,13 @@ boundaryField
     walls
     {
         type        calculated;
-        value       uniform 0;
+        value       $internalField;
     }
 
     model
     {
         type        nutkWallFunction;
-        value       uniform 0;
+        value       $internalField;
     }
     
     "proc.*"

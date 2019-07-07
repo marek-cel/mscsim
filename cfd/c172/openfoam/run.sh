@@ -3,68 +3,42 @@
 ################################################################################
 
 TIME_0=$(date +%s)
+echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
 
 export EXEC_DIR=$(pwd)
 
-# export MODEL_FILE=$EXEC_DIR/models/stl/c172_half.stl
-export MODEL_FILE=$EXEC_DIR/models/stl/c172_flaps_30_half.stl
+################################################################################
 
+export MODEL_NAME=c172_half
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateAngleOfAttack.sh
 
-# export MODEL_FILE=$EXEC_DIR/models/stl/c172_tail_off_half.stl
-# export MODEL_FILE=$EXEC_DIR/models/stl/c172_tail_off_flaps_30_half.stl
+cd $EXEC_DIR
+export MODEL_NAME=c172_flaps_30_half
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateAngleOfAttack.sh
 
+cd $EXEC_DIR
+export MODEL_NAME=c172_tail_off_half
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateAngleOfAttack.sh
+
+cd $EXEC_DIR
+export MODEL_NAME=c172_tail_off_flaps_30_half
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateAngleOfAttack.sh
 
 ################################################################################
 
-function runCase()
-{
-    export DEST_DIR=$FOAM_RUN/c172_$1
+cd $EXEC_DIR
+export MODEL_NAME=c172
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateSideslipAngle.sh
 
-    cd $EXEC_DIR
-    rm -rf $DEST_DIR
-    cp -r case $DEST_DIR
-    surfaceTransformPoints -rollPitchYaw "( 0 $1 0 )" $MODEL_FILE $DEST_DIR/constant/triSurface/model.stl
-    cd $DEST_DIR
-    ./run.sh
-    cd $FOAM_RUN
-    printf "%d\t" $1 &>> forceCoeffs.dat
-    tail -n 1 c172_$1/postProcessing/forceCoeffs1/0/forceCoeffs.dat &>> forceCoeffs.dat
-}
-
-################################################################################
-
-function run()
-{
-    for i in {-180..-30..10}
-    do
-      runCase $i
-    done
-
-    for i in -25 -20 -17 -14 -12
-    do
-      runCase $i
-    done
-
-    for i in {-10..15..1}
-    do
-      runCase $i
-    done
-
-    for i in 17 20 25
-    do
-      runCase $i
-    done
-
-    for i in {30..180..10}
-    do
-      runCase $i
-    done
-}
-
-################################################################################
-
-run 
-# runCase 15 
+cd $EXEC_DIR
+export MODEL_NAME=c172_tail_off
+export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+./iterateSideslipAngle.sh
 
 ################################################################################
 
