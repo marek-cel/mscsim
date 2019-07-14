@@ -30,6 +30,8 @@
 #include <QShortcut>
 #include <QTimer>
 
+#include <Data.h>
+
 #include "DialogConf.h"
 #include "DialogEnvr.h"
 #include "DialogInit.h"
@@ -85,6 +87,8 @@ protected:
 
 private:
 
+    typedef Data::Camera::ViewType ViewType;
+
     Ui::MainWindow *m_ui;
 
     QDateTime m_dateTime;           ///< current date and time (initial date and time incremented every step)
@@ -105,10 +109,7 @@ private:
     QShortcut *m_scTimeFaster;      ///<
     QShortcut *m_scTimeSlower;      ///<
 
-    bool m_viewChase;               ///<
-    bool m_viewOrbit;               ///<
-    bool m_viewPilot;               ///<
-    bool m_viewWorld;               ///<
+    ViewType m_viewType;            ///<
     bool m_showHUD;                 ///<
 
     double m_timeCoef;              ///<
@@ -162,12 +163,12 @@ private slots:
     void on_actionDialogInit_triggered();
     void on_actionDialogMass_triggered();
 
-    void on_actionDockAuto_triggered();
-    void on_actionDockCtrl_triggered();
-    void on_actionDockData_triggered();
-    void on_actionDockEFIS_triggered();
-    void on_actionDockMain_triggered();
-    void on_actionDockProp_triggered();
+    void on_actionDockAuto_toggled( bool checked );
+    void on_actionDockCtrl_toggled( bool checked );
+    void on_actionDockData_toggled( bool checked );
+    void on_actionDockEFIS_toggled( bool checked );
+    void on_actionDockMain_toggled( bool checked );
+    void on_actionDockProp_toggled( bool checked );
 
     void on_actionPhaseInpIdle_triggered();
     void on_actionPhaseInpInit_triggered();

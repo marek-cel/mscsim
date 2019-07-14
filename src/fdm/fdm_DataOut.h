@@ -130,14 +130,14 @@ struct DataOut
     /** Controls data. */
     struct Controls
     {
-        float ailerons;                 ///< [rad] ailerons deflection (positive left aileron in the upward direction)
-        float elevator;                 ///< [rad] elevator deflection (positive in the downward direction)
-        float elevons;                  ///< [rad] elevons differential deflection
-        float rudder;                   ///< [rad] rudder deflection (positive in the port direction)
-        float flaps;                    ///< [rad] flaps deflection
-        float flaperons;                ///< [rad] flaperons differtial deflection
-        float lef;                      ///< [rad] leading edge flaps deflection
-        float airbrake;                 ///< [rad] airbrake deflection
+        double ailerons;                ///< [rad] ailerons deflection (positive left aileron in the upward direction)
+        double elevator;                ///< [rad] elevator deflection (positive in the downward direction)
+        double elevons;                 ///< [rad] elevons differential deflection
+        double rudder;                  ///< [rad] rudder deflection (positive in the port direction)
+        double flaps;                   ///< [rad] flaps deflection
+        double flaperons;               ///< [rad] flaperons differtial deflection
+        double lef;                     ///< [rad] leading edge flaps deflection
+        double airbrake;                ///< [rad] airbrake deflection
     };
 
     /** Engine data. */
@@ -146,31 +146,31 @@ struct DataOut
         bool state;                     ///< specifies if engine is working
         bool afterburner;               ///< afterburner
 
-        float rpm;                      ///< [rpm]
-        float prop;                     ///< [rpm]
-        float ng;                       ///< [%]
-        float n1;                       ///< [%]
-        float n2;                       ///< [%]
-        float trq;                      ///< [%]
-        float epr;                      ///< [-]
-        float map;                      ///< [Pa]
-        float egt;                      ///< [deg C]
-        float itt;                      ///< [deg C]
-        float tit;                      ///< [deg C]
-        float ff;                       ///< [kg/s]
+        double rpm;                     ///< [rpm]
+        double prop;                    ///< [rpm]
+        double ng;                      ///< [%]
+        double n1;                      ///< [%]
+        double n2;                      ///< [%]
+        double trq;                     ///< [%]
+        double epr;                     ///< [-]
+        double map;                     ///< [Pa]
+        double egt;                     ///< [deg C]
+        double itt;                     ///< [deg C]
+        double tit;                     ///< [deg C]
+        double ff;                      ///< [kg/s]
     };
 
     /** Rotor data. */
     struct Rotor
     {
-        float mainRotor_azimuth;        ///< [rad] main rotor rotation angle (azimuth)
-        float mainRotor_coningAngle;    ///< [rad] main rotor coning angle
-        float mainRotor_diskRoll;       ///< [rad] main rotor disk roll angle
-        float mainRotor_diskPitch;      ///< [rad] main rotor disk pitch angle
-        float mainRotor_collective;     ///< [rad] main rotor collective pitch angle
-        float mainRotor_cyclicLon;      ///< [rad] main rotor longitudinal cyclic pitch angle
-        float mainRotor_cyclicLat;      ///< [rad] main rotor lateral cyclic pitch angle
-        float tailRotor_azimuth;        ///< [rad] tail rotor rotation angle
+        double mainRotor_azimuth;       ///< [rad] main rotor rotation angle (azimuth)
+        double mainRotor_coningAngle;   ///< [rad] main rotor coning angle
+        double mainRotor_diskRoll;      ///< [rad] main rotor disk roll angle
+        double mainRotor_diskPitch;     ///< [rad] main rotor disk pitch angle
+        double mainRotor_collective;    ///< [rad] main rotor collective pitch angle
+        double mainRotor_cyclicLon;     ///< [rad] main rotor longitudinal cyclic pitch angle
+        double mainRotor_cyclicLat;     ///< [rad] main rotor lateral cyclic pitch angle
+        double tailRotor_azimuth;       ///< [rad] tail rotor rotation angle
     };
 
     Flight flight;                      ///< flight data

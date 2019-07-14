@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Defines.h>
+#include <fdm/sys/fdm_Lag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,9 +33,13 @@ namespace fdm
 
 /**
  * @brief First-order low-pass filter (LPF) class.
- * Transfer function: G(s) = 1 / ( 1 + s*Tc ) = 1 / ( 1 + s/omega )
+ *
+ * Transfer function:
+ * G(s)  =  1 / ( Tc*s + 1 )  =  omega / ( s + omega )  =  1 / ( s/omega + 1 )
+ *
+ * First-order low-pass filter is a first-order lag element.
  */
-class FDMEXPORT LPF
+class FDMEXPORT LPF : public Lag
 {
 public:
 
@@ -43,22 +47,10 @@ public:
 
     LPF( double omega, double y = 0.0 );
 
-    inline double getValue() const { return m_y;  }
-    inline double getOmega() const { return m_omega; }
+    inline double getOmega() const { return 1.0 / m_tc; }
 
-    void setValue( double y );
     void setOmega( double omega );
-
     void setCutoffFreq( double freq );
-
-    void update( double u, double dt );
-
-private:
-
-    double m_omega;     ///< [rad/s]
-    double m_tc;        ///< time constant
-
-    double m_y;         ///< current value
 };
 
 } // end of fdm namespace

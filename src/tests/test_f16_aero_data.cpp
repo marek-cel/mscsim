@@ -249,7 +249,7 @@ void TestF16AeroData::test( Table &table1, Table &table2, const QString &name )
 
 void TestF16AeroData::initTestCase()
 {
-    readData( m_data1, "../data/fdm/f16c/f16c_fdm.xml" );
+    readData( m_data1, "../data/fdm/f16/f16_fdm.xml" );
     readData( m_data2, "data/f16_aero_test.xml" );
 }
 

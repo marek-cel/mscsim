@@ -59,7 +59,7 @@ void F16_LandingGear::init()
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Obtaining wheels failed." );
+        e.setInfo( "Obtaining wheels failed." );
 
         FDM_THROW( e );
     }

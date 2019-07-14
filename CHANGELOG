@@ -1,3 +1,17 @@
+2019-07-14 Marek M. Cel <marekcel@marekcel.pl>
+
+    * Unit tests fixed
+
+    * First-order lead class added with unit test
+    
+    * Logging class added
+    
+    * GUI menu checkable actions fix
+    
+    * some of GUI defines moved to global defines header
+
+
+
 2019-07-07 Marek M. Cel <marekcel@marekcel.pl>
 
     * Cessna 172 and F-16 OpenFOAM case setup and run script

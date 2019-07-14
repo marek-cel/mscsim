@@ -20,7 +20,20 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh60/uh60_Aircraft.h>
+#include <fdm/fdm_Log.h>
+
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <math.h>
+
+#ifdef _LINUX_
+#   include <sys/time.h>
+#endif
+
+#ifdef WIN32
+#   include <Windows.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,45 +41,62 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
-{}
+std::ostream& Log::m_out = std::cout;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::~UH60_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Mass::init()
+std::ostream& Log::timeTag()
 {
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
+    int year = 2000;
+    int mon  = 1;
+    int day  = 1;
+    int hour = 0;
+    int min  = 0;
+    int sec  = 0;
+    int msec = 0;
 
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
-    {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
+#   ifdef _LINUX_
+    struct timeval tp;
+    gettimeofday( &tp, NULL );
+    std::tm *tm = std::localtime( &tp.tv_sec );
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    year = 1900 + tm->tm_year;
+    mon  = tm->tm_mon;
+    day  = tm->tm_mday;
+    hour = tm->tm_hour;
+    min  = tm->tm_min;
+    sec  = tm->tm_sec;
+    msec = floor( tp.tv_usec * 0.001 );
+#   endif
 
-        FDM_THROW( e );
-    }
+#   ifdef WIN32
+    SYSTEMTIME st;
+    GetLocalTime( &st );
 
-    /////////////
-    Mass::init();
-    /////////////
+    year = st.wYear;
+    mon  = st.wMonth;
+    day  = st.wDay;
+    hour = st.wHour;
+    min  = st.wMinute;
+    sec  = st.wSecond;
+    msec = st.wMilliseconds;
+#   endif
+
+    m_out << "[";
+    m_out << year;
+    m_out << "-";
+    m_out << std::setfill('0') << std::setw( 2 ) << mon;
+    m_out << "-";
+    m_out << std::setfill('0') << std::setw( 2 ) << day;
+    m_out << " ";
+    m_out << std::setfill('0') << std::setw( 2 ) << hour;
+    m_out << ":";
+    m_out << std::setfill('0') << std::setw( 2 ) << min;
+    m_out << ":";
+    m_out << std::setfill('0') << std::setw( 2 ) << sec;
+    m_out << ".";
+    m_out << std::setfill('0') << std::setw( 3 ) << msec;
+    m_out << "]";
+
+    return m_out;
 }

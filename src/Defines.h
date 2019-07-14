@@ -19,54 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh60/uh60_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef DEFINES_H
+#define DEFINES_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#define SIM_APP_NAME    "MScSim"
+#define SIM_APP_VER     "0.1"
+#define SIM_ORG_NAME    "Marek_Cel"
+#define SIM_ORG_DOMAIN  "marekcel.pl"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::~UH60_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Mass::init()
-{
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
-
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
-    {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
-    }
-
-    /////////////
-    Mass::init();
-    /////////////
-}
+#endif // DEFINES_H

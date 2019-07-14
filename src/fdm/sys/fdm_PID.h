@@ -33,7 +33,10 @@ namespace fdm
 
 /**
  * @brief Proportional-Integral-Derivative controller with anti-windup filter class.
- * Transfer function: G(s) = Kp + Ki*(1/s) + Kd*s
+ *
+ * Transfer function:
+ * G(s)  =  Kp + Ki*(1/s) + Kd*s
+ *
  * @see Duzinkiewicz K., et al.: Zadania do cwiczen laboratoryjnych T10: Sterowanie predkoscia obrotowa silnika pradu stalego, 2016. [in Polish]
  */
 class FDMEXPORT PID
@@ -67,7 +70,7 @@ public:
     /** Sets controller output (resets integer). */
     void setValue( double value );
 
-private:
+protected:
 
     double m_kp;        ///< proportional gain
     double m_ki;        ///< integral gain

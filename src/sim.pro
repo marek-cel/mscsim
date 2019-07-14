@@ -112,6 +112,7 @@ unix: LIBS += \
 
 HEADERS += \
     Data.h \
+    Defines.h \
     Manager.h \
     Navigation.h \
     Simulation.h

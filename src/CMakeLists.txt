@@ -111,6 +111,25 @@ add_executable( ${PROJECT_NAME}
 
 ################################################################################
 
+if( WIN32 )
+	set( LIBS
+		${QT_LIBRARIES}
+		${OPENSCENEGRAPH_LIBRARIES}
+		${LIBXML2_LIBRARIES}
+		winmm
+	)
+endif()
+
+if( UNIX )
+	set( LIBS
+		${QT_LIBRARIES}
+		${OPENSCENEGRAPH_LIBRARIES}
+		${LIBXML2_LIBRARIES}
+	)
+endif()
+
+################################################################################
+
 target_link_libraries( ${PROJECT_NAME}
 
     -Wl,--start-group
@@ -124,9 +143,7 @@ target_link_libraries( ${PROJECT_NAME}
     gui
     hid
 
-    ${QT_LIBRARIES}
-    ${OPENSCENEGRAPH_LIBRARIES}
-    ${LIBXML2_LIBRARIES}
+    ${LIBS}
 
     -Wl,--end-group
 )

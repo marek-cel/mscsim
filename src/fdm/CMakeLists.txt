@@ -1,5 +1,6 @@
 add_library( fdm STATIC
     fdm_Base.cpp
+    fdm_Log.cpp
     fdm_Manager.cpp
     
     auto/fdm_FlightDirector.cpp
@@ -33,6 +34,7 @@ add_library( fdm STATIC
     sys/fdm_HPF.cpp
     sys/fdm_Lag.cpp
     sys/fdm_Lag2.cpp
+    sys/fdm_Lead.cpp
     sys/fdm_LeadLag.cpp
     sys/fdm_LPF.cpp
     sys/fdm_PID.cpp

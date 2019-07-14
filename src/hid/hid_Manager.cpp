@@ -110,17 +110,17 @@ const std::string Manager::m_keysNames[] = {
 #   error 'HID_MAX_KEYS' has been changed! Check code following this line!
 #endif
 
-const float Manager::m_speedCtrl       = 1.0f;
-const float Manager::m_speedTrim       = 0.1f;
-const float Manager::m_speedBrakes     = 2.0f;
-const float Manager::m_speedGear       = 0.25f;
-const float Manager::m_speedFlaps      = 0.25f;
-const float Manager::m_speedAirbrake   = 0.5f;
-const float Manager::m_speedSpoilers   = 2.0f;
-const float Manager::m_speedCollective = 0.5f;
-const float Manager::m_speedThrottle   = 0.5f;
-const float Manager::m_speedMixture    = 0.25f;
-const float Manager::m_speedPropeller  = 0.25f;
+const double Manager::m_speedCtrl       = 1.0;
+const double Manager::m_speedTrim       = 0.1;
+const double Manager::m_speedBrakes     = 2.0;
+const double Manager::m_speedGear       = 0.25;
+const double Manager::m_speedFlaps      = 0.25;
+const double Manager::m_speedAirbrake   = 0.5;
+const double Manager::m_speedSpoilers   = 2.0;
+const double Manager::m_speedCollective = 0.5;
+const double Manager::m_speedThrottle   = 0.5;
+const double Manager::m_speedMixture    = 0.25;
+const double Manager::m_speedPropeller  = 0.25;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -225,39 +225,39 @@ void Manager::init()
 
 void Manager::reset( bool onGround )
 {
-    m_timeStep = 0.0f;
+    m_timeStep = 0.0;
 
     m_trigger = 0;
 
-    m_ctrlRoll  = 0.0f;
-    m_ctrlPitch = 0.0f;
-    m_ctrlYaw   = 0.0f;
+    m_ctrlRoll  = 0.0;
+    m_ctrlPitch = 0.0;
+    m_ctrlYaw   = 0.0;
 
-    m_trimRoll  = 0.0f;
-    m_trimPitch = 0.0f;
-    m_trimYaw   = 0.0f;
+    m_trimRoll  = 0.0;
+    m_trimPitch = 0.0;
+    m_trimYaw   = 0.0;
 
-    m_brakeLeft    = 0.0f;
-    m_brakeRight   = 0.0f;
-    m_parkingBrake = 0.0f;
+    m_brakeLeft    = 0.0;
+    m_brakeRight   = 0.0;
+    m_parkingBrake = 0.0;
 
-    m_landingGear = onGround ? 1.0f : 0.0f;
+    m_landingGear = onGround ? 1.0 : 0.0;
 
-    m_flaps    = 0.0f;
-    m_airbrake = 0.0f;
-    m_spoilers = 0.0f;
+    m_flaps    = 0.0;
+    m_airbrake = 0.0;
+    m_spoilers = 0.0;
 
-    m_collective = 0.0f;
+    m_collective = 0.0;
 
-    m_commonThrottle  = 0.0f;
-    m_commonMixture   = 1.0f;
-    m_commonPropeller = 1.0f;
+    m_commonThrottle  = 0.0;
+    m_commonMixture   = 1.0;
+    m_commonPropeller = 1.0;
 
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        m_throttle  [ i ] = 0.0f;
-        m_mixture   [ i ] = 1.0f;
-        m_propeller [ i ] = 1.0f;
+        m_throttle  [ i ] = 0.0;
+        m_mixture   [ i ] = 1.0;
+        m_propeller [ i ] = 1.0;
     }
 
     m_prevLandingGearToggle  = false;
@@ -273,7 +273,7 @@ void Manager::reset( bool onGround )
 
 void Manager::update( double timeStep )
 {
-    m_timeStep = (float)timeStep;
+    m_timeStep = timeStep;
 
     Joysticks::instance()->update();
 
@@ -300,7 +300,7 @@ void Manager::setKeysState( bool keysState[] )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::getAxisValue( const Assignment &assignment, float &value, int absolute )
+void Manager::getAxisValue( const Assignment &assignment, double &value, int absolute )
 {
     if ( assignment.type == Assignment::Joystick )
     {
@@ -321,10 +321,10 @@ void Manager::getAxisValue( const Assignment &assignment, float &value, int abso
 
 void Manager::getRealValue( Assignment::Action decreaseAction,
                             Assignment::Action increaseAction,
-                            float &value,
-                            float speed,
-                            float min,
-                            float max,
+                            double &value,
+                            double speed,
+                            double min,
+                            double max,
                             bool autocenter )
 {
     bool tempDecrease = getButtState( m_assignments[ decreaseAction ] );
@@ -350,10 +350,10 @@ void Manager::getRealValue( Assignment::Action decreaseAction,
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::getRealValue( Assignment::Action applyAction,
-                            float &value,
-                            float speed,
-                            float min,
-                            float max )
+                            double &value,
+                            double speed,
+                            double min,
+                            double max )
 {
     bool tempApply = getButtState( m_assignments[ applyAction ] );
 
@@ -367,12 +367,12 @@ void Manager::getRealValue( Assignment::Action applyAction,
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::getRealValue( Assignment::Action toggleAction,
-                            bool  &togglePrev,
-                            bool  &state,
-                            float &value,
-                            float speed,
-                            float min,
-                            float max )
+                            bool &togglePrev,
+                            bool &state,
+                            double &value,
+                            double speed,
+                            double min,
+                            double max )
 {
     bool toggle = getButtState( m_assignments[ toggleAction ] );
 
@@ -559,7 +559,7 @@ void Manager::updateAxisActions()
     {
         getRealValue( Assignment::ThrottleDecrease,
                       Assignment::ThrottleIncrease,
-                      m_commonThrottle, m_speedThrottle, 0.0f, 1.0f );
+                      m_commonThrottle, m_speedThrottle, 0.0, 1.0 );
 
         m_throttle[ 0 ] = m_commonThrottle;
         m_throttle[ 1 ] = m_commonThrottle;

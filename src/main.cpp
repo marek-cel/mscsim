@@ -22,8 +22,7 @@
 
 #include <QApplication>
 
-#include <gui/gui_Defines.h>
-
+#include <Defines.h>
 #include <Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,10 +38,10 @@ int main( int argc, char *argv[] )
 
     QApplication *app = new QApplication( argc, argv );
 
-    app->setApplicationName( GUI_APP_NAME   );
-    app->setApplicationVersion( GUI_APP_VER    );
-    app->setOrganizationDomain( GUI_ORG_DOMAIN );
-    app->setOrganizationName( GUI_ORG_NAME   );
+    app->setApplicationName( SIM_APP_NAME   );
+    app->setApplicationVersion( SIM_APP_VER    );
+    app->setOrganizationDomain( SIM_ORG_DOMAIN );
+    app->setOrganizationName( SIM_ORG_NAME   );
 
     Manager *mgr = new Manager();
 

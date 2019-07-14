@@ -174,7 +174,7 @@ void MainRotor::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -184,7 +184,7 @@ void MainRotor::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -394,7 +394,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the main rotor model." );
+        e.setInfo( "NaN detected in the main rotor model." );
 
         FDM_THROW( e );
     }

@@ -399,7 +399,7 @@ void DockWidgetProp::setFF( unsigned int index, float val )
 
 void DockWidgetProp::settingsRead()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
     settings.beginGroup( "dock_widget_prop" );
 
@@ -435,7 +435,7 @@ void DockWidgetProp::settingsRead_UnitCombos( QSettings &settings )
 
 void DockWidgetProp::settingsSave()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
     settings.beginGroup( "dock_widget_prop" );
 

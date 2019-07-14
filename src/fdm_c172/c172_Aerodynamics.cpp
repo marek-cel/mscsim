@@ -80,7 +80,7 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -98,7 +98,7 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -156,7 +156,7 @@ void C172_Aerodynamics::computeForceAndMoment()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the aerodynamics model." );
+        e.setInfo( "NaN detected in the aerodynamics model." );
 
         FDM_THROW( e );
     }

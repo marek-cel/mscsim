@@ -19,54 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh60/uh60_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef FDM_LEAD_H
+#define FDM_LEAD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::~UH60_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
 
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
-    {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
+/**
+ * @brief First-order lead class.
+ *
+ * Transfer function:
+ * G(s)  =  Tc*s + 1
+ */
+class FDMEXPORT Lead
+{
+public:
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    Lead();
 
-        FDM_THROW( e );
-    }
+    Lead( double tc, double y = 0.0 );
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+    inline double getValue() const { return m_y;  }
+    inline double getTimeConstant() const { return m_tc; }
+
+    void setValue( double y );
+    void setTimeConstant( double tc );
+
+    void update( double u, double dt );
+
+protected:
+
+    double m_tc;        ///< time constant
+
+    double m_u;         ///< current input
+    double m_y;         ///< current value
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // FDM_LEAD_H

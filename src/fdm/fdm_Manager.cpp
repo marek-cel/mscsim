@@ -25,7 +25,10 @@
 #include <iostream>
 #include <memory.h>
 
+#include <fdm/fdm_Log.h>
+
 #include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Units.h>
 
 #include <fdm_c130/c130_Aircraft.h>
 #include <fdm_c172/c172_Aircraft.h>
@@ -215,7 +218,8 @@ void Manager::initEquilibriumOnGround()
 
                 if ( m_verbose )
                 {
-                    std::cout << "On-ground initialization finished in " << m_initStep << " steps" << std::endl;
+                    Log::i() << "On-ground initialization finished in " << m_initStep << " steps" << std::endl;
+                    printState();
                 }
             }
             else
@@ -509,12 +513,12 @@ void Manager::updatePhaseInit()
         }
         catch ( Exception &e )
         {
-            std::cerr << e.getInfo() << std::endl;
+            Log::e() << e.getInfo() << std::endl;
 
             while ( e.hasCause() )
             {
                 e = e.getCause();
-                std::cerr << e.getInfo() << std::endl;
+                Log::e() << e.getInfo() << std::endl;
             }
 
             m_stateOut = DataOut::Stopped;
@@ -549,32 +553,34 @@ void Manager::updatePhaseWork()
                     switch ( m_aircraft->getCrash() )
                     {
                     case fdm::DataOut::Collision:
-                        std::cout << "CRASH: Collision with terrain or obstacle." << std::endl;
+                        Log::i() << "CRASH: Collision with terrain or obstacle." << std::endl;
                         break;
 
                     case fdm::DataOut::Overspeed:
-                        std::cout << "CRASH: Airspeed too high. Airspeed= " << m_aircraft->getAirspeed() << " [m/s]" << std::endl;
+                        Log::i() << "CRASH: Airspeed too high. Airspeed= " << m_aircraft->getAirspeed() << " [m/s]" << std::endl;
                         break;
 
                     case fdm::DataOut::Overstressed:
-                        std::cout << "CRASH: Load factor too high. Gz= " << m_aircraft->getGForce().z() << std::endl;
+                        Log::i() << "CRASH: Load factor too high. Gz= " << m_aircraft->getGForce().z() << std::endl;
                         break;
 
                     default:
-                        std::cout << "CRASH: Unknown crash cause." << std::endl;
+                        Log::i() << "CRASH: Unknown crash cause." << std::endl;
                         break;
                     }
+
+                    printState();
                 }
             }
         }
         catch ( Exception &e )
         {
-            std::cerr << e.getInfo() << std::endl;
+            Log::e() << e.getInfo() << std::endl;
 
             while ( e.hasCause() )
             {
                 e = e.getCause();
-                std::cerr << e.getInfo() << std::endl;
+                Log::e() << e.getInfo() << std::endl;
             }
 
             m_stateOut = DataOut::Stopped;
@@ -603,8 +609,8 @@ void Manager::updatePhaseStop()
         {
             double meanStep = m_realTime / (double)m_timeSteps;
             double meanFreq = 1.0 / meanStep;
-            std::cout << "Mean time step: " << meanStep << " s"  << std::endl;
-            std::cout << "Mean frequency: " << meanFreq << " Hz" << std::endl;
+            Log::i() << "Mean time step: " << meanStep << " s"  << std::endl;
+            Log::i() << "Mean frequency: " << meanFreq << " Hz" << std::endl;
         }
     }
 
@@ -615,4 +621,35 @@ void Manager::updatePhaseStop()
     m_aircraft = 0;
 
     m_stateOut = DataOut::Stopped;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::printState()
+{
+    if ( m_aircraft )
+    {
+        Log::out() << "        x-wgs [m] : " << m_aircraft->getPos_WGS().x() << std::endl;
+        Log::out() << "        y-wgs [m] : " << m_aircraft->getPos_WGS().y() << std::endl;
+        Log::out() << "        z-wgs [m] : " << m_aircraft->getPos_WGS().z() << std::endl;
+        Log::out() << "   latitude [deg] : " << Units::rad2deg( m_aircraft->getWGS().getPos_Geo().lat ) << std::endl;
+        Log::out() << "  longitude [deg] : " << Units::rad2deg( m_aircraft->getWGS().getPos_Geo().lat ) << std::endl;
+        Log::out() << " altitude ASL [m] : " << m_aircraft->getAltitude_ASL() << std::endl;
+        Log::out() << " altitude AGL [m] : " << m_aircraft->getAltitude_AGL() << std::endl;
+        Log::out() << "       roll [deg] : " << Units::rad2deg( m_aircraft->getAngles_NED().phi() ) << std::endl;
+        Log::out() << "      pitch [deg] : " << Units::rad2deg( m_aircraft->getAngles_NED().tht() ) << std::endl;
+        Log::out() << "    heading [deg] : " << Units::rad2deg( m_aircraft->getAngles_NED().psi() ) << std::endl;
+        Log::out() << "      u-bas [m/s] : " << m_aircraft->getVel_BAS().x() << std::endl;
+        Log::out() << "      v-bas [m/s] : " << m_aircraft->getVel_BAS().y() << std::endl;
+        Log::out() << "      w-bas [m/s] : " << m_aircraft->getVel_BAS().z() << std::endl;
+        Log::out() << "    p-bas [deg/s] : " << Units::rad2deg( m_aircraft->getOmg_BAS().x() ) << std::endl;
+        Log::out() << "    q-bas [deg/s] : " << Units::rad2deg( m_aircraft->getOmg_BAS().y() ) << std::endl;
+        Log::out() << "    r-bas [deg/s] : " << Units::rad2deg( m_aircraft->getOmg_BAS().z() ) << std::endl;
+        Log::out() << "   airspeed [m/s] : " << m_aircraft->getAirspeed() << std::endl;
+        Log::out() << "        AoA [deg] : " << Units::rad2deg( m_aircraft->getAngleOfAttack() ) << std::endl;
+        Log::out() << "           Gx [-] : " << m_aircraft->getGForce().x() << std::endl;
+        Log::out() << "           Gy [-] : " << m_aircraft->getGForce().y() << std::endl;
+        Log::out() << "           Gz [-] : " << m_aircraft->getGForce().z() << std::endl;
+        Log::out() << std::endl;
+    }
 }

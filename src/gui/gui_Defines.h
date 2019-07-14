@@ -22,12 +22,7 @@
 #ifndef GUI_DEFINES_H
 #define GUI_DEFINES_H
 
-////////////////////////////////////////////////////////////////////////////////
-
-#define GUI_APP_NAME    "MScSim"
-#define GUI_APP_VER     "0.1"
-#define GUI_ORG_NAME    "Marek Cel"
-#define GUI_ORG_DOMAIN  "marekcel.pl"
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -45,17 +45,17 @@ public:
     static const std::string m_actionNames[ HID_MAX_ACTIONS ];  ///<
     static const std::string m_keysNames[ HID_MAX_KEYS ];       ///<
 
-    static const float m_speedCtrl;         ///< [1/s]
-    static const float m_speedTrim;         ///< [1/s]
-    static const float m_speedBrakes;       ///< [1/s]
-    static const float m_speedGear;         ///< [1/s]
-    static const float m_speedFlaps;        ///< [1/s]
-    static const float m_speedAirbrake;     ///< [1/s]
-    static const float m_speedSpoilers;     ///< [1/s]
-    static const float m_speedCollective;   ///< [1/s]
-    static const float m_speedThrottle;     ///< [1/s]
-    static const float m_speedMixture;      ///< [1/s]
-    static const float m_speedPropeller;    ///< [1/s]
+    static const double m_speedCtrl;        ///< [1/s]
+    static const double m_speedTrim;        ///< [1/s]
+    static const double m_speedBrakes;      ///< [1/s]
+    static const double m_speedGear;        ///< [1/s]
+    static const double m_speedFlaps;       ///< [1/s]
+    static const double m_speedAirbrake;    ///< [1/s]
+    static const double m_speedSpoilers;    ///< [1/s]
+    static const double m_speedCollective;  ///< [1/s]
+    static const double m_speedThrottle;    ///< [1/s]
+    static const double m_speedMixture;     ///< [1/s]
+    static const double m_speedPropeller;   ///< [1/s]
 
     /** */
     static inline Manager* instance()
@@ -89,24 +89,24 @@ public:
      */
     void update( double timeStep );
 
-    float getCtrlRoll()     const { return m_ctrlRoll;     }
-    float getCtrlPitch()    const { return m_ctrlPitch;    }
-    float getCtrlYaw()      const { return m_ctrlYaw;      }
-    float getTrimRoll()     const { return m_trimRoll;     }
-    float getTrimPitch()    const { return m_trimPitch;    }
-    float getTrimYaw()      const { return m_trimYaw;      }
-    float getBrakeLeft()    const { return m_brakeLeft;    }
-    float getBrakeRight()   const { return m_brakeRight;   }
-    float getParkingBrake() const { return m_parkingBrake; }
-    float getLandingGear()  const { return m_landingGear;  }
-    float getFlaps()        const { return m_flaps;        }
-    float getAirbrake()     const { return m_airbrake;     }
-    float getSpoilers()     const { return m_spoilers;     }
-    float getCollective()   const { return m_collective;   }
+    double getCtrlRoll()     const { return m_ctrlRoll;     }
+    double getCtrlPitch()    const { return m_ctrlPitch;    }
+    double getCtrlYaw()      const { return m_ctrlYaw;      }
+    double getTrimRoll()     const { return m_trimRoll;     }
+    double getTrimPitch()    const { return m_trimPitch;    }
+    double getTrimYaw()      const { return m_trimYaw;      }
+    double getBrakeLeft()    const { return m_brakeLeft;    }
+    double getBrakeRight()   const { return m_brakeRight;   }
+    double getParkingBrake() const { return m_parkingBrake; }
+    double getLandingGear()  const { return m_landingGear;  }
+    double getFlaps()        const { return m_flaps;        }
+    double getAirbrake()     const { return m_airbrake;     }
+    double getSpoilers()     const { return m_spoilers;     }
+    double getCollective()   const { return m_collective;   }
 
-    float getThrottle  ( int num ) const { return m_throttle  [ num ]; }
-    float getMixture   ( int num ) const { return m_mixture   [ num ]; }
-    float getPropeller ( int num ) const { return m_propeller [ num ]; }
+    double getThrottle  ( int num ) const { return m_throttle  [ num ]; }
+    double getMixture   ( int num ) const { return m_mixture   [ num ]; }
+    double getPropeller ( int num ) const { return m_propeller [ num ]; }
 
     bool isLgHandleDown() const { return m_stateLandingGear; }
 
@@ -124,37 +124,37 @@ private:
 
     bool m_keysState[ HID_MAX_KEYS ];               ///<
 
-    float m_timeStep;           ///< [s] simulation time step
+    double m_timeStep;          ///< [s] simulation time step
 
     short m_trigger;            ///< trigger
 
-    float m_ctrlRoll;           ///< [-1.0,1.0]
-    float m_ctrlPitch;          ///< [-1.0,1.0]
-    float m_ctrlYaw;            ///< [-1.0,1.0]
+    double m_ctrlRoll;          ///< [-1.0,1.0]
+    double m_ctrlPitch;         ///< [-1.0,1.0]
+    double m_ctrlYaw;           ///< [-1.0,1.0]
 
-    float m_trimRoll;           ///< [-1.0,1.0]
-    float m_trimPitch;          ///< [-1.0,1.0]
-    float m_trimYaw;            ///< [-1.0,1.0]
+    double m_trimRoll;          ///< [-1.0,1.0]
+    double m_trimPitch;         ///< [-1.0,1.0]
+    double m_trimYaw;           ///< [-1.0,1.0]
 
-    float m_brakeLeft;          ///< [0.0,1.0]
-    float m_brakeRight;         ///< [0.0,1.0]
-    float m_parkingBrake;       ///< [0.0,1.0]
+    double m_brakeLeft;         ///< [0.0,1.0]
+    double m_brakeRight;        ///< [0.0,1.0]
+    double m_parkingBrake;      ///< [0.0,1.0]
 
-    float m_landingGear;        ///< [0.0,1.0]
+    double m_landingGear;       ///< [0.0,1.0]
 
-    float m_flaps;              ///< [0.0,1.0]
-    float m_airbrake;           ///< [0.0,1.0]
-    float m_spoilers;           ///< [0.0,1.0]
+    double m_flaps;             ///< [0.0,1.0]
+    double m_airbrake;          ///< [0.0,1.0]
+    double m_spoilers;          ///< [0.0,1.0]
 
-    float m_collective;         ///< [0.0,1.0]
+    double m_collective;        ///< [0.0,1.0]
 
-    float m_commonThrottle;     ///< [0.0,1.0]
-    float m_commonMixture;      ///< [0.0,1.0]
-    float m_commonPropeller;    ///< [0.0,1.0]
+    double m_commonThrottle;    ///< [0.0,1.0]
+    double m_commonMixture;     ///< [0.0,1.0]
+    double m_commonPropeller;   ///< [0.0,1.0]
 
-    float m_throttle  [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
-    float m_mixture   [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
-    float m_propeller [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
+    double m_throttle  [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
+    double m_mixture   [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
+    double m_propeller [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
 
     bool m_prevLandingGearToggle;   ///<
     bool m_prevParkingBrakeToggle;  ///<
@@ -174,32 +174,32 @@ private:
     Manager( const Manager & ) {}
 
     /** */
-    void getAxisValue( const Assignment &assignment, float &value, int absolute = 0 );
+    void getAxisValue( const Assignment &assignment, double &value, int absolute = 0 );
 
     /** */
     void getRealValue( Assignment::Action decreaseAction,
                        Assignment::Action increaseAction,
-                       float &value,
-                       float speed,
-                       float min,
-                       float max,
+                       double &value,
+                       double speed,
+                       double min,
+                       double max,
                        bool autocenter = false );
 
     /** */
     void getRealValue( Assignment::Action applyAction,
-                       float &value,
-                       float speed,
-                       float min,
-                       float max );
+                       double &value,
+                       double speed,
+                       double min,
+                       double max );
 
     /** */
     void getRealValue( Assignment::Action toggleAction,
-                       bool  &togglePrev,
-                       bool  &state,
-                       float &value,
-                       float speed,
-                       float min,
-                       float max );
+                       bool &togglePrev,
+                       bool &state,
+                       double &value,
+                       double speed,
+                       double min,
+                       double max );
 
     /** */
     bool getButtState( const Assignment &assignment );

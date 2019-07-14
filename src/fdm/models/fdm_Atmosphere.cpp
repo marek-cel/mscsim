@@ -22,6 +22,8 @@
 
 #include <fdm/models/fdm_Atmosphere.h>
 
+#include <fdm/fdm_Log.h>
+
 #include <fdm/utils/fdm_WGS84.h>
 
 #include <iostream>
@@ -183,7 +185,7 @@ void Atmosphere::update( double altitude )
 
         if ( altitude > m_h_b[ 6 ] )
         {
-            std::cerr << "WARNING! Atmosphere altitude above valid range." << std::endl;
+            Log::w() << "Atmosphere altitude above valid range." << std::endl;
         }
     }
 
@@ -230,7 +232,7 @@ void Atmosphere::setPressureSL( double pressure_0 )
     }
     else
     {
-        std::cerr << "WARNING! Atmosphere wrong value of sea level pressure." << std::endl;
+        Log::w() << "Atmosphere wrong value of sea level pressure." << std::endl;
     }
 }
 
@@ -244,6 +246,6 @@ void Atmosphere::setTemperatureSL( double temperature_0 )
     }
     else
     {
-        std::cerr << "WARNING! Atmosphere wrong value of sea level temperature." << std::endl;
+        Log::w() << "Atmosphere wrong value of sea level temperature." << std::endl;
     }
 }

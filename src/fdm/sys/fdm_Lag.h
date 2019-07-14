@@ -33,7 +33,9 @@ namespace fdm
 
 /**
  * @brief First-order lag class.
- * Transfer function: G(s) = 1 / ( 1 + s*Tc )
+ *
+ * Transfer function:
+ * G(s)  =  1 / ( Tc*s + 1 )
  */
 class FDMEXPORT Lag
 {
@@ -61,7 +63,7 @@ public:
 
     void update( double u, double dt );
 
-private:
+protected:
 
     double m_tc;        ///< time constant
 

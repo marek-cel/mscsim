@@ -201,8 +201,6 @@ inline std::ostream& operator<< ( std::ostream &s, const fdm::Exception &e )
         s << e.getCause();
     }
 
-    s << "ERROR!";
-    s << " ";
     s << e.getInfo();
     s << " ";
     s << e.getFileAndLine();

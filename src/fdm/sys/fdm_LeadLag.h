@@ -33,7 +33,9 @@ namespace fdm
 
 /**
  * @brief Lead-lag compensator class.
- * Transfer function: G(s) = ( c1*s + c2 ) / ( c3*s + c4 )
+ *
+ * Transfer function:
+ * G(s)  =  ( c1*s + c2 ) / ( c3*s + c4 )
  */
 class FDMEXPORT LeadLag
 {
@@ -59,7 +61,7 @@ public:
 
     void update( double u, double dt );
 
-private:
+protected:
 
     double m_c1;        ///< c1 coefficient
     double m_c2;        ///< c2 coefficient

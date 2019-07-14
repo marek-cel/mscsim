@@ -33,7 +33,9 @@ namespace fdm
 
 /**
  * @brief First-order high-pass filter (HPF) or washout filter class.
- * Transfer function: G(s) = s / ( s + omega ) = ( s / omega ) / ( 1 + s/omega )
+ *
+ * Transfer function:
+ * G(s)  =  s / ( s + omega )  =  ( s / omega ) / ( s/omega + 1 )
  */
 class FDMEXPORT HPF
 {
@@ -53,7 +55,7 @@ public:
 
     void update( double u, double dt );
 
-private:
+protected:
 
     double m_omega;     ///< [rad/s]
     double m_tc;        ///< time constant

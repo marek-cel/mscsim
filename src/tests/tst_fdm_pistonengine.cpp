@@ -1,7 +1,7 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdm/main/fdm_PistonEngine.h>
+#include <fdm/models/fdm_PistonEngine.h>
 #include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////

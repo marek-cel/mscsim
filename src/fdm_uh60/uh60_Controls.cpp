@@ -95,7 +95,7 @@ void UH60_Controls::init()
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Obtaining control channels failed." );
+        e.setInfo( "Obtaining control channels failed." );
 
         FDM_THROW( e );
     }

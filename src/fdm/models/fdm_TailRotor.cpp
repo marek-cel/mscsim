@@ -126,7 +126,7 @@ void TailRotor::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -136,7 +136,7 @@ void TailRotor::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -230,7 +230,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the tail rotor model." );
+        e.setInfo( "NaN detected in the tail rotor model." );
 
         FDM_THROW( e );
     }

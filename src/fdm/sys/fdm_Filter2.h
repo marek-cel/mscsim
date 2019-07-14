@@ -33,7 +33,9 @@ namespace fdm
 
 /**
  * @brief Second-order filter class.
- * Transfer function: G(s) = ( c1*s^2 + c2*s + c3 ) / ( c4*s^2 + c5*s + c6 )
+ *
+ * Transfer function:
+ * G(s)  =  ( c1*s^2 + c2*s + c3 ) / ( c4*s^2 + c5*s + c6 )
  */
 class FDMEXPORT Filter2
 {
@@ -64,7 +66,7 @@ public:
 
     void update( double u, double dt );
 
-private:
+protected:
 
     double m_c1;        ///< c1 coefficient
     double m_c2;        ///< c2 coefficient

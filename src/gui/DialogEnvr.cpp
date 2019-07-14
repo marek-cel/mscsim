@@ -92,7 +92,7 @@ void DialogEnvr::saveData()
 
 void DialogEnvr::settingsRead()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
     settings.beginGroup( "dialog_envr" );
 
@@ -143,7 +143,7 @@ void DialogEnvr::settingsRead_UnitCombos( QSettings &settings )
 
 void DialogEnvr::settingsSave()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
     settings.beginGroup( "dialog_envr" );
 

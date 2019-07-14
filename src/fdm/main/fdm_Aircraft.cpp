@@ -271,7 +271,7 @@ void Aircraft::readData( const std::string &dataFilePath )
                 Exception e;
 
                 e.setType( Exception::FileReadingError );
-                e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( rootNode ) );
+                e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( rootNode ) );
 
                 FDM_THROW( e );
             }
@@ -293,7 +293,7 @@ void Aircraft::readData( const std::string &dataFilePath )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading file \"" + dataFilePath + "\" failed. Invalid root node." );
+            e.setInfo( "Reading file \"" + dataFilePath + "\" failed. Invalid root node." );
 
             FDM_THROW( e );
         }
@@ -303,7 +303,7 @@ void Aircraft::readData( const std::string &dataFilePath )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading file \"" + dataFilePath + "\" failed." );
+        e.setInfo( "Reading file \"" + dataFilePath + "\" failed." );
 
         FDM_THROW( e );
     }
@@ -357,7 +357,7 @@ void Aircraft::postIntegration()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the state vector." );
+        e.setInfo( "NaN detected in the state vector." );
 
         FDM_THROW( e );
     }

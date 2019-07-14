@@ -66,7 +66,7 @@ void F16_Mass::init()
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Obtaining variable masses failed." );
+        e.setInfo( "Obtaining variable masses failed." );
 
         FDM_THROW( e );
     }

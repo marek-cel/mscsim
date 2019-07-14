@@ -110,7 +110,7 @@ bool DialogConf::getWidescreen() const
 
 void DialogConf::settingsRead()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
     
     settings.beginGroup( "dialog_conf" );
 
@@ -123,7 +123,7 @@ void DialogConf::settingsRead()
 
 void DialogConf::settingsSave()
 {
-    QSettings settings( GUI_ORG_NAME, GUI_APP_NAME );
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
     settings.beginGroup( "dialog_conf" );
 

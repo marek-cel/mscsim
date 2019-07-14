@@ -117,6 +117,8 @@ private:
     void updatePhaseWork();
     void updatePhasePause();
     void updatePhaseStop();
+
+    void printState();
 };
 
 } // end of fdm namespace

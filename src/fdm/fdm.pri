@@ -4,11 +4,13 @@ HEADERS += \
     $$PWD/fdm_DataOut.h \
     $$PWD/fdm_Defines.h \
     $$PWD/fdm_Exception.h \
+    $$PWD/fdm_Log.h \
     $$PWD/fdm_Manager.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \
     $$PWD/fdm_Base.cpp \
+    $$PWD/fdm_Log.cpp \
     $$PWD/fdm_Manager.cpp
 
 ################################################################################
@@ -83,6 +85,7 @@ HEADERS += \
     $$PWD/sys/fdm_HPF.h \
     $$PWD/sys/fdm_Lag.h \
     $$PWD/sys/fdm_Lag2.h \
+    $$PWD/sys/fdm_Lead.h \
     $$PWD/sys/fdm_LeadLag.h \
     $$PWD/sys/fdm_LPF.h \
     $$PWD/sys/fdm_PID.h
@@ -94,6 +97,7 @@ SOURCES += \
     $$PWD/sys/fdm_HPF.cpp \
     $$PWD/sys/fdm_Lag.cpp \
     $$PWD/sys/fdm_Lag2.cpp \
+    $$PWD/sys/fdm_Lead.cpp \
     $$PWD/sys/fdm_LeadLag.cpp \
     $$PWD/sys/fdm_LPF.cpp \
     $$PWD/sys/fdm_PID.cpp

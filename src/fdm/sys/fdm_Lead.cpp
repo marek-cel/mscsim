@@ -20,7 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh60/uh60_Aircraft.h>
+#include <fdm/sys/fdm_Lead.h>
+
+#include <math.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,45 +30,45 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
+Lead::Lead() :
+    m_tc( 1.0 ),
+    m_u ( 0.0 ),
+    m_y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::~UH60_Mass() {}
+Lead::Lead( double tc, double y ) :
+    m_tc ( tc ),
+    m_y ( y )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Mass::init()
+void Lead::setValue( double y )
 {
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
+    m_y = y;
+}
 
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
+////////////////////////////////////////////////////////////////////////////////
+
+void Lead::setTimeConstant( double tc )
+{
+    if ( tc > 0.0 )
     {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
+        m_tc = tc;
     }
-    else
+}
+
+////////////////////////////////////////////////////////////////////////////////
+#include <iostream>
+void Lead::update( double u, double dt )
+{
+    if ( dt > 0.0 )
     {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
+        double du_dt = ( u - m_u ) / dt;
+        //std::cout << u << " " << du_dt << std::endl;
+        m_y = m_tc * du_dt + u;
+        m_u = u;
     }
-
-    /////////////
-    Mass::init();
-    /////////////
 }

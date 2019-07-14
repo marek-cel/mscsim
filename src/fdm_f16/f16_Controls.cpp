@@ -119,7 +119,7 @@ void F16_Controls::readData( XmlNode &dataNode )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
             FDM_THROW( e );
         }
@@ -129,7 +129,7 @@ void F16_Controls::readData( XmlNode &dataNode )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "ERROR! Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
 
         FDM_THROW( e );
     }
@@ -177,7 +177,7 @@ void F16_Controls::init()
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "ERROR! Obtaining control channels failed." );
+        e.setInfo( "Obtaining control channels failed." );
 
         FDM_THROW( e );
     }

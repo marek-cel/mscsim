@@ -19,54 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh60/uh60_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef FDM_LOG_H
+#define FDM_LOG_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    m_aircraft ( aircraft )
-{}
+#include <sstream>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::~UH60_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
 
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
-    {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
+/** */
+class Log
+{
+public:
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    static std::ostream &m_out;
 
-        FDM_THROW( e );
-    }
+    inline static std::ostream& i() { return ( timeTag() << "[INFO] "    ); }
+    inline static std::ostream& w() { return ( timeTag() << "[WARNING] " ); }
+    inline static std::ostream& e() { return ( timeTag() << "[ERROR] "   ); }
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+    inline static std::ostream& out() { return m_out; }
+
+    static std::ostream& timeTag();
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // FDM_LOG_H
