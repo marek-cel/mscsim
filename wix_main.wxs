@@ -30,8 +30,8 @@
         <Directory Id="dir_mscsim" Name="MScSim">
           
           <!-- sim.exe -->
-          <Component Id="dir_mscsim_sim" Guid="{bc24fd67-96d0-4cd0-84bd-6ae2197ca69e}">
-            <File Id="dir_mscsim_sim_exe" Name="sim.exe" DiskId="1" Source="bin\sim.exe" />
+          <Component Id="dir_mscsim_mscsim" Guid="{bc24fd67-96d0-4cd0-84bd-6ae2197ca69e}">
+            <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
           </Component>
           
         </Directory>
@@ -46,7 +46,7 @@
               Name="MscSim" 
               Icon="sim.ico"
               Description="Flight Simulation"
-              Target="[dir_mscsim]\sim.exe"
+              Target="[dir_mscsim]\mscsim.exe"
               WorkingDirectory="dir_mscsim" />
             <Shortcut
               Id="menu_unistall"
@@ -68,7 +68,7 @@
       <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
       <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->
       
-      <ComponentRef Id="dir_mscsim_sim" />      <!-- sim.exe -->
+      <ComponentRef Id="dir_mscsim_mscsim" />      <!-- sim.exe -->
 
       <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
     </Feature>
