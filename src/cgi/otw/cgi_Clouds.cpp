@@ -20,8 +20,10 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_Terrain.h>
-#include <cgi/cgi_Models.h>
+#include <cgi/otw/cgi_Clouds.h>
+
+#include <cgi/otw/cgi_CloudsBlock.h>
+#include <cgi/otw/cgi_CloudsLayer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,17 +31,13 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Terrain::Terrain( const std::string &file, Module *parent ) :
+Clouds::Clouds( Module *parent ) :
     Module( parent )
 {
-    osg::ref_ptr<osg::Node> terrain = Models::get( file );
-
-    if ( terrain.valid() )
-    {
-        m_root->addChild( terrain.get() );
-    }
+    addChild( new CloudsBlock( this ) );
+    addChild( new CloudsLayer( this ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Terrain::~Terrain() {}
+Clouds::~Clouds() {}

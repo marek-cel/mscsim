@@ -32,6 +32,8 @@
 #include <osgGA/GUIEventHandler>
 #include <osgQt/GraphicsWindowQt>
 
+#include <gui/KeyHandler.h>
+
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,33 +49,6 @@ public:
 
     static const double m_zNear;
     static const double m_zFar;
-
-    /** */
-    class KeyHandler : public osgGA::GUIEventHandler
-    {
-    public:
-
-        /** */
-        KeyHandler( WidgetCGI *widgetCGI );
-
-        /** */
-        bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
-
-        /** */
-        void update();
-
-        void keyDn( hid::Assignment::Key key );
-        void keyUp( hid::Assignment::Key key );
-
-    private:
-
-        WidgetCGI *m_widgetCGI;
-
-        bool m_keysState[ HID_MAX_KEYS ];
-
-        bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
-        bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
-    };
 
     /** Constructor. */
     WidgetCGI( QWidget *parent = 0 );
@@ -112,7 +87,7 @@ protected:
 
 private:
 
-    QGridLayout  *m_gridLayout;
+    QGridLayout *m_gridLayout;
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> m_graphicsWindow;
     osg::ref_ptr<KeyHandler> m_keyHandler;

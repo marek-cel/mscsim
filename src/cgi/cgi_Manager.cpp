@@ -34,11 +34,13 @@ using namespace cgi;
 
 Manager::Manager() :
     m_hud ( 0 ),
+    m_map ( 0 ),
     m_otw ( 0 ),
 
     m_camera ( 0 )
 {
     m_hud = new HUD();
+    m_map = new Map();
     m_otw = new OTW();
 
     m_camera = new Camera();
@@ -51,6 +53,9 @@ Manager::~Manager()
     if ( m_hud ) delete m_hud;
     m_hud = 0;
 
+    if ( m_map ) delete m_map;
+    m_map = 0;
+
     if ( m_otw ) delete m_otw;
     m_otw = 0;
 
@@ -60,13 +65,24 @@ Manager::~Manager()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::update()
+void Manager::updateHUD()
 {
     m_hud->update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::updateMap()
+{
+    m_map->update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::updateOTW()
+{
     m_otw->update();
-
     m_camera->update();
-
     updateGround();
 }
 
@@ -130,6 +146,13 @@ void Manager::setDistanceDef( double distance_def )
 void Manager::setDistanceMin( double distance_min )
 {
     m_camera->setDistanceMin( distance_min );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::setMapScale( double scale )
+{
+    m_map->setScale( scale );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

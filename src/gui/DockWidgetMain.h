@@ -62,15 +62,19 @@ public:
 
     void setFlightTime( QTime time );
 
-protected:
-
-    /** */
-    void timerEvent( QTimerEvent *event );
-
 signals:
+
+    void closed();
 
     void phaseInpChanged( fdm::DataInp::PhaseInp phaseInp );
 
+protected:
+
+    /** */
+    void closeEvent( QCloseEvent *event );
+
+    /** */
+    void timerEvent( QTimerEvent *event );
 
 private:
 

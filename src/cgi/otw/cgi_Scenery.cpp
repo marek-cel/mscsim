@@ -20,16 +20,16 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_Scenery.h>
+#include <cgi/otw/cgi_Scenery.h>
 
+#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_String.h>
-
 #include <fdm/xml/fdm_XmlDoc.h>
 
 #include <cgi/cgi_Intersections.h>
 
-#include <cgi/cgi_Airport.h>
-#include <cgi/cgi_Terrain.h>
+#include <cgi/otw/cgi_Airport.h>
+#include <cgi/otw/cgi_Terrain.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,7 +42,7 @@ Scenery::Scenery( Module *parent ) :
 {
     m_root->setName( "Scenery" );
 
-    fdm::XmlDoc doc( "data/cgi/scenery/scenery.xml" );
+    fdm::XmlDoc doc( fdm::Path::get( "data/cgi/scenery/scenery.xml" ) );
 
     if ( doc.isOpen() )
     {

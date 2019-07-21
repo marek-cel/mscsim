@@ -36,7 +36,7 @@ class Log
 {
 public:
 
-    static std::ostream &m_out;
+    static std::ostream &m_out; //< log output stream
 
     inline static std::ostream& i() { return ( timeTag() << "[INFO] "    ); }
     inline static std::ostream& w() { return ( timeTag() << "[WARNING] " ); }

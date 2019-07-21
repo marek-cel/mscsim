@@ -89,6 +89,40 @@ public:
     {
         typedef fdm::DataInp::Environment::WindShear WindShear;
 
+        struct Clouds
+        {
+            /** */
+            enum Type
+            {
+                None = 0,                   ///<
+                Block,                      ///<
+                Layer                       ///<
+            };
+
+            union Data
+            {
+                struct Block
+                {
+                    short  count;           ///<
+                    double base_asl;        ///< [m]
+                    double thickness;       ///< [m]
+                };
+
+                struct Layer
+                {
+
+                };
+
+                Block block;
+                Layer layer;
+            };
+
+            Type type;
+            Data data;
+        };
+
+        Clouds clouds;                      ///< clouds
+
         float visibility;                   ///< [m] visibility due haze, fog, etc
 
         double temperature_0;               ///< [K] sea level air temperature
@@ -195,6 +229,9 @@ public:
         double att_ex_wgs;                  ///< [-] attitude quaternion ex component expressed as rotation from WGS to BAS
         double att_ey_wgs;                  ///< [-] attitude quaternion ey component expressed as rotation from WGS to BAS
         double att_ez_wgs;                  ///< [-] attitude quaternion ez component expressed as rotation from WGS to BAS
+
+        double vel_north;                   ///< [m/s] north velocity
+        double vel_east;                    ///< [m/s] east velocity
 
         float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
         float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)

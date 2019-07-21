@@ -190,6 +190,9 @@ void Aircraft::updateOutputData()
     m_dataOut->flight.tas_v_bas = m_vel_air_bas.y();
     m_dataOut->flight.tas_w_bas = m_vel_air_bas.z();
 
+    m_dataOut->flight.vel_north = m_vel_ned.x();
+    m_dataOut->flight.vel_east  = m_vel_ned.y();
+
     m_dataOut->flight.acc_x_bas = m_acc_bas.x();
     m_dataOut->flight.acc_y_bas = m_acc_bas.y();
     m_dataOut->flight.acc_z_bas = m_acc_bas.z();

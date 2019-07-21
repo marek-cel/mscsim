@@ -22,11 +22,13 @@
 
 #include <cgi/cgi_WGS84.h>
 
-#include <osg/CoordinateSystemNode>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
+
+////////////////////////////////////////////////////////////////////////////////
+
+const osg::EllipsoidModel WGS84::em = osg::EllipsoidModel();
 
 const osg::Quat WGS84::m_enu2ned = osg::Matrixd( 0.0,  1.0,  0.0,  0.0,
                                                  1.0,  0.0,  0.0,  0.0,
@@ -73,8 +75,6 @@ void WGS84::set( double lat, double lon, double alt )
     m_lon = lon;
     m_alt = alt;
 
-    osg::EllipsoidModel em;
-
     double x = 0.0;
     double y = 0.0;
     double z = 0.0;
@@ -94,8 +94,6 @@ void WGS84::set( double lat, double lon, double alt )
 
 void WGS84::set( const osg::Vec3d &position )
 {
-    osg::EllipsoidModel em;
-
     double lat = 0.0;
     double lon = 0.0;
     double alt = 0.0;

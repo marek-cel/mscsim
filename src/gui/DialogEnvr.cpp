@@ -43,9 +43,23 @@ DialogEnvr::DialogEnvr( QWidget *parent ) :
 
     m_windShear ( fdm::DataInp::Environment::None ),
 
-    m_visibility ( 0.0 )
+    m_visibility ( 0.0 ),
+
+    m_cloudsType ( Data::Environment::Clouds::Block )
 {
     m_ui->setupUi( this );
+
+    double area_sq_m = M_PI * CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
+    double area_sq_km = area_sq_m / 1000.0 / 1000.0;
+    double max_clouds = 100.0 * CGI_CLOUDS_MAX_COUNT / area_sq_km;
+    m_ui->doubleSpinBoxCloudsBlockCount->setMaximum( max_clouds );
+
+    memset( &m_blockClouds, 0, sizeof(BlockClouds) );
+    memset( &m_layerClouds, 0, sizeof(LayerClouds) );
+
+    m_blockClouds.count = 0;
+    m_blockClouds.base_asl = 500.0;
+    m_blockClouds.thickness = 500.0;
 
     settingsRead();
 }
@@ -72,6 +86,21 @@ void DialogEnvr::readData()
     m_ui->sliderTurbulence->setValue( 100.0f * m_turbulence );
 
     m_ui->sliderVisibility->setValue( m_visibility / 100.0f );
+
+    if ( m_cloudsType == Data::Environment::Clouds::Block )
+    {
+        m_ui->radioButtonCloudsTypeBlock->setChecked( true );
+    }
+    else if ( m_cloudsType == Data::Environment::Clouds::Layer )
+    {
+        m_ui->radioButtonCloudsTypeLayer->setChecked( true );
+    }
+
+    double area_sq_m = M_PI * CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
+    double area_sq_km = area_sq_m / 1000.0 / 1000.0;
+    m_ui->doubleSpinBoxCloudsBlockCount->setValue( 100.0 * m_blockClouds.count / area_sq_km );
+    m_ui->spinBoxCloudsBlockBaseASL->setValue( m_ui->comboCloudsBlockBaseASL->convert( m_blockClouds.base_asl ) );
+    m_ui->spinBoxCloudsBlockThickness->setValue( m_ui->comboCloudsBlockThickness->convert( m_blockClouds.thickness ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +115,16 @@ void DialogEnvr::saveData()
     m_turbulence    = (double)m_ui->sliderTurbulence->value() / 100.0;
 
     m_visibility = 100.0f * m_ui->sliderVisibility->value();
+
+    m_cloudsType = m_ui->radioButtonCloudsTypeBlock->isChecked() ? Data::Environment::Clouds::Block : Data::Environment::Clouds::Layer;
+
+    double area_sq_m = M_PI * CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
+    double area_sq_km = area_sq_m / 1000.0 / 1000.0;
+    m_blockClouds.count     = m_ui->doubleSpinBoxCloudsBlockCount->value() * area_sq_km / 100.0;
+    m_blockClouds.base_asl  = m_ui->comboCloudsBlockBaseASL->invert( m_ui->spinBoxCloudsBlockBaseASL->value() );
+    m_blockClouds.thickness = m_ui->comboCloudsBlockThickness->invert( m_ui->spinBoxCloudsBlockThickness->value() );
+
+    m_layerClouds;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +158,21 @@ void DialogEnvr::settingsRead_EnvrData( QSettings &settings )
 
     m_visibility = settings.value( "visibility", CGI_SKYDOME_RADIUS ).toFloat();
 
+    switch ( settings.value( "clouds_type", Data::Environment::Clouds::Block ).toInt() )
+    {
+    case Data::Environment::Clouds::Block:
+        m_cloudsType = Data::Environment::Clouds::Block;
+        break;
+
+    case Data::Environment::Clouds::Layer:
+        m_cloudsType = Data::Environment::Clouds::Layer;
+        break;
+    }
+
+    m_blockClouds.count     = settings.value( "clouds_block_count" , m_blockClouds.count     ).toInt();
+    m_blockClouds.base_asl  = settings.value( "clouds_block_base"  , m_blockClouds.base_asl  ).toFloat();
+    m_blockClouds.thickness = settings.value( "clouds_block_thick" , m_blockClouds.thickness ).toFloat();
+
     settings.endGroup();
 }
 
@@ -135,6 +189,9 @@ void DialogEnvr::settingsRead_UnitCombos( QSettings &settings )
     m_ui->comboWindSpeed->setCurrentIndex( settings.value( "wind_speed", 0 ).toInt() );
 
     m_ui->comboVisibility->setCurrentIndex( settings.value( "visibility", 2 ).toInt() );
+
+    m_ui->comboCloudsBlockBaseASL->setCurrentIndex( settings.value( "clouds_block_base", 0 ).toInt() );
+    m_ui->comboCloudsBlockThickness->setCurrentIndex( settings.value( "clouds_block_thick", 0 ).toInt() );
 
     settings.endGroup();
 }
@@ -170,6 +227,12 @@ void DialogEnvr::settingsSave_EnvrData( QSettings &settings )
 
     settings.setValue( "visibility", m_visibility );
 
+    settings.setValue( "clouds_type", m_cloudsType );
+
+    settings.setValue( "clouds_block_count" , m_blockClouds.count     );
+    settings.setValue( "clouds_block_base"  , m_blockClouds.base_asl  );
+    settings.setValue( "clouds_block_thick" , m_blockClouds.thickness );
+
     settings.endGroup();
 }
 
@@ -186,6 +249,9 @@ void DialogEnvr::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "wind_speed" , m_ui->comboWindSpeed->currentIndex() );
 
     settings.setValue( "visibility", m_ui->comboVisibility->currentIndex() );
+
+    settings.setValue( "clouds_block_base"  , m_ui->comboCloudsBlockBaseASL->currentIndex() );
+    settings.setValue( "clouds_block_thick" , m_ui->comboCloudsBlockThickness->currentIndex() );
 
     settings.endGroup();
 }
@@ -294,4 +360,54 @@ void DialogEnvr::on_sliderTurbulence_valueChanged( int value )
 void DialogEnvr::on_sliderVisibility_valueChanged( int value )
 {
     m_ui->spinBoxVisibility->setValue( m_ui->comboVisibility->convert( 100.0f * value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEnvr::on_comboCloudsBlockBaseASL_currentIndexChanged( int /*index*/ )
+{
+    float value = m_ui->comboCloudsBlockBaseASL->invertPrev( m_ui->spinBoxCloudsBlockBaseASL->value() );
+
+    m_ui->spinBoxCloudsBlockBaseASL->setMinimum( m_ui->comboCloudsBlockBaseASL->convert( 0.0f ) );
+    m_ui->spinBoxCloudsBlockBaseASL->setMaximum( m_ui->comboCloudsBlockBaseASL->convert( 10000.0f ) );
+    m_ui->spinBoxCloudsBlockBaseASL->setValue( m_ui->comboCloudsBlockBaseASL->convert( value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEnvr::on_comboCloudsBlockThickness_currentIndexChanged( int /*index*/ )
+{
+    float value = m_ui->comboCloudsBlockThickness->invertPrev( m_ui->spinBoxCloudsBlockThickness->value() );
+
+    m_ui->spinBoxCloudsBlockThickness->setMinimum( m_ui->comboCloudsBlockThickness->convert( 100.0f ) );
+    m_ui->spinBoxCloudsBlockThickness->setMaximum( m_ui->comboCloudsBlockThickness->convert( 10000.0f ) );
+    m_ui->spinBoxCloudsBlockThickness->setValue( m_ui->comboCloudsBlockThickness->convert( value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEnvr::on_radioButtonCloudsTypeBlock_clicked( bool checked )
+{
+    if ( checked )
+    {
+        m_ui->stackedWidgetClouds->setCurrentIndex( 0 );
+    }
+    else
+    {
+        m_ui->stackedWidgetClouds->setCurrentIndex( 1 );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogEnvr::on_radioButtonCloudsTypeLayer_clicked( bool checked )
+{
+    if ( checked )
+    {
+        m_ui->stackedWidgetClouds->setCurrentIndex( 1 );
+    }
+    else
+    {
+        m_ui->stackedWidgetClouds->setCurrentIndex( 0 );
+    }
 }

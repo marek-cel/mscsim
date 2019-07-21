@@ -20,6 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fstream>
+
 #include <QApplication>
 
 #include <Defines.h>
@@ -36,12 +38,19 @@ int main( int argc, char *argv[] )
     setenv( "LC_NUMERIC", "en_US", 1 );
 #   endif
 
+#   ifndef SIM_CONSOLEOUTPUT
+    // redirecting errors output
+    std::streambuf *strbuf = std::cerr.rdbuf();
+    std::fstream out( SIM_LOG_FILE, std::ios_base::trunc | std::ios_base::out );
+    std::cerr.rdbuf( out.rdbuf() );
+#   endif
+
     QApplication *app = new QApplication( argc, argv );
 
-    app->setApplicationName( SIM_APP_NAME   );
-    app->setApplicationVersion( SIM_APP_VER    );
+    app->setApplicationName( SIM_APP_NAME );
+    app->setApplicationVersion( SIM_APP_VER );
     app->setOrganizationDomain( SIM_ORG_DOMAIN );
-    app->setOrganizationName( SIM_ORG_NAME   );
+    app->setOrganizationName( SIM_ORG_NAME );
 
     Manager *mgr = new Manager();
 
@@ -51,6 +60,14 @@ int main( int argc, char *argv[] )
 
     delete mgr; mgr = 0;
     delete app; app = 0;
+
+#   ifndef SIM_CONSOLEOUTPUT
+    std::cerr.rdbuf( strbuf );
+    if ( out.is_open() )
+    {
+        out.close();
+    }
+#   endif
 
     return result;
 }

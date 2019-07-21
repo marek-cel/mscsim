@@ -101,6 +101,14 @@ public:
     /** */
     void setSpoilers( float spoilers );
 
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetCtrl *m_ui;

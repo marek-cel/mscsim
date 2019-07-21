@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_Airport.h>
+#include <cgi/otw/cgi_Airport.h>
 
 #include <Data.h>
 

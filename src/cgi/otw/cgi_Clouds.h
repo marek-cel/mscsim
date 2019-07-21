@@ -19,35 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <cgi/cgi_OTW.h>
-
-#include <cgi/cgi_FogScene.h>
-#include <cgi/cgi_SkyDome.h>
+#ifndef CGI_CLOUDS_H
+#define CGI_CLOUDS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace cgi;
+#include <cgi/cgi_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-OTW::OTW( Module *parent ) :
-    Module( parent )
+namespace cgi
 {
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
 
-    stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
-    stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+/** Clouds. */
+class Clouds : public Module
+{
+public:
 
-    addChild( new FogScene( this ) );
-    addChild( new SkyDome( this ) );
-}
+    /** Constructor. */
+    Clouds( Module *parent = 0 );
+
+    /** Destructor. */
+    virtual ~Clouds();
+};
+
+} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-OTW::~OTW() {}
+#endif // CGI_CLOUDS_H

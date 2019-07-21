@@ -19,6 +19,7 @@ qt4_wrap_cpp( MOC_SRCS
     DockWidgetData.h
     DockWidgetEFIS.h
     DockWidgetMain.h
+    DockWidgetMap.h
     DockWidgetProp.h
     GraphicsEADI.h
     GraphicsEHSI.h
@@ -30,6 +31,7 @@ qt4_wrap_cpp( MOC_SRCS
     PageGeneral.h
     SpinBoxHighlight.h
     WidgetCGI.h
+    WidgetMap.h
     WidgetSquare.h
 )
 
@@ -46,6 +48,7 @@ qt4_wrap_ui( UI_HEADERS
     DockWidgetData.ui
     DockWidgetEFIS.ui
     DockWidgetMain.ui
+    DockWidgetMap.ui
     DockWidgetProp.ui
     MainWindow.ui
     PageControls.ui
@@ -76,16 +79,13 @@ add_library( gui STATIC
     DockWidgetData.cpp
     DockWidgetEFIS.cpp
     DockWidgetMain.cpp
+    DockWidgetMap.cpp
     DockWidgetProp.cpp
     GraphicsEADI.cpp
-    GraphicsEADI_ADI.cpp
-    GraphicsEADI_ALT.cpp
-    GraphicsEADI_ASI.cpp
-    GraphicsEADI_HDG.cpp
-    GraphicsEADI_VSI.cpp
     GraphicsEHSI.cpp
     GraphicsPedals.cpp
     GraphicsStick.cpp
+    KeyHandler.cpp
     Keys.cpp
     LayoutSquare.cpp
     Locations.cpp
@@ -94,7 +94,7 @@ add_library( gui STATIC
     PageGeneral.cpp
     SpinBoxHighlight.cpp
     WidgetCGI.cpp
-    WidgetCGI_KeyHandler.cpp
+    WidgetMap.cpp
     WidgetSquare.cpp
 
     ${MOC_SRCS}

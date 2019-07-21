@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_Ownship.h>
+#include <cgi/otw/cgi_Ownship.h>
 
 #include <sstream>
 #include <stdio.h>
@@ -28,8 +28,8 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/Switch>
 
+#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
-
 #include <fdm/xml/fdm_XmlDoc.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -393,7 +393,7 @@ void Ownship::reload()
 
     m_aircraftFile = Data::get()->ownship.aircraftFile;
 
-    fdm::XmlDoc doc( m_aircraftFile );
+    fdm::XmlDoc doc( fdm::Path::get( m_aircraftFile ) );
 
     if ( doc.isOpen() )
     {

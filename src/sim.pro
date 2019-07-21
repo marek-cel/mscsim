@@ -25,8 +25,10 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 ################################################################################
 
 DEFINES += \
+    SIM_CONSOLEOUTPUT \
 #    SIM_OSGDEBUGINFO \
     SIM_INTERSECTIONS \
+    SIM_LOCALDATADIR \
     SIM_SKYDOMESCALING \
     SIM_USETHREADS
 
@@ -39,11 +41,11 @@ win32: DEFINES += \
     _SCL_SECURE_NO_WARNINGS \
     _USE_MATH_DEFINES
 
-win32: CONFIG(release, debug|release): DEFINES += \
-    NDEBUG
+win32: CONFIG(release, debug|release): DEFINES += NDEBUG
+win32: CONFIG(debug, debug|release):   DEFINES += _DEBUG
 
-win32: CONFIG(debug, debug|release): DEFINES += \
-    _DEBUG
+#CONFIG(release, debug|release): DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 unix: DEFINES += _LINUX_
 
@@ -115,7 +117,8 @@ HEADERS += \
     Defines.h \
     Manager.h \
     Navigation.h \
-    Simulation.h
+    Simulation.h \
+    Singleton.h
 
 SOURCES += \
     main.cpp \

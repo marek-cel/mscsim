@@ -28,6 +28,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <fdm/fdm_Path.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -44,7 +46,8 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
         }
     }
 
-    osg::ref_ptr<osg::Node> object = ( straight ) ? osgDB::readNodeFile( objectFile ) : readNodeFile( objectFile );
+    std::string filePath = fdm::Path::get( objectFile );
+    osg::ref_ptr<osg::Node> object = ( straight ) ? osgDB::readNodeFile( filePath ) : readNodeFile( filePath );
 
     if ( object.valid() )
     {
@@ -65,7 +68,6 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
 
 osg::Node* Models::readNodeFile( std::string objectFile )
 {
-
     osg::ref_ptr<osg::Node> object = osgDB::readNodeFile( objectFile );
 
     return object.release();

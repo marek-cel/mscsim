@@ -20,12 +20,14 @@ HEADERS += \
     $$PWD/DockWidgetData.h \
     $$PWD/DockWidgetEFIS.h \
     $$PWD/DockWidgetMain.h \
+    $$PWD/DockWidgetMap.h \
     $$PWD/DockWidgetProp.h \
     $$PWD/GraphicsEADI.h \
     $$PWD/GraphicsEHSI.h \
     $$PWD/GraphicsPedals.h \
     $$PWD/GraphicsStick.h \
     $$PWD/gui_Defines.h \
+    $$PWD/KeyHandler.h \
     $$PWD/Keys.h \
     $$PWD/LayoutSquare.h \
     $$PWD/Locations.h \
@@ -34,6 +36,7 @@ HEADERS += \
     $$PWD/PageGeneral.h \
     $$PWD/SpinBoxHighlight.h \
     $$PWD/WidgetCGI.h \
+    $$PWD/WidgetMap.h \
     $$PWD/WidgetSquare.h
 
 SOURCES += \
@@ -58,16 +61,13 @@ SOURCES += \
     $$PWD/DockWidgetData.cpp \
     $$PWD/DockWidgetEFIS.cpp \
     $$PWD/DockWidgetMain.cpp \
+    $$PWD/DockWidgetMap.cpp \
     $$PWD/DockWidgetProp.cpp \
     $$PWD/GraphicsEADI.cpp \
-    $$PWD/GraphicsEADI_ADI.cpp \
-    $$PWD/GraphicsEADI_ALT.cpp \
-    $$PWD/GraphicsEADI_ASI.cpp \
-    $$PWD/GraphicsEADI_HDG.cpp \
-    $$PWD/GraphicsEADI_VSI.cpp \
     $$PWD/GraphicsEHSI.cpp \
     $$PWD/GraphicsPedals.cpp \
     $$PWD/GraphicsStick.cpp \
+    $$PWD/KeyHandler.cpp \
     $$PWD/Keys.cpp \
     $$PWD/LayoutSquare.cpp \
     $$PWD/Locations.cpp \
@@ -76,7 +76,7 @@ SOURCES += \
     $$PWD/PageGeneral.cpp \
     $$PWD/SpinBoxHighlight.cpp \
     $$PWD/WidgetCGI.cpp \
-    $$PWD/WidgetCGI_KeyHandler.cpp \
+    $$PWD/WidgetMap.cpp \
     $$PWD/WidgetSquare.cpp
 
 FORMS += \
@@ -90,6 +90,7 @@ FORMS += \
     $$PWD/DockWidgetData.ui \
     $$PWD/DockWidgetEFIS.ui \
     $$PWD/DockWidgetMain.ui \
+    $$PWD/DockWidgetMap.ui \
     $$PWD/DockWidgetProp.ui \
     $$PWD/MainWindow.ui \
     $$PWD/PageControls.ui \

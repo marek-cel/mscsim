@@ -27,7 +27,7 @@
 #include <QDialog>
 #include <QSettings>
 
-#include <fdm/fdm_DataInp.h>
+#include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,6 +48,9 @@ class DialogEnvr : public QDialog
 public:
 
     typedef fdm::DataInp::Environment::WindShear WindShear;
+    typedef Data::Environment::Clouds::Type CloudsType;
+    typedef Data::Environment::Clouds::Data::Block BlockClouds;
+    typedef Data::Environment::Clouds::Data::Layer LayerClouds;
 
     /** Constructor. */
     explicit DialogEnvr( QWidget *parent = 0 );
@@ -63,6 +66,11 @@ public:
     inline double getTurbulence()    const { return m_turbulence;    }
 
     inline WindShear getWindShear() const { return m_windShear; }
+
+    inline CloudsType getCloudsType() const { return m_cloudsType; }
+
+    inline const BlockClouds& getBlockClouds() const { return m_blockClouds; }
+    inline const LayerClouds& getLayerClouds() const { return m_layerClouds; }
 
     inline double getVisibility() const { return m_visibility; }
 
@@ -83,6 +91,11 @@ private:
     WindShear m_windShear;          ///< active wind shear model
 
     double m_visibility;            ///< [m]
+
+    CloudsType m_cloudsType;
+
+    BlockClouds m_blockClouds;
+    LayerClouds m_layerClouds;
 
     void settingsRead();
     void settingsRead_EnvrData( QSettings &settings );
@@ -105,6 +118,12 @@ private slots:
     void on_sliderTurbulence_valueChanged( int value );
 
     void on_sliderVisibility_valueChanged( int value );
+
+    void on_comboCloudsBlockBaseASL_currentIndexChanged( int index );
+    void on_comboCloudsBlockThickness_currentIndexChanged( int index );
+
+    void on_radioButtonCloudsTypeBlock_clicked( bool checked );
+    void on_radioButtonCloudsTypeLayer_clicked( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -20,16 +20,17 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_FogScene.h>
+#include <cgi/otw/cgi_FogScene.h>
 
 #include <osg/Fog>
 
 #include <cgi/cgi_Color.h>
 #include <cgi/cgi_Defines.h>
 
-#include <cgi/cgi_Ownship.h>
-#include <cgi/cgi_Scenery.h>
-#include <cgi/cgi_SkyDome.h>
+#include <cgi/otw/cgi_Clouds.h>
+#include <cgi/otw/cgi_Ownship.h>
+#include <cgi/otw/cgi_Scenery.h>
+#include <cgi/otw/cgi_SkyDome.h>
 
 #include <Data.h>
 
@@ -94,6 +95,7 @@ FogScene::FogScene( Module *parent ) :
     stateSet->setAttributeAndModes( m_fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
 
+    addChild( new Clouds( this ) );
     addChild( new Ownship( this ) );
     addChild( new Scenery( this ) );
 }

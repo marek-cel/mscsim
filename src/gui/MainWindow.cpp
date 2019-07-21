@@ -54,8 +54,10 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockData ( 0 ),
     m_dockEFIS ( 0 ),
     m_dockMain ( 0 ),
+    m_dockMap  ( 0 ),
     m_dockProp ( 0 ),
 
+    m_scFullScreen ( 0 ),
     m_scTimeFaster ( 0 ),
     m_scTimeSlower ( 0 ),
 
@@ -85,6 +87,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockData = new DockWidgetData( this );
     m_dockEFIS = new DockWidgetEFIS( this );
     m_dockMain = new DockWidgetMain( this );
+    m_dockMap  = new DockWidgetMap( this );
     m_dockProp = new DockWidgetProp( this );
 
     m_dockAuto->setObjectName( "DockAuto" );
@@ -92,6 +95,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockData->setObjectName( "DockData" );
     m_dockEFIS->setObjectName( "DockEFIS" );
     m_dockMain->setObjectName( "DockMain" );
+    m_dockMap->setObjectName( "DockMap" );
     m_dockProp->setObjectName( "DockProp" );
 
     addDockWidget( Qt::BottomDockWidgetArea , m_dockAuto );
@@ -99,6 +103,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     addDockWidget( Qt::RightDockWidgetArea  , m_dockData );
     addDockWidget( Qt::BottomDockWidgetArea , m_dockEFIS );
     addDockWidget( Qt::LeftDockWidgetArea   , m_dockMain );
+    addDockWidget( Qt::BottomDockWidgetArea , m_dockMap  );
     addDockWidget( Qt::LeftDockWidgetArea   , m_dockProp );
 
     m_dockAuto->setVisible( false );
@@ -106,13 +111,23 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockData->setVisible( false );
     m_dockEFIS->setVisible( false );
     m_dockMain->setVisible( false );
+    m_dockMap->setVisible( false );
     m_dockProp->setVisible( false );
 
+    m_scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_actionFullScreen_triggered()) );
     m_scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal), this, SLOT(on_actionTimeFaster_triggered()) );
     m_scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
 
     connect( m_dialogInit, SIGNAL(typeIndexChanged(int)), this, SLOT(dialogInit_typeIndexChanged(int)) );
     connect( m_dockMain, SIGNAL(phaseInpChanged(fdm::DataInp::PhaseInp)), this, SLOT(dockMain_phaseInpChanged(fdm::DataInp::PhaseInp)) );
+
+    connect( m_dockAuto , SIGNAL(closed()), this, SLOT(dockAuto_closed()) );
+    connect( m_dockCtrl , SIGNAL(closed()), this, SLOT(dockCtrl_closed()) );
+    connect( m_dockData , SIGNAL(closed()), this, SLOT(dockData_closed()) );
+    connect( m_dockEFIS , SIGNAL(closed()), this, SLOT(dockEFIS_closed()) );
+    connect( m_dockMain , SIGNAL(closed()), this, SLOT(dockMain_closed()) );
+    connect( m_dockMap  , SIGNAL(closed()), this, SLOT(dockMap_closed())  );
+    connect( m_dockProp , SIGNAL(closed()), this, SLOT(dockProp_closed()) );
 
     settingsRead();
 
@@ -156,8 +171,14 @@ MainWindow::~MainWindow()
     if ( m_dockMain ) delete m_dockMain;
     m_dockMain = 0;
 
+    if ( m_dockMap ) delete m_dockMap;
+    m_dockMap = 0;
+
     if ( m_dockProp ) delete m_dockProp;
     m_dockProp = 0;
+
+    if ( m_scFullScreen ) delete m_scFullScreen;
+    m_scFullScreen = 0;
 
     if ( m_scTimeFaster ) delete m_scTimeFaster;
     m_scTimeFaster = 0;
@@ -272,26 +293,16 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
 void MainWindow::setPhaseIdle()
 {
-    m_ui->actionPhaseInpIdle->setChecked( true );
-    m_ui->actionPhaseInpInit->setChecked( false );
-    m_ui->actionPhaseInpWork->setChecked( false );
-    m_ui->actionPhaseInpPause->setChecked( false );
-    m_ui->actionPhaseInpStop->setChecked( false );
-
     m_phaseInp = fdm::DataInp::Idle;
     m_dockMain->setPhaseInp( m_phaseInp );
+
+    m_timeCoef = 1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setPhaseInit()
 {
-    m_ui->actionPhaseInpIdle->setChecked( false );
-    m_ui->actionPhaseInpInit->setChecked( true );
-    m_ui->actionPhaseInpWork->setChecked( false );
-    m_ui->actionPhaseInpPause->setChecked( false );
-    m_ui->actionPhaseInpStop->setChecked( false );
-
     m_phaseInp = fdm::DataInp::Init;
     m_dockMain->setPhaseInp( m_phaseInp );
 }
@@ -300,12 +311,6 @@ void MainWindow::setPhaseInit()
 
 void MainWindow::setPhaseWork()
 {
-    m_ui->actionPhaseInpIdle->setChecked( false );
-    m_ui->actionPhaseInpInit->setChecked( false );
-    m_ui->actionPhaseInpWork->setChecked( true );
-    m_ui->actionPhaseInpPause->setChecked( false );
-    m_ui->actionPhaseInpStop->setChecked( false );
-
     m_phaseInp = fdm::DataInp::Work;
     m_dockMain->setPhaseInp( m_phaseInp );
 }
@@ -314,12 +319,6 @@ void MainWindow::setPhaseWork()
 
 void MainWindow::setPhasePause()
 {
-    m_ui->actionPhaseInpIdle->setChecked( false );
-    m_ui->actionPhaseInpInit->setChecked( false );
-    m_ui->actionPhaseInpWork->setChecked( false );
-    m_ui->actionPhaseInpPause->setChecked( true );
-    m_ui->actionPhaseInpStop->setChecked( false );
-
     m_phaseInp = fdm::DataInp::Pause;
     m_dockMain->setPhaseInp( m_phaseInp );
 }
@@ -328,12 +327,6 @@ void MainWindow::setPhasePause()
 
 void MainWindow::setPhaseStop()
 {
-    m_ui->actionPhaseInpIdle->setChecked( false );
-    m_ui->actionPhaseInpInit->setChecked( false );
-    m_ui->actionPhaseInpWork->setChecked( false );
-    m_ui->actionPhaseInpPause->setChecked( false );
-    m_ui->actionPhaseInpStop->setChecked( true );
-
     m_phaseInp = fdm::DataInp::Stop;
     m_dockMain->setPhaseInp( m_phaseInp );
 }
@@ -398,18 +391,20 @@ void MainWindow::settingsRead()
     restoreState( settings.value( "state" ).toByteArray() );
     restoreGeometry( settings.value( "geometry" ).toByteArray() );
 
-    bool visibleAuto = settings.value( "dock_auto_visible", 0 ).toBool();
-    bool visibleCtrl = settings.value( "dock_ctrl_visible", 0 ).toBool();
-    bool visibleData = settings.value( "dock_data_visible", 0 ).toBool();
-    bool visibleEFIS = settings.value( "dock_efis_visible", 0 ).toBool();
-    bool visibleMain = settings.value( "dock_main_visible", 0 ).toBool();
-    bool visibleProp = settings.value( "dock_prop_visible", 0 ).toBool();
+    bool visibleAuto = settings.value( "dock_auto_visible" , 0 ).toBool();
+    bool visibleCtrl = settings.value( "dock_ctrl_visible" , 0 ).toBool();
+    bool visibleData = settings.value( "dock_data_visible" , 0 ).toBool();
+    bool visibleEFIS = settings.value( "dock_efis_visible" , 0 ).toBool();
+    bool visibleMain = settings.value( "dock_main_visible" , 0 ).toBool();
+    bool visibleMap  = settings.value( "dock_map_visible"  , 0 ).toBool();
+    bool visibleProp = settings.value( "dock_prop_visible" , 0 ).toBool();
 
     m_ui->actionDockAuto->setChecked( visibleAuto );
     m_ui->actionDockCtrl->setChecked( visibleCtrl );
     m_ui->actionDockData->setChecked( visibleData );
     m_ui->actionDockEFIS->setChecked( visibleEFIS );
     m_ui->actionDockMain->setChecked( visibleMain );
+    m_ui->actionDockMap->setChecked( visibleMap );
     m_ui->actionDockProp->setChecked( visibleProp );
 
     settingsRead_Airport( settings );
@@ -502,12 +497,13 @@ void MainWindow::settingsSave()
     settingsSave_Airport( settings );
     settingsSave_View( settings );
 
-    settings.setValue( "dock_auto_visible", m_ui->actionDockAuto->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_ctrl_visible", m_ui->actionDockCtrl->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_data_visible", m_ui->actionDockData->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_efis_visible", m_ui->actionDockEFIS->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_main_visible", m_ui->actionDockMain->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_prop_visible", m_ui->actionDockProp->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_auto_visible" , m_ui->actionDockAuto->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_ctrl_visible" , m_ui->actionDockCtrl->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_data_visible" , m_ui->actionDockData->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_efis_visible" , m_ui->actionDockEFIS->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_main_visible" , m_ui->actionDockMain->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_map_visible"  , m_ui->actionDockMap->isChecked()  ? 1 : 0 );
+    settings.setValue( "dock_prop_visible" , m_ui->actionDockProp->isChecked() ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -829,6 +825,16 @@ void MainWindow::updateOutputData()
     Data::get()->dateTime.second = (unsigned short)m_dateTime.time().second();
 
     // environment
+    Data::get()->environment.clouds.type = m_dialogEnvr->getCloudsType();
+    if ( m_dialogEnvr->getCloudsType() == Data::Environment::Clouds::Block )
+    {
+        Data::get()->environment.clouds.data.block = m_dialogEnvr->getBlockClouds();
+    }
+    else if ( m_dialogEnvr->getCloudsType() == Data::Environment::Clouds::Layer )
+    {
+        Data::get()->environment.clouds.data.layer = m_dialogEnvr->getLayerClouds();
+    }
+
     Data::get()->environment.visibility     = m_dialogEnvr->getVisibility();
     Data::get()->environment.temperature_0  = m_dialogEnvr->getTemperatureSL();
     Data::get()->environment.pressure_0     = m_dialogEnvr->getPressureSL();
@@ -991,6 +997,13 @@ void MainWindow::on_actionDockMain_toggled( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_actionDockMap_toggled( bool checked )
+{
+    m_dockMap->setVisible( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_actionDockProp_toggled( bool checked )
 {
     m_dockProp->setVisible( checked );
@@ -1085,48 +1098,82 @@ void MainWindow::on_actionShowHUD_triggered( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_actionFullScreen_triggered()
+{
+    if ( isFullScreen() )
+    {
+        showNormal();
+        m_ui->menuBar->show();
+        m_ui->statusBar->show();
+    }
+    else
+    {
+        showFullScreen();
+        m_ui->menuBar->hide();
+        m_ui->statusBar->hide();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_actionTimeFaster_triggered()
 {
-    if ( m_timeCoef > 0.9 )
+    int timeCoef10 = floor( 10.0 * m_timeCoef + 0.5 );
+
+    if ( timeCoef10 > 9 )
     {
-        if ( m_timeCoef < 10.0 )
+        if ( timeCoef10 < 20 )
         {
-            m_timeCoef += 1.0;
+            timeCoef10 += 5;
+        }
+        else if ( timeCoef10 < 100 )
+        {
+            timeCoef10 += 10;
         }
         else
         {
-            m_timeCoef = 10.0;
+            timeCoef10 = 100;
         }
     }
     else
     {
-        m_timeCoef += 0.1;
+        timeCoef10 += 1;
     }
 
-    if ( m_timeCoef > 10.0 ) m_timeCoef = 10.0;
+    if ( timeCoef10 > 100 ) timeCoef10 = 100;
+
+    m_timeCoef = 0.1 * (double)timeCoef10;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionTimeSlower_triggered()
 {
-    if ( m_timeCoef > 1.0 )
+    int timeCoef10 = floor( 10.0 * m_timeCoef + 0.5 );
+
+    if ( timeCoef10 > 20 )
     {
-        m_timeCoef -= 1.0;
+        timeCoef10 -= 10;
+    }
+    else if ( timeCoef10 > 10 )
+    {
+        timeCoef10 -= 5;
     }
     else
     {
-        if ( m_timeCoef > 0.1 )
+        if ( timeCoef10 > 1 )
         {
-            m_timeCoef -= 0.1;
+            timeCoef10 -= 1;
         }
         else
         {
-            m_timeCoef = 0.0;
+            timeCoef10 = 0;
         }
     }
 
-    if ( m_timeCoef < 0.1 ) m_timeCoef = 0.1;
+    if ( timeCoef10 < 1 ) timeCoef10 = 1;
+
+    m_timeCoef = 0.1 * (double)timeCoef10;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1148,4 +1195,53 @@ void MainWindow::dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp )
         case fdm::DataInp::Pause: setPhasePause(); break;
         case fdm::DataInp::Stop:  setPhaseStop();  break;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockAuto_closed()
+{
+    m_ui->actionDockAuto->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockCtrl_closed()
+{
+    m_ui->actionDockCtrl->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockData_closed()
+{
+    m_ui->actionDockData->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockEFIS_closed()
+{
+    m_ui->actionDockEFIS->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockMain_closed()
+{
+    m_ui->actionDockMain->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockMap_closed()
+{
+    m_ui->actionDockMap->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockProp_closed()
+{
+    m_ui->actionDockProp->setChecked( false );
 }

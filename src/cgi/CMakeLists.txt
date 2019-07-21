@@ -1,25 +1,33 @@
 add_library( cgi STATIC
-    cgi_Airport.cpp
+    hud/cgi_HUD.cpp
+    map/cgi_Icons.cpp
+    map/cgi_Layers.cpp
+    map/cgi_Map.cpp
+    otw/cgi_Airport.cpp
+    otw/cgi_Clouds.cpp
+    otw/cgi_CloudsBlock.cpp
+    otw/cgi_CloudsLayer.cpp
+    otw/cgi_FogScene.cpp
+    otw/cgi_OTW.cpp
+    otw/cgi_Ownship.cpp
+    otw/cgi_Scenery.cpp
+    otw/cgi_SkyDome.cpp
+    otw/cgi_Terrain.cpp
     cgi_Camera.cpp
     cgi_Color.cpp
     cgi_Ephemeris.cpp
     cgi_FindNode.cpp
-    cgi_FogScene.cpp
     cgi_Fonts.cpp
     cgi_Geometry.cpp
-    cgi_HUD.cpp
     cgi_Intersections.cpp
     cgi_Manager.cpp
+    cgi_ManipulatorMap.cpp
     cgi_ManipulatorOrbit.cpp
     cgi_ManipulatorShift.cpp
     cgi_ManipulatorWorld.cpp
+    cgi_Mercator.cpp
     cgi_Models.cpp
     cgi_Module.cpp
-    cgi_OTW.cpp
-    cgi_Ownship.cpp
-    cgi_Scenery.cpp
-    cgi_SkyDome.cpp
-    cgi_Terrain.cpp
     cgi_Textures.cpp
     cgi_WGS84.cpp
 )

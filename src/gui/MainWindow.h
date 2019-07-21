@@ -41,8 +41,9 @@
 #include "DockWidgetCtrl.h"
 #include "DockWidgetData.h"
 #include "DockWidgetEFIS.h"
-#include "DockWidgetProp.h"
 #include "DockWidgetMain.h"
+#include "DockWidgetMap.h"
+#include "DockWidgetProp.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -104,8 +105,10 @@ private:
     DockWidgetData *m_dockData;     ///<
     DockWidgetEFIS *m_dockEFIS;     ///<
     DockWidgetMain *m_dockMain;     ///<
+    DockWidgetMap  *m_dockMap;      ///<
     DockWidgetProp *m_dockProp;     ///<
 
+    QShortcut *m_scFullScreen;      ///<
     QShortcut *m_scTimeFaster;      ///<
     QShortcut *m_scTimeSlower;      ///<
 
@@ -168,6 +171,7 @@ private slots:
     void on_actionDockData_toggled( bool checked );
     void on_actionDockEFIS_toggled( bool checked );
     void on_actionDockMain_toggled( bool checked );
+    void on_actionDockMap_toggled( bool checked );
     void on_actionDockProp_toggled( bool checked );
 
     void on_actionPhaseInpIdle_triggered();
@@ -185,11 +189,21 @@ private slots:
 
     void on_actionShowHUD_triggered( bool checked );
 
+    void on_actionFullScreen_triggered();
+
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();
 
     void dialogInit_typeIndexChanged( int typeIndex );
     void dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp );
+
+    void dockAuto_closed();
+    void dockCtrl_closed();
+    void dockData_closed();
+    void dockEFIS_closed();
+    void dockMain_closed();
+    void dockMap_closed();
+    void dockProp_closed();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

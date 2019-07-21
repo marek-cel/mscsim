@@ -20,13 +20,15 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <gui/KeyHandler.h>
+
 #include <gui/WidgetCGI.h>
 
 #include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
+KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
     m_widgetCGI ( widgetCGI )
 {
     for ( int i = 0; i < HID_MAX_KEYS; i++ ) m_keysState[ i ] = false;
@@ -34,7 +36,7 @@ WidgetCGI::KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetCGI::KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & )
+bool KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & )
 {
 #   ifndef SIM_NOKEYINPUT
     switch( ea.getEventType() )
@@ -57,28 +59,28 @@ bool WidgetCGI::KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUI
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::KeyHandler::update()
+void KeyHandler::update()
 {
     hid::Manager::instance()->setKeysState( m_keysState );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::KeyHandler::keyDn( hid::Assignment::Key key )
+void KeyHandler::keyDn( hid::Assignment::Key key )
 {
     m_keysState[ key ] = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::KeyHandler::keyUp( hid::Assignment::Key key )
+void KeyHandler::keyUp( hid::Assignment::Key key )
 {
     m_keysState[ key ] = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
+bool KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 {
     switch ( ea.getKey() )
     {
@@ -419,7 +421,7 @@ bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetCGI::KeyHandler::handleKeyUp( const osgGA::GUIEventAdapter &ea )
+bool KeyHandler::handleKeyUp( const osgGA::GUIEventAdapter &ea )
 {
     switch ( ea.getKey() )
     {

@@ -6,6 +6,7 @@ HEADERS += \
     $$PWD/fdm_Exception.h \
     $$PWD/fdm_Log.h \
     $$PWD/fdm_Manager.h \
+    $$PWD/fdm_Path.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \

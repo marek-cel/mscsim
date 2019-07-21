@@ -167,6 +167,14 @@ public:
         m_graphicsEHSI->setDeviation( deviation, visible );
     }
 
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetEFIS *m_ui;

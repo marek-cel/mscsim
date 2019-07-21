@@ -29,6 +29,9 @@
 #define CGI_HUD_Y 200.0
 #define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
 
+#define CGI_MAP_FOV_Y 15.0
+#define CGI_MAP_Y_2 1.0e7
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #define CGI_DEPTH_SORTED_BIN_WORLD  0
@@ -36,7 +39,18 @@
 #define CGI_DEPTH_SORTED_BIN_MOON   2
 #define CGI_DEPTH_SORTED_BIN_SUN    2
 #define CGI_DEPTH_SORTED_BIN_STARS  2
-#define CGI_DEPTH_SORTED_BIN_HUD    3
+#define CGI_DEPTH_SORTED_BIN_CLOUDS 3
+#define CGI_DEPTH_SORTED_BIN_HUD    4
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define CGI_DEPTH_SORTED_BIN_MAP   0
+#define CGI_DEPTH_SORTED_BIN_ICONS 1
+
+////////////////////////////////////////////////////////////////////////////////
+
+#define CGI_CLOUDS_MAX_COUNT 2048
+#define CGI_CLOUDS_MAX_SPRITES 64
 
 ////////////////////////////////////////////////////////////////////////////////
 

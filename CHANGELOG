@@ -1,3 +1,17 @@
+2019-07-21 Marek M. Cel <marekcel@marekcel.pl>
+
+    * Logging to the file
+    
+    * Absolute data paths
+    
+    * Clouds
+    
+    * Map
+    
+    * Fullscreen mode
+
+
+
 2019-07-14 Marek M. Cel <marekcel@marekcel.pl>
 
     * Unit tests fixed

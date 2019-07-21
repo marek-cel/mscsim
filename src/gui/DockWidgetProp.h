@@ -80,6 +80,14 @@ public:
     void setITT  ( unsigned int index, float val );
     void setFF   ( unsigned int index, float val );
 
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetProp *m_ui;

@@ -292,3 +292,14 @@ void DockWidgetCtrl::setSpoilers( float spoilers )
     m_ui->barSpoilers->setValue( 100 * spoilers );
     m_ui->spinBoxSpoilers->setValue( 100 * spoilers );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::closeEvent( QCloseEvent *event )
+{
+    /////////////////////////////////
+    QDockWidget::closeEvent( event );
+    /////////////////////////////////
+
+    emit closed();
+}

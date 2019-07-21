@@ -400,6 +400,9 @@ void Manager::updatePhaseIdle()
     m_dataOut.flight.tas_v_bas = 0.0;
     m_dataOut.flight.tas_w_bas = 0.0;
 
+    m_dataOut.flight.vel_north = 0.0;
+    m_dataOut.flight.vel_east  = 0.0;
+
     m_dataOut.flight.acc_x_bas = 0.0;
     m_dataOut.flight.acc_y_bas = 0.0;
     m_dataOut.flight.acc_z_bas = 0.0;

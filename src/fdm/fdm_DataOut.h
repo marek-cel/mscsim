@@ -111,6 +111,9 @@ struct DataOut
         double tas_v_bas;               ///< [m/s] velcoity relative to airflow v component expressed in BAS
         double tas_w_bas;               ///< [m/s] velcoity relative to airflow w component expressed in BAS
 
+        double vel_north;               ///< [m/s] north velcoity u component expressed in BAS
+        double vel_east;                ///< [m/s] east velcoity v component expressed in BAS
+
         double acc_x_bas;               ///< [m/s^2] linear acceleration x component expressed in BAS
         double acc_y_bas;               ///< [m/s^2] linear acceleration y component expressed in BAS
         double acc_z_bas;               ///< [m/s^2] linear acceleration z component expressed in BAS

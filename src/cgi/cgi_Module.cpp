@@ -58,13 +58,9 @@ void Module::addChild( Module *child )
 
 void Module::update()
 {
-    List::iterator it = m_children.begin();
-
-    while ( it != m_children.end() )
+    for ( List::iterator it = m_children.begin(); it != m_children.end(); it++ )
     {
         (*it)->update();
-
-        ++it;
     }
 }
 

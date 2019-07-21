@@ -27,6 +27,7 @@
 #include <iostream>
 
 #include <fdm/fdm_Defines.h>
+#include <fdm/fdm_Path.h>
 #include <fdm/fdm_Types.h>
 
 ////////////////////////////////////////////////////////////////////////////////

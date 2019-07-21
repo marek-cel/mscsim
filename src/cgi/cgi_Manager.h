@@ -24,11 +24,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cgi/cgi_HUD.h>
-#include <cgi/cgi_OTW.h>
+#include <cgi/cgi_Singleton.h>
+
+#include <cgi/hud/cgi_HUD.h>
+#include <cgi/map/cgi_Map.h>
+#include <cgi/otw/cgi_OTW.h>
 
 #include <cgi/cgi_Camera.h>
-#include <cgi/cgi_Singleton.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +50,13 @@ public:
     virtual ~Manager();
 
     /** */
-    void update();
+    void updateHUD();
+
+    /** */
+    void updateMap();
+
+    /** */
+    void updateOTW();
 
     /** */
     inline osgGA::CameraManipulator* getCameraManipulator()
@@ -75,6 +83,12 @@ public:
     }
 
     /** */
+    inline osg::Node* getNodeMap()
+    {
+        return m_map->getNode();
+    }
+
+    /** */
     inline osg::Node* getNodeOTW()
     {
         return m_otw->getNode();
@@ -98,9 +112,13 @@ public:
     /** */
     void setDistanceMin( double distance_min );
 
+    /** */
+    void setMapScale( double scale );
+
 private:
 
     HUD *m_hud;         ///<
+    Map *m_map;         ///<
     OTW *m_otw;         ///<
 
     Camera *m_camera;   ///<

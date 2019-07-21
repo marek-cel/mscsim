@@ -51,3 +51,14 @@ DockWidgetEFIS::~DockWidgetEFIS()
     if ( m_ui ) delete m_ui;
     m_ui = 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetEFIS::closeEvent( QCloseEvent *event )
+{
+    /////////////////////////////////
+    QDockWidget::closeEvent( event );
+    /////////////////////////////////
+
+    emit closed();
+}

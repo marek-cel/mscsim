@@ -68,7 +68,7 @@ C172_Aircraft::~C172_Aircraft()
 
 void C172_Aircraft::init( bool engineOn )
 {
-    readData( "data/fdm/c172/c172_fdm.xml" );
+    readData( Path::get( "data/fdm/c172/c172_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

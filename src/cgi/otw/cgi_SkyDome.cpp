@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/cgi_SkyDome.h>
+#include <cgi/otw/cgi_SkyDome.h>
 
 #include <math.h>
 #include <stdio.h>
@@ -32,9 +32,10 @@
 
 #include <Data.h>
 
+#include <cgi/otw/cgi_FogScene.h>
+
 #include <cgi/cgi_Color.h>
 #include <cgi/cgi_Defines.h>
-#include <cgi/cgi_FogScene.h>
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_WGS84.h>
 

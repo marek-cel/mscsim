@@ -56,7 +56,7 @@ C130_Aircraft::~C130_Aircraft()
 
 void C130_Aircraft::init( bool engineOn )
 {
-    readData( "data/fdm/c130/c130_fdm.xml" );
+    readData( Path::get( "data/fdm/c130/c130_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

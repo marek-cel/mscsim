@@ -39,3 +39,14 @@ DockWidgetAuto::~DockWidgetAuto()
     if ( m_ui ) delete m_ui;
     m_ui = 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::closeEvent( QCloseEvent *event )
+{
+    /////////////////////////////////
+    QDockWidget::closeEvent( event );
+    /////////////////////////////////
+
+    emit closed();
+}

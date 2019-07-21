@@ -219,6 +219,9 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.att_ey_wgs = dataOut.flight.att_ey_wgs;
     Data::get()->ownship.att_ez_wgs = dataOut.flight.att_ez_wgs;
 
+    Data::get()->ownship.vel_north = dataOut.flight.vel_north;
+    Data::get()->ownship.vel_east  = dataOut.flight.vel_east;
+
     Data::get()->ownship.ailerons    = dataOut.controls.ailerons;
     Data::get()->ownship.elevator    = dataOut.controls.elevator;
     Data::get()->ownship.elevons     = dataOut.controls.elevons;

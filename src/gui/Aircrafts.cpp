@@ -24,6 +24,8 @@
 
 #include <QFile>
 
+#include <fdm/fdm_Path.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 Aircrafts* Aircrafts::m_instance = 0;
@@ -32,7 +34,7 @@ Aircrafts* Aircrafts::m_instance = 0;
 
 Aircrafts::Aircrafts()
 {
-    QFile file( "data/gui/aircrafts.xml" );
+    QFile file( fdm::Path::get( "data/gui/aircrafts.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
