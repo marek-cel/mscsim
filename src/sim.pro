@@ -25,7 +25,7 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 ################################################################################
 
 DEFINES += \
-    SIM_CONSOLEOUTPUT \
+#    SIM_CONSOLEOUTPUT \
 #    SIM_OSGDEBUGINFO \
     SIM_INTERSECTIONS \
     SIM_LOCALDATADIR \

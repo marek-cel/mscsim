@@ -39,9 +39,21 @@ int main( int argc, char *argv[] )
 #   endif
 
 #   ifndef SIM_CONSOLEOUTPUT
+
+#   ifdef _LINUX_
+    std::string log_file = "/tmp/";
+#   endif
+
+#   ifdef WIN32
+    std::string log_file = QDir::homePath().toLocal8Bit().data();
+    log_file += "/";
+#   endif
+
+    log_file += "mscsim.log";
+
     // redirecting errors output
     std::streambuf *strbuf = std::cerr.rdbuf();
-    std::fstream out( SIM_LOG_FILE, std::ios_base::trunc | std::ios_base::out );
+    std::fstream out( log_file.c_str(), std::ios_base::trunc | std::ios_base::out );
     std::cerr.rdbuf( out.rdbuf() );
 #   endif
 
