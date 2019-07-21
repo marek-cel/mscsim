@@ -24,6 +24,12 @@
 
 #include <QApplication>
 
+#ifndef SIM_CONSOLEOUTPUT
+#   ifdef WIN32
+#		include <QDir>
+#	endif
+#endif
+
 #include <Defines.h>
 #include <Manager.h>
 
