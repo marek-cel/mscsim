@@ -58,7 +58,7 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << objectFile << std::endl;
+        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << filePath << std::endl;
     }
 
     return 0;

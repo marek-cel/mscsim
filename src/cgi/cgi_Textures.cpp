@@ -70,7 +70,7 @@ osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotro
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << textureFile << std::endl;
+        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << filePath << std::endl;
     }
 
     return 0;
