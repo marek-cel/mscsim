@@ -117,8 +117,7 @@ HEADERS += \
     Defines.h \
     Manager.h \
     Navigation.h \
-    Simulation.h \
-    Singleton.h
+    Simulation.h
 
 SOURCES += \
     main.cpp \
