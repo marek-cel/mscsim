@@ -30,7 +30,8 @@ using namespace cgi;
 
 ManipulatorOrbit::ManipulatorOrbit() :
     inherited(),
-    m_distance_min ( 5.0 )
+    m_distance_min ( 5.0 ),
+    m_distance_max ( 5000.0 )
 {
     setTrackerMode( NODE_CENTER );
     setWheelZoomFactor( -getWheelZoomFactor() );
@@ -53,9 +54,21 @@ bool ManipulatorOrbit::handleFrame( const osgGA::GUIEventAdapter &ea, osgGA::GUI
 
 void ManipulatorOrbit::setDistanceMin( double distance_min )
 {
-    if ( distance_min > 0.0 )
+    if ( distance_min > 0.0 && distance_min < m_distance_max )
     {
         m_distance_min = distance_min;
+    }
+
+    boundDistance();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void ManipulatorOrbit::setDistanceMax( double distance_max )
+{
+    if ( distance_max > 0.0 && distance_max > m_distance_min )
+    {
+        m_distance_max = distance_max;
     }
 
     boundDistance();
@@ -72,9 +85,9 @@ bool ManipulatorOrbit::performMovementRightMouseButton( const double /*eventTime
 
 void ManipulatorOrbit::boundDistance()
 {
-    if ( getDistance() > 5000.0 )
+    if ( getDistance() > m_distance_max )
     {
-        setDistance( 5000.0 );
+        setDistance( m_distance_max );
     }
     else if ( getDistance() < m_distance_min )
     {

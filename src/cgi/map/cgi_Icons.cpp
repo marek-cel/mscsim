@@ -45,13 +45,8 @@ Icons::Icons( Module *parent ) :
     m_pat = new osg::PositionAttitudeTransform();
     m_root->addChild( m_pat.get() );
 
-    m_patFill = new osg::PositionAttitudeTransform();
-    m_patFill->setPosition( osg::Vec3( 0.0f, 0.0f, Map::zIconsFill ) );
-    m_pat->addChild( m_patFill.get() );
-
-    m_patSpeedLeader = new osg::PositionAttitudeTransform();
-    m_patSpeedLeader->setPosition( osg::Vec3( 0.0f, 0.0f, Map::zSpeedLeader ) );
-    m_pat->addChild( m_patSpeedLeader.get() );
+    m_speedLeader = new osg::Group();
+    m_pat->addChild( m_speedLeader.get() );
 
     createIcon();
     setScale( 1.0 );
@@ -69,13 +64,13 @@ void Icons::update()
                                    Mercator::getY( Data::get()->ownship.latitude ),
                                    0.0f ) );
 
-    if ( m_patSpeedLeader->getNumChildren() > 0 )
+    if ( m_speedLeader->getNumChildren() > 0 )
     {
-        m_patSpeedLeader->removeChildren( 0, m_patSpeedLeader->getNumChildren() );
+        m_speedLeader->removeChildren( 0, m_speedLeader->getNumChildren() );
     }
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patSpeedLeader->addChild( geode.get() );
+    m_speedLeader->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -89,14 +84,14 @@ void Icons::update()
     const float coef = 1.0f / 50.0f; // 180 km/h
     osg::Vec3 vel_ned( coef * Data::get()->ownship.vel_east,
                        coef * Data::get()->ownship.vel_north,
-                       0.0f );
+                       Map::zSpeedLeader );
 
     if ( vel_ned.length2() > 1.0f )
     {
         vel_ned.normalize();
     }
 
-    v->push_back( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
+    v->push_back( osg::Vec3( 0.0f, 0.0f, Map::zSpeedLeader ) );
     v->push_back( vel_ned );
 
     geometry->setVertexArray( v.get() );
@@ -113,7 +108,7 @@ void Icons::update()
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-    lineWidth->setWidth( 1.0f );
+    lineWidth->setWidth( 1.25f );
 
     stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
     stateSet->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE );
@@ -124,8 +119,7 @@ void Icons::update()
 void Icons::setScale( double scale )
 {
     double s = 1.5 * 1.0e6 * scale;
-    m_patFill->setScale( osg::Vec3( s, s, s ) );
-    m_patSpeedLeader->setScale( osg::Vec3( s, s, s ) );
+    m_pat->setScale( osg::Vec3d( s, s, 1.0 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,17 +127,17 @@ void Icons::setScale( double scale )
 void Icons::createIcon()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patFill->addChild( geode.get() );
+    m_pat->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
     geode->addDrawable( geometry.get() );
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
 
-    v->push_back( osg::Vec3( -0.5f, -0.5f, 0.0f ) );
-    v->push_back( osg::Vec3(  0.5f, -0.5f, 0.0f ) );
-    v->push_back( osg::Vec3(  0.5f,  0.5f, 0.0f ) );
-    v->push_back( osg::Vec3( -0.5f,  0.5f, 0.0f ) );
+    v->push_back( osg::Vec3( -0.5f, -0.5f, Map::zIconsFill ) );
+    v->push_back( osg::Vec3(  0.5f, -0.5f, Map::zIconsFill ) );
+    v->push_back( osg::Vec3(  0.5f,  0.5f, Map::zIconsFill ) );
+    v->push_back( osg::Vec3( -0.5f,  0.5f, Map::zIconsFill ) );
 
     Geometry::createQuad( geometry.get(), v.get(), true, true );
 

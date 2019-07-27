@@ -53,8 +53,7 @@ public:
 private:
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_pat;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patFill;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patSpeedLeader;
+    osg::ref_ptr<osg::Group> m_speedLeader;
 
     void createIcon();
 };

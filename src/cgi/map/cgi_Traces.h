@@ -19,43 +19,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <cgi/cgi_Mercator.h>
-#include <cgi/cgi_WGS84.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace cgi;
+#ifndef CGI_TRACES_H
+#define CGI_TRACES_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double Mercator::maxX = Mercator::getX( osg::DegreesToRadians( 180.0 ) );
-const double Mercator::maxY = Mercator::getY( osg::DegreesToRadians(  85.0 ) );
+#include <osg/Switch>
+
+#include <cgi/cgi_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getLat( double y )
+namespace cgi
 {
-    return 2.0 * atan( exp( y / WGS84::getRadiusEquatorial() ) ) - M_PI_2;
-}
+
+/** */
+class Traces : public Module
+{
+public:
+
+    /** Constructor. */
+    Traces( Module *parent = 0 );
+
+    /** Destructor. */
+    virtual ~Traces();
+
+    /** */
+    void update();
+
+    void reset();
+
+    void setVisibility( bool visible );
+
+private:
+
+    osg::ref_ptr<osg::Switch> m_switch;
+
+    osg::ref_ptr<osg::Vec3dArray> m_positions;
+
+    bool m_visible;
+
+    unsigned int m_counter;
+
+};
+
+} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getLon( double x )
-{
-    return x / WGS84::getRadiusEquatorial();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Mercator::getX( double lon )
-{
-    return WGS84::getRadiusEquatorial() * lon;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Mercator::getY( double lat )
-{
-    return WGS84::getRadiusEquatorial() * log( tan( M_PI_4 + 0.5 * lat ) );
-}
+#endif // CGI_TRACES_H

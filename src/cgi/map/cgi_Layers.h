@@ -24,6 +24,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <osg/PositionAttitudeTransform>
+#include <osg/Switch>
+
 #include <fdm/xml/fdm_XmlNode.h>
 
 #include <cgi/cgi_Module.h>
@@ -44,16 +47,40 @@ public:
     /** Destructor. */
     virtual ~Layers();
 
+    void setVisibilityCrops     ( bool visible );
+    void setVisibilityGrassland ( bool visible );
+    void setVisibilityWoodland  ( bool visible );
+    void setVisibilityBuiltup   ( bool visible );
+    void setVisibilityRailroads ( bool visible );
+    void setVisibilityRoads     ( bool visible );
+    void setVisibilityAirports  ( bool visible );
+    void setVisibilitySatellite ( bool visible );
+    void setVisibilityBorders   ( bool visible );
+
 private:
+
+    osg::ref_ptr<osg::Switch> m_switchCrops;
+    osg::ref_ptr<osg::Switch> m_switchGrassland;
+    osg::ref_ptr<osg::Switch> m_switchWoodland;
+    osg::ref_ptr<osg::Switch> m_switchBuiltup;
+    osg::ref_ptr<osg::Switch> m_switchRailroads;
+    osg::ref_ptr<osg::Switch> m_switchRoads;
+    osg::ref_ptr<osg::Switch> m_switchAirports;
+    osg::ref_ptr<osg::Switch> m_switchSatellite;
+    osg::ref_ptr<osg::Switch> m_switchBorders;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_oceans;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_landmass;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_crops;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_grassland;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_woodland;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_builtup;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_railroads;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_roads;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_airports;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_water;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_satellite;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_borders;
 
     void createOcean();
 

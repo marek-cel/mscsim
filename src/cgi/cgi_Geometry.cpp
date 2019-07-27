@@ -304,7 +304,7 @@ void Geometry::createQuad( osg::Geometry *geom, osg::Vec3Array *v,
     geom->setVertexArray( v );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_FAN, 0, v->size() ) );
 
-    geom->setNormalArray( n );
+    geom->setNormalArray( n.get() );
     geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
 
     if ( color )

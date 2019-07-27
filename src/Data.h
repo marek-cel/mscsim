@@ -89,39 +89,54 @@ public:
     {
         typedef fdm::DataInp::Environment::WindShear WindShear;
 
+        /** Clouds data. */
         struct Clouds
         {
-            /** */
+            /** Clouds type. */
             enum Type
             {
-                None = 0,                   ///<
-                Block,                      ///<
-                Layer                       ///<
+                None = 0,                   ///< no clouds
+                Block,                      ///< block volumetric clouds (Cumulus type)
+                Layer                       ///< flat clouds layers (Stratus type)
             };
 
+            /** Clouds data. */
             union Data
             {
+                /** Block clouds data. */
                 struct Block
                 {
-                    short  count;           ///<
-                    double base_asl;        ///< [m]
-                    double thickness;       ///< [m]
+                    short count;            ///< number of clouds within visual range
+                    float base_asl;         ///< [m] clouds base above mean sea level
+                    float thickness;        ///< [m] clouds thickness
                 };
 
+                /** Layer clouds data. */
                 struct Layer
                 {
+                    /** Cover. */
+                    enum Cover
+                    {
+                        SKC = 0,            ///< sky clear
+                        FEW = 1,            ///< few
+                        SCT = 2,            ///< scattered
+                        BKN = 3,            ///< broken
+                        OVC = 4             ///< overcast
+                    };
 
+                    Cover cover;            ///< cover
+                    float base_asl;         ///< [m] clouds base above mean sea level
                 };
 
-                Block block;
-                Layer layer;
+                Block block;                ///< block clouds data
+                Layer layer;                ///< layer clouds data
             };
 
-            Type type;
-            Data data;
+            Type type;                      ///< clouds type
+            Data data;                      ///< clouds data
         };
 
-        Clouds clouds;                      ///< clouds
+        Clouds clouds;                      ///< clouds data
 
         float visibility;                   ///< [m] visibility due haze, fog, etc
 

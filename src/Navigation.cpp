@@ -161,10 +161,10 @@ double Navigation::getAzimuth( const fdm::Vector3 &pos_wgs )
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
 double Navigation::getDistance( const fdm::Vector3 &pos_wgs )
 {
-    return ( pos_wgs - m_aircraft_wgs.getPos_WGS() ).getLength();
+    // orthodromic distance
+    return fdm::WGS84::m_r1 * acos( pos_wgs.getNormalized() * m_aircraft_wgs.getPos_WGS().getNormalized() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

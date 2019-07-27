@@ -3,6 +3,7 @@ add_library( cgi STATIC
     map/cgi_Icons.cpp
     map/cgi_Layers.cpp
     map/cgi_Map.cpp
+    map/cgi_Traces.cpp
     otw/cgi_Airport.cpp
     otw/cgi_Clouds.cpp
     otw/cgi_CloudsBlock.cpp

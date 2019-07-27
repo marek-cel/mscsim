@@ -30,11 +30,11 @@
 
 #include <Data.h>
 
-#include <fdm/utils/fdm_Random.h>
-
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_WGS84.h>
+
+#include <fdm/utils/fdm_Random.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -44,11 +44,13 @@ using namespace cgi;
 
 CloudsBlock::CloudsBlock( Module *parent ) :
     Module( parent ),
-    m_framesCounter ( 0 ),
-    m_created ( false ),
+
     m_count ( 0 ),
-    m_base_asl ( 0.0 ),
-    m_thickness ( 0.0 )
+    m_base_asl ( 0.0f ),
+    m_thickness ( 0.0f ),
+
+    m_framesCounter ( 0 ),
+    m_created ( false )
 {
     m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_1.png" ) );
     m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_2.png" ) );
@@ -84,41 +86,40 @@ void CloudsBlock::update()
 
             float radius2 = CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
 
-            if ( ( m_pos_wgs - wgs_cam.getPosition() ).length2() > 0.01 * radius2
-              || !m_created || m_count != Data::get()->environment.clouds.data.block.count
-              || m_base_asl != Data::get()->environment.clouds.data.block.base_asl
-              || m_thickness != Data::get()->environment.clouds.data.block.thickness )
+            if ( !m_created
+              || m_count     != Data::get()->environment.clouds.data.block.count
+              || m_base_asl  != Data::get()->environment.clouds.data.block.base_asl
+              || m_thickness != Data::get()->environment.clouds.data.block.thickness
+              || ( m_pos_wgs - wgs_cam.getPosition() ).length2() > 0.01 * radius2 )
             {
-                m_count = Data::get()->environment.clouds.data.block.count;
-                m_base_asl = Data::get()->environment.clouds.data.block.base_asl;
+                m_count     = Data::get()->environment.clouds.data.block.count;
+                m_base_asl  = Data::get()->environment.clouds.data.block.base_asl;
                 m_thickness = Data::get()->environment.clouds.data.block.thickness;
 
                 create();
             }
-            else
+
+            float azim = 0.0f;
+            float dist = 0.0f;
+
+            for ( unsigned int i = 0; i < m_patClouds.size(); i++ )
             {
-                float azim = 0.0f;
-                float dist = 0.0f;
+                osg::Vec3 pos_wgs = m_patClouds[ i ]->getPosition();
 
-                for ( unsigned int i = 0; i < m_patClouds.size(); i++ )
+                if ( ( wgs_cam.getPosition() - pos_wgs ).length2() > radius2 )
                 {
-                    osg::Vec3 pos_wgs = m_patClouds[ i ]->getPosition();
+                    azim = fdm::Random::get( 0.0f, 2.0f * M_PI );
+                    dist = 0.95f * CGI_SKYDOME_RADIUS;
 
-                    if ( ( wgs_cam.getPosition() - pos_wgs ).length2() > radius2 )
-                    {
-                        azim = fdm::Random::get( 0.0f, 2.0f * M_PI );
-                        dist = 0.95f * CGI_SKYDOME_RADIUS;
+                    osg::Vec3 pos_ned( dist * cos( azim ), dist * sin( azim ), 0.0f );
 
-                        osg::Vec3 pos_ned( dist * cos( azim ), dist * sin( azim ), 0.0f );
+                    pos_wgs = wgs_cam.getPosition() + wgs_cam.getAttitude() * pos_ned;
 
-                        pos_wgs = wgs_cam.getPosition() + wgs_cam.getAttitude() * pos_ned;
+                    WGS84 wgs_new( pos_wgs );
+                    wgs_new = WGS84( wgs_new.getLat(), wgs_new.getLon(), alt );
 
-                        WGS84 wgs_new( pos_wgs );
-                        wgs_new = WGS84( wgs_new.getLat(), wgs_new.getLon(), alt );
-
-                        m_patClouds[ i ]->setPosition( wgs_new.getPosition() );
-                        m_patClouds[ i ]->setAttitude( wgs_new.getAttitude() );
-                    }
+                    m_patClouds[ i ]->setPosition( wgs_new.getPosition() );
+                    m_patClouds[ i ]->setAttitude( wgs_new.getAttitude() );
                 }
             }
 

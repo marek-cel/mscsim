@@ -187,9 +187,12 @@ void SkyDome::update()
 
     m_attitude->setAttitude( wgs.getAttitude() );
     m_position->setPosition( wgs.getPosition() );
-#       ifdef SIM_SKYDOMESCALING
-    m_position->setScale( osg::Vec3( m_skyScale, m_skyScale, m_skyScale ) );
-#       endif
+#   ifdef SIM_SKYDOMESCALING
+    osg::Vec3 vecSkyScale( m_skyScale, m_skyScale, m_skyScale );
+    m_position ->setScale( vecSkyScale );
+    m_patSun   ->setScale( vecSkyScale );
+    m_patMoon  ->setScale( vecSkyScale );
+#   endif
 
     osg::Quat Q_gst( -m_ephemeris.getGST(), osg::Z_AXIS );
 

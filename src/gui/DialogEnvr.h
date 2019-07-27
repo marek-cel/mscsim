@@ -51,6 +51,7 @@ public:
     typedef Data::Environment::Clouds::Type CloudsType;
     typedef Data::Environment::Clouds::Data::Block BlockClouds;
     typedef Data::Environment::Clouds::Data::Layer LayerClouds;
+    typedef Data::Environment::Clouds::Data::Layer::Cover Cover;
 
     /** Constructor. */
     explicit DialogEnvr( QWidget *parent = 0 );
@@ -92,10 +93,13 @@ private:
 
     double m_visibility;            ///< [m]
 
-    CloudsType m_cloudsType;
+    CloudsType m_cloudsType;        ///< clouds type
 
-    BlockClouds m_blockClouds;
-    LayerClouds m_layerClouds;
+    BlockClouds m_blockClouds;      ///< block clouds data
+    LayerClouds m_layerClouds;      ///< layer clouds data
+
+    Cover intToCover( int index,
+                      Cover def = Data::Environment::Clouds::Data::Layer::SKC );
 
     void settingsRead();
     void settingsRead_EnvrData( QSettings &settings );

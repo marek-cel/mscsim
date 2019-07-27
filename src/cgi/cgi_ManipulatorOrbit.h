@@ -44,6 +44,7 @@ public:
     ManipulatorOrbit();
 
     void setDistanceMin( double distance_min );
+    void setDistanceMax( double distance_max );
 
 protected:
 
@@ -55,8 +56,10 @@ protected:
 
 private:
 
-    double m_distance_min;
+    double m_distance_min;  ///< [m]
+    double m_distance_max;  ///< [m]
 
+    /** */
     void boundDistance();
 };
 

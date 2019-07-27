@@ -61,6 +61,9 @@ DialogEnvr::DialogEnvr( QWidget *parent ) :
     m_blockClouds.base_asl = 500.0;
     m_blockClouds.thickness = 500.0;
 
+    m_layerClouds.cover = Data::Environment::Clouds::Data::Layer::SKC;
+    m_layerClouds.base_asl = 100.0;
+
     settingsRead();
 }
 
@@ -101,6 +104,9 @@ void DialogEnvr::readData()
     m_ui->doubleSpinBoxCloudsBlockCount->setValue( 100.0 * m_blockClouds.count / area_sq_km );
     m_ui->spinBoxCloudsBlockBaseASL->setValue( m_ui->comboCloudsBlockBaseASL->convert( m_blockClouds.base_asl ) );
     m_ui->spinBoxCloudsBlockThickness->setValue( m_ui->comboCloudsBlockThickness->convert( m_blockClouds.thickness ) );
+
+    m_ui->comboCloudsLayerCover->setCurrentIndex( m_layerClouds.cover );
+    m_ui->spinBoxCloudsLayerBaseASL->setValue( m_ui->comboCloudsLayerBaseASL->convert( m_layerClouds.base_asl ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +130,38 @@ void DialogEnvr::saveData()
     m_blockClouds.base_asl  = m_ui->comboCloudsBlockBaseASL->invert( m_ui->spinBoxCloudsBlockBaseASL->value() );
     m_blockClouds.thickness = m_ui->comboCloudsBlockThickness->invert( m_ui->spinBoxCloudsBlockThickness->value() );
 
-    m_layerClouds;
+    m_layerClouds.cover = intToCover( m_ui->comboCloudsLayerCover->currentIndex() );
+    m_layerClouds.base_asl = m_ui->comboCloudsLayerBaseASL->invert( m_ui->spinBoxCloudsLayerBaseASL->value() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DialogEnvr::Cover DialogEnvr::intToCover( int index, Cover def )
+{
+    switch ( index )
+    {
+    case Data::Environment::Clouds::Data::Layer::SKC:
+        return Data::Environment::Clouds::Data::Layer::SKC;
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::FEW:
+        return Data::Environment::Clouds::Data::Layer::FEW;
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::SCT:
+        return Data::Environment::Clouds::Data::Layer::SCT;
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::BKN:
+        return Data::Environment::Clouds::Data::Layer::BKN;
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::OVC:
+        return Data::Environment::Clouds::Data::Layer::OVC;
+        break;
+    }
+
+    return def;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,6 +209,10 @@ void DialogEnvr::settingsRead_EnvrData( QSettings &settings )
     m_blockClouds.count     = settings.value( "clouds_block_count" , m_blockClouds.count     ).toInt();
     m_blockClouds.base_asl  = settings.value( "clouds_block_base"  , m_blockClouds.base_asl  ).toFloat();
     m_blockClouds.thickness = settings.value( "clouds_block_thick" , m_blockClouds.thickness ).toFloat();
+
+    m_layerClouds.cover = intToCover( settings.value( "clouds_layer_cover",
+                                Data::Environment::Clouds::Data::Layer::SKC ).toInt() );
+    m_layerClouds.base_asl  = settings.value( "clouds_layer_base"  , m_layerClouds.base_asl  ).toFloat();
 
     settings.endGroup();
 }

@@ -189,10 +189,10 @@ private slots:
 
     void on_actionShowHUD_triggered( bool checked );
 
-    void on_actionFullScreen_triggered();
-
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();
+
+    void on_shorcutFullScreen_triggered();
 
     void dialogInit_typeIndexChanged( int typeIndex );
     void dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp );

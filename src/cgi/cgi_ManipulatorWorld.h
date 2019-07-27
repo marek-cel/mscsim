@@ -36,6 +36,8 @@ namespace cgi
  */
 class ManipulatorWorld : public osgGA::TerrainManipulator
 {
+    typedef osgGA::TerrainManipulator inherited;
+
 public:
 
     /** Constructor. */

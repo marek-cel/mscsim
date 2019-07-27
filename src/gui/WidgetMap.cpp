@@ -22,6 +22,11 @@
 
 #include <gui/WidgetMap.h>
 
+#include <QAction>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QSettings>
+
 #include <osgDB/ReadFile>
 #include <osgViewer/ViewerEventHandlers>
 
@@ -44,7 +49,17 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     QWidget ( parent ),
     m_gridLayout ( 0 ),
     m_timerId ( 0 ),
-    m_camManipulatorInited ( false )
+    m_camManipulatorInited ( false ),
+    m_viewCrops     ( false ),
+    m_viewGrassland ( false ),
+    m_viewWoodland  ( false ),
+    m_viewBuiltup   ( false ),
+    m_viewRailroads ( false ),
+    m_viewRoads     ( false ),
+    m_viewAirports  ( true  ),
+    m_viewSatellite ( false ),
+    m_viewBorders   ( false ),
+    m_viewTraces    ( true  )
 {
     setMouseTracking( true );
 
@@ -72,6 +87,19 @@ WidgetMap::WidgetMap( QWidget *parent ) :
 
     setLayout( m_gridLayout );
 
+    settingsRead();
+
+    cgi::Manager::instance()->setVisibilityCrops     ( m_viewCrops     );
+    cgi::Manager::instance()->setVisibilityGrassland ( m_viewGrassland );
+    cgi::Manager::instance()->setVisibilityWoodland  ( m_viewWoodland  );
+    cgi::Manager::instance()->setVisibilityBuiltup   ( m_viewBuiltup   );
+    cgi::Manager::instance()->setVisibilityRailroads ( m_viewRailroads );
+    cgi::Manager::instance()->setVisibilityRoads     ( m_viewRoads     );
+    cgi::Manager::instance()->setVisibilityAirports  ( m_viewAirports  );
+    cgi::Manager::instance()->setVisibilitySatellite ( m_viewSatellite );
+    cgi::Manager::instance()->setVisibilityBorders   ( m_viewBorders   );
+    cgi::Manager::instance()->setVisibilityTraces    ( m_viewTraces    );
+
     m_timerId = startTimer( GUI_TIME_STEP );
 }
 
@@ -80,13 +108,119 @@ WidgetMap::WidgetMap( QWidget *parent ) :
 WidgetMap::~WidgetMap()
 {
     if ( m_timerId ) killTimer( m_timerId );
+
+    settingsSave();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
+{
+    QMenu menuContext( this );
+
+    QMenu menuLayers( this );
+    QMenu menuTraces( this );
+
+    menuContext.addMenu( &menuLayers );
+    menuContext.addMenu( &menuTraces );
+
+    menuLayers.setTitle( "Layers" );
+    menuTraces.setTitle( "Traces" );
+
+    QAction actionViewCrops     ( this );
+    QAction actionViewGrassland ( this );
+    QAction actionViewWoodland  ( this );
+    QAction actionViewBuiltup   ( this );
+    QAction actionViewRailroads ( this );
+    QAction actionViewRoads     ( this );
+    QAction actionViewAirports  ( this );
+    QAction actionViewSatellite ( this );
+    QAction actionViewBorders   ( this );
+    QAction actionViewTraces    ( this );
+    QAction actionTracesReset   ( this );
+
+    actionViewCrops     .setText( "Show/Hide Crops" );
+    actionViewGrassland .setText( "Show/Hide Grass" );
+    actionViewWoodland  .setText( "Show/Hide Forests" );
+    actionViewBuiltup   .setText( "Show/Hide Cities" );
+    actionViewRailroads .setText( "Show/Hide Railroads" );
+    actionViewRoads     .setText( "Show/Hide Roads" );
+    actionViewAirports  .setText( "Show/Hide Airports" );
+    actionViewSatellite .setText( "Show/Hide Satellite" );
+    actionViewBorders   .setText( "Show/Hide Borders" );
+    actionViewTraces    .setText( "Show/Hide Traces" );
+    actionTracesReset   .setText( "Reset Traces" );
+
+    actionViewCrops     .setCheckable( true );
+    actionViewGrassland .setCheckable( true );
+    actionViewWoodland  .setCheckable( true );
+    actionViewBuiltup   .setCheckable( true );
+    actionViewRailroads .setCheckable( true );
+    actionViewRoads     .setCheckable( true );
+    actionViewAirports  .setCheckable( true );
+    actionViewSatellite .setCheckable( true );
+    actionViewBorders   .setCheckable( true );
+    actionViewTraces    .setCheckable( true );
+
+    actionViewCrops     .setChecked( m_viewCrops     );
+    actionViewGrassland .setChecked( m_viewGrassland );
+    actionViewWoodland  .setChecked( m_viewWoodland  );
+    actionViewBuiltup   .setChecked( m_viewBuiltup   );
+    actionViewRailroads .setChecked( m_viewRailroads );
+    actionViewRoads     .setChecked( m_viewRoads     );
+    actionViewAirports  .setChecked( m_viewAirports  );
+    actionViewSatellite .setChecked( m_viewSatellite );
+    actionViewBorders   .setChecked( m_viewBorders   );
+    actionViewTraces    .setChecked( m_viewTraces    );
+
+    connect( &actionViewCrops     , SIGNAL( toggled(bool) ), this, SLOT( actionViewCrops_toggled     (bool) ) );
+    connect( &actionViewGrassland , SIGNAL( toggled(bool) ), this, SLOT( actionViewGrassland_toggled (bool) ) );
+    connect( &actionViewWoodland  , SIGNAL( toggled(bool) ), this, SLOT( actionViewWoodland_toggled  (bool) ) );
+    connect( &actionViewBuiltup   , SIGNAL( toggled(bool) ), this, SLOT( actionViewBuiltup_toggled   (bool) ) );
+    connect( &actionViewRailroads , SIGNAL( toggled(bool) ), this, SLOT( actionViewRailroads_toggled (bool) ) );
+    connect( &actionViewRoads     , SIGNAL( toggled(bool) ), this, SLOT( actionViewRoads_toggled     (bool) ) );
+    connect( &actionViewAirports  , SIGNAL( toggled(bool) ), this, SLOT( actionViewAirports_toggled  (bool) ) );
+    connect( &actionViewSatellite , SIGNAL( toggled(bool) ), this, SLOT( actionViewSatellite_toggled (bool) ) );
+    connect( &actionViewBorders   , SIGNAL( toggled(bool) ), this, SLOT( actionViewBorders_toggled   (bool) ) );
+    connect( &actionViewTraces    , SIGNAL( toggled(bool) ), this, SLOT( actionViewTraces_toggled    (bool) ) );
+
+    connect( &actionTracesReset, SIGNAL( triggered() ), this, SLOT( actionTracesReset_triggered() ) );
+
+//    menuLayers.addAction( &actionViewCrops     );
+//    menuLayers.addAction( &actionViewGrassland );
+//    menuLayers.addAction( &actionViewWoodland  );
+//    menuLayers.addAction( &actionViewBuiltup   );
+//    menuLayers.addAction( &actionViewRailroads );
+//    menuLayers.addAction( &actionViewRoads     );
+    menuLayers.addAction( &actionViewAirports  );
+    menuLayers.addAction( &actionViewSatellite );
+//    menuLayers.addAction( &actionViewBorders   );
+
+    menuTraces.addAction( &actionViewTraces  );
+    menuTraces.addAction( &actionTracesReset );
+
+    menuContext.exec( event->globalPos() );
+
+    actionViewCrops     .disconnect();
+    actionViewGrassland .disconnect();
+    actionViewWoodland  .disconnect();
+    actionViewBuiltup   .disconnect();
+    actionViewRailroads .disconnect();
+    actionViewRoads     .disconnect();
+    actionViewAirports  .disconnect();
+    actionViewSatellite .disconnect();
+    actionViewBorders   .disconnect();
+    actionViewTraces    .disconnect();
+    actionTracesReset   .disconnect();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 bool WidgetMap::event( QEvent *event )
 {
+    ///////////////////////////////
     return QWidget::event( event );
+    ///////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,4 +324,135 @@ osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetMap::createGraphicsWindow( int x, in
     osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
 
     return graphicsWindow;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::settingsRead()
+{
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
+
+    settings.beginGroup( "widget_map" );
+
+    m_viewCrops     = settings.value( "view_crops"     , m_viewCrops     ).toBool();
+    m_viewGrassland = settings.value( "view_grassland" , m_viewGrassland ).toBool();
+    m_viewWoodland  = settings.value( "view_woodland"  , m_viewWoodland  ).toBool();
+    m_viewBuiltup   = settings.value( "view_builtup"   , m_viewBuiltup   ).toBool();
+    m_viewRailroads = settings.value( "view_railroads" , m_viewRailroads ).toBool();
+    m_viewRoads     = settings.value( "view_roads"     , m_viewRoads     ).toBool();
+    m_viewAirports  = settings.value( "view_airports"  , m_viewAirports  ).toBool();
+    m_viewSatellite = settings.value( "view_satellite" , m_viewSatellite ).toBool();
+    m_viewBorders   = settings.value( "view_borders"   , m_viewBorders   ).toBool();
+    m_viewTraces    = settings.value( "view_traces"    , m_viewTraces    ).toBool();
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::settingsSave()
+{
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
+
+    settings.beginGroup( "widget_map" );
+
+    settings.setValue( "view_crops"     , m_viewCrops     ? 1 : 0 );
+    settings.setValue( "view_grassland" , m_viewGrassland ? 1 : 0 );
+    settings.setValue( "view_woodland"  , m_viewWoodland  ? 1 : 0 );
+    settings.setValue( "view_builtup"   , m_viewBuiltup   ? 1 : 0 );
+    settings.setValue( "view_railroads" , m_viewRailroads ? 1 : 0 );
+    settings.setValue( "view_roads"     , m_viewRoads     ? 1 : 0 );
+    settings.setValue( "view_airports"  , m_viewAirports  ? 1 : 0 );
+    settings.setValue( "view_satellite" , m_viewSatellite ? 1 : 0 );
+    settings.setValue( "view_borders"   , m_viewBorders   ? 1 : 0 );
+    settings.setValue( "view_traces"    , m_viewTraces    ? 1 : 0 );
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewCrops_toggled( bool checked )
+{
+    m_viewCrops = checked;
+    cgi::Manager::instance()->setVisibilityCrops( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewGrassland_toggled( bool checked )
+{
+    m_viewGrassland = checked;
+    cgi::Manager::instance()->setVisibilityGrassland( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewWoodland_toggled( bool checked )
+{
+    m_viewWoodland = checked;
+    cgi::Manager::instance()->setVisibilityWoodland( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewBuiltup_toggled( bool checked )
+{
+    m_viewBuiltup = checked;
+    cgi::Manager::instance()->setVisibilityBuiltup( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewRailroads_toggled( bool checked )
+{
+    m_viewRailroads = checked;
+    cgi::Manager::instance()->setVisibilityRailroads( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewRoads_toggled( bool checked )
+{
+    m_viewRoads = checked;
+    cgi::Manager::instance()->setVisibilityRoads( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewAirports_toggled( bool checked )
+{
+    m_viewAirports = checked;
+    cgi::Manager::instance()->setVisibilityAirports( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewSatellite_toggled( bool checked )
+{
+    m_viewSatellite = checked;
+    cgi::Manager::instance()->setVisibilitySatellite( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewBorders_toggled( bool checked )
+{
+    m_viewBorders = checked;
+    cgi::Manager::instance()->setVisibilityBorders( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewTraces_toggled( bool checked )
+{
+    m_viewTraces = checked;
+    cgi::Manager::instance()->setVisibilityTraces( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionTracesReset_triggered()
+{
+    cgi::Manager::instance()->resetTraces();
 }

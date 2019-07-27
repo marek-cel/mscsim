@@ -56,6 +56,10 @@ signals:
 
 protected:
 
+    /** */
+    void contextMenuEvent( QContextMenuEvent *event );
+
+    /** */
     bool event( QEvent *event );
 
     /** */
@@ -76,15 +80,45 @@ private:
 
     bool m_camManipulatorInited;
 
+    bool m_viewCrops;
+    bool m_viewGrassland;
+    bool m_viewWoodland;
+    bool m_viewBuiltup;
+    bool m_viewRailroads;
+    bool m_viewRoads;
+    bool m_viewAirports;
+    bool m_viewSatellite;
+    bool m_viewBorders;
+    bool m_viewTraces;
+
     /** */
     QWidget* addViewWidget();
 
+    /** */
     void createCameraMap();
 
     /** */
     osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h,
                                                                 const std::string &name = "",
                                                                 bool windowDecoration = false );
+
+    void settingsRead();
+    void settingsSave();
+
+private slots:
+
+    void actionViewCrops_toggled     ( bool checked );
+    void actionViewGrassland_toggled ( bool checked );
+    void actionViewWoodland_toggled  ( bool checked );
+    void actionViewBuiltup_toggled   ( bool checked );
+    void actionViewRailroads_toggled ( bool checked );
+    void actionViewRoads_toggled     ( bool checked );
+    void actionViewAirports_toggled  ( bool checked );
+    void actionViewSatellite_toggled ( bool checked );
+    void actionViewBorders_toggled   ( bool checked );
+    void actionViewTraces_toggled    ( bool checked );
+
+    void actionTracesReset_triggered();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

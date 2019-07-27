@@ -10,6 +10,13 @@
     <file>data/map/layers/xgen_airport.osgb</file>
   </airports>
   
+  <satellite>
+    <file>data/map/layers/satellite.osgb</file>
+  </satellite>
+  
+  <borders>
+  </borders>
+  
 </layers>
 
 <!--<layers>
@@ -62,5 +69,8 @@
     <file>data/map/layers/v0sas_5_hydro_watrcrsl.osgb</file>
     <file>data/map/layers/v0soa_5_hydro_watrcrsl.osgb</file>
   </water>
+
+  <borders>
+  </borders>
   
 </layers>-->

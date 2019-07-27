@@ -31,6 +31,10 @@
 namespace cgi
 {
 
+class Icons;
+class Layers;
+class Traces;
+
 /**
  * @brief Map scene root class.
  */
@@ -40,21 +44,30 @@ public:
 
     static const osg::Vec3 colorOceans;
     static const osg::Vec3 colorLandmass;
+    static const osg::Vec3 colorCrops;
+    static const osg::Vec3 colorGrassland;
     static const osg::Vec3 colorWoodland;
     static const osg::Vec3 colorBuiltup;
     static const osg::Vec3 colorRailroads;
     static const osg::Vec3 colorRoads;
     static const osg::Vec3 colorAirports;
     static const osg::Vec3 colorWater;
+    static const osg::Vec3 colorBorders;
 
     static const double zOceans;
     static const double zLandmass;
+    static const double zCrops;
+    static const double zGrassland;
     static const double zWoodland;
     static const double zBuiltup;
     static const double zRailroads;
     static const double zRoads;
     static const double zAirports;
     static const double zWater;
+    static const double zSatellite;
+    static const double zBorders;
+
+    static const double zTraces;
 
     static const double zSpeedLeader;
     static const double zIconsFill;
@@ -65,8 +78,27 @@ public:
     /** Destructor. */
     virtual ~Map();
 
+    void resetTraces();
+
     /** */
     void setScale( double scale );
+
+    void setVisibilityCrops     ( bool visible );
+    void setVisibilityGrassland ( bool visible );
+    void setVisibilityWoodland  ( bool visible );
+    void setVisibilityBuiltup   ( bool visible );
+    void setVisibilityRailroads ( bool visible );
+    void setVisibilityRoads     ( bool visible );
+    void setVisibilityAirports  ( bool visible );
+    void setVisibilitySatellite ( bool visible );
+    void setVisibilityBorders   ( bool visible );
+    void setVisibilityTraces    ( bool visible );
+
+private:
+
+    Icons  *m_icons;
+    Layers *m_layers;
+    Traces *m_traces;
 };
 
 } // end of cgi namespace

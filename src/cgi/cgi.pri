@@ -50,12 +50,14 @@ SOURCES += \
 HEADERS += \
     $$PWD/map/cgi_Icons.h \
     $$PWD/map/cgi_Layers.h \
-    $$PWD/map/cgi_Map.h
+    $$PWD/map/cgi_Map.h \
+    $$PWD/map/cgi_Traces.h
 
 SOURCES += \
     $$PWD/map/cgi_Icons.cpp \
     $$PWD/map/cgi_Layers.cpp \
-    $$PWD/map/cgi_Map.cpp
+    $$PWD/map/cgi_Map.cpp \
+    $$PWD/map/cgi_Traces.cpp
 
 ################################################################################
 

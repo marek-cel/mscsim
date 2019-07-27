@@ -38,11 +38,27 @@ class WGS84
 {
 public:
 
-    static const osg::EllipsoidModel em;
+    static const osg::EllipsoidModel em;    ///<
 
-    static const osg::Quat m_enu2ned;
+    static const osg::Quat m_enu2ned;       ///<
 
+    /**
+     * @brief Returns WGS-84 equatorial radius.
+     * @return equatorial radius [m]
+     */
     static double getRadiusEquatorial();
+
+    static osg::Vec3d geo2wgs( double lat, double lon, double alt );
+
+    static void wgs2geo( const osg::Vec3d &r_wgs, double &lat, double &lon, double &alt );
+
+    static osg::Vec3d ned2wgs( const osg::Vec3d &r0_wgs, const osg::Vec3d &v_ned );
+
+    static osg::Vec3d wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &v_wgs );
+
+    static osg::Vec3d r_ned2wgs( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_ned );
+
+    static osg::Vec3d r_wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_wgs );
 
     /** Constructor. */
     WGS84();

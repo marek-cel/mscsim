@@ -114,7 +114,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     m_dockMap->setVisible( false );
     m_dockProp->setVisible( false );
 
-    m_scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_actionFullScreen_triggered()) );
+    m_scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_shorcutFullScreen_triggered()) );
     m_scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal), this, SLOT(on_actionTimeFaster_triggered()) );
     m_scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
 
@@ -778,6 +778,17 @@ void MainWindow::updateMenu()
         m_ui->actionPhaseInpStop->setEnabled( true );
         break;
     }
+
+    if ( m_phaseInp == fdm::DataInp::Idle && m_stateOut == fdm::DataOut::Idle )
+    {
+        m_ui->actionDialogInit->setEnabled( true );
+        m_ui->actionDialogMass->setEnabled( true );
+    }
+    else
+    {
+        m_ui->actionDialogInit->setEnabled( false );
+        m_ui->actionDialogMass->setEnabled( false );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1098,24 +1109,6 @@ void MainWindow::on_actionShowHUD_triggered( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionFullScreen_triggered()
-{
-    if ( isFullScreen() )
-    {
-        showNormal();
-        m_ui->menuBar->show();
-        m_ui->statusBar->show();
-    }
-    else
-    {
-        showFullScreen();
-        m_ui->menuBar->hide();
-        m_ui->statusBar->hide();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void MainWindow::on_actionTimeFaster_triggered()
 {
     int timeCoef10 = floor( 10.0 * m_timeCoef + 0.5 );
@@ -1174,6 +1167,24 @@ void MainWindow::on_actionTimeSlower_triggered()
     if ( timeCoef10 < 1 ) timeCoef10 = 1;
 
     m_timeCoef = 0.1 * (double)timeCoef10;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_shorcutFullScreen_triggered()
+{
+    if ( isFullScreen() )
+    {
+        showNormal();
+        m_ui->menuBar->show();
+        m_ui->statusBar->show();
+    }
+    else
+    {
+        showFullScreen();
+        m_ui->menuBar->hide();
+        m_ui->statusBar->hide();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

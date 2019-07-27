@@ -49,6 +49,8 @@ public:
     /** Destructor. */
     virtual ~Manager();
 
+    inline void resetTraces() { m_map->resetTraces(); }
+
     /** */
     void updateHUD();
 
@@ -114,6 +116,17 @@ public:
 
     /** */
     void setMapScale( double scale );
+
+    inline void setVisibilityCrops     ( bool visible ) { m_map->setVisibilityCrops     ( visible ); }
+    inline void setVisibilityGrassland ( bool visible ) { m_map->setVisibilityGrassland ( visible ); }
+    inline void setVisibilityWoodland  ( bool visible ) { m_map->setVisibilityWoodland  ( visible ); }
+    inline void setVisibilityBuiltup   ( bool visible ) { m_map->setVisibilityBuiltup   ( visible ); }
+    inline void setVisibilityRailroads ( bool visible ) { m_map->setVisibilityRailroads ( visible ); }
+    inline void setVisibilityRoads     ( bool visible ) { m_map->setVisibilityRoads     ( visible ); }
+    inline void setVisibilityAirports  ( bool visible ) { m_map->setVisibilityAirports  ( visible ); }
+    inline void setVisibilitySatellite ( bool visible ) { m_map->setVisibilitySatellite ( visible ); }
+    inline void setVisibilityBorders   ( bool visible ) { m_map->setVisibilityBorders   ( visible ); }
+    inline void setVisibilityTraces    ( bool visible ) { m_map->setVisibilityTraces    ( visible ); }
 
 private:
 

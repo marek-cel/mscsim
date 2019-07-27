@@ -59,13 +59,18 @@ public:
     void setDistance( double distance );
 
     void setDistanceMin( double distance_min );
+    void setDistanceMax( double distance_max );
 
 private:
 
-    osg::Matrixd m_matrix;
+    osg::Matrixd m_matrix;  ///<
 
-    double m_distance;
-    double m_distance_min;
+    double m_distance;      ///< [m]
+    double m_distance_min;  ///< [m]
+    double m_distance_max;  ///< [m]
+
+    /** */
+    void boundDistance();
 
     /** */
     void updateMatrix();

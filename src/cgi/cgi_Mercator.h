@@ -28,7 +28,7 @@ namespace cgi
 {
 
 /**
- * @brief Mercator class.
+ * @brief Mercator coordinates computation class.
  */
 class Mercator
 {
@@ -37,18 +37,33 @@ public:
     static const double maxX;   ///< [m] maximum Mercator x-coordinate for longitude 180 deg
     static const double maxY;   ///< [m] maximum Mercator y-coordinate for latitude 85 deg
 
+    /**
+     * @brief Computes geographic latitude.
+     * @param y [m] Mercator y-coordinate
+     * @return geographic latitude [rad]
+     */
     static double getLat( double y );
+
+    /**
+     * @brief Computes geographic longitude.
+     * @param x [m] Mercator x-coordinate
+     * @return geographic longitude [rad]
+     */
     static double getLon( double x );
 
+    /**
+     * @brief Computes Mercator x-coordinate.
+     * @param lon [rad] geographic longitude
+     * @return Mercator x-coordinate [m]
+     */
     static double getX( double lon );
+
+    /**
+     * @brief Computes Mercator y-coordinate.
+     * @param lat [rad] geographic latitude
+     * @return Mercator y-coordinate [m]
+     */
     static double getY( double lat );
-
-    /** Constructor. */
-    Mercator();
-
-    /** Destructor. */
-    virtual ~Mercator();
-
 };
 
 } // end of cgi namespace

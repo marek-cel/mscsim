@@ -47,41 +47,77 @@ using namespace cgi;
 Layers::Layers( Module *parent ) :
     Module( parent )
 {
+    m_switchCrops     = new osg::Switch();
+    m_switchGrassland = new osg::Switch();
+    m_switchWoodland  = new osg::Switch();
+    m_switchBuiltup   = new osg::Switch();
+    m_switchRailroads = new osg::Switch();
+    m_switchRoads     = new osg::Switch();
+    m_switchAirports  = new osg::Switch();
+    m_switchSatellite = new osg::Switch();
+    m_switchBorders   = new osg::Switch();
+
     m_oceans    = new osg::PositionAttitudeTransform();
     m_landmass  = new osg::PositionAttitudeTransform();
+    m_crops     = new osg::PositionAttitudeTransform();
+    m_grassland = new osg::PositionAttitudeTransform();
     m_woodland  = new osg::PositionAttitudeTransform();
     m_builtup   = new osg::PositionAttitudeTransform();
     m_railroads = new osg::PositionAttitudeTransform();
     m_roads     = new osg::PositionAttitudeTransform();
     m_airports  = new osg::PositionAttitudeTransform();
     m_water     = new osg::PositionAttitudeTransform();
+    m_satellite = new osg::PositionAttitudeTransform();
+    m_borders   = new osg::PositionAttitudeTransform();
 
     m_oceans    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zOceans    ) );
     m_landmass  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zLandmass  ) );
+    m_crops     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCrops     ) );
+    m_grassland ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zGrassland ) );
     m_woodland  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWoodland  ) );
     m_builtup   ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBuiltup   ) );
     m_railroads ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRailroads ) );
     m_roads     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRoads     ) );
     m_airports  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zAirports  ) );
     m_water     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWater     ) );
+    m_satellite ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zSatellite ) );
+    m_borders   ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBorders   ) );
 
-    m_root->addChild( m_oceans    .get() );
-    m_root->addChild( m_landmass  .get() );
-    m_root->addChild( m_woodland  .get() );
-    m_root->addChild( m_builtup   .get() );
-    m_root->addChild( m_railroads .get() );
-    m_root->addChild( m_roads     .get() );
-    m_root->addChild( m_airports  .get() );
-    m_root->addChild( m_water     .get() );
+    m_switchCrops     ->addChild( m_crops     .get() );
+    m_switchGrassland ->addChild( m_grassland .get() );
+    m_switchWoodland  ->addChild( m_woodland  .get() );
+    m_switchBuiltup   ->addChild( m_builtup   .get() );
+    m_switchRailroads ->addChild( m_railroads .get() );
+    m_switchRoads     ->addChild( m_roads     .get() );
+    m_switchAirports  ->addChild( m_airports  .get() );
+    m_switchSatellite ->addChild( m_satellite .get() );
+    m_switchBorders   ->addChild( m_borders   .get() );
+
+    m_root->addChild( m_oceans   .get() );
+    m_root->addChild( m_landmass .get() );
+    m_root->addChild( m_water    .get() );
+
+    m_root->addChild( m_switchCrops     .get() );
+    m_root->addChild( m_switchGrassland .get() );
+    m_root->addChild( m_switchWoodland  .get() );
+    m_root->addChild( m_switchBuiltup   .get() );
+    m_root->addChild( m_switchRailroads .get() );
+    m_root->addChild( m_switchRoads     .get() );
+    m_root->addChild( m_switchAirports  .get() );
+    m_root->addChild( m_switchSatellite .get() );
+    m_root->addChild( m_switchBorders   .get() );
 
     initLayer( m_oceans    .get() , Map::colorOceans    );
     initLayer( m_landmass  .get() , Map::colorLandmass  );
+    initLayer( m_crops     .get() , Map::colorCrops     );
+    initLayer( m_grassland .get() , Map::colorGrassland );
     initLayer( m_woodland  .get() , Map::colorWoodland  );
     initLayer( m_builtup   .get() , Map::colorBuiltup   );
     initLayer( m_railroads .get() , Map::colorRailroads );
     initLayer( m_roads     .get() , Map::colorRoads     );
     initLayer( m_airports  .get() , Map::colorAirports  );
     initLayer( m_water     .get() , Map::colorWater     );
+    initLayer( m_borders   .get() , Map::colorBorders   );
 
     createOcean();
     readLayers();
@@ -90,6 +126,96 @@ Layers::Layers( Module *parent ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 Layers::~Layers() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityCrops( bool visible )
+{
+    if ( visible )
+        m_switchCrops->setAllChildrenOn();
+    else
+        m_switchCrops->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityGrassland( bool visible )
+{
+    if ( visible )
+        m_switchGrassland->setAllChildrenOn();
+    else
+        m_switchGrassland->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityWoodland( bool visible )
+{
+    if ( visible )
+        m_switchWoodland->setAllChildrenOn();
+    else
+        m_switchWoodland->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityBuiltup( bool visible )
+{
+    if ( visible )
+        m_switchBuiltup->setAllChildrenOn();
+    else
+        m_switchBuiltup->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityRailroads( bool visible )
+{
+    if ( visible )
+        m_switchRailroads->setAllChildrenOn();
+    else
+        m_switchRailroads->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityRoads( bool visible )
+{
+    if ( visible )
+        m_switchRoads->setAllChildrenOn();
+    else
+        m_switchRoads->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityAirports( bool visible )
+{
+    if ( visible )
+        m_switchAirports->setAllChildrenOn();
+    else
+        m_switchAirports->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilitySatellite( bool visible )
+{
+    if ( visible )
+        m_switchSatellite->setAllChildrenOn();
+    else
+        m_switchSatellite->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityBorders( bool visible )
+{
+    if ( visible )
+        m_switchBorders->setAllChildrenOn();
+    else
+        m_switchBorders->setAllChildrenOff();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -143,20 +269,28 @@ void Layers::readLayers()
             if ( 0 == fdm::String::icompare( rootNode.getName(), "layers" ) )
             {
                 fdm::XmlNode landmassNode  = rootNode.getFirstChildElement( "landmass"  );
+                fdm::XmlNode cropsNode     = rootNode.getFirstChildElement( "crops"     );
+                fdm::XmlNode grasslandNode = rootNode.getFirstChildElement( "grassland" );
                 fdm::XmlNode woodlandNode  = rootNode.getFirstChildElement( "woodland"  );
                 fdm::XmlNode builtupNode   = rootNode.getFirstChildElement( "builtup"   );
                 fdm::XmlNode railroadsNode = rootNode.getFirstChildElement( "railroads" );
                 fdm::XmlNode roadsNode     = rootNode.getFirstChildElement( "roads"     );
                 fdm::XmlNode airportsNode  = rootNode.getFirstChildElement( "airports"  );
                 fdm::XmlNode waterNode     = rootNode.getFirstChildElement( "water"     );
+                fdm::XmlNode satelliteNode = rootNode.getFirstChildElement( "satellite" );
+                fdm::XmlNode bordersNode   = rootNode.getFirstChildElement( "borders"   );
 
                 if ( landmassNode  .isValid() ) readLayer( landmassNode  , m_landmass  .get() );
+                if ( cropsNode     .isValid() ) readLayer( cropsNode     , m_crops     .get() );
+                if ( grasslandNode .isValid() ) readLayer( grasslandNode , m_grassland .get() );
                 if ( woodlandNode  .isValid() ) readLayer( woodlandNode  , m_woodland  .get() );
                 if ( builtupNode   .isValid() ) readLayer( builtupNode   , m_builtup   .get() );
                 if ( railroadsNode .isValid() ) readLayer( railroadsNode , m_railroads .get() );
                 if ( roadsNode     .isValid() ) readLayer( roadsNode     , m_roads     .get() );
                 if ( airportsNode  .isValid() ) readLayer( airportsNode  , m_airports  .get() );
                 if ( waterNode     .isValid() ) readLayer( waterNode     , m_water     .get() );
+                if ( satelliteNode .isValid() ) readLayer( satelliteNode , m_satellite .get() );
+                if ( bordersNode   .isValid() ) readLayer( bordersNode   , m_borders   .get() );
             }
         }
     }

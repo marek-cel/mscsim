@@ -22,6 +22,16 @@
 
 #include <cgi/otw/cgi_CloudsLayer.h>
 
+#include <osg/AlphaFunc>
+#include <osg/BlendFunc>
+#include <osg/Geode>
+#include <osg/Geometry>
+#include <osg/Material>
+#include <osg/PositionAttitudeTransform>
+
+#include <cgi/cgi_Defines.h>
+#include <cgi/cgi_WGS84.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -29,8 +39,19 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 CloudsLayer::CloudsLayer( Module *parent ) :
-    Module( parent )
-{}
+    Module( parent ),
+
+    m_cover ( Data::Environment::Clouds::Data::Layer::SKC ),
+    m_base_asl ( 0.0f ),
+
+    m_framesCounter ( 0 ),
+    m_created ( false )
+{
+    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_few.png" ) );
+    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_sct.png" ) );
+    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_bkn.png" ) );
+    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_ovc.png" ) );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,4 +64,197 @@ void CloudsLayer::update()
     /////////////////
     Module::update();
     /////////////////
+
+    if ( Data::get()->environment.clouds.type == Data::Environment::Clouds::Layer )
+    {
+        if ( m_framesCounter % 10 == 0 )
+        {
+            m_framesCounter = 0;
+
+            if ( !m_created
+              || m_cover     != Data::get()->environment.clouds.data.layer.cover
+              || m_base_asl  != Data::get()->environment.clouds.data.layer.base_asl )
+            {
+                m_cover     = Data::get()->environment.clouds.data.layer.cover;
+                m_base_asl  = Data::get()->environment.clouds.data.layer.base_asl;
+
+                create();
+            }
+        }
+
+        m_framesCounter++;
+    }
+    else
+    {
+        remove();
+
+        m_framesCounter = 0;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void CloudsLayer::create()
+{
+    remove();
+
+    m_created = true;
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+    m_root->addChild( pat.get() );
+
+    WGS84 wgs( 0.0, 0.0, 0.0 );
+
+    pat->setAttitude( wgs.getAttitude() );
+    pat->setPosition( wgs.getPosition() );
+
+    createLayer( pat.get(), 0.0, 0.0, m_base_asl );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void CloudsLayer::createLayer( osg::Group *parent, double lat , double lon, double alt  )
+{
+    osg::Vec3 ctr_wgs = WGS84::geo2wgs( lat, lon, 0.0 );
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    parent->addChild( geode.get() );
+
+    osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
+
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+    geode->addDrawable( geom.get() );
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+
+    short k = 20;
+
+    float x = -CGI_SKYDOME_RADIUS;
+    float y = -CGI_SKYDOME_RADIUS;
+
+    float dx = 2.0f * CGI_SKYDOME_RADIUS / (float)k;
+    float dy = 2.0f * CGI_SKYDOME_RADIUS / (float)k;
+
+    osg::Vec3 v1_ned;
+    osg::Vec3 v2_ned;
+    osg::Vec3 v1_wgs;
+    osg::Vec3 v2_wgs;
+
+    double lat1 = 0.0;
+    double lat2 = 0.0;
+    double lon1 = 0.0;
+    double lon2 = 0.0;
+    double dummy = 0.0;
+
+    for ( short ix = 0; ix < k + 1; ix++ )
+    {
+        y = ( ix % 2 == 0 ) ? -CGI_SKYDOME_RADIUS : CGI_SKYDOME_RADIUS;
+
+        for ( short iy = 0; iy < k + 1; iy++ )
+        {
+            v1_ned.set( x      , y, 0.0f );
+            v2_ned.set( x + dx , y, 0.0f );
+
+            v1_wgs = WGS84::r_ned2wgs( ctr_wgs, v1_ned );
+            v2_wgs = WGS84::r_ned2wgs( ctr_wgs, v2_ned );
+
+            WGS84::wgs2geo( v1_wgs, lat1, lon1, dummy );
+            WGS84::wgs2geo( v2_wgs, lat2, lon2, dummy );
+
+            v1_wgs = WGS84::geo2wgs( lat1, lon1, alt );
+            v2_wgs = WGS84::geo2wgs( lat2, lon2, alt );
+
+            v1_ned = WGS84::r_wgs2ned( ctr_wgs, v1_wgs );
+            v2_ned = WGS84::r_wgs2ned( ctr_wgs, v2_wgs );
+
+            osg::Vec3f n1 = WGS84::wgs2ned( ctr_wgs, v1_wgs );
+            osg::Vec3f n2 = WGS84::wgs2ned( ctr_wgs, v2_wgs );
+
+            n1.normalize();
+            n2.normalize();
+
+            v->push_back( v1_ned );
+            v->push_back( v2_ned );
+
+            n->push_back( n1 );
+            n->push_back( n2 );
+
+            if ( iy % 2 == 0 )
+            {
+                t->push_back( osg::Vec2( 0, 0 ) );
+                t->push_back( osg::Vec2( 0, 1 ) );
+            }
+            else
+            {
+                t->push_back( osg::Vec2( 1, 0 ) );
+                t->push_back( osg::Vec2( 1, 1 ) );
+            }
+
+            y += ( ix % 2 == 0 ) ? dy : -dy;
+        }
+
+        x += dx;
+    }
+
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_PER_VERTEX );
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_STRIP, 0, v->size() ) );
+    geom->setTexCoordArray( 0, t.get() );
+
+    // texture
+    osg::ref_ptr<osg::Texture2D> texture;
+    switch ( m_cover )
+    {
+    case Data::Environment::Clouds::Data::Layer::FEW:
+        texture = m_textures.at( 0 ).get();
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::SCT:
+        texture = m_textures.at( 1 ).get();
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::BKN:
+        texture = m_textures.at( 2 ).get();
+        break;
+
+    case Data::Environment::Clouds::Data::Layer::OVC:
+    default:
+        texture = m_textures.at( 3 ).get();
+        break;
+    }
+    geodeStateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+
+    // material
+    osg::ref_ptr<osg::Material> material = new osg::Material();
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+    geodeStateSet->setAttribute( material.get() );
+
+    // alpha blending
+    osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
+    osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
+    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.01 );
+
+    geodeStateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+    geodeStateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
+    geodeStateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
+    geodeStateSet->setMode( GL_BLEND, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+    geodeStateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_CLOUDS, "DepthSortedBin" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void CloudsLayer::remove()
+{
+    m_created = false;
+
+    if ( m_root->getNumChildren() > 0 )
+    {
+        m_root->removeChildren( 0, m_root->getNumChildren() );
+    }
 }

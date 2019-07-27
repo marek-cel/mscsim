@@ -44,6 +44,122 @@ double WGS84::getRadiusEquatorial()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+osg::Vec3d WGS84::geo2wgs( double lat, double lon, double alt )
+{
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+
+    em.convertLatLongHeightToXYZ( lat, lon, alt, x, y, z );
+
+    return osg::Vec3d( x, y, z );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WGS84::wgs2geo( const osg::Vec3d &r_wgs, double &lat, double &lon, double &alt )
+{
+    em.convertXYZToLatLongHeight( r_wgs.x(), r_wgs.y(), r_wgs.z(),
+                                  lat, lon, alt );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Vec3d WGS84::ned2wgs( const osg::Vec3d &r0_wgs, const osg::Vec3d &v_ned )
+{
+    double lat = 0.0;
+    double lon = 0.0;
+    double alt = 0.0;
+
+    wgs2geo( r0_wgs, lat, lon, alt );
+
+    double cosLat = cos( lat );
+    double cosLon = cos( lon );
+    double sinLat = sin( lat );
+    double sinLon = sin( lon );
+
+    osg::Matrix mat_ned2wgs;
+
+    // WGS to NED
+    mat_ned2wgs(0,0) = -cosLon * sinLat;
+    mat_ned2wgs(0,1) = -sinLon * sinLat;
+    mat_ned2wgs(0,2) =  cosLat;
+    mat_ned2wgs(0,3) = 0.0;
+
+    mat_ned2wgs(1,0) = -sinLon;
+    mat_ned2wgs(1,1) =  cosLon;
+    mat_ned2wgs(1,2) =  0.0;
+    mat_ned2wgs(1,3) = 0.0;
+
+    mat_ned2wgs(2,0) = -cosLon * cosLat;
+    mat_ned2wgs(2,1) = -sinLon * cosLat;
+    mat_ned2wgs(2,2) = -sinLat;
+    mat_ned2wgs(2,3) = 0.0;
+
+    mat_ned2wgs(3,0) = 0.0;
+    mat_ned2wgs(3,1) = 0.0;
+    mat_ned2wgs(3,2) = 0.0;
+    mat_ned2wgs(3,3) = 1.0;
+
+    return mat_ned2wgs.getRotate() * v_ned;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Vec3d WGS84::wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &v_wgs )
+{
+    double lat = 0.0;
+    double lon = 0.0;
+    double alt = 0.0;
+
+    wgs2geo( r0_wgs, lat, lon, alt );
+
+    double cosLat = cos( lat );
+    double cosLon = cos( lon );
+    double sinLat = sin( lat );
+    double sinLon = sin( lon );
+
+    osg::Matrix mat_wgs2ned;
+
+    mat_wgs2ned(0,0) = -cosLon*sinLat;
+    mat_wgs2ned(0,1) = -sinLon;
+    mat_wgs2ned(0,2) = -cosLon*cosLat;
+    mat_wgs2ned(0,3) = 0.0;
+
+    mat_wgs2ned(1,0) = -sinLon*sinLat;
+    mat_wgs2ned(1,1) =  cosLon;
+    mat_wgs2ned(1,2) = -sinLon*cosLat;
+    mat_wgs2ned(1,3) = 0.0;
+
+    mat_wgs2ned(2,0) =  cosLat;
+    mat_wgs2ned(2,1) =  0.0;
+    mat_wgs2ned(2,2) = -sinLat;
+    mat_wgs2ned(2,3) = 0.0;
+
+    mat_wgs2ned(3,0) = 0.0;
+    mat_wgs2ned(3,1) = 0.0;
+    mat_wgs2ned(3,2) = 0.0;
+    mat_wgs2ned(3,3) = 1.0;
+
+    return mat_wgs2ned.getRotate() * v_wgs;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Vec3d WGS84::r_ned2wgs( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_ned )
+{
+    return r0_wgs + ned2wgs( r0_wgs, r_ned );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Vec3d WGS84::r_wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_wgs )
+{
+    return wgs2ned( r0_wgs, r_wgs - r0_wgs );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 WGS84::WGS84()
 {
     set( 0.0, 0.0, 0.0 );

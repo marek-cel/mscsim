@@ -33,7 +33,7 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 ManipulatorMap::ManipulatorMap() :
-    osgGA::CameraManipulator(),
+    inherited(),
 
     m_scaleChangeCallback ( 0 ),
 
@@ -136,9 +136,9 @@ bool ManipulatorMap::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionA
 
 void ManipulatorMap::updateCamera( osg::Camera &camera )
 {
-    /////////////////////////////////////////////////
-    osgGA::CameraManipulator::updateCamera( camera );
-    /////////////////////////////////////////////////
+    //////////////////////////////////
+    inherited::updateCamera( camera );
+    //////////////////////////////////
 
     double w2h = (double)(camera.getGraphicsContext()->getTraits()->width)
                / (double)(camera.getGraphicsContext()->getTraits()->height);
