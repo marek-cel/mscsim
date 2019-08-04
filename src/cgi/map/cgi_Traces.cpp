@@ -41,7 +41,8 @@ Traces::Traces( Module *parent ) :
     Module( parent ),
     m_positions ( new osg::Vec3dArray() ),
     m_visible ( true ),
-    m_counter ( 0 )
+    m_counter ( 0 ),
+    m_prevState ( fdm::DataOut::Idle )
 {
     m_switch = new osg::Switch();
     m_root->addChild( m_switch.get() );
@@ -55,13 +56,14 @@ Traces::~Traces() {}
 
 void Traces::update()
 {
-    if ( Data::get()->stateOut == fdm::DataOut::Working )
+    if ( fdm::DataOut::Working == Data::get()->stateOut
+      || fdm::DataOut::Working == m_prevState )
     {
-        m_positions->push_back( osg::Vec3d( Mercator::getX( Data::get()->ownship.longitude ),
-                                            Mercator::getY( Data::get()->ownship.latitude ),
+        m_positions->push_back( osg::Vec3d( Mercator::x( Data::get()->ownship.longitude ),
+                                            Mercator::y( Data::get()->ownship.latitude ),
                                             Map::zTraces ) );
 
-        if ( m_visible && m_counter % 10 == 0 )
+        if ( ( m_visible && m_counter % 10 == 0 ) || Data::get()->stateOut != fdm::DataOut::Working )
         {
             m_counter = 0;
 
@@ -97,6 +99,8 @@ void Traces::update()
     {
         reset();
     }
+
+    m_prevState = Data::get()->stateOut;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
