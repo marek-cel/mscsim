@@ -1,3 +1,13 @@
+2019-08-04 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * Map context menu panning issue fixed
+    
+    * convertion between geodetic and Mercator coordinates fix
+    
+    * Marble maps integration
+
+
+    
 2019-07-28 Marek M. Cel <marekcel@marekcel.pl>
     
     * Layer clouds
