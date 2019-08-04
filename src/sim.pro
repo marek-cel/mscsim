@@ -11,6 +11,10 @@ TARGET = mscsim
 
 ################################################################################
 
+#CONFIG += marble_maps
+
+################################################################################
+
 win32: RC_FILE = sim.rc
 
 ################################################################################
@@ -25,12 +29,14 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 ################################################################################
 
 DEFINES += \
-    SIM_CONSOLEOUTPUT \
-#    SIM_OSGDEBUGINFO \
+    SIM_CONSOLE_OUTPUT \
+#    SIM_OSG_DEBUG_INFO \
     SIM_INTERSECTIONS \
-    SIM_LOCALDATADIR \
-    SIM_SKYDOMESCALING \
-    SIM_USETHREADS
+    SIM_LOCAL_DATA_DIR \
+    SIM_SKYDOME_SCALING \
+    SIM_USE_THREADS
+
+marble_maps: DEFINES += SIM_MARBLE_MAPS
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -109,6 +115,16 @@ unix: LIBS += \
     -losgUtil \
     -losgViewer \
     -losgWidget
+
+marble_maps: unix: {
+    greaterThan(QT_MAJOR_VERSION, 4): {
+        unix: LIBS += -lmarblewidget-qt5
+    } else: {
+        unix: LIBS += \
+            -L/usr/local/lib \
+            -lmarblewidget
+    }
+}
 
 ################################################################################
 

@@ -445,22 +445,35 @@ void Joysticks::update()
                 {
                     m_data[ i ].povs[ i_pov ] = -1;
 
-                    if ( m_data[ i ].hasPOV[ i_pov ]
-                         && (
-                                m_data[ i ].axis[ Hat0X + i_pov ] != 0.0f
-                             || m_data[ i ].axis[ Hat0Y + i_pov ] != 0.0f
-                            )
-                       )
+                    if ( m_data[ i ].hasPOV[ i_pov ] )
                     {
-                        float angle_rad = atan2( m_data[ i ].axis[ Hat0X + i_pov ],
-                                                -m_data[ i ].axis[ Hat0Y + i_pov ] );
+                        if ( 0 )
+                        {
+                            // multidirectional POV
+                            short angle_deg = 360 * m_data[ i ].axis[ Hat0X + i_pov ];
 
-                        short angle_deg = 180 * angle_rad / M_PI;
+                            while ( angle_deg <   0 ) angle_deg += 360;
+                            while ( angle_deg > 360 ) angle_deg -= 360;
 
-                        while ( angle_deg <   0 ) angle_deg += 360;
-                        while ( angle_deg > 360 ) angle_deg -= 360;
+                            m_data[ i ].povs[ i_pov ] = angle_deg;
+                        }
+                        else
+                        {
+                            // default model
+                            if ( m_data[ i ].axis[ Hat0X + i_pov ] != 0.0f
+                              || m_data[ i ].axis[ Hat0Y + i_pov ] != 0.0f )
+                            {
+                                float angle_rad = atan2( m_data[ i ].axis[ Hat0X + i_pov ],
+                                                        -m_data[ i ].axis[ Hat0Y + i_pov ] );
 
-                        m_data[ i ].povs[ i_pov ] = angle_deg;
+                                short angle_deg = 180 * angle_rad / M_PI;
+
+                                while ( angle_deg <   0 ) angle_deg += 360;
+                                while ( angle_deg > 360 ) angle_deg -= 360;
+
+                                m_data[ i ].povs[ i_pov ] = angle_deg;
+                            }
+                        }
                     }
                 }
             }

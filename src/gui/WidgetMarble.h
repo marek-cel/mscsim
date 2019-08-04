@@ -19,43 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <gui/DockWidgetMap.h>
-#include <ui_DockWidgetMap.h>
-
-#include <gui/gui_Defines.h>
+#ifndef WIDGETMARBLE_H
+#define WIDGETMARBLE_H
+#ifdef SIM_MARBLE_MAPS
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DockWidgetMap::DockWidgetMap( QWidget *parent ) :
-    QDockWidget ( parent ),
-    m_ui ( new Ui::DockWidgetMap )
-{
-    m_ui->setupUi( this );
-}
+#include <marble/MarbleWidget.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DockWidgetMap::~DockWidgetMap()
+/**
+ * @brief Marble map widget class.
+ */
+class WidgetMarble : public Marble::MarbleWidget
 {
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
-}
+    Q_OBJECT
+
+public:
+
+    /** Constructor. */
+    WidgetMarble( QWidget *parent = 0 );
+
+    /** Destructor. */
+    virtual ~WidgetMarble();
+
+protected:
+
+    bool event( QEvent *event );
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMap::closeEvent( QCloseEvent *event )
-{
-    /////////////////////////////////
-    QDockWidget::closeEvent( event );
-    /////////////////////////////////
-
-    emit closed();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DockWidgetMap::on_widgetMap_mouseMoveGeoPosition( const QString &str )
-{
-    m_ui->labelBar->setText( str );
-}
+#endif // SIM_MARBLE_MAPS
+#endif // WIDGETMARBLE_H

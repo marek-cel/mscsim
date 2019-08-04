@@ -94,6 +94,17 @@ public:
     static void createQuad( osg::Geometry *geom, osg::Vec3Array *v,
                             bool texCoords = false, bool color = false,
                             float alpha = 1.0f );
+
+    /**
+     * Creates ring.
+     * @param geom
+     * @param radius_inner
+     * @param radius_outer
+     * @param texCoords
+     * @param segments
+     */
+    static void createRing( osg::Geometry *geom, float radius_i, float radius_o,
+                            bool texCoords = false, int segments = 32 );
 };
 
 } // end of cgi namespace

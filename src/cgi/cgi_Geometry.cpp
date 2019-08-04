@@ -323,3 +323,59 @@ void Geometry::createQuad( osg::Geometry *geom, osg::Vec3Array *v,
         geom->setTexCoordArray( 0, t.get() );
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Geometry::createRing( osg::Geometry *geom, float radius_i, float radius_o,
+                           bool texCoords, int segments )
+{
+    const float coef = radius_o / radius_i;
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+
+    float step = 2.0f * M_PI / (float)segments;
+
+    for ( int i = 0; i < segments + 1; i++ )
+    {
+        float a = i * step;
+
+        float sinA = sin( a );
+        float cosA = cos( a );
+
+        float x_i = radius_i * sinA;
+        float y_i = radius_i * cosA;
+
+        float x_o = radius_o * sinA;
+        float y_o = radius_o * cosA;
+
+        v->push_back( osg::Vec3( x_i, y_i, 0.0f ) );
+        v->push_back( osg::Vec3( x_o, y_o, 0.0f ) );
+
+        if ( texCoords )
+        {
+            float x = 1.0f - ( sinA + 1.0f ) / 2.0f;
+            float y = ( cosA + 1.0f ) / 2.0f;
+
+            t->push_back( osg::Vec2( x        , y        ) );
+            t->push_back( osg::Vec2( x * coef , y * coef ) );
+        }
+    }
+
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+
+    c->push_back( osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUAD_STRIP, 0, v->size() ) );
+
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
+
+    geom->setColorArray( c.get() );
+    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    if ( texCoords ) geom->setTexCoordArray( 0, t.get() );
+}

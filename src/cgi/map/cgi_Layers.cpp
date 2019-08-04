@@ -58,6 +58,7 @@ Layers::Layers( Module *parent ) :
     m_switchBorders   = new osg::Switch();
 
     m_oceans    = new osg::PositionAttitudeTransform();
+    m_coastline = new osg::PositionAttitudeTransform();
     m_landmass  = new osg::PositionAttitudeTransform();
     m_crops     = new osg::PositionAttitudeTransform();
     m_grassland = new osg::PositionAttitudeTransform();
@@ -71,6 +72,7 @@ Layers::Layers( Module *parent ) :
     m_borders   = new osg::PositionAttitudeTransform();
 
     m_oceans    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zOceans    ) );
+    m_coastline ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCoastline ) );
     m_landmass  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zLandmass  ) );
     m_crops     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCrops     ) );
     m_grassland ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zGrassland ) );
@@ -93,9 +95,10 @@ Layers::Layers( Module *parent ) :
     m_switchSatellite ->addChild( m_satellite .get() );
     m_switchBorders   ->addChild( m_borders   .get() );
 
-    m_root->addChild( m_oceans   .get() );
-    m_root->addChild( m_landmass .get() );
-    m_root->addChild( m_water    .get() );
+    m_root->addChild( m_oceans    .get() );
+    m_root->addChild( m_coastline .get() );
+    m_root->addChild( m_landmass  .get() );
+    m_root->addChild( m_water     .get() );
 
     m_root->addChild( m_switchCrops     .get() );
     m_root->addChild( m_switchGrassland .get() );
@@ -108,6 +111,7 @@ Layers::Layers( Module *parent ) :
     m_root->addChild( m_switchBorders   .get() );
 
     initLayer( m_oceans    .get() , Map::colorOceans    );
+    initLayer( m_coastline .get() , Map::colorCoastline, 10.0f );
     initLayer( m_landmass  .get() , Map::colorLandmass  );
     initLayer( m_crops     .get() , Map::colorCrops     );
     initLayer( m_grassland .get() , Map::colorGrassland );
@@ -120,7 +124,10 @@ Layers::Layers( Module *parent ) :
     initLayer( m_borders   .get() , Map::colorBorders   );
 
     createOcean();
+
+#   ifndef SIM_MARBLE_MAPS
     readLayers();
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -229,17 +236,17 @@ void Layers::createOcean()
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
 
-    v->push_back( osg::Vec3( -Mercator::maxX, -Mercator::maxY, 0.0 ) );
-    v->push_back( osg::Vec3(  Mercator::maxX, -Mercator::maxY, 0.0 ) );
-    v->push_back( osg::Vec3(  Mercator::maxX,  Mercator::maxY, 0.0 ) );
-    v->push_back( osg::Vec3( -Mercator::maxX,  Mercator::maxY, 0.0 ) );
+    v->push_back( osg::Vec3( -Mercator::max_x, -Mercator::max_y, 0.0 ) );
+    v->push_back( osg::Vec3(  Mercator::max_x, -Mercator::max_y, 0.0 ) );
+    v->push_back( osg::Vec3(  Mercator::max_x,  Mercator::max_y, 0.0 ) );
+    v->push_back( osg::Vec3( -Mercator::max_x,  Mercator::max_y, 0.0 ) );
 
     Geometry::createQuad( geometry.get(), v.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Layers::initLayer( osg::Node* layer, osg::Vec3 color )
+void Layers::initLayer( osg::Node* layer, osg::Vec3 color, float width )
 {
     osg::ref_ptr<osg::Material> material = new osg::Material();
     material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
@@ -248,10 +255,10 @@ void Layers::initLayer( osg::Node* layer, osg::Vec3 color )
     layer->getOrCreateStateSet()->setAttribute( material.get(),
             osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
-//    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-//    lineWidth->setWidth( 2.0f );
-//    layer->getOrCreateStateSet()->setAttributeAndModes( lineWidth.get(),
-//        osg::StateAttribute::ON );
+    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+    lineWidth->setWidth( width );
+    layer->getOrCreateStateSet()->setAttributeAndModes( lineWidth.get(),
+        osg::StateAttribute::ON );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -268,6 +275,7 @@ void Layers::readLayers()
         {
             if ( 0 == fdm::String::icompare( rootNode.getName(), "layers" ) )
             {
+                fdm::XmlNode coastlineNode = rootNode.getFirstChildElement( "coastline" );
                 fdm::XmlNode landmassNode  = rootNode.getFirstChildElement( "landmass"  );
                 fdm::XmlNode cropsNode     = rootNode.getFirstChildElement( "crops"     );
                 fdm::XmlNode grasslandNode = rootNode.getFirstChildElement( "grassland" );
@@ -280,6 +288,7 @@ void Layers::readLayers()
                 fdm::XmlNode satelliteNode = rootNode.getFirstChildElement( "satellite" );
                 fdm::XmlNode bordersNode   = rootNode.getFirstChildElement( "borders"   );
 
+                if ( coastlineNode .isValid() ) readLayer( coastlineNode , m_coastline .get() );
                 if ( landmassNode  .isValid() ) readLayer( landmassNode  , m_landmass  .get() );
                 if ( cropsNode     .isValid() ) readLayer( cropsNode     , m_crops     .get() );
                 if ( grasslandNode .isValid() ) readLayer( grasslandNode , m_grassland .get() );

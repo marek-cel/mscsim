@@ -59,8 +59,8 @@ struct DataInp
     /** Initial conditions. */
     struct Initial
     {
-        double latitude;                ///< [rad] geographic latitude (positive north)
-        double longitude;               ///< [rad] geographic longitude (positive east)
+        double latitude;                ///< [rad] geodetic latitude (positive north)
+        double longitude;               ///< [rad] geodetic longitude (positive east)
         double altitude_agl;            ///< [m] altitude above ground level
         double heading;                 ///< [rad] true heading
         double airspeed;                ///< [m/s] airspeed

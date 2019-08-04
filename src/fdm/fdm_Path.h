@@ -44,9 +44,9 @@ public:
      * Returns file path prefixed with base path.
      * @param path file path relative to the base path.
      */
-    inline static std::string get( const std::string &path )
+    inline static std::string get( const std::string &path = "" )
     {
-#       if defined _LINUX_  && !defined SIM_LOCALDATADIR
+#       if defined _LINUX_  && !defined SIM_LOCAL_DATA_DIR
         return "/usr/share/mscsim/" + path;
 #       else
         return path;

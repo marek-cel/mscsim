@@ -42,13 +42,12 @@ using namespace cgi;
 Icons::Icons( Module *parent ) :
     Module( parent )
 {
-    m_pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_pat.get() );
+    createSymbolAerodrome();
 
-    m_speedLeader = new osg::Group();
-    m_pat->addChild( m_speedLeader.get() );
+    createOwnship();
 
-    createIcon();
+    initAerodromes();
+
     setScale( 1.0 );
 }
 
@@ -60,17 +59,167 @@ Icons::~Icons() {}
 
 void Icons::update()
 {
-    m_pat->setPosition( osg::Vec3( Mercator::getX( Data::get()->ownship.longitude ),
-                                   Mercator::getY( Data::get()->ownship.latitude ),
-                                   0.0f ) );
+    updateOwnship();
+}
 
-    if ( m_speedLeader->getNumChildren() > 0 )
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::setScale( double scale )
+{
+    double s = 1.5 * 1.0e6 * scale;
+    osg::Vec3d sv( s, s, 1.0 );
+
+    m_ownship.pat->setScale( sv );
+
+    for ( Aerodromes::iterator it = m_aerodromes.begin(); it != m_aerodromes.end(); it++ )
     {
-        m_speedLeader->removeChildren( 0, m_speedLeader->getNumChildren() );
+        (*it)->setScale( sv );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::createIcon( osg::Group *parent, float z,
+                        const std::string &textureFile )
+{
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    parent->addChild( geode.get() );
+
+    osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+    geode->addDrawable( geometry.get() );
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
+
+    v->push_back( osg::Vec3( -0.5f, -0.5f, z ) );
+    v->push_back( osg::Vec3(  0.5f, -0.5f, z ) );
+    v->push_back( osg::Vec3(  0.5f,  0.5f, z ) );
+    v->push_back( osg::Vec3( -0.5f,  0.5f, z ) );
+
+    Geometry::createQuad( geometry.get(), v.get(), true, true );
+
+    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+    stateSet->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
+
+    // texture
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( textureFile );
+
+    if ( texture.valid() )
+    {
+        stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
+        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+        stateSet->setTextureAttributeAndModes( 0, texture, osg::StateAttribute::ON );
+    }
+
+    // material
+    osg::ref_ptr<osg::Material> material = new osg::Material();
+
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    material->setAmbient( osg::Material::FRONT, osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT, osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+
+    stateSet->setAttribute( material.get() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::createOwnship()
+{
+    m_ownship.pat = new osg::PositionAttitudeTransform();
+    m_root->addChild( m_ownship.pat.get() );
+
+    m_ownship.speedLeader = new osg::Group();
+    m_ownship.pat->addChild( m_ownship.speedLeader.get() );
+
+    createIcon( m_ownship.pat.get(), Map::zOwnship, "data/map/icons/air_friend.png" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::createSymbolAerodrome()
+{
+    const float ri = 0.2;
+    const float ro = 0.25;
+    const float rm = 0.5 * ( ri + ro );
+
+    const float w_2 = 0.06;
+    const float h = 0.095;
+
+    m_symbolAerodrome = new osg::Geode();
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+
+    c->push_back( osg::Vec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+
+    osg::ref_ptr<osg::Geometry> geom1 = new osg::Geometry();
+    osg::ref_ptr<osg::Geometry> geom2 = new osg::Geometry();
+
+    m_symbolAerodrome->addDrawable( geom1.get() );
+    m_symbolAerodrome->addDrawable( geom2.get() );
+
+    Geometry::createRing( geom1.get(), 0.2, 0.25 );
+
+    geom1->setColorArray( c.get() );
+    geom1->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    v->push_back( osg::Vec3( -w_2,  rm     , 0.0f ) );
+    v->push_back( osg::Vec3(  w_2,  rm     , 0.0f ) );
+    v->push_back( osg::Vec3(  w_2,  rm + h , 0.0f ) );
+    v->push_back( osg::Vec3( -w_2,  rm + h , 0.0f ) );
+
+    v->push_back( osg::Vec3( -w_2, -rm - h , 0.0f ) );
+    v->push_back( osg::Vec3(  w_2, -rm - h , 0.0f ) );
+    v->push_back( osg::Vec3(  w_2, -rm     , 0.0f ) );
+    v->push_back( osg::Vec3( -w_2, -rm     , 0.0f ) );
+
+    v->push_back( osg::Vec3(  rm     , -w_2, 0.0f ) );
+    v->push_back( osg::Vec3(  rm + h , -w_2, 0.0f ) );
+    v->push_back( osg::Vec3(  rm + h ,  w_2, 0.0f ) );
+    v->push_back( osg::Vec3(  rm     ,  w_2, 0.0f ) );
+
+    v->push_back( osg::Vec3( -rm - h , -w_2, 0.0f ) );
+    v->push_back( osg::Vec3( -rm     , -w_2, 0.0f ) );
+    v->push_back( osg::Vec3( -rm     ,  w_2, 0.0f ) );
+    v->push_back( osg::Vec3( -rm - h ,  w_2, 0.0f ) );
+
+    geom2->setVertexArray( v.get() );
+    geom2->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
+    geom2->setNormalArray( n.get() );
+    geom2->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geom2->setColorArray( c.get() );
+    geom2->setColorBinding( osg::Geometry::BIND_OVERALL );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::initAerodromes()
+{
+    // TODO
+    osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+    m_root->addChild( pat.get() );
+    pat->addChild( m_symbolAerodrome.get() );
+    pat->setPosition( osg::Vec3d( 0.0, 0.0, Map::zAerodromes ) );
+    m_aerodromes.push_back( pat.get() );
+    // TODO
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::updateOwnship()
+{
+    m_ownship.pat->setPosition( osg::Vec3( Mercator::x( Data::get()->ownship.longitude ),
+                                           Mercator::y( Data::get()->ownship.latitude ),
+                                           0.0f ) );
+
+    if ( m_ownship.speedLeader->getNumChildren() > 0 )
+    {
+        m_ownship.speedLeader->removeChildren( 0, m_ownship.speedLeader->getNumChildren() );
     }
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_speedLeader->addChild( geode.get() );
+    m_ownship.speedLeader->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -112,54 +261,4 @@ void Icons::update()
 
     stateSet->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
     stateSet->setMode( GL_LIGHTING, osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Icons::setScale( double scale )
-{
-    double s = 1.5 * 1.0e6 * scale;
-    m_pat->setScale( osg::Vec3d( s, s, 1.0 ) );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Icons::createIcon()
-{
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_pat->addChild( geode.get() );
-
-    osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-    geode->addDrawable( geometry.get() );
-
-    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // vertices
-
-    v->push_back( osg::Vec3( -0.5f, -0.5f, Map::zIconsFill ) );
-    v->push_back( osg::Vec3(  0.5f, -0.5f, Map::zIconsFill ) );
-    v->push_back( osg::Vec3(  0.5f,  0.5f, Map::zIconsFill ) );
-    v->push_back( osg::Vec3( -0.5f,  0.5f, Map::zIconsFill ) );
-
-    Geometry::createQuad( geometry.get(), v.get(), true, true );
-
-    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
-    stateSet->setMode( GL_LIGHTING, osg::StateAttribute::OFF );
-
-    // texture
-    osg::ref_ptr<osg::Texture2D> texture = Textures::get( "data/map/icons/air_friend.png" );
-
-    if ( texture.valid() )
-    {
-        stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-        stateSet->setTextureAttributeAndModes( 0, texture, osg::StateAttribute::ON );
-    }
-
-    // material
-    osg::ref_ptr<osg::Material> material = new osg::Material();
-
-    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    material->setAmbient( osg::Material::FRONT, osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-    material->setDiffuse( osg::Material::FRONT, osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-
-    stateSet->setAttribute( material.get() );
 }

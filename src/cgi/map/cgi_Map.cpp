@@ -36,6 +36,7 @@ using namespace cgi;
 
 // DCS World
 //const osg::Vec3 Map::colorOceans    = osg::Vec3( 0.49, 0.73, 0.78 );
+//const osg::Vec3 Map::colorCoastline = osg::Vec3( 0.01, 0.01, 0.01 );
 //const osg::Vec3 Map::colorLandmass  = osg::Vec3( 0.40, 0.61, 0.42 );
 //const osg::Vec3 Map::colorCrops     = osg::Vec3( 0.00, 0.00, 0.00 );
 //const osg::Vec3 Map::colorGrassland = osg::Vec3( 0.00, 0.00, 0.00 );
@@ -49,6 +50,7 @@ using namespace cgi;
 
 // Google Maps
 //const osg::Vec3 Map::colorOceans    = osg::Vec3( 0.67, 0.85, 1.00 );
+//const osg::Vec3 Map::colorCoastline = osg::Vec3( 0.01, 0.01, 0.01 );
 //const osg::Vec3 Map::colorLandmass  = osg::Vec3( 0.96, 0.96, 0.96 );
 //const osg::Vec3 Map::colorCrops     = osg::Vec3( 0.00, 0.00, 0.00 );
 //const osg::Vec3 Map::colorGrassland = osg::Vec3( 0.93, 0.97, 0.92 );
@@ -61,20 +63,22 @@ using namespace cgi;
 const osg::Vec3 Map::colorBorders   = osg::Vec3( 0.48, 0.49, 0.49 );
 
 // OpenStreetMap
-const osg::Vec3 Map::colorOceans    = osg::Vec3( 0.68, 0.87, 1.00 );
+const osg::Vec3 Map::colorOceans    = osg::Vec3( 0.67, 0.83, 0.87 );
+const osg::Vec3 Map::colorCoastline = osg::Vec3( 0.51, 0.75, 0.82 );
 const osg::Vec3 Map::colorLandmass  = osg::Vec3( 0.95, 0.94, 0.91 );
-const osg::Vec3 Map::colorCrops     = osg::Vec3( 0.93, 0.94, 0.84 );
-const osg::Vec3 Map::colorGrassland = osg::Vec3( 0.80, 0.92, 0.69 );
-const osg::Vec3 Map::colorWoodland  = osg::Vec3( 0.82, 0.91, 0.82 );
-const osg::Vec3 Map::colorBuiltup   = osg::Vec3( 0.80, 0.80, 0.80 );
+const osg::Vec3 Map::colorCrops     = osg::Vec3( 0.95, 0.95, 0.87 );
+const osg::Vec3 Map::colorGrassland = osg::Vec3( 0.88, 0.95, 0.81 );
+const osg::Vec3 Map::colorWoodland  = osg::Vec3( 0.83, 0.91, 0.80 );
+const osg::Vec3 Map::colorBuiltup   = osg::Vec3( 0.87, 0.87, 0.87 );
 const osg::Vec3 Map::colorRailroads = osg::Vec3( 0.60, 0.60, 0.60 );
 const osg::Vec3 Map::colorRoads     = osg::Vec3( 0.81, 0.63, 0.32 );
 const osg::Vec3 Map::colorAirports  = osg::Vec3( 0.74, 0.74, 0.80 );
 const osg::Vec3 Map::colorWater     = Map::colorOceans;
-//const osg::Vec3 Map::colorBorders   = osg::Vec3( 0.85, 0.70, 0.85 );
+//const osg::Vec3 Map::colorBorders   = osg::Vec3( 0.75, 0.50, 0.75 );
 
 // PANSA
 //const osg::Vec3 Map::colorOceans    = osg::Vec3( 0.84, 0.91, 0.97 );
+//const osg::Vec3 Map::colorCoastline = osg::Vec3( 0.01, 0.01, 0.01 );
 //const osg::Vec3 Map::colorLandmass  = osg::Vec3( 1.00, 1.00, 1.00 );
 //const osg::Vec3 Map::colorCrops     = osg::Vec3( 0.00, 0.00, 0.00 );
 //const osg::Vec3 Map::colorGrassland = osg::Vec3( 0.93, 0.97, 0.92 );
@@ -86,7 +90,8 @@ const osg::Vec3 Map::colorWater     = Map::colorOceans;
 //const osg::Vec3 Map::colorWater     = Map::colorOceans;
 //const osg::Vec3 Map::colorBorders   = osg::Vec3( 0.00, 0.00, 0.00 );
 
-const double Map::zOceans    = -22.0;
+const double Map::zOceans    = -23.0;
+const double Map::zCoastline = -22.0;
 const double Map::zLandmass  = -21.0;
 const double Map::zCrops     = -20.0;
 const double Map::zGrassland = -19.0;
@@ -94,15 +99,15 @@ const double Map::zWoodland  = -18.0;
 const double Map::zBuiltup   = -17.0;
 const double Map::zRailroads = -16.0;
 const double Map::zRoads     = -15.0;
-const double Map::zAirports  = -14.0;
-const double Map::zWater     = -13.0;
-const double Map::zSatellite = -12.0;
+const double Map::zWater     = -14.0;
+const double Map::zSatellite = -13.0;
+const double Map::zAirports  = -12.0;
 const double Map::zBorders   = -11.0;
 
-const double Map::zTraces = -3.0;
-
+const double Map::zAerodromes  = -3.0;
+const double Map::zTraces      = -2.0;
 const double Map::zSpeedLeader = -2.0;
-const double Map::zIconsFill   = -1.0;
+const double Map::zOwnship     = -1.0;
 
 ////////////////////////////////////////////////////////////////////////////////
 

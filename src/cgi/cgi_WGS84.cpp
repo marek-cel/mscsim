@@ -28,7 +28,12 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const osg::EllipsoidModel WGS84::em = osg::EllipsoidModel();
+const double WGS84::m_a  = osg::WGS_84_RADIUS_EQUATOR;
+const double WGS84::m_b  = osg::WGS_84_RADIUS_POLAR;
+const double WGS84::m_e2 = ( WGS84::m_a*WGS84::m_a - WGS84::m_b*WGS84::m_b ) / ( WGS84::m_a*WGS84::m_a );
+const double WGS84::m_e  = sqrt( WGS84::m_e2 );
+
+const osg::EllipsoidModel WGS84::m_em = osg::EllipsoidModel();
 
 const osg::Quat WGS84::m_enu2ned = osg::Matrixd( 0.0,  1.0,  0.0,  0.0,
                                                  1.0,  0.0,  0.0,  0.0,
@@ -39,7 +44,14 @@ const osg::Quat WGS84::m_enu2ned = osg::Matrixd( 0.0,  1.0,  0.0,  0.0,
 
 double WGS84::getRadiusEquatorial()
 {
-    return osg::WGS_84_RADIUS_EQUATOR;
+    return m_a;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double WGS84::getRadiusPolar()
+{
+    return m_b;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +62,7 @@ osg::Vec3d WGS84::geo2wgs( double lat, double lon, double alt )
     double y = 0.0;
     double z = 0.0;
 
-    em.convertLatLongHeightToXYZ( lat, lon, alt, x, y, z );
+    m_em.convertLatLongHeightToXYZ( lat, lon, alt, x, y, z );
 
     return osg::Vec3d( x, y, z );
 }
@@ -59,8 +71,8 @@ osg::Vec3d WGS84::geo2wgs( double lat, double lon, double alt )
 
 void WGS84::wgs2geo( const osg::Vec3d &r_wgs, double &lat, double &lon, double &alt )
 {
-    em.convertXYZToLatLongHeight( r_wgs.x(), r_wgs.y(), r_wgs.z(),
-                                  lat, lon, alt );
+    m_em.convertXYZToLatLongHeight( r_wgs.x(), r_wgs.y(), r_wgs.z(),
+                                    lat, lon, alt );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,8 +209,8 @@ void WGS84::set( double lat, double lon, double alt )
 
     osg::Matrixd localToWorld;
 
-    em.convertLatLongHeightToXYZ( lat, lon, alt, x, y, z );
-    em.computeLocalToWorldTransformFromXYZ( x, y, z, localToWorld );
+    m_em.convertLatLongHeightToXYZ( lat, lon, alt, x, y, z );
+    m_em.computeLocalToWorldTransformFromXYZ( x, y, z, localToWorld );
 
     osg::Quat wgs2enu = localToWorld.getRotate();
 
@@ -216,10 +228,10 @@ void WGS84::set( const osg::Vec3d &position )
 
     osg::Matrixd localToWorld;
 
-    em.convertXYZToLatLongHeight( position.x(), position.y(), position.z(),
-                                  lat, lon, alt );
-    em.computeLocalToWorldTransformFromXYZ( position.x(), position.y(), position.z(),
-                                            localToWorld );
+    m_em.convertXYZToLatLongHeight( position.x(), position.y(), position.z(),
+                                    lat, lon, alt );
+    m_em.computeLocalToWorldTransformFromXYZ( position.x(), position.y(), position.z(),
+                                              localToWorld );
 
     m_lat = lat;
     m_lon = lon;

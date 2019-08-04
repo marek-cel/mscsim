@@ -65,7 +65,7 @@ private:
 
 private slots:
 
-    void on_widgetMap_positionChanged( double lat, double lon );
+    void on_widgetMap_mouseMoveGeoPosition( const QString &str );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

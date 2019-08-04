@@ -29,41 +29,70 @@ namespace cgi
 
 /**
  * @brief Mercator coordinates computation class.
+ *
+ * @see Evenden G.: libproj4: A Comprehensive Library of Cartographic Projection Functions (Preliminary Draft), 2005
  */
 class Mercator
 {
 public:
 
-    static const double maxX;   ///< [m] maximum Mercator x-coordinate for longitude 180 deg
-    static const double maxY;   ///< [m] maximum Mercator y-coordinate for latitude 85 deg
+    static const double max_x;  ///< [m] maximum Mercator x-coordinate for longitude 180 deg
+    static const double max_y;  ///< [m] maximum Mercator y-coordinate for latitude 85 deg
 
     /**
-     * @brief Computes geographic latitude.
+     * @brief Computes geodetic latitude.
      * @param y [m] Mercator y-coordinate
-     * @return geographic latitude [rad]
+     * @param max_error
+     * @param max_iterations
+     * @return geodetic latitude [rad]
      */
-    static double getLat( double y );
+    static double lat( double y, double max_error = 1.0e-9,
+                       unsigned int max_iterations = 10 );
 
     /**
-     * @brief Computes geographic longitude.
+     * @brief Computes geodetic longitude.
      * @param x [m] Mercator x-coordinate
-     * @return geographic longitude [rad]
+     * @return geodetic longitude [rad]
      */
-    static double getLon( double x );
+    static double lon( double x );
 
     /**
      * @brief Computes Mercator x-coordinate.
-     * @param lon [rad] geographic longitude
+     * @param lon [rad] geodetic longitude
      * @return Mercator x-coordinate [m]
      */
-    static double getX( double lon );
+    static double x( double lon );
 
     /**
      * @brief Computes Mercator y-coordinate.
-     * @param lat [rad] geographic latitude
+     * @param lat [rad] geodetic latitude
      * @return Mercator y-coordinate [m]
      */
-    static double getY( double lat );
+    static double y( double lat );
+
+    /**
+     * @brief Computes ellipsoid parallel radius.
+     * @param lat_ts [rad] geodetic latitude of true scale
+     * @return parallel radius [m]
+     */
+    static double k0( double lat_ts );
+
+    /**
+     * @brief Computes Isometric Latitude kernel.
+     * @param lat [rad] geodetic latitude
+     * @return Isometric Latitude kernel
+     */
+    static double t( double lat );
+
+    /**
+     * @brief Computes geodetic latitude from the isometric latitude.
+     * @param t
+     * @param max_error
+     * @param max_iterations
+     * @return geodetic latitude [rad]
+     */
+    static double t_inv( double t, double max_error = 1.0e-9,
+                         unsigned int max_iterations = 10 );
 };
 
 } // end of cgi namespace

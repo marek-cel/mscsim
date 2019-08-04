@@ -59,8 +59,8 @@ struct DataOut
     /** Flight data. */
     struct Flight
     {
-        double latitude;                ///< [rad] geographic latitude (positive north)
-        double longitude;               ///< [rad] geographic longitude (positive east)
+        double latitude;                ///< [rad] geodetic latitude (positive north)
+        double longitude;               ///< [rad] geodetic longitude (positive east)
 
         double altitude_asl;            ///< [m] altitude above mean sea level
         double altitude_agl;            ///< [m] altitude above ground level

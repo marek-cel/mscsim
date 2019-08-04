@@ -43,6 +43,7 @@ class Map : public Module
 public:
 
     static const osg::Vec3 colorOceans;
+    static const osg::Vec3 colorCoastline;
     static const osg::Vec3 colorLandmass;
     static const osg::Vec3 colorCrops;
     static const osg::Vec3 colorGrassland;
@@ -55,6 +56,7 @@ public:
     static const osg::Vec3 colorBorders;
 
     static const double zOceans;
+    static const double zCoastline;
     static const double zLandmass;
     static const double zCrops;
     static const double zGrassland;
@@ -67,10 +69,10 @@ public:
     static const double zSatellite;
     static const double zBorders;
 
+    static const double zAerodromes;
     static const double zTraces;
-
     static const double zSpeedLeader;
-    static const double zIconsFill;
+    static const double zOwnship;
 
     /** Constructor. */
     Map( Module *parent = 0 );

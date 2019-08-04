@@ -29,33 +29,79 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double Mercator::maxX = Mercator::getX( osg::DegreesToRadians( 180.0 ) );
-const double Mercator::maxY = Mercator::getY( osg::DegreesToRadians(  85.0 ) );
+const double Mercator::max_x = Mercator::x( osg::DegreesToRadians( 180.0 ) );
+const double Mercator::max_y = Mercator::y( osg::DegreesToRadians(  85.0 ) );
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getLat( double y )
+double Mercator::lat( double y, double max_error, unsigned int max_iterations )
 {
-    return 2.0 * atan( exp( y / WGS84::getRadiusEquatorial() ) ) - M_PI_2;
+    // for lat_ts=0 k0=a
+    return t_inv( exp( -y / WGS84::m_a ), max_error, max_iterations );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getLon( double x )
+double Mercator::lon( double x )
 {
-    return x / WGS84::getRadiusEquatorial();
+    // for lat_ts=0 k0=a
+    return x / WGS84::m_a;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getX( double lon )
+double Mercator::x( double lon )
 {
-    return WGS84::getRadiusEquatorial() * lon;
+    // for lat_ts=0 k0=a
+    return WGS84::m_a * lon;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Mercator::getY( double lat )
+double Mercator::y( double lat )
 {
-    return WGS84::getRadiusEquatorial() * log( tan( M_PI_4 + 0.5 * lat ) );
+    // for lat_ts=0 k0=a
+    return WGS84::m_a * log( t( lat ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Mercator::k0( double lat_ts )
+{
+    double sinLat = sin( lat_ts );
+    return WGS84::getRadiusEquatorial() * cos( lat_ts )
+            / sqrt( 1.0 - WGS84::m_e2 * sinLat*sinLat );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Mercator::t( double lat )
+{
+    double e_sinLat = WGS84::m_e * sin( lat );
+    return tan( M_PI_4 + 0.5 * lat ) * pow( ( 1.0 - e_sinLat ) / ( 1.0 + e_sinLat ),
+                                            0.5 * WGS84::m_e );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Mercator::t_inv( double t, double max_error, unsigned int max_iterations )
+{
+    double lat = M_PI_2 - 2.0 * atan( t );
+    double ex = 0.5 * WGS84::m_e;
+    double er = 1.0e16;
+
+    unsigned int iteration = 0;
+
+    while ( er > max_error && iteration < max_iterations )
+    {
+        double e_sinLat = WGS84::m_e * sin( lat );
+        double lat_new = M_PI_2 - 2.0 * atan( t * pow( ( 1.0 - e_sinLat ) / ( 1.0 + e_sinLat ), ex ) );
+
+        er = fabs( lat_new - lat );
+        lat = lat_new;
+
+        iteration++;
+    }
+
+    return lat;
 }

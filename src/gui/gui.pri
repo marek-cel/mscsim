@@ -37,6 +37,7 @@ HEADERS += \
     $$PWD/SpinBoxHighlight.h \
     $$PWD/WidgetCGI.h \
     $$PWD/WidgetMap.h \
+    $$PWD/WidgetMarble.h \
     $$PWD/WidgetSquare.h
 
 SOURCES += \
@@ -77,6 +78,7 @@ SOURCES += \
     $$PWD/SpinBoxHighlight.cpp \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetMap.cpp \
+    $$PWD/WidgetMarble.cpp \
     $$PWD/WidgetSquare.cpp
 
 FORMS += \

@@ -70,6 +70,7 @@ private:
     osg::ref_ptr<osg::Switch> m_switchBorders;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_oceans;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_coastline;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_landmass;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_crops;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_grassland;
@@ -84,7 +85,7 @@ private:
 
     void createOcean();
 
-    void initLayer( osg::Node* layer, osg::Vec3 color );
+    void initLayer( osg::Node* layer, osg::Vec3 color, float width = 1.0f );
 
     void readLayers();
     void readLayer( const fdm::XmlNode &node, osg::Group *parent );

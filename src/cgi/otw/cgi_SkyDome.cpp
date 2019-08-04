@@ -151,7 +151,7 @@ void SkyDome::update()
 
     ////////////////////////////////////////
 
-#   ifdef SIM_SKYDOMESCALING
+#   ifdef SIM_SKYDOME_SCALING
     // scale
     if ( Data::get()->camera.altitude_agl > CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
     {
@@ -187,7 +187,7 @@ void SkyDome::update()
 
     m_attitude->setAttitude( wgs.getAttitude() );
     m_position->setPosition( wgs.getPosition() );
-#   ifdef SIM_SKYDOMESCALING
+#   ifdef SIM_SKYDOME_SCALING
     osg::Vec3 vecSkyScale( m_skyScale, m_skyScale, m_skyScale );
     m_position ->setScale( vecSkyScale );
     m_patSun   ->setScale( vecSkyScale );

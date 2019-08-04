@@ -95,6 +95,7 @@ add_library( gui STATIC
     SpinBoxHighlight.cpp
     WidgetCGI.cpp
     WidgetMap.cpp
+    WidgetMarble.cpp
     WidgetSquare.cpp
 
     ${MOC_SRCS}

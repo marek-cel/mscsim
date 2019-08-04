@@ -42,7 +42,7 @@ Simulation::Simulation() :
     memset( &m_dataInp, 0, sizeof(fdm::DataInp) );
     memset( &m_dataOut, 0, sizeof(fdm::DataOut) );
 
-#   ifdef SIM_USETHREADS
+#   ifdef SIM_USE_THREADS
     moveToThread( this );
 #   endif
 }
@@ -67,7 +67,7 @@ Simulation::~Simulation()
 
 void Simulation::init()
 {
-#   ifdef SIM_USETHREADS
+#   ifdef SIM_USE_THREADS
     start();
     setPriority( QThread::HighPriority );
 #   else
@@ -182,7 +182,7 @@ void Simulation::timerEvent( QTimerEvent *event )
     QThread::timerEvent( event );
     /////////////////////////////
 
-#   ifndef SIM_USETHREADS
+#   ifndef SIM_USE_THREADS
     update();
 #   endif
 }

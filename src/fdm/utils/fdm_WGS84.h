@@ -51,11 +51,11 @@ class FDMEXPORT WGS84
 {
 public:
 
-    /** Geographic coordinates. */
+    /** Geodetic coordinates. */
     struct Geo
     {
-        double lat;                     ///< [rad] geographic latitude (positive north)
-        double lon;                     ///< [rad] geographic longitude (positive east)
+        double lat;                     ///< [rad] geodetic latitude (positive north)
+        double lon;                     ///< [rad] geodetic longitude (positive east)
         double alt;                     ///< [m] altitude above mean sea level
     };
 
@@ -90,8 +90,8 @@ public:
 
     /**
      * Converts geodetic coordinates into WGS coordinates.
-     * @param lat geographic latitude [rad]
-     * @param lon geographic longitude [rad]
+     * @param lat geodetic latitude [rad]
+     * @param lon geodetic longitude [rad]
      * @param alt altitude above mean sea level [m]
      * @param x resulting WGS x-coordinate [m]
      * @param y resulting WGS y-coordinate [m]
@@ -102,8 +102,8 @@ public:
 
     /**
      * Converts geodetic coordinates into WGS coordinates.
-     * @param lat geographic latitude [rad]
-     * @param lon geographic longitude [rad]
+     * @param lat geodetic latitude [rad]
+     * @param lon geodetic longitude [rad]
      * @param alt altitude above mean sea level [m]
      * @return resulting WGS coordinates vector [m]
      */
@@ -111,14 +111,14 @@ public:
 
     /**
      * Converts geodetic coordinates into WGS coordinates.
-     * @param pos_geo geographic coordinates
+     * @param pos_geo geodetic coordinates
      * @return resulting WGS coordinates vector [m]
      */
     static Vector3 geo2wgs( const Geo &pos_geo );
 
     /**
      * Converts geodetic coordinates into WGS coordinates.
-     * @param pos_geo geographic coordinates
+     * @param pos_geo geodetic coordinates
      * @param pos_wgs resulting WGS coordinates vector [m]
      */
     static void geo2wgs( const Geo &pos_geo, Vector3 &pos_wgs );
@@ -128,8 +128,8 @@ public:
      * @param x WGS x-coordinate [m]
      * @param y WGS y-coordinate [m]
      * @param z WGS z-coordinate [m]
-     * @param lat resulting geographic latitude [rad]
-     * @param lon resulting geographic longitude [rad]
+     * @param lat resulting geodetic latitude [rad]
+     * @param lon resulting geodetic longitude [rad]
      * @param alt resulting altitude above mean sea level [m]
      */
     static void wgs2geo( double x, double y, double z,
@@ -140,21 +140,21 @@ public:
      * @param x WGS x-coordinate [m]
      * @param y WGS y-coordinate [m]
      * @param z WGS z-coordinate [m]
-     * @return resulting geographic coordinates
+     * @return resulting geodetic coordinates
      */
     static Geo wgs2geo( double x, double y, double z );
 
     /**
      * Converts WGS coordinates into geodetic coordinates.
      * @param pos_wgs WGS coordinates vector [m]
-     * @return resulting geographic coordinates
+     * @return resulting geodetic coordinates
      */
     static Geo wgs2geo( const Vector3 &pos_wgs );
 
     /**
      * Converts WGS coordinates into geodetic coordinates.
      * @param pos_wgs WGS coordinates vector [m]
-     * @param pos_geo resulting geographic coordinates
+     * @param pos_geo resulting geodetic coordinates
      */
     static void wgs2geo( const Vector3 &pos_wgs, Geo &pos_geo );
 
@@ -197,7 +197,7 @@ public:
 
 private:
 
-    Geo m_pos_geo;          ///< geographic coordinates
+    Geo m_pos_geo;          ///< geodetic coordinates
 
     Vector3 m_pos_wgs;      ///< [m] coordinates vector expressed in WGS
 

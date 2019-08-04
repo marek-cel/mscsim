@@ -73,10 +73,10 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     m_manipulator->setScaleMin( 1.0e-5 );//m_manipulator->setScaleMin( 5.0e-5 );
     m_manipulator->setScaleMax( 1.0 );
     m_manipulator->setMapHeight( 2.0 * CGI_MAP_Y_2 );
-    m_manipulator->setMapMinX( -cgi::Mercator::maxX );
-    m_manipulator->setMapMaxX(  cgi::Mercator::maxX );
-    m_manipulator->setMapMinY( -cgi::Mercator::maxY );
-    m_manipulator->setMapMaxY(  cgi::Mercator::maxY );
+    m_manipulator->setMapMinX( -cgi::Mercator::max_x );
+    m_manipulator->setMapMaxX(  cgi::Mercator::max_x );
+    m_manipulator->setMapMinY( -cgi::Mercator::max_y );
+    m_manipulator->setMapMaxY(  cgi::Mercator::max_y );
     m_manipulator->setAllowThrow( true );
 
     QWidget *widget = addViewWidget();
@@ -246,8 +246,10 @@ void WidgetMap::timerEvent( QTimerEvent *event )
 
     cgi::Manager::instance()->updateMap();
 
-    emit positionChanged( m_manipulator->getMouseLat(),
-                          m_manipulator->getMouseLon() );
+    updateMouseGeoPositionStr( m_manipulator->getMouseLat(),
+                               m_manipulator->getMouseLon() );
+
+    emit mouseMoveGeoPosition( m_mouseGeoPositionStr );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +326,42 @@ osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetMap::createGraphicsWindow( int x, in
     osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
 
     return graphicsWindow;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::updateMouseGeoPositionStr( double lat, double lon )
+{
+    double lat_deg = osg::RadiansToDegrees( fabs( lat ) );
+    double lon_deg = osg::RadiansToDegrees( fabs( lon ) );
+
+    int lat_d = floor( lat_deg );
+    int lat_m = floor( 60.0 * ( lat_deg - lat_d ) );
+    double lat_s = 3600.0 * ( lat_deg - lat_d - lat_m / 60.0 );
+
+    int lon_d = floor( lon_deg );
+    int lon_m = floor( 60.0 * ( lon_deg - lon_d ) );
+    double lon_s = 3600.0 * ( lon_deg - lon_d - lon_m / 60.0 );
+
+    m_mouseGeoPositionStr.clear();
+
+    m_mouseGeoPositionStr += QString("%1").arg( lon_d, 3, 'f', 0, QChar(' ') );
+    m_mouseGeoPositionStr += QString::fromUtf8( "° " );
+    m_mouseGeoPositionStr += QString("%1").arg( lon_m, 2, 'f', 0, QChar('0') );
+    m_mouseGeoPositionStr += "' ";
+    m_mouseGeoPositionStr += QString("%1").arg( lon_s, 5, 'f', 2, QChar('0') );
+    m_mouseGeoPositionStr += "\"";
+    m_mouseGeoPositionStr += ( lon > 0.0 ) ? "E" : "W";
+
+    m_mouseGeoPositionStr += ",  ";
+
+    m_mouseGeoPositionStr += QString("%1").arg( lat_d, 2, 'f', 0, QChar(' ') );
+    m_mouseGeoPositionStr += QString::fromUtf8( "° " );
+    m_mouseGeoPositionStr += QString("%1").arg( lat_m, 2, 'f', 0, QChar('0') );
+    m_mouseGeoPositionStr += "' ";
+    m_mouseGeoPositionStr += QString("%1").arg( lat_s, 5, 'f', 2, QChar('0') );
+    m_mouseGeoPositionStr += "\"";
+    m_mouseGeoPositionStr += ( lat > 0.0 ) ? "N" : "S";
 }
 
 ////////////////////////////////////////////////////////////////////////////////

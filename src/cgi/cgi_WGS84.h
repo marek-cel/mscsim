@@ -38,8 +38,12 @@ class WGS84
 {
 public:
 
-    static const osg::EllipsoidModel em;    ///<
+    static const double m_a;            ///< [m] equatorial radius
+    static const double m_b;            ///< [m] polar radius
+    static const double m_e2;           ///< [-] ellipsoid first eccentricity squared
+    static const double m_e;            ///< [-] ellipsoid first eccentricity
 
+    static const osg::EllipsoidModel m_em;  ///<
     static const osg::Quat m_enu2ned;       ///<
 
     /**
@@ -47,6 +51,8 @@ public:
      * @return equatorial radius [m]
      */
     static double getRadiusEquatorial();
+
+    static double getRadiusPolar();
 
     static osg::Vec3d geo2wgs( double lat, double lon, double alt );
 
