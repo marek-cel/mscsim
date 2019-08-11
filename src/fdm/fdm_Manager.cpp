@@ -33,6 +33,7 @@
 #include <fdm_c130/c130_Aircraft.h>
 #include <fdm_c172/c172_Aircraft.h>
 #include <fdm_f16/f16_Aircraft.h>
+#include <fdm_p51/p51_Aircraft.h>
 #include <fdm_uh60/uh60_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,7 +189,9 @@ void Manager::initEquilibriumOnGround()
             m_aircraft->setStateVector( stateVector );
             derivVector = m_aircraft->getDerivVect();
 
-            const double coef = 0.01;
+            const double coef_p = 0.001;
+            const double coef_q = 0.001;
+            const double coef_n = 0.01;
 
             double dp_dt = derivVector( is_p );
             double dq_dt = derivVector( is_q );
@@ -200,13 +203,13 @@ void Manager::initEquilibriumOnGround()
             // attitude updating only on the ground
             if ( m_aircraft->getGear()->getFor_BAS().getLength2() > 0.0 )
             {
-                m_init_phi += dp_dt * coef;
-                m_init_tht += dq_dt * coef;
-                m_init_alt += dn_dt * coef;
+                m_init_phi += dp_dt * coef_p;
+                m_init_tht += dq_dt * coef_q;
+                m_init_alt += dn_dt * coef_n;
             }
             else
             {
-                m_init_alt += dn_dt * coef;
+                m_init_alt += dn_dt * coef_n;
             }
 
             if ( m_init_alt > 0.0
@@ -487,6 +490,10 @@ void Manager::updatePhaseInit()
 
                 case DataInp::F16:
                     m_aircraft = new F16_Aircraft( &m_dataInp, &m_dataOut );
+                    break;
+
+                case DataInp::P51:
+                    m_aircraft = new P51_Aircraft( &m_dataInp, &m_dataOut );
                     break;
 
                 case DataInp::UH60:

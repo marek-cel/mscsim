@@ -57,33 +57,35 @@ Layers::Layers( Module *parent ) :
     m_switchSatellite = new osg::Switch();
     m_switchBorders   = new osg::Switch();
 
-    m_oceans    = new osg::PositionAttitudeTransform();
-    m_coastline = new osg::PositionAttitudeTransform();
-    m_landmass  = new osg::PositionAttitudeTransform();
-    m_crops     = new osg::PositionAttitudeTransform();
-    m_grassland = new osg::PositionAttitudeTransform();
-    m_woodland  = new osg::PositionAttitudeTransform();
-    m_builtup   = new osg::PositionAttitudeTransform();
-    m_railroads = new osg::PositionAttitudeTransform();
-    m_roads     = new osg::PositionAttitudeTransform();
-    m_airports  = new osg::PositionAttitudeTransform();
-    m_water     = new osg::PositionAttitudeTransform();
-    m_satellite = new osg::PositionAttitudeTransform();
-    m_borders   = new osg::PositionAttitudeTransform();
+    m_oceans       = new osg::PositionAttitudeTransform();
+    m_landmass     = new osg::PositionAttitudeTransform();
+    m_coastline    = new osg::PositionAttitudeTransform();
+    m_crops        = new osg::PositionAttitudeTransform();
+    m_grassland    = new osg::PositionAttitudeTransform();
+    m_woodland     = new osg::PositionAttitudeTransform();
+    m_builtup      = new osg::PositionAttitudeTransform();
+    m_railroads    = new osg::PositionAttitudeTransform();
+    m_roads        = new osg::PositionAttitudeTransform();
+    m_airports     = new osg::PositionAttitudeTransform();
+    m_water_course = new osg::PositionAttitudeTransform();
+    m_water_inland = new osg::PositionAttitudeTransform();
+    m_satellite    = new osg::PositionAttitudeTransform();
+    m_borders      = new osg::PositionAttitudeTransform();
 
-    m_oceans    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zOceans    ) );
-    m_coastline ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCoastline ) );
-    m_landmass  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zLandmass  ) );
-    m_crops     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCrops     ) );
-    m_grassland ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zGrassland ) );
-    m_woodland  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWoodland  ) );
-    m_builtup   ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBuiltup   ) );
-    m_railroads ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRailroads ) );
-    m_roads     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRoads     ) );
-    m_airports  ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zAirports  ) );
-    m_water     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWater     ) );
-    m_satellite ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zSatellite ) );
-    m_borders   ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBorders   ) );
+    m_oceans       ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zOceans    ) );
+    m_landmass     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zLandmass  ) );
+    m_coastline    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCoastline ) );
+    m_crops        ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zCrops     ) );
+    m_grassland    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zGrassland ) );
+    m_woodland     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWoodland  ) );
+    m_builtup      ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBuiltup   ) );
+    m_railroads    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRailroads ) );
+    m_roads        ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zRoads     ) );
+    m_airports     ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zAirports  ) );
+    m_water_course ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWaterCourse ) );
+    m_water_inland ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zWaterInland ) );
+    m_satellite    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zSatellite ) );
+    m_borders      ->setPosition( osg::Vec3d( 0.0, 0.0, Map::zBorders   ) );
 
     m_switchCrops     ->addChild( m_crops     .get() );
     m_switchGrassland ->addChild( m_grassland .get() );
@@ -95,10 +97,11 @@ Layers::Layers( Module *parent ) :
     m_switchSatellite ->addChild( m_satellite .get() );
     m_switchBorders   ->addChild( m_borders   .get() );
 
-    m_root->addChild( m_oceans    .get() );
-    m_root->addChild( m_coastline .get() );
-    m_root->addChild( m_landmass  .get() );
-    m_root->addChild( m_water     .get() );
+    m_root->addChild( m_oceans       .get() );
+    m_root->addChild( m_landmass     .get() );
+    m_root->addChild( m_coastline    .get() );
+    m_root->addChild( m_water_course .get() );
+    m_root->addChild( m_water_inland .get() );
 
     m_root->addChild( m_switchCrops     .get() );
     m_root->addChild( m_switchGrassland .get() );
@@ -110,18 +113,19 @@ Layers::Layers( Module *parent ) :
     m_root->addChild( m_switchSatellite .get() );
     m_root->addChild( m_switchBorders   .get() );
 
-    initLayer( m_oceans    .get() , Map::colorOceans    );
-    initLayer( m_coastline .get() , Map::colorCoastline, 10.0f );
-    initLayer( m_landmass  .get() , Map::colorLandmass  );
-    initLayer( m_crops     .get() , Map::colorCrops     );
-    initLayer( m_grassland .get() , Map::colorGrassland );
-    initLayer( m_woodland  .get() , Map::colorWoodland  );
-    initLayer( m_builtup   .get() , Map::colorBuiltup   );
-    initLayer( m_railroads .get() , Map::colorRailroads );
-    initLayer( m_roads     .get() , Map::colorRoads     );
-    initLayer( m_airports  .get() , Map::colorAirports  );
-    initLayer( m_water     .get() , Map::colorWater     );
-    initLayer( m_borders   .get() , Map::colorBorders   );
+    initLayer( m_oceans       .get() , Map::colorOceans      );
+    initLayer( m_landmass     .get() , Map::colorLandmass    );
+    initLayer( m_coastline    .get() , Map::colorCoastline   );
+    initLayer( m_crops        .get() , Map::colorCrops       );
+    initLayer( m_grassland    .get() , Map::colorGrassland   );
+    initLayer( m_woodland     .get() , Map::colorWoodland    );
+    initLayer( m_builtup      .get() , Map::colorBuiltup     );
+    initLayer( m_railroads    .get() , Map::colorRailroads   );
+    initLayer( m_roads        .get() , Map::colorRoads       );
+    initLayer( m_airports     .get() , Map::colorAirports    );
+    initLayer( m_water_course .get() , Map::colorWaterCourse );
+    initLayer( m_water_inland .get() , Map::colorWaterInland );
+    initLayer( m_borders      .get() , Map::colorBorders     );
 
     createOcean();
 
@@ -275,31 +279,33 @@ void Layers::readLayers()
         {
             if ( 0 == fdm::String::icompare( rootNode.getName(), "layers" ) )
             {
-                fdm::XmlNode coastlineNode = rootNode.getFirstChildElement( "coastline" );
-                fdm::XmlNode landmassNode  = rootNode.getFirstChildElement( "landmass"  );
-                fdm::XmlNode cropsNode     = rootNode.getFirstChildElement( "crops"     );
-                fdm::XmlNode grasslandNode = rootNode.getFirstChildElement( "grassland" );
-                fdm::XmlNode woodlandNode  = rootNode.getFirstChildElement( "woodland"  );
-                fdm::XmlNode builtupNode   = rootNode.getFirstChildElement( "builtup"   );
-                fdm::XmlNode railroadsNode = rootNode.getFirstChildElement( "railroads" );
-                fdm::XmlNode roadsNode     = rootNode.getFirstChildElement( "roads"     );
-                fdm::XmlNode airportsNode  = rootNode.getFirstChildElement( "airports"  );
-                fdm::XmlNode waterNode     = rootNode.getFirstChildElement( "water"     );
-                fdm::XmlNode satelliteNode = rootNode.getFirstChildElement( "satellite" );
-                fdm::XmlNode bordersNode   = rootNode.getFirstChildElement( "borders"   );
+                fdm::XmlNode landmassNode    = rootNode.getFirstChildElement( "landmass"     );
+                fdm::XmlNode coastlineNode   = rootNode.getFirstChildElement( "coastline"    );
+                fdm::XmlNode cropsNode       = rootNode.getFirstChildElement( "crops"        );
+                fdm::XmlNode grasslandNode   = rootNode.getFirstChildElement( "grassland"    );
+                fdm::XmlNode woodlandNode    = rootNode.getFirstChildElement( "woodland"     );
+                fdm::XmlNode builtupNode     = rootNode.getFirstChildElement( "builtup"      );
+                fdm::XmlNode railroadsNode   = rootNode.getFirstChildElement( "railroads"    );
+                fdm::XmlNode roadsNode       = rootNode.getFirstChildElement( "roads"        );
+                fdm::XmlNode airportsNode    = rootNode.getFirstChildElement( "airports"     );
+                fdm::XmlNode waterCourseNode = rootNode.getFirstChildElement( "water_course" );
+                fdm::XmlNode waterInlandNode = rootNode.getFirstChildElement( "water_inland" );
+                fdm::XmlNode satelliteNode   = rootNode.getFirstChildElement( "satellite"    );
+                fdm::XmlNode bordersNode     = rootNode.getFirstChildElement( "borders"      );
 
-                if ( coastlineNode .isValid() ) readLayer( coastlineNode , m_coastline .get() );
-                if ( landmassNode  .isValid() ) readLayer( landmassNode  , m_landmass  .get() );
-                if ( cropsNode     .isValid() ) readLayer( cropsNode     , m_crops     .get() );
-                if ( grasslandNode .isValid() ) readLayer( grasslandNode , m_grassland .get() );
-                if ( woodlandNode  .isValid() ) readLayer( woodlandNode  , m_woodland  .get() );
-                if ( builtupNode   .isValid() ) readLayer( builtupNode   , m_builtup   .get() );
-                if ( railroadsNode .isValid() ) readLayer( railroadsNode , m_railroads .get() );
-                if ( roadsNode     .isValid() ) readLayer( roadsNode     , m_roads     .get() );
-                if ( airportsNode  .isValid() ) readLayer( airportsNode  , m_airports  .get() );
-                if ( waterNode     .isValid() ) readLayer( waterNode     , m_water     .get() );
-                if ( satelliteNode .isValid() ) readLayer( satelliteNode , m_satellite .get() );
-                if ( bordersNode   .isValid() ) readLayer( bordersNode   , m_borders   .get() );
+                if ( landmassNode    .isValid() ) readLayer( landmassNode    , m_landmass     .get() );
+                if ( coastlineNode   .isValid() ) readLayer( coastlineNode   , m_coastline    .get() );
+                if ( cropsNode       .isValid() ) readLayer( cropsNode       , m_crops        .get() );
+                if ( grasslandNode   .isValid() ) readLayer( grasslandNode   , m_grassland    .get() );
+                if ( woodlandNode    .isValid() ) readLayer( woodlandNode    , m_woodland     .get() );
+                if ( builtupNode     .isValid() ) readLayer( builtupNode     , m_builtup      .get() );
+                if ( railroadsNode   .isValid() ) readLayer( railroadsNode   , m_railroads    .get() );
+                if ( roadsNode       .isValid() ) readLayer( roadsNode       , m_roads        .get() );
+                if ( airportsNode    .isValid() ) readLayer( airportsNode    , m_airports     .get() );
+                if ( waterCourseNode .isValid() ) readLayer( waterCourseNode , m_water_course .get() );
+                if ( waterInlandNode .isValid() ) readLayer( waterInlandNode , m_water_inland .get() );
+                if ( satelliteNode   .isValid() ) readLayer( satelliteNode   , m_satellite    .get() );
+                if ( bordersNode     .isValid() ) readLayer( bordersNode     , m_borders      .get() );
             }
         }
     }

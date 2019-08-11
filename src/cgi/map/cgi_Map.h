@@ -37,14 +37,15 @@ class Traces;
 
 /**
  * @brief Map scene root class.
+ * @see Annex 4 to the Convention on International Civil Aviation - Aeronautical Charts
  */
 class Map : public Module
 {
 public:
 
     static const osg::Vec3 colorOceans;
-    static const osg::Vec3 colorCoastline;
     static const osg::Vec3 colorLandmass;
+    static const osg::Vec3 colorCoastline;
     static const osg::Vec3 colorCrops;
     static const osg::Vec3 colorGrassland;
     static const osg::Vec3 colorWoodland;
@@ -52,12 +53,14 @@ public:
     static const osg::Vec3 colorRailroads;
     static const osg::Vec3 colorRoads;
     static const osg::Vec3 colorAirports;
-    static const osg::Vec3 colorWater;
+    static const osg::Vec3 colorWaterInland;
+    static const osg::Vec3 colorWaterCourse;
     static const osg::Vec3 colorBorders;
+    static const osg::Vec3 colorAeroData;
 
     static const double zOceans;
-    static const double zCoastline;
     static const double zLandmass;
+    static const double zCoastline;
     static const double zCrops;
     static const double zGrassland;
     static const double zWoodland;
@@ -65,7 +68,8 @@ public:
     static const double zRailroads;
     static const double zRoads;
     static const double zAirports;
-    static const double zWater;
+    static const double zWaterCourse;
+    static const double zWaterInland;
     static const double zSatellite;
     static const double zBorders;
 

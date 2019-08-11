@@ -70,8 +70,8 @@ private:
     osg::ref_ptr<osg::Switch> m_switchBorders;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> m_oceans;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_coastline;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_landmass;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_coastline;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_crops;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_grassland;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_woodland;
@@ -79,7 +79,8 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> m_railroads;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_roads;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_airports;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_water;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_water_course;
+    osg::ref_ptr<osg::PositionAttitudeTransform> m_water_inland;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_satellite;
     osg::ref_ptr<osg::PositionAttitudeTransform> m_borders;
 

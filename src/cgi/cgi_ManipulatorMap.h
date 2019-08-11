@@ -68,6 +68,7 @@ public:
     void setMapMaxX( double max );
     void setMapMaxY( double max );
 
+    void setScale( double scale );
     void setScaleMin( double min );
     void setScaleMax( double max );
 

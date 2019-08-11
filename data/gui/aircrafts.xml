@@ -102,9 +102,40 @@
   
 
   <aircraft>
+  
+    <name>P-51</name>
+    <type>3</type>
+    <file>data/cgi/entities/p51.xml</file>
+    
+    <distance_def> 25.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+
+    <controls>
+      <landing_gear />
+      <flaps />
+      <throttle count="1" />
+      <mixture count="1" />
+      <propeller count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <rpm />
+    </propulsion>
+    
+    <masses>
+      <pilot_1     name="Pilot"             maximum="120.0"  default="80.0"  />
+      <fuel_tank_1 name="Fuel Tank (Left)"  maximum="280.0"  default="280.0" />
+      <fuel_tank_2 name="Fuel Tank (Right)" maximum="280.0"  default="280.0" />
+    </masses>
+  
+  </aircraft>
+  
+  
+
+  <aircraft>
     
     <name>UH-60</name>
-    <type>3</type>
+    <type>4</type>
     <file>data/cgi/entities/uh60.xml</file>
     
     <distance_def> 40.0 </distance_def>

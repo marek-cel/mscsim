@@ -229,6 +229,21 @@ void ManipulatorMap::setMapMaxY( double max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void ManipulatorMap::setScale( double scale )
+{
+    m_scale = scale;
+
+    if ( m_scale > m_scale_max ) m_scale = m_scale_max;
+    if ( m_scale < m_scale_min ) m_scale = m_scale_min;
+
+    if ( m_scaleChangeCallback )
+    {
+        (*m_scaleChangeCallback)( m_scale );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void ManipulatorMap::setScaleMin( double min )
 {
     if ( min >= 0.0 && min < m_scale_max )
@@ -427,15 +442,7 @@ void ManipulatorMap::panModel( float dx, float dy, float dz )
 
 void ManipulatorMap::zoomModel( const float dy )
 {
-    m_scale *= 1.0 + dy;
-
-    if ( m_scale > m_scale_max ) m_scale = m_scale_max;
-    if ( m_scale < m_scale_min ) m_scale = m_scale_min;
-
-    if ( m_scaleChangeCallback )
-    {
-        (*m_scaleChangeCallback)( m_scale );
-    }
+    setScale( m_scale * ( 1.0 + dy ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

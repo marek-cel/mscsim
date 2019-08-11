@@ -141,8 +141,8 @@ void Icons::createSymbolAerodrome()
     const float ro = 0.25;
     const float rm = 0.5 * ( ri + ro );
 
-    const float w_2 = 0.06;
-    const float h = 0.095;
+    const float w_2 = 12.0 * ro / 72.0;
+    const float h = 2.0 * 12.0 * ro / 72.0;
 
     m_symbolAerodrome = new osg::Geode();
 
@@ -150,7 +150,7 @@ void Icons::createSymbolAerodrome()
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
 
-    c->push_back( osg::Vec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+    c->push_back( osg::Vec4( Map::colorAeroData, 1.0f ) );
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
     osg::ref_ptr<osg::Geometry> geom1 = new osg::Geometry();

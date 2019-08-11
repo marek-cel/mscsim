@@ -9,14 +9,14 @@ export EXEC_DIR=$(pwd)
 
 ################################################################################
 
-# export MODEL_NAME=p51_half
-# export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
-# ./iterateAngleOfAttack.sh
-
-cd $EXEC_DIR
-export MODEL_NAME=p51_tail_off_half
+export MODEL_NAME=p51_half
 export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
 ./iterateAngleOfAttack.sh
+
+# cd $EXEC_DIR
+# export MODEL_NAME=p51_tail_off_half
+# export MODEL_FILE=$EXEC_DIR/models/stl/$MODEL_NAME.stl
+# ./iterateAngleOfAttack.sh
 
 # cd $EXEC_DIR
 # export MODEL_NAME=p51_flaps_30_half

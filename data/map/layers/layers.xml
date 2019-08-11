@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layers>
   
-  <coastline>
-    <file>data/map/layers/v0eur_5_bnd_coastl.osgb</file>
-    <file>data/map/layers/v0noa_5_bnd_coastl.osgb</file>
-    <file>data/map/layers/v0sas_5_bnd_coastl.osgb</file>
-    <file>data/map/layers/v0soa_5_bnd_coastl.osgb</file>
-  </coastline>
-  
   <landmass>
     <file>data/map/layers/bnd_polbnd.osgb</file>
     <file>data/map/layers/xgen_landmass.osgb</file>
@@ -25,59 +18,3 @@
   </borders>
   
 </layers>
-
-<!--<layers>
-  
-  <landmass>
-    <file>data/map/layers/bnd_polbnd.osgb</file>
-    <file>data/map/layers/xgen_landmass.osgb</file>
-  </landmass>
-  
-  <woodland>
-    <file>data/map/layers/v0eur_5_veg_treesa.osgb</file>
-    <file>data/map/layers/v0noa_5_veg_treesa.osgb</file>
-    <file>data/map/layers/v0sas_5_veg_treesa.osgb</file>
-    <file>data/map/layers/v0soa_5_veg_treesa.osgb</file>
-  </woodland>
-    
-  <builtup>
-    <file>data/map/layers/v0eur_5_pop_builtupa.osgb</file>
-    <file>data/map/layers/v0noa_5_pop_builtupa.osgb</file>
-    <file>data/map/layers/v0sas_5_pop_builtupa.osgb</file>
-    <file>data/map/layers/v0soa_5_pop_builtupa.osgb</file>
-  </builtup>
-  
-  <railroads>
-    <file>data/map/layers/v0eur_5_trans_railrdl.osgb</file>
-    <file>data/map/layers/v0noa_5_trans_railrdl.osgb</file>
-    <file>data/map/layers/v0sas_5_trans_railrdl.osgb</file>
-    <file>data/map/layers/v0soa_5_trans_railrdl.osgb</file>
-  </railroads>
-  
-  <roads>
-    <file>data/map/layers/v0eur_5_trans_roadl.osgb</file>
-    <file>data/map/layers/v0noa_5_trans_roadl.osgb</file>
-    <file>data/map/layers/v0sas_5_trans_roadl.osgb</file>
-    <file>data/map/layers/v0soa_5_trans_roadl.osgb</file>
-  </roads>
-  
-  <airports>
-    <file>data/map/layers/xgen_airport.osgb</file>
-  </airports>
-  
-  <water>
-    <file>data/map/layers/v0eur_5_hydro_inwatera.osgb</file>
-    <file>data/map/layers/v0noa_5_hydro_inwatera.osgb</file>
-    <file>data/map/layers/v0sas_5_hydro_inwatera.osgb</file>
-    <file>data/map/layers/v0soa_5_hydro_inwatera.osgb</file>
-    
-    <file>data/map/layers/v0eur_5_hydro_watrcrsl.osgb</file>
-    <file>data/map/layers/v0noa_5_hydro_watrcrsl.osgb</file>
-    <file>data/map/layers/v0sas_5_hydro_watrcrsl.osgb</file>
-    <file>data/map/layers/v0soa_5_hydro_watrcrsl.osgb</file>
-  </water>
-
-  <borders>
-  </borders>
-  
-</layers>-->

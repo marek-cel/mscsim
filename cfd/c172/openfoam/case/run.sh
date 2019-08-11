@@ -18,7 +18,7 @@ echo "Running surfaceFeatureExtract"
 surfaceFeatureExtract > log.surfaceFeatureExtract 2>&1
 
 ################################################################################
-exit 1
+
 echo "Running blockMesh"
 blockMesh > log.blockMesh 2>&1
 

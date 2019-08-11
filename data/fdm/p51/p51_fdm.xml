@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <fdm>
   
-  <!-- Cessna 172 Flight Dynamics Model Data File -->
+  <!-- P-51 Flight Dynamics Model Data File -->
   
   <!-- collision points -->
   <collision_points>
     
-    <collision_point>  2.06  0.0   0.95 </collision_point> <!-- [m] propeller -->
-    <collision_point>  0.0  -5.46 -0.73 </collision_point> <!-- [m] left wing tip -->
-    <collision_point>  0.0   5.46 -0.73 </collision_point> <!-- [m] right wing tip -->
-    <collision_point> -5.31  0.0  -0.28 </collision_point> <!-- [m] tail -->
+    <collision_point>  3.08  0.0   1.70 </collision_point> <!-- [m] propeller -->
+    <collision_point>  0.0  -5.64  0.20 </collision_point> <!-- [m] left wing tip -->
+    <collision_point>  0.0   5.64  0.20 </collision_point> <!-- [m] right wing tip -->
+    <collision_point> -6.03  0.0   0.08 </collision_point> <!-- [m] tail -->
     
   </collision_points>
   
   <!-- limitations -->
   <limitations>
     
-    <airspeed_max> 95.0 </airspeed_max>   <!-- [m/s] maximum airspeed (exceeding this value causes crash) -->
+    <airspeed_max> 330.0 </airspeed_max>  <!-- [m/s] maximum airspeed (exceeding this value causes crash) -->
     
-    <load_aero_min> -2.7 </load_aero_min> <!-- [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash) -->
-    <load_aero_max>  6.6 </load_aero_max> <!-- [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash) -->
-    <load_gear_max> 13.0 </load_gear_max> <!-- [-] maximum absolute load factor due to landing gear (exceeding this value causes crash) -->
+    <load_aero_min> -5.3 </load_aero_min> <!-- [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_aero_max> 10.5 </load_aero_max> <!-- [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_gear_max> 15.0 </load_gear_max> <!-- [-] maximum absolute load factor due to landing gear (exceeding this value causes crash) -->
     
   </limitations>
   
   <!-- pilot position -->
-  <pilot_position> -0.3 -0.3 -0.3 </pilot_position> <!-- [m] pilot position expressed in BAS -->
+  <pilot_position> -0.8  0.0 -0.6 </pilot_position> <!-- [m] pilot position expressed in BAS -->
   
   <!-- aerodynamics -->
   <aerodynamics>
@@ -48,12 +48,12 @@
     <!-- tail-off aircraft -->
     <tail_off>
         
-      <aero_center_l>  0.0  -2.58  -0.73  </aero_center_l>  <!-- [m] left  half wing aerodynamic center expressed in BAS -->
-      <aero_center_r>  0.0   2.58  -0.73  </aero_center_r>  <!-- [m] right half wing aerodynamic center expressed in BAS -->
+      <aero_center_l>  0.0  -2.58   0.48  </aero_center_l>  <!-- [m] left  half wing aerodynamic center expressed in BAS -->
+      <aero_center_r>  0.0   2.58   0.48  </aero_center_r>  <!-- [m] right half wing aerodynamic center expressed in BAS -->
       
-      <span> 11.00 </span>                    <!-- [m] wing span -->
-      <mac>   1.49 </mac>                     <!-- [m] wing mean aerodynamic chord -->
-      <area> 16.17 </area>                    <!-- [m^2] wing area -->
+      <span> 11.28 </span>                    <!-- [m] wing span -->
+      <mac>   2.02 </mac>                     <!-- [m] wing mean aerodynamic chord -->
+      <area> 22.30 </area>                    <!-- [m^2] wing area -->
       
       <dcl_dailerons> 0.6 </dcl_dailerons>    <!-- [1/rad] rolling moment coefficient due to ailerons deflection -->
       
@@ -410,15 +410,15 @@
     <!-- horizontal stabilizer -->
     <stab_hor type="horizontal">
         
-      <aero_center> -4.79 0.0 -0.28 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      <aero_center> -5.29 0.0 -0.43 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
       
-      <area> 2.0 </area>                              <!-- [m^2] stabilizer area -->
+      <area> 3.81 </area>                             <!-- [m^2] stabilizer area -->
       
-      <incidence unit="deg"> -2.5 </incidence>        <!-- [deg] stabilizer incidence angle -->
-      <downwash> 0.25 </downwash>                     <!-- [-] downwash coefficient [NASA-CR-2605, p.77] -->
+      <incidence unit="deg"> -2.0 </incidence>         <!-- [deg] stabilizer incidence angle -->
+      <downwash> 0.53 </downwash>                      <!-- [-] downwash coefficient -->
       
       <dcx_delevator> 0.0 </dcx_delevator>            <!-- [1/rad] drag coefficient due to elevator deflection -->
-      <dcz_delevator> 2.6 </dcz_delevator>            <!-- [1/rad] lift coefficient due to elevator deflection -->
+      <dcz_delevator> 1.0 </dcz_delevator>            <!-- [1/rad] lift coefficient due to elevator deflection -->
       
       <dcz_delevator_trim> 0.9 </dcz_delevator_trim>  <!-- [1/rad] lift coefficient due to elevator trim deflection -->
       
@@ -545,9 +545,9 @@
     <!-- vertical stabilizer -->
     <stab_ver type="vertical">
         
-      <aero_center> -4.79 0.0 -0.4  </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      <aero_center> -5.88 0.0 -0.98 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
       
-      <area> 1.04 </area>                             <!-- [m^2] stabilizer area -->
+      <area> 1.86 </area>                             <!-- [m^2] stabilizer area -->
       
       <dcx_drudder> 0.0 </dcx_drudder>                <!-- [1/rad] drag coefficient due to rudder deflection -->
       <dcy_drudder> 1.8 </dcy_drudder>                <!-- [1/rad] side force coefficient due to rudder deflection -->
@@ -597,42 +597,42 @@
     
     <!-- [rad] ailerons deflection vs [-] normalized roll input -->
     <control_channel name="ailerons" unit="deg">
-      -1.0  -17.5
-      -0.5   -7.0
+      -1.0  -15.0
+      -0.5   -5.0
        0.0    0.0
-       0.5    7.0
-       1.0   17.5
+       0.5    5.0
+       1.0   15.0
     </control_channel>
     
     <!-- [rad] elevator deflection vs [-] normalized pitch input -->
     <control_channel name="elevator" unit="deg">
-      -1.0  -28.0
-      -0.5   -5.6
+      -1.0  -30.0
+      -0.5  -10.0
        0.0    0.0
-       0.5    4.6
-       1.0   23.0
+       0.5    6.7
+       1.0   20.0
     </control_channel>
     
     <!-- [rad] rudder deflection vs [-] normalized yaw input -->
     <control_channel name="rudder" unit="deg">
-      -1.0  -17.7
-      -0.5   -7.0
+      -1.0  -30.0
+      -0.5  -10.0
        0.0    0.0
-       0.5    7.0
-       1.0   17.7
+       0.5   10.0
+       1.0   30.0
     </control_channel>
     
     <!-- [rad] elevator trim deflection vs [-] normalized pitch trim input -->
     <control_channel name="elevator_trim" unit="deg">
-      -1.0  -22.0
+      -1.0  -20.0
        0.0    0.0
-       1.0   19.0
+       1.0   20.0
     </control_channel>
     
     <!-- [rad] flaps deflection vs [-] normalized flaps input -->
     <control_channel name="flaps" unit="deg">
        0.0    0.0
-       1.0   30.0
+       1.0   47.0
     </control_channel>
     
     <!-- [-] normalized left brake force vs [-] normalized left brake input -->
@@ -647,42 +647,18 @@
        1.0    1.0
     </control_channel>
     
-    <!-- [rad] nose wheel turn angle vs [-] normalized nose wheel steering input -->
-    <control_channel name="nose_wheel" unit="deg">
-      -1.0  -10.0
-      -0.5   -2.0
-       0.0    0.0
-       0.5    2.0
-       1.0   10.0
-    </control_channel>
-    
   </controls>
   
   <!-- landing gear -->
   <landing_gear>
     
-    <!-- nose wheel -->
-    <wheel name="wheel_n" steerable="1" caster="1" brake_group="0">
-      <attachment_point>   1.15   0.0  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>     1.15   0.0  1.2   </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
-      
-      <stiffness_coef>  3.4e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
-      <damping_coef>    2.8e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
-      
-      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
-      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
-      <friction_rolling>  0.02 </friction_rolling>                  <!-- [-] coefficient of rolling friction -->
-      
-      <max_angle unit="deg"> 10.0 </max_angle>                      <!-- [rad] max turn angle -->
-    </wheel>
-    
     <!-- left wheel -->
     <wheel name="wheel_l" steerable="0" caster="0" brake_group="1">
-      <attachment_point>  -0.48  -1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>    -0.48  -1.27  1.15  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      <attachment_point>   0.57  -1.86  0.0  </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>     0.57  -1.86  2.25  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness_coef>  4.2e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
-      <damping_coef>    4.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      <stiffness_coef>  8.0e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    5.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
       <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
@@ -691,11 +667,24 @@
     
     <!-- right wheel -->
     <wheel name="wheel_r" steerable="0" caster="0" brake_group="2">
-      <attachment_point>  -0.48   1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>    -0.48   1.27  1.15  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      <attachment_point>   0.57   1.86  0.0  </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>     0.57   1.86  2.25  </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness_coef>  4.2e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
-      <damping_coef>    4.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      <stiffness_coef>  8.0e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    5.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02 </friction_rolling>                  <!-- [-] coefficient of rolling friction -->
+    </wheel>
+    
+    <!-- tail wheel -->
+    <wheel name="wheel_t" steerable="0" caster="1" brake_group="0">
+      <attachment_point>  -4.52   0.0  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    -4.52   0.0  0.95  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness_coef>  5.0e+4  </stiffness_coef>                   <!-- [N/m] strut stiffness (spring) coefficient -->
+      <damping_coef>    5.0e+3  </damping_coef>                     <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
       <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
@@ -707,51 +696,33 @@
   <!-- mass -->
   <mass>
     
-    <empty_mass>  754.0  </empty_mass> <!-- [kg] empty aircraft mass -->
+    <empty_mass>  3232.0  </empty_mass> <!-- [kg] empty aircraft mass -->
     
     <!-- [kg*m^2] empty aircraft inertia tensor -->
     <inertia_tensor>
-      2424.2       0.0    -161.5
-         0.0    2427.3       0.0
-      -161.5       0.0    4372.5
+     11392.6       0.0    -122.4
+         0.0   12519.7       0.0
+      -122.4       0.0   22474.5
     </inertia_tensor>
     
-    <center_of_mass>  -0.2  0.0 -0.1  </center_of_mass> <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
+    <center_of_mass>  0.02 0.0  0.22  </center_of_mass> <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
     
-     <!-- left pilot -->
-    <variable_mass name="pilot_l">
+     <!-- pilot -->
+    <variable_mass name="pilot">
       <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>   0.1  -0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
-    </variable_mass>
-    
-    <!-- right pilot -->
-    <variable_mass name="pilot_r">
-      <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>   0.1   0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+      <coordinates>  -0.8   0.0  -0.6  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- left fuel tank -->
     <variable_mass name="fuel_tank_l">
-      <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>  -0.2  -0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+      <mass_max> 280.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -0.2  -0.2   0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
     <!-- right fuel tank -->
     <variable_mass name="fuel_tank_r">
-      <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>  -0.2   0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
-    </variable_mass>
-    
-    <!-- passengers -->
-    <variable_mass name="cabin">
-      <mass_max> 240.0 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>  -0.8   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
-    </variable_mass>
-    
-    <!-- cargo trunk -->
-    <variable_mass name="cargo_trunk">
-      <mass_max>  54.0 </mass_max>                      <!-- [kg] maximum mass -->
-      <coordinates>  -1.7   0.0   0.1  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+      <mass_max> 280.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -0.2   0.2   0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
     </variable_mass>
     
   </mass>
@@ -761,16 +732,16 @@
     
     <!-- propeller -->
     <propeller>
-      <position>  2.06  0.0  0.0  </position> <!-- [m] propeller position expressed in BAS -->
+      <position>  3.08  0.0  0.0  </position> <!-- [m] propeller position expressed in BAS -->
 
       <gear_ratio>  1.0  </gear_ratio>        <!-- [-] gear ratio (propeller rpm / engine rpm - sic!) -->
-      <diameter> 1.93 </diameter>             <!-- [m] propeller diameter -->
-      <inertia> 0.8 </inertia>                <!-- [kg*m^2] polar moment of inertia -->
+      <diameter> 3.40 </diameter>             <!-- [m] propeller diameter -->
+      <inertia> 4.0 </inertia>                <!-- [kg*m^2] polar moment of inertia -->
       
       <!-- [rad] propeller pitch at 0.75 radius vs propeller lever position -->
       <pitch unit="deg">
-        0.0  22.0
-        1.0  22.0
+        0.0  23.0
+        1.0  65.0
       </pitch>
       
       <!-- [-] thrust coefficient vs advance [-] (rows) and propeller pitch [rad] (cols) -->
@@ -835,16 +806,16 @@
       </power_coef>
     </propeller>
     
-    <!-- IO-360-L2A engine -->
+    <!-- Packard V-1650-3 engine -->
     <piston_engine>
-      <power_max unit="kW"> 134.2 </power_max>  <!-- [W] maximum power -->
+      <power_max unit="kW"> 1043.0 </power_max> <!-- [W] maximum power -->
       
-      <starter>  200.0  </starter>              <!-- [N*m] starter torque -->
-      <rpm_min>  550.0  </rpm_min>              <!-- [rpm] minimum rpm -->
-      <rpm_max> 2700.0  </rpm_max>              <!-- [rpm] maximum rpm -->
-      <inertia>    2.0  </inertia>              <!-- [kg*m^2] polar moment of inertia -->
+      <starter>    0.0  </starter>              <!-- [N*m] starter torque -->
+      <rpm_min>  500.0  </rpm_min>              <!-- [rpm] minimum rpm -->
+      <rpm_max> 3000.0  </rpm_max>              <!-- [rpm] maximum rpm -->
+      <inertia>   20.0  </inertia>              <!-- [kg*m^2] polar moment of inertia -->
       
-      <sfc unit="g_kWh"> 253.4 </sfc>           <!-- [kg/(kW*s)] specific fuel consumption -->
+      <sfc unit="g_kWh"> 0.0 </sfc>             <!-- [kg/(kW*s)] specific fuel consumption -->
       
       <!-- mixture vs mixture lever position -->
       <mixture>

@@ -2,46 +2,86 @@
 <aircraft>
   <model>data/cgi/entities/f16c.osgb</model>
   
+  <!-- door left -->
   <landing_gear_1>
+    <x>
       <input_min>  0.0 </input_min>
       <input_max>  0.6 </input_max>
       <angle_min> 72.0 </angle_min>
       <angle_max> 00.0 </angle_max>
+    </x>
   </landing_gear_1>
   
+  <!-- door nose -->
   <landing_gear_2>
+    <x>
       <input_min>  0.0 </input_min>
       <input_max>  0.6 </input_max>
       <angle_min> 90.0 </angle_min>
       <angle_max>  0.0 </angle_max>
+    </x>
   </landing_gear_2>
   
+  <!-- door right -->
   <landing_gear_3>
+    <x>
       <input_min>  0.0 </input_min>
       <input_max>  0.6 </input_max>
       <angle_min> 72.0 </angle_min>
       <angle_max>  0.0 </angle_max>
+    </x>
   </landing_gear_3>
   
+  <!-- wheel left -->
   <landing_gear_4>
+    <y>
       <input_min>   0.4 </input_min>
       <input_max>   1.0 </input_max>
-      <angle_min> 101.0 </angle_min>
+      <angle_min>  90.0 </angle_min>
       <angle_max>   0.0 </angle_max>
+    </y>
+    <z>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min>  35.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+    </z>
   </landing_gear_4>
   
+  <!-- strut nose -->
   <landing_gear_5>
+    <y>
       <input_min>   0.4 </input_min>
       <input_max>   1.0 </input_max>
-      <angle_min> 100.0 </angle_min>
+      <angle_min> -90.0 </angle_min>
       <angle_max>   0.0 </angle_max>
+    </y>
   </landing_gear_5>
   
+  <!-- wheel nose -->
   <landing_gear_6>
+    <z>
       <input_min>   0.4 </input_min>
       <input_max>   1.0 </input_max>
-      <angle_min> 101.0 </angle_min>
+      <angle_min>  90.0 </angle_min>
       <angle_max>   0.0 </angle_max>
+    </z>
   </landing_gear_6>
+
+  <!-- wheel right -->
+  <landing_gear_7>
+    <y>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min>  90.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+    </y>
+    <z>
+      <input_min>   0.4 </input_min>
+      <input_max>   1.0 </input_max>
+      <angle_min> -35.0 </angle_min>
+      <angle_max>   0.0 </angle_max>
+    </z>
+  </landing_gear_7>
   
 </aircraft>

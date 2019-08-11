@@ -78,6 +78,7 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     m_manipulator->setMapMinY( -cgi::Mercator::max_y );
     m_manipulator->setMapMaxY(  cgi::Mercator::max_y );
     m_manipulator->setAllowThrow( true );
+    m_manipulator->setScale( 1.0e-3 );
 
     QWidget *widget = addViewWidget();
 
