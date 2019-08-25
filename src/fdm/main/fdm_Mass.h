@@ -109,6 +109,8 @@ public:
     inline const Vector3& getFor_BAS() const { return m_for_bas; }
     inline const Vector3& getMom_BAS() const { return m_mom_bas; }
 
+    inline const Vector3& getCenterOfMass() const { return m_cm_t_bas; }
+
     /**
      * Returns total mass.
      * @return [kg] total mass

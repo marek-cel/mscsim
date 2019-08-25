@@ -38,6 +38,9 @@ ComboUnitsLength::ComboUnitsLength( QWidget *parent ) :
     m_coefs.push_back( (float)fdm::Units::m2km() );
     m_names.push_back( QString( "km" ) );
 
+    m_coefs.push_back( (float)fdm::Units::m2mi() );
+    m_names.push_back( QString( "mi" ) );
+
     m_coefs.push_back( (float)fdm::Units::m2nmi() );
     m_names.push_back( QString( "nmi" ) );
 

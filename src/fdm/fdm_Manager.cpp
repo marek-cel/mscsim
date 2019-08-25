@@ -660,6 +660,9 @@ void Manager::printState()
         Log::out() << "           Gx [-] : " << m_aircraft->getGForce().x() << std::endl;
         Log::out() << "           Gy [-] : " << m_aircraft->getGForce().y() << std::endl;
         Log::out() << "           Gz [-] : " << m_aircraft->getGForce().z() << std::endl;
+        Log::out() << "       r_cm_x [m] : " << m_aircraft->getMass()->getCenterOfMass().x() << std::endl;
+        Log::out() << "       r_cm_y [m] : " << m_aircraft->getMass()->getCenterOfMass().y() << std::endl;
+        Log::out() << "       r_cm_z [m] : " << m_aircraft->getMass()->getCenterOfMass().z() << std::endl;
         Log::out() << std::endl;
     }
 }

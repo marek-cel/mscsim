@@ -44,6 +44,9 @@ ComboUnitsVelocity::ComboUnitsVelocity( QWidget *parent ) :
     m_coefs.push_back( (float)fdm::Units::mps2kts() );
     m_names.push_back( QString( "kts" ) );
 
+    m_coefs.push_back( (float)fdm::Units::mps2mph() );
+    m_names.push_back( QString( "mph" ) );
+
     for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
 }
 

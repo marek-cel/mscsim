@@ -78,7 +78,8 @@ public:
         Vector3 r_a_bas;        ///< [m] strut attachment point coordinates expressed in BAS
         Vector3 r_u_bas;        ///< [m] unloaded wheel coordinates expressed in BAS
 
-        double k;               ///< [N/m] strut stiffness (spring) coefficient
+        double k;               ///< [N/m] strut stiffness (linear spring) coefficient
+        double k2;              ///< [N/(m^2)] strut stiffness (quadratic spring) coefficient
         double c;               ///< [N/(m/s)] strut damping coefficient
 
         double mu_s;            ///< [-] coefficient of static friction

@@ -126,8 +126,8 @@ void LandingGear::readData( XmlNode &dataNode )
 
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.r_a_bas , "attachment_point" );
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.r_u_bas , "unloaded_wheel"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.k       , "stiffness_coef"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.c       , "damping_coef"     );
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.k       , "stiffness"        );
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.c       , "damping"          );
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.mu_s    , "friction_static"  );
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.mu_k    , "friction_kinetic" );
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.mu_r    , "friction_rolling" );
@@ -136,6 +136,9 @@ void LandingGear::readData( XmlNode &dataNode )
             {
                 result = XmlUtils::read( wheelNode, wheel.angle_max, "max_angle" );
             }
+
+            wheel.k2 = 0.0;
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.k2, "stiffness_2", true );
 
             if ( result == FDM_SUCCESS )
             {
@@ -258,7 +261,9 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         double v_tang = v_tang_bas.getLength();
 
         // normal force
-        double for_norm = wheel.k * deflection_norm - wheel.c * v_norm;
+        double for_norm = wheel.k * deflection_norm
+              + wheel.k2 * fabs( wheel.k2 ) * deflection_norm
+              - wheel.c * v_norm;
 
         // longitudal and lateral directions
         Vector3 dir_lon_bas = ( m_aircraft->getNormal_BAS() ^ Vector3::m_uy ).getNormalized();
