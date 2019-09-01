@@ -31,9 +31,9 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_StabilizerVer::C172_StabilizerVer() :
-    m_dcx_drudder ( 0.0 ),
-    m_dcy_drudder ( 0.0 ),
-    m_rudder ( 0.0 )
+    _dcx_drudder ( 0.0 ),
+    _dcy_drudder ( 0.0 ),
+    _rudder ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +52,8 @@ void C172_StabilizerVer::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcx_drudder, "dcx_drudder" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcy_drudder, "dcy_drudder" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_drudder, "dcx_drudder" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcy_drudder, "dcy_drudder" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -83,7 +83,7 @@ void C172_StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
                                                 double airDensity,
                                                 double rudder )
 {
-    m_rudder = rudder;
+    _rudder = rudder;
 
     Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
                                        airDensity );
@@ -94,7 +94,7 @@ void C172_StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
 double C172_StabilizerVer::getCx( double angle ) const
 {
     return Stabilizer::getCx( angle )
-            + m_dcx_drudder * m_rudder;
+            + _dcx_drudder * _rudder;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,5 +102,5 @@ double C172_StabilizerVer::getCx( double angle ) const
 double C172_StabilizerVer::getCy( double angle ) const
 {
     return Stabilizer::getCy( angle )
-            + m_dcy_drudder * m_rudder;
+            + _dcy_drudder * _rudder;
 }

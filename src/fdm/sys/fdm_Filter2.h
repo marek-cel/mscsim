@@ -46,14 +46,14 @@ public:
     Filter2( double c1, double c2, double c3, double c4, double c5, double c6,
              double y = 0.0 );
 
-    inline double getValue() const { return m_y;  }
+    inline double getValue() const { return _y;  }
 
-    inline double getC1() const { return m_c1; }
-    inline double getC2() const { return m_c2; }
-    inline double getC3() const { return m_c3; }
-    inline double getC4() const { return m_c4; }
-    inline double getC5() const { return m_c5; }
-    inline double getC6() const { return m_c6; }
+    inline double getC1() const { return _c1; }
+    inline double getC2() const { return _c2; }
+    inline double getC3() const { return _c3; }
+    inline double getC4() const { return _c4; }
+    inline double getC5() const { return _c5; }
+    inline double getC6() const { return _c6; }
 
     void setValue( double y );
 
@@ -68,20 +68,20 @@ public:
 
 protected:
 
-    double m_c1;        ///< c1 coefficient
-    double m_c2;        ///< c2 coefficient
-    double m_c3;        ///< c3 coefficient
-    double m_c4;        ///< c4 coefficient
-    double m_c5;        ///< c5 coefficient
-    double m_c6;        ///< c6 coefficient
+    double _c1;         ///< c1 coefficient
+    double _c2;         ///< c2 coefficient
+    double _c3;         ///< c3 coefficient
+    double _c4;         ///< c4 coefficient
+    double _c5;         ///< c5 coefficient
+    double _c6;         ///< c6 coefficient
 
-    double m_u_prev_1;  ///<
-    double m_u_prev_2;  ///<
+    double _u_prev_1;   ///<
+    double _u_prev_2;   ///<
 
-    double m_y_prev_1;  ///<
-    double m_y_prev_2;  ///<
+    double _y_prev_1;   ///<
+    double _y_prev_2;   ///<
 
-    double m_y;         ///< current value
+    double _y;          ///< current value
 };
 
 } // end of fdm namespace

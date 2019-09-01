@@ -31,7 +31,7 @@ using namespace fdm;
 
 C172_LandingGear::C172_LandingGear( const C172_Aircraft *aircraft ) :
     LandingGear( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,11 +46,11 @@ void C172_LandingGear::update()
     LandingGear::update();
     //////////////////////
 
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
+    _brake_l = _aircraft->getCtrl()->getBrakeL();
+    _brake_r = _aircraft->getCtrl()->getBrakeR();
 
-    m_ctrlAngle = m_aircraft->getCtrl()->getNoseWheel();
+    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
 
-    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
-    m_steering = m_aircraft->getDataInp()->controls.nw_steering;
+    _antiskid = _aircraft->getDataInp()->controls.antiskid;
+    _steering = _aircraft->getDataInp()->controls.nw_steering;
 }

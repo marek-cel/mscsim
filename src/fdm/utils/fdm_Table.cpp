@@ -49,38 +49,38 @@ Table Table::createOneRecordTable( double val )
 ////////////////////////////////////////////////////////////////////////////////
 
 Table::Table() :
-    m_size ( 0 ),
-    m_keyValues ( 0 ),
-    m_tableData ( 0 ),
-    m_interpolData ( 0 )
+    _size ( 0 ),
+    _keyValues ( 0 ),
+    _tableData ( 0 ),
+    _interpolData ( 0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Table::Table( const std::vector< double > &keyValues,
               const std::vector< double > &tableData ) :
-    m_size ( 0 ),
-    m_keyValues ( 0 ),
-    m_tableData ( 0 ),
-    m_interpolData ( 0 )
+    _size ( 0 ),
+    _keyValues ( 0 ),
+    _tableData ( 0 ),
+    _interpolData ( 0 )
 {
     if ( keyValues.size() == tableData.size() )
     {
-        m_size = keyValues.size();
+        _size = keyValues.size();
 
-        if ( m_size > 0 )
+        if ( _size > 0 )
         {
-            m_keyValues = new double [ m_size ];
-            m_tableData = new double [ m_size ];
+            _keyValues = new double [ _size ];
+            _tableData = new double [ _size ];
 
-            m_interpolData = new double [ m_size ];
+            _interpolData = new double [ _size ];
 
-            for ( unsigned int i = 0; i < m_size; i++ )
+            for ( unsigned int i = 0; i < _size; i++ )
             {
-                m_keyValues[ i ] = keyValues[ i ];
-                m_tableData[ i ] = tableData[ i ];
+                _keyValues[ i ] = keyValues[ i ];
+                _tableData[ i ] = tableData[ i ];
 
-                m_interpolData[ i ] = 0.0;
+                _interpolData[ i ] = 0.0;
             }
 
             updateInterpolationData();
@@ -100,22 +100,22 @@ Table::Table( const std::vector< double > &keyValues,
 ////////////////////////////////////////////////////////////////////////////////
 
 Table::Table( const Table &table ) :
-    m_size ( table.m_size ),
-    m_keyValues ( 0 ),
-    m_tableData ( 0 ),
-    m_interpolData ( 0 )
+    _size ( table._size ),
+    _keyValues ( 0 ),
+    _tableData ( 0 ),
+    _interpolData ( 0 )
 {
-    if ( m_size > 0 )
+    if ( _size > 0 )
     {
-        m_keyValues = new double [ m_size ];
-        m_tableData = new double [ m_size ];
-        m_interpolData = new double [ m_size ];
+        _keyValues = new double [ _size ];
+        _tableData = new double [ _size ];
+        _interpolData = new double [ _size ];
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_keyValues    [ i ] = table.m_keyValues    [ i ];
-            m_tableData    [ i ] = table.m_tableData    [ i ];
-            m_interpolData [ i ] = table.m_interpolData [ i ];
+            _keyValues    [ i ] = table._keyValues    [ i ];
+            _tableData    [ i ] = table._tableData    [ i ];
+            _interpolData [ i ] = table._interpolData [ i ];
         }
     }
 }
@@ -124,23 +124,23 @@ Table::Table( const Table &table ) :
 
 Table::~Table()
 {
-    if ( m_keyValues ) delete m_keyValues;
-    m_keyValues = 0;
+    if ( _keyValues ) delete _keyValues;
+    _keyValues = 0;
 
-    if ( m_tableData ) delete m_tableData;
-    m_tableData = 0;
+    if ( _tableData ) delete _tableData;
+    _tableData = 0;
 
-    if ( m_interpolData ) delete m_interpolData;
-    m_interpolData = 0;
+    if ( _interpolData ) delete _interpolData;
+    _interpolData = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Table::getIndexValue( unsigned int keyIndex ) const
 {
-    if ( m_size > 0 && keyIndex < m_size )
+    if ( _size > 0 && keyIndex < _size )
     {
-        return m_keyValues[ keyIndex ];
+        return _keyValues[ keyIndex ];
     }
 
     return std::numeric_limits< double >::quiet_NaN();
@@ -153,12 +153,12 @@ double Table::getKeyOfValueMin() const
     double result = std::numeric_limits< double >::quiet_NaN();
     double min_value = std::numeric_limits< double >::max();
 
-    for ( unsigned int i = 1; i < m_size; i++ )
+    for ( unsigned int i = 1; i < _size; i++ )
     {
-        if ( m_tableData[ i ] < min_value )
+        if ( _tableData[ i ] < min_value )
         {
-            result = m_keyValues[ i ];
-            min_value = m_tableData[ i ];
+            result = _keyValues[ i ];
+            min_value = _tableData[ i ];
         }
     }
 
@@ -172,12 +172,12 @@ double Table::getKeyOfValueMax() const
     double result = std::numeric_limits< double >::quiet_NaN();
     double max_value = std::numeric_limits< double >::min();
 
-    for ( unsigned int i = 1; i < m_size; i++ )
+    for ( unsigned int i = 1; i < _size; i++ )
     {
-        if ( m_tableData[ i ] > max_value )
+        if ( _tableData[ i ] > max_value )
         {
-            result = m_keyValues[ i ];
-            max_value = m_tableData[ i ];
+            result = _keyValues[ i ];
+            max_value = _tableData[ i ];
         }
     }
 
@@ -188,31 +188,31 @@ double Table::getKeyOfValueMax() const
 
 double Table::getValue( double keyValue ) const
 {
-    if ( m_size > 0 )
+    if ( _size > 0 )
     {
-        if ( keyValue < m_keyValues[ 0 ] )
+        if ( keyValue < _keyValues[ 0 ] )
             return getValueFirst();
 
-        if ( keyValue > m_keyValues[ m_size - 1 ] )
+        if ( keyValue > _keyValues[ _size - 1 ] )
             return getValueLast();
 
         unsigned int key_1 = 0;
         unsigned int key_2 = 0;
 
-        for ( unsigned int i = 1; i < m_size; i++ )
+        for ( unsigned int i = 1; i < _size; i++ )
         {
             key_1 = i - 1;
             key_2 = i;
 
-            if ( keyValue >= m_keyValues[ key_1 ]
-              && keyValue <  m_keyValues[ key_2 ] )
+            if ( keyValue >= _keyValues[ key_1 ]
+              && keyValue <  _keyValues[ key_2 ] )
             {
                 break;
             }
         }
 
-        return ( keyValue - m_keyValues[ key_1 ] ) * m_interpolData[ key_1 ]
-                + m_tableData[ key_1 ];
+        return ( keyValue - _keyValues[ key_1 ] ) * _interpolData[ key_1 ]
+                + _tableData[ key_1 ];
     }
     else
     {
@@ -231,9 +231,9 @@ double Table::getValue( double keyValue ) const
 
 double Table::getValueByIndex( unsigned int keyIndex ) const
 {
-    if ( m_size > 0 && keyIndex < m_size )
+    if ( _size > 0 && keyIndex < _size )
     {
-        return m_tableData[ keyIndex ];
+        return _tableData[ keyIndex ];
     }
 
     return std::numeric_limits< double >::quiet_NaN();
@@ -250,16 +250,16 @@ double Table::getFirstValue() const
 
 double Table::getLastValue() const
 {
-    return getValueByIndex( m_size - 1 );
+    return getValueByIndex( _size - 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Table::getValueFirst() const
 {
-    if ( m_size > 0 )
+    if ( _size > 0 )
     {
-        return m_tableData[ 0 ];
+        return _tableData[ 0 ];
     }
     else
     {
@@ -278,9 +278,9 @@ double Table::getValueFirst() const
 
 double Table::getValueLast() const
 {
-    if ( m_size > 0 )
+    if ( _size > 0 )
     {
-        return m_tableData[ m_size - 1 ];
+        return _tableData[ _size - 1 ];
     }
     else
     {
@@ -301,11 +301,11 @@ double Table::getValueMin() const
 {
     double result = std::numeric_limits< double >::max();
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( m_tableData[ i ] < result )
+        if ( _tableData[ i ] < result )
         {
-            result = m_tableData[ i ];
+            result = _tableData[ i ];
         }
     }
 
@@ -318,11 +318,11 @@ double Table::getValueMax() const
 {
     double result = std::numeric_limits< double >::min();
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( m_tableData[ i ] > result )
+        if ( _tableData[ i ] > result )
         {
-            result = m_tableData[ i ];
+            result = _tableData[ i ];
         }
     }
 
@@ -333,17 +333,17 @@ double Table::getValueMax() const
 
 bool Table::isValid() const
 {
-    bool result = ( m_size > 0 ) ? true : false;
+    bool result = ( _size > 0 ) ? true : false;
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( result ) result = Misc::isValid( m_keyValues[ i ] );
-        if ( result ) result = Misc::isValid( m_tableData[ i ] );
-        if ( result ) result = Misc::isValid( m_interpolData[ i ] );
+        if ( result ) result = Misc::isValid( _keyValues[ i ] );
+        if ( result ) result = Misc::isValid( _tableData[ i ] );
+        if ( result ) result = Misc::isValid( _interpolData[ i ] );
 
         if ( i > 0 )
         {
-            if ( result ) result = m_keyValues[ i - 1 ] < m_keyValues[ i ];
+            if ( result ) result = _keyValues[ i - 1 ] < _keyValues[ i ];
         }
 
         if ( !result ) break;
@@ -358,9 +358,9 @@ std::string Table::toString()
 {
     std::stringstream ss;
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        ss << m_keyValues[ i ] << "\t" << m_tableData[ i ] << std::endl;
+        ss << _keyValues[ i ] << "\t" << _tableData[ i ] << std::endl;
     }
 
     return ss.str();
@@ -370,29 +370,29 @@ std::string Table::toString()
 
 const Table& Table::operator= ( const Table &table )
 {
-    if ( m_keyValues ) delete m_keyValues;
-    m_keyValues = 0;
+    if ( _keyValues ) delete _keyValues;
+    _keyValues = 0;
 
-    if ( m_tableData ) delete m_tableData;
-    m_tableData = 0;
+    if ( _tableData ) delete _tableData;
+    _tableData = 0;
 
-    if ( m_interpolData ) delete m_interpolData;
-    m_interpolData = 0;
+    if ( _interpolData ) delete _interpolData;
+    _interpolData = 0;
 
-    m_size = table.m_size;
+    _size = table._size;
 
-    if ( m_size > 0 )
+    if ( _size > 0 )
     {
-        m_keyValues = new double [ m_size ];
-        m_tableData = new double [ m_size ];
+        _keyValues = new double [ _size ];
+        _tableData = new double [ _size ];
 
-        m_interpolData = new double [ m_size ];
+        _interpolData = new double [ _size ];
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_keyValues    [ i ] = table.m_keyValues    [ i ];
-            m_tableData    [ i ] = table.m_tableData    [ i ];
-            m_interpolData [ i ] = table.m_interpolData [ i ];
+            _keyValues    [ i ] = table._keyValues    [ i ];
+            _tableData    [ i ] = table._tableData    [ i ];
+            _interpolData [ i ] = table._interpolData [ i ];
         }
     }
 
@@ -406,9 +406,9 @@ Table Table::operator+ ( const Table &table ) const
     std::vector< double > keyValues;
     std::vector< double > tableData;
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        double keyValue = m_keyValues[ i ];
+        double keyValue = _keyValues[ i ];
 
         keyValues.push_back( keyValue );
         tableData.push_back( getValue( keyValue ) + table.getValue( keyValue ) );
@@ -424,10 +424,10 @@ Table Table::operator* ( double val ) const
     std::vector< double > keyValues;
     std::vector< double > tableData;
 
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        keyValues.push_back( m_keyValues[ i ] );
-        tableData.push_back( m_tableData[ i ] * val );
+        keyValues.push_back( _keyValues[ i ] );
+        tableData.push_back( _tableData[ i ] * val );
     }
 
     return Table( keyValues, tableData );
@@ -437,9 +437,9 @@ Table Table::operator* ( double val ) const
 
 void Table::updateInterpolationData()
 {
-    for ( unsigned int i = 0; i < m_size - 1; i++ )
+    for ( unsigned int i = 0; i < _size - 1; i++ )
     {
-        m_interpolData[ i ] = ( m_tableData[ i + 1 ] - m_tableData[ i ] )
-                         / ( m_keyValues[ i + 1 ] - m_keyValues[ i ] );
+        _interpolData[ i ] = ( _tableData[ i + 1 ] - _tableData[ i ] )
+                           / ( _keyValues[ i + 1 ] - _keyValues[ i ] );
     }
 }

@@ -47,7 +47,7 @@ public:
 
     LPF( double omega, double y = 0.0 );
 
-    inline double getOmega() const { return 1.0 / m_tc; }
+    inline double getOmega() const { return 1.0 / _tc; }
 
     void setOmega( double omega );
     void setCutoffFreq( double freq );

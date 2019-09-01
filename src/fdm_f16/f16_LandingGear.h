@@ -54,7 +54,7 @@ public:
 
 private:
 
-    const F16_Aircraft *m_aircraft; ///< aircraft model main object
+    const F16_Aircraft *_aircraft;  ///< aircraft model main object
 };
 
 } // end of fdm namespace

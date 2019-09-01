@@ -30,9 +30,9 @@ using namespace cgi;
 
 ManipulatorShift::ManipulatorShift() :
     inherited(),
-    m_distance ( 5.0 ),
-    m_distance_min ( 5.0 ),
-    m_distance_max ( 5000.0 )
+    _distance ( 5.0 ),
+    _distance_min ( 5.0 ),
+    _distance_max ( 5000.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,17 +41,17 @@ ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi,
                                     const osg::CopyOp &copyOp ) :
     osg::Object( cmi, copyOp ),
     inherited( cmi, copyOp ),
-    m_matrix( cmi.m_matrix ),
-    m_distance ( cmi.m_distance ),
-    m_distance_min ( cmi.m_distance_min ),
-    m_distance_max ( cmi.m_distance_max )
+    _matrix( cmi._matrix ),
+    _distance ( cmi._distance ),
+    _distance_min ( cmi._distance_min ),
+    _distance_max ( cmi._distance_max )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorShift::setByMatrix( const osg::Matrixd &matrix )
 {
-    m_matrix = matrix;
+    _matrix = matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,14 +65,14 @@ void ManipulatorShift::setByInverseMatrix( const osg::Matrixd &matrix )
 
 osg::Matrixd ManipulatorShift::getMatrix() const
 {
-    return m_matrix;
+    return _matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 osg::Matrixd ManipulatorShift::getInverseMatrix() const
 {
-    return osg::Matrixd::inverse( m_matrix );
+    return osg::Matrixd::inverse( _matrix );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,8 +89,8 @@ bool ManipulatorShift::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActio
     case osgGA::GUIEventAdapter::SCROLL:
         switch ( ea.getScrollingMotion() )
         {
-            case osgGA::GUIEventAdapter::SCROLL_UP:   setDistance( m_distance - 0.1 * m_distance ); break;
-            case osgGA::GUIEventAdapter::SCROLL_DOWN: setDistance( m_distance + 0.1 * m_distance ); break;
+            case osgGA::GUIEventAdapter::SCROLL_UP:   setDistance( _distance - 0.1 * _distance ); break;
+            case osgGA::GUIEventAdapter::SCROLL_DOWN: setDistance( _distance + 0.1 * _distance ); break;
             default: break;
         }
         return false;
@@ -107,17 +107,17 @@ bool ManipulatorShift::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActio
 
 void ManipulatorShift::setDistance( double distance )
 {
-    if ( distance > m_distance_max )
+    if ( distance > _distance_max )
     {
-        m_distance = m_distance_max;
+        _distance = _distance_max;
     }
-    else if ( distance < m_distance_min )
+    else if ( distance < _distance_min )
     {
-        m_distance = m_distance_min;
+        _distance = _distance_min;
     }
     else
     {
-        m_distance = distance;
+        _distance = distance;
     }
 }
 
@@ -125,9 +125,9 @@ void ManipulatorShift::setDistance( double distance )
 
 void ManipulatorShift::setDistanceMin( double distance_min )
 {
-    if ( distance_min > 0.0 && distance_min < m_distance_max )
+    if ( distance_min > 0.0 && distance_min < _distance_max )
     {
-        m_distance_min = distance_min;
+        _distance_min = distance_min;
     }
 
     boundDistance();
@@ -137,9 +137,9 @@ void ManipulatorShift::setDistanceMin( double distance_min )
 
 void ManipulatorShift::setDistanceMax( double distance_max )
 {
-    if ( distance_max > 0.0 && distance_max > m_distance_min )
+    if ( distance_max > 0.0 && distance_max > _distance_min )
     {
-        m_distance_max = distance_max;
+        _distance_max = distance_max;
     }
 
     boundDistance();
@@ -149,13 +149,13 @@ void ManipulatorShift::setDistanceMax( double distance_max )
 
 void ManipulatorShift::boundDistance()
 {
-    if ( getDistance() > m_distance_max )
+    if ( getDistance() > _distance_max )
     {
-        setDistance( m_distance_max );
+        setDistance( _distance_max );
     }
-    else if ( getDistance() < m_distance_min )
+    else if ( getDistance() < _distance_min )
     {
-        setDistance( m_distance_min );
+        setDistance( _distance_min );
     }
 }
 

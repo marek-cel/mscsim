@@ -56,25 +56,25 @@ public:
     /** Updates output data. */
     void updateOutputData();
 
-    inline UH60_Aerodynamics* getAero() { return m_aero; }
-    inline UH60_Controls*     getCtrl() { return m_ctrl; }
-    inline UH60_LandingGear*  getGear() { return m_gear; }
-    inline UH60_Mass*         getMass() { return m_mass; }
-    inline UH60_Propulsion*   getProp() { return m_prop; }
+    inline UH60_Aerodynamics* getAero() { return _aero; }
+    inline UH60_Controls*     getCtrl() { return _ctrl; }
+    inline UH60_LandingGear*  getGear() { return _gear; }
+    inline UH60_Mass*         getMass() { return _mass; }
+    inline UH60_Propulsion*   getProp() { return _prop; }
 
-    inline const UH60_Aerodynamics* getAero() const { return m_aero; }
-    inline const UH60_Controls*     getCtrl() const { return m_ctrl; }
-    inline const UH60_LandingGear*  getGear() const { return m_gear; }
-    inline const UH60_Mass*         getMass() const { return m_mass; }
-    inline const UH60_Propulsion*   getProp() const { return m_prop; }
+    inline const UH60_Aerodynamics* getAero() const { return _aero; }
+    inline const UH60_Controls*     getCtrl() const { return _ctrl; }
+    inline const UH60_LandingGear*  getGear() const { return _gear; }
+    inline const UH60_Mass*         getMass() const { return _mass; }
+    inline const UH60_Propulsion*   getProp() const { return _prop; }
 
 private:
 
-    UH60_Aerodynamics *m_aero;  ///< aerodynamics model
-    UH60_Controls     *m_ctrl;  ///< controls model
-    UH60_LandingGear  *m_gear;  ///< landing gear model
-    UH60_Mass         *m_mass;  ///< mass and inertia model
-    UH60_Propulsion   *m_prop;  ///< propulsion model
+    UH60_Aerodynamics *_aero;   ///< aerodynamics model
+    UH60_Controls     *_ctrl;   ///< controls model
+    UH60_LandingGear  *_gear;   ///< landing gear model
+    UH60_Mass         *_mass;   ///< mass and inertia model
+    UH60_Propulsion   *_prop;   ///< propulsion model
 };
 
 } // end of fdm namespace

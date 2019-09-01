@@ -56,25 +56,25 @@ public:
     /** Updates output data. */
     void updateOutputData();
 
-    inline F16_Aerodynamics* getAero() { return m_aero; }
-    inline F16_Controls*     getCtrl() { return m_ctrl; }
-    inline F16_LandingGear*  getGear() { return m_gear; }
-    inline F16_Mass*         getMass() { return m_mass; }
-    inline F16_Propulsion*   getProp() { return m_prop; }
+    inline F16_Aerodynamics* getAero() { return _aero; }
+    inline F16_Controls*     getCtrl() { return _ctrl; }
+    inline F16_LandingGear*  getGear() { return _gear; }
+    inline F16_Mass*         getMass() { return _mass; }
+    inline F16_Propulsion*   getProp() { return _prop; }
 
-    inline const F16_Aerodynamics* getAero() const { return m_aero; }
-    inline const F16_Controls*     getCtrl() const { return m_ctrl; }
-    inline const F16_LandingGear*  getGear() const { return m_gear; }
-    inline const F16_Mass*         getMass() const { return m_mass; }
-    inline const F16_Propulsion*   getProp() const { return m_prop; }
+    inline const F16_Aerodynamics* getAero() const { return _aero; }
+    inline const F16_Controls*     getCtrl() const { return _ctrl; }
+    inline const F16_LandingGear*  getGear() const { return _gear; }
+    inline const F16_Mass*         getMass() const { return _mass; }
+    inline const F16_Propulsion*   getProp() const { return _prop; }
 
 private:
 
-    F16_Aerodynamics *m_aero;   ///< aerodynamics model
-    F16_Controls     *m_ctrl;   ///< controls model
-    F16_LandingGear  *m_gear;   ///< landing gear model
-    F16_Mass         *m_mass;   ///< mass and inertia model
-    F16_Propulsion   *m_prop;   ///< propulsion model
+    F16_Aerodynamics *_aero;    ///< aerodynamics model
+    F16_Controls     *_ctrl;    ///< controls model
+    F16_LandingGear  *_gear;    ///< landing gear model
+    F16_Mass         *_mass;    ///< mass and inertia model
+    F16_Propulsion   *_prop;    ///< propulsion model
 };
 
 } // end of fdm namespace

@@ -29,22 +29,22 @@
 ComboUnitsLength::ComboUnitsLength( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "m" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "m" ) );
 
-    m_coefs.push_back( (float)fdm::Units::m2ft() );
-    m_names.push_back( QString( "ft" ) );
+    _coefs.push_back( (float)fdm::Units::m2ft() );
+    _names.push_back( QString( "ft" ) );
 
-    m_coefs.push_back( (float)fdm::Units::m2km() );
-    m_names.push_back( QString( "km" ) );
+    _coefs.push_back( (float)fdm::Units::m2km() );
+    _names.push_back( QString( "km" ) );
 
-    m_coefs.push_back( (float)fdm::Units::m2mi() );
-    m_names.push_back( QString( "mi" ) );
+    _coefs.push_back( (float)fdm::Units::m2mi() );
+    _names.push_back( QString( "mi" ) );
 
-    m_coefs.push_back( (float)fdm::Units::m2nmi() );
-    m_names.push_back( QString( "nmi" ) );
+    _coefs.push_back( (float)fdm::Units::m2nmi() );
+    _names.push_back( QString( "nmi" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

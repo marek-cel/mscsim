@@ -50,12 +50,12 @@ public:
     /** */
     static inline Locations* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new Locations();
+            _instance = new Locations();
         }
 
-        return m_instance;
+        return _instance;
     }
 
     /** Destructor. */
@@ -63,16 +63,16 @@ public:
 
     inline Location getLocation( int index ) const
     {
-        return m_locations.at( index );
+        return _locations.at( index );
     }
 
-    inline int getCount() const { return m_locations.size(); }
+    inline int getCount() const { return _locations.size(); }
 
 private:
 
-    static Locations *m_instance;       ///< instance of Locations singleton class
+    static Locations *_instance;        ///< instance of Locations singleton class
 
-    QVector< Location > m_locations;    ///<
+    QVector< Location > _locations;     ///<
 
     /**
      * You should use static function instance() due to get refernce

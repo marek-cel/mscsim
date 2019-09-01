@@ -33,8 +33,6 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/Switch>
 
-#include <fdm/utils/fdm_Units.h>
-
 #include <Data.h>
 
 #include <cgi/cgi_Color.h>
@@ -46,19 +44,19 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float HUD::m_charSize  = 5.0f;
-const float HUD::m_angleCoef = CGI_HUD_Y / CGI_FOV_Y;
-const float HUD::m_rollLimit = osg::DegreesToRadians( 75.0 );
+const float HUD::_charSize  = 5.0f;
+const float HUD::_angleCoef = CGI_HUD_Y / CGI_FOV_Y;
+const float HUD::_rollLimit = osg::DegreesToRadians( 75.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 HUD::HUD() :
-    m_color( Color::hud, 1.0f )
+    _color( Color::_hud, 1.0f )
 {
-    m_root = new osg::Group();
+    _root = new osg::Group();
 
-    m_switch = new osg::Switch();
-    m_root->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _root->addChild( _switch.get() );
 
     createWaterLine();
 
@@ -74,7 +72,7 @@ HUD::HUD() :
 
     createStall();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
     stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::OFF );
@@ -87,12 +85,12 @@ HUD::HUD() :
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_HUD, "RenderBin" );
 
     // material
-    m_material = new osg::Material();
-    m_material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    m_material->setAmbient( osg::Material::FRONT, m_color );
-    m_material->setDiffuse( osg::Material::FRONT, m_color );
+    _material = new osg::Material();
+    _material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    _material->setAmbient( osg::Material::FRONT, _color );
+    _material->setDiffuse( osg::Material::FRONT, _color );
 
-    stateSet->setAttribute( m_material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
+    stateSet->setAttribute( _material.get(), osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON );
 
     // lines
     osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
@@ -111,30 +109,30 @@ void HUD::update()
 {
     if ( Data::get()->hud.enabled )
     {
-        m_switch->setAllChildrenOn();
+        _switch->setAllChildrenOn();
 
-        m_sideslipAngleFPM_deg = osg::RadiansToDegrees( Data::get()->hud.sideslipAngle );
-        m_angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.angleOfAttack );
+        _sideslipAngleFPM_deg = osg::RadiansToDegrees( Data::get()->hud.sideslipAngle );
+        _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.angleOfAttack );
 
-        m_validFPM = true;
+        _validFPM = true;
 
-        if ( fabs( m_sideslipAngleFPM_deg ) > 8.0f )
+        if ( fabs( _sideslipAngleFPM_deg ) > 8.0f )
         {
-            m_validFPM = false;
-            m_sideslipAngleFPM_deg = ( m_sideslipAngleFPM_deg < 0.0f ) ? -8.0f : 8.0f;
+            _validFPM = false;
+            _sideslipAngleFPM_deg = ( _sideslipAngleFPM_deg < 0.0f ) ? -8.0f : 8.0f;
         }
 
-        if ( m_angleOfAttackFPM_deg > 10.0f || m_angleOfAttackFPM_deg < -10.0f )
+        if ( _angleOfAttackFPM_deg > 10.0f || _angleOfAttackFPM_deg < -10.0f )
         {
-            m_validFPM = false;
-            m_angleOfAttackFPM_deg = ( m_angleOfAttackFPM_deg < 0.0f ) ? -10.0f : 10.0f;
+            _validFPM = false;
+            _angleOfAttackFPM_deg = ( _angleOfAttackFPM_deg < 0.0f ) ? -10.0f : 10.0f;
         }
 
         if ( Data::get()->hud.airspeed < 0.5f )
         {
-            m_validFPM = false;
-            m_angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.pitch );
-            m_sideslipAngleFPM_deg = 0.0f;
+            _validFPM = false;
+            _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.pitch );
+            _sideslipAngleFPM_deg = 0.0f;
         }
 
         updateRollIndicator();
@@ -155,23 +153,23 @@ void HUD::update()
                          Data::get()->hud.color_b,
                          Data::get()->hud.opacity );
 
-        if ( color != m_color )
+        if ( color != _color )
         {
-            m_color = color;
+            _color = color;
 
-            for ( std::vector< osg::ref_ptr<osgText::Text> >::iterator it = m_texts.begin(); it != m_texts.end(); it++ )
+            for ( std::vector< osg::ref_ptr<osgText::Text> >::iterator it = _texts.begin(); it != _texts.end(); it++ )
             {
-                (*it)->setColor( m_color );
+                (*it)->setColor( _color );
             }
 
-            m_material->setAmbient( osg::Material::FRONT, m_color );
-            m_material->setDiffuse( osg::Material::FRONT, m_color );
-            //m_material->setTransparency( osg::Material::FRONT_AND_BACK, 1.0f - Data::get()->hud.opacity );
+            _material->setAmbient( osg::Material::FRONT, _color );
+            _material->setDiffuse( osg::Material::FRONT, _color );
+            //_material->setTransparency( osg::Material::FRONT_AND_BACK, 1.0f - Data::get()->hud.opacity );
         }
     }
     else
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
     }
 }
 
@@ -185,7 +183,7 @@ void HUD::createWaterLine()
     const float d = w / 6.0f;
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_switch->addChild( geode.get() );
+    _switch->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -223,12 +221,12 @@ void HUD::createRollIndicator()
     const float r2 = r0 + 5.0f;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> patTemp = new osg::PositionAttitudeTransform();
-    m_switch->addChild( patTemp.get() );
+    _switch->addChild( patTemp.get() );
 
     patTemp->setPosition( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
 
-    m_switchRollIndicator = new osg::Switch();
-    patTemp->addChild( m_switchRollIndicator.get() );
+    _switchRollIndicator = new osg::Switch();
+    patTemp->addChild( _switchRollIndicator.get() );
 
     // Scale
     {
@@ -346,11 +344,11 @@ void HUD::createRollIndicator()
 
     // Marker
     {
-        m_patRollIndicator = new osg::PositionAttitudeTransform();
-        m_switchRollIndicator->addChild( m_patRollIndicator.get() );
+        _patRollIndicator = new osg::PositionAttitudeTransform();
+        _switchRollIndicator->addChild( _patRollIndicator.get() );
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patRollIndicator->addChild( geode.get() );
+        _patRollIndicator->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -377,26 +375,26 @@ void HUD::createRollIndicator()
 
 void HUD::createPitchLadder()
 {
-    m_patPitchLadderRoll = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patPitchLadderRoll.get() );
+    _patPitchLadderRoll = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patPitchLadderRoll.get() );
 
-    m_patPitchLadderPitch = new osg::PositionAttitudeTransform();
-    m_patPitchLadderRoll->addChild( m_patPitchLadderPitch.get() );
+    _patPitchLadderPitch = new osg::PositionAttitudeTransform();
+    _patPitchLadderRoll->addChild( _patPitchLadderPitch.get() );
 
-    m_patPitchLadderSlip = new osg::PositionAttitudeTransform();
-    m_patPitchLadderPitch->addChild( m_patPitchLadderSlip.get() );
+    _patPitchLadderSlip = new osg::PositionAttitudeTransform();
+    _patPitchLadderPitch->addChild( _patPitchLadderSlip.get() );
 
-    m_switchPitchLadder = new osg::Switch();
-    m_patPitchLadderSlip->addChild( m_switchPitchLadder.get() );
+    _switchPitchLadder = new osg::Switch();
+    _patPitchLadderSlip->addChild( _switchPitchLadder.get() );
 
     for ( int i = -90; i < 0; i++ )
     {
         if ( i % 5 == 0 )
         {
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-            m_switchPitchLadder->addChild( geode.get() );
+            _switchPitchLadder->addChild( geode.get() );
 
-            createPitchLadderBar( geode.get(), ((float)i)*m_angleCoef, i );
+            createPitchLadderBar( geode.get(), ((float)i)*_angleCoef, i );
         }
     }
 
@@ -406,7 +404,7 @@ void HUD::createPitchLadder()
         const float g =  20.0f;
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switchPitchLadder->addChild( geode.get() );
+        _switchPitchLadder->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -435,9 +433,9 @@ void HUD::createPitchLadder()
         if ( i % 5 == 0 )
         {
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-            m_switchPitchLadder->addChild( geode.get() );
+            _switchPitchLadder->addChild( geode.get() );
 
-            createPitchLadderBar( geode.get(), ((float)i)*m_angleCoef, i );
+            createPitchLadderBar( geode.get(), ((float)i)*_angleCoef, i );
         }
     }
 }
@@ -455,16 +453,16 @@ void HUD::createHeadingScale()
 
     const float px_deg = scale_w / 50.0;
 
-    m_patHeadingScale = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patHeadingScale.get() );
+    _patHeadingScale = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patHeadingScale.get() );
 
-    m_switchHeadingScale = new osg::Switch();
-    m_patHeadingScale->addChild( m_switchHeadingScale.get() );
+    _switchHeadingScale = new osg::Switch();
+    _patHeadingScale->addChild( _switchHeadingScale.get() );
 
     // Box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -495,26 +493,26 @@ void HUD::createHeadingScale()
 
     // Text Heading
     {
-        m_heading = new osg::Geode();
-        m_switch->addChild( m_heading.get() );
+        _heading = new osg::Geode();
+        _switch->addChild( _heading.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( 0.0f, y_del + box_h * 0.5f + 1.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::CENTER_BASE_LINE );
         text->setText( "360" );
-        m_heading->addDrawable( text );
+        _heading->addDrawable( text );
     }
 
     // Scale
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -540,7 +538,7 @@ void HUD::createHeadingScale()
             if ( i % 5 == 0 )
             {
                 osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-                m_switchHeadingScale->addChild( geode.get() );
+                _switchHeadingScale->addChild( geode.get() );
 
                 if ( i % 10 == 0 )
                 {
@@ -564,11 +562,11 @@ void HUD::createFPM()
     const float r0 = 3.0f;
     const float r1 = 6.0f;
 
-    m_patFPM = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patFPM.get() );
+    _patFPM = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patFPM.get() );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_patFPM->addChild( geode.get() );
+    _patFPM->addChild( geode.get() );
 
     // Lines
     {
@@ -627,11 +625,11 @@ void HUD::createFPM()
 
     // invalid mark
     {
-        m_switchFPM = new osg::Switch();
-        m_patFPM->addChild( m_switchFPM.get() );
+        _switchFPM = new osg::Switch();
+        _patFPM->addChild( _switchFPM.get() );
 
         osg::ref_ptr<osg::Geode> geodeCross = new osg::Geode();
-        m_switchFPM->addChild( geodeCross.get() );
+        _switchFPM->addChild( geodeCross.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -663,19 +661,19 @@ void HUD::createILS()
     const float bar_w = 40.0f;
     const float mrk_w =  5.0f;
 
-    m_patILS = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_patILS.get() );
+    _patILS = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patILS.get() );
 
-    m_switchILS = new osg::Switch();
-    m_patILS->addChild( m_switchILS.get() );
+    _switchILS = new osg::Switch();
+    _patILS->addChild( _switchILS.get() );
 
     // glide slope
     {
-        m_patILS_GS = new osg::PositionAttitudeTransform();
-        m_switchILS->addChild( m_patILS_GS.get() );
+        _patILS_GS = new osg::PositionAttitudeTransform();
+        _switchILS->addChild( _patILS_GS.get() );
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patILS_GS->addChild( geode.get() );
+        _patILS_GS->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -719,11 +717,11 @@ void HUD::createILS()
 
     // localizer
     {
-        m_patILS_LC = new osg::PositionAttitudeTransform();
-        m_switchILS->addChild( m_patILS_LC.get() );
+        _patILS_LC = new osg::PositionAttitudeTransform();
+        _switchILS->addChild( _patILS_LC.get() );
 
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_patILS_LC->addChild( geode.get() );
+        _patILS_LC->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -770,17 +768,17 @@ void HUD::createILS()
 
 void HUD::createStall()
 {
-    m_switchStall = new osg::Switch();
-    m_switch->addChild( m_switchStall.get() );
+    _switchStall = new osg::Switch();
+    _switch->addChild( _switchStall.get() );
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_switchStall->addChild( geode.get() );
+    _switchStall->addChild( geode.get() );
 
     osg::ref_ptr<osgText::Text> text = new osgText::Text();
-    m_texts.push_back( text );
+    _texts.push_back( text );
     //text->setFont(font);
-    text->setColor( m_color );
-    text->setCharacterSize( 2 * m_charSize );
+    text->setColor( _color );
+    text->setCharacterSize( 2 * _charSize );
     text->setAxisAlignment( osgText::TextBase::XY_PLANE );
     text->setPosition( osg::Vec3( 0.0f, 20.0f, -1.0f ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -802,7 +800,7 @@ void HUD::createTextL()
     // Box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -829,56 +827,56 @@ void HUD::createTextL()
 
     // Text Airspeed
     {
-        m_airspeed = new osg::Geode();
-        m_switch->addChild( m_airspeed.get() );
+        _airspeed = new osg::Geode();
+        _switch->addChild( _airspeed.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y + 2.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "9999" );
-        m_airspeed->addDrawable( text );
+        _airspeed->addDrawable( text );
     }
 
     // Text Mach No
     {
-        m_machNo = new osg::Geode();
-        m_switch->addChild( m_machNo.get() );
+        _machNo = new osg::Geode();
+        _switch->addChild( _machNo.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 7.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "2.15" );
-        m_machNo->addDrawable( text );
+        _machNo->addDrawable( text );
     }
 
     // Text G-Force
     {
-        m_gForce = new osg::Geode();
-        m_switch->addChild( m_gForce.get() );
+        _gForce = new osg::Geode();
+        _switch->addChild( _gForce.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -x - 1.0f, y - 15.0f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "1.0G" );
-        m_gForce->addDrawable( text );
+        _gForce->addDrawable( text );
     }
 }
 
@@ -895,7 +893,7 @@ void HUD::createTextR()
     // Box
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        m_switch->addChild( geode.get() );
+        _switch->addChild( geode.get() );
 
         osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -922,56 +920,56 @@ void HUD::createTextR()
 
     // Text Altitude
     {
-        m_altitude = new osg::Geode();
-        m_switch->addChild( m_altitude.get() );
+        _altitude = new osg::Geode();
+        _switch->addChild( _altitude.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y + 2.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "99,999" );
-        m_altitude->addDrawable( text );
+        _altitude->addDrawable( text );
     }
 
     // Text Climb Rate
     {
-        m_climbRate = new osg::Geode();
-        m_switch->addChild( m_climbRate.get() );
+        _climbRate = new osg::Geode();
+        _switch->addChild( _climbRate.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 7.5f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "6000" );
-        m_climbRate->addDrawable( text );
+        _climbRate->addDrawable( text );
     }
 
     // Text Radio Altitude
     {
-        m_radioAlt = new osg::Geode();
-        m_switch->addChild( m_radioAlt.get() );
+        _radioAlt = new osg::Geode();
+        _switch->addChild( _radioAlt.get() );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( x + w - 1.0f, y - 15.0f, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::RIGHT_BASE_LINE );
         text->setText( "RA 9999" );
-        m_radioAlt->addDrawable( text );
+        _radioAlt->addDrawable( text );
     }
 }
 
@@ -1055,11 +1053,11 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
     deg_str << ( deg < 0 ? -deg : deg );
 
     // TEXT
-    float y_del = m_charSize - 3.0;
+    float y_del = _charSize - 3.0;
 
     if ( deg < 0 )
     {
-        y_del = -m_charSize - 0.5;
+        y_del = -_charSize - 0.5;
     }
 
     //osgText::Font* font = osgText::readFontFile( m_fontPath.c_str() );
@@ -1067,10 +1065,10 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
     // text L
     {
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( -w / 2.0f, y + y_del, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -1082,10 +1080,10 @@ void HUD::createPitchLadderBar( osg::Geode *geode, int y, int deg )
     // text R
     {
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        m_texts.push_back( text );
+        _texts.push_back( text );
         //text->setFont(font);
-        text->setColor( m_color );
-        text->setCharacterSize( m_charSize );
+        text->setColor( _color );
+        text->setCharacterSize( _charSize );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
         text->setPosition( osg::Vec3( w / 2.0f, y + y_del, -1.0f ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
@@ -1108,12 +1106,12 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x, int deg1
     sprintf( deg10_srt, "%02d", deg10 );
 
     osg::ref_ptr<osgText::Text> text = new osgText::Text();
-    m_texts.push_back( text );
+    _texts.push_back( text );
     //text->setFont(font);
-    text->setColor( m_color );
-    text->setCharacterSize( m_charSize );
+    text->setColor( _color );
+    text->setCharacterSize( _charSize );
     text->setAxisAlignment( osgText::TextBase::XY_PLANE );
-    text->setPosition( osg::Vec3( x, y_del - m_charSize - 3.0f, -1.0f ) );
+    text->setPosition( osg::Vec3( x, y_del - _charSize - 3.0f, -1.0f ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
     text->setAlignment( osgText::Text::CENTER_BASE_LINE );
     text->setText( deg10_srt );
@@ -1150,17 +1148,17 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x )
 
 void HUD::updateRollIndicator()
 {
-    if ( fabs( Data::get()->hud.roll ) < m_rollLimit )
+    if ( fabs( Data::get()->hud.roll ) < _rollLimit )
     {
-        m_switchRollIndicator->setAllChildrenOn();
+        _switchRollIndicator->setAllChildrenOn();
 
         osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
 
-        m_patRollIndicator->setAttitude( q );
+        _patRollIndicator->setAttitude( q );
     }
     else
     {
-        m_switchRollIndicator->setAllChildrenOff();
+        _switchRollIndicator->setAllChildrenOff();
     }
 }
 
@@ -1173,18 +1171,18 @@ void HUD::updatePitchLadder()
 
     osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
 
-    m_patPitchLadderRoll->setAttitude( q );
+    _patPitchLadderRoll->setAttitude( q );
 
-    osg::Vec3 r( 0.0, -m_angleCoef * pitch_deg, 0.0 );
+    osg::Vec3 r( 0.0, -_angleCoef * pitch_deg, 0.0 );
 
-    m_patPitchLadderPitch->setPosition( r );
+    _patPitchLadderPitch->setPosition( r );
 
     float sinRoll = sin( Data::get()->hud.roll );
     float cosRoll = cos( Data::get()->hud.roll );
 
-    float x = -m_angleCoef * ( -m_sideslipAngleFPM_deg * cosRoll + m_angleOfAttackFPM_deg * sinRoll );
+    float x = -_angleCoef * ( -_sideslipAngleFPM_deg * cosRoll + _angleOfAttackFPM_deg * sinRoll );
 
-    m_patPitchLadderSlip->setPosition( osg::Vec3( x, 0.0, 0.0 ) );
+    _patPitchLadderSlip->setPosition( osg::Vec3( x, 0.0, 0.0 ) );
 
     short i_pitch = floor( ( 90.0 + pitch_deg ) / 5.0 + 0.5 );
 
@@ -1193,11 +1191,11 @@ void HUD::updatePitchLadder()
 
     float pitch_i_deg = i_pitch * 5.0f - 90.0f;
 
-    m_switchPitchLadder->setAllChildrenOff();
-    m_switchPitchLadder->setValue( i_pitch, true );
+    _switchPitchLadder->setAllChildrenOff();
+    _switchPitchLadder->setValue( i_pitch, true );
 
-    if ( i_pitch >  0 ) m_switchPitchLadder->setValue( i_pitch - 1, true );
-    if ( i_pitch < 36 ) m_switchPitchLadder->setValue( i_pitch + 1, true );
+    if ( i_pitch >  0 ) _switchPitchLadder->setValue( i_pitch - 1, true );
+    if ( i_pitch < 36 ) _switchPitchLadder->setValue( i_pitch + 1, true );
 
     float roll_deg_abs = fabs( roll_deg );
 
@@ -1205,12 +1203,12 @@ void HUD::updatePitchLadder()
     {
         if ( i_pitch >  1 && pitch_deg - pitch_i_deg <  1.0f )
         {
-            m_switchPitchLadder->setValue( i_pitch - 2, true );
+            _switchPitchLadder->setValue( i_pitch - 2, true );
         }
 
         if ( i_pitch < 35 && pitch_deg - pitch_i_deg > -1.0f )
         {
-            m_switchPitchLadder->setValue( i_pitch + 2, true );
+            _switchPitchLadder->setValue( i_pitch + 2, true );
         }
     }
 }
@@ -1227,20 +1225,20 @@ void HUD::updateHeadingScale()
     if ( head_ind <   0 ) head_ind =   0;
     if ( head_ind > 128 ) head_ind = 128;
 
-    m_switchHeadingScale->setSingleChildOn( head_ind );
-    m_switchHeadingScale->setValue( head_ind - 1, true );
-    m_switchHeadingScale->setValue( head_ind + 1, true );
-    m_switchHeadingScale->setValue( head_ind - 2, true );
-    m_switchHeadingScale->setValue( head_ind + 2, true );
-    m_switchHeadingScale->setValue( head_ind - 3, true );
-    m_switchHeadingScale->setValue( head_ind + 3, true );
-    m_switchHeadingScale->setValue( head_ind - 4, true );
-    m_switchHeadingScale->setValue( head_ind + 4, true );
+    _switchHeadingScale->setSingleChildOn( head_ind );
+    _switchHeadingScale->setValue( head_ind - 1, true );
+    _switchHeadingScale->setValue( head_ind + 1, true );
+    _switchHeadingScale->setValue( head_ind - 2, true );
+    _switchHeadingScale->setValue( head_ind + 2, true );
+    _switchHeadingScale->setValue( head_ind - 3, true );
+    _switchHeadingScale->setValue( head_ind + 3, true );
+    _switchHeadingScale->setValue( head_ind - 4, true );
+    _switchHeadingScale->setValue( head_ind + 4, true );
 
     float x = ( 100.0f / 50.0f ) * ( ( head_deg < 180.0f ) ? head_deg : head_deg - 360.0f );
-    m_patHeadingScale->setPosition( osg::Vec3( -x, 0.0, 0.0 ) );
+    _patHeadingScale->setPosition( osg::Vec3( -x, 0.0, 0.0 ) );
 
-    text = dynamic_cast< osgText::Text* >( m_heading->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _heading->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
@@ -1254,20 +1252,20 @@ void HUD::updateHeadingScale()
 
 void HUD::updateFPM()
 {
-    if ( m_validFPM )
+    if ( _validFPM )
     {
-        m_switchFPM->setAllChildrenOff();
+        _switchFPM->setAllChildrenOff();
     }
     else
     {
-        m_switchFPM->setAllChildrenOn();
+        _switchFPM->setAllChildrenOn();
     }
 
-    osg::Vec3 r(  m_angleCoef * m_sideslipAngleFPM_deg,
-                 -m_angleCoef * m_angleOfAttackFPM_deg,
+    osg::Vec3 r(  _angleCoef * _sideslipAngleFPM_deg,
+                 -_angleCoef * _angleOfAttackFPM_deg,
                   0.0 );
 
-    m_patFPM->setPosition( r );
+    _patFPM->setPosition( r );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1276,15 +1274,15 @@ void HUD::updateILS()
 {
     if ( Data::get()->hud.ils_visible )
     {
-        m_switchILS->setAllChildrenOn();
+        _switchILS->setAllChildrenOn();
 
         osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
-        osg::Vec3 r(  m_angleCoef * m_sideslipAngleFPM_deg,
-                     -m_angleCoef * m_angleOfAttackFPM_deg,
+        osg::Vec3 r(  _angleCoef * _sideslipAngleFPM_deg,
+                     -_angleCoef * _angleOfAttackFPM_deg,
                       0.0 );
 
-        m_patILS->setAttitude( q );
-        m_patILS->setPosition( r );
+        _patILS->setAttitude( q );
+        _patILS->setPosition( r );
 
         float ils_gs = Data::get()->hud.ils_gs_deviation;
         float ils_lc = Data::get()->hud.ils_lc_deviation;
@@ -1294,12 +1292,12 @@ void HUD::updateILS()
         if ( ils_lc < -1.0f ) ils_lc = -1.0f;
         if ( ils_lc >  1.0f ) ils_lc =  1.0f;
 
-        m_patILS_GS->setPosition( osg::Vec3( 0.0, 20.0 * ils_gs, 0.0 ) );
-        m_patILS_LC->setPosition( osg::Vec3( 20.0 * ils_lc, 0.0, 0.0 ) );
+        _patILS_GS->setPosition( osg::Vec3( 0.0, 20.0 * ils_gs, 0.0 ) );
+        _patILS_LC->setPosition( osg::Vec3( 20.0 * ils_lc, 0.0, 0.0 ) );
     }
     else
     {
-        m_switchILS->setAllChildrenOff();
+        _switchILS->setAllChildrenOff();
     }
 }
 
@@ -1309,11 +1307,11 @@ void HUD::updateStall()
 {
     if ( Data::get()->hud.stall )
     {
-        m_switchStall->setAllChildrenOn();
+        _switchStall->setAllChildrenOn();
     }
     else
     {
-        m_switchStall->setAllChildrenOff();
+        _switchStall->setAllChildrenOff();
     }
 }
 
@@ -1324,19 +1322,19 @@ void HUD::updateTextL()
     osg::ref_ptr<osgText::Text> text;
 
     // airspeed
-    text = dynamic_cast< osgText::Text* >( m_airspeed->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _airspeed->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
-        float airspeed_kt = fdm::Units::mps2kts( Data::get()->hud.airspeed );
+        float airspeed = Data::get()->hud.airspeed * Data::get()->hud.factor_vel;
 
         char airspeed_str[256];
-        sprintf( airspeed_str, "%d", (int)( floor( airspeed_kt + 0.5 ) ) );
+        sprintf( airspeed_str, "%d", (int)( floor( airspeed + 0.5 ) ) );
         text->setText( airspeed_str );
     }
 
     // Mach no
-    text = dynamic_cast< osgText::Text* >( m_machNo->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _machNo->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
@@ -1346,7 +1344,7 @@ void HUD::updateTextL()
     }
 
     // G-Force
-    text = dynamic_cast< osgText::Text* >( m_gForce->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _gForce->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
@@ -1363,40 +1361,40 @@ void HUD::updateTextR()
     osg::ref_ptr<osgText::Text> text;
 
     // altitude
-    text = dynamic_cast< osgText::Text* >( m_altitude->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _altitude->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
-        float altitude_ft = fdm::Units::m2ft( Data::get()->hud.altitude );
+        float altitude = Data::get()->hud.altitude * Data::get()->hud.factor_alt;
 
         char altitude_str[256];
-        sprintf( altitude_str, "%d", (int)( floor( altitude_ft + 0.5 ) ) );
+        sprintf( altitude_str, "%d", (int)( floor( altitude + 0.5 ) ) );
         text->setText( altitude_str );
     }
 
     // climb rate
-    text = dynamic_cast< osgText::Text* >( m_climbRate->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _climbRate->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
-        float climbRate_fpm = fdm::Units::mps2fpm( Data::get()->hud.climbRate );
+        float climbRate = 60.0f * Data::get()->hud.climbRate * Data::get()->hud.factor_alt;
 
         char climbRate_str[256];
-        sprintf( climbRate_str, "%d", (int)( floor( climbRate_fpm + 0.5 ) ) );
+        sprintf( climbRate_str, "%d", (int)( floor( climbRate + 0.5 ) ) );
         text->setText( climbRate_str );
     }
 
     // radio altitude
-    text = dynamic_cast< osgText::Text* >( m_radioAlt->getDrawable( 0 ) );
+    text = dynamic_cast< osgText::Text* >( _radioAlt->getDrawable( 0 ) );
 
     if ( text.valid() )
     {
-        float altitude_ft = fdm::Units::m2ft( Data::get()->hud.radioAlt );
+        float altitude = Data::get()->hud.radioAlt * Data::get()->hud.factor_alt;
 
-        if ( altitude_ft < 3000.0 )
+        if ( altitude < 3000.0 )
         {
             char altitude_str[256];
-            sprintf( altitude_str, "RA %d", (int)( floor( altitude_ft + 0.5 ) ) );
+            sprintf( altitude_str, "RA %d", (int)( floor( altitude + 0.5 ) ) );
             text->setText( altitude_str );
         }
         else

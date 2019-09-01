@@ -59,28 +59,28 @@ public:
         double alt;                     ///< [m] altitude above mean sea level
     };
 
-    static const double m_a;            ///< [m] equatorial radius
-    static const double m_f;            ///< [-] ellipsoid flattening
+    static const double _a;             ///< [m] equatorial radius
+    static const double _f;             ///< [-] ellipsoid flattening
 
-    static const double m_b;            ///< [m] polar radius
-    static const double m_r1;           ///< [m] mean radius
-    static const double m_a2;           ///< [m^2] equatorial radius squared
-    static const double m_b2;           ///< [m^2] polar radius squared
-    static const double m_e2;           ///< [-] ellipsoid first eccentricity squared
-    static const double m_e;            ///< [-] ellipsoid first eccentricity
-    static const double m_ep2;          ///< [-] ellipsoid second eccentricity squared
-    static const double m_ep;           ///< [-] ellipsoid second eccentricity
+    static const double _b;             ///< [m] polar radius
+    static const double _r1;            ///< [m] mean radius
+    static const double _a2;            ///< [m^2] equatorial radius squared
+    static const double _b2;            ///< [m^2] polar radius squared
+    static const double _e2;            ///< [-] ellipsoid first eccentricity squared
+    static const double _e;             ///< [-] ellipsoid first eccentricity
+    static const double _ep2;           ///< [-] ellipsoid second eccentricity squared
+    static const double _ep;            ///< [-] ellipsoid second eccentricity
 
-    static const double m_g;            ///< [m/s^2] standard gravitional acceleration
-    static const double m_gm;           ///< [m^3/s^2] Earth’s gravitational constant (mass of Earth’s atmosphere included)
-    static const double m_omega;        ///< [rad/s] angular velocity of the Earth ( 360deg / 23:56:04.091 )
-    static const double m_gamma_e;      ///< [m/s^2] theoretical (normal) gravity at the equator (on the ellipsoid)
-    static const double m_gamma_p;      ///< [m/s^2] theoretical (normal) gravity at the pole (on the ellipsoid)
-    static const double m_k;            ///< [-] theoretical (normal) gravity formula constant
-    static const double m_m;            ///< [-] m = omega^2 * a^2 * b / GM
+    static const double _g;             ///< [m/s^2] standard gravitional acceleration
+    static const double _gm;            ///< [m^3/s^2] Earth’s gravitational constant (mass of Earth’s atmosphere included)
+    static const double _omega;         ///< [rad/s] angular velocity of the Earth ( 360deg / 23:56:04.091 )
+    static const double _gamma_e;       ///< [m/s^2] theoretical (normal) gravity at the equator (on the ellipsoid)
+    static const double _gamma_p;       ///< [m/s^2] theoretical (normal) gravity at the pole (on the ellipsoid)
+    static const double _k;             ///< [-] theoretical (normal) gravity formula constant
+    static const double _m;             ///< [-] m = omega^2 * a^2 * b / GM
 
-    static const Matrix3x3 m_enu2ned;   ///< matrix of rotation from ENU to NED
-    static const Matrix3x3 m_ned2enu;   ///< matrix of rotation from NED to ENU
+    static const Matrix3x3 _enu2ned;    ///< matrix of rotation from ENU to NED
+    static const Matrix3x3 _ned2enu;    ///< matrix of rotation from NED to ENU
 
     /**
      * Returns Earth angular velocity vector expressed in WGS axis system.
@@ -176,18 +176,18 @@ public:
     Quaternion getNED2BAS( const Quaternion &att_wgs ) const;
     Quaternion getWGS2BAS( const Quaternion &att_ned ) const;
 
-    inline Geo     getPos_Geo() const { return m_pos_geo; }
-    inline Vector3 getPos_WGS() const { return m_pos_wgs; }
+    inline Geo     getPos_Geo() const { return _pos_geo; }
+    inline Vector3 getPos_WGS() const { return _pos_wgs; }
 
-    inline Vector3 getNorm_WGS() const { return m_norm_wgs; }
-    inline Vector3 getGrav_WGS() const { return m_grav_wgs; }
+    inline Vector3 getNorm_WGS() const { return _norm_wgs; }
+    inline Vector3 getGrav_WGS() const { return _grav_wgs; }
 
-    inline Matrix3x3 getENU2NED() const { return m_enu2ned; }
-    inline Matrix3x3 getNED2ENU() const { return m_ned2enu; }
-    inline Matrix3x3 getENU2WGS() const { return m_enu2wgs; }
-    inline Matrix3x3 getNED2WGS() const { return m_ned2wgs; }
-    inline Matrix3x3 getWGS2ENU() const { return m_wgs2enu; }
-    inline Matrix3x3 getWGS2NED() const { return m_wgs2ned; }
+    inline Matrix3x3 getENU2NED() const { return _enu2ned; }
+    inline Matrix3x3 getNED2ENU() const { return _ned2enu; }
+    inline Matrix3x3 getENU2WGS() const { return _enu2wgs; }
+    inline Matrix3x3 getNED2WGS() const { return _ned2wgs; }
+    inline Matrix3x3 getWGS2ENU() const { return _wgs2enu; }
+    inline Matrix3x3 getWGS2NED() const { return _wgs2ned; }
 
     /** */
     void setPos_Geo( const Geo &pos_geo );
@@ -197,17 +197,17 @@ public:
 
 private:
 
-    Geo m_pos_geo;          ///< geodetic coordinates
+    Geo _pos_geo;           ///< geodetic coordinates
 
-    Vector3 m_pos_wgs;      ///< [m] coordinates vector expressed in WGS
+    Vector3 _pos_wgs;       ///< [m] coordinates vector expressed in WGS
 
-    Vector3 m_norm_wgs;     ///< [-] normal to ellipsoid vector expressed in WGS
-    Vector3 m_grav_wgs;     ///< [m/s^2] gravity acceleration vector expressed in WGS
+    Vector3 _norm_wgs;      ///< [-] normal to ellipsoid vector expressed in WGS
+    Vector3 _grav_wgs;      ///< [m/s^2] gravity acceleration vector expressed in WGS
 
-    Matrix3x3 m_enu2wgs;    ///< rotation matrix from ENU to WGS
-    Matrix3x3 m_ned2wgs;    ///< rotation matrix from NED to WGS
-    Matrix3x3 m_wgs2enu;    ///< rotation matrix from WGS to ENU
-    Matrix3x3 m_wgs2ned;    ///< rotation matrix from WGS to NED
+    Matrix3x3 _enu2wgs;     ///< rotation matrix from ENU to WGS
+    Matrix3x3 _ned2wgs;     ///< rotation matrix from NED to WGS
+    Matrix3x3 _wgs2enu;     ///< rotation matrix from WGS to ENU
+    Matrix3x3 _wgs2ned;     ///< rotation matrix from WGS to NED
 
     /**
      * This function updates location (normal to ellipsoid vector, gravity

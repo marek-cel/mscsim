@@ -30,8 +30,8 @@ using namespace cgi;
 
 ManipulatorOrbit::ManipulatorOrbit() :
     inherited(),
-    m_distance_min ( 5.0 ),
-    m_distance_max ( 5000.0 )
+    _distance_min ( 5.0 ),
+    _distance_max ( 5000.0 )
 {
     setTrackerMode( NODE_CENTER );
     setWheelZoomFactor( -getWheelZoomFactor() );
@@ -54,9 +54,9 @@ bool ManipulatorOrbit::handleFrame( const osgGA::GUIEventAdapter &ea, osgGA::GUI
 
 void ManipulatorOrbit::setDistanceMin( double distance_min )
 {
-    if ( distance_min > 0.0 && distance_min < m_distance_max )
+    if ( distance_min > 0.0 && distance_min < _distance_max )
     {
-        m_distance_min = distance_min;
+        _distance_min = distance_min;
     }
 
     boundDistance();
@@ -66,9 +66,9 @@ void ManipulatorOrbit::setDistanceMin( double distance_min )
 
 void ManipulatorOrbit::setDistanceMax( double distance_max )
 {
-    if ( distance_max > 0.0 && distance_max > m_distance_min )
+    if ( distance_max > 0.0 && distance_max > _distance_min )
     {
-        m_distance_max = distance_max;
+        _distance_max = distance_max;
     }
 
     boundDistance();
@@ -85,12 +85,12 @@ bool ManipulatorOrbit::performMovementRightMouseButton( const double /*eventTime
 
 void ManipulatorOrbit::boundDistance()
 {
-    if ( getDistance() > m_distance_max )
+    if ( getDistance() > _distance_max )
     {
-        setDistance( m_distance_max );
+        setDistance( _distance_max );
     }
-    else if ( getDistance() < m_distance_min )
+    else if ( getDistance() < _distance_min )
     {
-        setDistance( m_distance_min );
+        setDistance( _distance_min );
     }
 }

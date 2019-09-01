@@ -64,6 +64,9 @@ namespace fdm
  * </propeller>
  * @endcode
  *
+ * @see Allerton D.: Principles of Flight Simulation, 2009, p.131
+ * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.327
+ * @see Torenbeek E.: Synthesis of Subsonic Airplane Design, 1982, p.191
  * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 5: Charakterystyki zespolu napedowego. [in Polish]
  */
 class FDMEXPORT Propeller : public Base
@@ -119,7 +122,7 @@ public:
      */
     inline Direction getDirection() const
     {
-        return m_direction;
+        return _direction;
     }
 
     /**
@@ -128,7 +131,7 @@ public:
      */
     inline double getEngineRPM() const
     {
-        return m_speed_rpm * m_gearRatio;
+        return _speed_rpm * _gearRatio;
     }
 
     /**
@@ -137,7 +140,7 @@ public:
      */
     inline double getInertia() const
     {
-        return m_inertia;
+        return _inertia;
     }
 
     /**
@@ -146,7 +149,7 @@ public:
      */
     inline double getOmega() const
     {
-        return m_omega;
+        return _omega;
     }
 
     /**
@@ -155,7 +158,7 @@ public:
      */
     inline const Vector3& getPos_BAS() const
     {
-        return m_pos_bas;
+        return _pos_bas;
     }
 
     /**
@@ -164,7 +167,7 @@ public:
      */
     inline double getThrust() const
     {
-        return m_thrust;
+        return _thrust;
     }
 
     /**
@@ -173,34 +176,34 @@ public:
      */
     inline double getTorque() const
     {
-        return ( m_torqueRequired < m_torqueAvailable ) ? m_torqueRequired : m_torqueAvailable;
+        return ( _torqueRequired < _torqueAvailable ) ? _torqueRequired : _torqueAvailable;
     }
 
     void setRPM( double rpm );
 
 protected:
 
-    Vector3 m_pos_bas;          ///< [m] propeller position expressed in BAS
+    Vector3 _pos_bas;           ///< [m] propeller position expressed in BAS
 
-    Table m_propPitch;          ///< [rad] propeller pitch vs [-] propeller lever position
+    Table _propPitch;           ///< [rad] propeller pitch vs [-] propeller lever position
 
-    Table2D m_coefThrust;       ///< [-] thrust coefficient
-    Table2D m_coefPower;        ///< [-] power coefficient
+    Table2D _coefThrust;        ///< [-] thrust coefficient
+    Table2D _coefPower;         ///< [-] power coefficient
 
-    Direction m_direction;      ///< propeller direction looking from cockpit
+    Direction _direction;       ///< propeller direction looking from cockpit
 
-    double m_gearRatio;         ///< [-] gear ratio (engine rpm / propeller rpm - sic!)
-    double m_diameter;          ///< [m] diameter
-    double m_inertia;           ///< [kg*m^2] polar moment of inertia
+    double _gearRatio;          ///< [-] gear ratio (engine rpm / propeller rpm - sic!)
+    double _diameter;           ///< [m] diameter
+    double _inertia;            ///< [kg*m^2] polar moment of inertia
 
-    double m_pitch;             ///< [rad] propeller pitch at 0.75 radius
-    double m_omega;             ///< [rad/s] propeller angular velocity
-    double m_speed_rps;         ///< [rps] propeller speed
-    double m_speed_rpm;         ///< [rpm] propeller speed
-    double m_thrust;            ///< [N] thrust
+    double _pitch;              ///< [rad] propeller pitch at 0.75 radius
+    double _omega;              ///< [rad/s] propeller angular velocity
+    double _speed_rps;          ///< [rps] propeller speed
+    double _speed_rpm;          ///< [rpm] propeller speed
+    double _thrust;             ///< [N] thrust
 
-    double m_torqueAvailable;   ///< [N*m] available torque
-    double m_torqueRequired;    ///< [N*m] required torque
+    double _torqueAvailable;    ///< [N*m] available torque
+    double _torqueRequired;     ///< [N*m] required torque
 };
 
 } // end of fdm namespace

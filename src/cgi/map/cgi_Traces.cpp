@@ -39,13 +39,13 @@ using namespace cgi;
 
 Traces::Traces( Module *parent ) :
     Module( parent ),
-    m_positions ( new osg::Vec3dArray() ),
-    m_visible ( true ),
-    m_counter ( 0 ),
-    m_prevState ( fdm::DataOut::Idle )
+    _positions ( new osg::Vec3dArray() ),
+    _visible ( true ),
+    _counter ( 0 ),
+    _prevState ( fdm::DataOut::Idle )
 {
-    m_switch = new osg::Switch();
-    m_root->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _root->addChild( _switch.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,23 +57,23 @@ Traces::~Traces() {}
 void Traces::update()
 {
     if ( fdm::DataOut::Working == Data::get()->stateOut
-      || fdm::DataOut::Working == m_prevState )
+      || fdm::DataOut::Working == _prevState )
     {
-        m_positions->push_back( osg::Vec3d( Mercator::x( Data::get()->ownship.longitude ),
-                                            Mercator::y( Data::get()->ownship.latitude ),
-                                            Map::zTraces ) );
+        _positions->push_back( osg::Vec3d( Mercator::x( Data::get()->ownship.longitude ),
+                                           Mercator::y( Data::get()->ownship.latitude ),
+                                           Map::_zTraces ) );
 
-        if ( ( m_visible && m_counter % 10 == 0 ) || Data::get()->stateOut != fdm::DataOut::Working )
+        if ( ( _visible && _counter % 10 == 0 ) || Data::get()->stateOut != fdm::DataOut::Working )
         {
-            m_counter = 0;
+            _counter = 0;
 
-            if ( m_switch->getNumChildren() > 0 )
+            if ( _switch->getNumChildren() > 0 )
             {
-                m_switch->removeChildren( 0, m_switch->getNumChildren() );
+                _switch->removeChildren( 0, _switch->getNumChildren() );
             }
 
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-            m_switch->addChild( geode.get() );
+            _switch->addChild( geode.get() );
 
             osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -83,8 +83,8 @@ void Traces::update()
             n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
             c->push_back( osg::Vec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
 
-            geometry->setVertexArray( m_positions.get() );
-            geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, m_positions->size() ) );
+            geometry->setVertexArray( _positions.get() );
+            geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, _positions->size() ) );
             geometry->setNormalArray( n.get() );
             geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
             geometry->setColorArray( c.get() );
@@ -93,27 +93,27 @@ void Traces::update()
             geode->addDrawable( geometry.get() );
         }
 
-        m_counter++;
+        _counter++;
     }
     else if ( Data::get()->stateOut == fdm::DataOut::Idle )
     {
         reset();
     }
 
-    m_prevState = Data::get()->stateOut;
+    _prevState = Data::get()->stateOut;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Traces::reset()
 {
-    m_positions->clear();
+    _positions->clear();
 
-    m_counter = 0;
+    _counter = 0;
 
-    if ( m_switch->getNumChildren() > 0 )
+    if ( _switch->getNumChildren() > 0 )
     {
-        m_switch->removeChildren( 0, m_switch->getNumChildren() );
+        _switch->removeChildren( 0, _switch->getNumChildren() );
     }
 }
 
@@ -121,20 +121,20 @@ void Traces::reset()
 
 void Traces::setVisibility( bool visible )
 {
-    m_visible = visible;
+    _visible = visible;
 
     if ( visible )
     {
-        m_counter = 0;
-        m_switch->setAllChildrenOn();
+        _counter = 0;
+        _switch->setAllChildrenOn();
     }
     else
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
 
-        if ( m_switch->getNumChildren() > 0 )
+        if ( _switch->getNumChildren() > 0 )
         {
-            m_switch->removeChildren( 0, m_switch->getNumChildren() );
+            _switch->removeChildren( 0, _switch->getNumChildren() );
         }
     }
 }

@@ -59,30 +59,30 @@ public:
 
 private:
 
-    osg::ref_ptr<osg::Switch> m_switchCrops;
-    osg::ref_ptr<osg::Switch> m_switchGrassland;
-    osg::ref_ptr<osg::Switch> m_switchWoodland;
-    osg::ref_ptr<osg::Switch> m_switchBuiltup;
-    osg::ref_ptr<osg::Switch> m_switchRailroads;
-    osg::ref_ptr<osg::Switch> m_switchRoads;
-    osg::ref_ptr<osg::Switch> m_switchAirports;
-    osg::ref_ptr<osg::Switch> m_switchSatellite;
-    osg::ref_ptr<osg::Switch> m_switchBorders;
+    osg::ref_ptr<osg::Switch> _switchCrops;
+    osg::ref_ptr<osg::Switch> _switchGrassland;
+    osg::ref_ptr<osg::Switch> _switchWoodland;
+    osg::ref_ptr<osg::Switch> _switchBuiltup;
+    osg::ref_ptr<osg::Switch> _switchRailroads;
+    osg::ref_ptr<osg::Switch> _switchRoads;
+    osg::ref_ptr<osg::Switch> _switchAirports;
+    osg::ref_ptr<osg::Switch> _switchSatellite;
+    osg::ref_ptr<osg::Switch> _switchBorders;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_oceans;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_landmass;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_coastline;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_crops;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_grassland;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_woodland;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_builtup;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_railroads;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_roads;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_airports;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_water_course;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_water_inland;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_satellite;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_borders;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _oceans;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _landmass;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _coastline;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _crops;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _grassland;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _woodland;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _builtup;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _railroads;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _roads;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _airports;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _water_course;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _water_inland;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _satellite;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _borders;
 
     void createOcean();
 

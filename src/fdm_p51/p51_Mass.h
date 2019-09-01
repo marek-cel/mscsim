@@ -51,7 +51,7 @@ public:
 
 private:
 
-    const P51_Aircraft *m_aircraft;     ///< aircraft model main object
+    const P51_Aircraft *_aircraft;      ///< aircraft model main object
 };
 
 } // end of fdm namespace

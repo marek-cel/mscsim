@@ -52,36 +52,36 @@ public:
     /** Updates controls. */
     void update();
 
-    inline double getAilerons()     const { return m_ailerons;      }
-    inline double getElevator()     const { return m_elevator;      }
-    inline double getRudder()       const { return m_rudder;        }
-    inline double getElevatorTrim() const { return m_elevator_trim; }
-    inline double getFlaps()        const { return m_flaps;         }
-    inline double getBrakeL()       const { return m_brake_l;       }
-    inline double getBrakeR()       const { return m_brake_r;       }
-    inline double getNoseWheel()    const { return m_nose_wheel;    }
+    inline double getAilerons()     const { return _ailerons;      }
+    inline double getElevator()     const { return _elevator;      }
+    inline double getRudder()       const { return _rudder;        }
+    inline double getElevatorTrim() const { return _elevator_trim; }
+    inline double getFlaps()        const { return _flaps;         }
+    inline double getBrakeL()       const { return _brake_l;       }
+    inline double getBrakeR()       const { return _brake_r;       }
+    inline double getNoseWheel()    const { return _nose_wheel;    }
 
 private:
 
-    const C172_Aircraft *m_aircraft;    ///< aircraft model main object
+    const C172_Aircraft *_aircraft;     ///< aircraft model main object
 
-    Channel *m_channelAilerons;         ///< ailerons channel
-    Channel *m_channelElevator;         ///< elevator channel
-    Channel *m_channelRudder;           ///< rudder channel
-    Channel *m_channelElevatorTrim;     ///< elevator trim channel
-    Channel *m_channelFlaps;            ///< flaps channel
-    Channel *m_channelBrakeL;           ///< left brake channel
-    Channel *m_channelBrakeR;           ///< right brake channel
-    Channel *m_channelNoseWheel;        ///< nose wheel channel
+    Channel *_channelAilerons;          ///< ailerons channel
+    Channel *_channelElevator;          ///< elevator channel
+    Channel *_channelRudder;            ///< rudder channel
+    Channel *_channelElevatorTrim;      ///< elevator trim channel
+    Channel *_channelFlaps;             ///< flaps channel
+    Channel *_channelBrakeL;            ///< left brake channel
+    Channel *_channelBrakeR;            ///< right brake channel
+    Channel *_channelNoseWheel;         ///< nose wheel channel
 
-    double m_ailerons;                  ///< [rad] ailerons deflection
-    double m_elevator;                  ///< [rad] elevator deflection
-    double m_rudder;                    ///< [rad] rudder deflection
-    double m_elevator_trim;             ///< [rad] elevator trim deflection
-    double m_flaps;                     ///< [rad] flaps deflection
-    double m_brake_l;                   ///< [-] normalized left brake force
-    double m_brake_r;                   ///< [-] normalized right brake force
-    double m_nose_wheel;                ///< [rad] nose wheel turn angle
+    double _ailerons;                   ///< [rad] ailerons deflection
+    double _elevator;                   ///< [rad] elevator deflection
+    double _rudder;                     ///< [rad] rudder deflection
+    double _elevator_trim;              ///< [rad] elevator trim deflection
+    double _flaps;                      ///< [rad] flaps deflection
+    double _brake_l;                    ///< [-] normalized left brake force
+    double _brake_r;                    ///< [-] normalized right brake force
+    double _nose_wheel;                 ///< [rad] nose wheel turn angle
 };
 
 } // end of fdm namespace

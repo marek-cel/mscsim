@@ -78,14 +78,13 @@ protected:
 
 private:
 
-    Ui::DockWidgetMain *m_ui;
+    Ui::DockWidgetMain *_ui;        ///<
 
-    fdm::DataInp::PhaseInp m_phaseInp; ///< simulation input phase
-    fdm::DataOut::StateOut m_stateOut; ///< simulation output state
+    fdm::DataInp::PhaseInp _phaseInp;   ///< simulation input phase
+    fdm::DataOut::StateOut _stateOut;   ///< simulation output state
 
-    int m_timerId;                      ///< timer ID
-
-    bool m_blink;                       ///<
+    int _timerId;   ///< timer ID
+    bool _blink;    ///<
 
 private slots:
 

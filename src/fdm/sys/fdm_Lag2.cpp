@@ -31,47 +31,47 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Lag2::Lag2() :
-    m_lag1 ( new Lag( 0.0, 0.0 ) ),
-    m_tc2 ( 0.0 ),
-    m_y ( 0.0 )
+    _lag1 ( new Lag( 0.0, 0.0 ) ),
+    _tc2 ( 0.0 ),
+    _y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Lag2::Lag2( double tc1, double tc2, double y ) :
-    m_lag1 ( new Lag( tc1, y ) ),
-    m_tc2 ( tc2 ),
-    m_y ( y )
+    _lag1 ( new Lag( tc1, y ) ),
+    _tc2 ( tc2 ),
+    _y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Lag2::~Lag2()
 {
-    if ( m_lag1 ) delete m_lag1;
-    m_lag1 = 0;
+    if ( _lag1 ) delete _lag1;
+    _lag1 = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Lag2::setValue( double y )
 {
-    m_lag1->setValue( y );
-    m_y = y;
+    _lag1->setValue( y );
+    _y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Lag2::setTimeConstant1( double tc1 )
 {
-    m_lag1->setTimeConstant( tc1 );
+    _lag1->setTimeConstant( tc1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Lag2::setTimeConstant2( double tc2 )
 {
-    m_tc2 = tc2;
+    _tc2 = tc2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ void Lag2::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
-        m_lag1->update( u, dt );
-        m_y = Lag::update( m_lag1->getValue(), m_y, dt, m_tc2 );
+        _lag1->update( u, dt );
+        _y = Lag::update( _lag1->getValue(), _y, dt, _tc2 );
     }
 }

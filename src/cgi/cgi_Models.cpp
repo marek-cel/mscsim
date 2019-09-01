@@ -38,11 +38,11 @@ using namespace cgi;
 
 osg::Node* Models::get( const std::string &objectFile, bool straight )
 {
-    for ( unsigned int i = 0; i < instance()->m_fileNames.size(); i++ )
+    for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {
-        if ( objectFile == instance()->m_fileNames.at( i ) )
+        if ( objectFile == instance()->_fileNames.at( i ) )
         {
-            return instance()->m_objects.at( i );
+            return instance()->_objects.at( i );
         }
     }
 
@@ -51,8 +51,8 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
 
     if ( object.valid() )
     {
-        instance()->m_objects.push_back( object.get() );
-        instance()->m_fileNames.push_back( objectFile );
+        instance()->_objects.push_back( object.get() );
+        instance()->_fileNames.push_back( objectFile );
 
         return object.get();
     }
@@ -77,8 +77,8 @@ osg::Node* Models::readNodeFile( std::string objectFile )
 
 Models::Models()
 {
-    m_fileNames.clear();
-    m_objects.clear();
+    _fileNames.clear();
+    _objects.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

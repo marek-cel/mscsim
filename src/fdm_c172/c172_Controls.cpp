@@ -31,25 +31,25 @@ using namespace fdm;
 
 C172_Controls::C172_Controls( const C172_Aircraft *aircraft ) :
     Controls( aircraft ),
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_channelAilerons     ( 0 ),
-    m_channelElevator     ( 0 ),
-    m_channelRudder       ( 0 ),
-    m_channelElevatorTrim ( 0 ),
-    m_channelFlaps        ( 0 ),
-    m_channelBrakeL       ( 0 ),
-    m_channelBrakeR       ( 0 ),
-    m_channelNoseWheel    ( 0 ),
+    _channelAilerons     ( 0 ),
+    _channelElevator     ( 0 ),
+    _channelRudder       ( 0 ),
+    _channelElevatorTrim ( 0 ),
+    _channelFlaps        ( 0 ),
+    _channelBrakeL       ( 0 ),
+    _channelBrakeR       ( 0 ),
+    _channelNoseWheel    ( 0 ),
 
-    m_ailerons      ( 0.0 ),
-    m_elevator      ( 0.0 ),
-    m_rudder        ( 0.0 ),
-    m_elevator_trim ( 0.0 ),
-    m_flaps         ( 0.0 ),
-    m_brake_l       ( 0.0 ),
-    m_brake_r       ( 0.0 ),
-    m_nose_wheel    ( 0.0 )
+    _ailerons      ( 0.0 ),
+    _elevator      ( 0.0 ),
+    _rudder        ( 0.0 ),
+    _elevator_trim ( 0.0 ),
+    _flaps         ( 0.0 ),
+    _brake_l       ( 0.0 ),
+    _brake_r       ( 0.0 ),
+    _nose_wheel    ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,32 +60,32 @@ C172_Controls::~C172_Controls() {}
 
 void C172_Controls::init()
 {
-    m_channelAilerons     = getChannelByName( "ailerons"      );
-    m_channelElevator     = getChannelByName( "elevator"      );
-    m_channelRudder       = getChannelByName( "rudder"        );
-    m_channelElevatorTrim = getChannelByName( "elevator_trim" );
-    m_channelFlaps        = getChannelByName( "flaps"         );
-    m_channelBrakeL       = getChannelByName( "brake_l"       );
-    m_channelBrakeR       = getChannelByName( "brake_r"       );
-    m_channelNoseWheel    = getChannelByName( "nose_wheel"    );
+    _channelAilerons     = getChannelByName( "ailerons"      );
+    _channelElevator     = getChannelByName( "elevator"      );
+    _channelRudder       = getChannelByName( "rudder"        );
+    _channelElevatorTrim = getChannelByName( "elevator_trim" );
+    _channelFlaps        = getChannelByName( "flaps"         );
+    _channelBrakeL       = getChannelByName( "brake_l"       );
+    _channelBrakeR       = getChannelByName( "brake_r"       );
+    _channelNoseWheel    = getChannelByName( "nose_wheel"    );
 
-    if ( 0 != m_channelAilerons
-      && 0 != m_channelElevator
-      && 0 != m_channelRudder
-      && 0 != m_channelElevatorTrim
-      && 0 != m_channelFlaps
-      && 0 != m_channelBrakeL
-      && 0 != m_channelBrakeR
-      && 0 != m_channelNoseWheel )
+    if ( 0 != _channelAilerons
+      && 0 != _channelElevator
+      && 0 != _channelRudder
+      && 0 != _channelElevatorTrim
+      && 0 != _channelFlaps
+      && 0 != _channelBrakeL
+      && 0 != _channelBrakeR
+      && 0 != _channelNoseWheel )
     {
-        m_channelAilerons     ->input = &m_aircraft->getDataInp()->controls.roll;
-        m_channelElevator     ->input = &m_aircraft->getDataInp()->controls.pitch;
-        m_channelRudder       ->input = &m_aircraft->getDataInp()->controls.yaw;
-        m_channelElevatorTrim ->input = &m_aircraft->getDataInp()->controls.trim_pitch;
-        m_channelFlaps        ->input = &m_aircraft->getDataInp()->controls.flaps;
-        m_channelBrakeL       ->input = &m_aircraft->getDataInp()->controls.brake_l;
-        m_channelBrakeR       ->input = &m_aircraft->getDataInp()->controls.brake_r;
-        m_channelNoseWheel    ->input = &m_aircraft->getDataInp()->controls.nose_wheel;
+        _channelAilerons     ->input = &_aircraft->getDataInp()->controls.roll;
+        _channelElevator     ->input = &_aircraft->getDataInp()->controls.pitch;
+        _channelRudder       ->input = &_aircraft->getDataInp()->controls.yaw;
+        _channelElevatorTrim ->input = &_aircraft->getDataInp()->controls.trim_pitch;
+        _channelFlaps        ->input = &_aircraft->getDataInp()->controls.flaps;
+        _channelBrakeL       ->input = &_aircraft->getDataInp()->controls.brake_l;
+        _channelBrakeR       ->input = &_aircraft->getDataInp()->controls.brake_r;
+        _channelNoseWheel    ->input = &_aircraft->getDataInp()->controls.nose_wheel;
     }
     else
     {
@@ -110,16 +110,16 @@ void C172_Controls::update()
     Controls::update();
     ///////////////////
 
-    m_ailerons = m_channelAilerons->output;
-    m_elevator = m_channelElevator->output;
-    m_rudder   = m_channelRudder->output;
+    _ailerons = _channelAilerons->output;
+    _elevator = _channelElevator->output;
+    _rudder   = _channelRudder->output;
 
-    m_elevator_trim = m_channelElevatorTrim->output;
+    _elevator_trim = _channelElevatorTrim->output;
 
-    m_flaps = m_channelFlaps->output;
+    _flaps = _channelFlaps->output;
 
-    m_brake_l = m_channelBrakeL->output;
-    m_brake_r = m_channelBrakeR->output;
+    _brake_l = _channelBrakeL->output;
+    _brake_r = _channelBrakeR->output;
 
-    m_nose_wheel = m_channelNoseWheel->output;
+    _nose_wheel = _channelNoseWheel->output;
 }

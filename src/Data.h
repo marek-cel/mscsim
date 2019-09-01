@@ -161,6 +161,9 @@ public:
 
         float opacity;                      ///< [-] HUD opacity
 
+        float factor_alt;                   ///< [-] altitude factor
+        float factor_vel;                   ///< [-] velocity factor
+
         float roll;                         ///< [rad] roll angle
         float pitch;                        ///< [rad] pitch angle
         float heading;                      ///< [rad] true heading
@@ -294,7 +297,8 @@ public:
             float egt;                      ///< [deg C]
             float itt;                      ///< [deg C]
             float tit;                      ///< [deg C]
-            float ff;                       ///< [kg/s]
+
+            float fuelFlow;                 ///< [kg/s]
 
             float throttle;                 ///< [0.0,1.0] throttle
             float mixture;                  ///< [0.0,1.0] mixture lever
@@ -367,14 +371,14 @@ private:
 public:
 
     /** Returns pointer to the common data object. */
-    static inline DataBuf* get() { return &m_data; }
+    static inline DataBuf* get() { return &_data; }
 
     /** Destructor. */
     virtual ~Data() {}
 
 private:
 
-    static DataBuf m_data;  ///< simulation data
+    static DataBuf _data;   ///< simulation data
 };
 
 ////////////////////////////////////////////////////////////////////////////////

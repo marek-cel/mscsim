@@ -101,30 +101,30 @@ public:
                                         const Vector3 &omg_air_bas,
                                         double airDensity );
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
 protected:
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 m_r_ac_bas;         ///< [m] fuselage aerodynamic center expressed in BAS
+    Vector3 _r_ac_bas;          ///< [m] fuselage aerodynamic center expressed in BAS
 
-    Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
-    Table m_cy;                 ///< [-] sideforce coefficient vs [rad] angle of sideslip
-    Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
-    Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-    Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
-    Table m_cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+    Table _cx;                  ///< [-] drag coefficient vs [rad] angle of attack
+    Table _cy;                  ///< [-] sideforce coefficient vs [rad] angle of sideslip
+    Table _cz;                  ///< [-] lift coefficient vs [rad] angle of attack
+    Table _cl;                  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+    Table _cm;                  ///< [-] pitching moment coefficient vs [rad] angle of attack
+    Table _cn;                  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
-    double m_length;            ///< [m] reference length
-    double m_area;              ///< [m^2] reference area
+    double _length;             ///< [m] reference length
+    double _area;               ///< [m^2] reference area
 
-    double m_sl;                ///< [m^3] S*l where S is reference area and l is reference length
+    double _sl;                 ///< [m^3] S*l where S is reference area and l is reference length
 
-    double m_angleOfAttack;     ///< [rad] angle of attack
-    double m_sideslipAngle;     ///< [rad] angle of sideslip
+    double _angleOfAttack;      ///< [rad] angle of attack
+    double _sideslipAngle;      ///< [rad] angle of sideslip
 
     /**
      * Computes drag coefficient.

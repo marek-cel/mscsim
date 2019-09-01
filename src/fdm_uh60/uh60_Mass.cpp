@@ -30,7 +30,7 @@ using namespace fdm;
 
 UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
     Mass( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,10 +51,10 @@ void UH60_Mass::init()
       && 0 != fuel_tank
       && 0 != cabin )
     {
-        pilot_l->input   = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &m_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &m_aircraft->getDataInp()->masses.cabin;
+        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot_2;
+        fuel_tank->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        cabin->input     = &_aircraft->getDataInp()->masses.cabin;
     }
     else
     {

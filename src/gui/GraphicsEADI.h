@@ -51,19 +51,19 @@ public:
     /** @param roll angle [deg] */
     inline void setRoll( float roll )
     {
-        m_adi->setRoll( roll );
+        _adi->setRoll( roll );
     }
 
     /** @param pitch angle [deg] */
     inline void setPitch( float pitch )
     {
-        m_adi->setPitch( pitch );
+        _adi->setPitch( pitch );
     }
 
     /** @param normalized slip or skid (range from -1.0 to 1.0) */
     inline void setSlipSkid( float slipSkid )
     {
-        m_adi->setSlipSkid( slipSkid );
+        _adi->setSlipSkid( slipSkid );
     }
 
     /**
@@ -71,7 +71,7 @@ public:
      * hash marks positions are set to be -0.5 and 0.5 */
     inline void setTurnRate( float turnRate )
     {
-        m_adi->setTurnRate( turnRate );
+        _adi->setTurnRate( turnRate );
     }
 
     /**
@@ -81,7 +81,7 @@ public:
      * @param deviation vertical dot visibility */
     inline void setDots( float dotH, float dotV, bool visibleH, bool visibleV )
     {
-        m_adi->setDots( dotH, dotV, visibleH, visibleV );
+        _adi->setDots( dotH, dotV, visibleH, visibleV );
     }
 
     /**
@@ -90,43 +90,43 @@ public:
      * @param FD visibility */
     inline void setFD( float roll, float pitch, bool visible = true )
     {
-        m_adi->setFD( roll, pitch, visible );
+        _adi->setFD( roll, pitch, visible );
     }
 
     /** @param stall flag */
     inline void setStall( bool stall )
     {
-        m_adi->setStall( stall );
+        _adi->setStall( stall );
     }
 
     /** @param altitude (dimensionless numeric value) */
     inline void setAltitude( float altitude )
     {
-        m_alt->setAltitude( altitude );
+        _alt->setAltitude( altitude );
     }
 
     /** @param airspeed (dimensionless numeric value) */
     inline void setAirspeed( float airspeed )
     {
-        m_asi->setAirspeed( airspeed );
+        _asi->setAirspeed( airspeed );
     }
 
     /** @param Mach number */
     inline void setMachNo( float machNo )
     {
-        m_asi->setMachNo( machNo );
+        _asi->setMachNo( machNo );
     }
 
     /** @param heading [deg] */
     inline void setHeading( float heading )
     {
-        m_hdg->setHeading( heading );
+        _hdg->setHeading( heading );
     }
 
     /** @param climb rate (dimensionless numeric value)  */
     inline void setClimbRate( float climbRate )
     {
-        m_vsi->setClimbRate( climbRate );
+        _vsi->setClimbRate( climbRate );
     }
 
 protected:
@@ -145,27 +145,27 @@ private:
     class HDG;
     class VSI;
 
-    int m_timerId;
+    int _timerId;                           ///<
 
-    QGraphicsScene *m_scene;        ///< graphics scene
+    QGraphicsScene *_scene;                 ///< graphics scene
 
-    GraphicsEADI::ADI *m_adi;
-    GraphicsEADI::ALT *m_alt;
-    GraphicsEADI::ASI *m_asi;
-    GraphicsEADI::HDG *m_hdg;
-    GraphicsEADI::VSI *m_vsi;
+    GraphicsEADI::ADI *_adi;                ///<
+    GraphicsEADI::ALT *_alt;                ///<
+    GraphicsEADI::ASI *_asi;                ///<
+    GraphicsEADI::HDG *_hdg;                ///<
+    GraphicsEADI::VSI *_vsi;                ///<
 
-    QGraphicsSvgItem *m_itemBack;   ///< PFD background
-    QGraphicsSvgItem *m_itemMask;   ///< PFD mask
+    QGraphicsSvgItem *_itemBack;            ///< PFD background
+    QGraphicsSvgItem *_itemMask;            ///< PFD mask
 
-    float m_scaleX; ///<
-    float m_scaleY; ///<
+    float _scaleX;                          ///<
+    float _scaleY;                          ///<
 
-    const int m_originalHeight;     ///< [px]
-    const int m_originalWidth;      ///< [px]
+    const int _originalHeight;              ///< [px]
+    const int _originalWidth;               ///< [px]
 
-    const int m_backZ;
-    const int m_maskZ;
+    const int _backZ;                       ///<
+    const int _maskZ;                       ///<
 
     void init();
 
@@ -191,92 +191,93 @@ private:
         void setStall( bool stall );
 
     private:
-        QGraphicsScene *m_scene;            ///< graphics scene
 
-        QGraphicsSvgItem  *m_itemBack;      ///< background
-        QGraphicsSvgItem  *m_itemLadd;      ///< pitch ladder
-        QGraphicsSvgItem  *m_itemRoll;      ///< roll mask
-        QGraphicsSvgItem  *m_itemSlip;      ///< slip indicator
-        QGraphicsSvgItem  *m_itemTurn;      ///< turn rate indicator
-        QGraphicsSvgItem  *m_itemDotH;
-        QGraphicsSvgItem  *m_itemDotV;
-        QGraphicsSvgItem  *m_itemFD;        ///< flight director
-        QGraphicsSvgItem  *m_itemStall;     ///< stall warning
-        QGraphicsSvgItem  *m_itemMask;      ///< adi mask
-        QGraphicsSvgItem  *m_itemScaleH;
-        QGraphicsSvgItem  *m_itemScaleV;
+        QGraphicsScene *_scene;             ///< graphics scene
 
-        float m_roll;           ///< [deg]
-        float m_pitch;          ///< [deg]
-        float m_slipSkid;       ///< -1.0 ... 1.0
-        float m_turnRate;       ///< -1.0 ... 1.0
-        float m_dotH;           ///< -1.0 ... 1.0
-        float m_dotV;           ///< -1.0 ... 1.0
-        float m_fdRoll;         ///< [deg]
-        float m_fdPitch;        ///< [deg]
+        QGraphicsSvgItem  *_itemBack;       ///< background
+        QGraphicsSvgItem  *_itemLadd;       ///< pitch ladder
+        QGraphicsSvgItem  *_itemRoll;       ///< roll mask
+        QGraphicsSvgItem  *_itemSlip;       ///< slip indicator
+        QGraphicsSvgItem  *_itemTurn;       ///< turn rate indicator
+        QGraphicsSvgItem  *_itemDotH;       ///<
+        QGraphicsSvgItem  *_itemDotV;       ///<
+        QGraphicsSvgItem  *_itemFD;         ///< flight director
+        QGraphicsSvgItem  *_itemStall;      ///< stall warning
+        QGraphicsSvgItem  *_itemMask;       ///< adi mask
+        QGraphicsSvgItem  *_itemScaleH;     ///<
+        QGraphicsSvgItem  *_itemScaleV;     ///<
 
-        bool m_dotVisibleH;
-        bool m_dotVisibleV;
-        bool m_fdVisible;
+        float _roll;                        ///< [deg]
+        float _pitch;                       ///< [deg]
+        float _slipSkid;                    ///< -1.0 ... 1.0
+        float _turnRate;                    ///< -1.0 ... 1.0
+        float _dotH;                        ///< -1.0 ... 1.0
+        float _dotV;                        ///< -1.0 ... 1.0
+        float _fdRoll;                      ///< [deg]
+        float _fdPitch;                     ///< [deg]
 
-        bool m_stall;
+        bool _dotVisibleH;                  ///<
+        bool _dotVisibleV;                  ///<
+        bool _fdVisible;                    ///<
 
-        float m_laddDeltaX_new;
-        float m_laddDeltaX_old;
-        float m_laddDeltaY_new;
-        float m_laddDeltaY_old;
-        float m_laddBackDeltaX_new;
-        float m_laddBackDeltaX_old;
-        float m_laddBackDeltaY_new;
-        float m_laddBackDeltaY_old;
-        float m_slipDeltaX_new;
-        float m_slipDeltaX_old;
-        float m_slipDeltaY_new;
-        float m_slipDeltaY_old;
-        float m_turnDeltaX_new;
-        float m_turnDeltaX_old;
-        float m_dotHDeltaX_new;
-        float m_dotHDeltaX_old;
-        float m_dotVDeltaY_new;
-        float m_dotVDeltaY_old;
-        float m_fdDeltaX_new;
-        float m_fdDeltaX_old;
-        float m_fdDeltaY_new;
-        float m_fdDeltaY_old;
+        bool _stall;                        ///<
 
-        float m_scaleX;
-        float m_scaleY;
+        float _laddDeltaX_new;              ///<
+        float _laddDeltaX_old;              ///<
+        float _laddDeltaY_new;              ///<
+        float _laddDeltaY_old;              ///<
+        float _laddBackDeltaX_new;          ///<
+        float _laddBackDeltaX_old;          ///<
+        float _laddBackDeltaY_new;          ///<
+        float _laddBackDeltaY_old;          ///<
+        float _slipDeltaX_new;              ///<
+        float _slipDeltaX_old;              ///<
+        float _slipDeltaY_new;              ///<
+        float _slipDeltaY_old;              ///<
+        float _turnDeltaX_new;              ///<
+        float _turnDeltaX_old;              ///<
+        float _dotHDeltaX_new;              ///<
+        float _dotHDeltaX_old;              ///<
+        float _dotVDeltaY_new;              ///<
+        float _dotVDeltaY_old;              ///<
+        float _fdDeltaX_new;                ///<
+        float _fdDeltaX_old;                ///<
+        float _fdDeltaY_new;                ///<
+        float _fdDeltaY_old;                ///<
 
-        const float m_originalPixPerDeg;    ///< [px/deg] pixels to move pitch ladder due to 1 deg pitch
-        const float m_deltaLaddBack_max;    ///< [px] max pitch ladder background deflection
-        const float m_deltaLaddBack_min;    ///< [px] min pitch ladder background deflection
-        const float m_maxSlipDeflection;    ///< [px] max slip indicator deflection
-        const float m_maxTurnDeflection;    ///< [px] max turn indicator deflection
-        const float m_maxDotsDeflection;
+        float _scaleX;                      ///<
+        float _scaleY;                      ///<
 
-        QPointF m_originalAdiCtr;
-        QPointF m_originalBackPos;
-        QPointF m_originalLaddPos;
-        QPointF m_originalRollPos;
-        QPointF m_originalSlipPos;
-        QPointF m_originalTurnPos;
-        QPointF m_originalDotHPos;
-        QPointF m_originalDotVPos;
-        QPointF m_originalFdPos;
-        QPointF m_originalStallPos;
-        QPointF m_originalScaleHPos;
-        QPointF m_originalScaleVPos;
+        const float _originalPixPerDeg;     ///< [px/deg] pixels to move pitch ladder due to 1 deg pitch
+        const float _deltaLaddBack_max;     ///< [px] max pitch ladder background deflection
+        const float _deltaLaddBack_min;     ///< [px] min pitch ladder background deflection
+        const float _maxSlipDeflection;     ///< [px] max slip indicator deflection
+        const float _maxTurnDeflection;     ///< [px] max turn indicator deflection
+        const float _maxDotsDeflection;     ///<
 
-        const int m_backZ;
-        const int m_laddZ;
-        const int m_rollZ;
-        const int m_slipZ;
-        const int m_dotsZ;
-        const int m_fdZ;
-        const int m_scalesZ;
-        const int m_maskZ;
-        const int m_turnZ;
-        const int m_stallZ;
+        QPointF _originalAdiCtr;            ///<
+        QPointF _originalBackPos;           ///<
+        QPointF _originalLaddPos;           ///<
+        QPointF _originalRollPos;           ///<
+        QPointF _originalSlipPos;           ///<
+        QPointF _originalTurnPos;           ///<
+        QPointF _originalDotHPos;           ///<
+        QPointF _originalDotVPos;           ///<
+        QPointF _originalFdPos;             ///<
+        QPointF _originalStallPos;          ///<
+        QPointF _originalScaleHPos;         ///<
+        QPointF _originalScaleVPos;         ///<
+
+        const int _backZ;                   ///<
+        const int _laddZ;                   ///<
+        const int _rollZ;                   ///<
+        const int _slipZ;                   ///<
+        const int _dotsZ;                   ///<
+        const int _fdZ;                     ///<
+        const int _scalesZ;                 ///<
+        const int _maskZ;                   ///<
+        const int _turnZ;                   ///<
+        const int _stallZ;                  ///<
 
         void reset();
 
@@ -303,61 +304,61 @@ private:
 
     private:
 
-        QGraphicsScene *m_scene;    ///< graphics scene
+        QGraphicsScene *_scene;             ///< graphics scene
 
-        QGraphicsSvgItem  *m_itemBack;
-        QGraphicsSvgItem  *m_itemScale1;
-        QGraphicsSvgItem  *m_itemScale2;
-        QGraphicsTextItem *m_itemLabel1;
-        QGraphicsTextItem *m_itemLabel2;
-        QGraphicsTextItem *m_itemLabel3;
-        QGraphicsSvgItem  *m_itemGround;
-        QGraphicsSvgItem  *m_itemFrame;
-        QGraphicsTextItem *m_itemAltitude;
-        QGraphicsTextItem *m_itemPressure;
+        QGraphicsSvgItem  *_itemBack;       ///<
+        QGraphicsSvgItem  *_itemScale1;     ///<
+        QGraphicsSvgItem  *_itemScale2;     ///<
+        QGraphicsTextItem *_itemLabel1;     ///<
+        QGraphicsTextItem *_itemLabel2;     ///<
+        QGraphicsTextItem *_itemLabel3;     ///<
+        QGraphicsSvgItem  *_itemGround;     ///<
+        QGraphicsSvgItem  *_itemFrame;      ///<
+        QGraphicsTextItem *_itemAltitude;   ///<
+        QGraphicsTextItem *_itemPressure;   ///<
 
-        QColor m_frameTextColor;
-        QColor m_pressTextColor;
-        QColor m_labelsColor;
+        QColor _frameTextColor;             ///<
+        QColor _pressTextColor;             ///<
+        QColor _labelsColor;                ///<
 
-        QFont  m_frameTextFont;
-        QFont  m_labelsFont;
+        QFont  _frameTextFont;              ///<
+        QFont  _labelsFont;                 ///<
 
-        float m_altitude;
+        float _altitude;                    ///<
 
-        float m_scale1DeltaY_new;
-        float m_scale1DeltaY_old;
-        float m_scale2DeltaY_new;
-        float m_scale2DeltaY_old;
-        float m_groundDeltaY_new;
-        float m_groundDeltaY_old;
-        float m_labelsDeltaY_new;
-        float m_labelsDeltaY_old;
+        float _scale1DeltaY_new;            ///<
+        float _scale1DeltaY_old;            ///<
+        float _scale2DeltaY_new;            ///<
+        float _scale2DeltaY_old;            ///<
+        float _groundDeltaY_new;            ///<
+        float _groundDeltaY_old;            ///<
+        float _labelsDeltaY_new;            ///<
+        float _labelsDeltaY_old;            ///<
 
-        float m_scaleX;     ///<
-        float m_scaleY;     ///<
+        float _scaleX;                      ///<
+        float _scaleY;                      ///<
 
-        const float m_originalPixPerAlt;    ///< [px/altitude unit]
-        const float m_originalScaleHeight;  ///< [px]
-        const float m_originalLabelsX;      ///< [px]
-        const float m_originalLabel1Y;      ///< [px]
-        const float m_originalLabel2Y;      ///< [px]
-        const float m_originalLabel3Y;      ///< [px]
+        const float _originalPixPerAlt;     ///< [px/altitude unit]
+        const float _originalScaleHeight;   ///< [px]
+        const float _originalLabelsX;       ///< [px]
+        const float _originalLabel1Y;       ///< [px]
+        const float _originalLabel2Y;       ///< [px]
+        const float _originalLabel3Y;       ///< [px]
 
-        QPointF m_originalBackPos;
-        QPointF m_originalScale1Pos;
-        QPointF m_originalScale2Pos;
-        QPointF m_originalGroundPos;
-        QPointF m_originalFramePos;
-        QPointF m_originalAltitudeCtr;
-        QPointF m_originalPressureCtr;
+        QPointF _originalBackPos;           ///<
+        QPointF _originalScale1Pos;         ///<
+        QPointF _originalScale2Pos;         ///<
+        QPointF _originalGroundPos;         ///<
+        QPointF _originalFramePos;          ///<
+        QPointF _originalAltitudeCtr;       ///<
+        QPointF _originalPressureCtr;       ///<
 
-        const int m_backZ;
-        const int m_scaleZ;
-        const int m_labelsZ;
-        const int m_groundZ;
-        const int m_frameZ;
-        const int m_frameTextZ;
+        const int _backZ;                   ///<
+        const int _scaleZ;                  ///<
+        const int _labelsZ;                 ///<
+        const int _groundZ;                 ///<
+        const int _frameZ;                  ///<
+        const int _frameTextZ;              ///<
 
         void reset();
 
@@ -380,64 +381,64 @@ private:
 
     private:
 
-        QGraphicsScene *m_scene;    ///< graphics scene
+        QGraphicsScene *_scene;             ///< graphics scene
 
-        QGraphicsSvgItem  *m_itemBack;
-        QGraphicsSvgItem  *m_itemScale1;
-        QGraphicsSvgItem  *m_itemScale2;
-        QGraphicsTextItem *m_itemLabel1;
-        QGraphicsTextItem *m_itemLabel2;
-        QGraphicsTextItem *m_itemLabel3;
-        QGraphicsTextItem *m_itemLabel4;
-        QGraphicsTextItem *m_itemLabel5;
-        QGraphicsTextItem *m_itemLabel6;
-        QGraphicsTextItem *m_itemLabel7;
-        QGraphicsSvgItem  *m_itemFrame;
-        QGraphicsTextItem *m_itemAirspeed;
-        QGraphicsTextItem *m_itemMachNo;
+        QGraphicsSvgItem  *_itemBack;       ///<
+        QGraphicsSvgItem  *_itemScale1;     ///<
+        QGraphicsSvgItem  *_itemScale2;     ///<
+        QGraphicsTextItem *_itemLabel1;     ///<
+        QGraphicsTextItem *_itemLabel2;     ///<
+        QGraphicsTextItem *_itemLabel3;     ///<
+        QGraphicsTextItem *_itemLabel4;     ///<
+        QGraphicsTextItem *_itemLabel5;     ///<
+        QGraphicsTextItem *_itemLabel6;     ///<
+        QGraphicsTextItem *_itemLabel7;     ///<
+        QGraphicsSvgItem  *_itemFrame;      ///<
+        QGraphicsTextItem *_itemAirspeed;   ///<
+        QGraphicsTextItem *_itemMachNo;     ///<
 
-        QColor m_frameTextColor;
-        QColor m_labelsColor;
+        QColor _frameTextColor;             ///<
+        QColor _labelsColor;                ///<
 
-        QFont  m_frameTextFont;
-        QFont  m_labelsFont;
+        QFont  _frameTextFont;              ///<
+        QFont  _labelsFont;                 ///<
 
-        float m_airspeed;
-        float m_machNo;
+        float _airspeed;                    ///<
+        float _machNo;                      ///<
 
-        float m_scale1DeltaY_new;
-        float m_scale1DeltaY_old;
-        float m_scale2DeltaY_new;
-        float m_scale2DeltaY_old;
-        float m_labelsDeltaY_new;
-        float m_labelsDeltaY_old;
+        float _scale1DeltaY_new;            ///<
+        float _scale1DeltaY_old;            ///<
+        float _scale2DeltaY_new;            ///<
+        float _scale2DeltaY_old;            ///<
+        float _labelsDeltaY_new;            ///<
+        float _labelsDeltaY_old;            ///<
 
-        float m_scaleX;
-        float m_scaleY;
+        float _scaleX;                      ///<
+        float _scaleY;                      ///<
 
-        const float m_originalPixPerSpd;    ///< [px/airspeed unit]
-        const float m_originalScaleHeight;  ///< [px]
-        const float m_originalLabelsX;      ///< [px]
-        const float m_originalLabel1Y;      ///< [px]
-        const float m_originalLabel2Y;      ///< [px]
-        const float m_originalLabel3Y;      ///< [px]
-        const float m_originalLabel4Y;      ///< [px]
-        const float m_originalLabel5Y;      ///< [px]
-        const float m_originalLabel6Y;      ///< [px]
-        const float m_originalLabel7Y;      ///< [px]
+        const float _originalPixPerSpd;     ///< [px/airspeed unit]
+        const float _originalScaleHeight;   ///< [px]
+        const float _originalLabelsX;       ///< [px]
+        const float _originalLabel1Y;       ///< [px]
+        const float _originalLabel2Y;       ///< [px]
+        const float _originalLabel3Y;       ///< [px]
+        const float _originalLabel4Y;       ///< [px]
+        const float _originalLabel5Y;       ///< [px]
+        const float _originalLabel6Y;       ///< [px]
+        const float _originalLabel7Y;       ///< [px]
 
-        QPointF m_originalBackPos;
-        QPointF m_originalScale1Pos;
-        QPointF m_originalScale2Pos;
-        QPointF m_originalFramePos;
-        QPointF m_originalAirspeedCtr;
-        QPointF m_originalMachNoCtr;
+        QPointF _originalBackPos;           ///<
+        QPointF _originalScale1Pos;         ///<
+        QPointF _originalScale2Pos;         ///<
+        QPointF _originalFramePos;          ///<
+        QPointF _originalAirspeedCtr;       ///<
+        QPointF _originalMachNoCtr;         ///<
 
-        const int m_backZ;
-        const int m_scaleZ;
-        const int m_labelsZ;
-        const int m_frameZ;
-        const int m_frameTextZ;
+        const int _backZ;                   ///<
+        const int _scaleZ;                  ///<
+        const int _labelsZ;                 ///<
+        const int _frameZ;                  ///<
+        const int _frameTextZ;              ///<
 
         void reset();
 
@@ -459,32 +460,32 @@ private:
 
     private:
 
-        QGraphicsScene *m_scene;    ///< graphics scene
+        QGraphicsScene *_scene;             ///< graphics scene
 
-        QGraphicsSvgItem  *m_itemBack;
-        QGraphicsSvgItem  *m_itemFace;          ///< heading face
-        QGraphicsSvgItem  *m_itemMarks;         ///< HSI markings
-        QGraphicsTextItem *m_itemFrameText;     ///<
+        QGraphicsSvgItem  *_itemBack;       ///<
+        QGraphicsSvgItem  *_itemFace;       ///< heading face
+        QGraphicsSvgItem  *_itemMarks;      ///< HSI markings
+        QGraphicsTextItem *_itemFrameText;  ///<
 
-        QColor m_frameTextColor;
+        QColor _frameTextColor;             ///<
 
-        QFont  m_frameTextFont;
+        QFont  _frameTextFont;              ///<
 
-        float m_heading;    ///< [deg]
+        float _heading;                     ///< [deg]
 
-        float m_scaleX;     ///<
-        float m_scaleY;     ///<
+        float _scaleX;                      ///<
+        float _scaleY;                      ///<
 
-        QPointF m_originalHsiCtr;
-        QPointF m_originalBackPos;
-        QPointF m_originalFacePos;
-        QPointF m_originalMarksPos;
-        QPointF m_originalFrameTextCtr;
+        QPointF _originalHsiCtr;            ///<
+        QPointF _originalBackPos;           ///<
+        QPointF _originalFacePos;           ///<
+        QPointF _originalMarksPos;          ///<
+        QPointF _originalFrameTextCtr;      ///<
 
-        const int m_backZ;
-        const int m_faceZ;
-        const int m_marksZ;
-        const int m_frameTextZ;
+        const int _backZ;                   ///<
+        const int _faceZ;                   ///<
+        const int _marksZ;                  ///<
+        const int _frameTextZ;              ///<
 
         void reset();
 
@@ -504,30 +505,30 @@ private:
 
     private:
 
-        QGraphicsScene *m_scene;            ///< graphics scene
+        QGraphicsScene *_scene;             ///< graphics scene
 
-        QGraphicsSvgItem  *m_itemScale;     ///< climb rate scale
-        QGraphicsRectItem *m_itemMarker;    ///<
+        QGraphicsSvgItem  *_itemScale;      ///< climb rate scale
+        QGraphicsRectItem *_itemMarker;     ///<
 
-        float m_climbRate;
+        float _climbRate;                   ///<
 
-        float m_scaleX;
-        float m_scaleY;
+        float _scaleX;                      ///<
+        float _scaleY;                      ///<
 
-        const float m_originalMarkeWidth;
-        const float m_originalPixPerSpd1;   ///< [px/vertical speed unit] up to 100 vsu
-        const float m_originalPixPerSpd2;   ///< [px/vertical speed unit] from 100 to 200 vsu
-        const float m_originalPixPerSpd4;   ///< [px/vertical speed unit] from 200 to 400 vsu
+        const float _originalMarkeWidth;
+        const float _originalPixPerSpd1;    ///< [px/vertical speed unit] up to 100 vsu
+        const float _originalPixPerSpd2;    ///< [px/vertical speed unit] from 100 to 200 vsu
+        const float _originalPixPerSpd4;    ///< [px/vertical speed unit] from 200 to 400 vsu
 
-        QPointF m_originalScalePos;
-        QPointF m_originalMarkerPos;
+        QPointF _originalScalePos;          ///<
+        QPointF _originalMarkerPos;         ///<
 
-        QBrush m_markerBrush; ///<
+        QBrush _markerBrush;                ///<
 
-        QPen m_markerPen;     ///<
+        QPen _markerPen;                    ///<
 
-        const int m_scaleZ;
-        const int m_markerZ;
+        const int _scaleZ;                  ///<
+        const int _markerZ;                 ///<
 
         void reset();
 

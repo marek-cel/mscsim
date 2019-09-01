@@ -113,42 +113,42 @@ public:
      */
     virtual void update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas );
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline bool getStall() const { return m_stall; }
+    inline bool getStall() const { return _stall; }
 
 protected:
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 m_vel_l_bas;        ///< [m/s] left half wing airspeed
-    Vector3 m_vel_r_bas;        ///< [m/s] right half wing airspeed
+    Vector3 _vel_l_bas;         ///< [m/s] left half wing airspeed
+    Vector3 _vel_r_bas;         ///< [m/s] right half wing airspeed
 
-    Vector3 m_r_ac_l_bas;       ///< [m] left half wing aerodynamic center expressed in BAS
-    Vector3 m_r_ac_r_bas;       ///< [m] right half wing aerodynamic center expressed in BAS
+    Vector3 _r_ac_l_bas;        ///< [m] left half wing aerodynamic center expressed in BAS
+    Vector3 _r_ac_r_bas;        ///< [m] right half wing aerodynamic center expressed in BAS
 
-    Table m_cx;                 ///< [-] drag coefficient vs [rad] angle of attack
-    Table m_cy;                 ///< [-] sideforce coefficient vs [rad] angle of sideslip
-    Table m_cz;                 ///< [-] lift coefficient vs [rad] angle of attack
-    Table m_cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-    Table m_cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
-    Table m_cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+    Table _cx;                  ///< [-] drag coefficient vs [rad] angle of attack
+    Table _cy;                  ///< [-] sideforce coefficient vs [rad] angle of sideslip
+    Table _cz;                  ///< [-] lift coefficient vs [rad] angle of attack
+    Table _cl;                  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+    Table _cm;                  ///< [-] pitching moment coefficient vs [rad] angle of attack
+    Table _cn;                  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
-    double m_mac;               ///< [m] wing mean aerodynamic chord
-    double m_area;              ///< [m^2] wing reference area
+    double _mac;                ///< [m] wing mean aerodynamic chord
+    double _area;               ///< [m^2] wing reference area
 
-    double m_area_2;            ///< [m^2] half wing reference area
-    double m_mac_s_2;           ///< [m^3] MAC*S/2 where MAC is mean aerodynamic chord and S is reference area
+    double _area_2;             ///< [m^2] half wing reference area
+    double _mac_s_2;            ///< [m^3] MAC*S/2 where MAC is mean aerodynamic chord and S is reference area
 
-    double m_aoa_critical_neg;  ///< [rad] critical angle of attack (negative)
-    double m_aoa_critical_pos;  ///< [rad] critical angle of attack (positive)
+    double _aoa_critical_neg;   ///< [rad] critical angle of attack (negative)
+    double _aoa_critical_pos;   ///< [rad] critical angle of attack (positive)
 
-    double m_aoa_l;             ///< [rad] left half wing angle of attack
-    double m_aoa_r;             ///< [rad] right half wing angle of attack
+    double _aoa_l;              ///< [rad] left half wing angle of attack
+    double _aoa_r;              ///< [rad] right half wing angle of attack
 
-    bool m_stall;               ///< specifies if wing is stalled
+    bool _stall;                ///< specifies if wing is stalled
 
     /**
      * Adds half wing force and moment to the total force and moment.

@@ -47,8 +47,8 @@ class Aircraft; ///< aircraft class forward declaration
  *   <wheel [steerable="{ 0|1 }"] [caster="{ 0|1 }"] [brake_group="{ 0|1|2 }]">
  *     <attachment_point> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </attachment_point>
  *     <unloaded_wheel> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </unloaded_wheel>
- *     <stiffness_coef> { [N/m] strut stiffness (spring) coefficient } </stiffness_coef>
- *     <damping_coef> { [N/(m/s)] strut damping coefficient  } </damping_coef>
+ *     <stiffness> { [N/m] strut stiffness (linear spring) coefficient } </stiffness>
+ *     <damping> { [N/(m/s)] strut damping coefficient  } </damping>
  *     <friction_static> { [-] static friction coefficient } </friction_static>
  *     <friction_kinetic> { [-] kinetic friction coefficient } </friction_kinetic>
  *     <friction_rolling> { [-] rolling friction coefficient } </friction_rolling>
@@ -79,7 +79,6 @@ public:
         Vector3 r_u_bas;        ///< [m] unloaded wheel coordinates expressed in BAS
 
         double k;               ///< [N/m] strut stiffness (linear spring) coefficient
-        double k2;              ///< [N/(m^2)] strut stiffness (quadratic spring) coefficient
         double c;               ///< [N/(m/s)] strut damping coefficient
 
         double mu_s;            ///< [-] coefficient of static friction
@@ -145,29 +144,29 @@ public:
     /** Updates landing gear. */
     virtual void update();
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline bool getOnGround() const { return m_onGround; }
+    inline bool getOnGround() const { return _onGround; }
 
 protected:
 
-    const Aircraft *m_aircraft; ///< aircraft model main object
+    const Aircraft *_aircraft;  ///< aircraft model main object
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Wheels m_wheels;            ///< wheels data
+    Wheels _wheels;             ///< wheels data
 
-    double m_ctrlAngle;         ///< [rad] wheel turn angle
+    double _ctrlAngle;          ///< [rad] wheel turn angle
 
-    double m_brake_l;           ///< [0.0,1.0] normalized brake force (left brake group)
-    double m_brake_r;           ///< [0.0,1.0] normalized brake force (right brake group)
+    double _brake_l;            ///< [0.0,1.0] normalized brake force (left brake group)
+    double _brake_r;            ///< [0.0,1.0] normalized brake force (right brake group)
 
-    bool m_antiskid;            ///< specifies if antiskid is enabled
-    bool m_steering;            ///< specifies if steering is enabled
+    bool _antiskid;             ///< specifies if antiskid is enabled
+    bool _steering;             ///< specifies if steering is enabled
 
-    bool m_onGround;            ///< specifies if aircraft is on the ground
+    bool _onGround;             ///< specifies if aircraft is on the ground
 
     /**
      * Returns wheel by name.

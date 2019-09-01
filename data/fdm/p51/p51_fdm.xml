@@ -457,9 +457,8 @@
       <attachment_point>   0.47  -1.86  0.5  </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>     0.86  -1.86  2.5  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>    1.0e+4  </stiffness>                           <!-- [N/m] strut stiffness (linear spring) coefficient -->
-      <stiffness_2>  1.6e+2  </stiffness_2>                         <!-- [N/m] strut stiffness (quadratic spring) coefficient -->
-      <damping>      1.0e+3  </damping>                             <!-- [N/(m/s)] strut damping coefficient -->
+      <stiffness>  4.0e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    5.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
       <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
@@ -471,9 +470,8 @@
       <attachment_point>   0.47   1.86  0.5  </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>     0.86   1.86  2.5  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>    1.0e+4  </stiffness>                           <!-- [N/m] strut stiffness (linear spring) coefficient -->
-      <stiffness_2>  1.6e+2  </stiffness_2>                         <!-- [N/m] strut stiffness (quadratic spring) coefficient -->
-      <damping>      1.0e+3  </damping>                             <!-- [N/(m/s)] strut damping coefficient -->
+      <stiffness>  4.0e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    5.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
       <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
@@ -485,9 +483,8 @@
       <attachment_point>  -4.67   0.0  0.0  </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
       <unloaded_wheel>    -4.67   0.0  1.0  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>    3.0e+4  </stiffness>                           <!-- [N/m] strut stiffness (linear spring) coefficient -->
-      <stiffness_2>  1.0e+2  </stiffness_2>                         <!-- [N/m] strut stiffness (quadratic spring) coefficient -->
-      <damping>      2.0e+3  </damping>                             <!-- [N/(m/s)] strut damping coefficient -->
+      <stiffness>  4.0e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    5.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
       <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->

@@ -62,20 +62,20 @@ public:
      */
     void integrate( double step, Vector< SIZE > &vect )
     {
-        m_x_t = vect;
-        m_k_0 = Vector< SIZE >();
+        _xt = vect;
+        _k0 = Vector< SIZE >();
 
         // derivatives calculation
-        this->fun( m_x_t, m_k_0 );
+        this->fun( _xt, _k0 );
 
         // integration
-        vect = vect + m_k_0 * step;
+        vect = vect + _k0 * step;
     }
 
 private:
 
-    Vector< SIZE > m_k_0;   ///< auxiliary vector
-    Vector< SIZE > m_x_t;   ///< auxiliary vector
+    Vector< SIZE > _k0;     ///< auxiliary vector
+    Vector< SIZE > _xt;     ///< auxiliary vector
 
     /** Using this constructor is forbidden. */
     EulerRect( const EulerRect & ) {}

@@ -66,7 +66,7 @@ public:
 
 private:
 
-    osg::ref_ptr<osg::Fog> m_fog;
+    osg::ref_ptr<osg::Fog> _fog;
 };
 
 } // end of cgi namespace

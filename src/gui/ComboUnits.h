@@ -45,22 +45,24 @@ public:
     /** Destructor. */
     virtual ~ComboUnits();
 
-    virtual float convert( float value );
-    virtual float convertPrev( float value );
+    virtual float convert( float value ) const;
+    virtual float convertPrev( float value ) const;
 
-    virtual float invert( float value );
-    virtual float invertPrev( float value );
+    virtual float invert( float value ) const;
+    virtual float invertPrev( float value ) const;
+
+    virtual float getCoef( int index ) const;
     
 protected:
 
-    float m_factor;         ///< [-]
-    float m_factor_prev;    ///< [-]
+    float _factor;          ///< [-]
+    float _factor_prev;     ///< [-]
 
-    int m_index;
-    int m_index_prev;
+    int _index;             ///<
+    int _index_prev;        ///<
 
-    std::vector<  float  > m_coefs;   ///< [-] convertion factors
-    std::vector< QString > m_names;   ///< units names
+    std::vector<  float  > _coefs;  ///< [-] convertion factors
+    std::vector< QString > _names;  ///< units names
 
 public slots:
 

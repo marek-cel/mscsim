@@ -14,6 +14,7 @@ qt4_wrap_cpp( MOC_SRCS
     DialogEnvr.h
     DialogInit.h
     DialogMass.h
+    DialogTime.h
     DockWidgetAuto.h
     DockWidgetCtrl.h
     DockWidgetData.h
@@ -43,6 +44,7 @@ qt4_wrap_ui( UI_HEADERS
     DialogEnvr.ui
     DialogInit.ui
     DialogMass.ui
+    DialogTime.ui
     DockWidgetAuto.ui
     DockWidgetCtrl.ui
     DockWidgetData.ui
@@ -74,6 +76,7 @@ add_library( gui STATIC
     DialogEnvr.cpp
     DialogInit.cpp
     DialogMass.cpp
+    DialogTime.cpp
     DockWidgetAuto.cpp
     DockWidgetCtrl.cpp
     DockWidgetData.cpp

@@ -28,28 +28,28 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const UInt8 Base::i_x = 0;
-const UInt8 Base::i_y = 1;
-const UInt8 Base::i_z = 2;
+const UInt8 Base::_ix = 0;
+const UInt8 Base::_iy = 1;
+const UInt8 Base::_iz = 2;
 
-const UInt8 Base::i_u = 0;
-const UInt8 Base::i_v = 1;
-const UInt8 Base::i_w = 2;
+const UInt8 Base::_iu = 0;
+const UInt8 Base::_iv = 1;
+const UInt8 Base::_iw = 2;
 
-const UInt8 Base::i_p = 0;
-const UInt8 Base::i_q = 1;
-const UInt8 Base::i_r = 2;
+const UInt8 Base::_ip = 0;
+const UInt8 Base::_iq = 1;
+const UInt8 Base::_ir = 2;
 
-const UInt8 Base::is_x  = 0;
-const UInt8 Base::is_y  = 1;
-const UInt8 Base::is_z  = 2;
-const UInt8 Base::is_e0 = 3;
-const UInt8 Base::is_ex = 4;
-const UInt8 Base::is_ey = 5;
-const UInt8 Base::is_ez = 6;
-const UInt8 Base::is_u  = 7;
-const UInt8 Base::is_v  = 8;
-const UInt8 Base::is_w  = 9;
-const UInt8 Base::is_p  = 10;
-const UInt8 Base::is_q  = 11;
-const UInt8 Base::is_r  = 12;
+const UInt8 Base::_is_x  = 0;
+const UInt8 Base::_is_y  = 1;
+const UInt8 Base::_is_z  = 2;
+const UInt8 Base::_is_e0 = 3;
+const UInt8 Base::_is_ex = 4;
+const UInt8 Base::_is_ey = 5;
+const UInt8 Base::_is_ez = 6;
+const UInt8 Base::_is_u  = 7;
+const UInt8 Base::_is_v  = 8;
+const UInt8 Base::_is_w  = 9;
+const UInt8 Base::_is_p  = 10;
+const UInt8 Base::_is_q  = 11;
+const UInt8 Base::_is_r  = 12;

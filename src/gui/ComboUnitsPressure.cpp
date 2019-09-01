@@ -29,22 +29,22 @@
 ComboUnitsPressure::ComboUnitsPressure( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "Pa" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "Pa" ) );
 
-    m_coefs.push_back( 0.01f );
-    m_names.push_back( QString( "hPa" ) );
+    _coefs.push_back( 0.01f );
+    _names.push_back( QString( "hPa" ) );
 
-    m_coefs.push_back( 0.00001f );
-    m_names.push_back( QString( "bar" ) );
+    _coefs.push_back( 0.00001f );
+    _names.push_back( QString( "bar" ) );
 
-    m_coefs.push_back( fdm::Units::pa2psi() );
-    m_names.push_back( QString( "psi" ) );
+    _coefs.push_back( fdm::Units::pa2psi() );
+    _names.push_back( QString( "psi" ) );
 
-    m_coefs.push_back( fdm::Units::pa2inhg() );
-    m_names.push_back( QString( "inHg" ) );
+    _coefs.push_back( fdm::Units::pa2inhg() );
+    _names.push_back( QString( "inHg" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -61,10 +61,10 @@ double Schrenk::getMeanAerodynamicChord( const Table &chord )
 ////////////////////////////////////////////////////////////////////////////////
 
 Schrenk::Schrenk() :
-    m_area ( 0.0 ),
-    m_span ( 0.0 ),
-    m_4S_bpi ( 0.0 ),
-    m_2_b ( 0.0 )
+    _area ( 0.0 ),
+    _span ( 0.0 ),
+    _4S_bpi ( 0.0 ),
+    _2_b ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ Schrenk::~Schrenk() {}
 
 double Schrenk::getDragCoefDist( double y ) const
 {
-    return ( y < 0.4 * m_span ) ? 0.95 : 1.2;
+    return ( y < 0.4 * _span ) ? 0.95 : 1.2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,15 +83,15 @@ double Schrenk::getDragCoefDist( double y ) const
 double Schrenk::getLiftCoefDist( double y ) const
 {
     // equivalent elliptical wing chord
-    double chord_e = m_4S_bpi * sqrt( 1.0 - Misc::pow2( y * m_2_b ) );
-    return 0.5 * ( 1.0 + chord_e / m_chord.getValue( y ) );
+    double chord_e = _4S_bpi * sqrt( 1.0 - Misc::pow2( y * _2_b ) );
+    return 0.5 * ( 1.0 + chord_e / _chord.getValue( y ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Schrenk::setArea( double area )
 {
-    m_area = area;
+    _area = area;
     updateAxiliaryParameters();
 }
 
@@ -99,7 +99,7 @@ void Schrenk::setArea( double area )
 
 void Schrenk::setSpan( double span )
 {
-    m_span = span;
+    _span = span;
     updateAxiliaryParameters();
 }
 
@@ -107,13 +107,13 @@ void Schrenk::setSpan( double span )
 
 void Schrenk::setChord( const Table &chord )
 {
-    m_chord = chord;
+    _chord = chord;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Schrenk::updateAxiliaryParameters()
 {
-    m_4S_bpi = ( 4.0 * m_area ) / ( m_span * M_PI );
-    m_2_b = 2.0 / m_span;
+    _4S_bpi = ( 4.0 * _area ) / ( _span * M_PI );
+    _2_b = 2.0 / _span;
 }

@@ -56,15 +56,13 @@ public:
     virtual void update();
 
     /** Returns module OSG root node.  */
-    inline osg::Group* getNode() { return m_root.get(); }
+    inline osg::Group* getNode() { return _root.get(); }
 
 protected:
 
-    osg::ref_ptr<osg::Group> m_root;    ///< OSG module root node
-
-    List m_children;                    ///< children nodes
-
-    Module *m_parent;                   ///< parent node
+    osg::ref_ptr<osg::Group> _root;     ///< OSG module root node
+    List _children;                     ///< children nodes
+    Module *_parent;                    ///< parent node
 
     /** Removes all children. */
     virtual void removeAllChildren();

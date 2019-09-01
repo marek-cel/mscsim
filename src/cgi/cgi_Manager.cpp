@@ -33,56 +33,56 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    m_hud ( 0 ),
-    m_map ( 0 ),
-    m_otw ( 0 ),
+    _hud ( 0 ),
+    _map ( 0 ),
+    _otw ( 0 ),
 
-    m_camera ( 0 )
+    _camera ( 0 )
 {
-    m_hud = new HUD();
-    m_map = new Map();
-    m_otw = new OTW();
+    _hud = new HUD();
+    _map = new Map();
+    _otw = new OTW();
 
-    m_camera = new Camera();
+    _camera = new Camera();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::~Manager()
 {
-    if ( m_hud ) delete m_hud;
-    m_hud = 0;
+    if ( _hud ) delete _hud;
+    _hud = 0;
 
-    if ( m_map ) delete m_map;
-    m_map = 0;
+    if ( _map ) delete _map;
+    _map = 0;
 
-    if ( m_otw ) delete m_otw;
-    m_otw = 0;
+    if ( _otw ) delete _otw;
+    _otw = 0;
 
-    if ( m_camera ) delete m_camera;
-    m_camera = 0;
+    if ( _camera ) delete _camera;
+    _camera = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateHUD()
 {
-    m_hud->update();
+    _hud->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateMap()
 {
-    m_map->update();
+    _map->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateOTW()
 {
-    m_otw->update();
-    m_camera->update();
+    _otw->update();
+    _camera->update();
     updateGround();
 }
 
@@ -90,69 +90,69 @@ void Manager::updateOTW()
 
 void Manager::setCameraManipulatorChase()
 {
-    m_camera->setViewChase();
+    _camera->setViewChase();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setCameraManipulatorOrbit()
 {
-    if ( !m_camera->isWorldNodeValid() )
+    if ( !_camera->isWorldNodeValid() )
     {
-        osg::ref_ptr<osg::Node> ownshipNode = FindNode::findFirst( m_otw->getNode(), "Ownship" );
+        osg::ref_ptr<osg::Node> ownshipNode = FindNode::findFirst( _otw->getNode(), "Ownship" );
 
         if ( ownshipNode.valid() )
         {
-            m_camera->setTrackNode( ownshipNode.get() );
+            _camera->setTrackNode( ownshipNode.get() );
         }
     }
 
-    m_camera->setViewOrbit();
+    _camera->setViewOrbit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setCameraManipulatorPilot()
 {
-    m_camera->setViewPilot();
+    _camera->setViewPilot();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setCameraManipulatorWorld()
 {
-    if ( !m_camera->isWorldNodeValid() )
+    if ( !_camera->isWorldNodeValid() )
     {
-        osg::ref_ptr<osg::Node> sceneryNode = FindNode::findFirst( m_otw->getNode(), "Scenery" );
+        osg::ref_ptr<osg::Node> sceneryNode = FindNode::findFirst( _otw->getNode(), "Scenery" );
 
         if ( sceneryNode.valid() )
         {
-            m_camera->setWorldNode( sceneryNode.get() );
+            _camera->setWorldNode( sceneryNode.get() );
         }
     }
 
-    m_camera->setViewWorld();
+    _camera->setViewWorld();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setDistanceDef( double distance_def )
 {
-    m_camera->setDistanceDef( distance_def );
+    _camera->setDistanceDef( distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setDistanceMin( double distance_min )
 {
-    m_camera->setDistanceMin( distance_min );
+    _camera->setDistanceMin( distance_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::setMapScale( double scale )
 {
-    m_map->setScale( scale );
+    _map->setScale( scale );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

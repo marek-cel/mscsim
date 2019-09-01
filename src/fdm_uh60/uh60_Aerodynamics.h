@@ -26,12 +26,14 @@
 
 #include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdm/models/fdm_MainRotor.h>
-#include <fdm/models/fdm_TailRotor.h>
+
 #include <fdm/models/fdm_Stabilizer.h>
 
+#include <fdm_uh60/uh60_MainRotor.h>
+#include <fdm_uh60/uh60_TailRotor.h>
 #include <fdm_uh60/uh60_Fuselage.h>
 #include <fdm_uh60/uh60_StabilizerHor.h>
+#include <fdm_uh60/uh60_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -68,17 +70,17 @@ public:
     /** Updates model. */
     void update();
 
-    inline const MainRotor* getMainRotor() const { return m_mainRotor; }
+    inline const MainRotor* getMainRotor() const { return _mainRotor; }
 
 private:
 
-    const UH60_Aircraft *m_aircraft;    ///< aircraft model main object
+    const UH60_Aircraft *_aircraft;     ///< aircraft model main object
 
-    MainRotor *m_mainRotor;             ///<
-    TailRotor *m_tailRotor;             ///<
-    UH60_Fuselage *m_fuselage;          ///<
-    UH60_StabilizerHor *m_stabHor;      ///<
-    Stabilizer *m_stabVer;              ///<
+    UH60_MainRotor     *_mainRotor;     ///<
+    UH60_TailRotor     *_tailRotor;     ///<
+    UH60_Fuselage      *_fuselage;      ///<
+    UH60_StabilizerHor *_stabHor;       ///<
+    UH60_StabilizerVer *_stabVer;       ///<
 };
 
 } // end of fdm namespace

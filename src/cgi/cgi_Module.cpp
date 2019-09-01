@@ -29,11 +29,11 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Module::Module( Module *parent ) :
-    m_parent ( parent )
+    _parent ( parent )
 {
-    m_root = new osg::Group();
+    _root = new osg::Group();
 
-    m_children.clear();
+    _children.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,8 +49,8 @@ void Module::addChild( Module *child )
 {
     if ( child )
     {
-        m_children.push_back( child );
-        m_root->addChild( child->getNode() );
+        _children.push_back( child );
+        _root->addChild( child->getNode() );
     }
 }
 
@@ -58,7 +58,7 @@ void Module::addChild( Module *child )
 
 void Module::update()
 {
-    for ( List::iterator it = m_children.begin(); it != m_children.end(); it++ )
+    for ( List::iterator it = _children.begin(); it != _children.end(); it++ )
     {
         (*it)->update();
     }
@@ -68,16 +68,16 @@ void Module::update()
 
 void Module::removeAllChildren()
 {
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    for ( unsigned int i = 0; i < m_children.size(); i++ )
+    for ( unsigned int i = 0; i < _children.size(); i++ )
     {
-        if ( m_children[ i ] ) delete m_children[ i ];
-        m_children[ i ] = 0;
+        if ( _children[ i ] ) delete _children[ i ];
+        _children[ i ] = 0;
     }
 
-    m_children.clear();
+    _children.clear();
 }

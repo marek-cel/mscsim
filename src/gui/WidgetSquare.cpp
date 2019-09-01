@@ -26,25 +26,25 @@
 
 WidgetSquare::WidgetSquare( QWidget *parent ) :
     QWidget ( parent ),
-    m_layoutSquare ( 0 )
+    _layoutSquare ( 0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetSquare::~WidgetSquare()
 {
-    if ( m_layoutSquare ) delete m_layoutSquare;
-    m_layoutSquare = 0;
+    if ( _layoutSquare ) delete _layoutSquare;
+    _layoutSquare = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetSquare::setSquareWidget( QWidget *child )
 {
-    m_layoutSquare = new LayoutSquare( this );
+    _layoutSquare = new LayoutSquare( this );
 
-    m_layoutSquare->setContentsMargins( 0, 0, 0, 0 );
-    m_layoutSquare->addWidget( child );
+    _layoutSquare->setContentsMargins( 0, 0, 0, 0 );
+    _layoutSquare->addWidget( child );
 
-    setLayout( m_layoutSquare );
+    setLayout( _layoutSquare );
 }

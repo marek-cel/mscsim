@@ -34,19 +34,19 @@ using namespace fdm;
 
 F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
     Propulsion( aircraft ),
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_engine ( 0 )
+    _engine ( 0 )
 {
-    m_engine = new TurbofanAB();
+    _engine = new F16_Engine();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 F16_Propulsion::~F16_Propulsion()
 {
-    if ( m_engine ) delete m_engine;
-    m_engine = 0;
+    if ( _engine ) delete _engine;
+    _engine = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ void F16_Propulsion::init( bool engineOn )
     Propulsion::init( engineOn );
     /////////////////////////////
 
-    m_engine->initialize( engineOn );
+    _engine->initialize( engineOn );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ void F16_Propulsion::readData( XmlNode &dataNode )
     {
         XmlNode nodeEngine = dataNode.getFirstChildElement( "turbofan_ab" );
 
-        m_engine->readData( nodeEngine );
+        _engine->readData( nodeEngine );
     }
     else
     {
@@ -85,17 +85,17 @@ void F16_Propulsion::readData( XmlNode &dataNode )
 
 void F16_Propulsion::computeForceAndMoment()
 {
-    m_engine->computeThrust( m_aircraft->getMachNumber(),
-                             m_aircraft->getAltitude_ASL() );
+    _engine->computeThrust( _aircraft->getMachNumber(),
+                            _aircraft->getAltitude_ASL() );
 
     // thrust and moment due to thrust
-    Vector3 for_bas( m_engine->getThrust(), 0.0, 0.0 );
-    Vector3 mom_bas = m_engine->getPos_BAS() ^ for_bas;
+    Vector3 for_bas( _engine->getThrust(), 0.0, 0.0 );
+    Vector3 mom_bas = _engine->getPos_BAS() ^ for_bas;
 
-    m_for_bas = for_bas;
-    m_mom_bas = mom_bas;
+    _for_bas = for_bas;
+    _mom_bas = mom_bas;
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -110,11 +110,11 @@ void F16_Propulsion::computeForceAndMoment()
 
 void F16_Propulsion::update()
 {
-    m_engine->integrate( m_aircraft->getTimeStep() );
-    m_engine->update( m_aircraft->getDataInp()->engine[ 0 ].throttle,
-                      Units::k2c( m_aircraft->getEnvir()->getTemperature() ),
-                      m_aircraft->getMachNumber(),
-                      m_aircraft->getAltitude_ASL(),
-                      m_aircraft->getDataInp()->engine[ 0 ].fuel,
-                      m_aircraft->getDataInp()->engine[ 0 ].starter );
+    _engine->integrate( _aircraft->getTimeStep() );
+    _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
+                      Units::k2c( _aircraft->getEnvir()->getTemperature() ),
+                      _aircraft->getMachNumber(),
+                      _aircraft->getAltitude_ASL(),
+                      _aircraft->getDataInp()->engine[ 0 ].fuel,
+                      _aircraft->getDataInp()->engine[ 0 ].starter );
 }

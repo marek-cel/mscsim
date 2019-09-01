@@ -68,7 +68,7 @@ public:
     double getIndexValue( unsigned int keyIndex ) const;
 
     /** */
-    inline unsigned int getSize() const { return m_size; }
+    inline unsigned int getSize() const { return _size; }
 
     /**
      * Returns key of minimum table value.
@@ -146,12 +146,12 @@ public:
 
 private:
 
-    unsigned int m_size;    ///< number of table elements
+    unsigned int _size;     ///< number of table elements
 
-    double *m_keyValues;    ///< key values
-    double *m_tableData;    ///< table data
+    double *_keyValues;     ///< key values
+    double *_tableData;     ///< table data
 
-    double *m_interpolData; ///< interpolation data matrix
+    double *_interpolData;  ///< interpolation data matrix
 
     /** Updates interpolation data due to table data. */
     void updateInterpolationData();

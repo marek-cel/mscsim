@@ -60,36 +60,36 @@ public:
      */
     void integrate( double step, Vector< SIZE > &vect )
     {
-        m_x_t = vect;
-        m_k_1 = m_k_2 = m_k_3 = m_k_4 = Vector< SIZE >();
+        _xt = vect;
+        _k1 = _k2 = _k3 = _k4 = Vector< SIZE >();
 
         // k1 - derivatives calculation
-        this->fun( m_x_t, m_k_1 );
+        this->fun( _xt, _k1 );
 
         // k2 - derivatives calculation
-        m_x_t = vect + m_k_1 * ( step / 2.0 );
-        this->fun( m_x_t, m_k_2 );
+        _xt = vect + _k1 * ( step / 2.0 );
+        this->fun( _xt, _k2 );
 
         // k3 - derivatives calculation
-        m_x_t = vect + m_k_2 * ( step / 2.0 );
-        this->fun( m_x_t, m_k_3 );
+        _xt = vect + _k2 * ( step / 2.0 );
+        this->fun( _xt, _k3 );
 
         // k4 - derivatives calculation
-        m_x_t = vect + m_k_3 * step;
-        this->fun( m_x_t, m_k_4 );
+        _xt = vect + _k3 * step;
+        this->fun( _xt, _k4 );
 
         // integration
-        vect = vect + ( m_k_1 + m_k_2 * 2.0 + m_k_3 * 2.0 + m_k_4 ) * ( step / 6.0 );
+        vect = vect + ( _k1 + _k2 * 2.0 + _k3 * 2.0 + _k4 ) * ( step / 6.0 );
     }
 
 private:
 
-    Vector< SIZE > m_k_1;   ///< auxiliary vector
-    Vector< SIZE > m_k_2;   ///< auxiliary vector
-    Vector< SIZE > m_k_3;   ///< auxiliary vector
-    Vector< SIZE > m_k_4;   ///< auxiliary vector
+    Vector< SIZE > _k1;     ///< auxiliary vector
+    Vector< SIZE > _k2;     ///< auxiliary vector
+    Vector< SIZE > _k3;     ///< auxiliary vector
+    Vector< SIZE > _k4;     ///< auxiliary vector
 
-    Vector< SIZE > m_x_t;   ///< auxiliary vector
+    Vector< SIZE > _xt;     ///< auxiliary vector
 
     /** Using this constructor is forbidden. */
     RungeKutta4( const RungeKutta4 & ) {}

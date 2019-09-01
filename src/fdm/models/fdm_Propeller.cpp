@@ -33,17 +33,17 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Propeller::Propeller() :
-    m_direction ( CW ),
-    m_gearRatio ( 1.0 ),
-    m_diameter ( 0.0 ),
-    m_inertia ( 0.0 ),
-    m_pitch ( 0.0 ),
-    m_omega ( 0.0 ),
-    m_speed_rps ( 0.0 ),
-    m_speed_rpm ( 0.0 ),
-    m_thrust ( 0.0 ),
-    m_torqueAvailable ( 0.0 ),
-    m_torqueRequired ( 0.0 )
+    _direction ( CW ),
+    _gearRatio ( 1.0 ),
+    _diameter ( 0.0 ),
+    _inertia ( 0.0 ),
+    _pitch ( 0.0 ),
+    _omega ( 0.0 ),
+    _speed_rps ( 0.0 ),
+    _speed_rpm ( 0.0 ),
+    _thrust ( 0.0 ),
+    _torqueAvailable ( 0.0 ),
+    _torqueRequired ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,22 +60,22 @@ void Propeller::readData( XmlNode &dataNode )
 
         if ( String::toBool( dataNode.getAttribute( "counter-clockwise" ), false ) )
         {
-            m_direction = CCW;
+            _direction = CCW;
         }
         else
         {
-            m_direction = CW;
+            _direction = CW;
         }
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_pos_bas   , "position"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_gearRatio , "gear_ratio" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_diameter  , "diameter"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_inertia   , "inertia"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _pos_bas   , "position"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gearRatio , "gear_ratio" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _diameter  , "diameter"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _inertia   , "inertia"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_propPitch, "pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _propPitch, "pitch" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_coefThrust , "thrust_coef" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_coefPower  , "power_coef"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefThrust , "thrust_coef" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefPower  , "power_coef"  );
 
         if ( result != FDM_SUCCESS )
         {
@@ -102,16 +102,16 @@ void Propeller::readData( XmlNode &dataNode )
 
 void Propeller::computeThrust( double airspeed, double airDensity )
 {
-    if ( m_speed_rps > 0.0 )
+    if ( _speed_rps > 0.0 )
     {
-        double advance = airspeed / ( m_diameter * m_speed_rps );
-        double coefThrust = m_coefThrust.getValue( advance, m_pitch );
+        double advance = airspeed / ( _diameter * _speed_rps );
+        double coefThrust = _coefThrust.getValue( advance, _pitch );
 
-        m_thrust = coefThrust * airDensity * Misc::pow2( m_speed_rps ) * Misc::pow4( m_diameter );
+        _thrust = coefThrust * airDensity * Misc::pow2( _speed_rps ) * Misc::pow4( _diameter );
     }
     else
     {
-        m_thrust = 0.0;
+        _thrust = 0.0;
     }
 }
 
@@ -120,18 +120,18 @@ void Propeller::computeThrust( double airspeed, double airDensity )
 void Propeller::integrate( double timeStep, double engineInertia )
 {
     // integrating propeller omega
-    m_omega += ( ( m_torqueAvailable - m_torqueRequired ) / ( m_inertia + engineInertia ) ) * timeStep;
+    _omega += ( ( _torqueAvailable - _torqueRequired ) / ( _inertia + engineInertia ) ) * timeStep;
 
-    m_speed_rps = Misc::max( 0.0, m_omega / ( 2.0 * M_PI ) );
+    _speed_rps = Misc::max( 0.0, _omega / ( 2.0 * M_PI ) );
 
     // engine friction stops propeller
-    if ( m_torqueAvailable < m_torqueRequired && m_speed_rps < 1.0 )
+    if ( _torqueAvailable < _torqueRequired && _speed_rps < 1.0 )
     {
-        m_speed_rps = m_speed_rps < 0.1 ? 0.0 : Misc::inertia( 0.0, m_speed_rps, timeStep, 0.1 );
-        m_omega = 2.0 * M_PI * m_speed_rps;
+        _speed_rps = _speed_rps < 0.1 ? 0.0 : Misc::inertia( 0.0, _speed_rps, timeStep, 0.1 );
+        _omega = 2.0 * M_PI * _speed_rps;
     }
 
-    m_speed_rpm = 60.0 * m_speed_rps;
+    _speed_rpm = 60.0 * _speed_rps;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,21 +139,21 @@ void Propeller::integrate( double timeStep, double engineInertia )
 void Propeller::update( double propellerLever, double engineTorque,
                         double airspeed, double airDensity )
 {
-    m_pitch = m_propPitch.getValue( propellerLever );
+    _pitch = _propPitch.getValue( propellerLever );
 
-    double advance = airspeed / ( m_diameter * ( m_speed_rps > 0.1 ? m_speed_rps : 0.1 ) );
-    double coefPower = m_coefPower.getValue( advance, m_pitch );
-    double powerRequired = coefPower * airDensity * Misc::pow3( m_speed_rps ) * Misc::pow5( m_diameter );
+    double advance = airspeed / ( _diameter * ( _speed_rps > 0.1 ? _speed_rps : 0.1 ) );
+    double coefPower = _coefPower.getValue( advance, _pitch );
+    double powerRequired = coefPower * airDensity * Misc::pow3( _speed_rps ) * Misc::pow5( _diameter );
 
-    m_torqueRequired  = powerRequired / ( m_omega > 1.0 ? m_omega : 1.0 );
-    m_torqueAvailable = engineTorque / m_gearRatio;
+    _torqueRequired  = powerRequired / ( _omega > 1.0 ? _omega : 1.0 );
+    _torqueAvailable = engineTorque / _gearRatio;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Propeller::setRPM( double rpm )
 {
-    m_speed_rpm = Misc::max( 0.0, rpm );
-    m_speed_rps = m_speed_rpm / 60.0;
-    m_omega = 2.0 * M_PI * m_speed_rps;
+    _speed_rpm = Misc::max( 0.0, rpm );
+    _speed_rps = _speed_rpm / 60.0;
+    _omega = 2.0 * M_PI * _speed_rps;
 }

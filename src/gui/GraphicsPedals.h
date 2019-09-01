@@ -50,13 +50,13 @@ public:
     /** */
     inline void setCtrl( int ctrlYaw )
     {
-        m_ctrlYaw  = ctrlYaw;
+        _ctrlYaw  = ctrlYaw;
     }
 
     /** */
     inline void setTrim( int trimYaw )
     {
-        m_trimYaw  = trimYaw;
+        _trimYaw  = trimYaw;
     }
 
 protected:
@@ -69,25 +69,25 @@ protected:
 
 private:
 
-    int m_timerId;
+    int _timerId;
 
-    QGraphicsScene *m_scene;    ///< graphics scene
+    QGraphicsScene *_scene;         ///< graphics scene
 
-    QGraphicsLineItem *m_ctrlLineV; ///<
-    QGraphicsLineItem *m_trimLineV; ///<
-    QGraphicsLineItem *m_markLineH; ///<
-    QGraphicsLineItem *m_markLineV; ///<
+    QGraphicsLineItem *_ctrlLineV;  ///<
+    QGraphicsLineItem *_trimLineV;  ///<
+    QGraphicsLineItem *_markLineH;  ///<
+    QGraphicsLineItem *_markLineV;  ///<
 
-    QBrush m_ctrlBrush; ///<
-    QBrush m_trimBrush; ///<
-    QBrush m_markBrush; ///<
+    QBrush _ctrlBrush;              ///<
+    QBrush _trimBrush;              ///<
+    QBrush _markBrush;              ///<
 
-    QPen m_ctrlPen;     ///<
-    QPen m_trimPen;     ///<
-    QPen m_markPen;     ///<
+    QPen _ctrlPen;                  ///<
+    QPen _trimPen;                  ///<
+    QPen _markPen;                  ///<
 
-    int m_ctrlYaw;      ///< [-]
-    int m_trimYaw;      ///< [-]
+    int _ctrlYaw;                   ///< [-]
+    int _trimYaw;                   ///< [-]
 
     /** */
     void init();

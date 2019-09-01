@@ -352,7 +352,7 @@
       <item row="1" column="0" colspan="3">
        <widget class="QStackedWidget" name="stackedWidgetClouds">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pageCloudsBlock">
          <layout class="QGridLayout" name="gridLayout_7">

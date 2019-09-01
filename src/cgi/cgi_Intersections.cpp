@@ -45,15 +45,15 @@ osg::Node* Intersections::ReadCallback::readNodeFile( const std::string &filenam
 
 Intersections::Intersections()
 {
-    m_rc = new ReadCallback();
+    _rc = new ReadCallback();
 
-//    m_iv = new osgUtil::IntersectionVisitor();
-//    m_iv->setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
-//    m_iv->setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
-//    m_iv->setReadCallback( m_rc.get() );
+//    _iv = new osgUtil::IntersectionVisitor();
+//    _iv->setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
+//    _iv->setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
+//    _iv->setReadCallback( _rc.get() );
 
-//    m_ig = new osgUtil::IntersectorGroup();
-//    m_iv->setIntersector( m_ig.get() );
+//    _ig = new osgUtil::IntersectorGroup();
+//    _iv->setIntersector( _ig.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,30 +65,30 @@ Intersections::~Intersections() {}
 bool Intersections::findFirst( const osg::Vec3d &b, const osg::Vec3d &e,
                                osg::Vec3d &r, osg::Vec3d &n )
 {
-//    m_iv->reset();
-//    m_ig->clear();
+//    _iv->reset();
+//    _ig->clear();
 
-    if ( m_scenery.valid() )
+    if ( _scenery.valid() )
     {
         if ( ( e - b ).length2() > 0.0 )
         {
             osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector =
                     new osgUtil::LineSegmentIntersector( b, e );
 
-            osgUtil::IntersectionVisitor iv( intersector.get(), m_rc.get() );
+            osgUtil::IntersectionVisitor iv( intersector.get(), _rc.get() );
             iv.setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
             iv.setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
-            m_scenery->accept( iv );
+            _scenery->accept( iv );
 
-//            osg::ref_ptr<osgUtil::IntersectionVisitor> iv = new osgUtil::IntersectionVisitor( intersector.get(), m_rc.get() );
+//            osg::ref_ptr<osgUtil::IntersectionVisitor> iv = new osgUtil::IntersectionVisitor( intersector.get(), _rc.get() );
 //            iv->setLODSelectionMode( osgUtil::IntersectionVisitor::USE_HIGHEST_LEVEL_OF_DETAIL );
 //            iv->setTraversalMode( osgUtil::IntersectionVisitor::TRAVERSE_ACTIVE_CHILDREN );
-//            m_scenery->accept( *iv );
+//            _scenery->accept( *iv );
 
-//            m_iv->setIntersector( intersector.get() );
-//            m_ig->addIntersector( intersector.get() );
+//            _iv->setIntersector( intersector.get() );
+//            _ig->addIntersector( intersector.get() );
 
-//            m_scenery->accept( *m_iv );
+//            _scenery->accept( *_iv );
 
             if ( intersector->containsIntersections() )
             {

@@ -160,83 +160,83 @@ public:
     /** Updates output data. */
     virtual void updateOutputData();
 
-    inline const DataInp* getDataInp() const { return m_dataInp; }
-    inline const DataOut* getDataOut() const { return m_dataOut; }
+    inline const DataInp* getDataInp() const { return _dataInp; }
+    inline const DataOut* getDataOut() const { return _dataOut; }
 
-    inline Environment*   getEnvir() { return m_envir; }
-    inline Intersections* getIsect() { return m_isect; }
+    inline Environment*   getEnvir() { return _envir; }
+    inline Intersections* getIsect() { return _isect; }
 
-    inline const Environment*   getEnvir() const { return m_envir; }
-    inline const Intersections* getIsect() const { return m_isect; }
+    inline const Environment*   getEnvir() const { return _envir; }
+    inline const Intersections* getIsect() const { return _isect; }
 
-    inline const Aerodynamics* getAero() const { return m_aero; }
-    inline const Controls*     getCtrl() const { return m_ctrl; }
-    inline const LandingGear*  getGear() const { return m_gear; }
-    inline const Mass*         getMass() const { return m_mass; }
-    inline const Propulsion*   getProp() const { return m_prop; }
+    inline const Aerodynamics* getAero() const { return _aero; }
+    inline const Controls*     getCtrl() const { return _ctrl; }
+    inline const LandingGear*  getGear() const { return _gear; }
+    inline const Mass*         getMass() const { return _mass; }
+    inline const Propulsion*   getProp() const { return _prop; }
 
-    inline const Vector3& getPosPilotBAS() const { return m_pos_pilot_bas; }
+    inline const Vector3& getPosPilotBAS() const { return _pos_pilot_bas; }
 
-    inline const StateVector& getStateVect() const { return m_stateVect; }
-    inline const StateVector& getDerivVect() const { return m_derivVect; }
+    inline const StateVector& getStateVect() const { return _stateVect; }
+    inline const StateVector& getDerivVect() const { return _derivVect; }
 
-    inline double getTimeStep() const { return m_timeStep; }
+    inline double getTimeStep() const { return _timeStep; }
 
-    inline const Vector3&    getPos_WGS() const { return m_pos_wgs; }
-    inline const Quaternion& getAtt_WGS() const { return m_att_wgs; }
-    inline const Vector3&    getVel_BAS() const { return m_vel_bas; }
-    inline const Vector3&    getOmg_BAS() const { return m_omg_bas; }
+    inline const Vector3&    getPos_WGS() const { return _pos_wgs; }
+    inline const Quaternion& getAtt_WGS() const { return _att_wgs; }
+    inline const Vector3&    getVel_BAS() const { return _vel_bas; }
+    inline const Vector3&    getOmg_BAS() const { return _omg_bas; }
 
-    inline const WGS84& getWGS() const { return m_wgs; }
+    inline const WGS84& getWGS() const { return _wgs; }
 
-    inline const Matrix3x3& getWGS2BAS() const { return m_wgs2bas; }
-    inline const Matrix3x3& getBAS2WGS() const { return m_bas2wgs; }
-    inline const Matrix3x3& getWGS2NED() const { return m_wgs2ned; }
-    inline const Matrix3x3& getNED2WGS() const { return m_ned2wgs; }
-    inline const Matrix3x3& getNED2BAS() const { return m_ned2bas; }
-    inline const Matrix3x3& getBAS2NED() const { return m_bas2ned; }
+    inline const Matrix3x3& getWGS2BAS() const { return _wgs2bas; }
+    inline const Matrix3x3& getBAS2WGS() const { return _bas2wgs; }
+    inline const Matrix3x3& getWGS2NED() const { return _wgs2ned; }
+    inline const Matrix3x3& getNED2WGS() const { return _ned2wgs; }
+    inline const Matrix3x3& getNED2BAS() const { return _ned2bas; }
+    inline const Matrix3x3& getBAS2NED() const { return _bas2ned; }
 
-    inline const Angles& getAngles_WGS() const { return m_angles_wgs; }
-    inline const Angles& getAngles_NED() const { return m_angles_ned; }
+    inline const Angles& getAngles_WGS() const { return _angles_wgs; }
+    inline const Angles& getAngles_NED() const { return _angles_ned; }
 
-    inline const Vector3& getVel_NED() const { return m_vel_ned; }
+    inline const Vector3& getVel_NED() const { return _vel_ned; }
 
-    inline const Vector3& getVel_air_BAS() const { return m_vel_air_bas; }
-    inline const Vector3& getOmg_air_BAS() const { return m_omg_air_bas; }
+    inline const Vector3& getVel_air_BAS() const { return _vel_air_bas; }
+    inline const Vector3& getOmg_air_BAS() const { return _omg_air_bas; }
 
-    inline const Vector3& getAcc_BAS() const { return m_acc_bas; }
-    inline const Vector3& getEps_BAS() const { return m_eps_bas; }
+    inline const Vector3& getAcc_BAS() const { return _acc_bas; }
+    inline const Vector3& getEps_BAS() const { return _eps_bas; }
 
-    inline const Vector3& getGrav_WGS() const { return m_grav_wgs; }
-    inline const Vector3& getGrav_BAS() const { return m_grav_bas; }
+    inline const Vector3& getGrav_WGS() const { return _grav_wgs; }
+    inline const Vector3& getGrav_BAS() const { return _grav_bas; }
 
-    inline const Vector3& getGForce() const { return m_g_force; }
-    inline const Vector3& getGPilot() const { return m_g_pilot; }
+    inline const Vector3& getGForce() const { return _g_force; }
+    inline const Vector3& getGPilot() const { return _g_pilot; }
 
-    inline const Vector3& getGround_WGS() const { return m_ground_wgs; }
-    inline const Vector3& getGround_BAS() const { return m_ground_bas; }
+    inline const Vector3& getGround_WGS() const { return _ground_wgs; }
+    inline const Vector3& getGround_BAS() const { return _ground_bas; }
 
-    inline const Vector3& getNormal_WGS() const { return m_normal_wgs; }
-    inline const Vector3& getNormal_BAS() const { return m_normal_bas; }
+    inline const Vector3& getNormal_WGS() const { return _normal_wgs; }
+    inline const Vector3& getNormal_BAS() const { return _normal_bas; }
 
-    inline DataOut::Crash getCrash() const { return m_crash; }
+    inline DataOut::Crash getCrash() const { return _crash; }
 
-    inline double getElevation()     const { return m_elevation;     }
-    inline double getAltitude_ASL()  const { return m_altitude_asl;  }
-    inline double getAltitude_AGL()  const { return m_altitude_agl;  }
-    inline double getRoll()          const { return m_roll;          }
-    inline double getPitch ()        const { return m_pitch;         }
-    inline double getHeading()       const { return m_heading;       }
-    inline double getAngleOfAttack() const { return m_angleOfAttack; }
-    inline double getSideslipAngle() const { return m_sideslipAngle; }
-    inline double getCourse()        const { return m_course;        }
-    inline double getPathAngle()     const { return m_pathAngle;     }
-    inline double getSlipSkidAngle() const { return m_slipSkidAngle; }
-    inline double getAirspeed()      const { return m_airspeed;      }
-    inline double getDynPress()      const { return m_dynPress;      }
-    inline double getMachNumber()    const { return m_machNumber;    }
-    inline double getClimbRate()     const { return m_climbRate;     }
-    inline double getTurnRate()      const { return m_turnRate;      }
+    inline double getElevation()     const { return _elevation;     }
+    inline double getAltitude_ASL()  const { return _altitude_asl;  }
+    inline double getAltitude_AGL()  const { return _altitude_agl;  }
+    inline double getRoll()          const { return _roll;          }
+    inline double getPitch ()        const { return _pitch;         }
+    inline double getHeading()       const { return _heading;       }
+    inline double getAngleOfAttack() const { return _angleOfAttack; }
+    inline double getSideslipAngle() const { return _sideslipAngle; }
+    inline double getCourse()        const { return _course;        }
+    inline double getPathAngle()     const { return _pathAngle;     }
+    inline double getSlipSkidAngle() const { return _slipSkidAngle; }
+    inline double getAirspeed()      const { return _airspeed;      }
+    inline double getDynPress()      const { return _dynPress;      }
+    inline double getMachNumber()    const { return _machNumber;    }
+    inline double getClimbRate()     const { return _climbRate;     }
+    inline double getTurnRate()      const { return _turnRate;      }
 
     /**
      * Sets aircraft state vector.
@@ -270,90 +270,90 @@ protected:
 
     friend class Aircraft::Integrator;
 
-    const DataInp *m_dataInp;   ///< input data
-    DataOut *m_dataOut;         ///< output data
+    const DataInp *_dataInp;    ///< input data
+    DataOut *_dataOut;          ///< output data
 
-    Environment   *m_envir;     ///< environment interface
-    Intersections *m_isect;     ///< intersections interface
+    Environment   *_envir;      ///< environment interface
+    Intersections *_isect;      ///< intersections interface
 
-    Aerodynamics *m_aero;       ///< aerodynamics model
-    Controls     *m_ctrl;       ///< controls model
-    LandingGear  *m_gear;       ///< landing gear model
-    Mass         *m_mass;       ///< mass and inertia model
-    Propulsion   *m_prop;       ///< propulsion model
+    Aerodynamics *_aero;        ///< aerodynamics model
+    Controls     *_ctrl;        ///< controls model
+    LandingGear  *_gear;        ///< landing gear model
+    Mass         *_mass;        ///< mass and inertia model
+    Propulsion   *_prop;        ///< propulsion model
 
-    CollisionPoints m_cp;       ///< [m] collision points expressed in BAS
+    CollisionPoints _cp;        ///< [m] collision points expressed in BAS
 
-    double m_airspeed_max;      ///< [m/s] maximum airspeed (exceeding this value causes crash)
-    double m_load_aero_min;     ///< [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash)
-    double m_load_aero_max;     ///< [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash)
-    double m_load_gear_max;     ///< [-] maximum absolute load factor due to landing gear (exceeding this value causes crash)
+    double _airspeed_max;       ///< [m/s] maximum airspeed (exceeding this value causes crash)
+    double _load_aero_min;      ///< [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash)
+    double _load_aero_max;      ///< [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash)
+    double _load_gear_max;      ///< [-] maximum absolute load factor due to landing gear (exceeding this value causes crash)
 
-    Vector3 m_pos_pilot_bas;    ///< [m] pilot's head position expressed in BAS
+    Vector3 _pos_pilot_bas;     ///< [m] pilot's head position expressed in BAS
 
-    StateVector m_stateVect;    ///< aircraft state vector
-    StateVector m_statePrev;    ///< aircraft state vector (previous)
-    StateVector m_derivVect;    ///< aircraft state vector derivative (for output purposes only)
+    StateVector _stateVect;     ///< aircraft state vector
+    StateVector _statePrev;     ///< aircraft state vector (previous)
+    StateVector _derivVect;     ///< aircraft state vector derivative (for output purposes only)
 
-    Integrator *m_integrator;   ///< integration procedure object
+    Integrator *_integrator;    ///< integration procedure object
 
-    double m_timeStep;          ///< [s] simulation time step
+    double _timeStep;           ///< [s] simulation time step
 
-    Vector3    m_pos_wgs;       ///< [m] aircraft position expressed in WGS
-    Quaternion m_att_wgs;       ///< aircraft attitude expressed as quaternion of rotation from WGS to BAS
-    Vector3    m_vel_bas;       ///< [m/s] aircraft linear velocity vector expressed in BAS
-    Vector3    m_omg_bas;       ///< [rad/s] aircraft angular velocity expressed in BAS
+    Vector3    _pos_wgs;        ///< [m] aircraft position expressed in WGS
+    Quaternion _att_wgs;        ///< aircraft attitude expressed as quaternion of rotation from WGS to BAS
+    Vector3    _vel_bas;        ///< [m/s] aircraft linear velocity vector expressed in BAS
+    Vector3    _omg_bas;        ///< [rad/s] aircraft angular velocity expressed in BAS
 
-    WGS84 m_wgs;                ///< aircraft WGS position wrapper
+    WGS84 _wgs;                 ///< aircraft WGS position wrapper
 
-    Matrix3x3 m_wgs2bas;        ///< matrix of rotation from WGS to BAS
-    Matrix3x3 m_bas2wgs;        ///< matrix of rotation from BAS to WGS
-    Matrix3x3 m_wgs2ned;        ///< matrix of rotation from WGS to NED
-    Matrix3x3 m_ned2wgs;        ///< matrix of rotation from NED to WGS
-    Matrix3x3 m_ned2bas;        ///< matrix of rotation from NED to BAS
-    Matrix3x3 m_bas2ned;        ///< matrix of rotation from BAS to NED
+    Matrix3x3 _wgs2bas;         ///< matrix of rotation from WGS to BAS
+    Matrix3x3 _bas2wgs;         ///< matrix of rotation from BAS to WGS
+    Matrix3x3 _wgs2ned;         ///< matrix of rotation from WGS to NED
+    Matrix3x3 _ned2wgs;         ///< matrix of rotation from NED to WGS
+    Matrix3x3 _ned2bas;         ///< matrix of rotation from NED to BAS
+    Matrix3x3 _bas2ned;         ///< matrix of rotation from BAS to NED
 
-    Angles m_angles_wgs;        ///< [rad] aircraft attitude expressed as rotation from WGS to BAS
-    Angles m_angles_ned;        ///< [rad] aircraft attitude expressed as rotation from NED to BAS
+    Angles _angles_wgs;         ///< [rad] aircraft attitude expressed as rotation from WGS to BAS
+    Angles _angles_ned;         ///< [rad] aircraft attitude expressed as rotation from NED to BAS
 
-    Vector3 m_vel_ned;          ///< [m/s] aircraft linear velocity vector expressed in NED
+    Vector3 _vel_ned;           ///< [m/s] aircraft linear velocity vector expressed in NED
 
-    Vector3 m_vel_air_bas;      ///< [m/s] aircraft linear velocity vector relative to the air expressed in BAS
-    Vector3 m_omg_air_bas;      ///< [rad/s] aircraft angular velocity relative to the air expressed in BAS
+    Vector3 _vel_air_bas;       ///< [m/s] aircraft linear velocity vector relative to the air expressed in BAS
+    Vector3 _omg_air_bas;       ///< [rad/s] aircraft angular velocity relative to the air expressed in BAS
 
-    Vector3 m_acc_bas;          ///< [m/s^2] aircraft linear acceleration vector expressed in BAS
-    Vector3 m_eps_bas;          ///< [rad/s^2] aircraft angular acceleration vector expressed in BAS
+    Vector3 _acc_bas;           ///< [m/s^2] aircraft linear acceleration vector expressed in BAS
+    Vector3 _eps_bas;           ///< [rad/s^2] aircraft angular acceleration vector expressed in BAS
 
-    Vector3 m_grav_wgs;         ///< [m/s^2] gravity acceleration vector expressed in WGS
-    Vector3 m_grav_bas;         ///< [m/s^2] gravity acceleration vector expressed in BAS
+    Vector3 _grav_wgs;          ///< [m/s^2] gravity acceleration vector expressed in WGS
+    Vector3 _grav_bas;          ///< [m/s^2] gravity acceleration vector expressed in BAS
 
-    Vector3 m_g_force;          ///< [-] vector of G-Force factor (aircraft)
-    Vector3 m_g_pilot;          ///< [-] vector of G-Force factor (pilot's head)
+    Vector3 _g_force;           ///< [-] vector of G-Force factor (aircraft)
+    Vector3 _g_pilot;           ///< [-] vector of G-Force factor (pilot's head)
 
-    Vector3 m_ground_wgs;       ///< [m] ground intersection coordinates expressed in WGS
-    Vector3 m_ground_bas;       ///< [m] ground intersection coordinates expressed in BAS
+    Vector3 _ground_wgs;        ///< [m] ground intersection coordinates expressed in WGS
+    Vector3 _ground_bas;        ///< [m] ground intersection coordinates expressed in BAS
 
-    Vector3 m_normal_wgs;       ///< [-] normal to ground vector expressed in WGS
-    Vector3 m_normal_bas;       ///< [-] normal to ground vector expressed in BAS
+    Vector3 _normal_wgs;        ///< [-] normal to ground vector expressed in WGS
+    Vector3 _normal_bas;        ///< [-] normal to ground vector expressed in BAS
 
-    DataOut::Crash m_crash;     ///< crash cause
+    DataOut::Crash _crash;      ///< crash cause
 
-    double m_elevation;         ///< [m] ground elevation above mean sea level
-    double m_altitude_asl;      ///< [m] altitude above sea level
-    double m_altitude_agl;      ///< [m] altitude above ground level
-    double m_roll;              ///< [rad] roll angle
-    double m_pitch;             ///< [rad] pitch angle
-    double m_heading;           ///< [rad] true heading
-    double m_angleOfAttack;     ///< [rad] angle of attack
-    double m_sideslipAngle;     ///< [rad] sideslip angle
-    double m_course;            ///< [rad] velocity course
-    double m_pathAngle;         ///< [rad] path angle
-    double m_slipSkidAngle;     ///< [rad] slip/skid angle
-    double m_airspeed;          ///< [m/s] true airspeed
-    double m_dynPress;          ///< [Pa] dynamic pressure
-    double m_machNumber;        ///< [-] Mach number
-    double m_climbRate;         ///< [m/s] climb rate
-    double m_turnRate;          ///< [rad/s] turn rate
+    double _elevation;          ///< [m] ground elevation above mean sea level
+    double _altitude_asl;       ///< [m] altitude above sea level
+    double _altitude_agl;       ///< [m] altitude above ground level
+    double _roll;               ///< [rad] roll angle
+    double _pitch;              ///< [rad] pitch angle
+    double _heading;            ///< [rad] true heading
+    double _angleOfAttack;      ///< [rad] angle of attack
+    double _sideslipAngle;      ///< [rad] sideslip angle
+    double _course;             ///< [rad] velocity course
+    double _pathAngle;          ///< [rad] path angle
+    double _slipSkidAngle;      ///< [rad] slip/skid angle
+    double _airspeed;           ///< [m/s] true airspeed
+    double _dynPress;           ///< [Pa] dynamic pressure
+    double _machNumber;         ///< [-] Mach number
+    double _climbRate;          ///< [m/s] climb rate
+    double _turnRate;           ///< [rad/s] turn rate
 
     /**
      * Reads data.

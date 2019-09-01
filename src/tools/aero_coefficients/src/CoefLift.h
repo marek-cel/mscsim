@@ -39,21 +39,21 @@ public:
 
 private:
 
-    double m_cl_0;      ///< [-]
+    double _cl_0;       ///< [-]
 
-    double m_cl_s;      ///< [-]
-    double m_cl_1;      ///< [-]
-    double m_cl_2;      ///< [-]
+    double _cl_s;       ///< [-]
+    double _cl_1;       ///< [-]
+    double _cl_2;       ///< [-]
 
-    double m_al_s;      ///< [rad]
-    double m_al_1;      ///< [rad]
-    double m_al_2;      ///< [rad]
+    double _al_s;       ///< [rad]
+    double _al_1;       ///< [rad]
+    double _al_2;       ///< [rad]
 
-    double m_dcl_da_s;  ///< [1/rad]
-    double m_dcl_da_1;  ///< [1/rad]
+    double _dcl_da_s;   ///< [1/rad]
+    double _dcl_da_1;   ///< [1/rad]
 
-    double m_div_l1_1;  ///<
-    double m_div_l1_2;  ///<
+    double _div_l1_1;   ///<
+    double _div_l1_2;   ///<
 };
 
 ////////////////////////////////////////////////////////////////////////////////

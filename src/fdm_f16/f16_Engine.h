@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_TURBOFANAB_H
-#define FDM_TURBOFANAB_H
+#ifndef F16_ENGINE_H
+#define F16_ENGINE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ namespace fdm
 {
 
 /**
- * @brief Twin-spool low by-pass ratio afterburning turbofan engine class.
+ * @brief F-16 engine class.
  *
  * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
  * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176
@@ -95,37 +95,37 @@ namespace fdm
  * </turbofan_ab>
  * @endcode
  */
-class FDMEXPORT TurbofanAB : public Engine
+class F16_Engine : public Engine
 {
 public:
 
     /** Constructor. */
-    TurbofanAB();
+    F16_Engine();
 
     /** Destructor. */
-    virtual ~TurbofanAB();
+    ~F16_Engine();
 
     /**
      * Reads data.
      * @param dataNode XML node
      */
-    virtual void readData( XmlNode &dataNode );
+    void readData( XmlNode &dataNode );
 
     /** */
-    virtual void initialize( bool engineOn );
+    void initialize( bool engineOn );
 
     /**
      * Computes thrust.
      * @param machNumber [-] Mach number
      * @param densityAltitude [m] air density altitude
      */
-    virtual void computeThrust( double machNumber, double densityAltitude );
+    void computeThrust( double machNumber, double densityAltitude );
 
     /**
      * Integrates model.
      * @param timeStep [s] time step
      */
-    virtual void integrate( double timeStep );
+    void integrate( double timeStep );
 
     /**
      * Updates engine.
@@ -136,9 +136,9 @@ public:
      * @param fuel specifies if fuel is provided
      * @param starter specifies if starter is enabled
      */
-    virtual void update( double throttle, double temperature,
-                         double machNumber, double densityAltitude,
-                         bool fuel, bool starter );
+    void update( double throttle, double temperature,
+                 double machNumber, double densityAltitude,
+                 bool fuel, bool starter );
 
     /**
      * Returns propeller position expressed in BAS.
@@ -146,7 +146,7 @@ public:
      */
     inline const Vector3& getPos_BAS() const
     {
-        return m_pos_bas;
+        return _pos_bas;
     }
 
     /**
@@ -155,25 +155,25 @@ public:
      */
     inline double getFuelFlow() const
     {
-        return m_fuelFlow;
+        return _fuelFlow;
     }
 
     /** */
     inline double getN1() const
     {
-        return m_n1;
+        return _n1;
     }
 
     /** */
     inline double getN2() const
     {
-        return m_n2;
+        return _n2;
     }
 
     /** */
     inline double getTIT() const
     {
-        return m_tit;
+        return _tit;
     }
 
     /**
@@ -182,72 +182,72 @@ public:
      */
     inline double getThrust() const
     {
-        return m_thrust;
+        return _thrust;
     }
 
     /** */
     inline bool getAfterburner() const
     {
-        return m_afterburner;
+        return _afterburner;
     }
 
 protected:
 
-    Vector3 m_pos_bas;      ///< [m] nozzle position expressed in BAS
+    Vector3 _pos_bas;       ///< [m] nozzle position expressed in BAS
 
-    Table m_n1_throttle;    ///< low  pressure compressor rpm vs throttle position
-    Table m_n2_throttle;    ///< high pressure compressor rpm vs throttle position
+    Table _n1_throttle;     ///< low  pressure compressor rpm vs throttle position
+    Table _n2_throttle;     ///< high pressure compressor rpm vs throttle position
 
-    Table m_tit_n2;         ///< turbine inlet temperature (TIT) vs high pressure compressor rpm
+    Table _tit_n2;          ///< turbine inlet temperature (TIT) vs high pressure compressor rpm
 
-    Table2D m_tf_idle;      ///< [-] idle thrust factor
-    Table2D m_tf_mil;       ///< [-] military thrust factor
-    Table2D m_tf_ab;        ///< [-] afterburner thrust factor
+    Table2D _tf_idle;       ///< [-] idle thrust factor
+    Table2D _tf_mil;        ///< [-] military thrust factor
+    Table2D _tf_ab;         ///< [-] afterburner thrust factor
 
-    Table m_tc_n1;
-    Table m_tc_n2;
+    Table _tc_n1;           ///<
+    Table _tc_n2;           ///<
 
-    Table m_tc_thrust;      ///< thrust time constant [s] vs difference of normalized engine power command and engine power [-]
+    Table _tc_thrust;       ///< thrust time constant [s] vs difference of normalized engine power command and engine power [-]
 
-    double m_thrust_mil;    ///< [N] specific maximum military thrust
-    double m_thrust_ab;     ///< [N] specific maximum afterburner thrust
+    double _thrust_mil;     ///< [N] specific maximum military thrust
+    double _thrust_ab;      ///< [N] specific maximum afterburner thrust
 
-    double m_ab_threshold;  ///< [-] throttle afterburner threshold
+    double _ab_threshold;   ///< [-] throttle afterburner threshold
 
-    double m_tc_tit;        ///< [s] turbine inlet temperature (TIT) time constant
+    double _tc_tit;         ///< [s] turbine inlet temperature (TIT) time constant
 
-    double m_tsfc;          ///< [kg/(N*s)] thrust specific fuel consumption
-    double m_tsfc_ab;       ///< [kg/(N*s)] thrust specific fuel consumption (afterburner)
+    double _tsfc;           ///< [kg/(N*s)] thrust specific fuel consumption
+    double _tsfc_ab;        ///< [kg/(N*s)] thrust specific fuel consumption (afterburner)
 
-    double m_n1_idle;       ///< low  pressure compressor idle rpm
-    double m_n2_idle;       ///< high pressure compressor idle rpm
-    double m_n1_ab;         ///< low  pressure compressor afterburner rpm
-    double m_n2_ab;         ///< high pressure compressor afterburner rpm
-    double m_n1_max;        ///< low  pressure compressor max rpm
-    double m_n2_max;        ///< high pressure compressor max rpm
+    double _n1_idle;        ///< low  pressure compressor idle rpm
+    double _n2_idle;        ///< high pressure compressor idle rpm
+    double _n1_ab;          ///< low  pressure compressor afterburner rpm
+    double _n2_ab;          ///< high pressure compressor afterburner rpm
+    double _n1_max;         ///< low  pressure compressor max rpm
+    double _n2_max;         ///< high pressure compressor max rpm
 
-    double m_n1_setpoint;   ///< low  pressure compressor rpm setpoint
-    double m_n2_setpoint;   ///< high pressure compressor rpm setpoint
+    double _n1_setpoint;    ///< low  pressure compressor rpm setpoint
+    double _n2_setpoint;    ///< high pressure compressor rpm setpoint
 
-    double m_tit_setpoint;  ///< turbine inlet temperature (TIT) setpoint
+    double _tit_setpoint;   ///< turbine inlet temperature (TIT) setpoint
 
-    double m_pow_command;   ///< <0.0;1.0> normalized engine power command
-    double m_pow;           ///< <0.0;1.0> normalized engine power
+    double _pow_command;    ///< <0.0;1.0> normalized engine power command
+    double _pow;            ///< <0.0;1.0> normalized engine power
 
-    double m_thrust_tc_inv; ///< [1/s] inverse of thrust time constant
-    double m_tit_tc_actual; ///< [s] actual turbine inlet temperature (TIT) time constant
+    double _thrust_tc_inv;  ///< [1/s] inverse of thrust time constant
+    double _tit_tc_actual;  ///< [s] actual turbine inlet temperature (TIT) time constant
 
-    double m_temperature;   ///< [deg C] air temperature
+    double _temperature;    ///< [deg C] air temperature
 
     // output
 
-    double m_n1;            ///< low  pressure compressor rpm
-    double m_n2;            ///< high pressure compressor rpm
-    double m_tit;           ///< [deg C] turbine inlet temperature (TIT)
-    double m_fuelFlow;      ///< [kg/s] fuel flow
-    double m_thrust;        ///< [N] thrust
+    double _n1;             ///< low  pressure compressor rpm
+    double _n2;             ///< high pressure compressor rpm
+    double _tit;            ///< [deg C] turbine inlet temperature (TIT)
+    double _fuelFlow;       ///< [kg/s] fuel flow
+    double _thrust;         ///< [N] thrust
 
-    bool m_afterburner;     ///< specifies if afterburner is engaged
+    bool _afterburner;      ///< specifies if afterburner is engaged
 
     double getTimeConstant( double delta_n, double n_max, double tc );
 };
@@ -256,4 +256,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_TURBOFANAB_H
+#endif // F16_ENGINE_H

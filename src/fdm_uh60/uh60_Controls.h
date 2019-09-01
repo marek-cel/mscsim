@@ -54,35 +54,35 @@ public:
     /** Updates model. */
     void update();
 
-    inline double getCyclicLat()  const { return m_cyclic_lat; }
-    inline double getCyclicLon()  const { return m_cyclic_lon; }
-    inline double getCollective() const { return m_collective; }
-    inline double getTailPitch()  const { return m_tail_pitch; }
-    inline double getElevator()   const { return m_elevator;   }
-    inline double getBrakeL()     const { return m_brake_l;    }
-    inline double getBrakeR()     const { return m_brake_r;    }
+    inline double getCyclicLat()  const { return _cyclic_lat; }
+    inline double getCyclicLon()  const { return _cyclic_lon; }
+    inline double getCollective() const { return _collective; }
+    inline double getTailPitch()  const { return _tail_pitch; }
+    inline double getElevator()   const { return _elevator;   }
+    inline double getBrakeL()     const { return _brake_l;    }
+    inline double getBrakeR()     const { return _brake_r;    }
 
 private:
 
-    const UH60_Aircraft *m_aircraft;    ///< aircraft model main object
+    const UH60_Aircraft *_aircraft;     ///< aircraft model main object
 
-    Channel *m_channelCyclicLat;        ///<
-    Channel *m_channelCyclicLon;        ///<
-    Channel *m_channelCollective;       ///<
-    Channel *m_channelTailPitch;        ///<
-    Channel *m_channelElevator;         ///<
-    Channel *m_channelBrakeL;           ///<
-    Channel *m_channelBrakeR;           ///<
+    Channel *_channelCyclicLat;         ///<
+    Channel *_channelCyclicLon;         ///<
+    Channel *_channelCollective;        ///<
+    Channel *_channelTailPitch;         ///<
+    Channel *_channelElevator;          ///<
+    Channel *_channelBrakeL;            ///<
+    Channel *_channelBrakeR;            ///<
 
-    UH60_AFCS *m_afcs;                  ///< Automatic Flight Control System
+    UH60_AFCS *_afcs;                   ///< Automatic Flight Control System
 
-    double m_cyclic_lat;                ///< [rad]
-    double m_cyclic_lon;                ///< [rad]
-    double m_collective;                ///< [rad]
-    double m_tail_pitch;                ///< [rad]
-    double m_elevator;                  ///< [rad]
-    double m_brake_l;                   ///< [-]
-    double m_brake_r;                   ///< [-]
+    double _cyclic_lat;                 ///< [rad]
+    double _cyclic_lon;                 ///< [rad]
+    double _collective;                 ///< [rad]
+    double _tail_pitch;                 ///< [rad]
+    double _elevator;                   ///< [rad]
+    double _brake_l;                    ///< [-]
+    double _brake_r;                    ///< [-]
 };
 
 } // end of fdm namespace

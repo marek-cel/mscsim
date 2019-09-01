@@ -31,11 +31,11 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 HingeMoment::HingeMoment() :
-    m_area  ( 0.0 ),
-    m_chord ( 0.0 ),
-    m_dch_dalpha   ( 0.0 ),
-    m_dch_ddelta   ( 0.0 ),
-    m_dch_ddelta_t ( 0.0 )
+    _area  ( 0.0 ),
+    _chord ( 0.0 ),
+    _dch_dalpha   ( 0.0 ),
+    _dch_ddelta   ( 0.0 ),
+    _dch_ddelta_t ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,12 +50,12 @@ void HingeMoment::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area  , "area"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_chord , "chord" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area  , "area"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _chord , "chord" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_dalpha   , "dch_dalpha"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_ddelta   , "dch_ddelta"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dch_ddelta_t , "dch_ddelta_t" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_dalpha   , "dch_dalpha"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta   , "dch_ddelta"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta_t , "dch_ddelta_t" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -86,9 +86,9 @@ double HingeMoment::getHingeMoment( double dynamicPressure,
                                     double delta_t ) const
 {
     // control surface hinge moment coefficient
-    double ch = m_dch_dalpha   * alpha
-              + m_dch_ddelta   * delta
-              + m_dch_ddelta_t * delta_t;
+    double ch = _dch_dalpha   * alpha
+              + _dch_ddelta   * delta
+              + _dch_ddelta_t * delta_t;
 
-    return dynamicPressure * m_area * m_chord * ch;
+    return dynamicPressure * _area * _chord * ch;
 }

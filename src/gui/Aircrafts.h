@@ -114,12 +114,12 @@ public:
     /** */
     static inline Aircrafts* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new Aircrafts();
+            _instance = new Aircrafts();
         }
 
-        return m_instance;
+        return _instance;
     }
 
     /** Destructor. */
@@ -127,16 +127,16 @@ public:
 
     inline Aircraft getAircraft( int index ) const
     {
-        return m_aircrafts.at( index );
+        return _aircrafts.at( index );
     }
 
-    inline int getCount() const { return m_aircrafts.size(); }
+    inline int getCount() const { return _aircrafts.size(); }
 
 private:
 
-    static Aircrafts *m_instance;       ///< instance of Aircrafts singleton class
+    static Aircrafts *_instance;        ///< instance of Aircrafts singleton class
 
-    QVector< Aircraft > m_aircrafts;    ///<
+    QVector< Aircraft > _aircrafts;     ///<
 
     /**
      * You should use static function instance() due to get refernce

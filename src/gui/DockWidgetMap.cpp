@@ -29,17 +29,17 @@
 
 DockWidgetMap::DockWidgetMap( QWidget *parent ) :
     QDockWidget ( parent ),
-    m_ui ( new Ui::DockWidgetMap )
+    _ui ( new Ui::DockWidgetMap )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DockWidgetMap::~DockWidgetMap()
 {
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,5 +57,5 @@ void DockWidgetMap::closeEvent( QCloseEvent *event )
 
 void DockWidgetMap::on_widgetMap_mouseMoveGeoPosition( const QString &str )
 {
-    m_ui->labelBar->setText( str );
+    _ui->labelBar->setText( str );
 }

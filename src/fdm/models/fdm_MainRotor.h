@@ -162,96 +162,96 @@ public:
      */
     virtual void update( double omega );
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getVel_i_BAS() const { return m_vel_i_bas; }
+    inline const Vector3& getVel_i_BAS() const { return _vel_i_bas; }
 
-    inline double getRadius()   const { return m_r;  }
-    inline double getDiskArea() const { return m_ad; }
-    inline double getInertia()  const { return m_nb * m_i_b; }
+    inline double getRadius()   const { return _r;  }
+    inline double getDiskArea() const { return _ad; }
+    inline double getInertia()  const { return _nb * _i_b; }
 
-    inline double getConingAngle() const { return m_beta_0; }
+    inline double getConingAngle() const { return _beta_0; }
 
-    inline double getDiskRoll()  const { return m_rotorDiskRoll;  }
-    inline double getDiskPitch() const { return m_rotorDiskPitch; }
+    inline double getDiskRoll()  const { return _rotorDiskRoll;  }
+    inline double getDiskPitch() const { return _rotorDiskPitch; }
 
-    inline double getThrust() const { return m_thrust; }
-    inline double getTorque() const { return m_torque; }
+    inline double getThrust() const { return _thrust; }
+    inline double getTorque() const { return _torque; }
 
 protected:
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Direction m_direction;      ///< rotor direction (clockwise or counter-clockwise)
+    Direction _direction;       ///< rotor direction (clockwise or counter-clockwise)
 
-    Vector3 m_r_hub_bas;        ///< [m] rotor hub coordinates expressed in BAS
+    Vector3 _r_hub_bas;         ///< [m] rotor hub coordinates expressed in BAS
 
-    Matrix3x3 m_bas2ras;        ///< matrix of rotation from BAS to RAS
-    Matrix3x3 m_ras2bas;        ///< matrix of rotation from RAS to BAS
-    Matrix3x3 m_ras2cas;        ///< matrix of rotation from RAS to CAS
+    Matrix3x3 _bas2ras;         ///< matrix of rotation from BAS to RAS
+    Matrix3x3 _ras2bas;         ///< matrix of rotation from RAS to BAS
+    Matrix3x3 _ras2cas;         ///< matrix of rotation from RAS to CAS
 
-    Matrix3x3 m_cas2ras;        ///< matrix of rotation from CAS to RAS
+    Matrix3x3 _cas2ras;         ///< matrix of rotation from CAS to RAS
 
-    Matrix3x3 m_bas2cas;        ///< matrix of rotation from BAS to CAS
-    Matrix3x3 m_bas2das;        ///< matrix of rotation from BAS to DAS
-    Matrix3x3 m_das2bas;        ///< matrix of rotation from DAS to BAS
+    Matrix3x3 _bas2cas;         ///< matrix of rotation from BAS to CAS
+    Matrix3x3 _bas2das;         ///< matrix of rotation from BAS to DAS
+    Matrix3x3 _das2bas;         ///< matrix of rotation from DAS to BAS
 
-    Matrix3x3 m_ras2rwas;       ///< matrix of rotation from RAS to RWAS
-    Matrix3x3 m_rwas2ras;
+    Matrix3x3 _ras2rwas;        ///< matrix of rotation from RAS to RWAS
+    Matrix3x3 _rwas2ras;
 
-    Matrix3x3 m_cas2cwas;       ///< matrix of rotation from CAS to CWAS
-    Matrix3x3 m_cwas2cas;       ///< matrix of rotation from CWAS to CAS
+    Matrix3x3 _cas2cwas;        ///< matrix of rotation from CAS to CWAS
+    Matrix3x3 _cwas2cas;        ///< matrix of rotation from CWAS to CAS
 
-    Matrix3x3 m_bas2cwas;       ///< matrix of rotation from BAS to CWAS
+    Matrix3x3 _bas2cwas;        ///< matrix of rotation from BAS to CWAS
 
-    Vector3 m_vel_i_bas;        ///< [m/s] induced velocity
+    Vector3 _vel_i_bas;         ///< [m/s] induced velocity
 
-    int m_nb;                   ///< number of rotor blades
+    int _nb;                    ///< number of rotor blades
 
-    double m_r;                 ///< [m] rotor radius
-    double m_c;                 ///< [m] blades chord
-    double m_e;                 ///< [m] flapping hinge offset
+    double _r;                  ///< [m] rotor radius
+    double _c;                  ///< [m] blades chord
+    double _e;                  ///< [m] flapping hinge offset
 
-    double m_a;                 ///< [1/rad] blade section lift curve slope
-    double m_b;                 ///< [-] tip losses coefficient
+    double _a;                  ///< [1/rad] blade section lift curve slope
+    double _b;                  ///< [-] tip losses coefficient
 
-    double m_delta_0;           ///< [-] drag coefficient constant component
-    double m_delta_2;           ///< [-] drag coefficient quadratic component
+    double _delta_0;            ///< [-] drag coefficient constant component
+    double _delta_2;            ///< [-] drag coefficient quadratic component
 
-    double m_beta_max;          ///< [rad] maximum flapping angle
+    double _beta_max;           ///< [rad] maximum flapping angle
 
-    double m_ct_max;            ///< [-] maximum thrust coefficient
-    double m_cq_max;            ///< [-] maximum torque coefficient
+    double _ct_max;             ///< [-] maximum thrust coefficient
+    double _cq_max;             ///< [-] maximum torque coefficient
 
-    double m_thrust_factor;     ///< [-] thrust scaling factor
-    double m_torque_factor;     ///< [-] torque scaling factor
-    double m_vel_i_factor;      ///< [-] induced velocity scaling factor
+    double _thrust_factor;      ///< [-] thrust scaling factor
+    double _torque_factor;      ///< [-] torque scaling factor
+    double _vel_i_factor;       ///< [-] induced velocity scaling factor
 
-    double m_r2;                ///< [m^2] rotor radius squared
-    double m_r3;                ///< [m^3] rotor radius cubed
-    double m_r4;                ///< [m^3] rotor radius to the power of 4
-    double m_b2;                ///< [-] tip losses coefficient squared
-    double m_b3;                ///< [-] tip losses coefficient cubed
-    double m_b4;                ///< [-] tip losses coefficient to the power of 4
-    double m_ad;                ///< [m^2] rotor disk area
-    double m_s;                 ///< [-] rotor solidity
+    double _r2;                 ///< [m^2] rotor radius squared
+    double _r3;                 ///< [m^3] rotor radius cubed
+    double _r4;                 ///< [m^3] rotor radius to the power of 4
+    double _b2;                 ///< [-] tip losses coefficient squared
+    double _b3;                 ///< [-] tip losses coefficient cubed
+    double _b4;                 ///< [-] tip losses coefficient to the power of 4
+    double _ad;                 ///< [m^2] rotor disk area
+    double _s;                  ///< [-] rotor solidity
 
-    double m_s_b;               ///< [kg*m] single rotor blade first moment of mass about flapping hinge
-    double m_i_b;               ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
+    double _s_b;                ///< [kg*m] single rotor blade first moment of mass about flapping hinge
+    double _i_b;                ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
 
-    double m_omega;             ///< [rad/s] rotor revolution speed
+    double _omega;              ///< [rad/s] rotor revolution speed
 
-    double m_beta_0;            ///< [rad] rotor coning angle
-    double m_beta_1c_ras;       ///< [rad] longitudinal flapping angle expressed in RAS
-    double m_beta_1s_ras;       ///< [rad] lateral flapping angle expressed in RAS
+    double _beta_0;             ///< [rad] rotor coning angle
+    double _beta_1c_ras;        ///< [rad] longitudinal flapping angle expressed in RAS
+    double _beta_1s_ras;        ///< [rad] lateral flapping angle expressed in RAS
 
-    double m_rotorDiskRoll;     ///< [rad] rotor disk roll angle
-    double m_rotorDiskPitch;    ///< [rad] rotor disk pitch angle
+    double _rotorDiskRoll;      ///< [rad] rotor disk roll angle
+    double _rotorDiskPitch;     ///< [rad] rotor disk pitch angle
 
-    double m_thrust;            ///< [N] rotor thrust
-    double m_torque;            ///< [N*m] rotor torque
+    double _thrust;             ///< [N] rotor thrust
+    double _torque;             ///< [N*m] rotor torque
 };
 
 } // end of fdm namespace

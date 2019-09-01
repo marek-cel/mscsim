@@ -32,14 +32,14 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_TailOff::C172_TailOff() :
-    m_ailerons ( 0.0 ),
-    m_flaps    ( 0.0 ),
+    _ailerons ( 0.0 ),
+    _flaps    ( 0.0 ),
 
-    m_dcl_dailerons ( 0.0 )
+    _dcl_dailerons ( 0.0 )
 {
-    m_dcx_dflaps = Table::createOneRecordTable( 0.0 );
-    m_dcz_dflaps = Table::createOneRecordTable( 0.0 );
-    m_dcm_dflaps = Table::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table::createOneRecordTable( 0.0 );
+    _dcz_dflaps = Table::createOneRecordTable( 0.0 );
+    _dcm_dflaps = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,11 +58,11 @@ void C172_TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcl_dailerons, "dcl_dailerons" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcl_dailerons, "dcl_dailerons" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcx_dflaps, "dcx_dflaps"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcz_dflaps, "dcz_dflaps"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcm_dflaps, "dcm_dflaps" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dflaps, "dcx_dflaps"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dflaps, "dcz_dflaps"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dflaps, "dcm_dflaps" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -93,8 +93,8 @@ void C172_TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
                                           double ailerons,
                                           double flaps )
 {
-    m_ailerons = ailerons;
-    m_flaps    = flaps;
+    _ailerons = ailerons;
+    _flaps    = flaps;
 
     ///////////////////////////////////////////////////////////////////////
     TailOff::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
@@ -109,10 +109,10 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
-    Table cz_total = m_cz + m_flaps * m_dcz_dflaps;
+    Table cz_total = _cz + _flaps * _dcz_dflaps;
 
-    m_aoa_critical_neg = cz_total.getKeyOfValueMin();
-    m_aoa_critical_pos = cz_total.getKeyOfValueMax();
+    _aoa_critical_neg = cz_total.getKeyOfValueMin();
+    _aoa_critical_pos = cz_total.getKeyOfValueMax();
 
     //m_ailerons->getHingeMoment( dynPress, alpha, m_delta_a );
 }
@@ -121,7 +121,7 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
 
 double C172_TailOff::getCx( double angleOfAttack ) const
 {
-    return TailOff::getCx( angleOfAttack ) + m_flaps * m_dcx_dflaps.getValue( angleOfAttack );
+    return TailOff::getCx( angleOfAttack ) + _flaps * _dcx_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,21 +135,21 @@ double C172_TailOff::getCy( double sideslipAngle ) const
 
 double C172_TailOff::getCz( double angleOfAttack ) const
 {
-    return TailOff::getCz( angleOfAttack ) + m_flaps * m_dcz_dflaps.getValue( angleOfAttack );
+    return TailOff::getCz( angleOfAttack ) + _flaps * _dcz_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double C172_TailOff::getCl( double sideslipAngle ) const
 {
-    return TailOff::getCl( sideslipAngle ) + m_ailerons * m_dcl_dailerons;
+    return TailOff::getCl( sideslipAngle ) + _ailerons * _dcl_dailerons;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double C172_TailOff::getCm( double angleOfAttack ) const
 {
-    return TailOff::getCm( angleOfAttack ) + m_flaps * m_dcm_dflaps.getValue( angleOfAttack );
+    return TailOff::getCm( angleOfAttack ) + _flaps * _dcm_dflaps.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

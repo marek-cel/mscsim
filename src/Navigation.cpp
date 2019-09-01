@@ -24,37 +24,38 @@
 
 #include <QFile>
 
+#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
 
 #include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double Navigation::m_range_ils = fdm::Units::nmi2m( 18.0 );
-const double Navigation::m_range_ndb = fdm::Units::nmi2m( 40.0 );
-const double Navigation::m_range_vor = fdm::Units::nmi2m( 40.0 );
+const double Navigation::_range_ils = fdm::Units::nmi2m( 18.0 );
+const double Navigation::_range_ndb = fdm::Units::nmi2m( 40.0 );
+const double Navigation::_range_vor = fdm::Units::nmi2m( 40.0 );
 
-const double Navigation::m_ils_gs_max = fdm::Units::deg2rad( 0.7 );
-const double Navigation::m_ils_lc_max = fdm::Units::deg2rad( 2.5 );
+const double Navigation::_ils_gs_max = fdm::Units::deg2rad( 0.7 );
+const double Navigation::_ils_lc_max = fdm::Units::deg2rad( 2.5 );
 
-const double Navigation::m_vor_max = fdm::Units::deg2rad( 10.0 );
+const double Navigation::_vor_max = fdm::Units::deg2rad( 10.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Navigation::Navigation() :
-    m_adf_visible ( false ),
-    m_adf_bearing ( 0.0f ),
+    _adf_visible ( false ),
+    _adf_bearing ( 0.0f ),
 
-    m_ils_gs_visible ( false ),
-    m_ils_lc_visible ( false ),
-    m_ils_gs_deviation ( 0.0f ),
-    m_ils_lc_deviation ( 0.0f ),
+    _ils_gs_visible ( false ),
+    _ils_lc_visible ( false ),
+    _ils_gs_deviation ( 0.0f ),
+    _ils_lc_deviation ( 0.0f ),
 
-    m_nav_visible ( false ),
-    m_nav_deviation ( 0.0f ),
-    m_nav_distance ( 0.0f )
+    _nav_visible ( false ),
+    _nav_deviation ( 0.0f ),
+    _nav_distance ( 0.0f )
 {
-    QFile file( "data/navigation.xml" );
+    QFile file( fdm::Path::get( "data/navigation.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -81,11 +82,11 @@ Navigation::Navigation() :
                     QDomElement positionNode   = gsNode.firstChildElement( "position" );
                     QDomElement glideSlopeNode = gsNode.firstChildElement( "glide_slope" );
 
-                    m_ils.pos_gs_wgs = readPosition( positionNode );
+                    _ils.pos_gs_wgs = readPosition( positionNode );
 
                     if ( !glideSlopeNode.isNull() )
                     {
-                        m_ils.glide_slope = fdm::Units::deg2rad( glideSlopeNode.text().toDouble() );
+                        _ils.glide_slope = fdm::Units::deg2rad( glideSlopeNode.text().toDouble() );
                     }
                 }
 
@@ -94,11 +95,11 @@ Navigation::Navigation() :
                     QDomElement positionNode = lcNode.firstChildElement( "position" );
                     QDomElement headingNode  = lcNode.firstChildElement( "heading" );
 
-                    m_ils.pos_lc_wgs = readPosition( positionNode );
+                    _ils.pos_lc_wgs = readPosition( positionNode );
 
                     if ( !headingNode.isNull() )
                     {
-                        m_ils.heading = fdm::Units::deg2rad( headingNode.text().toDouble() );
+                        _ils.heading = fdm::Units::deg2rad( headingNode.text().toDouble() );
                     }
                 }
             }
@@ -108,7 +109,7 @@ Navigation::Navigation() :
             {
                 QDomElement positionNode = ndbNode.firstChildElement( "position" );
 
-                m_ndb.pos_wgs = readPosition( positionNode );
+                _ndb.pos_wgs = readPosition( positionNode );
             }
 
             // VOR
@@ -116,7 +117,7 @@ Navigation::Navigation() :
             {
                 QDomElement positionNode = vorNode.firstChildElement( "position" );
 
-                m_vor.pos_wgs = readPosition( positionNode );
+                _vor.pos_wgs = readPosition( positionNode );
             }
         }
     }
@@ -130,33 +131,33 @@ Navigation::~Navigation() {}
 
 void Navigation::update()
 {
-    m_aircraft_wgs.setPos_WGS( fdm::Vector3( Data::get()->ownship.pos_x_wgs,
-                                             Data::get()->ownship.pos_y_wgs,
-                                             Data::get()->ownship.pos_z_wgs ) );
+    _aircraft_wgs.setPos_WGS( fdm::Vector3( Data::get()->ownship.pos_x_wgs,
+                                            Data::get()->ownship.pos_y_wgs,
+                                            Data::get()->ownship.pos_z_wgs ) );
 
     updateADF();
     updateILS();
     updateNav();
 
-    Data::get()->navigation.adf_visible = m_adf_visible;
-    Data::get()->navigation.adf_bearing = m_adf_bearing;
+    Data::get()->navigation.adf_visible = _adf_visible;
+    Data::get()->navigation.adf_bearing = _adf_bearing;
 
-    Data::get()->navigation.ils_visible      = m_ils_gs_visible && m_ils_lc_visible;
-    Data::get()->navigation.ils_gs_visible   = m_ils_gs_visible;
-    Data::get()->navigation.ils_lc_visible   = m_ils_lc_visible;
-    Data::get()->navigation.ils_gs_deviation = m_ils_gs_deviation;
-    Data::get()->navigation.ils_lc_deviation = m_ils_lc_deviation;
+    Data::get()->navigation.ils_visible      = _ils_gs_visible && _ils_lc_visible;
+    Data::get()->navigation.ils_gs_visible   = _ils_gs_visible;
+    Data::get()->navigation.ils_lc_visible   = _ils_lc_visible;
+    Data::get()->navigation.ils_gs_deviation = _ils_gs_deviation;
+    Data::get()->navigation.ils_lc_deviation = _ils_lc_deviation;
 
-    Data::get()->navigation.nav_visible   = m_nav_visible;
-    Data::get()->navigation.nav_deviation = m_nav_deviation;
-    Data::get()->navigation.nav_distance  = m_nav_distance;
+    Data::get()->navigation.nav_visible   = _nav_visible;
+    Data::get()->navigation.nav_deviation = _nav_deviation;
+    Data::get()->navigation.nav_distance  = _nav_distance;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Navigation::getAzimuth( const fdm::Vector3 &pos_wgs )
 {
-    fdm::Vector3 pos_ned = m_aircraft_wgs.getWGS2NED() * ( pos_wgs - m_aircraft_wgs.getPos_WGS() );
+    fdm::Vector3 pos_ned = _aircraft_wgs.getWGS2NED() * ( pos_wgs - _aircraft_wgs.getPos_WGS() );
     return atan2(  pos_ned.y(), pos_ned.x() );
 }
 
@@ -164,7 +165,7 @@ double Navigation::getAzimuth( const fdm::Vector3 &pos_wgs )
 double Navigation::getDistance( const fdm::Vector3 &pos_wgs )
 {
     // orthodromic distance
-    return fdm::WGS84::m_r1 * acos( pos_wgs.getNormalized() * m_aircraft_wgs.getPos_WGS().getNormalized() );
+    return fdm::WGS84::_r1 * acos( pos_wgs.getNormalized() * _aircraft_wgs.getPos_WGS().getNormalized() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,16 +199,16 @@ fdm::Vector3 Navigation::readPosition( const QDomElement &node )
 
 void Navigation::updateADF()
 {
-    m_adf_visible = false;
-    m_adf_bearing = 0.0;
+    _adf_visible = false;
+    _adf_bearing = 0.0;
 
-    double distance = getDistance( m_ndb.pos_wgs );
+    double distance = getDistance( _ndb.pos_wgs );
 
-    if ( distance < m_range_ndb )
+    if ( distance < _range_ndb )
     {
-        m_adf_visible = true;
+        _adf_visible = true;
 
-        m_adf_bearing = getAzimuth( m_ndb.pos_wgs );
+        _adf_bearing = getAzimuth( _ndb.pos_wgs );
     }
 }
 
@@ -215,42 +216,42 @@ void Navigation::updateADF()
 
 void Navigation::updateILS()
 {
-    m_ils_gs_visible = false;
-    m_ils_lc_visible = false;
+    _ils_gs_visible = false;
+    _ils_lc_visible = false;
 
-    m_ils_gs_deviation = 0.0;
-    m_ils_lc_deviation = 0.0;
+    _ils_gs_deviation = 0.0;
+    _ils_lc_deviation = 0.0;
 
-    double distance_lc = getDistance( m_ils.pos_lc_wgs );
+    double distance_lc = getDistance( _ils.pos_lc_wgs );
 
-    if ( distance_lc < m_range_ils )
+    if ( distance_lc < _range_ils )
     {
-        fdm::Vector3 pos_gs_ned = m_aircraft_wgs.getWGS2NED() * ( m_ils.pos_gs_wgs - m_aircraft_wgs.getPos_WGS() );
-        fdm::Vector3 pos_gs_rwy = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, m_ils.heading ) ) * pos_gs_ned;
+        fdm::Vector3 pos_gs_ned = _aircraft_wgs.getWGS2NED() * ( _ils.pos_gs_wgs - _aircraft_wgs.getPos_WGS() );
+        fdm::Vector3 pos_gs_rwy = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, _ils.heading ) ) * pos_gs_ned;
 
-        double azim = getAzimuth( m_ils.pos_lc_wgs );
+        double azim = getAzimuth( _ils.pos_lc_wgs );
         double elev = atan2( -pos_gs_rwy.z(), pos_gs_rwy.x() );
 
-        double azim_rel = azim - m_ils.heading;
-        double elev_rel = elev + m_ils.glide_slope;
+        double azim_rel = azim - _ils.heading;
+        double elev_rel = elev + _ils.glide_slope;
 
         if ( fabs( azim_rel ) < fdm::Units::deg2rad( 10.0 ) )
         {
-            m_ils_lc_visible = true;
-            m_nav_visible = true;
+            _ils_lc_visible = true;
+            _nav_visible = true;
 
-            m_nav_distance = pos_gs_ned.getLength();
+            _nav_distance = pos_gs_ned.getLength();
 
-            m_ils_lc_deviation = azim_rel / m_ils_lc_max;
-            m_ils_lc_deviation = fdm::Misc::satur( -1.0, 1.0, m_ils_lc_deviation );
-            m_nav_deviation = m_ils_lc_deviation;
+            _ils_lc_deviation = azim_rel / _ils_lc_max;
+            _ils_lc_deviation = fdm::Misc::satur( -1.0, 1.0, _ils_lc_deviation );
+            _nav_deviation = _ils_lc_deviation;
 
             if ( pos_gs_rwy.x() > 0.0 )
             {
-                m_ils_gs_visible = true;
+                _ils_gs_visible = true;
 
-                m_ils_gs_deviation = elev_rel / m_ils_gs_max;
-                m_ils_gs_deviation = fdm::Misc::satur( -1.0, 1.0, m_ils_gs_deviation );
+                _ils_gs_deviation = elev_rel / _ils_gs_max;
+                _ils_gs_deviation = fdm::Misc::satur( -1.0, 1.0, _ils_gs_deviation );
             }
         }
     }
@@ -260,24 +261,24 @@ void Navigation::updateILS()
 
 void Navigation::updateNav()
 {
-    if ( !m_ils_lc_visible )
+    if ( !_ils_lc_visible )
     {
-        m_nav_visible = false;
-        m_nav_deviation = 0.0;
+        _nav_visible = false;
+        _nav_deviation = 0.0;
 
-        double distance = getDistance( m_vor.pos_wgs );
+        double distance = getDistance( _vor.pos_wgs );
 
-        if ( distance < m_range_vor )
+        if ( distance < _range_vor )
         {
-            m_nav_visible = true;
+            _nav_visible = true;
 
-            m_nav_distance = distance;
+            _nav_distance = distance;
 
-            double azim = getAzimuth( m_vor.pos_wgs );
-            double azim_rel = azim - m_ils.heading;
+            double azim = getAzimuth( _vor.pos_wgs );
+            double azim_rel = azim - _ils.heading;
 
-            m_nav_deviation = azim_rel / m_vor_max;
-            m_nav_deviation = fdm::Misc::satur( -1.0, 1.0, m_nav_deviation );
+            _nav_deviation = azim_rel / _vor_max;
+            _nav_deviation = fdm::Misc::satur( -1.0, 1.0, _nav_deviation );
         }
     }
 }

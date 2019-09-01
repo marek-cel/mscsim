@@ -32,11 +32,11 @@ using namespace cgi;
 
 osgText::Font* Fonts::get( const std::string &fontFile )
 {
-    for ( unsigned int i = 0; i < instance()->m_fileNames.size(); i++ )
+    for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {
-        if ( fontFile == instance()->m_fileNames.at( i ) )
+        if ( fontFile == instance()->_fileNames.at( i ) )
         {
-            return instance()->m_fonts.at( i );
+            return instance()->_fonts.at( i );
         }
     }
 
@@ -44,8 +44,8 @@ osgText::Font* Fonts::get( const std::string &fontFile )
 
     if ( font.valid() )
     {
-        instance()->m_fonts.push_back( font.get() );
-        instance()->m_fileNames.push_back( fontFile );
+        instance()->_fonts.push_back( font.get() );
+        instance()->_fileNames.push_back( fontFile );
 
         return font.get();
     }
@@ -61,22 +61,22 @@ osgText::Font* Fonts::get( const std::string &fontFile )
 
 void Fonts::reset()
 {
-    instance()->m_fileNames.clear();
-    instance()->m_fonts.clear();
+    instance()->_fileNames.clear();
+    instance()->_fonts.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Fonts::Fonts()
 {
-    m_fileNames.clear();
-    m_fonts.clear();
+    _fileNames.clear();
+    _fonts.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Fonts::~Fonts()
 {
-    m_fileNames.clear();
-    m_fonts.clear();
+    _fileNames.clear();
+    _fonts.clear();
 }

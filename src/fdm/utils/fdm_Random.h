@@ -37,12 +37,12 @@ public:
     /** */
     static inline Random* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new Random();
+            _instance = new Random();
         }
 
-        return m_instance;
+        return _instance;
     }
 
     /** */
@@ -68,7 +68,7 @@ public:
 
 private:
 
-    static Random *m_instance;  ///<
+    static Random *_instance;   ///<
 
     /**
      * You should use static function instance() due to get refernce

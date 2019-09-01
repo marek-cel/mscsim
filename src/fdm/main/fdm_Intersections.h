@@ -84,8 +84,8 @@ public:
 
 protected:
 
-    Vector3 m_ground_wgs;       ///< [m] ground intersection expressed in WGS
-    Vector3 m_normal_wgs;       ///< ground normal vector
+    Vector3 _ground_wgs;        ///< [m] ground intersection expressed in WGS
+    Vector3 _normal_wgs;        ///< ground normal vector
 };
 
 } // end of fdm namespace

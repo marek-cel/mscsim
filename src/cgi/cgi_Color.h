@@ -38,24 +38,24 @@ class Color
 {
 public:
 
-    static const osg::Vec3 amber;       ///< amber
-    static const osg::Vec3 black;       ///< black  (according to W3C)
-    static const osg::Vec3 cyan;        ///< cyan   (according to W3C)
-    static const osg::Vec3 green;       ///< green  (according to W3C)
-    static const osg::Vec3 grey;        ///< grey   (according to W3C)
-    static const osg::Vec3 lime;        ///< lime   (according to W3C)
-    static const osg::Vec3 orange;      ///< orange (according to W3C)
-    static const osg::Vec3 red;         ///< red    (according to W3C)
-    static const osg::Vec3 white;       ///< white  (according to W3C)
-    static const osg::Vec3 yellow;      ///< yellow (according to W3C)
+    static const osg::Vec3 _amber;      ///< amber
+    static const osg::Vec3 _black;      ///< black  (according to W3C)
+    static const osg::Vec3 _cyan;       ///< cyan   (according to W3C)
+    static const osg::Vec3 _green;      ///< green  (according to W3C)
+    static const osg::Vec3 _grey;       ///< grey   (according to W3C)
+    static const osg::Vec3 _lime;       ///< lime   (according to W3C)
+    static const osg::Vec3 _orange;     ///< orange (according to W3C)
+    static const osg::Vec3 _red;        ///< red    (according to W3C)
+    static const osg::Vec3 _white;      ///< white  (according to W3C)
+    static const osg::Vec3 _yellow;     ///< yellow (according to W3C)
 
-    static const osg::Vec3 hud;         ///<
+    static const osg::Vec3 _hud;        ///<
 
-    static const osg::Vec3 sky[ 9 ];    ///<
-    static const osg::Vec3 fog[ 9 ];    ///<
+    static const osg::Vec3 _sky[ 9 ];   ///<
+    static const osg::Vec3 _fog[ 9 ];   ///<
 
-    static const osg::Vec3 sun[ 11 ];   ///< sun light color
-    static const osg::Vec3 moon;        ///< moon light color
+    static const osg::Vec3 _sun[ 11 ];  ///< sun light color
+    static const osg::Vec3 _moon;       ///< moon light color
 };
 
 } // end of cgi namespace

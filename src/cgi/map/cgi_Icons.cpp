@@ -69,9 +69,9 @@ void Icons::setScale( double scale )
     double s = 1.5 * 1.0e6 * scale;
     osg::Vec3d sv( s, s, 1.0 );
 
-    m_ownship.pat->setScale( sv );
+    _ownship.pat->setScale( sv );
 
-    for ( Aerodromes::iterator it = m_aerodromes.begin(); it != m_aerodromes.end(); it++ )
+    for ( Aerodromes::iterator it = _aerodromes.begin(); it != _aerodromes.end(); it++ )
     {
         (*it)->setScale( sv );
     }
@@ -124,13 +124,13 @@ void Icons::createIcon( osg::Group *parent, float z,
 
 void Icons::createOwnship()
 {
-    m_ownship.pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_ownship.pat.get() );
+    _ownship.pat = new osg::PositionAttitudeTransform();
+    _root->addChild( _ownship.pat.get() );
 
-    m_ownship.speedLeader = new osg::Group();
-    m_ownship.pat->addChild( m_ownship.speedLeader.get() );
+    _ownship.speedLeader = new osg::Group();
+    _ownship.pat->addChild( _ownship.speedLeader.get() );
 
-    createIcon( m_ownship.pat.get(), Map::zOwnship, "data/map/icons/air_friend.png" );
+    createIcon( _ownship.pat.get(), Map::_zOwnship, "data/map/icons/air_friend.png" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,20 +144,20 @@ void Icons::createSymbolAerodrome()
     const float w_2 = 12.0 * ro / 72.0;
     const float h = 2.0 * 12.0 * ro / 72.0;
 
-    m_symbolAerodrome = new osg::Geode();
+    _symbolAerodrome = new osg::Geode();
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
 
-    c->push_back( osg::Vec4( Map::colorAeroData, 1.0f ) );
+    c->push_back( osg::Vec4( Map::_colorAeroData, 1.0f ) );
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
     osg::ref_ptr<osg::Geometry> geom1 = new osg::Geometry();
     osg::ref_ptr<osg::Geometry> geom2 = new osg::Geometry();
 
-    m_symbolAerodrome->addDrawable( geom1.get() );
-    m_symbolAerodrome->addDrawable( geom2.get() );
+    _symbolAerodrome->addDrawable( geom1.get() );
+    _symbolAerodrome->addDrawable( geom2.get() );
 
     Geometry::createRing( geom1.get(), 0.2, 0.25 );
 
@@ -198,10 +198,10 @@ void Icons::initAerodromes()
 {
     // TODO
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( pat.get() );
-    pat->addChild( m_symbolAerodrome.get() );
-    pat->setPosition( osg::Vec3d( 0.0, 0.0, Map::zAerodromes ) );
-    m_aerodromes.push_back( pat.get() );
+    _root->addChild( pat.get() );
+    pat->addChild( _symbolAerodrome.get() );
+    pat->setPosition( osg::Vec3d( 0.0, 0.0, Map::_zAerodromes ) );
+    _aerodromes.push_back( pat.get() );
     // TODO
 }
 
@@ -209,17 +209,17 @@ void Icons::initAerodromes()
 
 void Icons::updateOwnship()
 {
-    m_ownship.pat->setPosition( osg::Vec3( Mercator::x( Data::get()->ownship.longitude ),
-                                           Mercator::y( Data::get()->ownship.latitude ),
-                                           0.0f ) );
+    _ownship.pat->setPosition( osg::Vec3( Mercator::x( Data::get()->ownship.longitude ),
+                                          Mercator::y( Data::get()->ownship.latitude ),
+                                          0.0f ) );
 
-    if ( m_ownship.speedLeader->getNumChildren() > 0 )
+    if ( _ownship.speedLeader->getNumChildren() > 0 )
     {
-        m_ownship.speedLeader->removeChildren( 0, m_ownship.speedLeader->getNumChildren() );
+        _ownship.speedLeader->removeChildren( 0, _ownship.speedLeader->getNumChildren() );
     }
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_ownship.speedLeader->addChild( geode.get() );
+    _ownship.speedLeader->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -233,14 +233,14 @@ void Icons::updateOwnship()
     const float coef = 1.0f / 50.0f; // 180 km/h
     osg::Vec3 vel_ned( coef * Data::get()->ownship.vel_east,
                        coef * Data::get()->ownship.vel_north,
-                       Map::zSpeedLeader );
+                       Map::_zSpeedLeader );
 
     if ( vel_ned.length2() > 1.0f )
     {
         vel_ned.normalize();
     }
 
-    v->push_back( osg::Vec3( 0.0f, 0.0f, Map::zSpeedLeader ) );
+    v->push_back( osg::Vec3( 0.0f, 0.0f, Map::_zSpeedLeader ) );
     v->push_back( vel_ned );
 
     geometry->setVertexArray( v.get() );

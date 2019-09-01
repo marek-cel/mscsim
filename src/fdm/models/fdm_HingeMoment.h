@@ -78,12 +78,12 @@ public:
 
 protected:
 
-    double m_area;          ///< [m^2] control surface area
-    double m_chord;         ///< [m] control surface mean chord (from hinge to trailing edge)
+    double _area;           ///< [m^2] control surface area
+    double _chord;          ///< [m] control surface mean chord (from hinge to trailing edge)
 
-    double m_dch_dalpha;    ///< [1/rad] hinge moment coefficient due to angle of attack
-    double m_dch_ddelta;    ///< [1/rad] hinge moment coefficient due to deflection
-    double m_dch_ddelta_t;  ///< [1/rad] hinge moment coefficient due to trim deflection
+    double _dch_dalpha;     ///< [1/rad] hinge moment coefficient due to angle of attack
+    double _dch_ddelta;     ///< [1/rad] hinge moment coefficient due to deflection
+    double _dch_ddelta_t;   ///< [1/rad] hinge moment coefficient due to trim deflection
 };
 
 } // end of fdm namespace

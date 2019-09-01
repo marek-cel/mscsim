@@ -31,7 +31,7 @@ using namespace fdm;
 
 F16_Mass::F16_Mass( const F16_Aircraft *aircraft ) :
     Mass( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,12 +54,12 @@ void F16_Mass::init()
       && 0 != fuel_tank_f
       && 0 != fuel_tank_a )
     {
-        pilot->input = &m_aircraft->getDataInp()->masses.pilot_1;
+        pilot->input = &_aircraft->getDataInp()->masses.pilot_1;
 
-        fuel_tank_l->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &m_aircraft->getDataInp()->masses.fuel_tank_2;
-        fuel_tank_f->input = &m_aircraft->getDataInp()->masses.fuel_tank_3;
-        fuel_tank_a->input = &m_aircraft->getDataInp()->masses.fuel_tank_4;
+        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+        fuel_tank_f->input = &_aircraft->getDataInp()->masses.fuel_tank_3;
+        fuel_tank_a->input = &_aircraft->getDataInp()->masses.fuel_tank_4;
     }
     else
     {

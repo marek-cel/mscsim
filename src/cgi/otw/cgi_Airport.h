@@ -54,19 +54,19 @@ public:
 
 private:
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 
-    osg::ref_ptr<osg::Switch> m_switchLightsHELI;
-    osg::ref_ptr<osg::Switch> m_switchLightsRALS;
-    osg::ref_ptr<osg::Switch> m_switchLightsRCLS;
-    osg::ref_ptr<osg::Switch> m_switchLightsRELS;
-    osg::ref_ptr<osg::Switch> m_switchLightsTDZL;
-    osg::ref_ptr<osg::Switch> m_switchLightsTELS;
-    osg::ref_ptr<osg::Switch> m_switchLightsTWRL;
-    osg::ref_ptr<osg::Switch> m_switchLightsVGSI;
+    osg::ref_ptr<osg::Switch> _switchLightsHELI;
+    osg::ref_ptr<osg::Switch> _switchLightsRALS;
+    osg::ref_ptr<osg::Switch> _switchLightsRCLS;
+    osg::ref_ptr<osg::Switch> _switchLightsRELS;
+    osg::ref_ptr<osg::Switch> _switchLightsTDZL;
+    osg::ref_ptr<osg::Switch> _switchLightsTELS;
+    osg::ref_ptr<osg::Switch> _switchLightsTWRL;
+    osg::ref_ptr<osg::Switch> _switchLightsVGSI;
 
-    osg::ref_ptr<osg::Switch> m_switchGatesRwy18;
-    osg::ref_ptr<osg::Switch> m_switchGatesRwy36;
+    osg::ref_ptr<osg::Switch> _switchGatesRwy18;
+    osg::ref_ptr<osg::Switch> _switchGatesRwy36;
 };
 
 } // end of cgi namespace

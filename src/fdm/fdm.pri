@@ -59,7 +59,6 @@ HEADERS += \
     $$PWD/models/fdm_TailOff.h \
     $$PWD/models/fdm_TailRotor.h \
     $$PWD/models/fdm_Turbofan.h \
-    $$PWD/models/fdm_TurbofanAB.h \
     $$PWD/models/fdm_WindShear.h
 
 SOURCES += \
@@ -74,7 +73,6 @@ SOURCES += \
     $$PWD/models/fdm_TailOff.cpp \
     $$PWD/models/fdm_TailRotor.cpp \
     $$PWD/models/fdm_Turbofan.cpp \
-    $$PWD/models/fdm_TurbofanAB.cpp \
     $$PWD/models/fdm_WindShear.cpp
 
 ################################################################################

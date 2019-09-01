@@ -88,34 +88,34 @@ protected:
 
 private:
 
-    Ui::DockWidgetData *m_ui;
+    Ui::DockWidgetData *_ui;        ///<
 
-    double m_altitude_asl;  ///< [m] altitude above sea level
-    double m_altitude_agl;  ///< [m] altitude above ground level
+    double _altitude_asl;           ///< [m] altitude above sea level
+    double _altitude_agl;           ///< [m] altitude above ground level
 
-    double m_airspeed;      ///< [m/s] airspeed
-    double m_climbRate;     ///< [m/s] climb rate
-    double m_machNumber;    ///< [-] Mach number
+    double _airspeed;               ///< [m/s] airspeed
+    double _climbRate;              ///< [m/s] climb rate
+    double _machNumber;             ///< [-] Mach number
 
-    double m_rollAngle;     ///< [rad] roll angle
-    double m_pitchAngle;    ///< [rad] pitch angle
-    double m_heading;       ///< [rad] true heading
+    double _rollAngle;              ///< [rad] roll angle
+    double _pitchAngle;             ///< [rad] pitch angle
+    double _heading;                ///< [rad] true heading
 
-    double m_angleOfAttack; ///< [rad] angle of attack
-    double m_sideslipAngle; ///< [rad] angle of sideslip
+    double _angleOfAttack;          ///< [rad] angle of attack
+    double _sideslipAngle;          ///< [rad] angle of sideslip
 
-    double m_course;        ///< [rad] course
-    double m_pathAngle;     ///< [rad] path angle
+    double _course;                 ///< [rad] course
+    double _pathAngle;              ///< [rad] path angle
 
-    double m_rollRate;      ///< [rad/s] roll rate
-    double m_pitchRate;     ///< [rad/s] pitch rate
-    double m_yawRate;       ///< [rad/s] yaw rate
+    double _rollRate;               ///< [rad/s] roll rate
+    double _pitchRate;              ///< [rad/s] pitch rate
+    double _yawRate;                ///< [rad/s] yaw rate
 
-    double m_Gx;            ///< [-] X component of G-Force vector expressed in BAS
-    double m_Gy;            ///< [-] Y component of G-Force vector expressed in BAS
-    double m_Gz;            ///< [-] Z component of G-Force vector expressed in BAS
+    double _Gx;                     ///< [-] X component of G-Force vector expressed in BAS
+    double _Gy;                     ///< [-] Y component of G-Force vector expressed in BAS
+    double _Gz;                     ///< [-] Z component of G-Force vector expressed in BAS
 
-    double m_maxGz;         ///< [-]
+    double _maxGz;                  ///< [-]
 
     void settingsRead();
     void settingsRead_Highlight( QSettings &settings );

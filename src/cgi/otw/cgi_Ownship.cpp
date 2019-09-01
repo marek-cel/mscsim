@@ -48,13 +48,13 @@ using namespace cgi;
 Ownship::Ownship( Module *parent ) :
     Module( parent )
 {
-    m_pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( m_pat.get() );
+    _pat = new osg::PositionAttitudeTransform();
+    _root->addChild( _pat.get() );
 
-    m_switch = new osg::Switch();
-    m_pat->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _pat->addChild( _switch.get() );
 
-    m_switch->setName( "Ownship" );
+    _switch->setName( "Ownship" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,18 +65,18 @@ Ownship::~Ownship() {}
 
 void Ownship::update()
 {
-    if ( 0 != strcmp( m_aircraftFile.c_str(), Data::get()->ownship.aircraftFile ) )
+    if ( 0 != strcmp( _aircraftFile.c_str(), Data::get()->ownship.aircraftFile ) )
     {
         reload();
     }
 
     if ( Data::get()->camera.viewType == Data::Camera::ViewPilot )
     {
-        m_switch->setAllChildrenOff();
+        _switch->setAllChildrenOff();
     }
     else
     {
-        m_switch->setAllChildrenOn();
+        _switch->setAllChildrenOn();
     }
 
     osg::Quat q_wgs( Data::get()->ownship.att_ex_wgs,
@@ -88,146 +88,146 @@ void Ownship::update()
                       Data::get()->ownship.pos_y_wgs,
                       Data::get()->ownship.pos_z_wgs );
 
-    m_pat->setAttitude( q_wgs );
-    m_pat->setPosition( r_wgs );
+    _pat->setAttitude( q_wgs );
+    _pat->setPosition( r_wgs );
 
     // ailerons
-    if ( m_aileronL.valid() && m_aileronR.valid() )
+    if ( _aileronL.valid() && _aileronR.valid() )
     {
-        m_aileronL->setAttitude( osg::Quat( -Data::get()->ownship.ailerons, osg::Y_AXIS ) );
-        m_aileronR->setAttitude( osg::Quat(  Data::get()->ownship.ailerons, osg::Y_AXIS ) );
+        _aileronL->setAttitude( osg::Quat( -Data::get()->ownship.ailerons, osg::Y_AXIS ) );
+        _aileronR->setAttitude( osg::Quat(  Data::get()->ownship.ailerons, osg::Y_AXIS ) );
     }
 
     // elevator
-    if ( m_elevatorL.valid() )
+    if ( _elevatorL.valid() )
     {
-        m_elevatorL->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
+        _elevatorL->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
     }
 
-    if ( m_elevatorR.valid() )
+    if ( _elevatorR.valid() )
     {
-        m_elevatorR->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
+        _elevatorR->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
     }
 
     // rudder
-    if ( m_rudderL.valid() )
+    if ( _rudderL.valid() )
     {
-        m_rudderL->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
+        _rudderL->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
     }
 
-    if ( m_rudderR.valid() )
+    if ( _rudderR.valid() )
     {
-        m_rudderR->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
+        _rudderR->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
     }
 
     // elevons
-    if ( m_elevonL.valid() && m_elevonR.valid() )
+    if ( _elevonL.valid() && _elevonR.valid() )
     {
         float angle_l = Data::get()->ownship.elevator - Data::get()->ownship.elevons;
         float angle_r = Data::get()->ownship.elevator + Data::get()->ownship.elevons;
 
-        m_elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
-        m_elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
+        _elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        _elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
     }
 
     // flaperons
-    if ( m_flaperonL.valid() && m_flaperonR.valid() )
+    if ( _flaperonL.valid() && _flaperonR.valid() )
     {
         float angle_l = Data::get()->ownship.flaps - Data::get()->ownship.flaperons;
         float angle_r = Data::get()->ownship.flaps + Data::get()->ownship.flaperons;
 
-        m_flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
-        m_flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
+        _flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        _flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
     }
 
     // flaps
-    if ( m_flapL.valid() && m_flapR.valid() )
+    if ( _flapL.valid() && _flapR.valid() )
     {
-        m_flapL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
-        m_flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        _flapL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        _flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
     }
 
     // lefs
-    if ( m_lefL.valid() && m_lefR.valid() )
+    if ( _lefL.valid() && _lefR.valid() )
     {
-        m_lefL->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
-        m_lefR->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
+        _lefL->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
+        _lefR->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
     }
 
     // airbrake
-    if ( m_airbrakeP.valid() )
+    if ( _airbrakeP.valid() )
     {
-        m_airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
+        _airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
     }
 
-    if ( m_airbrakeN.valid() )
+    if ( _airbrakeN.valid() )
     {
-        m_airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
+        _airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
     }
 
     // landing gear
-    if ( m_landingGear.valid() )
+    if ( _landingGear.valid() )
     {
         if ( Data::get()->ownship.landingGear > 0.0 )
         {
-            m_landingGear->setValue( 0, false );
-            m_landingGear->setValue( 1, true  );
+            _landingGear->setValue( 0, false );
+            _landingGear->setValue( 1, true  );
 
-            for ( unsigned int i = 0; i < m_landingGearElements.size() && i < m_landingGearElementsData.size(); i++ )
+            for ( unsigned int i = 0; i < _landingGearElements.size() && i < _landingGearElementsData.size(); i++ )
             {
-                double angle_x = getAngle( Data::get()->ownship.landingGear, &(m_landingGearElementsData[ i ].x) );
-                double angle_y = getAngle( Data::get()->ownship.landingGear, &(m_landingGearElementsData[ i ].y) );
-                double angle_z = getAngle( Data::get()->ownship.landingGear, &(m_landingGearElementsData[ i ].z) );
+                double angle_x = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].x) );
+                double angle_y = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].y) );
+                double angle_z = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].z) );
 
-                m_landingGearElements[ i ]->setAttitude( osg::Quat( angle_x, osg::X_AXIS,
-                                                                    angle_y, osg::Y_AXIS,
-                                                                    angle_z, osg::Z_AXIS ) );
+                _landingGearElements[ i ]->setAttitude( osg::Quat( angle_x, osg::X_AXIS,
+                                                                   angle_y, osg::Y_AXIS,
+                                                                   angle_z, osg::Z_AXIS ) );
             }
         }
         else
         {
-            m_landingGear->setValue( 0, true  );
-            m_landingGear->setValue( 1, false );
+            _landingGear->setValue( 0, true  );
+            _landingGear->setValue( 1, false );
         }
     }
 
     // propeller
-    if ( m_propeller1.valid() )
+    if ( _propeller1.valid() )
     {
-        m_propeller1->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 0 ], osg::X_AXIS ) );
+        _propeller1->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 0 ], osg::X_AXIS ) );
     }
 
-    if ( m_propeller2.valid() )
+    if ( _propeller2.valid() )
     {
-        m_propeller2->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 1 ], osg::X_AXIS ) );
+        _propeller2->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 1 ], osg::X_AXIS ) );
     }
 
-    if ( m_propeller3.valid() )
+    if ( _propeller3.valid() )
     {
-        m_propeller3->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 2 ], osg::X_AXIS ) );
+        _propeller3->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 2 ], osg::X_AXIS ) );
     }
 
-    if ( m_propeller4.valid() )
+    if ( _propeller4.valid() )
     {
-        m_propeller4->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 3 ], osg::X_AXIS ) );
+        _propeller4->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 3 ], osg::X_AXIS ) );
     }
 
     // main rotor
-    if ( m_mainRotor.valid() )
+    if ( _mainRotor.valid() )
     {
         double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_azimuth;
-        m_mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
+        _mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
     }
 
     // tail rotor
-    if ( m_tailRotor.valid() )
+    if ( _tailRotor.valid() )
     {
         double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_azimuth;
-        m_tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
+        _tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
     }
 
     // main rotor blades
-    unsigned int bladesCount = m_mainRotorBlades.size();
+    unsigned int bladesCount = _mainRotorBlades.size();
     double psiStep = 2.0*M_PI / (float)bladesCount;
 
     for ( unsigned int i = 0; i < bladesCount; i++ )
@@ -247,9 +247,9 @@ void Ownship::update()
                         + Data::get()->ownship.mainRotor_diskPitch * cosPsi
                         - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
 
-        m_mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
-                                                        flapping, osg::Y_AXIS,
-                                                             0.0, osg::Z_AXIS ) );
+        _mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
+                                                       flapping, osg::Y_AXIS,
+                                                            0.0, osg::Z_AXIS ) );
     }
 }
 
@@ -281,61 +281,61 @@ void Ownship::loadModel( const std::string &modelFile )
 
     if ( model.valid() )
     {
-        m_switch->addChild( model.get() );
+        _switch->addChild( model.get() );
 
-        m_aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronL" ) );
-        m_aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronR" ) );
+        _aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronL" ) );
+        _aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronR" ) );
 
-        m_elevatorL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevatorL" ) );
-        m_elevatorR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevatorR" ) );
+        _elevatorL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevatorL" ) );
+        _elevatorR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevatorR" ) );
 
-        if ( !m_elevatorL.valid() )
+        if ( !_elevatorL.valid() )
         {
-            m_elevatorL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Elevator" ) );
+            _elevatorL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Elevator" ) );
         }
 
-        m_rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "RudderL" ) );
-        m_rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "RudderR" ) );
+        _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "RudderL" ) );
+        _rudderR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "RudderR" ) );
 
-        if ( !m_rudderL.valid() )
+        if ( !_rudderL.valid() )
         {
-            m_rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Rudder" ) );
+            _rudderL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Rudder" ) );
         }
 
-        m_elevonL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevonL" ) );
-        m_elevonR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevonR" ) );
+        _elevonL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevonL" ) );
+        _elevonR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "ElevonR" ) );
 
-        m_flaperonL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonL" ) );
-        m_flaperonR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonR" ) );
+        _flaperonL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonL" ) );
+        _flaperonR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlaperonR" ) );
 
-        m_flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTEL" ) );
-        m_flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTER" ) );
+        _flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTEL" ) );
+        _flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapTER" ) );
 
-        if ( !m_flapL.valid() && !m_flapR.valid() )
+        if ( !_flapL.valid() && !_flapR.valid() )
         {
-            m_flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapL" ) );
-            m_flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapR" ) );
+            _flapL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapL" ) );
+            _flapR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapR" ) );
         }
 
-        m_lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLEL" ) );
-        m_lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLER" ) );
+        _lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLEL" ) );
+        _lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "FlapLER" ) );
 
-        if ( !m_lefL.valid() && !m_lefR.valid() )
+        if ( !_lefL.valid() && !_lefR.valid() )
         {
-            m_lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFL" ) );
-            m_lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFR" ) );
+            _lefL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFL" ) );
+            _lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFR" ) );
         }
 
-        m_airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeP" ) );
-        m_airbrakeN = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeN" ) );
+        _airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeP" ) );
+        _airbrakeN = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeN" ) );
 
-        if ( !m_airbrakeP.valid() )
+        if ( !_airbrakeP.valid() )
         {
-            m_airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Airbrake" ) );
+            _airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Airbrake" ) );
         }
 
         // landing gear
-        m_landingGear = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "LandingGear" ) );
+        _landingGear = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "LandingGear" ) );
 
         for ( unsigned int i = 0; i < CGI_MAX_LANDING_GEAR_ELEMENTS; i++ )
         {
@@ -347,7 +347,7 @@ void Ownship::loadModel( const std::string &modelFile )
 
             if ( landingGearElement.valid() )
             {
-                m_landingGearElements.push_back( landingGearElement.get() );
+                _landingGearElements.push_back( landingGearElement.get() );
             }
             else
             {
@@ -355,25 +355,25 @@ void Ownship::loadModel( const std::string &modelFile )
             }
         }
 
-        m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller1" ) );
-        m_propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller2" ) );
-        m_propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller3" ) );
-        m_propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller4" ) );
+        _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller1" ) );
+        _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller2" ) );
+        _propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller3" ) );
+        _propeller4 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller4" ) );
 
-        if ( !m_propeller1.valid() || !m_propeller2.valid() )
+        if ( !_propeller1.valid() || !_propeller2.valid() )
         {
-            m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "PropellerL" ) );
-            m_propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "PropellerR" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "PropellerL" ) );
+            _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "PropellerR" ) );
         }
 
-        if ( !m_propeller1.valid() )
+        if ( !_propeller1.valid() )
         {
-            m_propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller" ) );
+            _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller" ) );
         }
 
         // main and tail rotor
-        m_mainRotor = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "MainRotor" ) );
-        m_tailRotor = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "TailRotor" ) );
+        _mainRotor = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "MainRotor" ) );
+        _tailRotor = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "TailRotor" ) );
 
         // main rotor blades
         FindNode::Nodes bladeNodes = FindNode::findNodes( model, "BladeHinge" );
@@ -385,7 +385,7 @@ void Ownship::loadModel( const std::string &modelFile )
 
             if ( blade.valid() )
             {
-                m_mainRotorBlades.push_back( blade.get() );
+                _mainRotorBlades.push_back( blade.get() );
             }
             else
             {
@@ -463,9 +463,9 @@ void Ownship::reload()
 {
     reset();
 
-    m_aircraftFile = Data::get()->ownship.aircraftFile;
+    _aircraftFile = Data::get()->ownship.aircraftFile;
 
-    fdm::XmlDoc doc( fdm::Path::get( m_aircraftFile ) );
+    fdm::XmlDoc doc( fdm::Path::get( _aircraftFile ) );
 
     if ( doc.isOpen() )
     {
@@ -479,7 +479,7 @@ void Ownship::reload()
 
             if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, modelFile, "model" );
 
-            readLandingGearElementsData( rootNode, &m_landingGearElementsData );
+            readLandingGearElementsData( rootNode, &_landingGearElementsData );
 
             if ( result == FDM_SUCCESS )
             {
@@ -493,36 +493,36 @@ void Ownship::reload()
 
 void Ownship::reset()
 {
-    if ( m_switch->getNumChildren() > 0 )
+    if ( _switch->getNumChildren() > 0 )
     {
-        m_switch->removeChildren( 0, m_switch->getNumChildren() );
+        _switch->removeChildren( 0, _switch->getNumChildren() );
     }
 
-    m_aileronL  = 0;
-    m_aileronR  = 0;
-    m_elevatorL = 0;
-    m_elevatorR = 0;
-    m_elevonL   = 0;
-    m_elevonR   = 0;
-    m_flaperonL = 0;
-    m_flaperonR = 0;
-    m_flapL     = 0;
-    m_flapR     = 0;
-    m_lefL      = 0;
-    m_lefR      = 0;
-    m_rudderL   = 0;
-    m_rudderR   = 0;
+    _aileronL  = 0;
+    _aileronR  = 0;
+    _elevatorL = 0;
+    _elevatorR = 0;
+    _elevonL   = 0;
+    _elevonR   = 0;
+    _flaperonL = 0;
+    _flaperonR = 0;
+    _flapL     = 0;
+    _flapR     = 0;
+    _lefL      = 0;
+    _lefR      = 0;
+    _rudderL   = 0;
+    _rudderR   = 0;
 
-    m_propeller1 = 0;
-    m_propeller2 = 0;
-    m_propeller3 = 0;
-    m_propeller4 = 0;
+    _propeller1 = 0;
+    _propeller2 = 0;
+    _propeller3 = 0;
+    _propeller4 = 0;
 
-    m_mainRotor = 0;
-    m_tailRotor = 0;
+    _mainRotor = 0;
+    _tailRotor = 0;
 
-    m_landingGearElements.clear();
-    m_mainRotorBlades.clear();
+    _landingGearElements.clear();
+    _mainRotorBlades.clear();
 
-    m_landingGearElementsData.clear();
+    _landingGearElementsData.clear();
 }

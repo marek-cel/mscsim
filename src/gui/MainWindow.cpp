@@ -40,98 +40,98 @@
 
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow ( parent ),
-    m_ui ( new Ui::MainWindow ),
+    _ui ( new Ui::MainWindow ),
 
-    m_dateTime( QDateTime::currentDateTimeUtc() ),
+    _dateTime( QDateTime::currentDateTimeUtc() ),
     
-    m_dialogConf ( 0 ),
-    m_dialogEnvr ( 0 ),
-    m_dialogInit ( 0 ),
-    m_dialogMass ( 0 ),
+    _dialogConf ( 0 ),
+    _dialogEnvr ( 0 ),
+    _dialogInit ( 0 ),
+    _dialogMass ( 0 ),
 
-    m_dockAuto ( 0 ),
-    m_dockCtrl ( 0 ),
-    m_dockData ( 0 ),
-    m_dockEFIS ( 0 ),
-    m_dockMain ( 0 ),
-    m_dockMap  ( 0 ),
-    m_dockProp ( 0 ),
+    _dockAuto ( 0 ),
+    _dockCtrl ( 0 ),
+    _dockData ( 0 ),
+    _dockEFIS ( 0 ),
+    _dockMain ( 0 ),
+    _dockMap  ( 0 ),
+    _dockProp ( 0 ),
 
-    m_scFullScreen ( 0 ),
-    m_scTimeFaster ( 0 ),
-    m_scTimeSlower ( 0 ),
+    _scFullScreen ( 0 ),
+    _scTimeFaster ( 0 ),
+    _scTimeSlower ( 0 ),
 
-    m_viewType ( Data::Camera::ViewPilot ),
-    m_showHUD ( true ),
+    _viewType ( Data::Camera::ViewPilot ),
+    _showHUD ( true ),
 
-    m_timeCoef ( 1.0 ),
+    _timeCoef ( 1.0 ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_typeIndex ( 0 ),
+    _typeIndex ( 0 ),
 
-    m_phaseInp ( fdm::DataInp::Idle ),
-    m_stateOut ( fdm::DataOut::Idle )
+    _phaseInp ( fdm::DataInp::Idle ),
+    _stateOut ( fdm::DataOut::Idle )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
-    m_dialogConf = new DialogConf( this );
-    m_dialogEnvr = new DialogEnvr( this );
-    m_dialogInit = new DialogInit( this );
-    m_dialogMass = new DialogMass( this );
+    _dialogConf = new DialogConf( this );
+    _dialogEnvr = new DialogEnvr( this );
+    _dialogInit = new DialogInit( this );
+    _dialogMass = new DialogMass( this );
 
-    setWidescreenDockLayout( m_dialogConf->getWidescreen() );
+    setWidescreenDockLayout( _dialogConf->getWidescreen() );
 
-    m_dockAuto = new DockWidgetAuto( this );
-    m_dockCtrl = new DockWidgetCtrl( this );
-    m_dockData = new DockWidgetData( this );
-    m_dockEFIS = new DockWidgetEFIS( this );
-    m_dockMain = new DockWidgetMain( this );
-    m_dockMap  = new DockWidgetMap( this );
-    m_dockProp = new DockWidgetProp( this );
+    _dockAuto = new DockWidgetAuto( this );
+    _dockCtrl = new DockWidgetCtrl( this );
+    _dockData = new DockWidgetData( this );
+    _dockEFIS = new DockWidgetEFIS( this );
+    _dockMain = new DockWidgetMain( this );
+    _dockMap  = new DockWidgetMap( this );
+    _dockProp = new DockWidgetProp( this );
 
-    m_dockAuto->setObjectName( "DockAuto" );
-    m_dockCtrl->setObjectName( "DockCtrl" );
-    m_dockData->setObjectName( "DockData" );
-    m_dockEFIS->setObjectName( "DockEFIS" );
-    m_dockMain->setObjectName( "DockMain" );
-    m_dockMap->setObjectName( "DockMap" );
-    m_dockProp->setObjectName( "DockProp" );
+    _dockAuto->setObjectName( "DockAuto" );
+    _dockCtrl->setObjectName( "DockCtrl" );
+    _dockData->setObjectName( "DockData" );
+    _dockEFIS->setObjectName( "DockEFIS" );
+    _dockMain->setObjectName( "DockMain" );
+    _dockMap->setObjectName( "DockMap" );
+    _dockProp->setObjectName( "DockProp" );
 
-    addDockWidget( Qt::BottomDockWidgetArea , m_dockAuto );
-    addDockWidget( Qt::BottomDockWidgetArea , m_dockCtrl );
-    addDockWidget( Qt::RightDockWidgetArea  , m_dockData );
-    addDockWidget( Qt::BottomDockWidgetArea , m_dockEFIS );
-    addDockWidget( Qt::LeftDockWidgetArea   , m_dockMain );
-    addDockWidget( Qt::BottomDockWidgetArea , m_dockMap  );
-    addDockWidget( Qt::LeftDockWidgetArea   , m_dockProp );
+    addDockWidget( Qt::BottomDockWidgetArea , _dockAuto );
+    addDockWidget( Qt::BottomDockWidgetArea , _dockCtrl );
+    addDockWidget( Qt::RightDockWidgetArea  , _dockData );
+    addDockWidget( Qt::BottomDockWidgetArea , _dockEFIS );
+    addDockWidget( Qt::LeftDockWidgetArea   , _dockMain );
+    addDockWidget( Qt::BottomDockWidgetArea , _dockMap  );
+    addDockWidget( Qt::LeftDockWidgetArea   , _dockProp );
 
-    m_dockAuto->setVisible( false );
-    m_dockCtrl->setVisible( false );
-    m_dockData->setVisible( false );
-    m_dockEFIS->setVisible( false );
-    m_dockMain->setVisible( false );
-    m_dockMap->setVisible( false );
-    m_dockProp->setVisible( false );
+    _dockAuto->setVisible( false );
+    _dockCtrl->setVisible( false );
+    _dockData->setVisible( false );
+    _dockEFIS->setVisible( false );
+    _dockMain->setVisible( false );
+    _dockMap->setVisible( false );
+    _dockProp->setVisible( false );
 
-    m_scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_shorcutFullScreen_triggered()) );
-    m_scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal), this, SLOT(on_actionTimeFaster_triggered()) );
-    m_scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
+    _scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(on_shorcutFullScreen_triggered()) );
+    _scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal), this, SLOT(on_actionTimeFaster_triggered()) );
+    _scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
 
-    connect( m_dialogInit, SIGNAL(typeIndexChanged(int)), this, SLOT(dialogInit_typeIndexChanged(int)) );
-    connect( m_dockMain, SIGNAL(phaseInpChanged(fdm::DataInp::PhaseInp)), this, SLOT(dockMain_phaseInpChanged(fdm::DataInp::PhaseInp)) );
+    connect( _dialogInit, SIGNAL(typeIndexChanged(int)), this, SLOT(dialogInit_typeIndexChanged(int)) );
+    connect( _dockMain, SIGNAL(phaseInpChanged(fdm::DataInp::PhaseInp)), this, SLOT(dockMain_phaseInpChanged(fdm::DataInp::PhaseInp)) );
 
-    connect( m_dockAuto , SIGNAL(closed()), this, SLOT(dockAuto_closed()) );
-    connect( m_dockCtrl , SIGNAL(closed()), this, SLOT(dockCtrl_closed()) );
-    connect( m_dockData , SIGNAL(closed()), this, SLOT(dockData_closed()) );
-    connect( m_dockEFIS , SIGNAL(closed()), this, SLOT(dockEFIS_closed()) );
-    connect( m_dockMain , SIGNAL(closed()), this, SLOT(dockMain_closed()) );
-    connect( m_dockMap  , SIGNAL(closed()), this, SLOT(dockMap_closed())  );
-    connect( m_dockProp , SIGNAL(closed()), this, SLOT(dockProp_closed()) );
+    connect( _dockAuto , SIGNAL(closed()), this, SLOT(dockAuto_closed()) );
+    connect( _dockCtrl , SIGNAL(closed()), this, SLOT(dockCtrl_closed()) );
+    connect( _dockData , SIGNAL(closed()), this, SLOT(dockData_closed()) );
+    connect( _dockEFIS , SIGNAL(closed()), this, SLOT(dockEFIS_closed()) );
+    connect( _dockMain , SIGNAL(closed()), this, SLOT(dockMain_closed()) );
+    connect( _dockMap  , SIGNAL(closed()), this, SLOT(dockMap_closed())  );
+    connect( _dockProp , SIGNAL(closed()), this, SLOT(dockProp_closed()) );
 
     settingsRead();
 
-    setAircraftType( m_dialogInit->getTypeIndex() );
+    setAircraftType( _dialogInit->getTypeIndex() );
 
     setPhaseIdle();
 }
@@ -140,69 +140,69 @@ MainWindow::MainWindow( QWidget *parent ) :
 
 MainWindow::~MainWindow()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
     settingsSave();
 
-    if ( m_dialogConf ) delete m_dialogConf;
-    m_dialogConf = 0;
+    if ( _dialogConf ) delete _dialogConf;
+    _dialogConf = 0;
 
-    if ( m_dialogEnvr ) delete m_dialogEnvr;
-    m_dialogEnvr = 0;
+    if ( _dialogEnvr ) delete _dialogEnvr;
+    _dialogEnvr = 0;
 
-    if ( m_dialogInit ) delete m_dialogInit;
-    m_dialogInit = 0;
+    if ( _dialogInit ) delete _dialogInit;
+    _dialogInit = 0;
 
-    if ( m_dialogMass ) delete m_dialogMass;
-    m_dialogMass = 0;
+    if ( _dialogMass ) delete _dialogMass;
+    _dialogMass = 0;
 
-    if ( m_dockAuto ) delete m_dockAuto;
-    m_dockAuto = 0;
+    if ( _dockAuto ) delete _dockAuto;
+    _dockAuto = 0;
 
-    if ( m_dockCtrl ) delete m_dockCtrl;
-    m_dockCtrl = 0;
+    if ( _dockCtrl ) delete _dockCtrl;
+    _dockCtrl = 0;
 
-    if ( m_dockData ) delete m_dockData;
-    m_dockData = 0;
+    if ( _dockData ) delete _dockData;
+    _dockData = 0;
 
-    if ( m_dockEFIS ) delete m_dockEFIS;
-    m_dockEFIS = 0;
+    if ( _dockEFIS ) delete _dockEFIS;
+    _dockEFIS = 0;
 
-    if ( m_dockMain ) delete m_dockMain;
-    m_dockMain = 0;
+    if ( _dockMain ) delete _dockMain;
+    _dockMain = 0;
 
-    if ( m_dockMap ) delete m_dockMap;
-    m_dockMap = 0;
+    if ( _dockMap ) delete _dockMap;
+    _dockMap = 0;
 
-    if ( m_dockProp ) delete m_dockProp;
-    m_dockProp = 0;
+    if ( _dockProp ) delete _dockProp;
+    _dockProp = 0;
 
-    if ( m_scFullScreen ) delete m_scFullScreen;
-    m_scFullScreen = 0;
+    if ( _scFullScreen ) delete _scFullScreen;
+    _scFullScreen = 0;
 
-    if ( m_scTimeFaster ) delete m_scTimeFaster;
-    m_scTimeFaster = 0;
+    if ( _scTimeFaster ) delete _scTimeFaster;
+    _scTimeFaster = 0;
 
-    if ( m_scTimeSlower ) delete m_scTimeSlower;
-    m_scTimeSlower = 0;
+    if ( _scTimeSlower ) delete _scTimeSlower;
+    _scTimeSlower = 0;
     
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::init()
 {
-    m_dialogConf->readData();
-    m_dialogInit->readData();
-    m_dialogMass->readData();
+    _dialogConf->readData();
+    _dialogInit->readData();
+    _dialogMass->readData();
 
-    m_dialogConf->updateAssignments();
+    _dialogConf->updateAssignments();
 
     updateOutputData();
 
-    m_timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +215,7 @@ void MainWindow::keyPressEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        m_ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
+        _ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
     }
 }
 
@@ -229,7 +229,7 @@ void MainWindow::keyReleaseEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        m_ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
+        _ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
     }
 }
 
@@ -264,11 +264,11 @@ void MainWindow::timerEvent( QTimerEvent *event )
     QMainWindow::timerEvent( event );
     /////////////////////////////////
 
-    m_stateOut = Data::get()->stateOut;
+    _stateOut = Data::get()->stateOut;
 
-    if ( m_stateOut == fdm::DataOut::Stopped )
+    if ( _stateOut == fdm::DataOut::Stopped )
     {
-        if ( m_phaseInp != fdm::DataInp::Idle && m_phaseInp != fdm::DataInp::Stop )
+        if ( _phaseInp != fdm::DataInp::Idle && _phaseInp != fdm::DataInp::Stop )
         {
             setPhaseStop();
         }
@@ -293,57 +293,57 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
 void MainWindow::setPhaseIdle()
 {
-    m_phaseInp = fdm::DataInp::Idle;
-    m_dockMain->setPhaseInp( m_phaseInp );
+    _phaseInp = fdm::DataInp::Idle;
+    _dockMain->setPhaseInp( _phaseInp );
 
-    m_timeCoef = 1.0;
+    _timeCoef = 1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setPhaseInit()
 {
-    m_phaseInp = fdm::DataInp::Init;
-    m_dockMain->setPhaseInp( m_phaseInp );
+    _phaseInp = fdm::DataInp::Init;
+    _dockMain->setPhaseInp( _phaseInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setPhaseWork()
 {
-    m_phaseInp = fdm::DataInp::Work;
-    m_dockMain->setPhaseInp( m_phaseInp );
+    _phaseInp = fdm::DataInp::Work;
+    _dockMain->setPhaseInp( _phaseInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setPhasePause()
 {
-    m_phaseInp = fdm::DataInp::Pause;
-    m_dockMain->setPhaseInp( m_phaseInp );
+    _phaseInp = fdm::DataInp::Pause;
+    _dockMain->setPhaseInp( _phaseInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setPhaseStop()
 {
-    m_phaseInp = fdm::DataInp::Stop;
-    m_dockMain->setPhaseInp( m_phaseInp );
+    _phaseInp = fdm::DataInp::Stop;
+    _dockMain->setPhaseInp( _phaseInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setAircraftType( int typeIndex )
 {
-    m_typeIndex = typeIndex;
+    _typeIndex = typeIndex;
 
-    m_dialogMass->setAircraftType( typeIndex );
+    _dialogMass->setAircraftType( typeIndex );
 
-    m_dockCtrl->setAircraftType( typeIndex );
-    m_dockProp->setAircraftType( typeIndex );
+    _dockCtrl->setAircraftType( typeIndex );
+    _dockProp->setAircraftType( typeIndex );
 
-    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( typeIndex ).distance_def );
-    m_ui->widgetCGI->setDistanceMin( Aircrafts::instance()->getAircraft( typeIndex ).distance_min );
+    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( typeIndex ).distance_def );
+    _ui->widgetCGI->setDistanceMin( Aircrafts::instance()->getAircraft( typeIndex ).distance_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -399,13 +399,13 @@ void MainWindow::settingsRead()
     bool visibleMap  = settings.value( "dock_map_visible"  , 0 ).toBool();
     bool visibleProp = settings.value( "dock_prop_visible" , 0 ).toBool();
 
-    m_ui->actionDockAuto->setChecked( visibleAuto );
-    m_ui->actionDockCtrl->setChecked( visibleCtrl );
-    m_ui->actionDockData->setChecked( visibleData );
-    m_ui->actionDockEFIS->setChecked( visibleEFIS );
-    m_ui->actionDockMain->setChecked( visibleMain );
-    m_ui->actionDockMap->setChecked( visibleMap );
-    m_ui->actionDockProp->setChecked( visibleProp );
+    _ui->actionDockAuto->setChecked( visibleAuto );
+    _ui->actionDockCtrl->setChecked( visibleCtrl );
+    _ui->actionDockData->setChecked( visibleData );
+    _ui->actionDockEFIS->setChecked( visibleEFIS );
+    _ui->actionDockMain->setChecked( visibleMain );
+    _ui->actionDockMap->setChecked( visibleMap );
+    _ui->actionDockProp->setChecked( visibleProp );
 
     settingsRead_Airport( settings );
     settingsRead_View( settings );
@@ -430,16 +430,16 @@ void MainWindow::settingsRead_Airport( QSettings &settings )
     bool gatesRwy18 = settings.value( "gatesRwy18", 0 ).toInt();
     bool gatesRwy36 = settings.value( "gatesRwy36", 0 ).toInt();
 
-    m_ui->actionAirportLightsHELI->setChecked( lightsHELI );
-    m_ui->actionAirportLightsRALS->setChecked( lightsRALS );
-    m_ui->actionAirportLightsRCLS->setChecked( lightsRCLS );
-    m_ui->actionAirportLightsRELS->setChecked( lightsRELS );
-    m_ui->actionAirportLightsTDZL->setChecked( lightsTDZL );
-    m_ui->actionAirportLightsTELS->setChecked( lightsTELS );
-    m_ui->actionAirportLightsTWRL->setChecked( lightsTWRL );
-    m_ui->actionAirportLightsVGSI->setChecked( lightsVGSI );
-    m_ui->actionAirportGatesRwy18->setChecked( gatesRwy18 );
-    m_ui->actionAirportGatesRwy36->setChecked( gatesRwy36 );
+    _ui->actionAirportLightsHELI->setChecked( lightsHELI );
+    _ui->actionAirportLightsRALS->setChecked( lightsRALS );
+    _ui->actionAirportLightsRCLS->setChecked( lightsRCLS );
+    _ui->actionAirportLightsRELS->setChecked( lightsRELS );
+    _ui->actionAirportLightsTDZL->setChecked( lightsTDZL );
+    _ui->actionAirportLightsTELS->setChecked( lightsTELS );
+    _ui->actionAirportLightsTWRL->setChecked( lightsTWRL );
+    _ui->actionAirportLightsVGSI->setChecked( lightsVGSI );
+    _ui->actionAirportGatesRwy18->setChecked( gatesRwy18 );
+    _ui->actionAirportGatesRwy36->setChecked( gatesRwy36 );
 
     settings.endGroup();
 }
@@ -455,30 +455,30 @@ void MainWindow::settingsRead_View( QSettings &settings )
     switch ( viewType )
     {
     case Data::Camera::ViewChase:
-        m_viewType = Data::Camera::ViewChase;
-        m_ui->widgetCGI->setCameraManipulatorChase();
+        _viewType = Data::Camera::ViewChase;
+        _ui->widgetCGI->setCameraManipulatorChase();
         break;
 
     default:
     case Data::Camera::ViewPilot:
-        m_viewType = Data::Camera::ViewPilot;
-        m_ui->widgetCGI->setCameraManipulatorPilot();
+        _viewType = Data::Camera::ViewPilot;
+        _ui->widgetCGI->setCameraManipulatorPilot();
         break;
 
     case Data::Camera::ViewOrbit:
-        m_viewType = Data::Camera::ViewOrbit;
-        m_ui->widgetCGI->setCameraManipulatorOrbit();
+        _viewType = Data::Camera::ViewOrbit;
+        _ui->widgetCGI->setCameraManipulatorOrbit();
         break;
 
     case Data::Camera::ViewWorld:
-        m_viewType = Data::Camera::ViewWorld;
-        m_ui->widgetCGI->setCameraManipulatorWorld();
+        _viewType = Data::Camera::ViewWorld;
+        _ui->widgetCGI->setCameraManipulatorWorld();
         break;
     }
 
-    m_showHUD = settings.value( "show_hud", 1 ).toInt();
+    _showHUD = settings.value( "show_hud", 1 ).toInt();
 
-    m_ui->actionShowHUD->setChecked( m_showHUD );
+    _ui->actionShowHUD->setChecked( _showHUD );
 
     settings.endGroup();
 }
@@ -497,13 +497,13 @@ void MainWindow::settingsSave()
     settingsSave_Airport( settings );
     settingsSave_View( settings );
 
-    settings.setValue( "dock_auto_visible" , m_ui->actionDockAuto->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_ctrl_visible" , m_ui->actionDockCtrl->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_data_visible" , m_ui->actionDockData->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_efis_visible" , m_ui->actionDockEFIS->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_main_visible" , m_ui->actionDockMain->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_map_visible"  , m_ui->actionDockMap->isChecked()  ? 1 : 0 );
-    settings.setValue( "dock_prop_visible" , m_ui->actionDockProp->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_auto_visible" , _ui->actionDockAuto->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_ctrl_visible" , _ui->actionDockCtrl->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_data_visible" , _ui->actionDockData->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_efis_visible" , _ui->actionDockEFIS->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_main_visible" , _ui->actionDockMain->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_map_visible"  , _ui->actionDockMap->isChecked()  ? 1 : 0 );
+    settings.setValue( "dock_prop_visible" , _ui->actionDockProp->isChecked() ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -514,16 +514,16 @@ void MainWindow::settingsSave_Airport( QSettings &settings )
 {
     settings.beginGroup( "airport" );
 
-    settings.setValue( "lightsHELI", (int)m_ui->actionAirportLightsHELI->isChecked() );
-    settings.setValue( "lightsRALS", (int)m_ui->actionAirportLightsRALS->isChecked() );
-    settings.setValue( "lightsRCLS", (int)m_ui->actionAirportLightsRCLS->isChecked() );
-    settings.setValue( "lightsRELS", (int)m_ui->actionAirportLightsRELS->isChecked() );
-    settings.setValue( "lightsTDZL", (int)m_ui->actionAirportLightsTDZL->isChecked() );
-    settings.setValue( "lightsTELS", (int)m_ui->actionAirportLightsTELS->isChecked() );
-    settings.setValue( "lightsTWRL", (int)m_ui->actionAirportLightsTWRL->isChecked() );
-    settings.setValue( "lightsVGSI", (int)m_ui->actionAirportLightsVGSI->isChecked() );
-    settings.setValue( "gatesRwy18", (int)m_ui->actionAirportGatesRwy18->isChecked() );
-    settings.setValue( "gatesRwy36", (int)m_ui->actionAirportGatesRwy36->isChecked() );
+    settings.setValue( "lightsHELI", (int)_ui->actionAirportLightsHELI->isChecked() );
+    settings.setValue( "lightsRALS", (int)_ui->actionAirportLightsRALS->isChecked() );
+    settings.setValue( "lightsRCLS", (int)_ui->actionAirportLightsRCLS->isChecked() );
+    settings.setValue( "lightsRELS", (int)_ui->actionAirportLightsRELS->isChecked() );
+    settings.setValue( "lightsTDZL", (int)_ui->actionAirportLightsTDZL->isChecked() );
+    settings.setValue( "lightsTELS", (int)_ui->actionAirportLightsTELS->isChecked() );
+    settings.setValue( "lightsTWRL", (int)_ui->actionAirportLightsTWRL->isChecked() );
+    settings.setValue( "lightsVGSI", (int)_ui->actionAirportLightsVGSI->isChecked() );
+    settings.setValue( "gatesRwy18", (int)_ui->actionAirportGatesRwy18->isChecked() );
+    settings.setValue( "gatesRwy36", (int)_ui->actionAirportGatesRwy36->isChecked() );
 
     settings.endGroup();
 }
@@ -534,8 +534,8 @@ void MainWindow::settingsSave_View( QSettings &settings )
 {
     settings.beginGroup( "view" );
 
-    settings.setValue( "view_type", (int)m_viewType );
-    settings.setValue( "show_hud", (int)m_showHUD );
+    settings.setValue( "view_type", (int)_viewType );
+    settings.setValue( "show_hud", (int)_showHUD );
 
     settings.endGroup();
 }
@@ -544,16 +544,16 @@ void MainWindow::settingsSave_View( QSettings &settings )
 
 void MainWindow::updateDateTime()
 {
-    if ( m_stateOut == fdm::DataOut::Idle )
+    if ( _stateOut == fdm::DataOut::Idle )
     {
-        m_dateTime = m_dialogInit->getDateTime();
-        m_flightTime.setHMS( 0, 0, 0 );
+        _dateTime = _dialogInit->getDateTime();
+        _flightTime.setHMS( 0, 0, 0 );
     }
 
-    if ( m_stateOut == fdm::DataOut::Working )
+    if ( _stateOut == fdm::DataOut::Working )
     {
-        m_dateTime   = m_dateTime.addMSecs( m_timeCoef * GUI_TIME_STEP );
-        m_flightTime = m_flightTime.addMSecs( m_timeCoef * GUI_TIME_STEP );
+        _dateTime   = _dateTime.addMSecs( _timeCoef * GUI_TIME_STEP );
+        _flightTime = _flightTime.addMSecs( _timeCoef * GUI_TIME_STEP );
     }
 }
 
@@ -565,42 +565,42 @@ void MainWindow::updateDockAuto() {}
 
 void MainWindow::updateDockCtrl()
 {
-    if ( m_dockCtrl->isVisible() )
+    if ( _dockCtrl->isVisible() )
     {
-        m_dockCtrl->setCollective( hid::Manager::instance()->getCollective() );
+        _dockCtrl->setCollective( hid::Manager::instance()->getCollective() );
 
-        m_dockCtrl->setCtrlStick( hid::Manager::instance()->getCtrlRoll(),
-                                  hid::Manager::instance()->getCtrlPitch() );
+        _dockCtrl->setCtrlStick( hid::Manager::instance()->getCtrlRoll(),
+                                 hid::Manager::instance()->getCtrlPitch() );
 
-        m_dockCtrl->setTrimStick( hid::Manager::instance()->getTrimRoll(),
-                                  hid::Manager::instance()->getTrimPitch() );
+        _dockCtrl->setTrimStick( hid::Manager::instance()->getTrimRoll(),
+                                 hid::Manager::instance()->getTrimPitch() );
 
-        m_dockCtrl->setCtrlPedals( hid::Manager::instance()->getCtrlYaw() );
-        m_dockCtrl->setTrimPedals( hid::Manager::instance()->getTrimYaw() );
+        _dockCtrl->setCtrlPedals( hid::Manager::instance()->getCtrlYaw() );
+        _dockCtrl->setTrimPedals( hid::Manager::instance()->getTrimYaw() );
 
-        m_dockCtrl->setBrakes( hid::Manager::instance()->getBrakeLeft(),
-                               hid::Manager::instance()->getBrakeRight() );
+        _dockCtrl->setBrakes( hid::Manager::instance()->getBrakeLeft(),
+                              hid::Manager::instance()->getBrakeRight() );
 
-        m_dockCtrl->setGear( hid::Manager::instance()->getLandingGear() );
-        m_dockCtrl->setFlaps( hid::Manager::instance()->getFlaps() );
+        _dockCtrl->setGear( hid::Manager::instance()->getLandingGear() );
+        _dockCtrl->setFlaps( hid::Manager::instance()->getFlaps() );
 
-        m_dockCtrl->setThrottle( hid::Manager::instance()->getThrottle( 0 ),
-                                 hid::Manager::instance()->getThrottle( 1 ),
-                                 hid::Manager::instance()->getThrottle( 2 ),
-                                 hid::Manager::instance()->getThrottle( 3 ) );
+        _dockCtrl->setThrottle( hid::Manager::instance()->getThrottle( 0 ),
+                                hid::Manager::instance()->getThrottle( 1 ),
+                                hid::Manager::instance()->getThrottle( 2 ),
+                                hid::Manager::instance()->getThrottle( 3 ) );
 
-        m_dockCtrl->setMixture( hid::Manager::instance()->getMixture( 0 ),
-                                hid::Manager::instance()->getMixture( 1 ),
-                                hid::Manager::instance()->getMixture( 2 ),
-                                hid::Manager::instance()->getMixture( 3 ) );
+        _dockCtrl->setMixture( hid::Manager::instance()->getMixture( 0 ),
+                               hid::Manager::instance()->getMixture( 1 ),
+                               hid::Manager::instance()->getMixture( 2 ),
+                               hid::Manager::instance()->getMixture( 3 ) );
 
-        m_dockCtrl->setPropeller( hid::Manager::instance()->getPropeller( 0 ),
-                                  hid::Manager::instance()->getPropeller( 1 ),
-                                  hid::Manager::instance()->getPropeller( 2 ),
-                                  hid::Manager::instance()->getPropeller( 3 ) );
+        _dockCtrl->setPropeller( hid::Manager::instance()->getPropeller( 0 ),
+                                 hid::Manager::instance()->getPropeller( 1 ),
+                                 hid::Manager::instance()->getPropeller( 2 ),
+                                 hid::Manager::instance()->getPropeller( 3 ) );
 
-        m_dockCtrl->setAirbrake( hid::Manager::instance()->getAirbrake() );
-        m_dockCtrl->setSpoilers( hid::Manager::instance()->getSpoilers() );
+        _dockCtrl->setAirbrake( hid::Manager::instance()->getAirbrake() );
+        _dockCtrl->setSpoilers( hid::Manager::instance()->getSpoilers() );
     }
 }
 
@@ -608,37 +608,37 @@ void MainWindow::updateDockCtrl()
 
 void MainWindow::updateDockData()
 {
-    if ( m_dockData->isVisible() )
+    if ( _dockData->isVisible() )
     {
-        if ( m_stateOut == fdm::DataOut::Idle )
+        if ( _stateOut == fdm::DataOut::Idle )
         {
-            m_dockData->reset();
+            _dockData->reset();
         }
         else
         {
-            m_dockData->setAltitudeASL( Data::get()->ownship.altitude_asl );
-            m_dockData->setAltitudeAGL( Data::get()->ownship.altitude_agl );
+            _dockData->setAltitudeASL( Data::get()->ownship.altitude_asl );
+            _dockData->setAltitudeAGL( Data::get()->ownship.altitude_agl );
 
-            m_dockData->setAirspeed( Data::get()->ownship.airspeed );
-            m_dockData->setClimbRate( Data::get()->ownship.climbRate );
-            m_dockData->setMachNumber( Data::get()->ownship.machNumber );
+            _dockData->setAirspeed( Data::get()->ownship.airspeed );
+            _dockData->setClimbRate( Data::get()->ownship.climbRate );
+            _dockData->setMachNumber( Data::get()->ownship.machNumber );
 
-            m_dockData->setRollAngle( Data::get()->ownship.roll );
-            m_dockData->setPitchAngle( Data::get()->ownship.pitch );
-            m_dockData->setHeading( Data::get()->ownship.heading );
+            _dockData->setRollAngle( Data::get()->ownship.roll );
+            _dockData->setPitchAngle( Data::get()->ownship.pitch );
+            _dockData->setHeading( Data::get()->ownship.heading );
 
-            m_dockData->setAngleOfAttack( Data::get()->ownship.angleOfAttack );
-            m_dockData->setSideslipAngle( Data::get()->ownship.sideslipAngle );
-            m_dockData->setCourse( Data::get()->ownship.course );
-            m_dockData->setPathAngle( Data::get()->ownship.pathAngle );
+            _dockData->setAngleOfAttack( Data::get()->ownship.angleOfAttack );
+            _dockData->setSideslipAngle( Data::get()->ownship.sideslipAngle );
+            _dockData->setCourse( Data::get()->ownship.course );
+            _dockData->setPathAngle( Data::get()->ownship.pathAngle );
 
-            m_dockData->setRollRate( Data::get()->ownship.rollRate );
-            m_dockData->setPitchRate( Data::get()->ownship.pitchRate );
-            m_dockData->setYawRate( Data::get()->ownship.yawRate );
+            _dockData->setRollRate( Data::get()->ownship.rollRate );
+            _dockData->setPitchRate( Data::get()->ownship.pitchRate );
+            _dockData->setYawRate( Data::get()->ownship.yawRate );
 
-            m_dockData->setGx( Data::get()->ownship.g_force_x );
-            m_dockData->setGy( Data::get()->ownship.g_force_y );
-            m_dockData->setGz( Data::get()->ownship.g_force_z );
+            _dockData->setGx( Data::get()->ownship.g_force_x );
+            _dockData->setGy( Data::get()->ownship.g_force_y );
+            _dockData->setGz( Data::get()->ownship.g_force_z );
         }
     }
 }
@@ -647,38 +647,38 @@ void MainWindow::updateDockData()
 
 void MainWindow::updateDockEFIS()
 {
-    if ( m_dockEFIS->isVisible() )
+    if ( _dockEFIS->isVisible() )
     {
-        m_dockEFIS->setRoll( fdm::Units::rad2deg( Data::get()->ownship.roll ) );
-        m_dockEFIS->setPitch( fdm::Units::rad2deg( Data::get()->ownship.pitch ) );
+        _dockEFIS->setRoll( fdm::Units::rad2deg( Data::get()->ownship.roll ) );
+        _dockEFIS->setPitch( fdm::Units::rad2deg( Data::get()->ownship.pitch ) );
 
-        m_dockEFIS->setSlipSkid( Data::get()->ownship.slipSkidAngle / fdm::Units::deg2rad( 9.0 ) );
-        m_dockEFIS->setTurnRate( Data::get()->ownship.yawRate       / fdm::Units::deg2rad( 6.0 ) );
+        _dockEFIS->setSlipSkid( Data::get()->ownship.slipSkidAngle / fdm::Units::deg2rad( 9.0 ) );
+        _dockEFIS->setTurnRate( Data::get()->ownship.yawRate       / fdm::Units::deg2rad( 6.0 ) );
 
-        m_dockEFIS->setDots( Data::get()->navigation.ils_lc_deviation,
-                             Data::get()->navigation.ils_gs_deviation,
-                             Data::get()->navigation.ils_lc_visible,
-                             Data::get()->navigation.ils_gs_visible );
+        _dockEFIS->setDots( Data::get()->navigation.ils_lc_deviation,
+                            Data::get()->navigation.ils_gs_deviation,
+                            Data::get()->navigation.ils_lc_visible,
+                            Data::get()->navigation.ils_gs_visible );
 
-        m_dockEFIS->setFD( 0.0, 0.0, false );
+        _dockEFIS->setFD( 0.0, 0.0, false );
 
-        m_dockEFIS->setStall( Data::get()->ownship.stall );
+        _dockEFIS->setStall( Data::get()->ownship.stall );
 
-        m_dockEFIS->setAltitude( fdm::Units::m2ft( Data::get()->ownship.altitude_asl ) );
-        m_dockEFIS->setAirspeed( fdm::Units::mps2kts( Data::get()->ownship.airspeed ) );
+        _dockEFIS->setAltitude( fdm::Units::m2ft( Data::get()->ownship.altitude_asl ) );
+        _dockEFIS->setAirspeed( fdm::Units::mps2kts( Data::get()->ownship.airspeed ) );
 
-        m_dockEFIS->setMachNo( Data::get()->ownship.machNumber );
+        _dockEFIS->setMachNo( Data::get()->ownship.machNumber );
 
-        m_dockEFIS->setHeading( fdm::Units::rad2deg( Data::get()->ownship.heading ) );
+        _dockEFIS->setHeading( fdm::Units::rad2deg( Data::get()->ownship.heading ) );
 
-        m_dockEFIS->setClimbRate( fdm::Units::mps2fpm( Data::get()->ownship.climbRate ) / 1000.0 );
+        _dockEFIS->setClimbRate( fdm::Units::mps2fpm( Data::get()->ownship.climbRate ) / 1000.0 );
 
-        m_dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
+        _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
+                                Data::get()->navigation.nav_visible );
+        _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.adf_bearing ),
+                               Data::get()->navigation.adf_visible );
+        _dockEFIS->setDeviation( Data::get()->navigation.nav_deviation,
                                  Data::get()->navigation.nav_visible );
-        m_dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.adf_bearing ),
-                                Data::get()->navigation.adf_visible );
-        m_dockEFIS->setDeviation( Data::get()->navigation.nav_deviation,
-                                  Data::get()->navigation.nav_visible );
     }
 }
 
@@ -686,21 +686,21 @@ void MainWindow::updateDockEFIS()
 
 void MainWindow::updateDockMain()
 {
-    if ( m_dockMain->isVisible() )
+    if ( _dockMain->isVisible() )
     {
-        m_dockMain->setPhaseInp( m_phaseInp );
-        m_dockMain->setStateOut( m_stateOut );
+        _dockMain->setPhaseInp( _phaseInp );
+        _dockMain->setStateOut( _stateOut );
 
-        if ( m_stateOut == fdm::DataOut::Working )
+        if ( _stateOut == fdm::DataOut::Working )
         {
-            m_dockMain->setTimeStep( Data::get()->timeStep );
+            _dockMain->setTimeStep( Data::get()->timeStep );
         }
         else
         {
-            m_dockMain->setTimeStep( FDM_TIME_STEP );
+            _dockMain->setTimeStep( FDM_TIME_STEP );
         }
 
-        m_dockMain->setFlightTime( m_flightTime );
+        _dockMain->setFlightTime( _flightTime );
     }
 }
 
@@ -708,25 +708,25 @@ void MainWindow::updateDockMain()
 
 void MainWindow::updateDockProp()
 {
-    if ( m_dockProp->isVisible() )
+    if ( _dockProp->isVisible() )
     {
         for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
-            m_dockProp->setState ( i, Data::get()->propulsion.engine[ i ].state );
-            m_dockProp->setAB    ( i, Data::get()->propulsion.engine[ i ].afterburner );
-            m_dockProp->setRPM   ( i, M_PI * Data::get()->propulsion.engine[ i ].rpm  / 30.0f );
-            m_dockProp->setPROP  ( i, M_PI * Data::get()->propulsion.engine[ i ].prop / 30.0f );
-            m_dockProp->setNG    ( i, Data::get()->propulsion.engine[ i ].ng  / 100.0f );
-            m_dockProp->setN1    ( i, Data::get()->propulsion.engine[ i ].n1  / 100.0f );
-            m_dockProp->setN2    ( i, Data::get()->propulsion.engine[ i ].n2  / 100.0f );
-            m_dockProp->setTRQ   ( i, Data::get()->propulsion.engine[ i ].trq / 100.0f );
-            m_dockProp->setEPR   ( i, Data::get()->propulsion.engine[ i ].epr );
-            m_dockProp->setMAP   ( i, Data::get()->propulsion.engine[ i ].map );
-            m_dockProp->setEGT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
-            m_dockProp->setTIT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].tit ) );
-            m_dockProp->setTOT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
-            m_dockProp->setITT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].itt ) );
-            m_dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].ff );
+            _dockProp->setState ( i, Data::get()->propulsion.engine[ i ].state );
+            _dockProp->setAB    ( i, Data::get()->propulsion.engine[ i ].afterburner );
+            _dockProp->setRPM   ( i, M_PI * Data::get()->propulsion.engine[ i ].rpm  / 30.0f );
+            _dockProp->setPROP  ( i, M_PI * Data::get()->propulsion.engine[ i ].prop / 30.0f );
+            _dockProp->setNG    ( i, Data::get()->propulsion.engine[ i ].ng  / 100.0f );
+            _dockProp->setN1    ( i, Data::get()->propulsion.engine[ i ].n1  / 100.0f );
+            _dockProp->setN2    ( i, Data::get()->propulsion.engine[ i ].n2  / 100.0f );
+            _dockProp->setTRQ   ( i, Data::get()->propulsion.engine[ i ].trq / 100.0f );
+            _dockProp->setEPR   ( i, Data::get()->propulsion.engine[ i ].epr );
+            _dockProp->setMAP   ( i, Data::get()->propulsion.engine[ i ].map );
+            _dockProp->setEGT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
+            _dockProp->setTIT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].tit ) );
+            _dockProp->setTOT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].egt ) );
+            _dockProp->setITT   ( i, fdm::Units::c2k( Data::get()->propulsion.engine[ i ].itt ) );
+            _dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].fuelFlow );
         }
     }
 }
@@ -735,59 +735,59 @@ void MainWindow::updateDockProp()
 
 void MainWindow::updateMenu()
 {
-    switch ( m_stateOut )
+    switch ( _stateOut )
     {
     default:
     case fdm::DataOut::Idle:
-        m_ui->actionPhaseInpIdle->setEnabled( true );
-        m_ui->actionPhaseInpInit->setEnabled( true );
-        m_ui->actionPhaseInpWork->setEnabled( false );
-        m_ui->actionPhaseInpPause->setEnabled( false );
-        m_ui->actionPhaseInpStop->setEnabled( false );
+        _ui->actionPhaseInpIdle->setEnabled( true );
+        _ui->actionPhaseInpInit->setEnabled( true );
+        _ui->actionPhaseInpWork->setEnabled( false );
+        _ui->actionPhaseInpPause->setEnabled( false );
+        _ui->actionPhaseInpStop->setEnabled( false );
         break;
 
     case fdm::DataOut::Ready:
-        m_ui->actionPhaseInpIdle->setEnabled( false );
-        m_ui->actionPhaseInpInit->setEnabled( true );
-        m_ui->actionPhaseInpWork->setEnabled( true );
-        m_ui->actionPhaseInpPause->setEnabled( true );
-        m_ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionPhaseInpIdle->setEnabled( false );
+        _ui->actionPhaseInpInit->setEnabled( true );
+        _ui->actionPhaseInpWork->setEnabled( true );
+        _ui->actionPhaseInpPause->setEnabled( true );
+        _ui->actionPhaseInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Working:
-        m_ui->actionPhaseInpIdle->setEnabled( false );
-        m_ui->actionPhaseInpInit->setEnabled( false );
-        m_ui->actionPhaseInpWork->setEnabled( true );
-        m_ui->actionPhaseInpPause->setEnabled( true );
-        m_ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionPhaseInpIdle->setEnabled( false );
+        _ui->actionPhaseInpInit->setEnabled( false );
+        _ui->actionPhaseInpWork->setEnabled( true );
+        _ui->actionPhaseInpPause->setEnabled( true );
+        _ui->actionPhaseInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Paused:
-        m_ui->actionPhaseInpIdle->setEnabled( false );
-        m_ui->actionPhaseInpInit->setEnabled( false );
-        m_ui->actionPhaseInpWork->setEnabled( true );
-        m_ui->actionPhaseInpPause->setEnabled( true );
-        m_ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionPhaseInpIdle->setEnabled( false );
+        _ui->actionPhaseInpInit->setEnabled( false );
+        _ui->actionPhaseInpWork->setEnabled( true );
+        _ui->actionPhaseInpPause->setEnabled( true );
+        _ui->actionPhaseInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Stopped:
-        m_ui->actionPhaseInpIdle->setEnabled( true );
-        m_ui->actionPhaseInpInit->setEnabled( false );
-        m_ui->actionPhaseInpWork->setEnabled( false );
-        m_ui->actionPhaseInpPause->setEnabled( false );
-        m_ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionPhaseInpIdle->setEnabled( true );
+        _ui->actionPhaseInpInit->setEnabled( false );
+        _ui->actionPhaseInpWork->setEnabled( false );
+        _ui->actionPhaseInpPause->setEnabled( false );
+        _ui->actionPhaseInpStop->setEnabled( true );
         break;
     }
 
-    if ( m_phaseInp == fdm::DataInp::Idle && m_stateOut == fdm::DataOut::Idle )
+    if ( _phaseInp == fdm::DataInp::Idle && _stateOut == fdm::DataOut::Idle )
     {
-        m_ui->actionDialogInit->setEnabled( true );
-        m_ui->actionDialogMass->setEnabled( true );
+        _ui->actionDialogInit->setEnabled( true );
+        _ui->actionDialogMass->setEnabled( true );
     }
     else
     {
-        m_ui->actionDialogInit->setEnabled( false );
-        m_ui->actionDialogMass->setEnabled( false );
+        _ui->actionDialogInit->setEnabled( false );
+        _ui->actionDialogMass->setEnabled( false );
     }
 }
 
@@ -797,18 +797,18 @@ void MainWindow::updateStatusBar()
 {
     double frameRate = 1.0 / FDM_TIME_STEP;
 
-    if ( m_stateOut == fdm::DataOut::Working )
+    if ( _stateOut == fdm::DataOut::Working )
     {
         frameRate = 1.0 / Data::get()->timeStep;
     }
 
     QString text = "";
 
-    text += "Time Coef: " + QString::number( m_timeCoef, 'd', 1 );
+    text += "Time Coef: " + QString::number( _timeCoef, 'd', 1 );
     text += "   ";
     text += "Frame Rate: " + QString::number( frameRate, 'd', 2 );
 
-    m_ui->statusBar->showMessage( text );
+    _ui->statusBar->showMessage( text );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -816,60 +816,62 @@ void MainWindow::updateStatusBar()
 void MainWindow::updateOutputData()
 {
     // airport
-    Data::get()->airport.lightsHELI = m_ui->actionAirportLightsHELI->isChecked();
-    Data::get()->airport.lightsRALS = m_ui->actionAirportLightsRALS->isChecked();
-    Data::get()->airport.lightsRCLS = m_ui->actionAirportLightsRCLS->isChecked();
-    Data::get()->airport.lightsRELS = m_ui->actionAirportLightsRELS->isChecked();
-    Data::get()->airport.lightsTDZL = m_ui->actionAirportLightsTDZL->isChecked();
-    Data::get()->airport.lightsTELS = m_ui->actionAirportLightsTELS->isChecked();
-    Data::get()->airport.lightsTWRL = m_ui->actionAirportLightsTWRL->isChecked();
-    Data::get()->airport.lightsVGSI = m_ui->actionAirportLightsVGSI->isChecked();
-    Data::get()->airport.gatesRwy18 = m_ui->actionAirportGatesRwy18->isChecked();
-    Data::get()->airport.gatesRwy36 = m_ui->actionAirportGatesRwy36->isChecked();
+    Data::get()->airport.lightsHELI = _ui->actionAirportLightsHELI->isChecked();
+    Data::get()->airport.lightsRALS = _ui->actionAirportLightsRALS->isChecked();
+    Data::get()->airport.lightsRCLS = _ui->actionAirportLightsRCLS->isChecked();
+    Data::get()->airport.lightsRELS = _ui->actionAirportLightsRELS->isChecked();
+    Data::get()->airport.lightsTDZL = _ui->actionAirportLightsTDZL->isChecked();
+    Data::get()->airport.lightsTELS = _ui->actionAirportLightsTELS->isChecked();
+    Data::get()->airport.lightsTWRL = _ui->actionAirportLightsTWRL->isChecked();
+    Data::get()->airport.lightsVGSI = _ui->actionAirportLightsVGSI->isChecked();
+    Data::get()->airport.gatesRwy18 = _ui->actionAirportGatesRwy18->isChecked();
+    Data::get()->airport.gatesRwy36 = _ui->actionAirportGatesRwy36->isChecked();
 
     // date time
-    Data::get()->dateTime.year   = (unsigned short)m_dateTime.date().year();
-    Data::get()->dateTime.month  = (unsigned short)m_dateTime.date().month();
-    Data::get()->dateTime.day    = (unsigned short)m_dateTime.date().day();
-    Data::get()->dateTime.hour   = (unsigned short)m_dateTime.time().hour();
-    Data::get()->dateTime.minute = (unsigned short)m_dateTime.time().minute();
-    Data::get()->dateTime.second = (unsigned short)m_dateTime.time().second();
+    Data::get()->dateTime.year   = (unsigned short)_dateTime.date().year();
+    Data::get()->dateTime.month  = (unsigned short)_dateTime.date().month();
+    Data::get()->dateTime.day    = (unsigned short)_dateTime.date().day();
+    Data::get()->dateTime.hour   = (unsigned short)_dateTime.time().hour();
+    Data::get()->dateTime.minute = (unsigned short)_dateTime.time().minute();
+    Data::get()->dateTime.second = (unsigned short)_dateTime.time().second();
 
     // environment
-    Data::get()->environment.clouds.type = m_dialogEnvr->getCloudsType();
-    if ( m_dialogEnvr->getCloudsType() == Data::Environment::Clouds::Block )
+    Data::get()->environment.clouds.type = _dialogEnvr->getCloudsType();
+    if ( _dialogEnvr->getCloudsType() == Data::Environment::Clouds::Block )
     {
-        Data::get()->environment.clouds.data.block = m_dialogEnvr->getBlockClouds();
+        Data::get()->environment.clouds.data.block = _dialogEnvr->getBlockClouds();
     }
-    else if ( m_dialogEnvr->getCloudsType() == Data::Environment::Clouds::Layer )
+    else if ( _dialogEnvr->getCloudsType() == Data::Environment::Clouds::Layer )
     {
-        Data::get()->environment.clouds.data.layer = m_dialogEnvr->getLayerClouds();
+        Data::get()->environment.clouds.data.layer = _dialogEnvr->getLayerClouds();
     }
 
-    Data::get()->environment.visibility     = m_dialogEnvr->getVisibility();
-    Data::get()->environment.temperature_0  = m_dialogEnvr->getTemperatureSL();
-    Data::get()->environment.pressure_0     = m_dialogEnvr->getPressureSL();
-    Data::get()->environment.wind_direction = m_dialogEnvr->getWindDirection();
-    Data::get()->environment.wind_speed     = m_dialogEnvr->getWindSpeed();
-    Data::get()->environment.turbulence     = m_dialogEnvr->getTurbulence();
-    Data::get()->environment.windShear      = m_dialogEnvr->getWindShear();
+    Data::get()->environment.visibility     = _dialogEnvr->getVisibility();
+    Data::get()->environment.temperature_0  = _dialogEnvr->getTemperatureSL();
+    Data::get()->environment.pressure_0     = _dialogEnvr->getPressureSL();
+    Data::get()->environment.wind_direction = _dialogEnvr->getWindDirection();
+    Data::get()->environment.wind_speed     = _dialogEnvr->getWindSpeed();
+    Data::get()->environment.turbulence     = _dialogEnvr->getTurbulence();
+    Data::get()->environment.windShear      = _dialogEnvr->getWindShear();
 
     // HUD
-    Data::get()->hud.enabled = m_showHUD;
-    Data::get()->hud.color_r = m_dialogConf->getHudColorR();
-    Data::get()->hud.color_g = m_dialogConf->getHudColorG();
-    Data::get()->hud.color_b = m_dialogConf->getHudColorB();
-    Data::get()->hud.opacity = (double)m_dialogConf->getHudOpacity() / 100.0f;
+    Data::get()->hud.enabled = _showHUD;
+    Data::get()->hud.color_r = _dialogConf->getHudColorR();
+    Data::get()->hud.color_g = _dialogConf->getHudColorG();
+    Data::get()->hud.color_b = _dialogConf->getHudColorB();
+    Data::get()->hud.opacity = (float)_dialogConf->getHudOpacity() / 100.0f;
+    Data::get()->hud.factor_alt = (float)_dialogConf->getHudFactorAlt();
+    Data::get()->hud.factor_vel = (float)_dialogConf->getHudFactorVel();
 
     // initial conditions
-    Data::get()->initial.latitude     = m_dialogInit->getLat();
-    Data::get()->initial.longitude    = m_dialogInit->getLon();
-    Data::get()->initial.altitude_agl = m_dialogInit->getAlt();
-    Data::get()->initial.heading      = m_dialogInit->getPsi();
-    Data::get()->initial.airspeed     = m_dialogInit->getIAS();
-    Data::get()->initial.engineOn     = m_dialogInit->getEngine();
+    Data::get()->initial.latitude     = _dialogInit->getLat();
+    Data::get()->initial.longitude    = _dialogInit->getLon();
+    Data::get()->initial.altitude_agl = _dialogInit->getAlt();
+    Data::get()->initial.heading      = _dialogInit->getPsi();
+    Data::get()->initial.airspeed     = _dialogInit->getIAS();
+    Data::get()->initial.engineOn     = _dialogInit->getEngine();
 
-    Aircrafts::Aircraft aircraft = Aircrafts::instance()->getAircraft( m_dialogInit->getTypeIndex() );
+    Aircrafts::Aircraft aircraft = Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() );
 
     // ownship
     strcpy( Data::get()->ownship.aircraftFile, aircraft.file.toStdString().c_str() );
@@ -880,46 +882,46 @@ void MainWindow::updateOutputData()
     // propulsion
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        Data::get()->propulsion.engine[ i ].fuel     = m_dockProp->getFuel( i );
-        Data::get()->propulsion.engine[ i ].ignition = m_dockProp->getIgnition( i );
-        Data::get()->propulsion.engine[ i ].starter  = m_dockProp->getStarter( i );
+        Data::get()->propulsion.engine[ i ].fuel     = _dockProp->getFuel( i );
+        Data::get()->propulsion.engine[ i ].ignition = _dockProp->getIgnition( i );
+        Data::get()->propulsion.engine[ i ].starter  = _dockProp->getStarter( i );
     }
 
     // masses
-    Data::get()->masses.pilot_1     = m_dialogMass->getPilot1();
-    Data::get()->masses.pilot_2     = m_dialogMass->getPilot2();
-    Data::get()->masses.fuel_tank_1 = m_dialogMass->getFuelTank1();
-    Data::get()->masses.fuel_tank_2 = m_dialogMass->getFuelTank2();
-    Data::get()->masses.fuel_tank_3 = m_dialogMass->getFuelTank3();
-    Data::get()->masses.fuel_tank_4 = m_dialogMass->getFuelTank4();
-    Data::get()->masses.cabin       = m_dialogMass->getCabin();
-    Data::get()->masses.trunk       = m_dialogMass->getTrunk();
+    Data::get()->masses.pilot_1     = _dialogMass->getPilot1();
+    Data::get()->masses.pilot_2     = _dialogMass->getPilot2();
+    Data::get()->masses.fuel_tank_1 = _dialogMass->getFuelTank1();
+    Data::get()->masses.fuel_tank_2 = _dialogMass->getFuelTank2();
+    Data::get()->masses.fuel_tank_3 = _dialogMass->getFuelTank3();
+    Data::get()->masses.fuel_tank_4 = _dialogMass->getFuelTank4();
+    Data::get()->masses.cabin       = _dialogMass->getCabin();
+    Data::get()->masses.trunk       = _dialogMass->getTrunk();
 
     // aircraft type
     Data::get()->aircraftType = (fdm::DataInp::AircraftType)aircraft.type;
 
     // FDM (input phase)
-    Data::get()->phaseInp = m_phaseInp;
+    Data::get()->phaseInp = _phaseInp;
 
     // time coefficient
-    Data::get()->timeCoef = m_timeCoef;
+    Data::get()->timeCoef = _timeCoef;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDialogConf_triggered()
 {
-    m_dialogConf->readData();
+    _dialogConf->readData();
 
-    if ( m_dialogConf->exec() == QDialog::Accepted )
+    if ( _dialogConf->exec() == QDialog::Accepted )
     {
-        m_dialogConf->saveData();
-        m_dialogConf->updateAssignments();
-        setWidescreenDockLayout( m_dialogConf->getWidescreen() );
+        _dialogConf->saveData();
+        _dialogConf->updateAssignments();
+        setWidescreenDockLayout( _dialogConf->getWidescreen() );
     }
     else
     {
-        m_dialogConf->readData();
+        _dialogConf->readData();
     }
 }
 
@@ -927,15 +929,15 @@ void MainWindow::on_actionDialogConf_triggered()
 
 void MainWindow::on_actionDialogEnvr_triggered()
 {
-    m_dialogEnvr->readData();
+    _dialogEnvr->readData();
 
-    if ( m_dialogEnvr->exec() == QDialog::Accepted )
+    if ( _dialogEnvr->exec() == QDialog::Accepted )
     {
-        m_dialogEnvr->saveData();
+        _dialogEnvr->saveData();
     }
     else
     {
-        m_dialogEnvr->readData();
+        _dialogEnvr->readData();
     }
 }
 
@@ -943,15 +945,15 @@ void MainWindow::on_actionDialogEnvr_triggered()
 
 void MainWindow::on_actionDialogInit_triggered()
 {
-    m_dialogInit->readData();
+    _dialogInit->readData();
 
-    if ( m_dialogInit->exec() == QDialog::Accepted )
+    if ( _dialogInit->exec() == QDialog::Accepted )
     {
-        m_dialogInit->saveData();
+        _dialogInit->saveData();
     }
     else
     {
-        m_dialogInit->readData();
+        _dialogInit->readData();
     }
 }
 
@@ -959,15 +961,15 @@ void MainWindow::on_actionDialogInit_triggered()
 
 void MainWindow::on_actionDialogMass_triggered()
 {
-    m_dialogMass->readData();
+    _dialogMass->readData();
 
-    if ( m_dialogMass->exec() == QDialog::Accepted )
+    if ( _dialogMass->exec() == QDialog::Accepted )
     {
-        m_dialogMass->saveData();
+        _dialogMass->saveData();
     }
     else
     {
-        m_dialogMass->readData();
+        _dialogMass->readData();
     }
 }
 
@@ -975,49 +977,49 @@ void MainWindow::on_actionDialogMass_triggered()
 
 void MainWindow::on_actionDockAuto_toggled( bool checked )
 {
-    m_dockAuto->setVisible( checked );
+    _dockAuto->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockCtrl_toggled( bool checked )
 {
-    m_dockCtrl->setVisible( checked );
+    _dockCtrl->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockData_toggled( bool checked )
 {
-    m_dockData->setVisible( checked );
+    _dockData->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockEFIS_toggled( bool checked )
 {
-    m_dockEFIS->setVisible( checked );
+    _dockEFIS->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockMain_toggled( bool checked )
 {
-    m_dockMain->setVisible( checked );
+    _dockMain->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockMap_toggled( bool checked )
 {
-    m_dockMap->setVisible( checked );
+    _dockMap->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionDockProp_toggled( bool checked )
 {
-    m_dockProp->setVisible( checked );
+    _dockProp->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1066,52 +1068,52 @@ void MainWindow::on_actionQuit_triggered()
 
 void MainWindow::on_actionViewChase_triggered()
 {
-    m_viewType = Data::Camera::ViewChase;
-    m_ui->stackedMain->setCurrentIndex( 1 );
-    m_ui->widgetCGI->setCameraManipulatorChase();
-    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( m_typeIndex ).distance_def );
+    _viewType = Data::Camera::ViewChase;
+    _ui->stackedMain->setCurrentIndex( 1 );
+    _ui->widgetCGI->setCameraManipulatorChase();
+    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionViewOrbit_triggered()
 {
-    m_viewType = Data::Camera::ViewOrbit;
-    m_ui->stackedMain->setCurrentIndex( 1 );
-    m_ui->widgetCGI->setCameraManipulatorOrbit();
-    m_ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( m_typeIndex ).distance_def );
+    _viewType = Data::Camera::ViewOrbit;
+    _ui->stackedMain->setCurrentIndex( 1 );
+    _ui->widgetCGI->setCameraManipulatorOrbit();
+    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionViewPilot_triggered()
 {
-    m_viewType = Data::Camera::ViewPilot;
-    m_ui->stackedMain->setCurrentIndex( 1 );
-    m_ui->widgetCGI->setCameraManipulatorPilot();
+    _viewType = Data::Camera::ViewPilot;
+    _ui->stackedMain->setCurrentIndex( 1 );
+    _ui->widgetCGI->setCameraManipulatorPilot();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionViewWorld_triggered()
 {
-    m_viewType = Data::Camera::ViewWorld;
-    m_ui->stackedMain->setCurrentIndex( 1 );
-    m_ui->widgetCGI->setCameraManipulatorWorld();
+    _viewType = Data::Camera::ViewWorld;
+    _ui->stackedMain->setCurrentIndex( 1 );
+    _ui->widgetCGI->setCameraManipulatorWorld();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionShowHUD_triggered( bool checked )
 {
-    m_showHUD = checked;
+    _showHUD = checked;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionTimeFaster_triggered()
 {
-    int timeCoef10 = floor( 10.0 * m_timeCoef + 0.5 );
+    int timeCoef10 = floor( 10.0 * _timeCoef + 0.5 );
 
     if ( timeCoef10 > 9 )
     {
@@ -1135,14 +1137,14 @@ void MainWindow::on_actionTimeFaster_triggered()
 
     if ( timeCoef10 > 100 ) timeCoef10 = 100;
 
-    m_timeCoef = 0.1 * (double)timeCoef10;
+    _timeCoef = 0.1 * (double)timeCoef10;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_actionTimeSlower_triggered()
 {
-    int timeCoef10 = floor( 10.0 * m_timeCoef + 0.5 );
+    int timeCoef10 = floor( 10.0 * _timeCoef + 0.5 );
 
     if ( timeCoef10 > 20 )
     {
@@ -1166,7 +1168,7 @@ void MainWindow::on_actionTimeSlower_triggered()
 
     if ( timeCoef10 < 1 ) timeCoef10 = 1;
 
-    m_timeCoef = 0.1 * (double)timeCoef10;
+    _timeCoef = 0.1 * (double)timeCoef10;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1176,14 +1178,14 @@ void MainWindow::on_shorcutFullScreen_triggered()
     if ( isFullScreen() )
     {
         showNormal();
-        m_ui->menuBar->show();
-        m_ui->statusBar->show();
+        _ui->menuBar->show();
+        _ui->statusBar->show();
     }
     else
     {
         showFullScreen();
-        m_ui->menuBar->hide();
-        m_ui->statusBar->hide();
+        _ui->menuBar->hide();
+        _ui->statusBar->hide();
     }
 }
 
@@ -1212,47 +1214,47 @@ void MainWindow::dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp )
 
 void MainWindow::dockAuto_closed()
 {
-    m_ui->actionDockAuto->setChecked( false );
+    _ui->actionDockAuto->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockCtrl_closed()
 {
-    m_ui->actionDockCtrl->setChecked( false );
+    _ui->actionDockCtrl->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockData_closed()
 {
-    m_ui->actionDockData->setChecked( false );
+    _ui->actionDockData->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockEFIS_closed()
 {
-    m_ui->actionDockEFIS->setChecked( false );
+    _ui->actionDockEFIS->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockMain_closed()
 {
-    m_ui->actionDockMain->setChecked( false );
+    _ui->actionDockMain->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockMap_closed()
 {
-    m_ui->actionDockMap->setChecked( false );
+    _ui->actionDockMap->setChecked( false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::dockProp_closed()
 {
-    m_ui->actionDockProp->setChecked( false );
+    _ui->actionDockProp->setChecked( false );
 }

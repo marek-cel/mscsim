@@ -56,8 +56,8 @@ public:
     osg::Matrixd getMatrix() const;
     osg::Matrixd getInverseMatrix() const;
 
-    double getMouseLat() const { return m_mouse_lat; }
-    double getMouseLon() const { return m_mouse_lon; }
+    double getMouseLat() const { return _mouse_lat; }
+    double getMouseLon() const { return _mouse_lon; }
 
     void registerScaleChangeCallback( void(*fun)(double) );
 
@@ -76,40 +76,40 @@ public:
 
 protected:
 
-    osg::ref_ptr< const osgGA::GUIEventAdapter > m_ga_t1;
-    osg::ref_ptr< const osgGA::GUIEventAdapter > m_ga_t0;
+    osg::ref_ptr< const osgGA::GUIEventAdapter > _ga_t1;
+    osg::ref_ptr< const osgGA::GUIEventAdapter > _ga_t0;
 
-    osg::Vec3d m_center;
-    osg::Quat  m_rotation;
+    osg::Vec3d _center;
+    osg::Quat  _rotation;
 
-    void(*m_scaleChangeCallback)(double);
+    void(*_scaleChangeCallback)(double);
 
-    double m_map_height;    ///< [m] map height
+    double _map_height;     ///< [m] map height
 
-    double m_map_min_x;     ///< [m] map view left edge Mercator x-coordinate
-    double m_map_min_y;     ///< [m] map view right edge Mercator x-coordinate
-    double m_map_max_x;     ///< [m] map view bottom edge Mercator y-coordinate
-    double m_map_max_y;     ///< [m] map view top edge Mercator y-coordinate
+    double _map_min_x;      ///< [m] map view left edge Mercator x-coordinate
+    double _map_min_y;      ///< [m] map view right edge Mercator x-coordinate
+    double _map_max_x;      ///< [m] map view bottom edge Mercator y-coordinate
+    double _map_max_y;      ///< [m] map view top edge Mercator y-coordinate
 
-    double m_scale;         ///< [-]
-    double m_scale_min;     ///< [-]
-    double m_scale_max;     ///< [-]
+    double _scale;          ///< [-]
+    double _scale_min;      ///< [-]
+    double _scale_max;      ///< [-]
 
-    double m_mouse_lat;     ///< [rad]
-    double m_mouse_lon;     ///< [rad]
+    double _mouse_lat;      ///< [rad]
+    double _mouse_lon;      ///< [rad]
 
-    double m_map_left;      ///< [m] current view left edge Mercator x-coordinate
-    double m_map_right;     ///< [m] current view right edge Mercator x-coordinate
-    double m_map_bottom;    ///< [m] current view bottom edge Mercator y-coordinate
-    double m_map_top;       ///< [m] current view top edge Mercator y-coordinate
+    double _map_left;       ///< [m] current view left edge Mercator x-coordinate
+    double _map_right;      ///< [m] current view right edge Mercator x-coordinate
+    double _map_bottom;     ///< [m] current view bottom edge Mercator y-coordinate
+    double _map_top;        ///< [m] current view top edge Mercator y-coordinate
 
-    bool m_thrown;
-    bool m_allowThrow;
+    bool _thrown;
+    bool _allowThrow;
 
-    double m_delta_frame_time;
-    double m_last_frame_time;
+    double _delta_frame_time;
+    double _last_frame_time;
 
-    double m_wheelZoomFactor;
+    double _wheelZoomFactor;
 
     bool handleFrame( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us );
     bool handleResize( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us );

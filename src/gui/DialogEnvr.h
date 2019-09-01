@@ -59,44 +59,44 @@ public:
     /** Destructor. */
     virtual ~DialogEnvr();
 
-    inline double getTemperatureSL() const { return m_temperature_0; }
-    inline double getPressureSL()    const { return m_pressure_0;    }
+    inline double getTemperatureSL() const { return _temperature_0; }
+    inline double getPressureSL()    const { return _pressure_0;    }
 
-    inline double getWindDirection() const { return m_windDirection; }
-    inline double getWindSpeed()     const { return m_windSpeed;     }
-    inline double getTurbulence()    const { return m_turbulence;    }
+    inline double getWindDirection() const { return _windDirection; }
+    inline double getWindSpeed()     const { return _windSpeed;     }
+    inline double getTurbulence()    const { return _turbulence;    }
 
-    inline WindShear getWindShear() const { return m_windShear; }
+    inline WindShear getWindShear() const { return _windShear; }
 
-    inline CloudsType getCloudsType() const { return m_cloudsType; }
+    inline CloudsType getCloudsType() const { return _cloudsType; }
 
-    inline const BlockClouds& getBlockClouds() const { return m_blockClouds; }
-    inline const LayerClouds& getLayerClouds() const { return m_layerClouds; }
+    inline const BlockClouds& getBlockClouds() const { return _blockClouds; }
+    inline const LayerClouds& getLayerClouds() const { return _layerClouds; }
 
-    inline double getVisibility() const { return m_visibility; }
+    inline double getVisibility() const { return _visibility; }
 
     void readData();
     void saveData();
 
 private:
 
-    Ui::DialogEnvr *m_ui;           ///<
+    Ui::DialogEnvr *_ui;            ///<
 
-    double m_temperature_0;         ///< [K] sea level temperature
-    double m_pressure_0;            ///< [Pa] sea level pressure
+    double _temperature_0;          ///< [K] sea level temperature
+    double _pressure_0;             ///< [Pa] sea level pressure
 
-    double m_windDirection;         ///< [rad] wind direction
-    double m_windSpeed;             ///< [m/s] wind speed
-    double m_turbulence;            ///< [-] turbulence intensity
+    double _windDirection;          ///< [rad] wind direction
+    double _windSpeed;              ///< [m/s] wind speed
+    double _turbulence;             ///< [-] turbulence intensity
 
-    WindShear m_windShear;          ///< active wind shear model
+    WindShear _windShear;           ///< active wind shear model
 
-    double m_visibility;            ///< [m]
+    double _visibility;             ///< [m]
 
-    CloudsType m_cloudsType;        ///< clouds type
+    CloudsType _cloudsType;         ///< clouds type
 
-    BlockClouds m_blockClouds;      ///< block clouds data
-    LayerClouds m_layerClouds;      ///< layer clouds data
+    BlockClouds _blockClouds;       ///< block clouds data
+    LayerClouds _layerClouds;       ///< layer clouds data
 
     Cover intToCover( int index,
                       Cover def = Data::Environment::Clouds::Data::Layer::SKC );

@@ -24,17 +24,18 @@
 
 #include <QFile>
 
+#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Locations* Locations::m_instance = 0;
+Locations* Locations::_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Locations::Locations()
 {
-    QFile file( "data/gui/locations.xml" );
+    QFile file( fdm::Path::get( "data/gui/locations.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -87,6 +88,6 @@ void Locations::parseLocation(const QDomElement &node )
         location.alt = altNode.text().toFloat();
         location.hdg = fdm::Units::deg2rad( hdgNode.text().toFloat() );
 
-        m_locations.push_back( location );
+        _locations.push_back( location );
     }
 }

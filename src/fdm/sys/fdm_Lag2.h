@@ -47,7 +47,7 @@ public:
 
     virtual ~Lag2();
 
-    inline double getValue() const { return m_y; }
+    inline double getValue() const { return _y; }
 
     void setValue( double y );
     void setTimeConstant1( double tc1 );
@@ -57,10 +57,10 @@ public:
 
 protected:
 
-    Lag *m_lag1;
+    Lag *_lag1;
 
-    double m_tc2;   ///< time constant
-    double m_y;     ///< current value
+    double _tc2;    ///< time constant
+    double _y;      ///< current value
 };
 
 } // end of fdm namespace

@@ -32,9 +32,9 @@ using namespace fdm;
 
 UH60_Fuselage::UH60_Fuselage()
 {
-    m_cx_beta = Table::createOneRecordTable( 0.0 );
-    m_cz_beta = Table::createOneRecordTable( 0.0 );
-    m_cm_beta = Table::createOneRecordTable( 0.0 );
+    _cx_beta = Table::createOneRecordTable( 0.0 );
+    _cz_beta = Table::createOneRecordTable( 0.0 );
+    _cm_beta = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +53,9 @@ void UH60_Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx_beta, "cx_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz_beta, "cz_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cm_beta, "cm_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -82,19 +82,19 @@ void UH60_Fuselage::readData( XmlNode &dataNode )
 
 double UH60_Fuselage::getCx( double angleOfAttack ) const
 {
-    return Fuselage::getCx( angleOfAttack ) + m_cx_beta.getValue( m_sideslipAngle );
+    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double UH60_Fuselage::getCz( double angleOfAttack ) const
 {
-    return Fuselage::getCz( angleOfAttack ) + m_cz_beta.getValue( m_sideslipAngle );
+    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double UH60_Fuselage::getCm( double angleOfAttack ) const
 {
-    return Fuselage::getCm( angleOfAttack ) + m_cm_beta.getValue( m_sideslipAngle );
+    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
 }

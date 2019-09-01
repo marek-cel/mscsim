@@ -90,39 +90,39 @@ private:
 
     typedef Data::Camera::ViewType ViewType;
 
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow *_ui;                ///<
 
-    QDateTime m_dateTime;           ///< current date and time (initial date and time incremented every step)
-    QTime m_flightTime;             ///< flight time
+    QDateTime _dateTime;                ///< current date and time (initial date and time incremented every step)
+    QTime _flightTime;                  ///< flight time
 
-    DialogConf *m_dialogConf;       ///< settings dialog
-    DialogEnvr *m_dialogEnvr;       ///< environment conditions dialog
-    DialogInit *m_dialogInit;       ///< initial conditions dialog
-    DialogMass *m_dialogMass;       ///< mass configuration dialog
+    DialogConf *_dialogConf;            ///< settings dialog
+    DialogEnvr *_dialogEnvr;            ///< environment conditions dialog
+    DialogInit *_dialogInit;            ///< initial conditions dialog
+    DialogMass *_dialogMass;            ///< mass configuration dialog
 
-    DockWidgetAuto *m_dockAuto;     ///<
-    DockWidgetCtrl *m_dockCtrl;     ///<
-    DockWidgetData *m_dockData;     ///<
-    DockWidgetEFIS *m_dockEFIS;     ///<
-    DockWidgetMain *m_dockMain;     ///<
-    DockWidgetMap  *m_dockMap;      ///<
-    DockWidgetProp *m_dockProp;     ///<
+    DockWidgetAuto *_dockAuto;          ///<
+    DockWidgetCtrl *_dockCtrl;          ///<
+    DockWidgetData *_dockData;          ///<
+    DockWidgetEFIS *_dockEFIS;          ///<
+    DockWidgetMain *_dockMain;          ///<
+    DockWidgetMap  *_dockMap;           ///<
+    DockWidgetProp *_dockProp;          ///<
 
-    QShortcut *m_scFullScreen;      ///<
-    QShortcut *m_scTimeFaster;      ///<
-    QShortcut *m_scTimeSlower;      ///<
+    QShortcut *_scFullScreen;           ///<
+    QShortcut *_scTimeFaster;           ///<
+    QShortcut *_scTimeSlower;           ///<
 
-    ViewType m_viewType;            ///<
-    bool m_showHUD;                 ///<
+    ViewType _viewType;                 ///<
+    bool _showHUD;                      ///<
 
-    double m_timeCoef;              ///<
+    double _timeCoef;                   ///<
 
-    int m_timerId;                  ///< timer ID
+    int _timerId;                       ///< timer ID
 
-    int m_typeIndex;                ///<
+    int _typeIndex;                     ///<
 
-    fdm::DataInp::PhaseInp m_phaseInp; ///< simulation input phase
-    fdm::DataOut::StateOut m_stateOut; ///< simulation output state
+    fdm::DataInp::PhaseInp _phaseInp;   ///< simulation input phase
+    fdm::DataOut::StateOut _stateOut;   ///< simulation output state
 
     hid::Assignment::Key getKey( int key );
 

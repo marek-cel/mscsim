@@ -32,19 +32,19 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Fuselage::Fuselage() :
-    m_length ( 0.0 ),
-    m_area ( 0.0 ),
-    m_sl ( 0.0 ),
+    _length ( 0.0 ),
+    _area ( 0.0 ),
+    _sl ( 0.0 ),
 
-    m_angleOfAttack ( 0.0 ),
-    m_sideslipAngle ( 0.0 )
+    _angleOfAttack ( 0.0 ),
+    _sideslipAngle ( 0.0 )
 {
-    m_cx = Table::createOneRecordTable( 0.0 );
-    m_cy = Table::createOneRecordTable( 0.0 );
-    m_cz = Table::createOneRecordTable( 0.0 );
-    m_cl = Table::createOneRecordTable( 0.0 );
-    m_cm = Table::createOneRecordTable( 0.0 );
-    m_cn = Table::createOneRecordTable( 0.0 );
+    _cx = Table::createOneRecordTable( 0.0 );
+    _cy = Table::createOneRecordTable( 0.0 );
+    _cz = Table::createOneRecordTable( 0.0 );
+    _cl = Table::createOneRecordTable( 0.0 );
+    _cm = Table::createOneRecordTable( 0.0 );
+    _cn = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,28 +59,28 @@ void Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        m_cx = Table::createOneRecordTable( 0.0 );
-        m_cy = Table::createOneRecordTable( 0.0 );
-        m_cz = Table::createOneRecordTable( 0.0 );
-        m_cl = Table::createOneRecordTable( 0.0 );
-        m_cm = Table::createOneRecordTable( 0.0 );
-        m_cn = Table::createOneRecordTable( 0.0 );
+        _cx = Table::createOneRecordTable( 0.0 );
+        _cy = Table::createOneRecordTable( 0.0 );
+        _cz = Table::createOneRecordTable( 0.0 );
+        _cl = Table::createOneRecordTable( 0.0 );
+        _cm = Table::createOneRecordTable( 0.0 );
+        _cn = Table::createOneRecordTable( 0.0 );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_bas, "aero_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_length , "length" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area   , "area"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _length , "length" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area   , "area"   );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy, "cy", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz, "cz", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl, "cl", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cm, "cm", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cn, "cn", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cl, "cl", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm, "cm", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cn, "cn", true );
 
         if ( result == FDM_SUCCESS )
         {
-            m_sl = m_area * m_length;
+            _sl = _area * _length;
         }
         else
         {
@@ -110,37 +110,37 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
                                       double airDensity )
 {
     // fuselage velocity
-    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_bas );
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
-    m_angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
-    m_sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
+    _angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
+    _sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
 
     // dynamic pressure
     double dynPress = 0.5 * airDensity * vel_f_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( m_angleOfAttack ) * m_area,
-                      dynPress * getCy( m_sideslipAngle ) * m_area,
-                      dynPress * getCz( m_angleOfAttack ) * m_area );
+    Vector3 for_aero( dynPress * getCx( _angleOfAttack ) * _area,
+                      dynPress * getCy( _sideslipAngle ) * _area,
+                      dynPress * getCz( _angleOfAttack ) * _area );
 
-    Vector3 mom_stab( dynPress * getCl( m_sideslipAngle ) * m_sl,
-                      dynPress * getCm( m_angleOfAttack ) * m_sl,
-                      dynPress * getCn( m_sideslipAngle ) * m_sl );
+    Vector3 mom_stab( dynPress * getCl( _sideslipAngle ) * _sl,
+                      dynPress * getCm( _angleOfAttack ) * _sl,
+                      dynPress * getCn( _sideslipAngle ) * _sl );
 
 
-    double sinAlpha = sin( m_angleOfAttack );
-    double cosAlpha = cos( m_angleOfAttack );
-    double sinBeta  = sin( m_sideslipAngle );
-    double cosBeta  = cos( m_sideslipAngle );
+    double sinAlpha = sin( _angleOfAttack );
+    double cosAlpha = cos( _angleOfAttack );
+    double sinBeta  = sin( _sideslipAngle );
+    double cosBeta  = cos( _sideslipAngle );
 
     Vector3 for_bas = Aerodynamics::getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
-            + ( m_r_ac_bas ^ for_bas );
+            + ( _r_ac_bas ^ for_bas );
 
-    m_for_bas = for_bas;
-    m_mom_bas = mom_bas;
+    _for_bas = for_bas;
+    _mom_bas = mom_bas;
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -155,40 +155,40 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 double Fuselage::getCx( double angleOfAttack ) const
 {
-    return m_cx.getValue( angleOfAttack );
+    return _cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCy( double sideslipAngle ) const
 {
-    return m_cy.getValue( sideslipAngle );
+    return _cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCz( double angleOfAttack ) const
 {
-    return m_cz.getValue( angleOfAttack );
+    return _cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCl( double sideslipAngle ) const
 {
-    return m_cl.getValue( sideslipAngle );
+    return _cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCm( double angleOfAttack ) const
 {
-    return m_cm.getValue( angleOfAttack );
+    return _cm.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double Fuselage::getCn( double sideslipAngle ) const
 {
-    return m_cn.getValue( sideslipAngle );
+    return _cn.getValue( sideslipAngle );
 }

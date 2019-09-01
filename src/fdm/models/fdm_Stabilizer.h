@@ -107,26 +107,26 @@ public:
                                         double airDensity,
                                         double wingAngleOfAttack = 0.0 );
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
 protected:
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Type m_type;                ///< stabilizer type
+    Type _type;                 ///< stabilizer type
 
-    Vector3 m_r_ac_bas;         ///< [m] stabilizer aerodynamic center expressed in BAS
+    Vector3 _r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
 
-    Table m_cx;                 ///< [-] drag coefficient vs "angle of attack"
-    Table m_cy;                 ///< [-] sideforce coefficient vs "angle of attack"
-    Table m_cz;                 ///< [-] lift coefficient vs "angle of attack"
+    Table _cx;                  ///< [-] drag coefficient vs "angle of attack"
+    Table _cy;                  ///< [-] sideforce coefficient vs "angle of attack"
+    Table _cz;                  ///< [-] lift coefficient vs "angle of attack"
 
-    double m_area;              ///< [m^2] stabilizer reference area
+    double _area;               ///< [m^2] stabilizer reference area
 
-    double m_incidence;         ///< [rad] stabilizer incidence angle
-    double m_downwash;          ///< [-] downwash angle derivative with respect to the aircraft angle of attack
+    double _incidence;          ///< [rad] stabilizer incidence angle
+    double _downwash;           ///< [-] downwash angle derivative with respect to the aircraft angle of attack
 
     /**
      * Computes stabilizer angle of attack.

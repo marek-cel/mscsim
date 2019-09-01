@@ -32,13 +32,13 @@ using namespace fdm;
 
 UH60_Propulsion::UH60_Propulsion( const UH60_Aircraft *aircraft ) :
     Propulsion( aircraft ),
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_mainRotorPsi ( 0.0 ),
-    m_tailRotorPsi ( 0.0 ),
+    _mainRotorPsi ( 0.0 ),
+    _tailRotorPsi ( 0.0 ),
 
-    m_mainRotorOmega ( 0.0 ),
-    m_tailRotorOmega ( 0.0 )
+    _mainRotorOmega ( 0.0 ),
+    _tailRotorOmega ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,13 +57,13 @@ void UH60_Propulsion::init( bool engineOn )
 
     if ( engineOn )
     {
-        m_mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-        m_tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
+        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
+        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
     }
     else
     {
-        m_mainRotorOmega = 0.0;
-        m_tailRotorOmega = 0.0;
+        _mainRotorOmega = 0.0;
+        _tailRotorOmega = 0.0;
     }
 }
 
@@ -90,7 +90,7 @@ void UH60_Propulsion::readData( XmlNode &dataNode )
 
 void UH60_Propulsion::computeForceAndMoment()
 {
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -106,13 +106,13 @@ void UH60_Propulsion::computeForceAndMoment()
 void UH60_Propulsion::update()
 {
     // TODO
-    m_mainRotorPsi += m_aircraft->getTimeStep() * m_mainRotorOmega;
-    m_tailRotorPsi += m_aircraft->getTimeStep() * m_tailRotorOmega;
+    _mainRotorPsi += _aircraft->getTimeStep() * _mainRotorOmega;
+    _tailRotorPsi += _aircraft->getTimeStep() * _tailRotorOmega;
 
-    while ( m_mainRotorPsi > 2.0 * M_PI ) m_mainRotorPsi -= 2.0 * M_PI;
-    while ( m_tailRotorPsi > 2.0 * M_PI ) m_tailRotorPsi -= 2.0 * M_PI;
+    while ( _mainRotorPsi > 2.0 * M_PI ) _mainRotorPsi -= 2.0 * M_PI;
+    while ( _tailRotorPsi > 2.0 * M_PI ) _tailRotorPsi -= 2.0 * M_PI;
 
     // TODO
-    m_mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-    m_tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
+    _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
+    _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
 }

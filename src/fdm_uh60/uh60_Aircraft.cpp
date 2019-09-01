@@ -31,31 +31,31 @@ using namespace fdm;
 UH60_Aircraft::UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::m_aero = m_aero = new UH60_Aerodynamics( this );
-    Aircraft::m_ctrl = m_ctrl = new UH60_Controls( this );
-    Aircraft::m_gear = m_gear = new UH60_LandingGear( this );
-    Aircraft::m_mass = m_mass = new UH60_Mass( this );
-    Aircraft::m_prop = m_prop = new UH60_Propulsion( this );
+    Aircraft::_aero = _aero = new UH60_Aerodynamics( this );
+    Aircraft::_ctrl = _ctrl = new UH60_Controls( this );
+    Aircraft::_gear = _gear = new UH60_LandingGear( this );
+    Aircraft::_mass = _mass = new UH60_Mass( this );
+    Aircraft::_prop = _prop = new UH60_Propulsion( this );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 UH60_Aircraft::~UH60_Aircraft()
 {
-    if ( m_aero ) delete m_aero;
-    m_aero = 0;
+    if ( _aero ) delete _aero;
+    _aero = 0;
 
-    if ( m_ctrl ) delete m_ctrl;
-    m_ctrl = 0;
+    if ( _ctrl ) delete _ctrl;
+    _ctrl = 0;
 
-    if ( m_gear ) delete m_gear;
-    m_gear = 0;
+    if ( _gear ) delete _gear;
+    _gear = 0;
 
-    if ( m_mass ) delete m_mass;
-    m_mass = 0;
+    if ( _mass ) delete _mass;
+    _mass = 0;
 
-    if ( m_prop ) delete m_prop;
-    m_prop = 0;
+    if ( _prop ) delete _prop;
+    _prop = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,21 +78,21 @@ void UH60_Aircraft::updateOutputData()
     /////////////////////////////
 
     // controls
-    m_dataOut->controls.elevator = m_ctrl->getElevator();
+    _dataOut->controls.elevator = _ctrl->getElevator();
 
 //    // propulsion
-//    m_dataOut->engine[ 0 ].state = m_prop->getEngine()->getState() == Engine::Running;
-//    m_dataOut->engine[ 0 ].rpm = m_prop->getEngine()->getRPM();
-//    m_dataOut->engine[ 0 ].map = m_prop->getEngine()->getMAP();
-//    m_dataOut->engine[ 0 ].ff  = m_prop->getEngine()->getFuelFlow();
+//    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == Engine::Running;
+//    _dataOut->engine[ 0 ].rpm = _prop->getEngine()->getRPM();
+//    _dataOut->engine[ 0 ].map = _prop->getEngine()->getMAP();
+//    _dataOut->engine[ 0 ].ff  = _prop->getEngine()->getFuelFlow();
 
     // rotor
-    m_dataOut->rotor.mainRotor_azimuth     = m_prop->getMainRotorPsi();
-    m_dataOut->rotor.mainRotor_coningAngle = m_aero->getMainRotor()->getConingAngle();
-    m_dataOut->rotor.mainRotor_diskRoll    = m_aero->getMainRotor()->getDiskRoll();
-    m_dataOut->rotor.mainRotor_diskPitch   = m_aero->getMainRotor()->getDiskPitch();
-    m_dataOut->rotor.mainRotor_collective  = m_ctrl->getCollective();
-    m_dataOut->rotor.mainRotor_cyclicLon   = m_ctrl->getCyclicLon();
-    m_dataOut->rotor.mainRotor_cyclicLat   = m_ctrl->getCyclicLat();
-    m_dataOut->rotor.tailRotor_azimuth     = m_prop->getTailRotorPsi();
+    _dataOut->rotor.mainRotor_azimuth     = _prop->getMainRotorPsi();
+    _dataOut->rotor.mainRotor_coningAngle = _aero->getMainRotor()->getConingAngle();
+    _dataOut->rotor.mainRotor_diskRoll    = _aero->getMainRotor()->getDiskRoll();
+    _dataOut->rotor.mainRotor_diskPitch   = _aero->getMainRotor()->getDiskPitch();
+    _dataOut->rotor.mainRotor_collective  = _ctrl->getCollective();
+    _dataOut->rotor.mainRotor_cyclicLon   = _ctrl->getCyclicLon();
+    _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();
+    _dataOut->rotor.tailRotor_azimuth     = _prop->getTailRotorPsi();
 }

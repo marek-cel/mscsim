@@ -160,7 +160,8 @@ struct DataOut
         double egt;                     ///< [deg C]
         double itt;                     ///< [deg C]
         double tit;                     ///< [deg C]
-        double ff;                      ///< [kg/s]
+
+        double fuelFlow;                ///< [kg/s] fuel flow
     };
 
     /** Rotor data. */

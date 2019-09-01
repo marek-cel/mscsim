@@ -51,13 +51,13 @@ public:
     /** */
     inline XmlNode getRootNode()
     {
-        return XmlNode( *m_root );
+        return XmlNode( *_root );
     }
 
     /** */
     inline bool isOpen() const
     {
-        return m_open;
+        return _open;
     }
 
     /** @return FDM_SUCCESS on success, FDM_FAILURE on failure. */
@@ -65,11 +65,9 @@ public:
 
 private:
 
-    xmlDocPtr m_doc;
-
-    bool m_open;
-
-    XmlNode *m_root;
+    xmlDocPtr _doc;
+    bool _open;
+    XmlNode *_root;
 };
 
 } // end of fdm namespace

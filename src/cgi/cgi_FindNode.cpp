@@ -59,10 +59,10 @@ FindNode::Nodes FindNode::findNodes( osg::Node* node, const std::string &name )
 FindNode::FindNode() :
     osg::NodeVisitor( TRAVERSE_ALL_CHILDREN ),
 
-    m_findAll ( false )
+    _findAll ( false )
 {
-    m_name = "";
-    m_nodes.clear();
+    _name = "";
+    _nodes.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,23 +70,23 @@ FindNode::FindNode() :
 FindNode::FindNode( const std::string &name, bool findAll ) :
     osg::NodeVisitor( TRAVERSE_ALL_CHILDREN ),
 
-    m_findAll ( findAll )
+    _findAll ( findAll )
 {
-    m_name = name;
-    m_nodes.clear();
+    _name = name;
+    _nodes.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void FindNode::apply( osg::Node &searchNode )
 {
-    if ( m_name == searchNode.getName() || m_name.length() == 0 )
+    if ( _name == searchNode.getName() || _name.length() == 0 )
     {
         osg::ref_ptr<osg::Node> tempNode = &searchNode;
 
-        m_nodes.push_back( tempNode.get() );
+        _nodes.push_back( tempNode.get() );
 
-        if ( m_findAll ) traverse( searchNode );
+        if ( _findAll ) traverse( searchNode );
     }
     else
     {
@@ -98,13 +98,13 @@ void FindNode::apply( osg::Node &searchNode )
 
 osg::ref_ptr<osg::Node> FindNode::getFirst()
 {
-    if ( m_nodes.empty() )
+    if ( _nodes.empty() )
     {
         return 0;
     }
     else
     {
-        return m_nodes[ 0 ];
+        return _nodes[ 0 ];
     }
 }
 
@@ -112,5 +112,5 @@ osg::ref_ptr<osg::Node> FindNode::getFirst()
 
 FindNode::Nodes FindNode::getNodes()
 {
-    return m_nodes;
+    return _nodes;
 }

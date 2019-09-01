@@ -45,12 +45,12 @@ public:
 
     LeadLag( double c1, double c2, double c3, double c4, double y = 0.0 );
 
-    inline double getValue() const { return m_y;  }
+    inline double getValue() const { return _y;  }
 
-    inline double getC1() const { return m_c1; }
-    inline double getC2() const { return m_c2; }
-    inline double getC3() const { return m_c3; }
-    inline double getC4() const { return m_c4; }
+    inline double getC1() const { return _c1; }
+    inline double getC2() const { return _c2; }
+    inline double getC3() const { return _c3; }
+    inline double getC4() const { return _c4; }
 
     void setValue( double y );
 
@@ -63,15 +63,15 @@ public:
 
 protected:
 
-    double m_c1;        ///< c1 coefficient
-    double m_c2;        ///< c2 coefficient
-    double m_c3;        ///< c3 coefficient
-    double m_c4;        ///< c4 coefficient
+    double _c1;         ///< c1 coefficient
+    double _c2;         ///< c2 coefficient
+    double _c3;         ///< c3 coefficient
+    double _c4;         ///< c4 coefficient
 
-    double m_u_prev;    ///<
-    double m_y_prev;    ///<
+    double _u_prev;     ///<
+    double _y_prev;     ///<
 
-    double m_y;         ///< current value
+    double _y;          ///< current value
 };
 
 } // end of fdm namespace

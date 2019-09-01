@@ -54,35 +54,35 @@ public:
     void readData();
     void saveData();
 
-    inline double getPilot1() const { return m_pilot_1; }
-    inline double getPilot2() const { return m_pilot_2; }
+    inline double getPilot1() const { return _pilot_1; }
+    inline double getPilot2() const { return _pilot_2; }
 
-    inline double getFuelTank1() const { return m_fuel_tank_1; }
-    inline double getFuelTank2() const { return m_fuel_tank_2; }
-    inline double getFuelTank3() const { return m_fuel_tank_3; }
-    inline double getFuelTank4() const { return m_fuel_tank_4; }
+    inline double getFuelTank1() const { return _fuel_tank_1; }
+    inline double getFuelTank2() const { return _fuel_tank_2; }
+    inline double getFuelTank3() const { return _fuel_tank_3; }
+    inline double getFuelTank4() const { return _fuel_tank_4; }
 
-    inline double getCabin()  const { return m_cabin; }
-    inline double getTrunk()  const { return m_trunk; }
+    inline double getCabin()  const { return _cabin; }
+    inline double getTrunk()  const { return _trunk; }
 
     void setAircraftType( int type );
 
 private:
 
-    Ui::DialogMass *m_ui;
+    Ui::DialogMass *_ui;
 
-    int m_type;
+    int _type;
 
-    double m_pilot_1;       ///< [kg]
-    double m_pilot_2;       ///< [kg]
+    double _pilot_1;        ///< [kg]
+    double _pilot_2;        ///< [kg]
 
-    double m_fuel_tank_1;   ///< [kg]
-    double m_fuel_tank_2;   ///< [kg]
-    double m_fuel_tank_3;   ///< [kg]
-    double m_fuel_tank_4;   ///< [kg]
+    double _fuel_tank_1;    ///< [kg]
+    double _fuel_tank_2;    ///< [kg]
+    double _fuel_tank_3;    ///< [kg]
+    double _fuel_tank_4;    ///< [kg]
 
-    double m_cabin;         ///< [kg]
-    double m_trunk;         ///< [kg]
+    double _cabin;          ///< [kg]
+    double _trunk;          ///< [kg]
 
     void settingsRead();
     void settingsRead_MassData( QSettings &settings );

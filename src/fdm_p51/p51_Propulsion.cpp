@@ -33,24 +33,24 @@ using namespace fdm;
 
 P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft ) :
     Propulsion( aircraft ),
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_engine ( 0 ),
-    m_propeller ( 0 )
+    _engine ( 0 ),
+    _propeller ( 0 )
 {
-    m_engine    = new PistonEngine();
-    m_propeller = new Propeller();
+    _engine    = new PistonEngine();
+    _propeller = new Propeller();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_Propulsion::~P51_Propulsion()
 {
-    if ( m_engine ) delete m_engine;
-    m_engine = 0;
+    if ( _engine ) delete _engine;
+    _engine = 0;
 
-    if ( m_propeller ) delete m_propeller;
-    m_propeller = 0;
+    if ( _propeller ) delete _propeller;
+    _propeller = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ void P51_Propulsion::init( bool engineOn )
     Propulsion::init( engineOn );
     /////////////////////////////
 
-    m_propeller->setRPM( engineOn ? 3000.0 : 0.0 );
+    _propeller->setRPM( engineOn ? 3000.0 : 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,8 +73,8 @@ void P51_Propulsion::readData( XmlNode &dataNode )
         XmlNode nodeEngine    = dataNode.getFirstChildElement( "piston_engine" );
         XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller"     );
 
-        m_engine->readData( nodeEngine );
-        m_propeller->readData( nodePropeller );
+        _engine->readData( nodeEngine );
+        _propeller->readData( nodePropeller );
     }
     else
     {
@@ -91,31 +91,31 @@ void P51_Propulsion::readData( XmlNode &dataNode )
 
 void P51_Propulsion::computeForceAndMoment()
 {
-    m_propeller->computeThrust( m_aircraft->getAirspeed(),
-                                m_aircraft->getEnvir()->getDensity() );
+    _propeller->computeThrust( _aircraft->getAirspeed(),
+                               _aircraft->getEnvir()->getDensity() );
 
     // thrust and moment due to thrust
-    Vector3 for_bas( m_propeller->getThrust(), 0.0, 0.0 );
-    Vector3 mom_bas = m_propeller->getPos_BAS() ^ for_bas;
+    Vector3 for_bas( _propeller->getThrust(), 0.0, 0.0 );
+    Vector3 mom_bas = _propeller->getPos_BAS() ^ for_bas;
 
     // gyro effect
     Vector3 omega_bas;
 
-    if ( m_propeller->getDirection() == Propeller::CW )
+    if ( _propeller->getDirection() == Propeller::CW )
     {
-        omega_bas.x() =  m_propeller->getOmega();
+        omega_bas.x() =  _propeller->getOmega();
     }
     else
     {
-        omega_bas.x() = -m_propeller->getOmega();
+        omega_bas.x() = -_propeller->getOmega();
     }
 
-    mom_bas += ( m_propeller->getInertia() + m_engine->getInertia() ) * ( omega_bas ^ m_aircraft->getOmg_BAS() );
+    mom_bas += ( _propeller->getInertia() + _engine->getInertia() ) * ( omega_bas ^ _aircraft->getOmg_BAS() );
 
-    m_for_bas = for_bas;
-    m_mom_bas = mom_bas;
+    _for_bas = for_bas;
+    _mom_bas = mom_bas;
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -130,20 +130,20 @@ void P51_Propulsion::computeForceAndMoment()
 
 void P51_Propulsion::update()
 {
-    m_propeller->integrate( m_aircraft->getTimeStep(), m_engine->getInertia() );
+    _propeller->integrate( _aircraft->getTimeStep(), _engine->getInertia() );
 
-    m_engine->update( m_aircraft->getDataInp()->engine[ 0 ].throttle,
-                      m_aircraft->getDataInp()->engine[ 0 ].mixture,
-                      m_propeller->getEngineRPM(),
-                      m_aircraft->getEnvir()->getPressure(),
-                      m_aircraft->getEnvir()->getDensity(),
-                      m_aircraft->getDataInp()->engine[ 0 ].fuel,
-                      m_aircraft->getDataInp()->engine[ 0 ].starter,
-                      m_aircraft->getDataInp()->engine[ 0 ].ignition,
-                      m_aircraft->getDataInp()->engine[ 0 ].ignition );
+    _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
+                     _aircraft->getDataInp()->engine[ 0 ].mixture,
+                     _propeller->getEngineRPM(),
+                     _aircraft->getEnvir()->getPressure(),
+                     _aircraft->getEnvir()->getDensity(),
+                     _aircraft->getDataInp()->engine[ 0 ].fuel,
+                     _aircraft->getDataInp()->engine[ 0 ].starter,
+                     _aircraft->getDataInp()->engine[ 0 ].ignition,
+                     _aircraft->getDataInp()->engine[ 0 ].ignition );
 
-    m_propeller->update( m_aircraft->getDataInp()->engine[ 0 ].propeller,
-                         m_engine->getTorque(),
-                         m_aircraft->getAirspeed(),
-                         m_aircraft->getEnvir()->getDensity() );
+    _propeller->update( _aircraft->getDataInp()->engine[ 0 ].propeller,
+                        _engine->getTorque(),
+                        _aircraft->getAirspeed(),
+                        _aircraft->getEnvir()->getDensity() );
 }

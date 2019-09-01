@@ -34,16 +34,16 @@ using namespace fdm;
 
 Angles::Angles()
 {
-    m_phi = 0.0;
-    m_tht = 0.0;
-    m_psi = 0.0;
+    _phi = 0.0;
+    _tht = 0.0;
+    _psi = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Angles::Angles( const Angles &angl )
 {
-    set( angl.m_phi, angl.m_tht, angl.m_psi );
+    set( angl._phi, angl._tht, angl._psi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,43 +57,43 @@ Angles::Angles( double phi, double tht, double psi )
 
 bool Angles::isValid() const
 {
-    return ( Misc::isValid( m_phi )
-          && Misc::isValid( m_tht )
-          && Misc::isValid( m_psi ) );
+    return ( Misc::isValid( _phi )
+          && Misc::isValid( _tht )
+          && Misc::isValid( _psi ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Angles::normalize()
 {
-    while ( m_tht >  M_PI_2 )
+    while ( _tht >  M_PI_2 )
     {
-        m_phi += M_PI;
-        m_tht =  M_PI_2 - ( m_tht - M_PI_2 );
-        m_psi += M_PI;
+        _phi += M_PI;
+        _tht =  M_PI_2 - ( _tht - M_PI_2 );
+        _psi += M_PI;
     }
 
-    while ( m_tht < -M_PI_2 )
+    while ( _tht < -M_PI_2 )
     {
-        m_phi += M_PI;
-        m_tht = -M_PI_2 - ( m_tht + M_PI_2 );
-        m_psi += M_PI;
+        _phi += M_PI;
+        _tht = -M_PI_2 - ( _tht + M_PI_2 );
+        _psi += M_PI;
     }
 
-    while ( m_phi >  M_PI ) m_phi -= 2.0 * M_PI;
-    while ( m_phi < -M_PI ) m_phi += 2.0 * M_PI;
+    while ( _phi >  M_PI ) _phi -= 2.0 * M_PI;
+    while ( _phi < -M_PI ) _phi += 2.0 * M_PI;
 
-    while ( m_psi > 2.0 * M_PI ) m_psi -= 2.0 * M_PI;
-    while ( m_psi < 0.0        ) m_psi += 2.0 * M_PI;
+    while ( _psi > 2.0 * M_PI ) _psi -= 2.0 * M_PI;
+    while ( _psi < 0.0        ) _psi += 2.0 * M_PI;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Angles::set( double phi, double tht, double psi )
 {
-    m_phi = phi;
-    m_tht = tht;
-    m_psi = psi;
+    _phi = phi;
+    _tht = tht;
+    _psi = psi;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ std::string Angles::toString() const
 {
     std::stringstream ss;
 
-    ss << m_phi << "," << m_tht << "," << m_psi;
+    ss << _phi << "," << _tht << "," << _psi;
 
     return ss.str();
 }
@@ -111,7 +111,7 @@ std::string Angles::toString() const
 
 const Angles& Angles::operator= ( const Angles &angl )
 {
-    set( angl.m_phi, angl.m_tht, angl.m_psi );
+    set( angl._phi, angl._tht, angl._psi );
 
     return (*this);
 }
@@ -120,9 +120,9 @@ const Angles& Angles::operator= ( const Angles &angl )
 
 bool Angles::operator== ( const Angles &angl ) const
 {
-    return ( ( m_phi == angl.m_phi )
-          && ( m_tht == angl.m_tht )
-          && ( m_psi == angl.m_psi ) );
+    return ( ( _phi == angl._phi )
+          && ( _tht == angl._tht )
+          && ( _psi == angl._psi ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

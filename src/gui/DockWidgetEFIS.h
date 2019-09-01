@@ -56,19 +56,19 @@ public:
     /** @param roll angle [deg] */
     inline void setRoll( float roll )
     {
-        m_graphicsEADI->setRoll( roll );
+        _graphicsEADI->setRoll( roll );
     }
 
     /** @param pitch angle [deg] */
     inline void setPitch( float pitch )
     {
-        m_graphicsEADI->setPitch( pitch );
+        _graphicsEADI->setPitch( pitch );
     }
 
     /** @param normalized slip or skid (range from -1.0 to 1.0) */
     inline void setSlipSkid( float slipSkid )
     {
-        m_graphicsEADI->setSlipSkid( slipSkid );
+        _graphicsEADI->setSlipSkid( slipSkid );
     }
 
     /**
@@ -77,7 +77,7 @@ public:
      */
     inline void setTurnRate( float turnRate )
     {
-        m_graphicsEADI->setTurnRate( turnRate );
+        _graphicsEADI->setTurnRate( turnRate );
     }
 
     /**
@@ -88,7 +88,7 @@ public:
     inline void setDots( float dotH, float dotV,
                          bool visibleH, bool visibleV )
     {
-        m_graphicsEADI->setDots( dotH, dotV, visibleH, visibleV );
+        _graphicsEADI->setDots( dotH, dotV, visibleH, visibleV );
     }
 
     /**
@@ -97,44 +97,44 @@ public:
      * @param FD visibility */
     inline void setFD( float roll, float pitch, bool visible = true )
     {
-        m_graphicsEADI->setFD( roll, pitch, visible );
+        _graphicsEADI->setFD( roll, pitch, visible );
     }
 
     /** @param stall flag */
     inline void setStall( bool stall )
     {
-        m_graphicsEADI->setStall( stall );
+        _graphicsEADI->setStall( stall );
     }
 
     /** @param altitude (dimensionless numeric value) */
     inline void setAltitude( float altitude )
     {
-        m_graphicsEADI->setAltitude( altitude );
+        _graphicsEADI->setAltitude( altitude );
     }
 
     /** @param airspeed (dimensionless numeric value) */
     inline void setAirspeed( float airspeed )
     {
-        m_graphicsEADI->setAirspeed( airspeed );
+        _graphicsEADI->setAirspeed( airspeed );
     }
 
     /** @param Mach number */
     inline void setMachNo( float machNo )
     {
-        m_graphicsEADI->setMachNo( machNo );
+        _graphicsEADI->setMachNo( machNo );
     }
 
     /** @param heading [deg] */
     inline void setHeading( float heading )
     {
-        m_graphicsEADI->setHeading( heading );
-        m_graphicsEHSI->setHeading( heading );
+        _graphicsEADI->setHeading( heading );
+        _graphicsEHSI->setHeading( heading );
     }
 
     /** @param climb rate (dimensionless numeric value)  */
     inline void setClimbRate( float climbRate )
     {
-        m_graphicsEADI->setClimbRate( climbRate );
+        _graphicsEADI->setClimbRate( climbRate );
     }
 
     /**
@@ -144,7 +144,7 @@ public:
      */
     inline void setDistance( float distance, bool visible )
     {
-        m_graphicsEHSI->setDistance( distance, visible );
+        _graphicsEHSI->setDistance( distance, visible );
     }
 
     /**
@@ -154,7 +154,7 @@ public:
      */
     inline void setBearing( float bearing, bool visible )
     {
-        m_graphicsEHSI->setBearing( bearing, visible );
+        _graphicsEHSI->setBearing( bearing, visible );
     }
 
     /**
@@ -164,7 +164,7 @@ public:
      */
     inline void setDeviation( float deviation, bool visible )
     {
-        m_graphicsEHSI->setDeviation( deviation, visible );
+        _graphicsEHSI->setDeviation( deviation, visible );
     }
 
 signals:
@@ -177,10 +177,10 @@ protected:
 
 private:
 
-    Ui::DockWidgetEFIS *m_ui;
+    Ui::DockWidgetEFIS *_ui;        ///<
 
-    GraphicsEADI *m_graphicsEADI;
-    GraphicsEHSI *m_graphicsEHSI;
+    GraphicsEADI *_graphicsEADI;    ///<
+    GraphicsEHSI *_graphicsEHSI;    ///<
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -52,13 +52,13 @@ public:
 
 private:
 
-    Textures::List m_textures;  ///<
+    Textures::List _textures;   ///<
 
-    Cover m_cover;              ///< cover
-    float m_base_asl;           ///< [m] clouds base above mean sea level
+    Cover _cover;               ///< cover
+    float _base_asl;            ///< [m] clouds base above mean sea level
 
-    short m_framesCounter;      ///<
-    bool m_created;             ///<
+    short _framesCounter;       ///<
+    bool _created;              ///<
 
     void create();
     void createLayer( osg::Group *parent, double lat, double lon, double alt );

@@ -35,34 +35,34 @@ using namespace cgi;
 ManipulatorMap::ManipulatorMap() :
     inherited(),
 
-    m_scaleChangeCallback ( 0 ),
+    _scaleChangeCallback ( 0 ),
 
-    m_map_height ( 1.0 ),
+    _map_height ( 1.0 ),
 
-    m_map_min_x ( -1.0 ),
-    m_map_min_y ( -1.0 ),
-    m_map_max_x (  1.0 ),
-    m_map_max_y (  1.0 ),
+    _map_min_x ( -1.0 ),
+    _map_min_y ( -1.0 ),
+    _map_max_x (  1.0 ),
+    _map_max_y (  1.0 ),
 
-    m_scale ( 1.0 ),
-    m_scale_min ( 0.0 ),
-    m_scale_max ( std::numeric_limits< double >::max() ),
+    _scale ( 1.0 ),
+    _scale_min ( 0.0 ),
+    _scale_max ( std::numeric_limits< double >::max() ),
 
-    m_mouse_lat ( 0.0 ),
-    m_mouse_lon ( 0.0 ),
+    _mouse_lat ( 0.0 ),
+    _mouse_lon ( 0.0 ),
 
-    m_map_left   ( -1.0 ),
-    m_map_right  (  1.0 ),
-    m_map_bottom ( -1.0 ),
-    m_map_top    (  1.0 ),
+    _map_left   ( -1.0 ),
+    _map_right  (  1.0 ),
+    _map_bottom ( -1.0 ),
+    _map_top    (  1.0 ),
 
-    m_thrown ( false ),
-    m_allowThrow ( true ),
+    _thrown ( false ),
+    _allowThrow ( true ),
 
-    m_delta_frame_time ( 0.01 ),
-    m_last_frame_time  ( 0.0 ),
+    _delta_frame_time ( 0.01 ),
+    _last_frame_time  ( 0.0 ),
 
-    m_wheelZoomFactor ( 0.1 )
+    _wheelZoomFactor ( 0.1 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ void ManipulatorMap::init( const osgGA::GUIEventAdapter &/*ea*/, osgGA::GUIActio
 {
     flushMouseEventStack();
 
-    m_thrown = false;
+    _thrown = false;
     us.requestContinuousUpdate( false );
 }
 
@@ -136,8 +136,8 @@ void ManipulatorMap::updateCamera( osg::Camera &camera )
 
     updateCenterAndEdges( w2h );
 
-    camera.setProjectionMatrixAsOrtho2D( m_map_left, m_map_right,
-                                         m_map_bottom, m_map_top );
+    camera.setProjectionMatrixAsOrtho2D( _map_left, _map_right,
+                                         _map_bottom, _map_top );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ osg::Matrixd ManipulatorMap::getInverseMatrix() const
 
 void ManipulatorMap::registerScaleChangeCallback( void(*fun)(double) )
 {
-    m_scaleChangeCallback = fun;
+    _scaleChangeCallback = fun;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ void ManipulatorMap::setMapHeight( double map_height )
 {
     if ( map_height > 0.0 )
     {
-        m_map_height = map_height;
+        _map_height = map_height;
     }
 }
 
@@ -183,62 +183,62 @@ void ManipulatorMap::setMapHeight( double map_height )
 
 void ManipulatorMap::setMapMinX( double min )
 {
-    if ( min < m_map_max_x )
+    if ( min < _map_max_x )
     {
-        m_map_min_x = min;
+        _map_min_x = min;
     }
 
-    m_map_left = m_map_min_x;
+    _map_left = _map_min_x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::setMapMinY( double min )
 {
-    if ( min < m_map_max_y )
+    if ( min < _map_max_y )
     {
-        m_map_min_y = min;
+        _map_min_y = min;
     }
 
-    m_map_bottom = m_map_min_y;
+    _map_bottom = _map_min_y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::setMapMaxX( double max )
 {
-    if ( max > m_map_min_x )
+    if ( max > _map_min_x )
     {
-        m_map_max_x = max;
+        _map_max_x = max;
     }
 
-    m_map_right = m_map_max_x;
+    _map_right = _map_max_x;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::setMapMaxY( double max )
 {
-    if ( max > m_map_min_y )
+    if ( max > _map_min_y )
     {
-        m_map_max_y = max;
+        _map_max_y = max;
     }
 
-    m_map_top = m_map_max_y;
+    _map_top = _map_max_y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::setScale( double scale )
 {
-    m_scale = scale;
+    _scale = scale;
 
-    if ( m_scale > m_scale_max ) m_scale = m_scale_max;
-    if ( m_scale < m_scale_min ) m_scale = m_scale_min;
+    if ( _scale > _scale_max ) _scale = _scale_max;
+    if ( _scale < _scale_min ) _scale = _scale_min;
 
-    if ( m_scaleChangeCallback )
+    if ( _scaleChangeCallback )
     {
-        (*m_scaleChangeCallback)( m_scale );
+        (*_scaleChangeCallback)( _scale );
     }
 }
 
@@ -246,9 +246,9 @@ void ManipulatorMap::setScale( double scale )
 
 void ManipulatorMap::setScaleMin( double min )
 {
-    if ( min >= 0.0 && min < m_scale_max )
+    if ( min >= 0.0 && min < _scale_max )
     {
-        m_scale_min = min;
+        _scale_min = min;
     }
 }
 
@@ -256,9 +256,9 @@ void ManipulatorMap::setScaleMin( double min )
 
 void ManipulatorMap::setScaleMax( double max )
 {
-    if ( max >= 0.0 && max > m_scale_min )
+    if ( max >= 0.0 && max > _scale_min )
     {
-        m_scale_max = max;
+        _scale_max = max;
     }
 }
 
@@ -266,7 +266,7 @@ void ManipulatorMap::setScaleMax( double max )
 
 void ManipulatorMap::setAllowThrow( bool allowThrow )
 {
-    m_allowThrow = allowThrow;
+    _allowThrow = allowThrow;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -275,10 +275,10 @@ bool ManipulatorMap::handleFrame( const osgGA::GUIEventAdapter &ea, osgGA::GUIAc
 {
     double current_frame_time = ea.getTime();
 
-    m_delta_frame_time = current_frame_time - m_last_frame_time;
-    m_last_frame_time = current_frame_time;
+    _delta_frame_time = current_frame_time - _last_frame_time;
+    _last_frame_time = current_frame_time;
 
-    if ( m_thrown && performMovement() )
+    if ( _thrown && performMovement() )
     {
         us.requestRedraw();
     }
@@ -314,7 +314,7 @@ bool ManipulatorMap::handleMouseDrag( const osgGA::GUIEventAdapter &ea, osgGA::G
     if ( performMovement() ) us.requestRedraw();
 
     us.requestContinuousUpdate( false );
-    m_thrown = false;
+    _thrown = false;
 
     return true;
 }
@@ -330,7 +330,7 @@ bool ManipulatorMap::handleMousePush( const osgGA::GUIEventAdapter &ea, osgGA::G
     if ( performMovement() ) us.requestRedraw();
 
     us.requestContinuousUpdate( false );
-    m_thrown = false;
+    _thrown = false;
 
     return true;
 }
@@ -343,17 +343,17 @@ bool ManipulatorMap::handleMouseRelease( const osgGA::GUIEventAdapter &ea, osgGA
 
     if ( ea.getButtonMask() == 0 )
     {
-        double timeSinceLastRecordEvent = m_ga_t0.valid() ? ( ea.getTime() - m_ga_t0->getTime() ) : DBL_MAX;
+        double timeSinceLastRecordEvent = _ga_t0.valid() ? ( ea.getTime() - _ga_t0->getTime() ) : DBL_MAX;
 
         if( timeSinceLastRecordEvent > 0.02 ) flushMouseEventStack();
 
         if ( isMouseMoving() )
         {
-            if ( performMovement() && m_allowThrow )
+            if ( performMovement() && _allowThrow )
             {
                 us.requestRedraw();
                 us.requestContinuousUpdate( true );
-                m_thrown = true;
+                _thrown = true;
             }
 
             return true;
@@ -366,7 +366,7 @@ bool ManipulatorMap::handleMouseRelease( const osgGA::GUIEventAdapter &ea, osgGA
     if ( performMovement() ) us.requestRedraw();
 
     us.requestContinuousUpdate( false );
-    m_thrown = false;
+    _thrown = false;
 
     return true;
 }
@@ -382,12 +382,12 @@ bool ManipulatorMap::handleMouseWheel( const osgGA::GUIEventAdapter &ea, osgGA::
     switch ( sm )
     {
     case osgGA::GUIEventAdapter::SCROLL_UP:
-        zoomModel( -m_wheelZoomFactor );
+        zoomModel( -_wheelZoomFactor );
         us.requestRedraw();
         return true;
 
     case osgGA::GUIEventAdapter::SCROLL_DOWN:
-        zoomModel(  m_wheelZoomFactor );
+        zoomModel(  _wheelZoomFactor );
         us.requestRedraw();
         return true;
 
@@ -400,15 +400,15 @@ bool ManipulatorMap::handleMouseWheel( const osgGA::GUIEventAdapter &ea, osgGA::
 
 bool ManipulatorMap::performMovement()
 {
-    if ( m_ga_t0.valid() && m_ga_t1.valid() )
+    if ( _ga_t0.valid() && _ga_t1.valid() )
     {
         // get delta time
-        double delta_t = std::max( 0.0, m_ga_t0->getTime() - m_ga_t1->getTime() );
+        double delta_t = std::max( 0.0, _ga_t0->getTime() - _ga_t1->getTime() );
 
-        float dx = m_ga_t0->getXnormalized() - m_ga_t1->getXnormalized();
-        float dy = m_ga_t0->getYnormalized() - m_ga_t1->getYnormalized();
+        float dx = _ga_t0->getXnormalized() - _ga_t1->getXnormalized();
+        float dy = _ga_t0->getYnormalized() - _ga_t1->getYnormalized();
 
-        if ( m_ga_t1->getButtonMask() & osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON ) // due to contex menu issues
+        if ( _ga_t1->getButtonMask() & osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON ) // due to contex menu issues
         {
             return performMovementLeftMouseButton( delta_t, dx, dy );
         }
@@ -421,7 +421,7 @@ bool ManipulatorMap::performMovement()
 
 bool ManipulatorMap::performMovementLeftMouseButton( double delta_t, float dx, float dy )
 {
-    float scale = -0.5 * ( 0.5 * m_map_height * m_scale ) * getThrowScale( delta_t );;
+    float scale = -0.5 * ( 0.5 * _map_height * _scale ) * getThrowScale( delta_t );;
     panModel( dx*scale, dy*scale );
     return true;
 }
@@ -431,48 +431,48 @@ bool ManipulatorMap::performMovementLeftMouseButton( double delta_t, float dx, f
 void ManipulatorMap::panModel( float dx, float dy, float dz )
 {
     osg::Matrix rotation_matrix;
-    rotation_matrix.makeRotate( m_rotation );
+    rotation_matrix.makeRotate( _rotation );
 
     osg::Vec3d dv( dx, dy, dz );
 
-    m_center += dv * rotation_matrix;
+    _center += dv * rotation_matrix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::zoomModel( const float dy )
 {
-    setScale( m_scale * ( 1.0 + dy ) );
+    setScale( _scale * ( 1.0 + dy ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::addMouseEvent( const osgGA::GUIEventAdapter& ea )
 {
-    m_ga_t1 = m_ga_t0;
-    m_ga_t0 = &ea;
+    _ga_t1 = _ga_t0;
+    _ga_t0 = &ea;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ManipulatorMap::flushMouseEventStack()
 {
-    m_ga_t1 = 0;
-    m_ga_t0 = 0;
+    _ga_t1 = 0;
+    _ga_t0 = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 bool ManipulatorMap::isMouseMoving() const
 {
-    if ( m_ga_t0.valid() && m_ga_t1.valid() )
+    if ( _ga_t0.valid() && _ga_t1.valid() )
     {
         static const float velocity = 0.1f;
 
-        float dx = m_ga_t0->getXnormalized() - m_ga_t1->getXnormalized();
-        float dy = m_ga_t0->getYnormalized() - m_ga_t1->getYnormalized();
+        float dx = _ga_t0->getXnormalized() - _ga_t1->getXnormalized();
+        float dy = _ga_t0->getYnormalized() - _ga_t1->getYnormalized();
         float len = sqrt( dx*dx + dy*dy );
-        float dt = m_ga_t0->getTime() - m_ga_t1->getTime();
+        float dt = _ga_t0->getTime() - _ga_t1->getTime();
 
         return ( len > dt*velocity );
     }
@@ -484,14 +484,14 @@ bool ManipulatorMap::isMouseMoving() const
 
 float ManipulatorMap::getThrowScale( double delta_t ) const
 {
-    if ( m_thrown )
+    if ( _thrown )
     {
         if ( delta_t == 0.0 )
         {
             return 0.0f;
         }
 
-        return (float)( m_delta_frame_time / delta_t );
+        return (float)( _delta_frame_time / delta_t );
     }
 
     return 1.0f;
@@ -501,37 +501,37 @@ float ManipulatorMap::getThrowScale( double delta_t ) const
 
 void ManipulatorMap::updateCenterAndEdges( double w2h )
 {
-    double delta_y_2 = 0.5 * m_map_height * m_scale;
+    double delta_y_2 = 0.5 * _map_height * _scale;
     double delta_x_2 = delta_y_2 * w2h;
 
-    if ( m_center.x() - delta_x_2 < m_map_min_x )
+    if ( _center.x() - delta_x_2 < _map_min_x )
     {
-        m_thrown = false;
-        m_center.x() = m_map_min_x + delta_x_2;
+        _thrown = false;
+        _center.x() = _map_min_x + delta_x_2;
     }
 
-    if ( m_center.x() + delta_x_2 > m_map_max_x )
+    if ( _center.x() + delta_x_2 > _map_max_x )
     {
-        m_thrown = false;
-        m_center.x() = m_map_max_x - delta_x_2;
+        _thrown = false;
+        _center.x() = _map_max_x - delta_x_2;
     }
 
-    if ( m_center.y() - delta_y_2 < m_map_min_y )
+    if ( _center.y() - delta_y_2 < _map_min_y )
     {
-        m_thrown = false;
-        m_center.y() = m_map_min_y + delta_y_2;
+        _thrown = false;
+        _center.y() = _map_min_y + delta_y_2;
     }
 
-    if ( m_center.y() + delta_y_2 > m_map_max_y )
+    if ( _center.y() + delta_y_2 > _map_max_y )
     {
-        m_thrown = false;
-        m_center.y() = m_map_max_y - delta_y_2;
+        _thrown = false;
+        _center.y() = _map_max_y - delta_y_2;
     }
 
-    m_map_left   = m_center.x() - delta_x_2;
-    m_map_right  = m_center.x() + delta_x_2;
-    m_map_bottom = m_center.y() - delta_y_2;
-    m_map_top    = m_center.y() + delta_y_2;
+    _map_left   = _center.x() - delta_x_2;
+    _map_right  = _center.x() + delta_x_2;
+    _map_bottom = _center.y() - delta_y_2;
+    _map_top    = _center.y() + delta_y_2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -541,9 +541,9 @@ void ManipulatorMap::updateMousePosition( const osgGA::GUIEventAdapter &ea )
     double x_norm = std::max( 0.0f, std::min( 1.0f, ea.getX() / ea.getWindowWidth()  ) );
     double y_norm = std::max( 0.0f, std::min( 1.0f, ea.getY() / ea.getWindowHeight() ) );
 
-    double x_merc = ( m_map_right - m_map_left ) * x_norm + m_map_left;
-    double y_merc = ( m_map_top - m_map_bottom ) * y_norm + m_map_bottom;
+    double x_merc = ( _map_right - _map_left ) * x_norm + _map_left;
+    double y_merc = ( _map_top - _map_bottom ) * y_norm + _map_bottom;
 
-    m_mouse_lat = Mercator::lat( y_merc );
-    m_mouse_lon = Mercator::lon( x_merc );
+    _mouse_lat = Mercator::lat( y_merc );
+    _mouse_lon = Mercator::lon( x_merc );
 }

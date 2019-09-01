@@ -75,76 +75,76 @@ protected:
 
 private:
 
-    int m_timerId;
+    int _timerId;
 
-    QGraphicsScene *m_scene;            ///< graphics scene
+    QGraphicsScene *_scene;             ///< graphics scene
 
-    QGraphicsSvgItem *m_itemBack;       ///< NAV background
-    QGraphicsSvgItem *m_itemMask;       ///< NAV mask
-    QGraphicsSvgItem *m_itemMark;
+    QGraphicsSvgItem *_itemBack;        ///< NAV background
+    QGraphicsSvgItem *_itemMask;        ///< NAV mask
+    QGraphicsSvgItem *_itemMark;
 
-    QGraphicsSvgItem *m_itemBrgArrow;
-    QGraphicsSvgItem *m_itemCrsArrow;
-    QGraphicsSvgItem *m_itemDevBar;
-    QGraphicsSvgItem *m_itemDevScale;
-    QGraphicsSvgItem *m_itemHdgBug;
-    QGraphicsSvgItem *m_itemHdgScale;
+    QGraphicsSvgItem *_itemBrgArrow;    ///<
+    QGraphicsSvgItem *_itemCrsArrow;    ///<
+    QGraphicsSvgItem *_itemDevBar;      ///<
+    QGraphicsSvgItem *_itemDevScale;    ///<
+    QGraphicsSvgItem *_itemHdgBug;      ///<
+    QGraphicsSvgItem *_itemHdgScale;    ///<
 
-    QGraphicsTextItem *m_itemCrsText;
-    QGraphicsTextItem *m_itemHdgText;
-    QGraphicsTextItem *m_itemDmeText;
+    QGraphicsTextItem *_itemCrsText;    ///<
+    QGraphicsTextItem *_itemHdgText;    ///<
+    QGraphicsTextItem *_itemDmeText;    ///<
 
-    QColor m_crsTextColor;
-    QColor m_hdgTextColor;
-    QColor m_dmeTextColor;
+    QColor _crsTextColor;               ///<
+    QColor _hdgTextColor;               ///<
+    QColor _dmeTextColor;               ///<
 
-    QFont  m_crsTextFont;
-    QFont  m_hdgTextFont;
-    QFont  m_dmeTextFont;
+    QFont  _crsTextFont;                ///<
+    QFont  _hdgTextFont;                ///<
+    QFont  _dmeTextFont;                ///<
 
-    float m_heading;                    ///< [deg]
-    float m_headingBug;                 ///< [deg]
-    float m_course;
-    float m_bearing;
-    float m_deviation;
-    float m_distance;
+    float _heading;                     ///< [deg]
+    float _headingBug;                  ///< [deg]
+    float _course;                      ///<
+    float _bearing;                     ///<
+    float _deviation;                   ///<
+    float _distance;                    ///<
 
-    bool m_bearingVisible;
-    bool m_deviationVisible;
-    bool m_distanceVisible;
+    bool _bearingVisible;               ///<
+    bool _deviationVisible;             ///<
+    bool _distanceVisible;              ///<
 
-    float m_devBarDeltaX_new;
-    float m_devBarDeltaX_old;
-    float m_devBarDeltaY_new;
-    float m_devBarDeltaY_old;
+    float _devBarDeltaX_new;            ///<
+    float _devBarDeltaX_old;            ///<
+    float _devBarDeltaY_new;            ///<
+    float _devBarDeltaY_old;            ///<
 
-    float m_scaleX; ///<
-    float m_scaleY; ///<
+    float _scaleX;                      ///<
+    float _scaleY;                      ///<
 
-    float m_originalPixPerDev;
+    float _originalPixPerDev;           ///<
 
-    QPointF m_originalNavCtr;
+    QPointF _originalNavCtr;            ///<
 
-    QPointF m_originalCrsTextCtr;
-    QPointF m_originalHdgTextCtr;
-    QPointF m_originalDmeTextCtr;
+    QPointF _originalCrsTextCtr;        ///<
+    QPointF _originalHdgTextCtr;        ///<
+    QPointF _originalDmeTextCtr;        ///<
 
-    const int m_originalHeight;         ///< [px]
-    const int m_originalWidth;          ///< [px]
+    const int _originalHeight;          ///< [px]
+    const int _originalWidth;           ///< [px]
 
-    const int m_backZ;
-    const int m_maskZ;
-    const int m_markZ;
+    const int _backZ;                   ///<
+    const int _maskZ;                   ///<
+    const int _markZ;                   ///<
 
-    const int m_brgArrowZ;
-    const int m_crsArrowZ;
-    const int m_crsTextZ;
-    const int m_devBarZ;
-    const int m_devScaleZ;
-    const int m_hdgBugZ;
-    const int m_hdgScaleZ;
-    const int m_hdgTextZ;
-    const int m_dmeTextZ;
+    const int _brgArrowZ;               ///<
+    const int _crsArrowZ;               ///<
+    const int _crsTextZ;                ///<
+    const int _devBarZ;                 ///<
+    const int _devScaleZ;               ///<
+    const int _hdgBugZ;                 ///<
+    const int _hdgScaleZ;               ///<
+    const int _hdgTextZ;                ///<
+    const int _dmeTextZ;                ///<
 
     /** */
     void init();

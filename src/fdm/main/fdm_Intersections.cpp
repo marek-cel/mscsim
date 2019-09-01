@@ -56,8 +56,8 @@ void Intersections::update( double lat, double lon )
 
     if ( cgi::Intersections::instance()->findFirst( b, e, r, n ) )
     {
-        m_ground_wgs = Vector3( r.x(), r.y(), r.z() );
-        m_normal_wgs = Vector3( n.x(), n.y(), n.z() );
+        _ground_wgs = Vector3( r.x(), r.y(), r.z() );
+        _normal_wgs = Vector3( n.x(), n.y(), n.z() );
     }
 #   endif
 }
@@ -95,8 +95,8 @@ double Intersections::getElevation( double lat, double lon ) const
 int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
                                     Vector3 &r, Vector3 &n ) const
 {
-    double num = m_normal_wgs * ( m_ground_wgs - b );
-    double den = m_normal_wgs * ( e - b );
+    double num = _normal_wgs * ( _ground_wgs - b );
+    double den = _normal_wgs * ( e - b );
 
     double u = 0.0;
 
@@ -105,7 +105,7 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
     if ( 0.0 < u && u < 1.0 )
     {
         r = b + u * ( e - b );
-        n = m_normal_wgs;
+        n = _normal_wgs;
 
         return FDM_SUCCESS;
     }
@@ -117,8 +117,8 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
 
 bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e ) const
 {
-    double num = m_normal_wgs * ( m_ground_wgs - b );
-    double den = m_normal_wgs * ( e - b );
+    double num = _normal_wgs * ( _ground_wgs - b );
+    double den = _normal_wgs * ( e - b );
 
     double u = 0.0;
 

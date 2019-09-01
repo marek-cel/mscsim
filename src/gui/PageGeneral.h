@@ -53,22 +53,28 @@ public:
     void readData();
     void saveData();
 
-    inline const QColor& getHudColor() const { return m_hud_color; }
+    inline const QColor& getHudColor() const { return _hud_color; }
 
-    inline int getHudOpacity() const { return m_hud_opacity; }
+    inline int getHudOpacity() const { return _hud_opacity; }
 
-    inline bool getWidescreen() const { return m_widescreen; }
+    inline double getHudFactorAlt() const { return _hud_factor_alt; }
+    inline double getHudFactorVel() const { return _hud_factor_vel; }
+
+    inline bool getWidescreen() const { return _widescreen; }
 
 private:
 
-    Ui::PageGeneral *m_ui;      ///<
+    Ui::PageGeneral *_ui;       ///<
 
-    QColor m_hud_color;         ///<
-    QColor m_hud_color_temp;    ///<
+    QColor _hud_color;          ///<
+    QColor _hud_color_temp;     ///<
 
-    int m_hud_opacity;          ///< [%]
+    int _hud_opacity;           ///< [%]
 
-    bool m_widescreen;          ///< widescreen dock window layout
+    double _hud_factor_alt;     ///<
+    double _hud_factor_vel;     ///<
+
+    bool _widescreen;           ///< widescreen dock window layout
 
     void setFrameHudColor( const QColor &color );
 
@@ -78,6 +84,9 @@ private:
 private slots:
 
     void on_pushButtonHudColor_clicked();
+
+    void on_comboBoxHudAltitude_currentIndexChanged( int index );
+    void on_comboBoxHudVelocity_currentIndexChanged( int index );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

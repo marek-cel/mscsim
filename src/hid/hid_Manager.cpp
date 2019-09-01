@@ -33,11 +33,11 @@ using namespace hid;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Manager* Manager::m_instance = 0;
+Manager* Manager::_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string Manager::m_actionNames[] = {
+const std::string Manager::_actionNames[] = {
     "Trigger",
     "Roll (Axis)",
     "Roll: Bank Left",
@@ -96,7 +96,7 @@ const std::string Manager::m_actionNames[] = {
 #   error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #endif
 
-const std::string Manager::m_keysNames[] = {
+const std::string Manager::_keysNames[] = {
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
     "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
     "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
@@ -110,17 +110,17 @@ const std::string Manager::m_keysNames[] = {
 #   error 'HID_MAX_KEYS' has been changed! Check code following this line!
 #endif
 
-const double Manager::m_speedCtrl       = 1.0;
-const double Manager::m_speedTrim       = 0.1;
-const double Manager::m_speedBrakes     = 2.0;
-const double Manager::m_speedGear       = 0.25;
-const double Manager::m_speedFlaps      = 0.25;
-const double Manager::m_speedAirbrake   = 0.5;
-const double Manager::m_speedSpoilers   = 2.0;
-const double Manager::m_speedCollective = 0.5;
-const double Manager::m_speedThrottle   = 0.5;
-const double Manager::m_speedMixture    = 0.25;
-const double Manager::m_speedPropeller  = 0.25;
+const double Manager::_speedCtrl       = 1.0;
+const double Manager::_speedTrim       = 0.1;
+const double Manager::_speedBrakes     = 2.0;
+const double Manager::_speedGear       = 0.25;
+const double Manager::_speedFlaps      = 0.25;
+const double Manager::_speedAirbrake   = 0.5;
+const double Manager::_speedSpoilers   = 2.0;
+const double Manager::_speedCollective = 0.5;
+const double Manager::_speedThrottle   = 0.5;
+const double Manager::_speedMixture    = 0.25;
+const double Manager::_speedPropeller  = 0.25;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -200,12 +200,12 @@ Manager::Manager()
 {
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        m_assignments[ i ].type = Assignment::None;
+        _assignments[ i ].type = Assignment::None;
 
-        memset( &(m_assignments[ i ].data), 0, sizeof(Assignment::DeviceData) );
+        memset( &(_assignments[ i ].data), 0, sizeof(Assignment::DeviceData) );
     }
 
-    for ( int i = 0; i < HID_MAX_KEYS; i++ ) m_keysState[ i ] = false;
+    for ( int i = 0; i < HID_MAX_KEYS; i++ ) _keysState[ i ] = false;
 
     reset();
 }
@@ -225,55 +225,55 @@ void Manager::init()
 
 void Manager::reset( bool onGround )
 {
-    m_timeStep = 0.0;
+    _timeStep = 0.0;
 
-    m_trigger = 0;
+    _trigger = 0;
 
-    m_ctrlRoll  = 0.0;
-    m_ctrlPitch = 0.0;
-    m_ctrlYaw   = 0.0;
+    _ctrlRoll  = 0.0;
+    _ctrlPitch = 0.0;
+    _ctrlYaw   = 0.0;
 
-    m_trimRoll  = 0.0;
-    m_trimPitch = 0.0;
-    m_trimYaw   = 0.0;
+    _trimRoll  = 0.0;
+    _trimPitch = 0.0;
+    _trimYaw   = 0.0;
 
-    m_brakeLeft    = 0.0;
-    m_brakeRight   = 0.0;
-    m_parkingBrake = 0.0;
+    _brakeLeft    = 0.0;
+    _brakeRight   = 0.0;
+    _parkingBrake = 0.0;
 
-    m_landingGear = onGround ? 1.0 : 0.0;
+    _landingGear = onGround ? 1.0 : 0.0;
 
-    m_flaps    = 0.0;
-    m_airbrake = 0.0;
-    m_spoilers = 0.0;
+    _flaps    = 0.0;
+    _airbrake = 0.0;
+    _spoilers = 0.0;
 
-    m_collective = 0.0;
+    _collective = 0.0;
 
-    m_commonThrottle  = 0.0;
-    m_commonMixture   = 1.0;
-    m_commonPropeller = 1.0;
+    _commonThrottle  = 0.0;
+    _commonMixture   = 1.0;
+    _commonPropeller = 1.0;
 
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        m_throttle  [ i ] = 0.0;
-        m_mixture   [ i ] = 1.0;
-        m_propeller [ i ] = 1.0;
+        _throttle  [ i ] = 0.0;
+        _mixture   [ i ] = 1.0;
+        _propeller [ i ] = 1.0;
     }
 
-    m_prevLandingGearToggle  = false;
-    m_prevParkingBrakeToggle = false;
-    m_prevSpoilersToggle     = false;
+    _prevLandingGearToggle  = false;
+    _prevParkingBrakeToggle = false;
+    _prevSpoilersToggle     = false;
 
-    m_stateLandingGear  = onGround;
-    m_stateParkingBrake = false;
-    m_stateSpoilers     = false;
+    _stateLandingGear  = onGround;
+    _stateParkingBrake = false;
+    _stateSpoilers     = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::update( double timeStep )
 {
-    m_timeStep = timeStep;
+    _timeStep = timeStep;
 
     Joysticks::instance()->update();
 
@@ -285,7 +285,7 @@ void Manager::update( double timeStep )
 
 void Manager::setAssingment( Assignment::Action action, const Assignment &assignment )
 {
-    m_assignments[ action ] = assignment;
+    _assignments[ action ] = assignment;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +294,7 @@ void Manager::setKeysState( bool keysState[] )
 {
     for ( unsigned int i = 0; i < HID_MAX_KEYS; i++ )
     {
-        m_keysState[ i ] = keysState[ i ];
+        _keysState[ i ] = keysState[ i ];
     }
 }
 
@@ -327,20 +327,20 @@ void Manager::getRealValue( Assignment::Action decreaseAction,
                             double max,
                             bool autocenter )
 {
-    bool tempDecrease = getButtState( m_assignments[ decreaseAction ] );
-    bool tempIncrease = getButtState( m_assignments[ increaseAction ] );
+    bool tempDecrease = getButtState( _assignments[ decreaseAction ] );
+    bool tempIncrease = getButtState( _assignments[ increaseAction ] );
 
     if ( autocenter && !tempDecrease && !tempIncrease )
     {
-        double delta = speed * m_timeStep;
+        double delta = speed * _timeStep;
 
         if ( value > 0.0 ) value = ( value >  delta ) ? value - delta : 0.0;
         if ( value < 0.0 ) value = ( value < -delta ) ? value + delta : 0.0;
     }
     else
     {
-        if ( tempDecrease && value > min ) value = value - speed * m_timeStep;
-        if ( tempIncrease && value < max ) value = value + speed * m_timeStep;
+        if ( tempDecrease && value > min ) value = value - speed * _timeStep;
+        if ( tempIncrease && value < max ) value = value + speed * _timeStep;
     }
 
     if ( value < min ) value = min;
@@ -355,10 +355,10 @@ void Manager::getRealValue( Assignment::Action applyAction,
                             double min,
                             double max )
 {
-    bool tempApply = getButtState( m_assignments[ applyAction ] );
+    bool tempApply = getButtState( _assignments[ applyAction ] );
 
-    if ( !tempApply && value > min ) value = value - speed * m_timeStep;
-    if (  tempApply && value < max ) value = value + speed * m_timeStep;
+    if ( !tempApply && value > min ) value = value - speed * _timeStep;
+    if (  tempApply && value < max ) value = value + speed * _timeStep;
 
     if ( value < min ) value = min;
     if ( value > max ) value = max;
@@ -374,7 +374,7 @@ void Manager::getRealValue( Assignment::Action toggleAction,
                             double min,
                             double max )
 {
-    bool toggle = getButtState( m_assignments[ toggleAction ] );
+    bool toggle = getButtState( _assignments[ toggleAction ] );
 
     if ( toggle && !togglePrev )
     {
@@ -383,8 +383,8 @@ void Manager::getRealValue( Assignment::Action toggleAction,
 
     togglePrev = toggle;
 
-    if ( !state && value > min ) value  = value - speed * m_timeStep;
-    if (  state && value < max ) value  = value + speed * m_timeStep;
+    if ( !state && value > min ) value  = value - speed * _timeStep;
+    if (  state && value < max ) value  = value + speed * _timeStep;
 
     if      ( value < min ) value = min;
     else if ( value > max ) value = max;
@@ -422,7 +422,7 @@ bool Manager::getButtState( const Assignment &assignment )
     {
         if ( assignment.data.keyboard.keyId != -1 )
         {
-            state = m_keysState[ assignment.data.keyboard.keyId ];
+            state = _keysState[ assignment.data.keyboard.keyId ];
         }
     }
 
@@ -434,117 +434,117 @@ bool Manager::getButtState( const Assignment &assignment )
 void Manager::updateAxisActions()
 {
     // roll
-    if ( m_assignments[ Assignment::RollAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::RollAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::RollBankLeft,
                       Assignment::RollBankRight,
-                      m_ctrlRoll, m_speedCtrl, -1.0f, 1.0f, true );
+                      _ctrlRoll, _speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::RollAxis ], m_ctrlRoll );
+        getAxisValue( _assignments[ Assignment::RollAxis ], _ctrlRoll );
     }
 
     // pitch
-    if ( m_assignments[ Assignment::PitchAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::PitchAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::PitchNoseDown,
                       Assignment::PitchNoseUp,
-                      m_ctrlPitch, m_speedCtrl, -1.0f, 1.0f, true );
+                      _ctrlPitch, _speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::PitchAxis ], m_ctrlPitch );
+        getAxisValue( _assignments[ Assignment::PitchAxis ], _ctrlPitch );
     }
 
     // yaw
-    if ( m_assignments[ Assignment::YawAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::YawAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::YawTurnLeft,
                       Assignment::YawTurnRight,
-                      m_ctrlYaw, m_speedCtrl, -1.0f, 1.0f, true );
+                      _ctrlYaw, _speedCtrl, -1.0f, 1.0f, true );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::YawAxis ], m_ctrlYaw );
+        getAxisValue( _assignments[ Assignment::YawAxis ], _ctrlYaw );
     }
 
     // trim roll
-    if ( m_assignments[ Assignment::TrimRollAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::TrimRollAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::TrimRollBankLeft,
                       Assignment::TrimRollBankRight,
-                      m_trimRoll, m_speedTrim, -1.0f, 1.0f );
+                      _trimRoll, _speedTrim, -1.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::TrimRollAxis ], m_trimRoll );
+        getAxisValue( _assignments[ Assignment::TrimRollAxis ], _trimRoll );
     }
 
     // trim pitch
-    if ( m_assignments[ Assignment::TrimPitchAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::TrimPitchAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::TrimPitchNoseDown,
                       Assignment::TrimPitchNoseUp,
-                      m_trimPitch, m_speedTrim, -1.0f, 1.0f );
+                      _trimPitch, _speedTrim, -1.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::TrimPitchAxis ], m_trimPitch );
+        getAxisValue( _assignments[ Assignment::TrimPitchAxis ], _trimPitch );
     }
 
     // trim yaw
-    if ( m_assignments[ Assignment::TrimYawAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::TrimYawAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::TrimYawTurnLeft,
                       Assignment::TrimYawTurnRight,
-                      m_trimYaw, m_speedTrim, -1.0f, 1.0f );
+                      _trimYaw, _speedTrim, -1.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::TrimYawAxis ], m_trimYaw );
+        getAxisValue( _assignments[ Assignment::TrimYawAxis ], _trimYaw );
     }
 
     // trim reset
-    if ( getButtState( m_assignments[ Assignment::TrimReset ] ) )
+    if ( getButtState( _assignments[ Assignment::TrimReset ] ) )
     {
-        m_trimRoll  = 0.0f;
-        m_trimPitch = 0.0f;
-        m_trimYaw   = 0.0f;
+        _trimRoll  = 0.0f;
+        _trimPitch = 0.0f;
+        _trimYaw   = 0.0f;
     }
 
     // brake left
-    if ( m_assignments[ Assignment::BrakeLeftAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::BrakeLeftAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::BrakeLeftApply,
-                      m_brakeLeft, m_speedBrakes, 0.0f, 1.0f );
+                      _brakeLeft, _speedBrakes, 0.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::BrakeLeftAxis ], m_brakeLeft, 1 );
+        getAxisValue( _assignments[ Assignment::BrakeLeftAxis ], _brakeLeft, 1 );
     }
 
     // brake right
-    if ( m_assignments[ Assignment::BrakeRightAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::BrakeRightAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::BrakeRightApply,
-                      m_brakeRight, m_speedBrakes, 0.0f, 1.0f );
+                      _brakeRight, _speedBrakes, 0.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::BrakeRightAxis ], m_brakeRight, 1 );
+        getAxisValue( _assignments[ Assignment::BrakeRightAxis ], _brakeRight, 1 );
     }
 
     // collective
-    if ( m_assignments[ Assignment::CollectiveAxis ].type == Assignment::None )
+    if ( _assignments[ Assignment::CollectiveAxis ].type == Assignment::None )
     {
         getRealValue( Assignment::CollectiveDecreade,
                       Assignment::CollectiveIncrease,
-                      m_collective, m_speedCollective, 0.0f, 1.0f );
+                      _collective, _speedCollective, 0.0f, 1.0f );
     }
     else
     {
-        getAxisValue( m_assignments[ Assignment::CollectiveAxis ], m_collective, 1 );
+        getAxisValue( _assignments[ Assignment::CollectiveAxis ], _collective, 1 );
     }
 
 #   if ( FDM_MAX_ENGINES != 4 )
@@ -552,103 +552,103 @@ void Manager::updateAxisActions()
 #   endif
 
     // throttle
-    if ( m_assignments[ Assignment::ThrottleAxis1 ].type == Assignment::None
-      || m_assignments[ Assignment::ThrottleAxis2 ].type == Assignment::None
-      || m_assignments[ Assignment::ThrottleAxis3 ].type == Assignment::None
-      || m_assignments[ Assignment::ThrottleAxis4 ].type == Assignment::None )
+    if ( _assignments[ Assignment::ThrottleAxis1 ].type == Assignment::None
+      || _assignments[ Assignment::ThrottleAxis2 ].type == Assignment::None
+      || _assignments[ Assignment::ThrottleAxis3 ].type == Assignment::None
+      || _assignments[ Assignment::ThrottleAxis4 ].type == Assignment::None )
     {
         getRealValue( Assignment::ThrottleDecrease,
                       Assignment::ThrottleIncrease,
-                      m_commonThrottle, m_speedThrottle, 0.0, 1.0 );
+                      _commonThrottle, _speedThrottle, 0.0, 1.0 );
 
-        m_throttle[ 0 ] = m_commonThrottle;
-        m_throttle[ 1 ] = m_commonThrottle;
-        m_throttle[ 2 ] = m_commonThrottle;
-        m_throttle[ 3 ] = m_commonThrottle;
+        _throttle[ 0 ] = _commonThrottle;
+        _throttle[ 1 ] = _commonThrottle;
+        _throttle[ 2 ] = _commonThrottle;
+        _throttle[ 3 ] = _commonThrottle;
     }
 
-    getAxisValue( m_assignments[ Assignment::ThrottleAxis1 ], m_throttle[ 0 ], 1 );
-    getAxisValue( m_assignments[ Assignment::ThrottleAxis2 ], m_throttle[ 1 ], 1 );
-    getAxisValue( m_assignments[ Assignment::ThrottleAxis3 ], m_throttle[ 2 ], 1 );
-    getAxisValue( m_assignments[ Assignment::ThrottleAxis4 ], m_throttle[ 3 ], 1 );
+    getAxisValue( _assignments[ Assignment::ThrottleAxis1 ], _throttle[ 0 ], 1 );
+    getAxisValue( _assignments[ Assignment::ThrottleAxis2 ], _throttle[ 1 ], 1 );
+    getAxisValue( _assignments[ Assignment::ThrottleAxis3 ], _throttle[ 2 ], 1 );
+    getAxisValue( _assignments[ Assignment::ThrottleAxis4 ], _throttle[ 3 ], 1 );
 
     // mixture
-    if ( m_assignments[ Assignment::MixtureAxis1 ].type == Assignment::None
-      || m_assignments[ Assignment::MixtureAxis2 ].type == Assignment::None
-      || m_assignments[ Assignment::MixtureAxis3 ].type == Assignment::None
-      || m_assignments[ Assignment::MixtureAxis4 ].type == Assignment::None )
+    if ( _assignments[ Assignment::MixtureAxis1 ].type == Assignment::None
+      || _assignments[ Assignment::MixtureAxis2 ].type == Assignment::None
+      || _assignments[ Assignment::MixtureAxis3 ].type == Assignment::None
+      || _assignments[ Assignment::MixtureAxis4 ].type == Assignment::None )
     {
         getRealValue( Assignment::MixtureLean,
                       Assignment::MixtureRich,
-                      m_commonMixture, m_speedMixture, 0.0f, 1.0f );
+                      _commonMixture, _speedMixture, 0.0f, 1.0f );
 
-        m_mixture[ 0 ] = m_commonMixture;
-        m_mixture[ 1 ] = m_commonMixture;
-        m_mixture[ 2 ] = m_commonMixture;
-        m_mixture[ 3 ] = m_commonMixture;
+        _mixture[ 0 ] = _commonMixture;
+        _mixture[ 1 ] = _commonMixture;
+        _mixture[ 2 ] = _commonMixture;
+        _mixture[ 3 ] = _commonMixture;
     }
 
-    getAxisValue( m_assignments[ Assignment::MixtureAxis1 ], m_mixture[ 0 ], 1 );
-    getAxisValue( m_assignments[ Assignment::MixtureAxis2 ], m_mixture[ 1 ], 1 );
-    getAxisValue( m_assignments[ Assignment::MixtureAxis3 ], m_mixture[ 2 ], 1 );
-    getAxisValue( m_assignments[ Assignment::MixtureAxis4 ], m_mixture[ 3 ], 1 );
+    getAxisValue( _assignments[ Assignment::MixtureAxis1 ], _mixture[ 0 ], 1 );
+    getAxisValue( _assignments[ Assignment::MixtureAxis2 ], _mixture[ 1 ], 1 );
+    getAxisValue( _assignments[ Assignment::MixtureAxis3 ], _mixture[ 2 ], 1 );
+    getAxisValue( _assignments[ Assignment::MixtureAxis4 ], _mixture[ 3 ], 1 );
 
     // propeller
-    if ( m_assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
-      || m_assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
-      || m_assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
-      || m_assignments[ Assignment::PropellerAxis1 ].type == Assignment::None )
+    if ( _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
+      || _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
+      || _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
+      || _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None )
     {
         getRealValue( Assignment::PropellerDecrease,
                       Assignment::PropellerIncrease,
-                      m_commonPropeller, m_speedPropeller, 0.0f, 1.0f );
+                      _commonPropeller, _speedPropeller, 0.0f, 1.0f );
 
-        m_propeller[ 0 ] = m_commonPropeller;
-        m_propeller[ 1 ] = m_commonPropeller;
-        m_propeller[ 2 ] = m_commonPropeller;
-        m_propeller[ 3 ] = m_commonPropeller;
+        _propeller[ 0 ] = _commonPropeller;
+        _propeller[ 1 ] = _commonPropeller;
+        _propeller[ 2 ] = _commonPropeller;
+        _propeller[ 3 ] = _commonPropeller;
     }
 
-    getAxisValue( m_assignments[ Assignment::PropellerAxis1 ], m_propeller[ 0 ], 1 );
-    getAxisValue( m_assignments[ Assignment::PropellerAxis2 ], m_propeller[ 1 ], 1 );
-    getAxisValue( m_assignments[ Assignment::PropellerAxis3 ], m_propeller[ 2 ], 1 );
-    getAxisValue( m_assignments[ Assignment::PropellerAxis4 ], m_propeller[ 3 ], 1 );
+    getAxisValue( _assignments[ Assignment::PropellerAxis1 ], _propeller[ 0 ], 1 );
+    getAxisValue( _assignments[ Assignment::PropellerAxis2 ], _propeller[ 1 ], 1 );
+    getAxisValue( _assignments[ Assignment::PropellerAxis3 ], _propeller[ 2 ], 1 );
+    getAxisValue( _assignments[ Assignment::PropellerAxis4 ], _propeller[ 3 ], 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateMiscActions()
 {
-    m_trigger = getButtState( m_assignments[ Assignment::Trigger ] );
+    _trigger = getButtState( _assignments[ Assignment::Trigger ] );
 
     // parking brake
     getRealValue( Assignment::ParkingBrakeToggle,
-                  m_prevParkingBrakeToggle, m_stateParkingBrake,
-                  m_parkingBrake, m_speedBrakes, 0.0f, 1.0f );
+                  _prevParkingBrakeToggle, _stateParkingBrake,
+                  _parkingBrake, _speedBrakes, 0.0f, 1.0f );
 
-    if ( m_stateParkingBrake )
+    if ( _stateParkingBrake )
     {
-        if ( m_parkingBrake > m_brakeLeft  ) m_brakeLeft  = m_parkingBrake;
-        if ( m_parkingBrake > m_brakeRight ) m_brakeRight = m_parkingBrake;
+        if ( _parkingBrake > _brakeLeft  ) _brakeLeft  = _parkingBrake;
+        if ( _parkingBrake > _brakeRight ) _brakeRight = _parkingBrake;
     }
 
     // landing gear
     getRealValue( Assignment::LandingGearToggle,
-                  m_prevLandingGearToggle, m_stateLandingGear,
-                  m_landingGear, m_speedGear, 0.0f, 1.0f );
+                  _prevLandingGearToggle, _stateLandingGear,
+                  _landingGear, _speedGear, 0.0f, 1.0f );
 
     // flaps
     getRealValue( Assignment::FlapsRetract,
                   Assignment::FlapsExtend,
-                  m_flaps, m_speedFlaps, 0.0f, 1.0f );
+                  _flaps, _speedFlaps, 0.0f, 1.0f );
 
     // airbrake
     getRealValue( Assignment::AirbrakeRetract,
                   Assignment::AirbrakeExtend,
-                  m_airbrake, m_speedAirbrake, 0.0f, 1.0f );
+                  _airbrake, _speedAirbrake, 0.0f, 1.0f );
 
     // spoilers
     getRealValue( Assignment::SpoilersToggle,
-                  m_prevSpoilersToggle, m_stateSpoilers,
-                  m_spoilers, m_speedSpoilers, 0.0f, 1.0f );
+                  _prevSpoilersToggle, _stateSpoilers,
+                  _spoilers, _speedSpoilers, 0.0f, 1.0f );
 }

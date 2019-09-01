@@ -27,17 +27,17 @@
 
 DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
     QDockWidget ( parent ),
-    m_ui ( new Ui::DockWidgetAuto )
+    _ui ( new Ui::DockWidgetAuto )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DockWidgetAuto::~DockWidgetAuto()
 {
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

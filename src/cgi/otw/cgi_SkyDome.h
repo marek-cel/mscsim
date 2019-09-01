@@ -48,13 +48,13 @@ class SkyDome : public Module
 {
 public:
 
-    static const float m_sunRadius;         ///< [m] average angular diameter 0.54 deg
-    static const float m_moonRadius;        ///< [m] average angular diameter 0.53 deg
+    static const float _sunRadius;          ///< [m] average angular diameter 0.54 deg
+    static const float _moonRadius;         ///< [m] average angular diameter 0.53 deg
 
-    static const float m_offsetStars;
-    static const float m_offsetSunHalo;
-    static const float m_offsetSunFace;
-    static const float m_offsetMoon;
+    static const float _offsetStars;
+    static const float _offsetSunHalo;
+    static const float _offsetSunFace;
+    static const float _offsetMoon;
 
     /** Constructor. */
     SkyDome( Module *parent = 0 );
@@ -67,57 +67,57 @@ public:
 
 private:
 
-    Ephemeris m_ephemeris;
-    Ephemeris::DateTime m_dateTime;
+    Ephemeris _ephemeris;
+    Ephemeris::DateTime _dateTime;
 
-    osg::ref_ptr<osg::Switch> m_switch;
+    osg::ref_ptr<osg::Switch> _switch;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_position;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_attitude;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _position;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _attitude;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patSky;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patSun;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patMoon;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSky;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSun;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patMoon;
 
-    osg::ref_ptr<osg::Switch> m_switchStars;
+    osg::ref_ptr<osg::Switch> _switchStars;
 
-    osg::ref_ptr<osg::Geode> m_geodeSky;
-    osg::ref_ptr<osg::Geode> m_geodeSunFace;
-    osg::ref_ptr<osg::Geode> m_geodeSunHalo;
-    osg::ref_ptr<osg::Geode> m_geodeMoon;
+    osg::ref_ptr<osg::Geode> _geodeSky;
+    osg::ref_ptr<osg::Geode> _geodeSunFace;
+    osg::ref_ptr<osg::Geode> _geodeSunHalo;
+    osg::ref_ptr<osg::Geode> _geodeMoon;
 
-    osg::ref_ptr<osg::Material> m_materialSun;
+    osg::ref_ptr<osg::Material> _materialSun;
 
-    osg::ref_ptr<osg::LightSource> m_lightSourceSun;
-    osg::ref_ptr<osg::LightSource> m_lightSourceMoon;
-    osg::ref_ptr<osg::LightSource> m_lightSourceStars;
+    osg::ref_ptr<osg::LightSource> _lightSourceSun;
+    osg::ref_ptr<osg::LightSource> _lightSourceMoon;
+    osg::ref_ptr<osg::LightSource> _lightSourceStars;
 
-    osg::ref_ptr<osgSim::LightPointNode> m_stars;
+    osg::ref_ptr<osgSim::LightPointNode> _stars;
 
-    Textures::List m_texturesSky;   ///<
-    Textures::List m_texturesFog;   ///<
-    Textures::List m_texturesSun;   ///<
-    Textures::List m_texturesMoon;  ///<
-    Textures::List m_texturesStars; ///<
+    Textures::List _texturesSky;    ///<
+    Textures::List _texturesFog;    ///<
+    Textures::List _texturesSun;    ///<
+    Textures::List _texturesMoon;   ///<
+    Textures::List _texturesStars;  ///<
 
-    unsigned short m_textureSky;    ///<
-    unsigned short m_textureFog;    ///<
-    unsigned short m_textureSun;    ///<
-    unsigned short m_textureMoon;   ///<
+    unsigned short _textureSky;     ///<
+    unsigned short _textureFog;     ///<
+    unsigned short _textureSun;     ///<
+    unsigned short _textureMoon;    ///<
 
-    float m_skyScale;       ///< [-] sky dome scaling factor
+    float _skyScale;        ///< [-] sky dome scaling factor
 
-    float m_sunAlpha;       ///< [rad] Sun right ascension
-    float m_sunDelta;       ///< [rad] Sun declination
-    float m_sunElev;        ///< [rad] Sun elevation
-    float m_sunAzim;        ///< [rad] Sun azimuth
-    float m_moonAlpha;      ///< [rad] Moon right ascension
-    float m_moonDelta;      ///< [rad] Moon declination
-    float m_moonElev;       ///< [rad] Moon elevation
-    float m_moonAzim;       ///< [rad] Moon azimuth
+    float _sunAlpha;        ///< [rad] Sun right ascension
+    float _sunDelta;        ///< [rad] Sun declination
+    float _sunElev;         ///< [rad] Sun elevation
+    float _sunAzim;         ///< [rad] Sun azimuth
+    float _moonAlpha;       ///< [rad] Moon right ascension
+    float _moonDelta;       ///< [rad] Moon declination
+    float _moonElev;        ///< [rad] Moon elevation
+    float _moonAzim;        ///< [rad] Moon azimuth
 
-    float *m_starIntensity; ///<
-    int    m_starsCount;    ///<
+    float *_starIntensity;  ///<
+    int _starsCount;        ///<
 
     void createTextures();
 

@@ -39,9 +39,9 @@ class FDMEXPORT Vector3 : public Vector< 3 >
 {
 public:
 
-    static const Vector3 m_ux;
-    static const Vector3 m_uy;
-    static const Vector3 m_uz;
+    static const Vector3 _ux;
+    static const Vector3 _uy;
+    static const Vector3 _uz;
 
     /** Constructor. */
     Vector3();
@@ -61,12 +61,12 @@ public:
     /** Performs vector passive (alias) rotation. */
     Vector3 rotate( const Quaternion quat );
 
-    inline double  x() const { return m_x; }
-    inline double  y() const { return m_y; }
-    inline double  z() const { return m_z; }
-    inline double& x()       { return m_x; }
-    inline double& y()       { return m_y; }
-    inline double& z()       { return m_z; }
+    inline double  x() const { return _x; }
+    inline double  y() const { return _y; }
+    inline double  z() const { return _z; }
+    inline double& x()       { return _x; }
+    inline double& y()       { return _y; }
+    inline double& z()       { return _z; }
 
     /** Sets vector values. */
     void set( double x, double y, double z );
@@ -112,9 +112,9 @@ public:
 
 private:
 
-    double &m_x;    ///<
-    double &m_y;    ///<
-    double &m_z;    ///<
+    double &_x;     ///<
+    double &_y;     ///<
+    double &_z;     ///<
 };
 
 } // end of fdm namespace

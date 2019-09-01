@@ -37,79 +37,79 @@
 
 PageControls::PageControls( QWidget *parent ) :
     QWidget ( parent ),
-    m_ui ( new Ui::PageControls ),
+    _ui ( new Ui::PageControls ),
 
-    m_defaultAssignmentsInited ( false ),
-    m_comboDeviceInited ( false )
+    _defaultAssignmentsInited ( false ),
+    _comboDeviceInited ( false )
 {
-    m_actionNames[ hid::Assignment::Trigger             ] = "trigger";              // 0
-    m_actionNames[ hid::Assignment::RollAxis            ] = "roll_axis";            // 1
-    m_actionNames[ hid::Assignment::RollBankLeft        ] = "roll_bank_left";       // 2
-    m_actionNames[ hid::Assignment::RollBankRight       ] = "roll_bank_right";      // 3
-    m_actionNames[ hid::Assignment::PitchAxis           ] = "pitch_axis";           // 4
-    m_actionNames[ hid::Assignment::PitchNoseUp         ] = "pitch_nose_up";        // 5
-    m_actionNames[ hid::Assignment::PitchNoseDown       ] = "pitch_nose_down";      // 6
-    m_actionNames[ hid::Assignment::YawAxis             ] = "yaw_axis";             // 7
-    m_actionNames[ hid::Assignment::YawTurnLeft         ] = "yaw_turn_left";        // 8
-    m_actionNames[ hid::Assignment::YawTurnRight        ] = "yaw_turn_right";       // 9
-    m_actionNames[ hid::Assignment::TrimRollAxis        ] = "trim_roll_axis";       // 10
-    m_actionNames[ hid::Assignment::TrimRollBankLeft    ] = "trim_roll_bank_left";  // 11
-    m_actionNames[ hid::Assignment::TrimRollBankRight   ] = "trim_roll_bank_right"; // 12
-    m_actionNames[ hid::Assignment::TrimPitchAxis       ] = "trim_pitch_axis";      // 13
-    m_actionNames[ hid::Assignment::TrimPitchNoseUp     ] = "trim_pitch_nose_up";   // 14
-    m_actionNames[ hid::Assignment::TrimPitchNoseDown   ] = "trim_pitch_nose_down"; // 15
-    m_actionNames[ hid::Assignment::TrimYawAxis         ] = "trim_yaw_axis";        // 16
-    m_actionNames[ hid::Assignment::TrimYawTurnLeft     ] = "trim_yaw_turn_left";   // 17
-    m_actionNames[ hid::Assignment::TrimYawTurnRight    ] = "trim_yaw_turn_right";  // 18
-    m_actionNames[ hid::Assignment::TrimReset           ] = "trim_reset";           // 19
-    m_actionNames[ hid::Assignment::BrakeLeftAxis       ] = "brake_left_axis";      // 20
-    m_actionNames[ hid::Assignment::BrakeLeftApply      ] = "brake_left_apply";     // 21
-    m_actionNames[ hid::Assignment::BrakeRightAxis      ] = "brake_right_axis";     // 22
-    m_actionNames[ hid::Assignment::BrakeRightApply     ] = "brake_right_apply";    // 23
-    m_actionNames[ hid::Assignment::ParkingBrakeToggle  ] = "parking_brake_toggle"; // 24
-    m_actionNames[ hid::Assignment::LandingGearToggle   ] = "landing_gear_toggle";  // 25
-    m_actionNames[ hid::Assignment::FlapsExtend         ] = "flaps_extend";         // 26
-    m_actionNames[ hid::Assignment::FlapsRetract        ] = "flaps_retract";        // 27
-    m_actionNames[ hid::Assignment::AirbrakeExtend      ] = "airbrake_extend";      // 28
-    m_actionNames[ hid::Assignment::AirbrakeRetract     ] = "airbrake_retract";     // 29
-    m_actionNames[ hid::Assignment::SpoilersToggle      ] = "spoilers_toggle";      // 30
-    m_actionNames[ hid::Assignment::CollectiveAxis      ] = "collective_axis";      // 31
-    m_actionNames[ hid::Assignment::CollectiveIncrease  ] = "collective_increase";  // 32
-    m_actionNames[ hid::Assignment::CollectiveDecreade  ] = "collective_decrease";  // 33
-    m_actionNames[ hid::Assignment::ThrottleAxis1       ] = "throttle_axis_1";      // 34
-    m_actionNames[ hid::Assignment::ThrottleAxis2       ] = "throttle_axis_2";      // 35
-    m_actionNames[ hid::Assignment::ThrottleAxis3       ] = "throttle_axis_3";      // 36
-    m_actionNames[ hid::Assignment::ThrottleAxis4       ] = "throttle_axis_4";      // 37
-    m_actionNames[ hid::Assignment::ThrottleIncrease    ] = "throttle_increase";    // 38
-    m_actionNames[ hid::Assignment::ThrottleDecrease    ] = "throttle_decrease";    // 39
-    m_actionNames[ hid::Assignment::MixtureAxis1        ] = "mixture_axis_1";       // 40
-    m_actionNames[ hid::Assignment::MixtureAxis2        ] = "mixture_axis_2";       // 41
-    m_actionNames[ hid::Assignment::MixtureAxis3        ] = "mixture_axis_3";       // 42
-    m_actionNames[ hid::Assignment::MixtureAxis4        ] = "mixture_axis_4";       // 43
-    m_actionNames[ hid::Assignment::MixtureRich         ] = "mixture_rich";         // 44
-    m_actionNames[ hid::Assignment::MixtureLean         ] = "mixture_lean";         // 45
-    m_actionNames[ hid::Assignment::PropellerAxis1      ] = "propeller_axis_1";     // 46
-    m_actionNames[ hid::Assignment::PropellerAxis2      ] = "propeller_axis_2";     // 47
-    m_actionNames[ hid::Assignment::PropellerAxis3      ] = "propeller_axis_3";     // 48
-    m_actionNames[ hid::Assignment::PropellerAxis4      ] = "propeller_axis_4";     // 49
-    m_actionNames[ hid::Assignment::PropellerIncrease   ] = "propeller_increase";   // 50
-    m_actionNames[ hid::Assignment::PropellerDecrease   ] = "propeller_decrease";   // 51
+    _actionNames[ hid::Assignment::Trigger             ] = "trigger";              // 0
+    _actionNames[ hid::Assignment::RollAxis            ] = "roll_axis";            // 1
+    _actionNames[ hid::Assignment::RollBankLeft        ] = "roll_bank_left";       // 2
+    _actionNames[ hid::Assignment::RollBankRight       ] = "roll_bank_right";      // 3
+    _actionNames[ hid::Assignment::PitchAxis           ] = "pitch_axis";           // 4
+    _actionNames[ hid::Assignment::PitchNoseUp         ] = "pitch_nose_up";        // 5
+    _actionNames[ hid::Assignment::PitchNoseDown       ] = "pitch_nose_down";      // 6
+    _actionNames[ hid::Assignment::YawAxis             ] = "yaw_axis";             // 7
+    _actionNames[ hid::Assignment::YawTurnLeft         ] = "yaw_turn_left";        // 8
+    _actionNames[ hid::Assignment::YawTurnRight        ] = "yaw_turn_right";       // 9
+    _actionNames[ hid::Assignment::TrimRollAxis        ] = "trim_roll_axis";       // 10
+    _actionNames[ hid::Assignment::TrimRollBankLeft    ] = "trim_roll_bank_left";  // 11
+    _actionNames[ hid::Assignment::TrimRollBankRight   ] = "trim_roll_bank_right"; // 12
+    _actionNames[ hid::Assignment::TrimPitchAxis       ] = "trim_pitch_axis";      // 13
+    _actionNames[ hid::Assignment::TrimPitchNoseUp     ] = "trim_pitch_nose_up";   // 14
+    _actionNames[ hid::Assignment::TrimPitchNoseDown   ] = "trim_pitch_nose_down"; // 15
+    _actionNames[ hid::Assignment::TrimYawAxis         ] = "trim_yaw_axis";        // 16
+    _actionNames[ hid::Assignment::TrimYawTurnLeft     ] = "trim_yaw_turn_left";   // 17
+    _actionNames[ hid::Assignment::TrimYawTurnRight    ] = "trim_yaw_turn_right";  // 18
+    _actionNames[ hid::Assignment::TrimReset           ] = "trim_reset";           // 19
+    _actionNames[ hid::Assignment::BrakeLeftAxis       ] = "brake_left_axis";      // 20
+    _actionNames[ hid::Assignment::BrakeLeftApply      ] = "brake_left_apply";     // 21
+    _actionNames[ hid::Assignment::BrakeRightAxis      ] = "brake_right_axis";     // 22
+    _actionNames[ hid::Assignment::BrakeRightApply     ] = "brake_right_apply";    // 23
+    _actionNames[ hid::Assignment::ParkingBrakeToggle  ] = "parking_brake_toggle"; // 24
+    _actionNames[ hid::Assignment::LandingGearToggle   ] = "landing_gear_toggle";  // 25
+    _actionNames[ hid::Assignment::FlapsExtend         ] = "flaps_extend";         // 26
+    _actionNames[ hid::Assignment::FlapsRetract        ] = "flaps_retract";        // 27
+    _actionNames[ hid::Assignment::AirbrakeExtend      ] = "airbrake_extend";      // 28
+    _actionNames[ hid::Assignment::AirbrakeRetract     ] = "airbrake_retract";     // 29
+    _actionNames[ hid::Assignment::SpoilersToggle      ] = "spoilers_toggle";      // 30
+    _actionNames[ hid::Assignment::CollectiveAxis      ] = "collective_axis";      // 31
+    _actionNames[ hid::Assignment::CollectiveIncrease  ] = "collective_increase";  // 32
+    _actionNames[ hid::Assignment::CollectiveDecreade  ] = "collective_decrease";  // 33
+    _actionNames[ hid::Assignment::ThrottleAxis1       ] = "throttle_axis_1";      // 34
+    _actionNames[ hid::Assignment::ThrottleAxis2       ] = "throttle_axis_2";      // 35
+    _actionNames[ hid::Assignment::ThrottleAxis3       ] = "throttle_axis_3";      // 36
+    _actionNames[ hid::Assignment::ThrottleAxis4       ] = "throttle_axis_4";      // 37
+    _actionNames[ hid::Assignment::ThrottleIncrease    ] = "throttle_increase";    // 38
+    _actionNames[ hid::Assignment::ThrottleDecrease    ] = "throttle_decrease";    // 39
+    _actionNames[ hid::Assignment::MixtureAxis1        ] = "mixture_axis_1";       // 40
+    _actionNames[ hid::Assignment::MixtureAxis2        ] = "mixture_axis_2";       // 41
+    _actionNames[ hid::Assignment::MixtureAxis3        ] = "mixture_axis_3";       // 42
+    _actionNames[ hid::Assignment::MixtureAxis4        ] = "mixture_axis_4";       // 43
+    _actionNames[ hid::Assignment::MixtureRich         ] = "mixture_rich";         // 44
+    _actionNames[ hid::Assignment::MixtureLean         ] = "mixture_lean";         // 45
+    _actionNames[ hid::Assignment::PropellerAxis1      ] = "propeller_axis_1";     // 46
+    _actionNames[ hid::Assignment::PropellerAxis2      ] = "propeller_axis_2";     // 47
+    _actionNames[ hid::Assignment::PropellerAxis3      ] = "propeller_axis_3";     // 48
+    _actionNames[ hid::Assignment::PropellerAxis4      ] = "propeller_axis_4";     // 49
+    _actionNames[ hid::Assignment::PropellerIncrease   ] = "propeller_increase";   // 50
+    _actionNames[ hid::Assignment::PropellerDecrease   ] = "propeller_decrease";   // 51
 
 #   if ( HID_MAX_ACTIONS != 52 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #   endif
 
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
     for ( short i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        memset( &(m_assignments[ i ]), 0, sizeof(hid::Assignment) );
-        m_assignments[ i ].type = hid::Assignment::None;
+        memset( &(_assignments[ i ]), 0, sizeof(hid::Assignment) );
+        _assignments[ i ].type = hid::Assignment::None;
     }
 
     createTableControls();
 
-    if ( m_ui->tableControls->rowCount() != HID_MAX_ACTIONS )
+    if ( _ui->tableControls->rowCount() != HID_MAX_ACTIONS )
     {
         std::cerr << "ERROR! Wrong actions count: " << HID_MAX_ACTIONS << std::endl;
 
@@ -123,8 +123,8 @@ PageControls::PageControls( QWidget *parent ) :
 
 PageControls::~PageControls()
 {
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ void PageControls::getAssignments( hid::Assignment assignments[] )
 {
     for ( short i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        assignments[ i ] = m_assignments[ i ];
+        assignments[ i ] = _assignments[ i ];
     }
 }
 
@@ -141,7 +141,7 @@ void PageControls::getAssignments( hid::Assignment assignments[] )
 
 void PageControls::readData()
 {
-    if ( !m_comboDeviceInited )
+    if ( !_comboDeviceInited )
     {
         short joysCount = hid::Joysticks::instance()->getCount();
 
@@ -149,10 +149,10 @@ void PageControls::readData()
         {
             hid::Joysticks::Data joyData = hid::Joysticks::instance()->getData( i );
 
-            m_ui->comboDevice->addItem( QString( joyData.name.c_str() ) );
+            _ui->comboDevice->addItem( QString( joyData.name.c_str() ) );
         }
 
-        m_comboDeviceInited = true;
+        _comboDeviceInited = true;
     }
 
     assignmentsRead();
@@ -173,7 +173,7 @@ void PageControls::updateAssignments()
 {
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        hid::Manager::instance()->setAssingment( (hid::Assignment::Action)i, m_assignments[ i ] );
+        hid::Manager::instance()->setAssingment( (hid::Assignment::Action)i, _assignments[ i ] );
     }
 }
 
@@ -183,7 +183,7 @@ bool PageControls::isButtonAssignmentClearEnabled( int action )
 {
     if ( action >= 0 && action < HID_MAX_ACTIONS )
     {
-        if ( m_assignments[ action ].type == hid::Assignment::None )
+        if ( _assignments[ action ].type == hid::Assignment::None )
         {
             return false;
         }
@@ -231,32 +231,32 @@ void PageControls::changeAssignment( int action )
     {
         hid::Assignment newAssignment;
 
-        if ( m_ui->comboDevice->currentIndex() < 1 )
+        if ( _ui->comboDevice->currentIndex() < 1 )
         {
-            newAssignment = DialogAction::getKeyAssignment( this, m_assignments[ action ] );
+            newAssignment = DialogAction::getKeyAssignment( this, _assignments[ action ] );
         }
         else
         {
-            int joystickId = m_ui->comboDevice->currentIndex() - 1;
+            int joystickId = _ui->comboDevice->currentIndex() - 1;
 
             if ( hid::Manager::isAxis( (hid::Assignment::Action)action ) )
             {
-                newAssignment = DialogAction::getJoyAxisAssignment( this, m_assignments[ action ], joystickId );
+                newAssignment = DialogAction::getJoyAxisAssignment( this, _assignments[ action ], joystickId );
             }
             else
             {
-                newAssignment = DialogAction::getJoyButtAssignment( this, m_assignments[ action ], joystickId );
+                newAssignment = DialogAction::getJoyButtAssignment( this, _assignments[ action ], joystickId );
             }
         }
 
         if ( newAssignment.type != hid::Assignment::None )
         {
-            m_assignments[ action ] = newAssignment;
+            _assignments[ action ] = newAssignment;
         }
 
         updateTableControls();
 
-        setButtonsState( m_ui->tableControls->currentRow(), m_ui->comboDevice->currentIndex() );
+        setButtonsState( _ui->tableControls->currentRow(), _ui->comboDevice->currentIndex() );
     }
     else
     {
@@ -274,12 +274,12 @@ void PageControls::clearAssignment( int action )
 {
     if ( action >= 0 && action < HID_MAX_ACTIONS )
     {
-        memset( &(m_assignments[ action ]), 0, sizeof(hid::Assignment) );
+        memset( &(_assignments[ action ]), 0, sizeof(hid::Assignment) );
 
-        m_assignments[ action ].type = hid::Assignment::None;
+        _assignments[ action ].type = hid::Assignment::None;
 
         updateTableControls();
-        setButtonsState( m_ui->tableControls->currentRow(), m_ui->comboDevice->currentIndex() );
+        setButtonsState( _ui->tableControls->currentRow(), _ui->comboDevice->currentIndex() );
     }
     else
     {
@@ -295,19 +295,19 @@ void PageControls::clearAssignment( int action )
 
 void PageControls::createTableControls()
 {
-    if ( m_ui->tableControls->rowCount() < HID_MAX_ACTIONS )
+    if ( _ui->tableControls->rowCount() < HID_MAX_ACTIONS )
     {
-        m_ui->tableControls->setRowCount( HID_MAX_ACTIONS );
+        _ui->tableControls->setRowCount( HID_MAX_ACTIONS );
     }
 
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
         QTableWidgetItem *tableRowHeader = new QTableWidgetItem();
-        tableRowHeader->setText( hid::Manager::m_actionNames[ i ].c_str() );
-        m_ui->tableControls->setVerticalHeaderItem( i, tableRowHeader );
+        tableRowHeader->setText( hid::Manager::_actionNames[ i ].c_str() );
+        _ui->tableControls->setVerticalHeaderItem( i, tableRowHeader );
 
         QTableWidgetItem *tableItem = new QTableWidgetItem();
-        m_ui->tableControls->setItem( i, 0, tableItem );
+        _ui->tableControls->setItem( i, 0, tableItem );
     }
 }
 
@@ -321,15 +321,15 @@ void PageControls::updateTableControls()
 
         hid::Joysticks::Data joyData;
 
-        switch ( m_assignments[ i ].type )
+        switch ( _assignments[ i ].type )
         {
         case hid::Assignment::Keyboard:
             itemText += "Keyboard: ";
-            if ( m_assignments[ i ].data.keyboard.keyId >= 0
-              && m_assignments[ i ].data.keyboard.keyId < HID_MAX_KEYS )
+            if ( _assignments[ i ].data.keyboard.keyId >= 0
+              && _assignments[ i ].data.keyboard.keyId < HID_MAX_KEYS )
             {
                 itemText += "\"";
-                itemText += hid::Manager::m_keysNames[ m_assignments[ i ].data.keyboard.keyId ].c_str();
+                itemText += hid::Manager::_keysNames[ _assignments[ i ].data.keyboard.keyId ].c_str();
                 itemText += "\"";
             }
             else
@@ -339,30 +339,30 @@ void PageControls::updateTableControls()
             break;
 
         case hid::Assignment::Joystick:
-            joyData = hid::Joysticks::instance()->getData( m_assignments[ i ].data.joystick.joystickId );
+            joyData = hid::Joysticks::instance()->getData( _assignments[ i ].data.joystick.joystickId );
 
             itemText += joyData.name.c_str();
             itemText += ": ";
             if ( hid::Manager::isAxis( (hid::Assignment::Action)i ) )
             {
-                itemText += hid::Joysticks::m_axisNames[ m_assignments[ i ].data.joystick.axisId ].c_str();
-                if ( m_assignments[ i ].data.joystick.inverted ) itemText += " (Inverted)";
+                itemText += hid::Joysticks::_axisNames[ _assignments[ i ].data.joystick.axisId ].c_str();
+                if ( _assignments[ i ].data.joystick.inverted ) itemText += " (Inverted)";
             }
             else
             {
-                if ( m_assignments[ i ].data.joystick.buttonId >= 0
-                  && m_assignments[ i ].data.joystick.buttonId < joyData.buttCount )
+                if ( _assignments[ i ].data.joystick.buttonId >= 0
+                  && _assignments[ i ].data.joystick.buttonId < joyData.buttCount )
                 {
                     itemText += "Button ";
-                    itemText += QString::number( m_assignments[ i ].data.joystick.buttonId + 1 );
+                    itemText += QString::number( _assignments[ i ].data.joystick.buttonId + 1 );
                 }
-                else if ( m_assignments[ i ].data.joystick.povId >= 0
-                       && m_assignments[ i ].data.joystick.povId < joyData.povsCount )
+                else if ( _assignments[ i ].data.joystick.povId >= 0
+                       && _assignments[ i ].data.joystick.povId < joyData.povsCount )
                 {
                     itemText += "POV ";
-                    itemText += QString::number( m_assignments[ i ].data.joystick.povId + 1 );
+                    itemText += QString::number( _assignments[ i ].data.joystick.povId + 1 );
 
-                    switch ( m_assignments[ i ].data.joystick.direction )
+                    switch ( _assignments[ i ].data.joystick.direction )
                     {
                         case hid::Assignment::North: itemText += " - N";  break;
                         case hid::Assignment::East:  itemText += " - E";  break;
@@ -378,7 +378,7 @@ void PageControls::updateTableControls()
             break;
         }
 
-        m_ui->tableControls->item( i, 0 )->setText( itemText );
+        _ui->tableControls->item( i, 0 )->setText( itemText );
     }
 }
 
@@ -386,26 +386,26 @@ void PageControls::updateTableControls()
 
 void PageControls::setButtonsState( int action, int device )
 {
-    m_ui->buttonAssignmentClear->setEnabled( isButtonAssignmentClearEnabled( action ) );
-    m_ui->buttonAssignmentChange->setEnabled( isButtonAssignmentChangeEnabled( action, device ) );
+    _ui->buttonAssignmentClear->setEnabled( isButtonAssignmentClearEnabled( action ) );
+    _ui->buttonAssignmentChange->setEnabled( isButtonAssignmentChangeEnabled( action, device ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageControls::initDefaultAssignments()
 {
-    if ( !m_defaultAssignmentsInited )
+    if ( !_defaultAssignmentsInited )
     {
         QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
         settings.beginGroup( "page_controls" );
         {
-            m_defaultAssignmentsInited = settings.value( "default_assignments_inited", 0 ).toBool();
+            _defaultAssignmentsInited = settings.value( "default_assignments_inited", 0 ).toBool();
         }
         settings.endGroup(); // page_controls
     }
 
-    if ( !m_defaultAssignmentsInited )
+    if ( !_defaultAssignmentsInited )
     {
         QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
 
@@ -415,121 +415,121 @@ void PageControls::initDefaultAssignments()
         }
         settings.endGroup(); // page_controls
 
-        m_assignments[ hid::Assignment::Trigger ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::Trigger ].data.keyboard.keyId = hid::Assignment::KeySpace;
+        _assignments[ hid::Assignment::Trigger ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::Trigger ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
         int joysCount = hid::Joysticks::instance()->getCount();
 
         if ( joysCount > 0 )
         {
-            m_assignments[ hid::Assignment::RollAxis ].type = hid::Assignment::Joystick;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.joystickId = 0;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.axisId     = hid::Joysticks::AxisX;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.inverted   = false;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.buttonId   = -1;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.povId      = -1;
-            m_assignments[ hid::Assignment::RollAxis ].data.joystick.direction  = hid::Assignment::Centered;
+            _assignments[ hid::Assignment::RollAxis ].type = hid::Assignment::Joystick;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.joystickId = 0;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.axisId     = hid::Joysticks::AxisX;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.inverted   = false;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.buttonId   = -1;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.povId      = -1;
+            _assignments[ hid::Assignment::RollAxis ].data.joystick.direction  = hid::Assignment::Centered;
 
-            m_assignments[ hid::Assignment::PitchAxis ].type = hid::Assignment::Joystick;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.joystickId = 0;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.axisId     = hid::Joysticks::AxisY;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.inverted   = false;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.buttonId   = -1;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.povId      = -1;
-            m_assignments[ hid::Assignment::PitchAxis ].data.joystick.direction  = hid::Assignment::Centered;
+            _assignments[ hid::Assignment::PitchAxis ].type = hid::Assignment::Joystick;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.joystickId = 0;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.axisId     = hid::Joysticks::AxisY;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.inverted   = false;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.buttonId   = -1;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.povId      = -1;
+            _assignments[ hid::Assignment::PitchAxis ].data.joystick.direction  = hid::Assignment::Centered;
         }
         else
         {
-            m_assignments[ hid::Assignment::RollBankLeft ].type = hid::Assignment::Keyboard;
-            m_assignments[ hid::Assignment::RollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyLeft;
+            _assignments[ hid::Assignment::RollBankLeft ].type = hid::Assignment::Keyboard;
+            _assignments[ hid::Assignment::RollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyLeft;
 
-            m_assignments[ hid::Assignment::RollBankRight ].type = hid::Assignment::Keyboard;
-            m_assignments[ hid::Assignment::RollBankRight ].data.keyboard.keyId = hid::Assignment::KeyRight;
+            _assignments[ hid::Assignment::RollBankRight ].type = hid::Assignment::Keyboard;
+            _assignments[ hid::Assignment::RollBankRight ].data.keyboard.keyId = hid::Assignment::KeyRight;
 
-            m_assignments[ hid::Assignment::PitchNoseUp ].type = hid::Assignment::Keyboard;
-            m_assignments[ hid::Assignment::PitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyDown;
+            _assignments[ hid::Assignment::PitchNoseUp ].type = hid::Assignment::Keyboard;
+            _assignments[ hid::Assignment::PitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyDown;
 
-            m_assignments[ hid::Assignment::PitchNoseDown ].type = hid::Assignment::Keyboard;
-            m_assignments[ hid::Assignment::PitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyUp;
+            _assignments[ hid::Assignment::PitchNoseDown ].type = hid::Assignment::Keyboard;
+            _assignments[ hid::Assignment::PitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyUp;
         }
 
-        m_assignments[ hid::Assignment::YawTurnLeft ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::YawTurnLeft ].data.keyboard.keyId = hid::Assignment::KeyComma;
+        _assignments[ hid::Assignment::YawTurnLeft ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::YawTurnLeft ].data.keyboard.keyId = hid::Assignment::KeyComma;
 
-        m_assignments[ hid::Assignment::YawTurnRight ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::YawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPeriod;
+        _assignments[ hid::Assignment::YawTurnRight ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::YawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPeriod;
 
-        m_assignments[ hid::Assignment::TrimRollBankLeft ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimRollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyInsert;
+        _assignments[ hid::Assignment::TrimRollBankLeft ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimRollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyInsert;
 
-        m_assignments[ hid::Assignment::TrimRollBankRight ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimRollBankRight ].data.keyboard.keyId = hid::Assignment::KeyPageUp;
+        _assignments[ hid::Assignment::TrimRollBankRight ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimRollBankRight ].data.keyboard.keyId = hid::Assignment::KeyPageUp;
 
-        m_assignments[ hid::Assignment::TrimPitchNoseUp ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimPitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyEnd;
+        _assignments[ hid::Assignment::TrimPitchNoseUp ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimPitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyEnd;
 
-        m_assignments[ hid::Assignment::TrimPitchNoseDown ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimPitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyHome;
+        _assignments[ hid::Assignment::TrimPitchNoseDown ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimPitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyHome;
 
-        m_assignments[ hid::Assignment::TrimYawTurnLeft ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimYawTurnLeft ].data.keyboard.keyId = hid::Assignment::KeyDelete;
+        _assignments[ hid::Assignment::TrimYawTurnLeft ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimYawTurnLeft ].data.keyboard.keyId = hid::Assignment::KeyDelete;
 
-        m_assignments[ hid::Assignment::TrimYawTurnRight ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimYawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPageDown;
+        _assignments[ hid::Assignment::TrimYawTurnRight ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimYawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPageDown;
 
-        m_assignments[ hid::Assignment::TrimReset ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::TrimReset ].data.keyboard.keyId = hid::Assignment::KeyT;
+        _assignments[ hid::Assignment::TrimReset ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::TrimReset ].data.keyboard.keyId = hid::Assignment::KeyT;
 
-        m_assignments[ hid::Assignment::BrakeLeftApply ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::BrakeLeftApply ].data.keyboard.keyId = hid::Assignment::KeyB;
+        _assignments[ hid::Assignment::BrakeLeftApply ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::BrakeLeftApply ].data.keyboard.keyId = hid::Assignment::KeyB;
 
-        m_assignments[ hid::Assignment::BrakeRightApply ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::BrakeRightApply ].data.keyboard.keyId = hid::Assignment::KeyB;
+        _assignments[ hid::Assignment::BrakeRightApply ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::BrakeRightApply ].data.keyboard.keyId = hid::Assignment::KeyB;
 
-        m_assignments[ hid::Assignment::ParkingBrakeToggle ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::ParkingBrakeToggle ].data.keyboard.keyId = hid::Assignment::KeyP;
+        _assignments[ hid::Assignment::ParkingBrakeToggle ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::ParkingBrakeToggle ].data.keyboard.keyId = hid::Assignment::KeyP;
 
-        m_assignments[ hid::Assignment::LandingGearToggle ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::LandingGearToggle ].data.keyboard.keyId = hid::Assignment::KeyG;
+        _assignments[ hid::Assignment::LandingGearToggle ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::LandingGearToggle ].data.keyboard.keyId = hid::Assignment::KeyG;
 
-        m_assignments[ hid::Assignment::FlapsExtend ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::FlapsExtend ].data.keyboard.keyId = hid::Assignment::KeyV;
+        _assignments[ hid::Assignment::FlapsExtend ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::FlapsExtend ].data.keyboard.keyId = hid::Assignment::KeyV;
 
-        m_assignments[ hid::Assignment::FlapsRetract ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::FlapsRetract ].data.keyboard.keyId = hid::Assignment::KeyF;
+        _assignments[ hid::Assignment::FlapsRetract ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::FlapsRetract ].data.keyboard.keyId = hid::Assignment::KeyF;
 
-        m_assignments[ hid::Assignment::AirbrakeExtend ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::AirbrakeExtend ].data.keyboard.keyId = hid::Assignment::KeyA;
+        _assignments[ hid::Assignment::AirbrakeExtend ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::AirbrakeExtend ].data.keyboard.keyId = hid::Assignment::KeyA;
 
-        m_assignments[ hid::Assignment::AirbrakeRetract ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::AirbrakeRetract ].data.keyboard.keyId = hid::Assignment::KeyZ;
+        _assignments[ hid::Assignment::AirbrakeRetract ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::AirbrakeRetract ].data.keyboard.keyId = hid::Assignment::KeyZ;
 
-        m_assignments[ hid::Assignment::SpoilersToggle ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::SpoilersToggle ].data.keyboard.keyId = hid::Assignment::KeyS;
+        _assignments[ hid::Assignment::SpoilersToggle ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::SpoilersToggle ].data.keyboard.keyId = hid::Assignment::KeyS;
 
-        m_assignments[ hid::Assignment::CollectiveIncrease ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::CollectiveIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
+        _assignments[ hid::Assignment::CollectiveIncrease ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::CollectiveIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
 
-        m_assignments[ hid::Assignment::CollectiveDecreade ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::CollectiveDecreade ].data.keyboard.keyId = hid::Assignment::KeyMinus;
+        _assignments[ hid::Assignment::CollectiveDecreade ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::CollectiveDecreade ].data.keyboard.keyId = hid::Assignment::KeyMinus;
 
-        m_assignments[ hid::Assignment::ThrottleIncrease ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::ThrottleIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
+        _assignments[ hid::Assignment::ThrottleIncrease ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::ThrottleIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
 
-        m_assignments[ hid::Assignment::ThrottleDecrease ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::ThrottleDecrease ].data.keyboard.keyId = hid::Assignment::KeyMinus;
+        _assignments[ hid::Assignment::ThrottleDecrease ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::ThrottleDecrease ].data.keyboard.keyId = hid::Assignment::KeyMinus;
 
-        m_assignments[ hid::Assignment::MixtureRich ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::MixtureRich ].data.keyboard.keyId = hid::Assignment::KeyRightBracket;
+        _assignments[ hid::Assignment::MixtureRich ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::MixtureRich ].data.keyboard.keyId = hid::Assignment::KeyRightBracket;
 
-        m_assignments[ hid::Assignment::MixtureLean ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::MixtureLean ].data.keyboard.keyId = hid::Assignment::KeyLeftBracket;
+        _assignments[ hid::Assignment::MixtureLean ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::MixtureLean ].data.keyboard.keyId = hid::Assignment::KeyLeftBracket;
 
-        m_assignments[ hid::Assignment::PropellerIncrease ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::PropellerIncrease ].data.keyboard.keyId = hid::Assignment::KeyQuote;
+        _assignments[ hid::Assignment::PropellerIncrease ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::PropellerIncrease ].data.keyboard.keyId = hid::Assignment::KeyQuote;
 
-        m_assignments[ hid::Assignment::PropellerDecrease ].type = hid::Assignment::Keyboard;
-        m_assignments[ hid::Assignment::PropellerDecrease ].data.keyboard.keyId = hid::Assignment::KeySemicolon;
+        _assignments[ hid::Assignment::PropellerDecrease ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::PropellerDecrease ].data.keyboard.keyId = hid::Assignment::KeySemicolon;
 
 #       if ( HID_MAX_ACTIONS != 52 )
 #           error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
@@ -538,7 +538,7 @@ void PageControls::initDefaultAssignments()
         assignmentsSave();
     }
 
-    m_defaultAssignmentsInited = true;
+    _defaultAssignmentsInited = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -549,7 +549,7 @@ void PageControls::assignmentsRead()
 
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        assignmentRead( m_assignments[ i ], (hid::Assignment::Action)i );
+        assignmentRead( _assignments[ i ], (hid::Assignment::Action)i );
     }
 }
 
@@ -559,7 +559,7 @@ void PageControls::assignmentsSave()
 {
     for ( int i = 0; i < HID_MAX_ACTIONS; i++ )
     {
-        assignmentSave( m_assignments[ i ], (hid::Assignment::Action)i );
+        assignmentSave( _assignments[ i ], (hid::Assignment::Action)i );
     }
 }
 
@@ -573,7 +573,7 @@ void PageControls::assignmentRead( hid::Assignment &assignment, hid::Assignment:
     {
         settings.beginGroup( "controls" );
         {
-            settings.beginGroup( m_actionNames[ action ].c_str() );
+            settings.beginGroup( _actionNames[ action ].c_str() );
             {
                 int joysCount = hid::Joysticks::instance()->getCount();
 
@@ -644,7 +644,7 @@ void PageControls::assignmentSave( hid::Assignment &assignment, hid::Assignment:
     {
         settings.beginGroup( "controls" );
         {
-            settings.beginGroup( m_actionNames[ action ].c_str() );
+            settings.beginGroup( _actionNames[ action ].c_str() );
             {
                 switch ( assignment.type )
                 {
@@ -687,28 +687,28 @@ void PageControls::assignmentSave( hid::Assignment &assignment, hid::Assignment:
 
 void PageControls::on_buttonAssignmentClear_clicked()
 {
-    clearAssignment( m_ui->tableControls->currentRow() );
+    clearAssignment( _ui->tableControls->currentRow() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageControls::on_buttonAssignmentChange_clicked()
 {
-    changeAssignment( m_ui->tableControls->currentRow() );
+    changeAssignment( _ui->tableControls->currentRow() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageControls::on_comboDevice_currentIndexChanged( int index )
 {
-    setButtonsState( m_ui->tableControls->currentRow(), index );
+    setButtonsState( _ui->tableControls->currentRow(), index );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageControls::on_tableControls_cellDoubleClicked( int row, int )
 {
-    if ( isButtonAssignmentChangeEnabled( row, m_ui->comboDevice->currentIndex() ) )
+    if ( isButtonAssignmentChangeEnabled( row, _ui->comboDevice->currentIndex() ) )
     {
         changeAssignment( row );
     }
@@ -718,5 +718,5 @@ void PageControls::on_tableControls_cellDoubleClicked( int row, int )
 
 void PageControls::on_tableControls_currentCellChanged( int row, int, int, int )
 {
-    setButtonsState( row, m_ui->comboDevice->currentIndex() );
+    setButtonsState( row, _ui->comboDevice->currentIndex() );
 }

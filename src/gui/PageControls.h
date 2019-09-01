@@ -64,14 +64,14 @@ public:
 
 private:
 
-    Ui::PageControls *m_ui;
+    Ui::PageControls *_ui;
 
-    bool m_defaultAssignmentsInited;
+    bool _defaultAssignmentsInited;
 
-    bool m_comboDeviceInited;
+    bool _comboDeviceInited;
 
-    std::string     m_actionNames[ HID_MAX_ACTIONS ];
-    hid::Assignment m_assignments[ HID_MAX_ACTIONS ];
+    std::string     _actionNames[ HID_MAX_ACTIONS ];
+    hid::Assignment _assignments[ HID_MAX_ACTIONS ];
 
     bool isButtonAssignmentClearEnabled( int action );
     bool isButtonAssignmentChangeEnabled( int action, int device );

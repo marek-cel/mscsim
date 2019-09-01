@@ -59,25 +59,25 @@ public:
     /** Updates output data. */
     void updateOutputData();
 
-    inline P51_Aerodynamics* getAero() { return m_aero; }
-    inline P51_Controls*     getCtrl() { return m_ctrl; }
-    inline P51_LandingGear*  getGear() { return m_gear; }
-    inline P51_Mass*         getMass() { return m_mass; }
-    inline P51_Propulsion*   getProp() { return m_prop; }
+    inline P51_Aerodynamics* getAero() { return _aero; }
+    inline P51_Controls*     getCtrl() { return _ctrl; }
+    inline P51_LandingGear*  getGear() { return _gear; }
+    inline P51_Mass*         getMass() { return _mass; }
+    inline P51_Propulsion*   getProp() { return _prop; }
 
-    inline const P51_Aerodynamics* getAero() const { return m_aero; }
-    inline const P51_Controls*     getCtrl() const { return m_ctrl; }
-    inline const P51_LandingGear*  getGear() const { return m_gear; }
-    inline const P51_Mass*         getMass() const { return m_mass; }
-    inline const P51_Propulsion*   getProp() const { return m_prop; }
+    inline const P51_Aerodynamics* getAero() const { return _aero; }
+    inline const P51_Controls*     getCtrl() const { return _ctrl; }
+    inline const P51_LandingGear*  getGear() const { return _gear; }
+    inline const P51_Mass*         getMass() const { return _mass; }
+    inline const P51_Propulsion*   getProp() const { return _prop; }
 
 private:
 
-    P51_Aerodynamics *m_aero;   ///< aerodynamics model
-    P51_Controls     *m_ctrl;   ///< controls model
-    P51_LandingGear  *m_gear;   ///< landing gear model
-    P51_Mass         *m_mass;   ///< mass and inertia model
-    P51_Propulsion   *m_prop;   ///< propulsion model
+    P51_Aerodynamics *_aero;    ///< aerodynamics model
+    P51_Controls     *_ctrl;    ///< controls model
+    P51_LandingGear  *_gear;    ///< landing gear model
+    P51_Mass         *_mass;    ///< mass and inertia model
+    P51_Propulsion   *_prop;    ///< propulsion model
 };
 
 } // end of fdm namespace

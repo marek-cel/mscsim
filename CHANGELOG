@@ -1,3 +1,27 @@
+2019-09-01 Marek M. Cel <marekcel@marekcel.pl>
+
+    * member variables starts with underscore
+    
+    * F-16 Engine
+    
+    * UH-60 rotors and stabilizers
+    
+    * HUD velocity and altitude units setup
+    
+    * data file paths fix
+    
+    * landing gear tuning
+    
+    * convertin declination and right ascending into elevation and azimuth fix
+
+
+
+2019-08-25 Marek M. Cel <marekcel@marekcel.pl>
+
+    * nonlinear landing gear spring model
+
+
+
 2019-08-11 Marek M. Cel <marekcel@marekcel.pl>
     
     * P-51 Mustang CFD model

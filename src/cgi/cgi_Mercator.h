@@ -36,8 +36,8 @@ class Mercator
 {
 public:
 
-    static const double max_x;  ///< [m] maximum Mercator x-coordinate for longitude 180 deg
-    static const double max_y;  ///< [m] maximum Mercator y-coordinate for latitude 85 deg
+    static const double _max_x;     ///< [m] maximum Mercator x-coordinate for longitude 180 deg
+    static const double _max_y;     ///< [m] maximum Mercator y-coordinate for latitude 85 deg
 
     /**
      * @brief Computes geodetic latitude.

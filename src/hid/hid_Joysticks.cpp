@@ -34,72 +34,72 @@ using namespace hid;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Joysticks* Joysticks::m_instance = 0;
+Joysticks* Joysticks::_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef HID_LINUX_JOYSTICK
-const std::string Joysticks::m_axisNames[] = { "X", "Y", "Z",
-                                               "RX", "RY", "RZ",
-                                               "Throttle",
-                                               "Rudder",
-                                               "Wheel",
-                                               "Gas",
-                                               "Brake",
-                                               "Hat0X", "Hat0Y",
-                                               "Hat1X", "Hat1Y",
-                                               "Hat2X", "Hat2Y",
-                                               "Hat3X", "Hat3Y",
-                                               "Pressure",
-                                               "Distance",
-                                               "Tilt X", "Tilt Y",
-                                               "Tool Width"
-                                             };
+const std::string Joysticks::_axisNames[] = { "X", "Y", "Z",
+                                              "RX", "RY", "RZ",
+                                              "Throttle",
+                                              "Rudder",
+                                              "Wheel",
+                                              "Gas",
+                                              "Brake",
+                                              "Hat0X", "Hat0Y",
+                                              "Hat1X", "Hat1Y",
+                                              "Hat2X", "Hat2Y",
+                                              "Hat3X", "Hat3Y",
+                                              "Pressure",
+                                              "Distance",
+                                              "Tilt X", "Tilt Y",
+                                              "Tool Width"
+                                            };
 #endif
 
 #ifdef HID_WINMM_JOYSTICK
-const std::string Joysticks::m_axisNames[] = { "X", "Y", "Z",
-                                               "R", "U", "V" };
+const std::string Joysticks::_axisNames[] = { "X", "Y", "Z",
+                                              "R", "U", "V" };
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Joysticks::Joysticks() :
-    m_count ( 0 )
+    _count ( 0 )
 {
 #   ifdef HID_WINMM_JOYSTICK
-    m_buttons[  0 ] = JOY_BUTTON1;
-    m_buttons[  1 ] = JOY_BUTTON2;
-    m_buttons[  2 ] = JOY_BUTTON3;
-    m_buttons[  3 ] = JOY_BUTTON4;
-    m_buttons[  4 ] = JOY_BUTTON5;
-    m_buttons[  5 ] = JOY_BUTTON6;
-    m_buttons[  6 ] = JOY_BUTTON7;
-    m_buttons[  7 ] = JOY_BUTTON8;
-    m_buttons[  8 ] = JOY_BUTTON9;
-    m_buttons[  9 ] = JOY_BUTTON10;
-    m_buttons[ 10 ] = JOY_BUTTON11;
-    m_buttons[ 11 ] = JOY_BUTTON12;
-    m_buttons[ 12 ] = JOY_BUTTON13;
-    m_buttons[ 13 ] = JOY_BUTTON14;
-    m_buttons[ 14 ] = JOY_BUTTON15;
-    m_buttons[ 15 ] = JOY_BUTTON16;
-    m_buttons[ 16 ] = JOY_BUTTON17;
-    m_buttons[ 17 ] = JOY_BUTTON18;
-    m_buttons[ 18 ] = JOY_BUTTON19;
-    m_buttons[ 19 ] = JOY_BUTTON20;
-    m_buttons[ 20 ] = JOY_BUTTON21;
-    m_buttons[ 21 ] = JOY_BUTTON22;
-    m_buttons[ 22 ] = JOY_BUTTON23;
-    m_buttons[ 23 ] = JOY_BUTTON24;
-    m_buttons[ 24 ] = JOY_BUTTON25;
-    m_buttons[ 25 ] = JOY_BUTTON26;
-    m_buttons[ 26 ] = JOY_BUTTON27;
-    m_buttons[ 27 ] = JOY_BUTTON28;
-    m_buttons[ 28 ] = JOY_BUTTON29;
-    m_buttons[ 29 ] = JOY_BUTTON30;
-    m_buttons[ 30 ] = JOY_BUTTON31;
-    m_buttons[ 31 ] = JOY_BUTTON32;
+    _buttons[  0 ] = JOY_BUTTON1;
+    _buttons[  1 ] = JOY_BUTTON2;
+    _buttons[  2 ] = JOY_BUTTON3;
+    _buttons[  3 ] = JOY_BUTTON4;
+    _buttons[  4 ] = JOY_BUTTON5;
+    _buttons[  5 ] = JOY_BUTTON6;
+    _buttons[  6 ] = JOY_BUTTON7;
+    _buttons[  7 ] = JOY_BUTTON8;
+    _buttons[  8 ] = JOY_BUTTON9;
+    _buttons[  9 ] = JOY_BUTTON10;
+    _buttons[ 10 ] = JOY_BUTTON11;
+    _buttons[ 11 ] = JOY_BUTTON12;
+    _buttons[ 12 ] = JOY_BUTTON13;
+    _buttons[ 13 ] = JOY_BUTTON14;
+    _buttons[ 14 ] = JOY_BUTTON15;
+    _buttons[ 15 ] = JOY_BUTTON16;
+    _buttons[ 16 ] = JOY_BUTTON17;
+    _buttons[ 17 ] = JOY_BUTTON18;
+    _buttons[ 18 ] = JOY_BUTTON19;
+    _buttons[ 19 ] = JOY_BUTTON20;
+    _buttons[ 20 ] = JOY_BUTTON21;
+    _buttons[ 21 ] = JOY_BUTTON22;
+    _buttons[ 22 ] = JOY_BUTTON23;
+    _buttons[ 23 ] = JOY_BUTTON24;
+    _buttons[ 24 ] = JOY_BUTTON25;
+    _buttons[ 25 ] = JOY_BUTTON26;
+    _buttons[ 26 ] = JOY_BUTTON27;
+    _buttons[ 27 ] = JOY_BUTTON28;
+    _buttons[ 28 ] = JOY_BUTTON29;
+    _buttons[ 29 ] = JOY_BUTTON30;
+    _buttons[ 30 ] = JOY_BUTTON31;
+    _buttons[ 31 ] = JOY_BUTTON32;
 
 #       if ( HID_MAX_BUTT != 32 )
 #           error 'HID_MAX_BUTT' has been changed! Check code following this line!
@@ -108,31 +108,31 @@ Joysticks::Joysticks() :
 
     for ( int i = 0; i < HID_MAX_JOYS; i++ )
     {
-        m_data[ i ].name = "";
+        _data[ i ].name = "";
 
-        for ( int a = 0; a < HID_MAX_AXES; a++ ) m_data[ i ].axis[ a ] = 0.0f;
-        for ( int b = 0; b < HID_MAX_BUTT; b++ ) m_data[ i ].butt[ b ] = false;
-        for ( int p = 0; p < HID_MAX_POVS; p++ ) m_data[ i ].povs[ p ] = -1;
+        for ( int a = 0; a < HID_MAX_AXES; a++ ) _data[ i ].axis[ a ] = 0.0f;
+        for ( int b = 0; b < HID_MAX_BUTT; b++ ) _data[ i ].butt[ b ] = false;
+        for ( int p = 0; p < HID_MAX_POVS; p++ ) _data[ i ].povs[ p ] = -1;
 
-        m_data[ i ].axisCount = 0;
-        m_data[ i ].buttCount = 0;
-        m_data[ i ].povsCount = 0;
+        _data[ i ].axisCount = 0;
+        _data[ i ].buttCount = 0;
+        _data[ i ].povsCount = 0;
 
-        m_data[ i ].active = false;
+        _data[ i ].active = false;
 
-        for ( int a = 0; a < HID_MAX_AXES; a++ ) m_data[ i ].hasAxis[ a ] = false;
+        for ( int a = 0; a < HID_MAX_AXES; a++ ) _data[ i ].hasAxis[ a ] = false;
 
 #       ifdef HID_LINUX_JOYSTICK
         for ( short i_pov = 0; i_pov < HID_MAX_POVS; i_pov++ )
         {
-            m_data[ i ].hasPOV[ i_pov ] = false;
+            _data[ i ].hasPOV[ i_pov ] = false;
         }
 
-        m_fd[ i ] = 0;
+        _fd[ i ] = 0;
 #       endif
 
 #       ifdef HID_WINMM_JOYSTICK
-        m_data[ i ].hasPOV = false;
+        _data[ i ].hasPOV = false;
 #       endif
     }
 }
@@ -156,181 +156,181 @@ void Joysticks::init()
 
         if ( joyFD > 0 )
         {
-            m_fd[ m_count ] = joyFD;
+            _fd[ _count ] = joyFD;
 
             char tempAxisCount = 0;
             char tempButtCount = 0;
             char tempName[ 512 ];
             char tempAxesMap[ HID_MAX_AXES + 2*HID_MAX_POVS ];
 
-            ioctl( m_fd[ m_count ], JSIOCGAXES     , &tempAxisCount );
-            ioctl( m_fd[ m_count ], JSIOCGBUTTONS  , &tempButtCount );
-            ioctl( m_fd[ m_count ], JSIOCGNAME(64) , tempName );
-            ioctl( m_fd[ m_count ], JSIOCGAXMAP    , tempAxesMap );
+            ioctl( _fd[ _count ], JSIOCGAXES     , &tempAxisCount );
+            ioctl( _fd[ _count ], JSIOCGBUTTONS  , &tempButtCount );
+            ioctl( _fd[ _count ], JSIOCGNAME(64) , tempName );
+            ioctl( _fd[ _count ], JSIOCGAXMAP    , tempAxesMap );
 
-            m_data[ m_count ].name = tempName;
+            _data[ _count ].name = tempName;
 
-            m_data[ m_count ].axisCount = std::min( (int)tempAxisCount, HID_MAX_AXES );
-            m_data[ m_count ].buttCount = std::min( (int)tempButtCount, HID_MAX_BUTT );
-            m_data[ m_count ].povsCount = 0;
+            _data[ _count ].axisCount = std::min( (int)tempAxisCount, HID_MAX_AXES );
+            _data[ _count ].buttCount = std::min( (int)tempButtCount, HID_MAX_BUTT );
+            _data[ _count ].povsCount = 0;
 
-            m_data[ m_count ].active = true;
+            _data[ _count ].active = true;
 
             for ( int j = 0; j < HID_MAX_AXES + 2 * HID_MAX_POVS; j++ )
             {
                 switch ( tempAxesMap[ j ] )
                 {
                 case ABS_X:
-                    m_data[ m_count ].hasAxis[ AxisX ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisX;
+                    _data[ _count ].hasAxis[ AxisX ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisX;
                     break;
 
                 case ABS_Y:
-                    m_data[ m_count ].hasAxis[ AxisY ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisY;
+                    _data[ _count ].hasAxis[ AxisY ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisY;
                     break;
 
                 case ABS_Z:
-                    m_data[ m_count ].hasAxis[ AxisZ ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisZ;
+                    _data[ _count ].hasAxis[ AxisZ ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisZ;
                     break;
 
                 case ABS_RX:
-                    m_data[ m_count ].hasAxis[ AxisRX ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisRX;
+                    _data[ _count ].hasAxis[ AxisRX ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisRX;
                     break;
 
                 case ABS_RY:
-                    m_data[ m_count ].hasAxis[ AxisRY ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisRY;
+                    _data[ _count ].hasAxis[ AxisRY ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisRY;
                     break;
 
                 case ABS_RZ:
-                    m_data[ m_count ].hasAxis[ AxisRZ ] = true;
-                    m_data[ m_count ].axesMap[ j ] = AxisRZ;
+                    _data[ _count ].hasAxis[ AxisRZ ] = true;
+                    _data[ _count ].axesMap[ j ] = AxisRZ;
                     break;
 
                 case ABS_THROTTLE:
-                    m_data[ m_count ].hasAxis[ Throttle ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Throttle;
+                    _data[ _count ].hasAxis[ Throttle ] = true;
+                    _data[ _count ].axesMap[ j ] = Throttle;
                     break;
 
                 case ABS_RUDDER:
-                    m_data[ m_count ].hasAxis[ Rudder ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Rudder;
+                    _data[ _count ].hasAxis[ Rudder ] = true;
+                    _data[ _count ].axesMap[ j ] = Rudder;
                     break;
 
                 case ABS_WHEEL:
-                    m_data[ m_count ].hasAxis[ Wheel ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Wheel;
+                    _data[ _count ].hasAxis[ Wheel ] = true;
+                    _data[ _count ].axesMap[ j ] = Wheel;
                     break;
 
                 case ABS_GAS:
-                    m_data[ m_count ].hasAxis[ Gas ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Gas;
+                    _data[ _count ].hasAxis[ Gas ] = true;
+                    _data[ _count ].axesMap[ j ] = Gas;
                     break;
 
                 case ABS_BRAKE:
-                    m_data[ m_count ].hasAxis[ Brake ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Brake;
+                    _data[ _count ].hasAxis[ Brake ] = true;
+                    _data[ _count ].axesMap[ j ] = Brake;
                     break;
 
                 case ABS_HAT0X:
-                    m_data[ m_count ].hasAxis[ Hat0X ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat0X;
+                    _data[ _count ].hasAxis[ Hat0X ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat0X;
                     break;
 
                 case ABS_HAT0Y:
-                    m_data[ m_count ].hasAxis[ Hat0Y ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat0Y;
+                    _data[ _count ].hasAxis[ Hat0Y ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat0Y;
                     break;
 
                 case ABS_HAT1X:
-                    m_data[ m_count ].hasAxis[ Hat1X ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat1X;
+                    _data[ _count ].hasAxis[ Hat1X ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat1X;
                     break;
 
                 case ABS_HAT1Y:
-                    m_data[ m_count ].hasAxis[ Hat1Y ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat1Y;
+                    _data[ _count ].hasAxis[ Hat1Y ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat1Y;
                     break;
 
                 case ABS_HAT2X:
-                    m_data[ m_count ].hasAxis[ Hat2X ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat2X;
+                    _data[ _count ].hasAxis[ Hat2X ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat2X;
                     break;
 
                 case ABS_HAT2Y:
-                    m_data[ m_count ].hasAxis[ Hat2Y ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat2Y;
+                    _data[ _count ].hasAxis[ Hat2Y ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat2Y;
                     break;
 
                 case ABS_HAT3X:
-                    m_data[ m_count ].hasAxis[ Hat3X ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat3X;
+                    _data[ _count ].hasAxis[ Hat3X ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat3X;
                     break;
 
                 case ABS_HAT3Y:
-                    m_data[ m_count ].hasAxis[ Hat3Y ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Hat3Y;
+                    _data[ _count ].hasAxis[ Hat3Y ] = true;
+                    _data[ _count ].axesMap[ j ] = Hat3Y;
                     break;
 
                 case ABS_PRESSURE:
-                    m_data[ m_count ].hasAxis[ Pressure ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Pressure;
+                    _data[ _count ].hasAxis[ Pressure ] = true;
+                    _data[ _count ].axesMap[ j ] = Pressure;
                     break;
 
                 case ABS_DISTANCE:
-                    m_data[ m_count ].hasAxis[ Distance ] = true;
-                    m_data[ m_count ].axesMap[ j ] = Distance;
+                    _data[ _count ].hasAxis[ Distance ] = true;
+                    _data[ _count ].axesMap[ j ] = Distance;
                     break;
 
                 case ABS_TILT_X:
-                    m_data[ m_count ].hasAxis[ TiltX ] = true;
-                    m_data[ m_count ].axesMap[ j ] = TiltX;
+                    _data[ _count ].hasAxis[ TiltX ] = true;
+                    _data[ _count ].axesMap[ j ] = TiltX;
                     break;
 
                 case ABS_TILT_Y:
-                    m_data[ m_count ].hasAxis[ TiltY ] = true;
-                    m_data[ m_count ].axesMap[ j ] = TiltY;
+                    _data[ _count ].hasAxis[ TiltY ] = true;
+                    _data[ _count ].axesMap[ j ] = TiltY;
                     break;
 
                 case ABS_TOOL_WIDTH:
-                    m_data[ m_count ].hasAxis[ ToolWidth ] = true;
-                    m_data[ m_count ].axesMap[ j ] = ToolWidth;
+                    _data[ _count ].hasAxis[ ToolWidth ] = true;
+                    _data[ _count ].axesMap[ j ] = ToolWidth;
                     break;
                 }
             }
 
-            if ( m_data[ m_count ].hasAxis[ Hat0X ]
-              || m_data[ m_count ].hasAxis[ Hat0Y ] )
+            if ( _data[ _count ].hasAxis[ Hat0X ]
+              || _data[ _count ].hasAxis[ Hat0Y ] )
             {
-                m_data[ m_count ].hasPOV[ 0 ] = true;
-                m_data[ m_count ].povsCount++;
+                _data[ _count ].hasPOV[ 0 ] = true;
+                _data[ _count ].povsCount++;
             }
 
-            if ( m_data[ m_count ].hasAxis[ Hat1X ]
-              || m_data[ m_count ].hasAxis[ Hat1Y ] )
+            if ( _data[ _count ].hasAxis[ Hat1X ]
+              || _data[ _count ].hasAxis[ Hat1Y ] )
             {
-                m_data[ m_count ].hasPOV[ 1 ] = true;
-                m_data[ m_count ].povsCount++;
+                _data[ _count ].hasPOV[ 1 ] = true;
+                _data[ _count ].povsCount++;
             }
 
-            if ( m_data[ m_count ].hasAxis[ Hat2X ]
-              || m_data[ m_count ].hasAxis[ Hat2Y ] )
+            if ( _data[ _count ].hasAxis[ Hat2X ]
+              || _data[ _count ].hasAxis[ Hat2Y ] )
             {
-                m_data[ m_count ].hasPOV[ 2 ] = true;
-                m_data[ m_count ].povsCount++;
+                _data[ _count ].hasPOV[ 2 ] = true;
+                _data[ _count ].povsCount++;
             }
 
-            if ( m_data[ m_count ].hasAxis[ Hat3X ]
-              || m_data[ m_count ].hasAxis[ Hat3Y ] )
+            if ( _data[ _count ].hasAxis[ Hat3X ]
+              || _data[ _count ].hasAxis[ Hat3Y ] )
             {
-                m_data[ m_count ].hasPOV[ 3 ] = true;
-                m_data[ m_count ].povsCount++;
+                _data[ _count ].hasPOV[ 3 ] = true;
+                _data[ _count ].povsCount++;
             }
 
-            m_count++;
+            _count++;
         }
     }
 #   endif
@@ -341,7 +341,7 @@ void Joysticks::init()
 
     for ( int i = 0; i < HID_MAX_JOYS; i++ )
     {
-        if ( m_count > (short)joyGetNumDevs() ) break;
+        if ( _count > (short)joyGetNumDevs() ) break;
 
         if ( joyGetDevCaps( joyIdTemp, &joyCaps, sizeof(JOYCAPS) ) == JOYERR_NOERROR )
         {
@@ -355,29 +355,29 @@ void Joysticks::init()
 
             //if ( joySetCapture( winId, joyIdTemp, 10, false ) == JOYERR_NOERROR )
             {
-                m_data[ m_count ].name = tempNameChar;
+                _data[ m_count ].name = tempNameChar;
 
-                m_data[ m_count ].axisCount = joyCaps.wNumAxes;
-                m_data[ m_count ].buttCount = joyCaps.wNumButtons;
-                m_data[ m_count ].povsCount = 0;
+                _data[ m_count ].axisCount = joyCaps.wNumAxes;
+                _data[ m_count ].buttCount = joyCaps.wNumButtons;
+                _data[ m_count ].povsCount = 0;
 
-                m_data[ m_count ].active = true;
+                _data[ m_count ].active = true;
 
-                m_data[ m_count ].hasAxis[ AxisX ] = true;
-                m_data[ m_count ].hasAxis[ AxisY ] = true;
+                _data[ m_count ].hasAxis[ AxisX ] = true;
+                _data[ m_count ].hasAxis[ AxisY ] = true;
 
-                if ( joyCaps.wCaps & JOYCAPS_HASZ ) m_data[ m_count ].hasAxis[ AxisZ ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASR ) m_data[ m_count ].hasAxis[ AxisR ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASU ) m_data[ m_count ].hasAxis[ AxisU ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASV ) m_data[ m_count ].hasAxis[ AxisZ ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASZ ) _data[ m_count ].hasAxis[ AxisZ ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASR ) _data[ m_count ].hasAxis[ AxisR ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASU ) _data[ m_count ].hasAxis[ AxisU ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASV ) _data[ m_count ].hasAxis[ AxisZ ] = true;
 
                 if ( joyCaps.wCaps & JOYCAPS_HASPOV )
                 {
-                    m_data[ m_count ].hasPOV = true;
-                    m_data[ m_count ].povsCount = 1;
+                    _data[ _count ].hasPOV = true;
+                    _data[ _count ].povsCount = 1;
                 }
 
-                m_count++;
+                _count++;
             }
         }
 
@@ -392,86 +392,86 @@ void Joysticks::init()
 void Joysticks::update()
 {
 #   ifdef HID_LINUX_JOYSTICK
-    for( short i = 0; i < m_count && i < HID_MAX_JOYS; i++ )
+    for( short i = 0; i < _count && i < HID_MAX_JOYS; i++ )
     {
-        while( read( m_fd[ i ], &m_event, sizeof(js_event) ) > 0 )
+        while( read( _fd[ i ], &_event, sizeof(js_event) ) > 0 )
         {
             // buttons
-            if ( m_event.type == JS_EVENT_BUTTON )
+            if ( _event.type == JS_EVENT_BUTTON )
             {
-                if ( m_event.number < HID_MAX_BUTT )
+                if ( _event.number < HID_MAX_BUTT )
                 {
-                    m_data[ i ].butt[ m_event.number ] = ( m_event.value ) ? 1 : 0;
+                    _data[ i ].butt[ _event.number ] = ( _event.value ) ? 1 : 0;
                 }
             }
 
             // axes
-            if ( m_event.type == JS_EVENT_AXIS )
+            if ( _event.type == JS_EVENT_AXIS )
             {
-                float value = m_event.value / (double)HID_AXIS_RANGE;
+                float value = _event.value / (double)HID_AXIS_RANGE;
 
-                switch ( m_data[ i ].axesMap[ m_event.number ] )
+                switch ( _data[ i ].axesMap[ _event.number ] )
                 {
-                    case AxisX:  m_data[ i ].axis[ AxisX  ] = value; break;
-                    case AxisY:  m_data[ i ].axis[ AxisY  ] = value; break;
-                    case AxisZ:  m_data[ i ].axis[ AxisZ  ] = value; break;
-                    case AxisRX: m_data[ i ].axis[ AxisRX ] = value; break;
-                    case AxisRY: m_data[ i ].axis[ AxisRY ] = value; break;
-                    case AxisRZ: m_data[ i ].axis[ AxisRZ ] = value; break;
+                    case AxisX:  _data[ i ].axis[ AxisX  ] = value; break;
+                    case AxisY:  _data[ i ].axis[ AxisY  ] = value; break;
+                    case AxisZ:  _data[ i ].axis[ AxisZ  ] = value; break;
+                    case AxisRX: _data[ i ].axis[ AxisRX ] = value; break;
+                    case AxisRY: _data[ i ].axis[ AxisRY ] = value; break;
+                    case AxisRZ: _data[ i ].axis[ AxisRZ ] = value; break;
 
-                    case Throttle: m_data[ i ].axis[ Throttle ] = value; break;
-                    case Rudder:   m_data[ i ].axis[ Rudder   ] = value; break;
-                    case Gas:      m_data[ i ].axis[ Gas      ] = value; break;
-                    case Wheel:    m_data[ i ].axis[ Wheel    ] = value; break;
-                    case Brake:    m_data[ i ].axis[ Brake    ] = value; break;
+                    case Throttle: _data[ i ].axis[ Throttle ] = value; break;
+                    case Rudder:   _data[ i ].axis[ Rudder   ] = value; break;
+                    case Gas:      _data[ i ].axis[ Gas      ] = value; break;
+                    case Wheel:    _data[ i ].axis[ Wheel    ] = value; break;
+                    case Brake:    _data[ i ].axis[ Brake    ] = value; break;
 
-                    case Hat0X: m_data[ i ].axis[ Hat0X ] = value; break;
-                    case Hat0Y: m_data[ i ].axis[ Hat0Y ] = value; break;
-                    case Hat1X: m_data[ i ].axis[ Hat1X ] = value; break;
-                    case Hat1Y: m_data[ i ].axis[ Hat1Y ] = value; break;
-                    case Hat2X: m_data[ i ].axis[ Hat2X ] = value; break;
-                    case Hat2Y: m_data[ i ].axis[ Hat2Y ] = value; break;
-                    case Hat3X: m_data[ i ].axis[ Hat3X ] = value; break;
-                    case Hat3Y: m_data[ i ].axis[ Hat3Y ] = value; break;
+                    case Hat0X: _data[ i ].axis[ Hat0X ] = value; break;
+                    case Hat0Y: _data[ i ].axis[ Hat0Y ] = value; break;
+                    case Hat1X: _data[ i ].axis[ Hat1X ] = value; break;
+                    case Hat1Y: _data[ i ].axis[ Hat1Y ] = value; break;
+                    case Hat2X: _data[ i ].axis[ Hat2X ] = value; break;
+                    case Hat2Y: _data[ i ].axis[ Hat2Y ] = value; break;
+                    case Hat3X: _data[ i ].axis[ Hat3X ] = value; break;
+                    case Hat3Y: _data[ i ].axis[ Hat3Y ] = value; break;
 
-                    case Pressure:  m_data[ i ].axis[ Pressure  ] = value; break;
-                    case Distance:  m_data[ i ].axis[ Distance  ] = value; break;
-                    case TiltX:     m_data[ i ].axis[ TiltX     ] = value; break;
-                    case TiltY:     m_data[ i ].axis[ TiltY     ] = value; break;
-                    case ToolWidth: m_data[ i ].axis[ ToolWidth ] = value; break;
+                    case Pressure:  _data[ i ].axis[ Pressure  ] = value; break;
+                    case Distance:  _data[ i ].axis[ Distance  ] = value; break;
+                    case TiltX:     _data[ i ].axis[ TiltX     ] = value; break;
+                    case TiltY:     _data[ i ].axis[ TiltY     ] = value; break;
+                    case ToolWidth: _data[ i ].axis[ ToolWidth ] = value; break;
                 }
 
                 for ( short i_pov = 0; i_pov < HID_MAX_POVS; i_pov++ )
                 {
-                    m_data[ i ].povs[ i_pov ] = -1;
+                    _data[ i ].povs[ i_pov ] = -1;
 
-                    if ( m_data[ i ].hasPOV[ i_pov ] )
+                    if ( _data[ i ].hasPOV[ i_pov ] )
                     {
                         if ( 0 )
                         {
                             // multidirectional POV
-                            short angle_deg = 360 * m_data[ i ].axis[ Hat0X + i_pov ];
+                            short angle_deg = 360 * _data[ i ].axis[ Hat0X + i_pov ];
 
                             while ( angle_deg <   0 ) angle_deg += 360;
                             while ( angle_deg > 360 ) angle_deg -= 360;
 
-                            m_data[ i ].povs[ i_pov ] = angle_deg;
+                            _data[ i ].povs[ i_pov ] = angle_deg;
                         }
                         else
                         {
                             // default model
-                            if ( m_data[ i ].axis[ Hat0X + i_pov ] != 0.0f
-                              || m_data[ i ].axis[ Hat0Y + i_pov ] != 0.0f )
+                            if ( _data[ i ].axis[ Hat0X + i_pov ] != 0.0f
+                              || _data[ i ].axis[ Hat0Y + i_pov ] != 0.0f )
                             {
-                                float angle_rad = atan2( m_data[ i ].axis[ Hat0X + i_pov ],
-                                                        -m_data[ i ].axis[ Hat0Y + i_pov ] );
+                                float angle_rad = atan2( _data[ i ].axis[ Hat0X + i_pov ],
+                                                        -_data[ i ].axis[ Hat0Y + i_pov ] );
 
                                 short angle_deg = 180 * angle_rad / M_PI;
 
                                 while ( angle_deg <   0 ) angle_deg += 360;
                                 while ( angle_deg > 360 ) angle_deg -= 360;
 
-                                m_data[ i ].povs[ i_pov ] = angle_deg;
+                                _data[ i ].povs[ i_pov ] = angle_deg;
                             }
                         }
                     }
@@ -499,19 +499,19 @@ void Joysticks::update()
             }
         }
 
-        m_data[ i ].axis[ AxisX ] = 2.0f * ( (float)joyInfoEx.dwXpos / HID_AXIS_RANGE ) - 1.0f;
-        m_data[ i ].axis[ AxisY ] = 2.0f * ( (float)joyInfoEx.dwYpos / HID_AXIS_RANGE ) - 1.0f;
+        _data[ i ].axis[ AxisX ] = 2.0f * ( (float)joyInfoEx.dwXpos / HID_AXIS_RANGE ) - 1.0f;
+        _data[ i ].axis[ AxisY ] = 2.0f * ( (float)joyInfoEx.dwYpos / HID_AXIS_RANGE ) - 1.0f;
 
-        if ( m_data[ i ].hasAxis[ AxisZ ] ) m_data[ i ].axis[ AxisZ ] = 2.0f * ( (float)joyInfoEx.dwZpos / HID_AXIS_RANGE ) - 1.0f;
-        if ( m_data[ i ].hasAxis[ AxisR ] ) m_data[ i ].axis[ AxisR ] = 2.0f * ( (float)joyInfoEx.dwRpos / HID_AXIS_RANGE ) - 1.0f;
-        if ( m_data[ i ].hasAxis[ AxisU ] ) m_data[ i ].axis[ AxisU ] = 2.0f * ( (float)joyInfoEx.dwUpos / HID_AXIS_RANGE ) - 1.0f;
-        if ( m_data[ i ].hasAxis[ AxisV ] ) m_data[ i ].axis[ AxisV ] = 2.0f * ( (float)joyInfoEx.dwVpos / HID_AXIS_RANGE ) - 1.0f;
+        if ( _data[ i ].hasAxis[ AxisZ ] ) _data[ i ].axis[ AxisZ ] = 2.0f * ( (float)joyInfoEx.dwZpos / HID_AXIS_RANGE ) - 1.0f;
+        if ( _data[ i ].hasAxis[ AxisR ] ) _data[ i ].axis[ AxisR ] = 2.0f * ( (float)joyInfoEx.dwRpos / HID_AXIS_RANGE ) - 1.0f;
+        if ( _data[ i ].hasAxis[ AxisU ] ) _data[ i ].axis[ AxisU ] = 2.0f * ( (float)joyInfoEx.dwUpos / HID_AXIS_RANGE ) - 1.0f;
+        if ( _data[ i ].hasAxis[ AxisV ] ) _data[ i ].axis[ AxisV ] = 2.0f * ( (float)joyInfoEx.dwVpos / HID_AXIS_RANGE ) - 1.0f;
 
-        m_data[ i ].povs[ 0 ] = -1;
+        _data[ i ].povs[ 0 ] = -1;
 
-        if ( m_data[ i ].hasPOV && joyInfoEx.dwPOV != JOY_POVCENTERED )
+        if ( _data[ i ].hasPOV && joyInfoEx.dwPOV != JOY_POVCENTERED )
         {
-            m_data[ i ].povs[ 0 ] = (short)( joyInfoEx.dwPOV / 100 );
+            _data[ i ].povs[ 0 ] = (short)( joyInfoEx.dwPOV / 100 );
         }
 
         if ( joyIdTemp == JOYSTICKID2 ) break;
@@ -533,5 +533,5 @@ Joysticks::Data Joysticks::getData( short joyNum ) const
 #       endif
     }
 
-    return m_data[ joyNum ];
+    return _data[ joyNum ];
 }

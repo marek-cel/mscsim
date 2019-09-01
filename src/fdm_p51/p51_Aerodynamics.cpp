@@ -33,32 +33,32 @@ using namespace fdm;
 
 P51_Aerodynamics::P51_Aerodynamics( const P51_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_tailOff ( 0 ),
-    m_stabHor ( 0 ),
-    m_stabVer ( 0 ),
+    _tailOff ( 0 ),
+    _stabHor ( 0 ),
+    _stabVer ( 0 ),
 
-    m_dl_dtorque ( 0.0 ),
-    m_dn_dtorque ( 0.0 )
+    _dl_dtorque ( 0.0 ),
+    _dn_dtorque ( 0.0 )
 {
-    m_tailOff = new P51_TailOff();
-    m_stabHor = new P51_StabilizerHor();
-    m_stabVer = new P51_StabilizerVer();
+    _tailOff = new P51_TailOff();
+    _stabHor = new P51_StabilizerHor();
+    _stabVer = new P51_StabilizerVer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_Aerodynamics::~P51_Aerodynamics()
 {
-    if ( m_tailOff ) delete m_tailOff;
-    m_tailOff = 0;
+    if ( _tailOff ) delete _tailOff;
+    _tailOff = 0;
 
-    if ( m_stabHor ) delete m_stabHor;
-    m_stabHor = 0;
+    if ( _stabHor ) delete _stabHor;
+    _stabHor = 0;
 
-    if ( m_stabVer ) delete m_stabVer;
-    m_stabVer = 0;
+    if ( _stabVer ) delete _stabVer;
+    _stabVer = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,11 +69,11 @@ void P51_Aerodynamics::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_drag_ground_effect, "drag_ground_effect" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_lift_ground_effect, "lift_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _drag_ground_effect, "drag_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _lift_ground_effect, "lift_ground_effect" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dl_dtorque, "dl_dtorque" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dn_dtorque, "dn_dtorque" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dl_dtorque, "dl_dtorque" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dn_dtorque, "dn_dtorque" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -89,9 +89,9 @@ void P51_Aerodynamics::readData( XmlNode &dataNode )
         XmlNode nodeStabHor = dataNode.getFirstChildElement( "stab_hor" );
         XmlNode nodeStabVer = dataNode.getFirstChildElement( "stab_ver" );
 
-        m_tailOff->readData( nodeTailOff );
-        m_stabHor->readData( nodeStabHor );
-        m_stabVer->readData( nodeStabVer );
+        _tailOff->readData( nodeTailOff );
+        _stabHor->readData( nodeStabHor );
+        _stabVer->readData( nodeStabVer );
     }
     else
     {
@@ -110,48 +110,48 @@ void P51_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-    m_tailOff->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
-                                      m_aircraft->getOmg_air_BAS(),
-                                      m_aircraft->getEnvir()->getDensity(),
-                                      m_aircraft->getCtrl()->getAilerons(),
-                                      m_aircraft->getCtrl()->getFlaps() );
+    _tailOff->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+                                     _aircraft->getOmg_air_BAS(),
+                                     _aircraft->getEnvir()->getDensity(),
+                                     _aircraft->getCtrl()->getAilerons(),
+                                     _aircraft->getCtrl()->getFlaps() );
 
-    m_stabHor->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
-                                      m_aircraft->getOmg_air_BAS(),
-                                      m_aircraft->getEnvir()->getDensity(),
-                                      m_aircraft->getAngleOfAttack(),
-                                      m_aircraft->getCtrl()->getElevator(),
-                                      m_aircraft->getCtrl()->getElevatorTrim() );
+    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+                                     _aircraft->getOmg_air_BAS(),
+                                     _aircraft->getEnvir()->getDensity(),
+                                     _aircraft->getAngleOfAttack(),
+                                     _aircraft->getCtrl()->getElevator(),
+                                     _aircraft->getCtrl()->getElevatorTrim() );
 
-    m_stabVer->computeForceAndMoment( m_aircraft->getVel_air_BAS(),
-                                      m_aircraft->getOmg_air_BAS(),
-                                      m_aircraft->getEnvir()->getDensity(),
-                                      m_aircraft->getCtrl()->getRudder() );
+    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+                                     _aircraft->getOmg_air_BAS(),
+                                     _aircraft->getEnvir()->getDensity(),
+                                     _aircraft->getCtrl()->getRudder() );
 
-    m_for_bas = m_tailOff->getFor_BAS() + m_stabHor->getFor_BAS() + m_stabVer->getFor_BAS();
-    m_mom_bas = m_tailOff->getMom_BAS() + m_stabHor->getMom_BAS() + m_stabVer->getMom_BAS();
+    _for_bas = _tailOff->getFor_BAS() + _stabHor->getFor_BAS() + _stabVer->getFor_BAS();
+    _mom_bas = _tailOff->getMom_BAS() + _stabHor->getMom_BAS() + _stabVer->getMom_BAS();
 
     // computing forces expressed in Aerodynamic Axes System
     // computing moments expressed in Stability Axes System
-    m_for_aero = m_bas2aero * m_for_bas;
-    m_mom_stab = m_bas2stab * m_mom_bas;
+    _for_aero = _bas2aero * _for_bas;
+    _mom_stab = _bas2stab * _mom_bas;
 
     // wave drag
-    m_for_aero.x() *= getPrandtlGlauertCoef( m_aircraft->getMachNumber() );
+    _for_aero.x() *= getPrandtlGlauertCoef( _aircraft->getMachNumber() );
 
     // propwash effect
-    m_mom_stab.x() += m_aircraft->getProp()->getPropeller()->getTorque() * m_dl_dtorque;
-    m_mom_stab.z() += m_aircraft->getProp()->getPropeller()->getTorque() * m_dn_dtorque;
+    _mom_stab.x() += _aircraft->getProp()->getPropeller()->getTorque() * _dl_dtorque;
+    _mom_stab.z() += _aircraft->getProp()->getPropeller()->getTorque() * _dn_dtorque;
 
     // ground effect
-    m_for_aero.x() *= m_drag_ground_effect.getValue( m_aircraft->getAltitude_AGL() );
-    m_for_aero.z() *= m_lift_ground_effect.getValue( m_aircraft->getAltitude_AGL() );
+    _for_aero.x() *= _drag_ground_effect.getValue( _aircraft->getAltitude_AGL() );
+    _for_aero.z() *= _lift_ground_effect.getValue( _aircraft->getAltitude_AGL() );
 
     // computing forces and moments expressed in BAS
-    m_for_bas = m_aero2bas * m_for_aero;
-    m_mom_bas = m_stab2bas * m_mom_stab;
+    _for_bas = _aero2bas * _for_aero;
+    _mom_bas = _stab2bas * _mom_stab;
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -170,5 +170,5 @@ void P51_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    m_tailOff->update( m_aircraft->getVel_air_BAS(),  m_aircraft->getOmg_air_BAS() );
+    _tailOff->update( _aircraft->getVel_air_BAS(),  _aircraft->getOmg_air_BAS() );
 }

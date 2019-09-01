@@ -61,7 +61,7 @@ Vector6 Vector6::getNormalized() const
 
 const Vector6& Vector6::operator= ( const Vector6 &vect )
 {
-    setArray( vect.m_items );
+    setArray( vect._items );
     
     return (*this);
 }
@@ -72,9 +72,9 @@ Vector6 Vector6::operator+ ( const Vector6 &vect ) const
 {
     Vector6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] + vect.m_items[ i ];
+        result._items[ i ] = _items[ i ] + vect._items[ i ];
     }
     
     return result;
@@ -86,9 +86,9 @@ Vector6 Vector6::operator- () const
 {
     Vector6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = - m_items[ i ];
+        result._items[ i ] = - _items[ i ];
     }
     
     return result;
@@ -100,9 +100,9 @@ Vector6 Vector6::operator- ( const Vector6 &vect ) const
 {
     Vector6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] - vect.m_items[ i ];
+        result._items[ i ] = _items[ i ] - vect._items[ i ];
     }
     
     return result;
@@ -114,9 +114,9 @@ Vector6 Vector6::operator* ( double val ) const
 {
     Vector6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] * val;
+        result._items[ i ] = _items[ i ] * val;
     }
     
     return result;
@@ -128,9 +128,9 @@ Vector6 Vector6::operator/ ( double val ) const
 {
     Vector6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] / val;
+        result._items[ i ] = _items[ i ] / val;
     }
     
     return result;
@@ -140,9 +140,9 @@ Vector6 Vector6::operator/ ( double val ) const
 
 Vector6& Vector6::operator+= ( const Vector6 &vect )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] += vect.m_items[ i ];
+        _items[ i ] += vect._items[ i ];
     }
     
     return (*this);
@@ -152,9 +152,9 @@ Vector6& Vector6::operator+= ( const Vector6 &vect )
 
 Vector6& Vector6::operator-= ( const Vector6 &vect )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] -= vect.m_items[ i ];
+        _items[ i ] -= vect._items[ i ];
     }
     
     return (*this);
@@ -164,9 +164,9 @@ Vector6& Vector6::operator-= ( const Vector6 &vect )
 
 Vector6& Vector6::operator*= ( double val )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] *= val;
+        _items[ i ] *= val;
     }
     
     return (*this);
@@ -176,9 +176,9 @@ Vector6& Vector6::operator*= ( double val )
 
 Vector6& Vector6::operator/= ( double val )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] /= val;
+        _items[ i ] /= val;
     }
     
     return (*this);

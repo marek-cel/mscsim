@@ -64,10 +64,10 @@ public:
 
 private:
 
-    double m_dcx_drudder;           ///< [1/rad] drag coefficient due to rudder deflection
-    double m_dcy_drudder;           ///< [1/rad] sideforce coefficient due to rudder deflection
+    double _dcx_drudder;            ///< [1/rad] drag coefficient due to rudder deflection
+    double _dcy_drudder;            ///< [1/rad] sideforce coefficient due to rudder deflection
 
-    double m_rudder;                ///< [rad] rudder deflection
+    double _rudder;                 ///< [rad] rudder deflection
 
     /**
      * Computes drag coefficient.

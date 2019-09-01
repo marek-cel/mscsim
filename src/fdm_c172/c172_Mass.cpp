@@ -31,7 +31,7 @@ using namespace fdm;
 
 C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
     Mass( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,14 +56,14 @@ void C172_Mass::init()
       && 0 != cabin
       && 0 != trunk )
     {
-        pilot_l->input = &m_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &m_aircraft->getDataInp()->masses.pilot_2;
+        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
 
-        fuel_tank_l->input = &m_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &m_aircraft->getDataInp()->masses.fuel_tank_2;
+        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
 
-        cabin->input = &m_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &m_aircraft->getDataInp()->masses.trunk;
+        cabin->input = &_aircraft->getDataInp()->masses.cabin;
+        trunk->input = &_aircraft->getDataInp()->masses.trunk;
     }
     else
     {

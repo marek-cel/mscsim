@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locations>
+  
   <location>
-    <name>XGEN: Threshold</name>
+    <name>PHNL: Threshold - Runway 22R</name>
+    <lat>21.329569</lat>
+    <lon>-157.907433</lon>
+    <alt>0.0</alt>
+    <hdg>223.4</hdg><!-- mag var 9.6 deg E -->
+  </location>
+
+  
+  <location>
+    <name>XGEN: Threshold - Runway 36</name>
     <lat>-0.013500</lat>
     <lon>1.0e-7</lon>
     <alt>0.0</alt>
+    <hdg>0.0</hdg>
+  </location>
+  
+  <location>
+    <name>XGEN: 1 Mile Approach - Runway 36</name>
+    <lat>-0.028333</lat>
+    <lon>1.0e-7</lon>
+    <alt>97.0</alt>
+    <hdg>0.0</hdg>
+  </location>
+  
+  <location>
+    <name>XGEN: 2 Miles Approach - Runway 36</name>
+    <lat>-0.045</lat>
+    <lon>1.0e-7</lon>
+    <alt>194.0</alt>
+    <hdg>0.0</hdg>
+  </location>
+  
+  <location>
+    <name>XGEN: 5 Miles Approach - Runway 36</name>
+    <lat>-0.095</lat>
+    <lon>1.0e-7</lon>
+    <alt>515.0</alt>
+    <hdg>0.0</hdg>
+  </location>
+  
+  <location>
+    <name>XGEN: 10 Miles Approach - Runway 36</name>
+    <lat>-0.178333</lat>
+    <lon>1.0e-7</lon>
+    <alt>1001.0</alt>
     <hdg>0.0</hdg>
   </location>
   
@@ -16,35 +58,4 @@
     <hdg>270.0</hdg>
   </location>
   
-  <location>
-    <name>XGEN: Final Approach (1 nmi)</name>
-    <lat>-0.028333</lat>
-    <lon>1.0e-7</lon>
-    <alt>97.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: Final Approach (2 nmi)</name>
-    <lat>-0.045</lat>
-    <lon>1.0e-7</lon>
-    <alt>194.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: Final Approach (5 nmi)</name>
-    <lat>-0.095</lat>
-    <lon>1.0e-7</lon>
-    <alt>515.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: Final Approach (10 nmi)</name>
-    <lat>-0.178333</lat>
-    <lon>1.0e-7</lon>
-    <alt>1001.0</alt>
-    <hdg>0.0</hdg>
-  </location>
 </locations>

@@ -86,7 +86,7 @@ public:
      */
     inline std::string getFile() const
     {
-        return m_file;
+        return _file;
     }
 
     /**
@@ -101,7 +101,7 @@ public:
     {
         if ( isValid() )
         {
-            return (int)m_node->line;
+            return (int)_node->line;
         }
 
         return std::numeric_limits< int >::quiet_NaN();
@@ -114,7 +114,7 @@ public:
     {
         if ( isValid() )
         {
-            return std::string( (const char*)m_node->name );
+            return std::string( (const char*)_node->name );
         }
 
         return std::string();
@@ -146,7 +146,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->properties != 0 );
+            return ( _node->properties != 0 );
         }
 
         return false;
@@ -159,7 +159,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->children != 0 );
+            return ( _node->children != 0 );
         }
 
         return false;
@@ -172,7 +172,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_ATTRIBUTE_NODE );
+            return ( _node->type == XML_ATTRIBUTE_NODE );
         }
 
         return false;
@@ -185,7 +185,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_COMMENT_NODE );
+            return ( _node->type == XML_COMMENT_NODE );
         }
 
         return false;
@@ -198,7 +198,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_ELEMENT_NODE );
+            return ( _node->type == XML_ELEMENT_NODE );
         }
 
         return false;
@@ -211,7 +211,7 @@ public:
     {
         if ( isValid() )
         {
-            return ( m_node->type == XML_TEXT_NODE );
+            return ( _node->type == XML_TEXT_NODE );
         }
 
         return false;
@@ -222,13 +222,13 @@ public:
      */
     inline bool isValid() const
     {
-        return ( m_node ) ? true : false;
+        return ( _node ) ? true : false;
     }
 
 private:
 
-    std::string m_file; ///< XML file name
-    xmlNodePtr  m_node; ///< XML node pointer
+    std::string _file;  ///< XML file name
+    xmlNodePtr  _node;  ///< XML node pointer
 };
 
 } // end of fdm namespace

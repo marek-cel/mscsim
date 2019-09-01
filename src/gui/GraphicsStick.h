@@ -50,15 +50,15 @@ public:
     /** */
     inline void setCtrl( int ctrlRoll, int ctrlPitch )
     {
-        m_ctrlRoll  = ctrlRoll;
-        m_ctrlPitch = ctrlPitch;
+        _ctrlRoll  = ctrlRoll;
+        _ctrlPitch = ctrlPitch;
     }
 
     /** */
     inline void setTrim( int trimRoll, int trimPitch )
     {
-        m_trimRoll  = trimRoll;
-        m_trimPitch = trimPitch;
+        _trimRoll  = trimRoll;
+        _trimPitch = trimPitch;
     }
 
 protected:
@@ -71,30 +71,30 @@ protected:
 
 private:
 
-    int m_timerId;
+    int _timerId;                   ///<
 
-    QGraphicsScene *m_scene;    ///< graphics scene
+    QGraphicsScene *_scene;         ///< graphics scene
 
-    QGraphicsLineItem *m_ctrlLineH; ///<
-    QGraphicsLineItem *m_ctrlLineV; ///<
-    QGraphicsLineItem *m_trimLineH; ///<
-    QGraphicsLineItem *m_trimLineV; ///<
-    QGraphicsLineItem *m_markLineH; ///<
-    QGraphicsLineItem *m_markLineV; ///<
+    QGraphicsLineItem *_ctrlLineH;  ///<
+    QGraphicsLineItem *_ctrlLineV;  ///<
+    QGraphicsLineItem *_trimLineH;  ///<
+    QGraphicsLineItem *_trimLineV;  ///<
+    QGraphicsLineItem *_markLineH;  ///<
+    QGraphicsLineItem *_markLineV;  ///<
 
-    QBrush m_ctrlBrush; ///<
-    QBrush m_trimBrush; ///<
-    QBrush m_markBrush; ///<
+    QBrush _ctrlBrush;              ///<
+    QBrush _trimBrush;              ///<
+    QBrush _markBrush;              ///<
 
-    QPen m_ctrlPen;     ///<
-    QPen m_trimPen;     ///<
-    QPen m_markPen;     ///<
+    QPen _ctrlPen;                  ///<
+    QPen _trimPen;                  ///<
+    QPen _markPen;                  ///<
 
-    int m_ctrlRoll;     ///< [-]
-    int m_ctrlPitch;    ///< [-]
+    int _ctrlRoll;                  ///< [-]
+    int _ctrlPitch;                 ///< [-]
 
-    int m_trimRoll;     ///< [-]
-    int m_trimPitch;    ///< [-]
+    int _trimRoll;                  ///< [-]
+    int _trimPitch;                 ///< [-]
 
     /** */
     void init();

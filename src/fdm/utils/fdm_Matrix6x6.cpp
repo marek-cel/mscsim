@@ -50,11 +50,11 @@ void Matrix6x6::transpose()
 {
     Matrix6x6 temp( *this );
 
-    for ( unsigned int r = 0; r < m_rows; r++ )
+    for ( unsigned int r = 0; r < _rows; r++ )
     {
-        for ( unsigned int c = 0; c < m_cols; c++ )
+        for ( unsigned int c = 0; c < _cols; c++ )
         {
-            m_items[ c*m_cols + r ] = temp.m_items[ r*m_cols + c ];
+            _items[ c*_cols + r ] = temp._items[ r*_cols + c ];
         }
     }
 }
@@ -74,7 +74,7 @@ Matrix6x6 Matrix6x6::getTransposed() const
 
 const Matrix6x6& Matrix6x6::operator= ( const Matrix6x6 &mtrx )
 {
-    setArray( mtrx.m_items );
+    setArray( mtrx._items );
     
     return (*this);
 }
@@ -85,9 +85,9 @@ Matrix6x6 Matrix6x6::operator+ ( const Matrix6x6 &mtrx ) const
 {
     Matrix6x6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] + mtrx.m_items[ i ];
+        result._items[ i ] = _items[ i ] + mtrx._items[ i ];
     }
     
     return result;
@@ -99,9 +99,9 @@ Matrix6x6 Matrix6x6::operator- ( const Matrix6x6 &mtrx ) const
 {
     Matrix6x6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] - mtrx.m_items[ i ];
+        result._items[ i ] = _items[ i ] - mtrx._items[ i ];
     }
     
     return result;
@@ -113,9 +113,9 @@ Matrix6x6 Matrix6x6::operator* ( double value ) const
 {
     Matrix6x6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] * value;
+        result._items[ i ] = _items[ i ] * value;
     }
     
     return result;
@@ -127,15 +127,15 @@ Matrix6x6 Matrix6x6::operator* ( const Matrix6x6 &mtrx ) const
 {
     Matrix6x6 result;
 
-    for ( unsigned int r = 0; r < m_rows; r++ )
+    for ( unsigned int r = 0; r < _rows; r++ )
     {
-        for ( unsigned int c = 0; c < m_cols; c++ )
+        for ( unsigned int c = 0; c < _cols; c++ )
         {
-            result.m_items[ r*m_cols + c ] = 0.0;
+            result._items[ r*_cols + c ] = 0.0;
 
-            for ( unsigned int i = 0; i < m_cols; i++ )
+            for ( unsigned int i = 0; i < _cols; i++ )
             {
-                result.m_items[ r*m_cols + c ] += ( m_items[ r*m_cols + i ] * mtrx.m_items[ i*m_cols + c ] );
+                result._items[ r*_cols + c ] += ( _items[ r*_cols + i ] * mtrx._items[ i*_cols + c ] );
             }
         }
     }
@@ -149,13 +149,13 @@ Vector6 Matrix6x6::operator* ( const Vector6 &vect ) const
 {
     Vector6 result;
 
-    for ( unsigned int r = 0; r < m_rows; r++ )
+    for ( unsigned int r = 0; r < _rows; r++ )
     {
         result(r) = 0.0;
 
-        for ( unsigned int c = 0; c < m_cols; c++ )
+        for ( unsigned int c = 0; c < _cols; c++ )
         {
-            result(r) += ( m_items[ r*m_cols + c ] * vect(c) );
+            result(r) += ( _items[ r*_cols + c ] * vect(c) );
         }
     }
 
@@ -168,9 +168,9 @@ Matrix6x6 Matrix6x6::operator/ ( double value ) const
 {
     Matrix6x6 result;
     
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        result.m_items[ i ] = m_items[ i ] / value;
+        result._items[ i ] = _items[ i ] / value;
     }
     
     return result;
@@ -180,9 +180,9 @@ Matrix6x6 Matrix6x6::operator/ ( double value ) const
 
 Matrix6x6& Matrix6x6::operator+= ( const Matrix6x6 &mtrx )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] += mtrx.m_items[ i ];
+        _items[ i ] += mtrx._items[ i ];
     }
     
     return (*this);
@@ -192,9 +192,9 @@ Matrix6x6& Matrix6x6::operator+= ( const Matrix6x6 &mtrx )
 
 Matrix6x6& Matrix6x6::operator-= ( const Matrix6x6 &mtrx )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] -= mtrx.m_items[ i ];
+        _items[ i ] -= mtrx._items[ i ];
     }
     
     return (*this);
@@ -204,9 +204,9 @@ Matrix6x6& Matrix6x6::operator-= ( const Matrix6x6 &mtrx )
 
 Matrix6x6& Matrix6x6::operator*= ( double value )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] *= value;
+        _items[ i ] *= value;
     }
     
     return (*this);
@@ -216,9 +216,9 @@ Matrix6x6& Matrix6x6::operator*= ( double value )
 
 Matrix6x6& Matrix6x6::operator/= ( double value )
 {
-    for ( unsigned int i = 0; i < m_size; i++ )
+    for ( unsigned int i = 0; i < _size; i++ )
     {
-        m_items[ i ] /= value;
+        _items[ i ] /= value;
     }
     
     return (*this);

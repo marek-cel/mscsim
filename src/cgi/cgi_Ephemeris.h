@@ -29,6 +29,8 @@ namespace cgi
 
 /**
  * @brief Ephemeris model.
+ *
+ * @see Meeus J.: Astronomical Algorithms, 1998
  */
 class Ephemeris
 {
@@ -72,41 +74,41 @@ public:
 
     void update( DateTime dateTime, double lat, double lon );
 
-    inline double getJD() const { return m_jd; }
-    inline double getJC() const { return m_jc; }
-    inline double getUT() const { return m_ut; }
+    inline double getJD() const { return _jd; }
+    inline double getJC() const { return _jc; }
+    inline double getUT() const { return _ut; }
 
-    inline double getGST() const { return m_gst; }
-    inline double getLST() const { return m_lst; }
+    inline double getGST() const { return _gst; }
+    inline double getLST() const { return _lst; }
 
-    inline double getSunAlpha() const { return m_sunAlpha; }
-    inline double getSunDelta() const { return m_sunDelta; }
-    inline double getSunElev()  const { return m_sunElev;  }
-    inline double getSunAzim()  const { return m_sunAzim;  }
+    inline double getSunAlpha() const { return _sunAlpha; }
+    inline double getSunDelta() const { return _sunDelta; }
+    inline double getSunElev()  const { return _sunElev;  }
+    inline double getSunAzim()  const { return _sunAzim;  }
 
-    inline double getMoonAlpha() const { return m_moonAlpha; }
-    inline double getMoonDelta() const { return m_moonDelta; }
-    inline double getMoonElev()  const { return m_moonElev;  }
-    inline double getMoonAzim()  const { return m_moonAzim;  }
+    inline double getMoonAlpha() const { return _moonAlpha; }
+    inline double getMoonDelta() const { return _moonDelta; }
+    inline double getMoonElev()  const { return _moonElev;  }
+    inline double getMoonAzim()  const { return _moonAzim;  }
 
 private:
 
-    double m_jd;            ///< [-] Julian day
-    double m_jc;            ///< [-] Julian century
-    double m_ut;            ///< [h] universal time
+    double _jd;             ///< [-] Julian day
+    double _jc;             ///< [-] Julian century
+    double _ut;             ///< [h] universal time
 
-    double m_gst;           ///< [rad] Greenwhich Siderial Time
-    double m_lst;           ///< [rad] Local Siderial Time
+    double _gst;            ///< [rad] Greenwhich Siderial Time
+    double _lst;            ///< [rad] Local Siderial Time
 
-    double m_sunAlpha;      ///< [rad] Sun right ascension
-    double m_sunDelta;      ///< [rad] Sun declination
-    double m_sunElev;       ///< [rad] Sun elevation
-    double m_sunAzim;       ///< [rad] Sun azimuth
+    double _sunAlpha;       ///< [rad] Sun right ascension
+    double _sunDelta;       ///< [rad] Sun declination
+    double _sunElev;        ///< [rad] Sun elevation
+    double _sunAzim;        ///< [rad] Sun azimuth
 
-    double m_moonAlpha;     ///< [rad] Moon right ascension
-    double m_moonDelta;     ///< [rad] Moon declination
-    double m_moonElev;      ///< [rad] Moon elevation
-    double m_moonAzim;      ///< [rad] Moon azimuth
+    double _moonAlpha;      ///< [rad] Moon right ascension
+    double _moonDelta;      ///< [rad] Moon declination
+    double _moonElev;       ///< [rad] Moon elevation
+    double _moonAzim;       ///< [rad] Moon azimuth
 };
 
 } // end of cgi namespace

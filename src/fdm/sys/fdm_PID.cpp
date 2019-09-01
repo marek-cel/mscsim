@@ -34,41 +34,41 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 PID::PID( double kp, double ki, double kd ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
+    _kp ( kp ),
+    _ki ( ki ),
+    _kd ( kd ),
 
-    m_min ( std::numeric_limits< double >::min() ),
-    m_max ( std::numeric_limits< double >::max() ),
+    _min ( std::numeric_limits< double >::min() ),
+    _max ( std::numeric_limits< double >::max() ),
 
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
+    _error   ( 0.0 ),
+    _error_i ( 0.0 ),
+    _error_d ( 0.0 ),
 
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
+    _value ( 0.0 ),
+    _delta ( 0.0 ),
 
-    m_saturation ( false )
+    _saturation ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 PID::PID( double kp, double ki, double kd, double min, double max ) :
-    m_kp ( kp ),
-    m_ki ( ki ),
-    m_kd ( kd ),
+    _kp ( kp ),
+    _ki ( ki ),
+    _kd ( kd ),
 
-    m_min ( min ),
-    m_max ( max ),
+    _min ( min ),
+    _max ( max ),
 
-    m_error   ( 0.0 ),
-    m_error_i ( 0.0 ),
-    m_error_d ( 0.0 ),
+    _error   ( 0.0 ),
+    _error_i ( 0.0 ),
+    _error_d ( 0.0 ),
 
-    m_value ( 0.0 ),
-    m_delta ( 0.0 ),
+    _value ( 0.0 ),
+    _delta ( 0.0 ),
 
-    m_saturation ( true )
+    _saturation ( true )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,25 +82,25 @@ void PID::update( double timeStep, double error )
     if ( timeStep > 0.0 )
     {
         // integration with anti-windup filter
-        m_error_i = m_error_i + ( error - m_delta ) * timeStep;
+        _error_i = _error_i + ( error - _delta ) * timeStep;
 
-        m_error_d = ( timeStep > 0.0 ) ? ( error - m_error ) / timeStep : 0.0;
+        _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
 
-        m_error = error;
+        _error = error;
 
-        double value = m_kp * m_error + m_ki * m_error_i + m_kd * m_error_d;
+        double value = _kp * _error + _ki * _error_i + _kd * _error_d;
 
         // saturation
-        if ( m_saturation )
+        if ( _saturation )
         {
-            m_value = Misc::satur( m_min, m_max, value );
+            _value = Misc::satur( _min, _max, value );
         }
         else
         {
-            m_value = value;
+            _value = value;
         }
 
-        m_delta = value - m_value;
+        _delta = value - _value;
     }
 }
 
@@ -108,10 +108,10 @@ void PID::update( double timeStep, double error )
 
 void PID::setValue( double value )
 {
-    m_error   = 0.0;
-    m_error_i = 0.0;
-    m_error_d = 0.0;
+    _error   = 0.0;
+    _error_i = 0.0;
+    _error_d = 0.0;
 
-    m_value = value;
-    m_delta = 0.0;
+    _value = value;
+    _delta = 0.0;
 }

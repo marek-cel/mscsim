@@ -52,12 +52,12 @@ public:
      */
     virtual void update( double altitude_asl );
 
-    inline double getTemperature()  const { return m_temperature;  }
-    inline double getPressure()     const { return m_pressure;     }
-    inline double getDensity()      const { return m_density;      }
-    inline double getSpeedOfSound() const { return m_speedOfSound; }
+    inline double getTemperature()  const { return _temperature;  }
+    inline double getPressure()     const { return _pressure;     }
+    inline double getDensity()      const { return _density;      }
+    inline double getSpeedOfSound() const { return _speedOfSound; }
 
-    inline Vector3 getWind_BAS() const { return m_wind_bas; }
+    inline Vector3 getWind_BAS() const { return _wind_bas; }
 
     /**
      * Sets sea level air temperature value.
@@ -65,7 +65,7 @@ public:
      */
     inline void setTemperatureSL( double temperature_0 )
     {
-        m_atmosphere->setTemperatureSL( temperature_0 );
+        _atmosphere->setTemperatureSL( temperature_0 );
     }
 
     /**
@@ -74,19 +74,19 @@ public:
      */
     inline void setPressureSL( double pressure_0 )
     {
-        m_atmosphere->setPressureSL( pressure_0 );
+        _atmosphere->setPressureSL( pressure_0 );
     }
 
 protected:
 
-    Atmosphere *m_atmosphere;   ///< atmosphere object
+    Atmosphere *_atmosphere;    ///< atmosphere object
 
-    double m_temperature;       ///< [K] air temperature
-    double m_pressure;          ///< [Pa] air static pressure
-    double m_density;           ///< [kg/m^3] air density
-    double m_speedOfSound;      ///< [m/s] speed of sound
+    double _temperature;        ///< [K] air temperature
+    double _pressure;           ///< [Pa] air static pressure
+    double _density;            ///< [kg/m^3] air density
+    double _speedOfSound;       ///< [m/s] speed of sound
 
-    Vector3 m_wind_bas;         ///< [m/s] wind speed vector expressed in BAS
+    Vector3 _wind_bas;          ///< [m/s] wind speed vector expressed in BAS
 };
 
 } // end of fdm namespace

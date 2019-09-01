@@ -32,83 +32,83 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Filter2::Filter2() :
-    m_c1 ( 0.0 ),
-    m_c2 ( 0.0 ),
-    m_c3 ( 0.0 ),
-    m_c4 ( 0.0 ),
-    m_c5 ( 0.0 ),
-    m_c6 ( 0.0 ),
-    m_u_prev_1 ( 0.0 ),
-    m_u_prev_2 ( 0.0 ),
-    m_y_prev_1 ( 0.0 ),
-    m_y_prev_2 ( 0.0 ),
-    m_y ( 0.0 )
+    _c1 ( 0.0 ),
+    _c2 ( 0.0 ),
+    _c3 ( 0.0 ),
+    _c4 ( 0.0 ),
+    _c5 ( 0.0 ),
+    _c6 ( 0.0 ),
+    _u_prev_1 ( 0.0 ),
+    _u_prev_2 ( 0.0 ),
+    _y_prev_1 ( 0.0 ),
+    _y_prev_2 ( 0.0 ),
+    _y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Filter2::Filter2( double c1, double c2, double c3, double c4, double c5, double c6,
                   double y ) :
-    m_c1 ( c1 ),
-    m_c2 ( c2 ),
-    m_c3 ( c3 ),
-    m_c4 ( c4 ),
-    m_c5 ( c5 ),
-    m_c6 ( c6 ),
-    m_u_prev_1 ( 0.0 ),
-    m_u_prev_2 ( 0.0 ),
-    m_y_prev_1 ( y ),
-    m_y_prev_2 ( y ),
-    m_y ( y )
+    _c1 ( c1 ),
+    _c2 ( c2 ),
+    _c3 ( c3 ),
+    _c4 ( c4 ),
+    _c5 ( c5 ),
+    _c6 ( c6 ),
+    _u_prev_1 ( 0.0 ),
+    _u_prev_2 ( 0.0 ),
+    _y_prev_1 ( y ),
+    _y_prev_2 ( y ),
+    _y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setValue( double y )
 {
-    m_y = y;
+    _y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC1( double c1 )
 {
-    m_c1 = c1;
+    _c1 = c1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC2( double c2 )
 {
-    m_c2 = c2;
+    _c2 = c2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC3( double c3 )
 {
-    m_c3 = c3;
+    _c3 = c3;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC4( double c4 )
 {
-    m_c4 = c4;
+    _c4 = c4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC5( double c5 )
 {
-    m_c5 = c5;
+    _c5 = c5;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2::setC6( double c6 )
 {
-    m_c6 = c6;
+    _c6 = c6;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -117,23 +117,23 @@ void Filter2::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
-        double den = 4.0*m_c4 + 2.0*m_c5*dt + m_c6*dt*dt;
+        double den = 4.0*_c4 + 2.0*_c5*dt + _c6*dt*dt;
 
         double dt2 = dt * dt;
 
-        double ca = ( 4.0 * m_c1       + 2.0 * m_c2 * dt + m_c3 * dt2 ) / den;
-        double cb = ( 2.0 * m_c3 * dt2 - 8.0 * m_c1                   ) / den;
-        double cc = ( 4.0 * m_c1       - 2.0 * m_c2 * dt + m_c3 * dt2 ) / den;
-        double cd = ( 2.0 * m_c6 * dt2 - 8.0 * m_c4                   ) / den;
-        double ce = ( 4.0 * m_c4       - 2.0 * m_c5 * dt + m_c6 * dt2 ) / den;
+        double ca = ( 4.0 * _c1       + 2.0 * _c2 * dt + _c3 * dt2 ) / den;
+        double cb = ( 2.0 * _c3 * dt2 - 8.0 * _c1                  ) / den;
+        double cc = ( 4.0 * _c1       - 2.0 * _c2 * dt + _c3 * dt2 ) / den;
+        double cd = ( 2.0 * _c6 * dt2 - 8.0 * _c4                  ) / den;
+        double ce = ( 4.0 * _c4       - 2.0 * _c5 * dt + _c6 * dt2 ) / den;
 
-        m_y = u * ca + m_u_prev_1 * cb + m_u_prev_2 * cc
-                     - m_y_prev_1 * cd - m_y_prev_2 * ce;
+        _y = u * ca + _u_prev_1 * cb + _u_prev_2 * cc
+                    - _y_prev_1 * cd - _y_prev_2 * ce;
 
-        m_u_prev_2 = m_u_prev_1;
-        m_u_prev_1 = u;
+        _u_prev_2 = _u_prev_1;
+        _u_prev_1 = u;
 
-        m_y_prev_2 = m_y_prev_1;
-        m_y_prev_1 = m_y;
+        _y_prev_2 = _y_prev_1;
+        _y_prev_1 = _y;
     }
 }

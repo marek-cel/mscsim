@@ -36,7 +36,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 // US Standard Atmosphere 1976, Table 3, p.3
-const double Atmosphere::m_m_i[] = {
+const double Atmosphere::_m_i[] = {
     28.0134,
     31.9988,
     39.948,
@@ -50,7 +50,7 @@ const double Atmosphere::m_m_i[] = {
 };
 
 // US Standard Atmosphere 1976, Table 3, p.3
-const double Atmosphere::m_f_i[] = {
+const double Atmosphere::_f_i[] = {
     0.78084,
     0.209476,
     0.00934,
@@ -64,7 +64,7 @@ const double Atmosphere::m_f_i[] = {
 };
 
 // US Standard Atmosphere 1976, Table 4, p.3
-const double Atmosphere::m_h_b[] = {
+const double Atmosphere::_h_b[] = {
     11000.0,
     20000.0,
     32000.0,
@@ -75,7 +75,7 @@ const double Atmosphere::m_h_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table I, p.50-73
-const double Atmosphere::m_p_b[] = {
+const double Atmosphere::_p_b[] = {
     101325.0,
      22632.0,
       5474.8,
@@ -86,7 +86,7 @@ const double Atmosphere::m_p_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table I, p.50-73
-const double Atmosphere::m_t_b[] = {
+const double Atmosphere::_t_b[] = {
     288.15,
     216.65,
     216.65,
@@ -97,7 +97,7 @@ const double Atmosphere::m_t_b[] = {
 };
 
 // US Standard Atmosphere 1976, Table 4, p.3
-const double Atmosphere::m_l_b[] = {
+const double Atmosphere::_l_b[] = {
     -6.5e-3,
     0.0,
     1.0e-3,
@@ -108,42 +108,42 @@ const double Atmosphere::m_l_b[] = {
 };
 
 // [kg/kmol] mean molecular weight, US Standard Atmosphere 1976, p.9
-const double Atmosphere::m_m =
-        ( Atmosphere::m_m_i[ Atmosphere::N2  ] * Atmosphere::m_f_i[ Atmosphere::N2  ]
-        + Atmosphere::m_m_i[ Atmosphere::O2  ] * Atmosphere::m_f_i[ Atmosphere::O2  ]
-        + Atmosphere::m_m_i[ Atmosphere::Ar  ] * Atmosphere::m_f_i[ Atmosphere::Ar  ]
-        + Atmosphere::m_m_i[ Atmosphere::CO2 ] * Atmosphere::m_f_i[ Atmosphere::CO2 ]
-        + Atmosphere::m_m_i[ Atmosphere::Ne  ] * Atmosphere::m_f_i[ Atmosphere::Ne  ]
-        + Atmosphere::m_m_i[ Atmosphere::He  ] * Atmosphere::m_f_i[ Atmosphere::He  ]
-        + Atmosphere::m_m_i[ Atmosphere::Kr  ] * Atmosphere::m_f_i[ Atmosphere::Kr  ]
-        + Atmosphere::m_m_i[ Atmosphere::Xe  ] * Atmosphere::m_f_i[ Atmosphere::Xe  ]
-        + Atmosphere::m_m_i[ Atmosphere::CH4 ] * Atmosphere::m_f_i[ Atmosphere::CH4 ]
-        + Atmosphere::m_m_i[ Atmosphere::H2  ] * Atmosphere::m_f_i[ Atmosphere::H2  ] )
+const double Atmosphere::_m =
+        ( Atmosphere::_m_i[ Atmosphere::N2  ] * Atmosphere::_f_i[ Atmosphere::N2  ]
+        + Atmosphere::_m_i[ Atmosphere::O2  ] * Atmosphere::_f_i[ Atmosphere::O2  ]
+        + Atmosphere::_m_i[ Atmosphere::Ar  ] * Atmosphere::_f_i[ Atmosphere::Ar  ]
+        + Atmosphere::_m_i[ Atmosphere::CO2 ] * Atmosphere::_f_i[ Atmosphere::CO2 ]
+        + Atmosphere::_m_i[ Atmosphere::Ne  ] * Atmosphere::_f_i[ Atmosphere::Ne  ]
+        + Atmosphere::_m_i[ Atmosphere::He  ] * Atmosphere::_f_i[ Atmosphere::He  ]
+        + Atmosphere::_m_i[ Atmosphere::Kr  ] * Atmosphere::_f_i[ Atmosphere::Kr  ]
+        + Atmosphere::_m_i[ Atmosphere::Xe  ] * Atmosphere::_f_i[ Atmosphere::Xe  ]
+        + Atmosphere::_m_i[ Atmosphere::CH4 ] * Atmosphere::_f_i[ Atmosphere::CH4 ]
+        + Atmosphere::_m_i[ Atmosphere::H2  ] * Atmosphere::_f_i[ Atmosphere::H2  ] )
         /
-        ( Atmosphere::m_f_i[ Atmosphere::N2  ]
-        + Atmosphere::m_f_i[ Atmosphere::O2  ]
-        + Atmosphere::m_f_i[ Atmosphere::Ar  ]
-        + Atmosphere::m_f_i[ Atmosphere::CO2 ]
-        + Atmosphere::m_f_i[ Atmosphere::Ne  ]
-        + Atmosphere::m_f_i[ Atmosphere::He  ]
-        + Atmosphere::m_f_i[ Atmosphere::Kr  ]
-        + Atmosphere::m_f_i[ Atmosphere::Xe  ]
-        + Atmosphere::m_f_i[ Atmosphere::CH4 ]
-        + Atmosphere::m_f_i[ Atmosphere::H2  ] );
+        ( Atmosphere::_f_i[ Atmosphere::N2  ]
+        + Atmosphere::_f_i[ Atmosphere::O2  ]
+        + Atmosphere::_f_i[ Atmosphere::Ar  ]
+        + Atmosphere::_f_i[ Atmosphere::CO2 ]
+        + Atmosphere::_f_i[ Atmosphere::Ne  ]
+        + Atmosphere::_f_i[ Atmosphere::He  ]
+        + Atmosphere::_f_i[ Atmosphere::Kr  ]
+        + Atmosphere::_f_i[ Atmosphere::Xe  ]
+        + Atmosphere::_f_i[ Atmosphere::CH4 ]
+        + Atmosphere::_f_i[ Atmosphere::H2  ] );
 
-const double Atmosphere::m_r     = 8.31432e3;   // US Standard Atmosphere 1976, Table 2, p.2
-const double Atmosphere::m_s     = 110.0;       // US Standard Atmosphere 1976, Table 2, p.2
-const double Atmosphere::m_beta  = 1.458e-6;    // US Standard Atmosphere 1976, Table 2, p.2
-const double Atmosphere::m_gamma = 1.4;         // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_r     = 8.31432e3;    // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_s     = 110.0;        // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_beta  = 1.458e-6;     // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_gamma = 1.4;          // US Standard Atmosphere 1976, Table 2, p.2
 
-const double Atmosphere::m_std_sl_p = 101325.0; // US Standard Atmosphere 1976, Table 2, p.2
-const double Atmosphere::m_std_sl_t = 288.15;   // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_std_sl_p = 101325.0;  // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_std_sl_t = 288.15;    // US Standard Atmosphere 1976, Table 2, p.2
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Atmosphere::Atmosphere() :
-    m_temperature_0 ( m_std_sl_t ),
-    m_pressure_0    ( m_std_sl_p )
+    _temperature_0 ( _std_sl_t ),
+    _pressure_0    ( _std_sl_p )
 {
     update( 0.0 );
 }
@@ -156,34 +156,34 @@ Atmosphere::~Atmosphere() {}
 
 void Atmosphere::update( double altitude )
 {
-    double h_b = m_h_b[ 5 ];
-    double p_b = m_p_b[ 6 ];
-    double t_b = m_t_b[ 6 ];
+    double h_b = _h_b[ 5 ];
+    double p_b = _p_b[ 6 ];
+    double t_b = _t_b[ 6 ];
     double l_b = 0.0;
 
-    if ( altitude < m_h_b[ 0 ] )
+    if ( altitude < _h_b[ 0 ] )
     {
         h_b = 0.0;
-        p_b = m_p_b[ 0 ];
-        t_b = m_temperature_0;
-        l_b = -( m_temperature_0 - m_t_b[ 1 ] ) / m_h_b[ 0 ];
+        p_b = _p_b[ 0 ];
+        t_b = _temperature_0;
+        l_b = -( _temperature_0 - _t_b[ 1 ] ) / _h_b[ 0 ];
     }
     else
     {
         for ( int i = 1; i < 7; i++ )
         {
-            if ( altitude < m_h_b[ i ] )
+            if ( altitude < _h_b[ i ] )
             {
-                h_b = m_h_b[ i - 1 ];
-                p_b = m_p_b[ i ];
-                t_b = m_t_b[ i ];
-                l_b = m_l_b[ i ];
+                h_b = _h_b[ i - 1 ];
+                p_b = _p_b[ i ];
+                t_b = _t_b[ i ];
+                l_b = _l_b[ i ];
 
                 break;
             }
         }
 
-        if ( altitude > m_h_b[ 6 ] )
+        if ( altitude > _h_b[ 6 ] )
         {
             Log::w() << "Atmosphere altitude above valid range." << std::endl;
         }
@@ -192,34 +192,34 @@ void Atmosphere::update( double altitude )
     double delta_h = altitude - h_b;
 
     // [K] temperature, US Standard Atmosphere 1976, p.10
-    m_temperature = t_b + l_b * delta_h;
+    _temperature = t_b + l_b * delta_h;
 
     // [Pa] pressure, US Standard Atmosphere 1976, p.12
     if ( fabs( l_b ) < 1.0e-6 )
     {
-        m_pressure = p_b * exp( -( WGS84::m_g * m_m * delta_h ) / ( m_r * t_b ) );
+        _pressure = p_b * exp( -( WGS84::_g * _m * delta_h ) / ( _r * t_b ) );
     }
     else
     {
-        m_pressure = p_b * pow( t_b / m_temperature, ( WGS84::m_g * m_m ) / ( m_r * l_b ) );
+        _pressure = p_b * pow( t_b / _temperature, ( WGS84::_g * _m ) / ( _r * l_b ) );
 
-        if ( altitude < m_h_b[ 0 ] )
+        if ( altitude < _h_b[ 0 ] )
         {
-            m_pressure = ( m_pressure / m_std_sl_p ) * m_pressure_0;
+            _pressure = ( _pressure / _std_sl_p ) * _pressure_0;
         }
     }
 
     // [kg/m^3] density, US Standard Atmosphere 1976, p.15
-    m_density = ( m_pressure * m_m ) / ( m_r * m_temperature );
+    _density = ( _pressure * _m ) / ( _r * _temperature );
 
     // [m/s] speed of sound, US Standard Atmosphere 1976, p.18
-    m_speedOfSound = sqrt( ( m_gamma * m_r * m_temperature ) / m_m );
+    _speedOfSound = sqrt( ( _gamma * _r * _temperature ) / _m );
 
     // [Pa*s] dynamic viscosity, US Standard Atmosphere 1976, p.19
-    m_dynViscosity = m_beta * pow( m_temperature, 3.0 / 2.0 ) / ( m_temperature + m_s );
+    _dynViscosity = _beta * pow( _temperature, 3.0 / 2.0 ) / ( _temperature + _s );
 
     // [m^2/s] kinematic viscosity, US Standard Atmosphere 1976, p.19
-    m_kinViscosity = m_dynViscosity / m_density;
+    _kinViscosity = _dynViscosity / _density;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -228,7 +228,7 @@ void Atmosphere::setPressureSL( double pressure_0 )
 {
     if ( pressure_0 > 90000.0 && pressure_0 < 110000.0 )
     {
-        m_pressure_0 = pressure_0;
+        _pressure_0 = pressure_0;
     }
     else
     {
@@ -242,7 +242,7 @@ void Atmosphere::setTemperatureSL( double temperature_0 )
 {
     if ( temperature_0 > 173.15 && temperature_0 < 373.15 )
     {
-        m_temperature_0 = temperature_0;
+        _temperature_0 = temperature_0;
     }
     else
     {

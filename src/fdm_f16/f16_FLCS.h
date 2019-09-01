@@ -76,17 +76,17 @@ public:
                  bool alt_flaps_ext, bool refuel_door_open,
                  bool lg_handle_dn, bool touchdown );
 
-    inline double getAilerons()     const { return m_ailerons;      }
-    inline double getAileronsNorm() const { return m_ailerons_norm; }
-    inline double getElevator()     const { return m_elevator;      }
-    inline double getElevatorNorm() const { return m_elevator_norm; }
-    inline double getElevons()      const { return m_elevons;       }
-    inline double getRudder()       const { return m_rudder;        }
-    inline double getRudderNorm()   const { return m_rudder_norm;   }
-    inline double getFlapsLE()      const { return m_flaps_le;      }
-    inline double getFlapsLENorm()  const { return m_flaps_le_norm; }
-    inline double getFlapsTE()      const { return m_flaps_te;      }
-    inline double getFlapsTENorm()  const { return m_flaps_te_norm; }
+    inline double getAilerons()     const { return _ailerons;      }
+    inline double getAileronsNorm() const { return _ailerons_norm; }
+    inline double getElevator()     const { return _elevator;      }
+    inline double getElevatorNorm() const { return _elevator_norm; }
+    inline double getElevons()      const { return _elevons;       }
+    inline double getRudder()       const { return _rudder;        }
+    inline double getRudderNorm()   const { return _rudder_norm;   }
+    inline double getFlapsLE()      const { return _flaps_le;      }
+    inline double getFlapsLENorm()  const { return _flaps_le_norm; }
+    inline double getFlapsTE()      const { return _flaps_te;      }
+    inline double getFlapsTENorm()  const { return _flaps_te_norm; }
 
     void setAilerons_max( double ailerons_max );
     void setElevator_max( double elevator_max );
@@ -95,97 +95,97 @@ public:
 
 private:
 
-    double m_ailerons_max;              ///< [rad] ailerons deflection limit
-    double m_elevator_max;              ///< [rad] elevator deflection limit
-    double m_rudder_max;                ///< [rad] rudder  deflection limit
-    double m_flaps_le_max;              ///< [rad] leading edgle flaps deflection limit
+    double _ailerons_max;               ///< [rad] ailerons deflection limit
+    double _elevator_max;               ///< [rad] elevator deflection limit
+    double _rudder_max;                 ///< [rad] rudder  deflection limit
+    double _flaps_le_max;               ///< [rad] leading edgle flaps deflection limit
 
-    double m_ailerons_max_deg;          ///< [deg] ailerons deflection limit
-    double m_elevator_max_deg;          ///< [deg] elevator deflection limit
-    double m_rudder_max_deg;            ///< [deg] rudder  deflection limit
-    double m_flaps_le_max_deg;          ///< [deg] leading edgle flaps deflection limit
+    double _ailerons_max_deg;           ///< [deg] ailerons deflection limit
+    double _elevator_max_deg;           ///< [deg] elevator deflection limit
+    double _rudder_max_deg;             ///< [deg] rudder  deflection limit
+    double _flaps_le_max_deg;           ///< [deg] leading edgle flaps deflection limit
 
-    double m_ailerons;                  ///< [rad] ailerons deflection
-    double m_ailerons_norm;             ///< [-] normalized ailerons deflection
-    double m_elevator;                  ///< [rad] elevator deflection
-    double m_elevator_norm;             ///< [-] normalized elevator deflection
-    double m_elevons;                   ///< [rad] elevons differential deflection
-    double m_rudder;                    ///< [rad] rudder deflection
-    double m_rudder_norm;               ///< [-] normalized rudder deflection
-    double m_flaps_le;                  ///< [rad] leading edge flaps deflection
-    double m_flaps_le_norm;             ///< [-] normalized leading edge flaps deflection
-    double m_flaps_te;                  ///< [rad] trailing edge flaps deflection
-    double m_flaps_te_norm;             ///< [-] normalized trailing edge flaps deflection
+    double _ailerons;                   ///< [rad] ailerons deflection
+    double _ailerons_norm;              ///< [-] normalized ailerons deflection
+    double _elevator;                   ///< [rad] elevator deflection
+    double _elevator_norm;              ///< [-] normalized elevator deflection
+    double _elevons;                    ///< [rad] elevons differential deflection
+    double _rudder;                     ///< [rad] rudder deflection
+    double _rudder_norm;                ///< [-] normalized rudder deflection
+    double _flaps_le;                   ///< [rad] leading edge flaps deflection
+    double _flaps_le_norm;              ///< [-] normalized leading edge flaps deflection
+    double _flaps_te;                   ///< [rad] trailing edge flaps deflection
+    double _flaps_te_norm;              ///< [-] normalized trailing edge flaps deflection
 
-    double m_timeStep;                  ///< [s] time step
+    double _timeStep;                   ///< [s] time step
 
-    CAT   m_cat;                        ///< loading category
-    Gains m_gains;                      ///< FLCS gains mode
+    CAT   _cat;                         ///< loading category
+    Gains _gains;                       ///< FLCS gains mode
 
     // leading edge flaps
 
-    LeadLag *m_alpha_lef;               ///<
+    LeadLag *_alpha_lef;                ///<
 
     // trailing edge flaps
 
-    double m_flaps_int;                 ///<
-    double m_flaps_com;                 ///<
+    double _flaps_int;                  ///<
+    double _flaps_com;                  ///<
 
     // roll channel
 
-    Lag     *m_stick_lat;               ///< lateral stick input lagged
-    Lag     *m_p_com_lag;               ///< roll rate command
-    LeadLag *m_p_com_pos;               ///< roll rate command "positive" feedback loop
-    LeadLag *m_p_com_neg;               ///< roll rate command "negative" feedback loop
-    Lag     *m_omg_p_lag;               ///< filtered roll rate (p_f)
-    Filter2 *m_omg_p_fil;               ///<
-    Lag     *m_delta_fl_lag;            ///<
-    Lag     *m_delta_fr_lag;            ///<
+    Lag     *_stick_lat;                ///< lateral stick input lagged
+    Lag     *_p_com_lag;                ///< roll rate command
+    LeadLag *_p_com_pos;                ///< roll rate command "positive" feedback loop
+    LeadLag *_p_com_neg;                ///< roll rate command "negative" feedback loop
+    Lag     *_omg_p_lag;                ///< filtered roll rate (p_f)
+    Filter2 *_omg_p_fil;                ///<
+    Lag     *_delta_fl_lag;             ///<
+    Lag     *_delta_fr_lag;             ///<
 
-    double m_delta_flc;                 ///< [deg] left flaperon deflection commanded by control system
-    double m_delta_frc;                 ///< [deg] right flaperon deflection commanded by control system
-    double m_delta_fl;                  ///< [deg] left flaperon deflection
-    double m_delta_fr;                  ///< [deg] right flaperon deflection
-    double m_delta_ac;                  ///< [deg] ailerons deflection
-    double m_delta_a;                   ///< [deg] ailerons deflection
+    double _delta_flc;                  ///< [deg] left flaperon deflection commanded by control system
+    double _delta_frc;                  ///< [deg] right flaperon deflection commanded by control system
+    double _delta_fl;                   ///< [deg] left flaperon deflection
+    double _delta_fr;                   ///< [deg] right flaperon deflection
+    double _delta_ac;                   ///< [deg] ailerons deflection
+    double _delta_a;                    ///< [deg] ailerons deflection
 
     // pitch channel
 
-    Lag     *m_stick_lon;               ///< longitudinal stick input lagged
-    Lag     *m_alpha_lag;               ///< [deg] filtered angle of attack (alpha_f)
-    Lag     *m_g_com_lag;               ///<
-    Lag     *m_omg_q_lag;               ///< filtered pitch rate (q_f)
-    LeadLag *m_omg_q_fil;               ///< pitch rate filtered
-    Lag     *m_g_z_input;               ///< filtered normal acceleration (Az_f)
-    Lag     *m_sca_bias_1;              ///<
-    Lag     *m_sca_bias_2;              ///<
-    Lag     *m_sca_bias_3;              ///<
-    LeadLag *m_u_sca_fil;               ///<
-    Filter2 *m_u_sca_fil2;              ///<
-    Lag     *m_actuator_l;              ///<
-    Lag     *m_actuator_r;              ///<
+    Lag     *_stick_lon;                ///< longitudinal stick input lagged
+    Lag     *_alpha_lag;                ///< [deg] filtered angle of attack (alpha_f)
+    Lag     *_g_com_lag;                ///<
+    Lag     *_omg_q_lag;                ///< filtered pitch rate (q_f)
+    LeadLag *_omg_q_fil;                ///< pitch rate filtered
+    Lag     *_g_z_input;                ///< filtered normal acceleration (Az_f)
+    Lag     *_sca_bias_1;               ///<
+    Lag     *_sca_bias_2;               ///<
+    Lag     *_sca_bias_3;               ///<
+    LeadLag *_u_sca_fil;                ///<
+    Filter2 *_u_sca_fil2;               ///<
+    Lag     *_actuator_l;               ///<
+    Lag     *_actuator_r;               ///<
 
-    double m_pitch_int;                 ///< [deg] pitch integral
-    double m_delta_htl;                 ///<
-    double m_delta_htr;                 ///<
-    double m_delta_h;                   ///< [deg] horizontal stabilator deflection
-    double m_delta_d;                   ///< [deg] differential horizontal tail deflection
+    double _pitch_int;                  ///< [deg] pitch integral
+    double _delta_htl;                  ///<
+    double _delta_htr;                  ///<
+    double _delta_h;                    ///< [deg] horizontal stabilator deflection
+    double _delta_d;                    ///< [deg] differential horizontal tail deflection
 
     // yaw channel
 
-    Lag     *m_pedals;                  ///<
-    Lag     *m_omg_r_lag;               ///< yaw rate filtered (r_f)
-    Filter2 *m_omg_p_yaw;               ///<
-    LeadLag *m_u_sum_ll1;               ///<
-    LeadLag *m_u_sum_ll2;               ///<
-    Filter2 *m_delta_r_fil;             ///<
-    Lag     *m_delta_r_lag;             ///<
+    Lag     *_pedals;                   ///<
+    Lag     *_omg_r_lag;                ///< yaw rate filtered (r_f)
+    Filter2 *_omg_p_yaw;                ///<
+    LeadLag *_u_sum_ll1;                ///<
+    LeadLag *_u_sum_ll2;                ///<
+    Filter2 *_delta_r_fil;              ///<
+    Lag     *_delta_r_lag;              ///<
 
-    double m_delta_r;                   ///< [deg] rudder deflection
+    double _delta_r;                    ///< [deg] rudder deflection
 
     // gun compensation
 
-    double m_gun_compensation;          ///<
+    double _gun_compensation;           ///<
 
     void updateLEF( double angleOfAttack, double q_p );
 

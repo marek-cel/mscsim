@@ -42,7 +42,7 @@ class Camera
 {
 public:
 
-    static const double m_downAngle;    ///< [rad]
+    static const double _downAngle;     ///< [rad]
 
     /** Constructor. */
     Camera();
@@ -56,22 +56,22 @@ public:
     /** */
     inline osgGA::CameraManipulator* getManipulator()
     {
-        return m_manipulator.get();
+        return _manipulator.get();
     }
 
-    inline osg::Vec3d getPosition() const { return m_position; }
-    inline osg::Quat  getAttitude() const { return m_attitude; }
+    inline osg::Vec3d getPosition() const { return _position; }
+    inline osg::Quat  getAttitude() const { return _attitude; }
 
     /** Returns true if orbit manipulator track node is valid. */
     inline bool isTrackNodeValid()
     {
-        return m_trackNode.valid();
+        return _trackNode.valid();
     }
 
     /** Returns true if world manipulator node is valid. */
     inline bool isWorldNodeValid()
     {
-        return m_worldNode.valid();
+        return _worldNode.valid();
     }
 
     /** Sets default distance to aircraft. */
@@ -89,48 +89,48 @@ public:
     /** Sets chase view. */
     inline void setViewChase()
     {
-        m_viewType = Data::Camera::ViewChase;
-        m_manipulator = m_manipulatorShift.get();
+        _viewType = Data::Camera::ViewChase;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets orbit view. */
     inline void setViewOrbit()
     {
-        m_viewType = Data::Camera::ViewOrbit;
-        m_manipulator = m_manipulatorOrbit.get();
+        _viewType = Data::Camera::ViewOrbit;
+        _manipulator = _manipulatorOrbit.get();
     }
 
     /** Sets pilot view. */
     inline void setViewPilot()
     {
-        m_viewType = Data::Camera::ViewPilot;
-        m_manipulator = m_manipulatorShift.get();
+        _viewType = Data::Camera::ViewPilot;
+        _manipulator = _manipulatorShift.get();
     }
 
     /** Sets world view. */
     inline void setViewWorld()
     {
-        m_viewType = Data::Camera::ViewWorld;
-        m_manipulator = m_manipulatorWorld.get();
+        _viewType = Data::Camera::ViewWorld;
+        _manipulator = _manipulatorWorld.get();
     }
 
 private:
 
     typedef Data::Camera::ViewType ViewType;
 
-    osg::ref_ptr<osgGA::CameraManipulator> m_manipulator;   ///< current manipulator
+    osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
 
-    osg::ref_ptr<ManipulatorOrbit> m_manipulatorOrbit;      ///< orbit view manipulator
-    osg::ref_ptr<ManipulatorShift> m_manipulatorShift;      ///< shift view manipulator
-    osg::ref_ptr<ManipulatorWorld> m_manipulatorWorld;      ///< world view manipulator
+    osg::ref_ptr<ManipulatorOrbit> _manipulatorOrbit;       ///< orbit view manipulator
+    osg::ref_ptr<ManipulatorShift> _manipulatorShift;       ///< shift view manipulator
+    osg::ref_ptr<ManipulatorWorld> _manipulatorWorld;       ///< world view manipulator
 
-    osg::ref_ptr<osg::Node> m_trackNode;    ///< orbit manipulator track node
-    osg::ref_ptr<osg::Node> m_worldNode;    ///< world manipulator node
+    osg::ref_ptr<osg::Node> _trackNode;     ///< orbit manipulator track node
+    osg::ref_ptr<osg::Node> _worldNode;     ///< world manipulator node
 
-    osg::Vec3d m_position;  ///<
-    osg::Quat  m_attitude;  ///<
+    osg::Vec3d _position;   ///<
+    osg::Quat  _attitude;   ///<
 
-    ViewType m_viewType;    ///<
+    ViewType _viewType;     ///<
 };
 
 } // end of cgi namespace

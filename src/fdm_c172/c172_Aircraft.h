@@ -59,25 +59,25 @@ public:
     /** Updates output data. */
     void updateOutputData();
 
-    inline C172_Aerodynamics* getAero() { return m_aero; }
-    inline C172_Controls*     getCtrl() { return m_ctrl; }
-    inline C172_LandingGear*  getGear() { return m_gear; }
-    inline C172_Mass*         getMass() { return m_mass; }
-    inline C172_Propulsion*   getProp() { return m_prop; }
+    inline C172_Aerodynamics* getAero() { return _aero; }
+    inline C172_Controls*     getCtrl() { return _ctrl; }
+    inline C172_LandingGear*  getGear() { return _gear; }
+    inline C172_Mass*         getMass() { return _mass; }
+    inline C172_Propulsion*   getProp() { return _prop; }
 
-    inline const C172_Aerodynamics* getAero() const { return m_aero; }
-    inline const C172_Controls*     getCtrl() const { return m_ctrl; }
-    inline const C172_LandingGear*  getGear() const { return m_gear; }
-    inline const C172_Mass*         getMass() const { return m_mass; }
-    inline const C172_Propulsion*   getProp() const { return m_prop; }
+    inline const C172_Aerodynamics* getAero() const { return _aero; }
+    inline const C172_Controls*     getCtrl() const { return _ctrl; }
+    inline const C172_LandingGear*  getGear() const { return _gear; }
+    inline const C172_Mass*         getMass() const { return _mass; }
+    inline const C172_Propulsion*   getProp() const { return _prop; }
 
 private:
 
-    C172_Aerodynamics *m_aero;  ///< aerodynamics model
-    C172_Controls     *m_ctrl;  ///< controls model
-    C172_LandingGear  *m_gear;  ///< landing gear model
-    C172_Mass         *m_mass;  ///< mass and inertia model
-    C172_Propulsion   *m_prop;  ///< propulsion model
+    C172_Aerodynamics *_aero;   ///< aerodynamics model
+    C172_Controls     *_ctrl;   ///< controls model
+    C172_LandingGear  *_gear;   ///< landing gear model
+    C172_Mass         *_mass;   ///< mass and inertia model
+    C172_Propulsion   *_prop;   ///< propulsion model
 };
 
 } // end of fdm namespace

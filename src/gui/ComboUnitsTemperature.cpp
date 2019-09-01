@@ -29,16 +29,16 @@
 ComboUnitsTemperature::ComboUnitsTemperature( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "K" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "K" ) );
 
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "deg C" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "deg C" ) );
 
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "deg F" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "deg F" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,11 +47,11 @@ ComboUnitsTemperature::~ComboUnitsTemperature() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnitsTemperature::convert( float value )
+float ComboUnitsTemperature::convert( float value ) const
 {
     float result = value;
 
-    switch ( m_index )
+    switch ( _index )
     {
         case 1: result = fdm::Units::k2c( value ); break;
         case 2: result = fdm::Units::k2f( value ); break;
@@ -62,11 +62,11 @@ float ComboUnitsTemperature::convert( float value )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnitsTemperature::convertPrev( float value )
+float ComboUnitsTemperature::convertPrev( float value ) const
 {
     float result = value;
 
-    switch ( m_index_prev )
+    switch ( _index_prev )
     {
         case 1: result = fdm::Units::k2c( value ); break;
         case 2: result = fdm::Units::k2f( value ); break;
@@ -77,11 +77,11 @@ float ComboUnitsTemperature::convertPrev( float value )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnitsTemperature::invert( float value )
+float ComboUnitsTemperature::invert( float value ) const
 {
     float result = value;
 
-    switch ( m_index )
+    switch ( _index )
     {
         case 1: result = fdm::Units::c2k( value ); break;
         case 2: result = fdm::Units::f2k( value ); break;
@@ -92,11 +92,11 @@ float ComboUnitsTemperature::invert( float value )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnitsTemperature::invertPrev( float value )
+float ComboUnitsTemperature::invertPrev( float value ) const
 {
     float result = value;
 
-    switch ( m_index_prev )
+    switch ( _index_prev )
     {
         case 1: result = fdm::Units::c2k( value ); break;
         case 2: result = fdm::Units::f2k( value ); break;

@@ -33,11 +33,11 @@ double Aerodynamics::getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
 {
     double angleOfAttack = 0.0;
 
-    double uv = sqrt( vel_bas( i_u )*vel_bas( i_u ) + vel_bas( i_v )*vel_bas( i_v ) );
+    double uv = sqrt( vel_bas( _iu )*vel_bas( _iu ) + vel_bas( _iv )*vel_bas( _iv ) );
 
-    if ( fabs( uv ) > vel_min || fabs( vel_bas( i_w ) ) > vel_min )
+    if ( fabs( uv ) > vel_min || fabs( vel_bas( _iw ) ) > vel_min )
     {
-        angleOfAttack = atan2( vel_bas( i_w ), uv );
+        angleOfAttack = atan2( vel_bas( _iw ), uv );
     }
 
     return angleOfAttack;
@@ -49,10 +49,10 @@ double Aerodynamics::getSideslipAngle( const Vector3 &vel_bas, double vel_min )
 {
     double sideslipAngle = 0.0;
 
-    if ( fabs( vel_bas( i_u ) ) > vel_min || fabs( vel_bas( i_v ) ) > vel_min )
+    if ( fabs( vel_bas( _iu ) ) > vel_min || fabs( vel_bas( _iv ) ) > vel_min )
     {
         double vw = vel_bas.getLength();
-        double v_vw = ( vw > vel_min ) ? ( vel_bas( i_v ) / vw ) : 0.0;
+        double v_vw = ( vw > vel_min ) ? ( vel_bas( _iv ) / vw ) : 0.0;
 
         if ( v_vw >  1.0 ) v_vw =  1.0;
         if ( v_vw < -1.0 ) v_vw = -1.0;
@@ -147,7 +147,7 @@ Matrix3x3 Aerodynamics::getStab2BAS( double sinAlpha, double cosAlpha )
 ////////////////////////////////////////////////////////////////////////////////
 
 Aerodynamics::Aerodynamics( const Aircraft* aircraft ) :
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,13 +169,13 @@ void Aerodynamics::update()
 
 void Aerodynamics::updateMatrices()
 {
-    double sinAlpha = sin( m_aircraft->getAngleOfAttack() );
-    double cosAlpha = cos( m_aircraft->getAngleOfAttack() );
-    double sinBeta  = sin( m_aircraft->getSideslipAngle() );
-    double cosBeta  = cos( m_aircraft->getSideslipAngle() );
+    double sinAlpha = sin( _aircraft->getAngleOfAttack() );
+    double cosAlpha = cos( _aircraft->getAngleOfAttack() );
+    double sinBeta  = sin( _aircraft->getSideslipAngle() );
+    double cosBeta  = cos( _aircraft->getSideslipAngle() );
 
-    m_aero2bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta );
-    m_stab2bas = getStab2BAS( sinAlpha, cosAlpha );
-    m_bas2aero = m_aero2bas.getTransposed();
-    m_bas2stab = m_stab2bas.getTransposed();
+    _aero2bas = getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta );
+    _stab2bas = getStab2BAS( sinAlpha, cosAlpha );
+    _bas2aero = _aero2bas.getTransposed();
+    _bas2stab = _stab2bas.getTransposed();
 }

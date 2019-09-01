@@ -41,7 +41,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::ostream& Log::m_out = std::cerr;
+std::ostream& Log::_out = std::cerr;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -82,21 +82,21 @@ std::ostream& Log::timeTag()
     msec = st.wMilliseconds;
 #   endif
 
-    m_out << "[";
-    m_out << year;
-    m_out << "-";
-    m_out << std::setfill('0') << std::setw( 2 ) << mon;
-    m_out << "-";
-    m_out << std::setfill('0') << std::setw( 2 ) << day;
-    m_out << " ";
-    m_out << std::setfill('0') << std::setw( 2 ) << hour;
-    m_out << ":";
-    m_out << std::setfill('0') << std::setw( 2 ) << min;
-    m_out << ":";
-    m_out << std::setfill('0') << std::setw( 2 ) << sec;
-    m_out << ".";
-    m_out << std::setfill('0') << std::setw( 3 ) << msec;
-    m_out << "]";
+    _out << "[";
+    _out << year;
+    _out << "-";
+    _out << std::setfill('0') << std::setw( 2 ) << mon;
+    _out << "-";
+    _out << std::setfill('0') << std::setw( 2 ) << day;
+    _out << " ";
+    _out << std::setfill('0') << std::setw( 2 ) << hour;
+    _out << ":";
+    _out << std::setfill('0') << std::setw( 2 ) << min;
+    _out << ":";
+    _out << std::setfill('0') << std::setw( 2 ) << sec;
+    _out << ".";
+    _out << std::setfill('0') << std::setw( 3 ) << msec;
+    _out << "]";
 
-    return m_out;
+    return _out;
 }

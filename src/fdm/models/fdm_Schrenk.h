@@ -99,13 +99,13 @@ public:
 
 protected:
 
-    double m_area;              ///< [m^2] wing area
-    double m_span;              ///< [m] wing span
+    double _area;               ///< [m^2] wing area
+    double _span;               ///< [m] wing span
 
-    Table m_chord;              ///< [m] wing chord vs [m] spanwise coordinate
+    Table _chord;               ///< [m] wing chord vs [m] spanwise coordinate
 
-    double m_4S_bpi;            ///< [m] 4*S/(b*pi) where S is wing area and b is wing span
-    double m_2_b;               ///< [1/m] 2/b where b is wing span
+    double _4S_bpi;             ///< [m] 4*S/(b*pi) where S is wing area and b is wing span
+    double _2_b;                ///< [1/m] 2/b where b is wing span
 
     /** */
     void updateAxiliaryParameters();

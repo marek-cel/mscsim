@@ -28,34 +28,36 @@
 #include <gui/Aircrafts.h>
 #include <gui/Locations.h>
 
+#include <gui/DialogTime.h>
+
 #include <gui/gui_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DialogInit::DialogInit( QWidget *parent ) :
     QDialog ( parent ),
-    m_ui ( new Ui::DialogInit ),
+    _ui ( new Ui::DialogInit ),
 
-    m_typeIndex ( 0 ),
+    _typeIndex ( 0 ),
 
-    m_lat ( 0.0f ),
-    m_lon ( 0.0f ),
-    m_alt ( 0.0f ),
-    m_psi ( 0.0f ),
-    m_ias ( 0.0f ),
+    _lat ( 0.0f ),
+    _lon ( 0.0f ),
+    _alt ( 0.0f ),
+    _psi ( 0.0f ),
+    _ias ( 0.0f ),
 
-    m_engine ( true )
+    _engine ( true )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
     for ( int i = 0; i < Aircrafts::instance()->getCount(); i++ )
     {
-        m_ui->comboAircrafts->addItem( QIcon(), Aircrafts::instance()->getAircraft( i ).name );
+        _ui->comboAircrafts->addItem( QIcon(), Aircrafts::instance()->getAircraft( i ).name );
     }
 
     for ( int i = 0; i < Locations::instance()->getCount(); i++ )
     {
-        m_ui->comboLocations->addItem( QIcon(), Locations::instance()->getLocation( i ).name );
+        _ui->comboLocations->addItem( QIcon(), Locations::instance()->getLocation( i ).name );
     }
 
     settingsRead();
@@ -67,51 +69,51 @@ DialogInit::~DialogInit()
 {
     settingsSave();
 
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::readData()
 {
-    m_ui->comboAircrafts->setCurrentIndex( m_typeIndex );
-    m_ui->comboLocations->setCurrentIndex( -1 );
+    _ui->comboAircrafts->setCurrentIndex( _typeIndex );
+    _ui->comboLocations->setCurrentIndex( -1 );
 
-    m_ui->spinInitLat->setValue( m_ui->comboInitLat->convert( m_lat ) );
-    m_ui->spinInitLon->setValue( m_ui->comboInitLon->convert( m_lon ) );
-    m_ui->spinInitAlt->setValue( m_ui->comboInitAlt->convert( m_alt ) );
-    m_ui->spinInitPsi->setValue( m_ui->comboInitPsi->convert( m_psi ) );
-    m_ui->spinInitIAS->setValue( m_ui->comboInitIAS->convert( m_ias ) );
+    _ui->spinInitLat->setValue( _ui->comboInitLat->convert( _lat ) );
+    _ui->spinInitLon->setValue( _ui->comboInitLon->convert( _lon ) );
+    _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( _alt ) );
+    _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( _psi ) );
+    _ui->spinInitIAS->setValue( _ui->comboInitIAS->convert( _ias ) );
 
-    m_ui->dateInit->setDate( m_dateTime.date() );
-    m_ui->timeInit->setTime( m_dateTime.time() );
+    _ui->dateInit->setDate( _dateTime.date() );
+    _ui->timeInit->setTime( _dateTime.time() );
 
-    m_ui->checkBoxEngineOn->setChecked( m_engine );
+    _ui->checkBoxEngineOn->setChecked( _engine );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::saveData()
 {
-    int typeIndexPrev = m_typeIndex;
+    int typeIndexPrev = _typeIndex;
 
-    m_typeIndex = m_ui->comboAircrafts->currentIndex();
+    _typeIndex = _ui->comboAircrafts->currentIndex();
 
-    m_lat = m_ui->comboInitLat->invert( m_ui->spinInitLat->value() );
-    m_lon = m_ui->comboInitLon->invert( m_ui->spinInitLon->value() );
-    m_alt = m_ui->comboInitAlt->invert( m_ui->spinInitAlt->value() );
-    m_psi = m_ui->comboInitPsi->invert( m_ui->spinInitPsi->value() );
-    m_ias = m_ui->comboInitIAS->invert( m_ui->spinInitIAS->value() );
+    _lat = _ui->comboInitLat->invert( _ui->spinInitLat->value() );
+    _lon = _ui->comboInitLon->invert( _ui->spinInitLon->value() );
+    _alt = _ui->comboInitAlt->invert( _ui->spinInitAlt->value() );
+    _psi = _ui->comboInitPsi->invert( _ui->spinInitPsi->value() );
+    _ias = _ui->comboInitIAS->invert( _ui->spinInitIAS->value() );
 
-    m_dateTime.setDate( m_ui->dateInit->date() );
-    m_dateTime.setTime( m_ui->timeInit->time() );
+    _dateTime.setDate( _ui->dateInit->date() );
+    _dateTime.setTime( _ui->timeInit->time() );
 
-    m_engine = m_ui->checkBoxEngineOn->isChecked();
+    _engine = _ui->checkBoxEngineOn->isChecked();
 
-    if ( typeIndexPrev != m_typeIndex )
+    if ( typeIndexPrev != _typeIndex )
     {
-        emit typeIndexChanged( m_typeIndex );
+        emit typeIndexChanged( _typeIndex );
     }
 }
 
@@ -137,23 +139,23 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
 {
     settings.beginGroup( "init_data" );
 
-    m_typeIndex = settings.value( "type_index", 0 ).toInt();
+    _typeIndex = settings.value( "type_index", 0 ).toInt();
 
     if ( Locations::instance()->getCount() > 0 )
     {
-        m_lat = settings.value( "lat", Locations::instance()->getLocation( 0 ).lat ).toFloat();
-        m_lon = settings.value( "lon", Locations::instance()->getLocation( 0 ).lon ).toFloat();
-        m_alt = settings.value( "alt", Locations::instance()->getLocation( 0 ).alt ).toFloat();
-        m_psi = settings.value( "psi", Locations::instance()->getLocation( 0 ).hdg ).toFloat();
-        m_ias = settings.value( "ias", 0.0 ).toFloat();
+        _lat = settings.value( "lat", Locations::instance()->getLocation( 0 ).lat ).toFloat();
+        _lon = settings.value( "lon", Locations::instance()->getLocation( 0 ).lon ).toFloat();
+        _alt = settings.value( "alt", Locations::instance()->getLocation( 0 ).alt ).toFloat();
+        _psi = settings.value( "psi", Locations::instance()->getLocation( 0 ).hdg ).toFloat();
+        _ias = settings.value( "ias", 0.0 ).toFloat();
     }
     else
     {
-        m_lat = settings.value( "lat", 0.0 ).toFloat();
-        m_lon = settings.value( "lon", 0.0 ).toFloat();
-        m_alt = settings.value( "alt", 0.0 ).toFloat();
-        m_psi = settings.value( "psi", 0.0 ).toFloat();
-        m_ias = settings.value( "ias", 0.0 ).toFloat();
+        _lat = settings.value( "lat", 0.0 ).toFloat();
+        _lon = settings.value( "lon", 0.0 ).toFloat();
+        _alt = settings.value( "alt", 0.0 ).toFloat();
+        _psi = settings.value( "psi", 0.0 ).toFloat();
+        _ias = settings.value( "ias", 0.0 ).toFloat();
     }
 
     short date_y = settings.value( "date_y", 2000 ).toInt();
@@ -168,23 +170,23 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
     date.setYMD( date_y, date_m, date_d );
     time.setHMS( time_h, time_m, 0 );
 
-    m_dateTime.setDate( date );
-    m_dateTime.setTime( time );
+    _dateTime.setDate( date );
+    _dateTime.setTime( time );
 
-    m_engine = settings.value( "engine", 1 ).toInt() != 0;
+    _engine = settings.value( "engine", 1 ).toInt() != 0;
 
-    m_ui->comboAircrafts->setCurrentIndex( m_typeIndex );
+    _ui->comboAircrafts->setCurrentIndex( _typeIndex );
 
-    m_ui->spinInitLat->setValue( m_ui->comboInitLat->convert( m_lat ) );
-    m_ui->spinInitLon->setValue( m_ui->comboInitLon->convert( m_lon ) );
-    m_ui->spinInitAlt->setValue( m_ui->comboInitAlt->convert( m_alt ) );
-    m_ui->spinInitPsi->setValue( m_ui->comboInitPsi->convert( m_psi ) );
-    m_ui->spinInitIAS->setValue( m_ui->comboInitIAS->convert( m_ias ) );
+    _ui->spinInitLat->setValue( _ui->comboInitLat->convert( _lat ) );
+    _ui->spinInitLon->setValue( _ui->comboInitLon->convert( _lon ) );
+    _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( _alt ) );
+    _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( _psi ) );
+    _ui->spinInitIAS->setValue( _ui->comboInitIAS->convert( _ias ) );
 
-    m_ui->dateInit->setDate( m_dateTime.date() );
-    m_ui->timeInit->setTime( m_dateTime.time() );
+    _ui->dateInit->setDate( _dateTime.date() );
+    _ui->timeInit->setTime( _dateTime.time() );
 
-    m_ui->checkBoxEngineOn->setChecked( m_engine );
+    _ui->checkBoxEngineOn->setChecked( _engine );
 
     settings.endGroup();
 }
@@ -195,11 +197,11 @@ void DialogInit::settingsRead_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
-    m_ui->comboInitLat->setCurrentIndex( settings.value( "lat", 1 ).toInt() );
-    m_ui->comboInitLon->setCurrentIndex( settings.value( "lon", 1 ).toInt() );
-    m_ui->comboInitAlt->setCurrentIndex( settings.value( "alt", 0 ).toInt() );
-    m_ui->comboInitPsi->setCurrentIndex( settings.value( "psi", 1 ).toInt() );
-    m_ui->comboInitIAS->setCurrentIndex( settings.value( "ias", 0 ).toInt() );
+    _ui->comboInitLat->setCurrentIndex( settings.value( "lat", 1 ).toInt() );
+    _ui->comboInitLon->setCurrentIndex( settings.value( "lon", 1 ).toInt() );
+    _ui->comboInitAlt->setCurrentIndex( settings.value( "alt", 0 ).toInt() );
+    _ui->comboInitPsi->setCurrentIndex( settings.value( "psi", 1 ).toInt() );
+    _ui->comboInitIAS->setCurrentIndex( settings.value( "ias", 0 ).toInt() );
 
     settings.endGroup();
 }
@@ -226,21 +228,21 @@ void DialogInit::settingsSave_InitData( QSettings &settings )
 {
     settings.beginGroup( "init_data" );
 
-    settings.setValue( "type_index" , m_typeIndex );
+    settings.setValue( "type_index" , _typeIndex );
 
-    settings.setValue( "lat", m_lat );
-    settings.setValue( "lon", m_lon );
-    settings.setValue( "alt", m_alt );
-    settings.setValue( "psi", m_psi );
-    settings.setValue( "ias", m_ias );
+    settings.setValue( "lat", _lat );
+    settings.setValue( "lon", _lon );
+    settings.setValue( "alt", _alt );
+    settings.setValue( "psi", _psi );
+    settings.setValue( "ias", _ias );
 
-    settings.setValue( "date_y", m_dateTime.date().year()   );
-    settings.setValue( "date_m", m_dateTime.date().month()  );
-    settings.setValue( "date_d", m_dateTime.date().day()    );
-    settings.setValue( "time_h", m_dateTime.time().hour()   );
-    settings.setValue( "time_m", m_dateTime.time().minute() );
+    settings.setValue( "date_y", _dateTime.date().year()   );
+    settings.setValue( "date_m", _dateTime.date().month()  );
+    settings.setValue( "date_d", _dateTime.date().day()    );
+    settings.setValue( "time_h", _dateTime.time().hour()   );
+    settings.setValue( "time_m", _dateTime.time().minute() );
 
-    settings.setValue( "engine", m_engine ? 1 : 0 );
+    settings.setValue( "engine", _engine ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -251,11 +253,11 @@ void DialogInit::settingsSave_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
-    settings.setValue( "lat", m_ui->comboInitLat->currentIndex() );
-    settings.setValue( "lon", m_ui->comboInitLon->currentIndex() );
-    settings.setValue( "alt", m_ui->comboInitAlt->currentIndex() );
-    settings.setValue( "psi", m_ui->comboInitPsi->currentIndex() );
-    settings.setValue( "ias", m_ui->comboInitIAS->currentIndex() );
+    settings.setValue( "lat", _ui->comboInitLat->currentIndex() );
+    settings.setValue( "lon", _ui->comboInitLon->currentIndex() );
+    settings.setValue( "alt", _ui->comboInitAlt->currentIndex() );
+    settings.setValue( "psi", _ui->comboInitPsi->currentIndex() );
+    settings.setValue( "ias", _ui->comboInitIAS->currentIndex() );
 
     settings.endGroup();
 }
@@ -271,10 +273,10 @@ void DialogInit::on_comboLocations_currentIndexChanged( int index )
         float alt = Locations::instance()->getLocation( index ).alt;
         float hdg = Locations::instance()->getLocation( index ).hdg;
 
-        m_ui->spinInitLat->setValue( m_ui->comboInitLat->convert( lat ) );
-        m_ui->spinInitLon->setValue( m_ui->comboInitLon->convert( lon ) );
-        m_ui->spinInitAlt->setValue( m_ui->comboInitAlt->convert( ( alt > 1.0e-6 ) ? alt : 0.0f ) );
-        m_ui->spinInitPsi->setValue( m_ui->comboInitPsi->convert( hdg ) );
+        _ui->spinInitLat->setValue( _ui->comboInitLat->convert( lat ) );
+        _ui->spinInitLon->setValue( _ui->comboInitLon->convert( lon ) );
+        _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( ( alt > 1.0e-6 ) ? alt : 0.0f ) );
+        _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( hdg ) );
     }
 }
 
@@ -282,93 +284,102 @@ void DialogInit::on_comboLocations_currentIndexChanged( int index )
 
 void DialogInit::on_comboInitLat_currentIndexChanged( int index )
 {
-    float value = m_ui->comboInitLat->invertPrev( m_ui->spinInitLat->value() );
+    float value = _ui->comboInitLat->invertPrev( _ui->spinInitLat->value() );
 
     if ( index == 0 )
     {
         // rad
-        m_ui->spinInitLat->setDecimals( 8 );
-        m_ui->spinInitLat->setMinimum( -M_PI / 2.0 );
-        m_ui->spinInitLat->setMaximum(  M_PI / 2.0 );
+        _ui->spinInitLat->setDecimals( 8 );
+        _ui->spinInitLat->setMinimum( -M_PI / 2.0 );
+        _ui->spinInitLat->setMaximum(  M_PI / 2.0 );
     }
     else
     {
         // deg
-        m_ui->spinInitLat->setDecimals( 6 );
-        m_ui->spinInitLat->setMinimum( -90.0 );
-        m_ui->spinInitLat->setMaximum(  90.0 );
+        _ui->spinInitLat->setDecimals( 6 );
+        _ui->spinInitLat->setMinimum( -90.0 );
+        _ui->spinInitLat->setMaximum(  90.0 );
     }
 
-    m_ui->spinInitLat->setValue( m_ui->comboInitLat->convert( value ) );
+    _ui->spinInitLat->setValue( _ui->comboInitLat->convert( value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_comboInitLon_currentIndexChanged( int index )
 {
-    float value = m_ui->comboInitLon->invertPrev( m_ui->spinInitLon->value() );
+    float value = _ui->comboInitLon->invertPrev( _ui->spinInitLon->value() );
 
     if ( index == 0 )
     {
         // rad
-        m_ui->spinInitLon->setDecimals( 8 );
-        m_ui->spinInitLon->setMinimum( -M_PI );
-        m_ui->spinInitLon->setMaximum(  M_PI );
+        _ui->spinInitLon->setDecimals( 8 );
+        _ui->spinInitLon->setMinimum( -M_PI );
+        _ui->spinInitLon->setMaximum(  M_PI );
     }
     else
     {
         // deg
-        m_ui->spinInitLon->setDecimals( 6 );
-        m_ui->spinInitLon->setMinimum( -180.0 );
-        m_ui->spinInitLon->setMaximum(  180.0 );
+        _ui->spinInitLon->setDecimals( 6 );
+        _ui->spinInitLon->setMinimum( -180.0 );
+        _ui->spinInitLon->setMaximum(  180.0 );
     }
 
-    m_ui->spinInitLon->setValue( m_ui->comboInitLon->convert( value ) );
+    _ui->spinInitLon->setValue( _ui->comboInitLon->convert( value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_comboInitAlt_currentIndexChanged( int /*index*/ )
 {
-    float value = m_ui->comboInitAlt->invertPrev( m_ui->spinInitAlt->value() );
+    float value = _ui->comboInitAlt->invertPrev( _ui->spinInitAlt->value() );
 
-    m_ui->spinInitAlt->setValue( m_ui->comboInitAlt->convert( value ) );
+    _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_comboInitPsi_currentIndexChanged( int index )
 {
-    float value = m_ui->comboInitPsi->invertPrev( m_ui->spinInitPsi->value() );
+    float value = _ui->comboInitPsi->invertPrev( _ui->spinInitPsi->value() );
 
     if ( index == 0 )
     {
         // rad
-        m_ui->spinInitPsi->setDecimals( 2 );
-        m_ui->spinInitPsi->setMaximum( 2.0 * M_PI );
+        _ui->spinInitPsi->setDecimals( 2 );
+        _ui->spinInitPsi->setMaximum( 2.0 * M_PI );
     }
     else
     {
         // deg
-        m_ui->spinInitPsi->setDecimals( 0 );
-        m_ui->spinInitPsi->setMaximum( 360.0 );
+        _ui->spinInitPsi->setDecimals( 0 );
+        _ui->spinInitPsi->setMaximum( 360.0 );
     }
 
-    m_ui->spinInitPsi->setValue( m_ui->comboInitPsi->convert( value ) );
+    _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_comboInitIAS_currentIndexChanged( int /*index*/ )
 {
-    float value = m_ui->comboInitIAS->invertPrev( m_ui->spinInitIAS->value() );
+    float value = _ui->comboInitIAS->invertPrev( _ui->spinInitIAS->value() );
 
-    m_ui->spinInitIAS->setValue( m_ui->comboInitIAS->convert( value ) );
+    _ui->spinInitIAS->setValue( _ui->comboInitIAS->convert( value ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_pushButtonTime_clicked()
+{
+    QTime time_utc = _ui->timeInit->time();
+    time_utc = DialogTime::getTimeUTC( _ui->spinInitLon->value(), time_utc, this );
+    _ui->timeInit->setTime( time_utc );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_checkBoxEngineOn_toggled( bool checked )
 {
-    m_engine = checked;
+    _engine = checked;
 }

@@ -68,18 +68,18 @@ protected:
 
 private:
 
-    QTimer        *m_timeoutTimer;  ///<
-    QElapsedTimer *m_elapsedTimer;  ///<
+    QTimer        *_timeoutTimer;   ///<
+    QElapsedTimer *_elapsedTimer;   ///<
 
-    fdm::Manager *m_fdm;            ///< flight dynamics model
+    fdm::Manager *_fdm;             ///< flight dynamics model
 
-    fdm::DataInp m_dataInp;         ///< flight dynamics model input data
-    fdm::DataOut m_dataOut;         ///< flight dynamics model output data
+    fdm::DataInp _dataInp;          ///< flight dynamics model input data
+    fdm::DataOut _dataOut;          ///< flight dynamics model output data
 
-    double m_timeStep;
-    double m_timeCoef;
+    double _timeStep;
+    double _timeCoef;
 
-    int m_timerId;
+    int _timerId;
 
 private slots:
 

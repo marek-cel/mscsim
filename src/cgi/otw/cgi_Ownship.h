@@ -71,44 +71,44 @@ public:
 
 private:
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_pat;         ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;          ///<
 
-    osg::ref_ptr<osg::Switch> m_switch;                         ///<
+    osg::ref_ptr<osg::Switch> _switch;                          ///<
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_aileronL;    ///< left aileron deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_aileronR;    ///< right aileron deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_elevatorL;   ///< left elevator deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_elevatorR;   ///< right elevator deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_rudderL;     ///< left rudder deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_rudderR;     ///< right rudder deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flaperonL;   ///< left flaperon deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flaperonR;   ///< right flaperon deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_elevonL;     ///< left elevon deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_elevonR;     ///< right elevon deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapL;       ///< left trailing edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_flapR;       ///< right trailing edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_lefL;        ///< left leading edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_lefR;        ///< right leading edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_airbrakeP;   ///< positive airbrake
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_airbrakeN;   ///< negative airbrake
+    osg::ref_ptr<osg::PositionAttitudeTransform> _aileronL;     ///< left aileron deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _aileronR;     ///< right aileron deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _elevatorL;    ///< left elevator deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _elevatorR;    ///< right elevator deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _rudderL;      ///< left rudder deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _rudderR;      ///< right rudder deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _flaperonL;    ///< left flaperon deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _flaperonR;    ///< right flaperon deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _elevonL;      ///< left elevon deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _elevonR;      ///< right elevon deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _flapL;        ///< left trailing edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _flapR;        ///< right trailing edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _lefL;         ///< left leading edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _lefR;         ///< right leading edge flap deflection
+    osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeP;    ///< positive airbrake
+    osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeN;    ///< negative airbrake
 
-    osg::ref_ptr<osg::Switch> m_landingGear;                    ///<
+    osg::ref_ptr<osg::Switch> _landingGear;                     ///<
 
-    LandingGearElements m_landingGearElements;                  ///<
+    LandingGearElements _landingGearElements;                   ///<
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller1;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller2;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller3;  ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_propeller4;  ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller1;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller2;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller3;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _propeller4;   ///<
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_mainRotor;   ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_tailRotor;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;    ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _tailRotor;    ///<
 
-    Blades m_mainRotorBlades;
+    Blades _mainRotorBlades;
 
-    std::string m_aircraftFile;
+    std::string _aircraftFile;
 
-    LandingGearElementsData m_landingGearElementsData;
+    LandingGearElementsData _landingGearElementsData;
 
     double getAngle( double input, LandingGearElementData::AxisData *axisData );
 

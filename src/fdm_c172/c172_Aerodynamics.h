@@ -66,21 +66,21 @@ public:
      * Returns true if aircraft is stalling, otherwise returns false.
      * @return true if aircraft is stalling, false otherwise
      */
-    inline bool getStall() const { return m_tailOff->getStall(); }
+    inline bool getStall() const { return _tailOff->getStall(); }
 
 private:
 
-    const C172_Aircraft *m_aircraft;    ///< aircraft model main object
+    const C172_Aircraft *_aircraft;     ///< aircraft model main object
 
-    C172_TailOff       *m_tailOff;      ///< wing model
-    C172_StabilizerHor *m_stabHor;      ///< horizontal stabilizer model
-    C172_StabilizerVer *m_stabVer;      ///< vertical stabilizer model
+    C172_TailOff       *_tailOff;       ///< wing model
+    C172_StabilizerHor *_stabHor;       ///< horizontal stabilizer model
+    C172_StabilizerVer *_stabVer;       ///< vertical stabilizer model
 
-    Table m_drag_ground_effect;         ///< [-] drag factor due to ground effect vs [m] altitude AGL
-    Table m_lift_ground_effect;         ///< [-] lift factor due to ground effect vs [m] altitude AGL
+    Table _drag_ground_effect;          ///< [-] drag factor due to ground effect vs [m] altitude AGL
+    Table _lift_ground_effect;          ///< [-] lift factor due to ground effect vs [m] altitude AGL
 
-    double m_dl_dtorque;                ///< [-] rolling moment due propeller torque
-    double m_dn_dtorque;                ///< [-] yawing moment due propeller torque
+    double _dl_dtorque;                 ///< [-] rolling moment due propeller torque
+    double _dn_dtorque;                 ///< [-] yawing moment due propeller torque
 };
 
 } // end of fdm namespace

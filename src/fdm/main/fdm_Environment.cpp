@@ -29,27 +29,27 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Environment::Environment() :
-    m_atmosphere ( 0 )
+    _atmosphere ( 0 )
 {
-    m_atmosphere = new Atmosphere();
+    _atmosphere = new Atmosphere();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Environment::~Environment()
 {
-    if ( m_atmosphere ) delete m_atmosphere;
-    m_atmosphere = 0;
+    if ( _atmosphere ) delete _atmosphere;
+    _atmosphere = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Environment::update( double altitude_asl )
 {
-    m_atmosphere->update( altitude_asl );
+    _atmosphere->update( altitude_asl );
 
-    m_temperature  = m_atmosphere->getTemperature();
-    m_pressure     = m_atmosphere->getPressure();
-    m_density      = m_atmosphere->getDensity();
-    m_speedOfSound = m_atmosphere->getSpeedOfSound();
+    _temperature  = _atmosphere->getTemperature();
+    _pressure     = _atmosphere->getPressure();
+    _density      = _atmosphere->getDensity();
+    _speedOfSound = _atmosphere->getSpeedOfSound();
 }

@@ -36,16 +36,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double WidgetCGI::m_zNear = 0.55;
-const double WidgetCGI::m_zFar  = CGI_SKYDOME_RADIUS + 0.1f * CGI_SKYDOME_RADIUS;
+const double WidgetCGI::_zNear = 0.55;
+const double WidgetCGI::_zFar  = CGI_SKYDOME_RADIUS + 0.1f * CGI_SKYDOME_RADIUS;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget ( parent ),
-    m_gridLayout ( 0 ),
-    m_timerId ( 0 ),
-    m_camManipulatorInited ( false )
+    _gridLayout ( 0 ),
+    _timerId ( 0 ),
+    _camManipulatorInited ( false )
 {
 #   ifdef SIM_OSG_DEBUG_INFO
     osg::setNotifyLevel( osg::DEBUG_INFO );
@@ -58,27 +58,27 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
-    m_graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
+    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
 
     QWidget *widget = addViewWidget();
 
-    m_gridLayout = new QGridLayout( this );
-    m_gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    m_gridLayout->addWidget( widget, 0, 0 );
+    _gridLayout = new QGridLayout( this );
+    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
+    _gridLayout->addWidget( widget, 0, 0 );
 
-    m_keyHandler = new KeyHandler( this );
-    getEventHandlers().push_front( m_keyHandler.get() );
+    _keyHandler = new KeyHandler( this );
+    getEventHandlers().push_front( _keyHandler.get() );
 
-    setLayout( m_gridLayout );
+    setLayout( _gridLayout );
 
-    m_timerId = startTimer( CGI_TIME_STEP );
+    _timerId = startTimer( CGI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::~WidgetCGI()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ void WidgetCGI::setCameraManipulatorChase()
     cgi::Manager::instance()->setCameraManipulatorChase();
     setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    m_camManipulatorInited = false;
+    _camManipulatorInited = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void WidgetCGI::setCameraManipulatorOrbit()
     cgi::Manager::instance()->setCameraManipulatorOrbit();
     setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    m_camManipulatorInited = false;
+    _camManipulatorInited = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ void WidgetCGI::setCameraManipulatorPilot()
     cgi::Manager::instance()->setCameraManipulatorPilot();
     setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    m_camManipulatorInited = false;
+    _camManipulatorInited = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ void WidgetCGI::setCameraManipulatorWorld()
     cgi::Manager::instance()->setCameraManipulatorWorld();
     setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    if ( m_camManipulatorInited )
+    if ( _camManipulatorInited )
     {
         cgi::WGS84 eye_wgs( eye );
 
@@ -143,7 +143,7 @@ void WidgetCGI::setCameraManipulatorWorld()
         }
     }
 
-    m_camManipulatorInited = false;
+    _camManipulatorInited = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +181,7 @@ void WidgetCGI::timerEvent( QTimerEvent *event )
 
     update();
 
-    if ( !m_camManipulatorInited )
+    if ( !_camManipulatorInited )
     {
         osg::ref_ptr<cgi::ManipulatorOrbit> manipulator =
                 dynamic_cast<cgi::ManipulatorOrbit*>( cgi::Manager::instance()->getCameraManipulator() );
@@ -191,13 +191,13 @@ void WidgetCGI::timerEvent( QTimerEvent *event )
             manipulator->setDistance( 50.0 );
         }
 
-        m_camManipulatorInited = true;
+        _camManipulatorInited = true;
     }
 
     cgi::Manager::instance()->updateHUD();
     cgi::Manager::instance()->updateOTW();
 
-    m_keyHandler->update();
+    _keyHandler->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +215,7 @@ QWidget* WidgetCGI::addViewWidget()
 
     assignSceneDataToCameras();
 
-    return m_graphicsWindow->getGLWidget();
+    return _graphicsWindow->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,16 +224,16 @@ void WidgetCGI::createCameraOTW()
 {
     osg::ref_ptr<osg::Camera> cameraOTW = getCamera();
 
-    cameraOTW->setGraphicsContext( m_graphicsWindow );
+    cameraOTW->setGraphicsContext( _graphicsWindow );
 
-    const osg::GraphicsContext::Traits *traits = m_graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
     cameraOTW->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
     cameraOTW->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-    cameraOTW->setProjectionMatrixAsPerspective( CGI_FOV_Y, w2h, m_zNear, m_zFar );
-    cameraOTW->setNearFarRatio( m_zNear / m_zFar );
+    cameraOTW->setProjectionMatrixAsPerspective( CGI_FOV_Y, w2h, _zNear, _zFar );
+    cameraOTW->setNearFarRatio( _zNear / _zFar );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -242,9 +242,9 @@ void WidgetCGI::createCameraHUD()
 {
     osg::ref_ptr<osg::Camera> cameraHUD = new osg::Camera();
 
-    cameraHUD->setGraphicsContext( m_graphicsWindow );
+    cameraHUD->setGraphicsContext( _graphicsWindow );
 
-    const osg::GraphicsContext::Traits *traits = m_graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 

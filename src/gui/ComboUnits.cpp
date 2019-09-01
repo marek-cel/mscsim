@@ -27,13 +27,13 @@
 ComboUnits::ComboUnits( QWidget *parent ) :
     QComboBox ( parent ),
 
-    m_factor ( 1.0f ),
+    _factor ( 1.0f ),
 
-    m_index      ( currentIndex() ),
-    m_index_prev ( m_index )
+    _index      ( currentIndex() ),
+    _index_prev ( _index )
 {
-    m_coefs.clear();
-    m_names.clear();
+    _coefs.clear();
+    _names.clear();
 
     connect( this, SIGNAL(currentIndexChanged(int)), this, SLOT(on_currentIndexChanged(int)) );
 }
@@ -44,43 +44,55 @@ ComboUnits::~ComboUnits() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::convert( float value )
+float ComboUnits::convert( float value ) const
 {
-    return value * m_factor;
+    return value * _factor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::convertPrev( float value )
+float ComboUnits::convertPrev( float value ) const
 {
-    return value * m_factor_prev;
+    return value * _factor_prev;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::invert( float value )
+float ComboUnits::invert( float value ) const
 {
-    return value / m_factor;
+    return value / _factor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::invertPrev( float value )
+float ComboUnits::invertPrev( float value ) const
 {
-    return value / m_factor_prev;
+    return value / _factor_prev;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+float ComboUnits::getCoef( int index ) const
+{
+    if ( index >= 0 && index < (int)_coefs.size() )
+    {
+        return _coefs[ index ];
+    }
+
+    return std::numeric_limits< float >::quiet_NaN();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void ComboUnits::on_currentIndexChanged( int index )
 {
-    m_factor_prev = m_factor;
+    _factor_prev = _factor;
 
-    m_index_prev = m_index;
-    m_index = index;
+    _index_prev = _index;
+    _index = index;
 
-    if ( index >= 0 && index < (int)m_coefs.size() )
+    if ( index >= 0 && index < (int)_coefs.size() )
     {
-        m_factor = m_coefs[ index ];
+        _factor = _coefs[ index ];
     }
 }

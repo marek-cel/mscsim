@@ -41,16 +41,16 @@ using namespace cgi;
 CloudsLayer::CloudsLayer( Module *parent ) :
     Module( parent ),
 
-    m_cover ( Data::Environment::Clouds::Data::Layer::SKC ),
-    m_base_asl ( 0.0f ),
+    _cover ( Data::Environment::Clouds::Data::Layer::SKC ),
+    _base_asl ( 0.0f ),
 
-    m_framesCounter ( 0 ),
-    m_created ( false )
+    _framesCounter ( 0 ),
+    _created ( false )
 {
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_few.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_sct.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_bkn.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_st_ovc.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_few.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_sct.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_bkn.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_ovc.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,28 +67,28 @@ void CloudsLayer::update()
 
     if ( Data::get()->environment.clouds.type == Data::Environment::Clouds::Layer )
     {
-        if ( m_framesCounter % 10 == 0 )
+        if ( _framesCounter % 10 == 0 )
         {
-            m_framesCounter = 0;
+            _framesCounter = 0;
 
-            if ( !m_created
-              || m_cover     != Data::get()->environment.clouds.data.layer.cover
-              || m_base_asl  != Data::get()->environment.clouds.data.layer.base_asl )
+            if ( !_created
+              || _cover     != Data::get()->environment.clouds.data.layer.cover
+              || _base_asl  != Data::get()->environment.clouds.data.layer.base_asl )
             {
-                m_cover     = Data::get()->environment.clouds.data.layer.cover;
-                m_base_asl  = Data::get()->environment.clouds.data.layer.base_asl;
+                _cover     = Data::get()->environment.clouds.data.layer.cover;
+                _base_asl  = Data::get()->environment.clouds.data.layer.base_asl;
 
                 create();
             }
         }
 
-        m_framesCounter++;
+        _framesCounter++;
     }
     else
     {
         remove();
 
-        m_framesCounter = 0;
+        _framesCounter = 0;
     }
 }
 
@@ -98,17 +98,17 @@ void CloudsLayer::create()
 {
     remove();
 
-    m_created = true;
+    _created = true;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    m_root->addChild( pat.get() );
+    _root->addChild( pat.get() );
 
     WGS84 wgs( 0.0, 0.0, 0.0 );
 
     pat->setAttitude( wgs.getAttitude() );
     pat->setPosition( wgs.getPosition() );
 
-    createLayer( pat.get(), 0.0, 0.0, m_base_asl );
+    createLayer( pat.get(), 0.0, 0.0, _base_asl );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -206,23 +206,23 @@ void CloudsLayer::createLayer( osg::Group *parent, double lat , double lon, doub
 
     // texture
     osg::ref_ptr<osg::Texture2D> texture;
-    switch ( m_cover )
+    switch ( _cover )
     {
     case Data::Environment::Clouds::Data::Layer::FEW:
-        texture = m_textures.at( 0 ).get();
+        texture = _textures.at( 0 ).get();
         break;
 
     case Data::Environment::Clouds::Data::Layer::SCT:
-        texture = m_textures.at( 1 ).get();
+        texture = _textures.at( 1 ).get();
         break;
 
     case Data::Environment::Clouds::Data::Layer::BKN:
-        texture = m_textures.at( 2 ).get();
+        texture = _textures.at( 2 ).get();
         break;
 
     case Data::Environment::Clouds::Data::Layer::OVC:
     default:
-        texture = m_textures.at( 3 ).get();
+        texture = _textures.at( 3 ).get();
         break;
     }
     geodeStateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
@@ -251,10 +251,10 @@ void CloudsLayer::createLayer( osg::Group *parent, double lat , double lon, doub
 
 void CloudsLayer::remove()
 {
-    m_created = false;
+    _created = false;
 
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 }

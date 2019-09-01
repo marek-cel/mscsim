@@ -28,7 +28,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircrafts* Aircrafts::m_instance = 0;
+Aircrafts* Aircrafts::_instance = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -103,7 +103,7 @@ void Aircrafts::parseAircraft(const QDomElement &node )
             aircraft.tailRotorCoef = nodeTailRotorCoef.text().toFloat();
         }
 
-        m_aircrafts.push_back( aircraft );
+        _aircrafts.push_back( aircraft );
     }
 }
 

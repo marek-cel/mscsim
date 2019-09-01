@@ -60,10 +60,10 @@ public:
 
 private:
 
-    Ownship m_ownship;
-    Aerodromes m_aerodromes;
+    Ownship _ownship;
+    Aerodromes _aerodromes;
 
-    osg::ref_ptr<osg::Geode> m_symbolAerodrome;
+    osg::ref_ptr<osg::Geode> _symbolAerodrome;
 
     void createIcon( osg::Group *parent, float z,
                      const std::string &textureFile );

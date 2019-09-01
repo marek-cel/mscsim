@@ -64,21 +64,21 @@ public:
     /** Updates model. */
     void update();
 
-    inline double getMainRotorPsi() const { return m_mainRotorPsi; }
-    inline double getTailRotorPsi() const { return m_tailRotorPsi; }
+    inline double getMainRotorPsi() const { return _mainRotorPsi; }
+    inline double getTailRotorPsi() const { return _tailRotorPsi; }
 
-    inline double getMainRotorOmega() const { return m_mainRotorOmega; }
-    inline double getTailRotorOmega() const { return m_tailRotorOmega; }
+    inline double getMainRotorOmega() const { return _mainRotorOmega; }
+    inline double getTailRotorOmega() const { return _tailRotorOmega; }
 
 private:
 
-    const UH60_Aircraft *m_aircraft;    ///< aircraft model main object
+    const UH60_Aircraft *_aircraft;     ///< aircraft model main object
 
-    double m_mainRotorPsi;              ///< [rad]
-    double m_tailRotorPsi;              ///< [rad]
+    double _mainRotorPsi;               ///< [rad]
+    double _tailRotorPsi;               ///< [rad]
 
-    double m_mainRotorOmega;            ///< [rad/s]
-    double m_tailRotorOmega;            ///< [rad/s]
+    double _mainRotorOmega;             ///< [rad/s]
+    double _tailRotorOmega;             ///< [rad/s]
 };
 
 } // end of fdm namespace

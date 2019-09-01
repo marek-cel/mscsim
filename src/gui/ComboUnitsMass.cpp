@@ -29,13 +29,13 @@
 ComboUnitsMass::ComboUnitsMass( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "kg" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "kg" ) );
 
-    m_coefs.push_back( (float)fdm::Units::kg2lb() );
-    m_names.push_back( QString( "lb" ) );
+    _coefs.push_back( (float)fdm::Units::kg2lb() );
+    _names.push_back( QString( "lb" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

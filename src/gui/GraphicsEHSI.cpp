@@ -34,128 +34,128 @@
 GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     QGraphicsView ( parent ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_scene ( 0 ),
+    _scene ( 0 ),
 
-    m_itemBack ( 0 ),
-    m_itemMask ( 0 ),
-    m_itemMark ( 0 ),
+    _itemBack ( 0 ),
+    _itemMask ( 0 ),
+    _itemMark ( 0 ),
 
-    m_itemBrgArrow ( 0 ),
-    m_itemCrsArrow ( 0 ),
-    m_itemDevBar   ( 0 ),
-    m_itemDevScale ( 0 ),
-    m_itemHdgBug   ( 0 ),
-    m_itemHdgScale ( 0 ),
+    _itemBrgArrow ( 0 ),
+    _itemCrsArrow ( 0 ),
+    _itemDevBar   ( 0 ),
+    _itemDevScale ( 0 ),
+    _itemHdgBug   ( 0 ),
+    _itemHdgScale ( 0 ),
 
-    m_itemCrsText ( 0 ),
-    m_itemHdgText ( 0 ),
-    m_itemDmeText ( 0 ),
+    _itemCrsText ( 0 ),
+    _itemHdgText ( 0 ),
+    _itemDmeText ( 0 ),
 
-    m_crsTextColor (   0, 255,   0 ),
-    m_hdgTextColor ( 255,   0, 255 ),
-    m_dmeTextColor ( 255, 255, 255 ),
+    _crsTextColor (   0, 255,   0 ),
+    _hdgTextColor ( 255,   0, 255 ),
+    _dmeTextColor ( 255, 255, 255 ),
 
-    m_heading    ( 0.0f ),
-    m_headingBug ( 0.0f ),
-    m_course     ( 0.0f ),
-    m_bearing    ( 0.0f ),
-    m_deviation  ( 0.0f ),
-    m_distance   ( 0.0f ),
+    _heading    ( 0.0f ),
+    _headingBug ( 0.0f ),
+    _course     ( 0.0f ),
+    _bearing    ( 0.0f ),
+    _deviation  ( 0.0f ),
+    _distance   ( 0.0f ),
 
-    m_bearingVisible   ( true ),
-    m_deviationVisible ( true ),
-    m_distanceVisible  ( true ),
+    _bearingVisible   ( true ),
+    _deviationVisible ( true ),
+    _distanceVisible  ( true ),
 
-    m_devBarDeltaX_new ( 0.0f ),
-    m_devBarDeltaX_old ( 0.0f ),
-    m_devBarDeltaY_new ( 0.0f ),
-    m_devBarDeltaY_old ( 0.0f ),
+    _devBarDeltaX_new ( 0.0f ),
+    _devBarDeltaX_old ( 0.0f ),
+    _devBarDeltaY_new ( 0.0f ),
+    _devBarDeltaY_old ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalPixPerDev ( 52.5f ),
+    _originalPixPerDev ( 52.5f ),
 
-    m_originalNavCtr ( 150.0f, 150.0f ),
+    _originalNavCtr ( 150.0f, 150.0f ),
 
-    m_originalCrsTextCtr (  50.0f,  25.0f ),
-    m_originalHdgTextCtr ( 250.0f,  25.0f ),
-    m_originalDmeTextCtr ( 250.0f, 275.0f ),
+    _originalCrsTextCtr (  50.0f,  25.0f ),
+    _originalHdgTextCtr ( 250.0f,  25.0f ),
+    _originalDmeTextCtr ( 250.0f, 275.0f ),
 
-    m_originalHeight ( 300 ),
-    m_originalWidth  ( 300 ),
+    _originalHeight ( 300 ),
+    _originalWidth  ( 300 ),
 
-    m_backZ (   0 ),
-    m_maskZ ( 100 ),
-    m_markZ ( 200 ),
+    _backZ (   0 ),
+    _maskZ ( 100 ),
+    _markZ ( 200 ),
 
-    m_brgArrowZ (  60 ),
-    m_crsArrowZ (  70 ),
-    m_crsTextZ  ( 130 ),
-    m_devBarZ   (  50 ),
-    m_devScaleZ (  10 ),
-    m_hdgBugZ   ( 120 ),
-    m_hdgScaleZ ( 110 ),
-    m_hdgTextZ  ( 130 ),
-    m_dmeTextZ  ( 130 )
+    _brgArrowZ (  60 ),
+    _crsArrowZ (  70 ),
+    _crsTextZ  ( 130 ),
+    _devBarZ   (  50 ),
+    _devScaleZ (  10 ),
+    _hdgBugZ   ( 120 ),
+    _hdgScaleZ ( 110 ),
+    _hdgTextZ  ( 130 ),
+    _dmeTextZ  ( 130 )
 {
 #   ifdef WIN32
-    m_crsTextFont.setFamily( "Courier" );
-    m_crsTextFont.setPointSizeF( 12.0f );
-    m_crsTextFont.setStretch( QFont::Condensed );
-    m_crsTextFont.setWeight( QFont::Bold );
+    _crsTextFont.setFamily( "Courier" );
+    _crsTextFont.setPointSizeF( 12.0f );
+    _crsTextFont.setStretch( QFont::Condensed );
+    _crsTextFont.setWeight( QFont::Bold );
 
-    m_hdgTextFont.setFamily( "Courier" );
-    m_hdgTextFont.setPointSizeF( 12.0f );
-    m_hdgTextFont.setStretch( QFont::Condensed );
-    m_hdgTextFont.setWeight( QFont::Bold );
+    _hdgTextFont.setFamily( "Courier" );
+    _hdgTextFont.setPointSizeF( 12.0f );
+    _hdgTextFont.setStretch( QFont::Condensed );
+    _hdgTextFont.setWeight( QFont::Bold );
 
-    m_dmeTextFont.setFamily( "Courier" );
-    m_dmeTextFont.setPointSizeF( 10.0f );
-    m_dmeTextFont.setStretch( QFont::Condensed );
-    m_dmeTextFont.setWeight( QFont::Bold );
+    _dmeTextFont.setFamily( "Courier" );
+    _dmeTextFont.setPointSizeF( 10.0f );
+    _dmeTextFont.setStretch( QFont::Condensed );
+    _dmeTextFont.setWeight( QFont::Bold );
 #   else
-    m_crsTextFont.setFamily( "courier" );
-    m_crsTextFont.setPointSizeF( 12.0f );
-    m_crsTextFont.setStretch( QFont::Condensed );
-    m_crsTextFont.setWeight( QFont::Bold );
+    _crsTextFont.setFamily( "courier" );
+    _crsTextFont.setPointSizeF( 12.0f );
+    _crsTextFont.setStretch( QFont::Condensed );
+    _crsTextFont.setWeight( QFont::Bold );
 
-    m_hdgTextFont.setFamily( "courier" );
-    m_hdgTextFont.setPointSizeF( 12.0f );
-    m_hdgTextFont.setStretch( QFont::Condensed );
-    m_hdgTextFont.setWeight( QFont::Bold );
+    _hdgTextFont.setFamily( "courier" );
+    _hdgTextFont.setPointSizeF( 12.0f );
+    _hdgTextFont.setStretch( QFont::Condensed );
+    _hdgTextFont.setWeight( QFont::Bold );
 
-    m_dmeTextFont.setFamily( "courier" );
-    m_dmeTextFont.setPointSizeF( 10.0f );
-    m_dmeTextFont.setStretch( QFont::Condensed );
-    m_dmeTextFont.setWeight( QFont::Bold );
+    _dmeTextFont.setFamily( "courier" );
+    _dmeTextFont.setPointSizeF( 10.0f );
+    _dmeTextFont.setStretch( QFont::Condensed );
+    _dmeTextFont.setWeight( QFont::Bold );
 #   endif
 
     reset();
 
-    m_scene = new QGraphicsScene( this );
-    setScene( m_scene );
+    _scene = new QGraphicsScene( this );
+    setScene( _scene );
 
-    m_scene->clear();
+    _scene->clear();
 
     init();
 
-    m_timerId = startTimer( 50 );
+    _timerId = startTimer( 50 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEHSI::~GraphicsEHSI()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
-        delete m_scene;
-        m_scene = 0;
+        _scene->clear();
+        delete _scene;
+        _scene = 0;
     }
 
     reset();
@@ -165,9 +165,9 @@ GraphicsEHSI::~GraphicsEHSI()
 
 void GraphicsEHSI::reinit()
 {
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
+        _scene->clear();
 
         init();
     }
@@ -177,60 +177,60 @@ void GraphicsEHSI::reinit()
 
 void GraphicsEHSI::setHeading( float heading )
 {
-    m_heading = heading;
+    _heading = heading;
 
-    while ( m_heading <   0.0f ) m_heading += 360.0f;
-    while ( m_heading > 360.0f ) m_heading -= 360.0f;
+    while ( _heading <   0.0f ) _heading += 360.0f;
+    while ( _heading > 360.0f ) _heading -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::setHeadingBug( float headingBug )
 {
-    m_headingBug = headingBug;
+    _headingBug = headingBug;
 
-    while ( m_headingBug <   0.0f ) m_headingBug += 360.0f;
-    while ( m_headingBug > 360.0f ) m_headingBug -= 360.0f;
+    while ( _headingBug <   0.0f ) _headingBug += 360.0f;
+    while ( _headingBug > 360.0f ) _headingBug -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::setCourse( float course )
 {
-    m_course = course;
+    _course = course;
 
-    while ( m_course <   0.0f ) m_course += 360.0f;
-    while ( m_course > 360.0f ) m_course -= 360.0f;
+    while ( _course <   0.0f ) _course += 360.0f;
+    while ( _course > 360.0f ) _course -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::setBearing( float bearing, bool visible )
 {
-    m_bearing        = bearing;
-    m_bearingVisible = visible;
+    _bearing        = bearing;
+    _bearingVisible = visible;
 
-    while ( m_bearing <   0.0f ) m_bearing += 360.0f;
-    while ( m_bearing > 360.0f ) m_bearing -= 360.0f;
+    while ( _bearing <   0.0f ) _bearing += 360.0f;
+    while ( _bearing > 360.0f ) _bearing -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::setDeviation( float deviation, bool visible )
 {
-    m_deviation        = deviation;
-    m_deviationVisible = visible;
+    _deviation        = deviation;
+    _deviationVisible = visible;
 
-    if ( m_deviation < -1.0f ) m_deviation = -1.0f;
-    if ( m_deviation >  1.0f ) m_deviation =  1.0f;
+    if ( _deviation < -1.0f ) _deviation = -1.0f;
+    if ( _deviation >  1.0f ) _deviation =  1.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::setDistance( float distance, bool visible )
 {
-    m_distance        = fabs( distance );
-    m_distanceVisible = visible;
+    _distance        = fabs( distance );
+    _distanceVisible = visible;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -256,8 +256,8 @@ void GraphicsEHSI::timerEvent( QTimerEvent *event )
     {
         updateView();
 
-        m_devBarDeltaX_old = m_devBarDeltaX_new;
-        m_devBarDeltaY_old = m_devBarDeltaY_new;
+        _devBarDeltaX_old = _devBarDeltaX_new;
+        _devBarDeltaY_old = _devBarDeltaY_new;
     }
 }
 
@@ -265,100 +265,100 @@ void GraphicsEHSI::timerEvent( QTimerEvent *event )
 
 void GraphicsEHSI::init()
 {
-    m_scaleX = (float)width()  / (float)m_originalWidth;
-    m_scaleY = (float)height() / (float)m_originalHeight;
+    _scaleX = (float)width()  / (float)_originalWidth;
+    _scaleY = (float)height() / (float)_originalHeight;
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemBack );
 
-    m_itemMask = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_mask.svg" );
-    m_itemMask->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMask->setZValue( m_maskZ );
-    m_itemMask->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemMask );
+    _itemMask = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_mask.svg" );
+    _itemMask->setCacheMode( QGraphicsItem::NoCache );
+    _itemMask->setZValue( _maskZ );
+    _itemMask->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemMask );
 
-    m_itemMark = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_mark.svg" );
-    m_itemMark->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMark->setZValue( m_markZ );
-    m_itemMark->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemMark );
+    _itemMark = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_mark.svg" );
+    _itemMark->setCacheMode( QGraphicsItem::NoCache );
+    _itemMark->setZValue( _markZ );
+    _itemMark->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemMark );
 
-    m_itemBrgArrow = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_brg_arrow.svg" );
-    m_itemBrgArrow->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBrgArrow->setZValue( m_brgArrowZ );
-    m_itemBrgArrow->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBrgArrow->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemBrgArrow );
+    _itemBrgArrow = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_brg_arrow.svg" );
+    _itemBrgArrow->setCacheMode( QGraphicsItem::NoCache );
+    _itemBrgArrow->setZValue( _brgArrowZ );
+    _itemBrgArrow->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBrgArrow->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemBrgArrow );
 
-    m_itemCrsArrow = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_crs_arrow.svg" );
-    m_itemCrsArrow->setCacheMode( QGraphicsItem::NoCache );
-    m_itemCrsArrow->setZValue( m_crsArrowZ );
-    m_itemCrsArrow->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemCrsArrow->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemCrsArrow );
+    _itemCrsArrow = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_crs_arrow.svg" );
+    _itemCrsArrow->setCacheMode( QGraphicsItem::NoCache );
+    _itemCrsArrow->setZValue( _crsArrowZ );
+    _itemCrsArrow->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemCrsArrow->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemCrsArrow );
 
-    m_itemDevBar = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_dev_bar.svg" );
-    m_itemDevBar->setCacheMode( QGraphicsItem::NoCache );
-    m_itemDevBar->setZValue( m_devBarZ );
-    m_itemDevBar->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemDevBar->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemDevBar );
+    _itemDevBar = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_dev_bar.svg" );
+    _itemDevBar->setCacheMode( QGraphicsItem::NoCache );
+    _itemDevBar->setZValue( _devBarZ );
+    _itemDevBar->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemDevBar->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemDevBar );
 
-    m_itemDevScale = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_dev_scale.svg" );
-    m_itemDevScale->setCacheMode( QGraphicsItem::NoCache );
-    m_itemDevScale->setZValue( m_devScaleZ );
-    m_itemDevScale->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemDevScale->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemDevScale );
+    _itemDevScale = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_dev_scale.svg" );
+    _itemDevScale->setCacheMode( QGraphicsItem::NoCache );
+    _itemDevScale->setZValue( _devScaleZ );
+    _itemDevScale->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemDevScale->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemDevScale );
 
-    m_itemHdgBug = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_hdg_bug.svg" );
-    m_itemHdgBug->setCacheMode( QGraphicsItem::NoCache );
-    m_itemHdgBug->setZValue( m_hdgBugZ );
-    m_itemHdgBug->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemHdgBug->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemHdgBug );
+    _itemHdgBug = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_hdg_bug.svg" );
+    _itemHdgBug->setCacheMode( QGraphicsItem::NoCache );
+    _itemHdgBug->setZValue( _hdgBugZ );
+    _itemHdgBug->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemHdgBug->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemHdgBug );
 
-    m_itemHdgScale = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_hdg_scale.svg" );
-    m_itemHdgScale->setCacheMode( QGraphicsItem::NoCache );
-    m_itemHdgScale->setZValue( m_hdgScaleZ );
-    m_itemHdgScale->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemHdgScale->setTransformOriginPoint( m_originalNavCtr );
-    m_scene->addItem( m_itemHdgScale );
+    _itemHdgScale = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_hdg_scale.svg" );
+    _itemHdgScale->setCacheMode( QGraphicsItem::NoCache );
+    _itemHdgScale->setZValue( _hdgScaleZ );
+    _itemHdgScale->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemHdgScale->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemHdgScale );
 
-    m_itemCrsText = 0;
+    _itemCrsText = 0;
 
-    m_itemCrsText = new QGraphicsTextItem( QString( "CRS 999" ) );
-    m_itemCrsText->setCacheMode( QGraphicsItem::NoCache );
-    m_itemCrsText->setZValue( m_crsTextZ );
-    m_itemCrsText->setDefaultTextColor( m_crsTextColor );
-    m_itemCrsText->setFont( m_crsTextFont );
-    m_itemCrsText->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemCrsText->moveBy( m_scaleX * ( m_originalCrsTextCtr.x() - m_itemCrsText->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalCrsTextCtr.y() - m_itemCrsText->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemCrsText );
+    _itemCrsText = new QGraphicsTextItem( QString( "CRS 999" ) );
+    _itemCrsText->setCacheMode( QGraphicsItem::NoCache );
+    _itemCrsText->setZValue( _crsTextZ );
+    _itemCrsText->setDefaultTextColor( _crsTextColor );
+    _itemCrsText->setFont( _crsTextFont );
+    _itemCrsText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemCrsText->moveBy( _scaleX * ( _originalCrsTextCtr.x() - _itemCrsText->boundingRect().width()  / 2.0f ),
+                          _scaleY * ( _originalCrsTextCtr.y() - _itemCrsText->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemCrsText );
 
-    m_itemHdgText = new QGraphicsTextItem( QString( "HDG 999" ) );
-    m_itemHdgText->setCacheMode( QGraphicsItem::NoCache );
-    m_itemHdgText->setZValue( m_hdgTextZ );
-    m_itemHdgText->setDefaultTextColor( m_hdgTextColor );
-    m_itemHdgText->setFont( m_hdgTextFont );
-    m_itemHdgText->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemHdgText->moveBy( m_scaleX * ( m_originalHdgTextCtr.x() - m_itemHdgText->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalHdgTextCtr.y() - m_itemHdgText->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemHdgText );
+    _itemHdgText = new QGraphicsTextItem( QString( "HDG 999" ) );
+    _itemHdgText->setCacheMode( QGraphicsItem::NoCache );
+    _itemHdgText->setZValue( _hdgTextZ );
+    _itemHdgText->setDefaultTextColor( _hdgTextColor );
+    _itemHdgText->setFont( _hdgTextFont );
+    _itemHdgText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemHdgText->moveBy( _scaleX * ( _originalHdgTextCtr.x() - _itemHdgText->boundingRect().width()  / 2.0f ),
+                          _scaleY * ( _originalHdgTextCtr.y() - _itemHdgText->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemHdgText );
 
-    m_itemDmeText = new QGraphicsTextItem( QString( "99.9 NM" ) );
-    m_itemDmeText->setCacheMode( QGraphicsItem::NoCache );
-    m_itemDmeText->setZValue( m_dmeTextZ );
-    m_itemDmeText->setDefaultTextColor( m_dmeTextColor );
-    m_itemDmeText->setFont( m_dmeTextFont );
-    m_itemDmeText->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemDmeText->moveBy( m_scaleX * ( m_originalDmeTextCtr.x() - m_itemDmeText->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalDmeTextCtr.y() - m_itemDmeText->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemDmeText );
+    _itemDmeText = new QGraphicsTextItem( QString( "99.9 NM" ) );
+    _itemDmeText->setCacheMode( QGraphicsItem::NoCache );
+    _itemDmeText->setZValue( _dmeTextZ );
+    _itemDmeText->setDefaultTextColor( _dmeTextColor );
+    _itemDmeText->setFont( _dmeTextFont );
+    _itemDmeText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemDmeText->moveBy( _scaleX * ( _originalDmeTextCtr.x() - _itemDmeText->boundingRect().width()  / 2.0f ),
+                          _scaleY * ( _originalDmeTextCtr.y() - _itemDmeText->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemDmeText );
 
     updateView();
 }
@@ -367,61 +367,61 @@ void GraphicsEHSI::init()
 
 void GraphicsEHSI::reset()
 {
-    m_itemBrgArrow = 0;
-    m_itemCrsArrow = 0;
-    m_itemDevBar   = 0;
-    m_itemDevScale = 0;
-    m_itemHdgBug   = 0;
-    m_itemHdgScale = 0;
+    _itemBrgArrow = 0;
+    _itemCrsArrow = 0;
+    _itemDevBar   = 0;
+    _itemDevScale = 0;
+    _itemHdgBug   = 0;
+    _itemHdgScale = 0;
 
-    m_itemCrsText = 0;
-    m_itemHdgText = 0;
-    m_itemDmeText = 0;
+    _itemCrsText = 0;
+    _itemHdgText = 0;
+    _itemDmeText = 0;
 
-    m_heading    = 0.0f;
-    m_headingBug = 0.0f;
-    m_course     = 0.0f;
-    m_bearing    = 0.0f;
-    m_deviation  = 0.0f;
-    m_distance   = 0.0f;
+    _heading    = 0.0f;
+    _headingBug = 0.0f;
+    _course     = 0.0f;
+    _bearing    = 0.0f;
+    _deviation  = 0.0f;
+    _distance   = 0.0f;
 
-    m_bearingVisible   = true;
-    m_deviationVisible = true;
-    m_distanceVisible  = true;
+    _bearingVisible   = true;
+    _deviationVisible = true;
+    _distanceVisible  = true;
 
-    m_devBarDeltaX_new = 0.0f;
-    m_devBarDeltaX_old = 0.0f;
-    m_devBarDeltaY_new = 0.0f;
-    m_devBarDeltaY_old = 0.0f;
+    _devBarDeltaX_new = 0.0f;
+    _devBarDeltaX_old = 0.0f;
+    _devBarDeltaY_new = 0.0f;
+    _devBarDeltaY_old = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::updateView()
 {
-    m_scaleX = (float)width()  / (float)m_originalWidth;
-    m_scaleY = (float)height() / (float)m_originalHeight;
+    _scaleX = (float)width()  / (float)_originalWidth;
+    _scaleY = (float)height() / (float)_originalHeight;
 
-    m_itemCrsArrow->setRotation( -m_heading + m_course );
-    m_itemHdgBug->setRotation( -m_heading + m_headingBug );
-    m_itemHdgScale->setRotation( -m_heading );
+    _itemCrsArrow->setRotation( -_heading + _course );
+    _itemHdgBug->setRotation( -_heading + _headingBug );
+    _itemHdgScale->setRotation( -_heading );
 
-    if ( m_bearingVisible )
+    if ( _bearingVisible )
     {
-        m_itemBrgArrow->setVisible( true );
-        m_itemBrgArrow->setRotation( -m_heading + m_bearing );
+        _itemBrgArrow->setVisible( true );
+        _itemBrgArrow->setRotation( -_heading + _bearing );
     }
     else
     {
-        m_itemBrgArrow->setVisible( false );
+        _itemBrgArrow->setVisible( false );
     }
 
-    if ( m_deviationVisible )
+    if ( _deviationVisible )
     {
-        m_itemDevBar->setVisible( true );
-        m_itemDevScale->setVisible( true );
+        _itemDevBar->setVisible( true );
+        _itemDevScale->setVisible( true );
 
-        float angle_deg = -m_heading + m_course;
+        float angle_deg = -_heading + _course;
 #       ifndef M_PI
         float angle_rad = 3.14159265358979323846 * angle_deg / 180.0f;
 #       else
@@ -432,39 +432,39 @@ void GraphicsEHSI::updateView()
         float sinAngle = sin( angle_rad );
         float cosAngle = cos( angle_rad );
 
-        m_itemDevBar->setRotation( angle_deg );
-        m_itemDevScale->setRotation( angle_deg );
+        _itemDevBar->setRotation( angle_deg );
+        _itemDevScale->setRotation( angle_deg );
 
-        float delta  = m_originalPixPerDev * m_deviation;
+        float delta  = _originalPixPerDev * _deviation;
 
-        m_devBarDeltaX_new = m_scaleX * delta * cosAngle;
-        m_devBarDeltaY_new = m_scaleY * delta * sinAngle;
+        _devBarDeltaX_new = _scaleX * delta * cosAngle;
+        _devBarDeltaY_new = _scaleY * delta * sinAngle;
 
-        m_itemDevBar->moveBy( m_devBarDeltaX_new - m_devBarDeltaX_old, m_devBarDeltaY_new - m_devBarDeltaY_old );
+        _itemDevBar->moveBy( _devBarDeltaX_new - _devBarDeltaX_old, _devBarDeltaY_new - _devBarDeltaY_old );
     }
     else
     {
-        m_itemDevBar->setVisible( false );
-        m_itemDevScale->setVisible( false );
+        _itemDevBar->setVisible( false );
+        _itemDevScale->setVisible( false );
 
-        m_devBarDeltaX_new = m_devBarDeltaX_old;
-        m_devBarDeltaY_new = m_devBarDeltaY_old;
+        _devBarDeltaX_new = _devBarDeltaX_old;
+        _devBarDeltaY_new = _devBarDeltaY_old;
     }
 
-    m_itemCrsText->setPlainText( QString("CRS %1").arg( m_course     , 3, 'f', 0, QChar('0') ) );
-    m_itemHdgText->setPlainText( QString("HDG %1").arg( m_headingBug , 3, 'f', 0, QChar('0') ) );
+    _itemCrsText->setPlainText( QString("CRS %1").arg( _course     , 3, 'f', 0, QChar('0') ) );
+    _itemHdgText->setPlainText( QString("HDG %1").arg( _headingBug , 3, 'f', 0, QChar('0') ) );
 
-    if ( m_distanceVisible )
+    if ( _distanceVisible )
     {
-        m_itemDmeText->setVisible( true );
-        m_itemDmeText->setPlainText( QString("%1 NM").arg( m_distance, 5, 'f', 1, QChar(' ') ) );
+        _itemDmeText->setVisible( true );
+        _itemDmeText->setPlainText( QString("%1 NM").arg( _distance, 5, 'f', 1, QChar(' ') ) );
     }
     else
     {
-        m_itemDmeText->setVisible( false );
+        _itemDmeText->setVisible( false );
     }
 
-    m_scene->update();
+    _scene->update();
 
     centerOn( width() / 2.0f , height() / 2.0f );
 }

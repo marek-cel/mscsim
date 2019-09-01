@@ -102,7 +102,7 @@ public:
      */
     inline double getFuelFlow() const
     {
-        return m_fuelFlow;
+        return _fuelFlow;
     }
 
     /**
@@ -111,7 +111,7 @@ public:
      */
     inline double getInertia() const
     {
-        return m_inertia;
+        return _inertia;
     }
 
     /**
@@ -120,7 +120,7 @@ public:
      */
     inline double getMAP() const
     {
-        return m_map;
+        return _map;
     }
 
     /**
@@ -129,7 +129,7 @@ public:
      */
     inline double getPower()  const
     {
-        return m_power;
+        return _power;
     }
 
     /**
@@ -138,7 +138,7 @@ public:
      */
     inline double getRPM() const
     {
-        return m_rpm;
+        return _rpm;
     }
 
     /**
@@ -147,28 +147,28 @@ public:
      */
     inline double getTorque() const
     {
-        return m_torque;
+        return _torque;
     }
 
 protected:
 
-    Table m_mixture;            ///< [-] mixture vs mixture lever position
-    Table m_throttle;           ///< [-] throttle vs throttle lever position
+    Table _mixture;             ///< [-] mixture vs mixture lever position
+    Table _throttle;            ///< [-] throttle vs throttle lever position
 
-    Table m_powerFactor;        ///< [-] power factor
+    Table _powerFactor;         ///< [-] power factor
 
-    double m_power_max;         ///< [W] maximum power
-    double m_starter;           ///< [N*m] starter torque
-    double m_rpm_min;           ///< [rpm] engine minimum rpm
-    double m_rpm_max;           ///< [rpm] engine maximum rpm
-    double m_specFuelCons;      ///< [kg/(W*s)] specific fuel consumption
-    double m_inertia;           ///< [kg*m^2] polar moment of inertia
+    double _power_max;          ///< [W] maximum power
+    double _starter;            ///< [N*m] starter torque
+    double _rpm_min;            ///< [rpm] engine minimum rpm
+    double _rpm_max;            ///< [rpm] engine maximum rpm
+    double _specFuelCons;       ///< [kg/(W*s)] specific fuel consumption
+    double _inertia;            ///< [kg*m^2] polar moment of inertia
 
-    double m_rpm;               ///< [rpm] engine rpm
-    double m_map;               ///< [Pa] manifold absolute pressure
-    double m_power;             ///< [W] net power
-    double m_torque;            ///< [N*m] torque
-    double m_fuelFlow;          ///< [kg/s] fuel flow
+    double _rpm;                ///< [rpm] engine rpm
+    double _map;                ///< [Pa] manifold absolute pressure
+    double _power;              ///< [W] net power
+    double _torque;             ///< [N*m] torque
+    double _fuelFlow;           ///< [kg/s] fuel flow
 
     /**
      * Computes manifold absolute pressure.

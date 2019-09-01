@@ -115,9 +115,16 @@ double Ephemeris::julianDay( DateTime dateTime )
 {
     double jd = 0.0;
 
+    // Meeus J.: Astronomical Algorithms, p.61
     double y = dateTime.year;
     double m = dateTime.month;
     double d = dateTime.day;
+
+    if ( m == 1 || m == 2 )
+    {
+        y = y - 1;
+        m = 12 + m;
+    }
 
     double a = (int)( y / 100.0 );
     double b = 2.0 - a + (int)( a / 4.0 );
@@ -140,6 +147,9 @@ void Ephemeris::computeElevAndAzim( double alpha, double delta,
                                     double lst )
 {
     double lha = lst - alpha;
+    while ( lha < -M_PI ) lha += 2.0 * M_PI;
+    while ( lha >  M_PI ) lha -= 2.0 * M_PI;
+
     double cosLha = cos( lha );
 
     double sinDelta = sin( delta );
@@ -155,73 +165,78 @@ void Ephemeris::computeElevAndAzim( double alpha, double delta,
     double cosElev = cos( elev );
 
     double cosAzim = ( sinDelta*cosLat - cosLha*cosDelta*sinLat ) / cosElev;
+    cosAzim = fabs( cosAzim );
 
     if ( cosAzim >  1.0 ) cosAzim =  1.0;
     if ( cosAzim < -1.0 ) cosAzim = -1.0;
 
-    azim = ( lha < 0.0 ) ? acos( cosAzim ) : -acos( cosAzim );
-
-    while ( azim < 0.0 ) azim += 2.0 * M_PI;
+    if ( lha < 0.0 )
+        azim = M_PI - acos( cosAzim );
+    else
+        azim = M_PI + acos( cosAzim );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Ephemeris::Ephemeris() :
-    m_jd ( 0.0 ),
-    m_jc ( 0.0 ),
+    _jd ( 0.0 ),
+    _jc ( 0.0 ),
 
-    m_sunAlpha ( 0.0 ),
-    m_sunDelta ( 0.0 ),
-    m_sunElev ( 0.0 ),
-    m_sunAzim ( 0.0 ),
+    _sunAlpha ( 0.0 ),
+    _sunDelta ( 0.0 ),
+    _sunElev ( 0.0 ),
+    _sunAzim ( 0.0 ),
 
-    m_moonAlpha ( 0.0 ),
-    m_moonDelta ( 0.0 ),
-    m_moonElev ( 0.0 ),
-    m_moonAzim ( 0.0 )
+    _moonAlpha ( 0.0 ),
+    _moonDelta ( 0.0 ),
+    _moonElev ( 0.0 ),
+    _moonAzim ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Ephemeris::update( DateTime dateTime, double lat, double lon )
 {
-    m_jd = julianDay( dateTime );
-    m_jc = ( m_jd - 2451543.5 ) / 36525.0;
+    // Meeus J.: Astronomical Algorithms, p.87
+    _jd = julianDay( dateTime );
+    _jc = ( _jd - 2451545.0 ) / 36525.0;
 
-    m_ut = dateTime.hour
-         + dateTime.minute / 60.0f
-         + dateTime.second / 3600.0f;
+    _ut = dateTime.hour
+        + dateTime.minute / 60.0f
+        + dateTime.second / 3600.0f;
 
-    double T0 = 6.697374558
-              + 2400.051336 * m_jc
-              + 0.000025862 * m_jc*m_jc
-              + 1.002737909 * m_ut;
+    double T0 = 6.69737455833333
+              + 2400.05133690722 * _jc
+              + 2.58622222e-5 * _jc*_jc
+              - 1.72222222e-9 * _jc*_jc*_jc
+              + 1.00273790935 * _ut;
     while ( T0 > 24.0 ) T0 -= 24.0;
     while ( T0 <  0.0 ) T0 += 24.0;
 
-    m_gst = M_PI * T0 / 12.0;
+    // Greenwich sidereal time
+    _gst = M_PI * T0 / 12.0;
 
     // local sidereal time angle
-    m_lst = m_gst + lon;
+    _lst = _gst + lon;
 
-    double sinLat = sin( lat );
-    double cosLat = cos( lat );
+    const double sinLat = sin( lat );
+    const double cosLat = cos( lat );
 
     // obliquity of the ecliptic
-    double epsilon = 0.409093 - 0.000227 * m_jc;
+    double epsilon = 0.409093 - 0.000227 * _jc;
 
     double cosEpsilon = cos( epsilon );
     double sinEpsilon = sin( epsilon );
 
     // mean anomaly
-    double M = 6.240041 + 628.302 * m_jc;
+    double M = 6.240041 + 628.302 * _jc;
 
     while ( M > 2.0*M_PI ) M -= 2.0 * M_PI;
     while ( M <      0.0 ) M += 2.0 * M_PI;
 
     // Sun ecliptic longitude
-    double sunLambda = 4.894968 + 628.331951 * m_jc
-                     + ( 0.033417 - 0.000084 * m_jc ) * sin( M )
+    double sunLambda = 4.894968 + 628.331951 * _jc
+                     + ( 0.033417 - 0.000084 * _jc ) * sin( M )
                      + 0.000351 * sin( 2.0*M );
 
     while ( sunLambda > 2.0*M_PI ) sunLambda -= 2.0 * M_PI;
@@ -231,19 +246,19 @@ void Ephemeris::update( DateTime dateTime, double lat, double lon )
     double sinSunLambda = sin( sunLambda );
 
     // Sun right ascension
-    m_sunAlpha = atan2( (float)(sinSunLambda * cosEpsilon), (float)cosSunLambda );
-    while ( m_sunAlpha > 2.0*M_PI ) m_sunAlpha -= 2.0 * M_PI;
-    while ( m_sunAlpha <      0.0 ) m_sunAlpha += 2.0 * M_PI;
+    _sunAlpha = atan2( (float)(sinSunLambda * cosEpsilon), (float)cosSunLambda );
+    while ( _sunAlpha > 2.0*M_PI ) _sunAlpha -= 2.0 * M_PI;
+    while ( _sunAlpha <      0.0 ) _sunAlpha += 2.0 * M_PI;
 
     // Sun declination
-    m_sunDelta = asin( sinSunLambda * sinEpsilon );
+    _sunDelta = asin( sinSunLambda * sinEpsilon );
 
     // Moon
-    double l_p = 3.8104 + 8399.7091 * m_jc;
-    double m   = 6.2300 +  628.3019 * m_jc;
-    double f   = 1.6280 + 8433.4663 * m_jc;
-    double m_p = 2.3554 + 8328.6911 * m_jc;
-    double d   = 5.1985 + 7771.3772 * m_jc;
+    double l_p = 3.8104 + 8399.7091 * _jc;
+    double m   = 6.2300 +  628.3019 * _jc;
+    double f   = 1.6280 + 8433.4663 * _jc;
+    double m_p = 2.3554 + 8328.6911 * _jc;
+    double d   = 5.1985 + 7771.3772 * _jc;
 
     // Moon ecliptic longitude
     double moonLambda
@@ -280,19 +295,19 @@ void Ephemeris::update( DateTime dateTime, double lat, double lon )
     double tanMoonBeta = tan( moonBeta );
 
     // Moon right ascension
-    m_moonAlpha = atan2( sinMoonLambda*cosEpsilon - tanMoonBeta*sinEpsilon, cosMoonLambda );
+    _moonAlpha = atan2( sinMoonLambda*cosEpsilon - tanMoonBeta*sinEpsilon, cosMoonLambda );
 
-    while ( m_moonAlpha > 2.0*M_PI ) m_moonAlpha -= 2.0 * M_PI;
-    while ( m_moonAlpha <      0.0 ) m_moonAlpha += 2.0 * M_PI;
+    while ( _moonAlpha > 2.0*M_PI ) _moonAlpha -= 2.0 * M_PI;
+    while ( _moonAlpha <      0.0 ) _moonAlpha += 2.0 * M_PI;
 
     // Moon declination
-    m_moonDelta = asin( sinMoonBeta*cosEpsilon + cosMoonBeta*sinEpsilon*sinMoonLambda );
+    _moonDelta = asin( sinMoonBeta*cosEpsilon + cosMoonBeta*sinEpsilon*sinMoonLambda );
 
     // Sun elevation and azimuth
-    computeElevAndAzim( m_sunAlpha, m_sunDelta, m_sunElev, m_sunAzim,
-                        sinLat, cosLat, m_lst );
+    computeElevAndAzim( _sunAlpha, _sunDelta, _sunElev, _sunAzim,
+                        sinLat, cosLat, _lst );
 
     // Moon elevation and azimuth
-    computeElevAndAzim( m_moonAlpha, m_moonDelta, m_moonElev, m_moonAzim,
-                        sinLat, cosLat, m_lst );
+    computeElevAndAzim( _moonAlpha, _moonDelta, _moonElev, _moonAzim,
+                        sinLat, cosLat, _lst );
 }

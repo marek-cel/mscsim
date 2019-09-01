@@ -56,14 +56,14 @@ public:
         fdm::Vector3 pos_wgs;           ///< [m] VOR position expressed in WGS
     };
 
-    static const double m_range_ils;    ///< [m] ILS range
-    static const double m_range_ndb;    ///< [m] NDB range
-    static const double m_range_vor;    ///< [m] VOR range
+    static const double _range_ils;     ///< [m] ILS range
+    static const double _range_ndb;     ///< [m] NDB range
+    static const double _range_vor;     ///< [m] VOR range
 
-    static const double m_ils_gs_max;   ///< [rad] ILS GS full deflection
-    static const double m_ils_lc_max;   ///< [rad] ILS LC full deflection
+    static const double _ils_gs_max;    ///< [rad] ILS GS full deflection
+    static const double _ils_lc_max;    ///< [rad] ILS LC full deflection
 
-    static const double m_vor_max;      ///< [rad] VOR full deflection
+    static const double _vor_max;       ///< [rad] VOR full deflection
 
     /** Constructor. */
     Navigation();
@@ -76,23 +76,23 @@ public:
 
 private:
 
-    ILS m_ils;                  ///<
-    NDB m_ndb;                  ///<
-    VOR m_vor;                  ///<
+    ILS _ils;                   ///<
+    NDB _ndb;                   ///<
+    VOR _vor;                   ///<
 
-    fdm::WGS84 m_aircraft_wgs;  ///<
+    fdm::WGS84 _aircraft_wgs;   ///<
 
-    bool  m_adf_visible;        ///<
-    float m_adf_bearing;        ///< [rad]
+    bool  _adf_visible;         ///<
+    float _adf_bearing;         ///< [rad]
 
-    bool  m_ils_gs_visible;     ///<
-    bool  m_ils_lc_visible;     ///<
-    float m_ils_gs_deviation;   ///< [-1.0,1.0]
-    float m_ils_lc_deviation;   ///< [-1.0,1.0]
+    bool  _ils_gs_visible;      ///<
+    bool  _ils_lc_visible;      ///<
+    float _ils_gs_deviation;    ///< [-1.0,1.0]
+    float _ils_lc_deviation;    ///< [-1.0,1.0]
 
-    bool  m_nav_visible;        ///<
-    float m_nav_deviation;      ///< [-1.0,1.0]
-    float m_nav_distance;       ///< [-1.0,1.0]
+    bool  _nav_visible;         ///<
+    float _nav_deviation;       ///< [-1.0,1.0]
+    float _nav_distance;        ///< [-1.0,1.0]
 
     double getAzimuth( const fdm::Vector3 &pos_wgs );
     double getDistance( const fdm::Vector3 &pos_wgs );

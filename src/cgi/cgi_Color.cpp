@@ -28,20 +28,20 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const osg::Vec3 Color::amber  = osg::Vec3( 1.00f, 0.75f, 0.00f );
-const osg::Vec3 Color::black  = osg::Vec3( 0.00f, 0.00f, 0.00f );
-const osg::Vec3 Color::cyan   = osg::Vec3( 0.00f, 1.00f, 1.00f );
-const osg::Vec3 Color::green  = osg::Vec3( 0.00f, 0.50f, 0.00f );
-const osg::Vec3 Color::grey   = osg::Vec3( 0.50f, 0.50f, 0.50f );
-const osg::Vec3 Color::lime   = osg::Vec3( 0.00f, 1.00f, 0.00f );
-const osg::Vec3 Color::orange = osg::Vec3( 1.00f, 0.65f, 0.00f );
-const osg::Vec3 Color::red    = osg::Vec3( 1.00f, 0.00f, 0.00f );
-const osg::Vec3 Color::white  = osg::Vec3( 1.00f, 1.00f, 1.00f );
-const osg::Vec3 Color::yellow = osg::Vec3( 1.00f, 1.00f, 0.00f );
+const osg::Vec3 Color::_amber  = osg::Vec3( 1.00f, 0.75f, 0.00f );
+const osg::Vec3 Color::_black  = osg::Vec3( 0.00f, 0.00f, 0.00f );
+const osg::Vec3 Color::_cyan   = osg::Vec3( 0.00f, 1.00f, 1.00f );
+const osg::Vec3 Color::_green  = osg::Vec3( 0.00f, 0.50f, 0.00f );
+const osg::Vec3 Color::_grey   = osg::Vec3( 0.50f, 0.50f, 0.50f );
+const osg::Vec3 Color::_lime   = osg::Vec3( 0.00f, 1.00f, 0.00f );
+const osg::Vec3 Color::_orange = osg::Vec3( 1.00f, 0.65f, 0.00f );
+const osg::Vec3 Color::_red    = osg::Vec3( 1.00f, 0.00f, 0.00f );
+const osg::Vec3 Color::_white  = osg::Vec3( 1.00f, 1.00f, 1.00f );
+const osg::Vec3 Color::_yellow = osg::Vec3( 1.00f, 1.00f, 0.00f );
 
-const osg::Vec3 Color::hud = osg::Vec3( 0.05f, 0.7f, 0.05f );
+const osg::Vec3 Color::_hud = osg::Vec3( 0.05f, 0.7f, 0.05f );
 
-const osg::Vec3 Color::sky[] = {
+const osg::Vec3 Color::_sky[] = {
     osg::Vec3(   5.0f/255.0f,   5.0f/255.0f,   8.0f/255.0f ), //  0) 05:20 (-10 deg)
     osg::Vec3(  45.0f/255.0f,  45.0f/255.0f,  47.0f/255.0f ), //  1) 05:30 ( -7 deg)
     osg::Vec3(  85.0f/255.0f,  86.0f/255.0f,  87.0f/255.0f ), //  2) 05:40 ( -5 deg)
@@ -53,7 +53,7 @@ const osg::Vec3 Color::sky[] = {
     osg::Vec3( 182.0f/255.0f, 203.0f/255.0f, 238.0f/255.0f )  //  8) 06:40 ( 10 deg)
 };
 
-const osg::Vec3 Color::fog[] = {
+const osg::Vec3 Color::_fog[] = {
     osg::Vec3(   6.0f/255.0f,   4.0f/255.0f,   6.0f/255.0f ), //  0) 05:20 (-10 deg)
     osg::Vec3(  46.0f/255.0f,  43.0f/255.0f,  45.0f/255.0f ), //  1) 05:30 ( -7 deg)
     osg::Vec3(  86.0f/255.0f,  82.0f/255.0f,  84.0f/255.0f ), //  2) 05:40 ( -5 deg)
@@ -65,7 +65,7 @@ const osg::Vec3 Color::fog[] = {
     osg::Vec3( 236.0f/255.0f, 236.0f/255.0f, 238.0f/255.0f )  //  8) 06:40 ( 10 deg)
 };
 
-const osg::Vec3 Color::sun[] = {
+const osg::Vec3 Color::_sun[] = {
     osg::Vec3( 249.0f/255.0f, 216.0f/255.0f, 163.0f/255.0f ), //  0
     osg::Vec3( 249.0f/255.0f, 218.0f/255.0f, 169.0f/255.0f ), //  1
     osg::Vec3( 250.0f/255.0f, 221.0f/255.0f, 177.0f/255.0f ), //  2
@@ -79,5 +79,5 @@ const osg::Vec3 Color::sun[] = {
     osg::Vec3( 255.0f/255.0f, 253.0f/255.0f, 250.0f/255.0f )  // 10
 };
 
-const osg::Vec3 Color::moon = osg::Vec3( 0.05f, 0.05f, 0.05f );
+const osg::Vec3 Color::_moon = osg::Vec3( 0.05f, 0.05f, 0.05f );
 

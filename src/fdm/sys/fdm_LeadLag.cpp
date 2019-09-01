@@ -32,60 +32,60 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 LeadLag::LeadLag() :
-    m_c1 ( 0.0 ),
-    m_c2 ( 0.0 ),
-    m_c3 ( 0.0 ),
-    m_c4 ( 0.0 ),
-    m_u_prev ( 0.0 ),
-    m_y_prev ( 0.0 ),
-    m_y ( 0.0 )
+    _c1 ( 0.0 ),
+    _c2 ( 0.0 ),
+    _c3 ( 0.0 ),
+    _c4 ( 0.0 ),
+    _u_prev ( 0.0 ),
+    _y_prev ( 0.0 ),
+    _y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 LeadLag::LeadLag( double c1, double c2, double c3, double c4, double y ) :
-    m_c1 ( c1 ),
-    m_c2 ( c2 ),
-    m_c3 ( c3 ),
-    m_c4 ( c4 ),
-    m_u_prev ( 0.0 ),
-    m_y_prev ( y ),
-    m_y ( y )
+    _c1 ( c1 ),
+    _c2 ( c2 ),
+    _c3 ( c3 ),
+    _c4 ( c4 ),
+    _u_prev ( 0.0 ),
+    _y_prev ( y ),
+    _y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLag::setValue( double y )
 {
-    m_y = y;
+    _y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLag::setC1( double c1 )
 {
-    m_c1 = c1;
+    _c1 = c1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLag::setC2( double c2 )
 {
-    m_c2 = c2;
+    _c2 = c2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLag::setC3( double c3 )
 {
-    m_c3 = c3;
+    _c3 = c3;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLag::setC4( double c4 )
 {
-    m_c4 = c4;
+    _c4 = c4;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,15 +94,15 @@ void LeadLag::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
-        double den = 2.0 * m_c3 + dt * m_c4;
+        double den = 2.0 * _c3 + dt * _c4;
 
-        double ca = ( 2.0 * m_c1 + dt  * m_c2 ) / den;
-        double cb = ( dt  * m_c2 - 2.0 * m_c1 ) / den;
-        double cc = ( 2.0 * m_c3 - dt  * m_c4 ) / den;
+        double ca = ( 2.0 * _c1 + dt  * _c2 ) / den;
+        double cb = ( dt  * _c2 - 2.0 * _c1 ) / den;
+        double cc = ( 2.0 * _c3 - dt  * _c4 ) / den;
 
-        m_y = u * ca + m_u_prev * cb + m_y_prev * cc;
+        _y = u * ca + _u_prev * cb + _y_prev * cc;
 
-        m_u_prev = u;
-        m_y_prev = m_y;
+        _u_prev = u;
+        _y_prev = _y;
     }
 }

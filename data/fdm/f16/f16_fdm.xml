@@ -1686,9 +1686,9 @@
     <!-- nose wheel -->
     <wheel name="wheel_n" steerable="1" caster="1" brake_group="0">
       <attachment_point>  3.1   0.0   0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>    3.1   0.0   1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      <unloaded_wheel>    3.1   0.0   2.0   </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>  3.0e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <stiffness>  1.6e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
       <damping>    3.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
@@ -1701,9 +1701,9 @@
     <!-- left wheel -->
     <wheel name="wheel_l" steerable="0" caster="0" brake_group="1">
       <attachment_point> -0.9  -1.18  0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>   -0.9  -1.18  1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      <unloaded_wheel>   -0.9  -1.18  2.0   </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>  7.0e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <stiffness>  4.5e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
       <damping>    4.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
@@ -1714,9 +1714,9 @@
     <!-- right wheel -->
     <wheel name="wheel_r" steerable="0" caster="0" brake_group="2">
       <attachment_point> -0.9   1.18  0.0   </attachment_point>     <!-- [m] strut attachment point coordinates expressed in BAS -->
-      <unloaded_wheel>   -0.9   1.18  1.86  </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      <unloaded_wheel>   -0.9   1.18  2.0   </unloaded_wheel>       <!-- [m] unloaded wheel coordinates expressed in BAS -->
       
-      <stiffness>  7.0e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <stiffness>  4.5e+5  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
       <damping>    4.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
       
       <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->

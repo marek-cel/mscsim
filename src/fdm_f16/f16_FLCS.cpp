@@ -36,122 +36,122 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 F16_FLCS::F16_FLCS() :
-    m_ailerons_max ( 0.0 ),
-    m_elevator_max ( 0.0 ),
-    m_rudder_max   ( 0.0 ),
-    m_flaps_le_max ( 0.0 ),
+    _ailerons_max ( 0.0 ),
+    _elevator_max ( 0.0 ),
+    _rudder_max   ( 0.0 ),
+    _flaps_le_max ( 0.0 ),
 
-    m_ailerons_max_deg ( 0.0 ),
-    m_elevator_max_deg ( 0.0 ),
-    m_rudder_max_deg   ( 0.0 ),
-    m_flaps_le_max_deg ( 0.0 ),
+    _ailerons_max_deg ( 0.0 ),
+    _elevator_max_deg ( 0.0 ),
+    _rudder_max_deg   ( 0.0 ),
+    _flaps_le_max_deg ( 0.0 ),
 
-    m_ailerons      ( 0.0 ),
-    m_ailerons_norm ( 0.0 ),
-    m_elevator      ( 0.0 ),
-    m_elevator_norm ( 0.0 ),
-    m_elevons       ( 0.0 ),
-    m_rudder        ( 0.0 ),
-    m_rudder_norm   ( 0.0 ),
-    m_flaps_le      ( 0.0 ),
-    m_flaps_le_norm ( 0.0 ),
-    m_flaps_te      ( 0.0 ),
-    m_flaps_te_norm ( 0.0 ),
+    _ailerons      ( 0.0 ),
+    _ailerons_norm ( 0.0 ),
+    _elevator      ( 0.0 ),
+    _elevator_norm ( 0.0 ),
+    _elevons       ( 0.0 ),
+    _rudder        ( 0.0 ),
+    _rudder_norm   ( 0.0 ),
+    _flaps_le      ( 0.0 ),
+    _flaps_le_norm ( 0.0 ),
+    _flaps_te      ( 0.0 ),
+    _flaps_te_norm ( 0.0 ),
 
-    m_timeStep ( 0.0 ),
+    _timeStep ( 0.0 ),
 
-    m_cat   ( CAT_I  ),
-    m_gains ( Cruise ),
+    _cat   ( CAT_I  ),
+    _gains ( Cruise ),
 
-    m_alpha_lef ( 0 ),
+    _alpha_lef ( 0 ),
 
-    m_flaps_int ( 0.0 ),
-    m_flaps_com ( 0.0 ),
+    _flaps_int ( 0.0 ),
+    _flaps_com ( 0.0 ),
 
-    m_stick_lat    ( 0 ),
-    m_p_com_lag    ( 0 ),
-    m_p_com_pos    ( 0 ),
-    m_p_com_neg    ( 0 ),
-    m_omg_p_lag    ( 0 ),
-    m_omg_p_fil    ( 0 ),
-    m_delta_fl_lag ( 0 ),
-    m_delta_fr_lag ( 0 ),
+    _stick_lat    ( 0 ),
+    _p_com_lag    ( 0 ),
+    _p_com_pos    ( 0 ),
+    _p_com_neg    ( 0 ),
+    _omg_p_lag    ( 0 ),
+    _omg_p_fil    ( 0 ),
+    _delta_fl_lag ( 0 ),
+    _delta_fr_lag ( 0 ),
 
-    m_delta_flc ( 0.0 ),
-    m_delta_frc ( 0.0 ),
-    m_delta_fl  ( 0.0 ),
-    m_delta_fr  ( 0.0 ),
-    m_delta_ac  ( 0.0 ),
-    m_delta_a   ( 0.0 ),
+    _delta_flc ( 0.0 ),
+    _delta_frc ( 0.0 ),
+    _delta_fl  ( 0.0 ),
+    _delta_fr  ( 0.0 ),
+    _delta_ac  ( 0.0 ),
+    _delta_a   ( 0.0 ),
 
-    m_stick_lon  ( 0 ),
-    m_alpha_lag  ( 0 ),
-    m_g_com_lag  ( 0 ),
-    m_omg_q_lag  ( 0 ),
-    m_omg_q_fil  ( 0 ),
-    m_g_z_input  ( 0 ),
-    m_sca_bias_1 ( 0 ),
-    m_sca_bias_2 ( 0 ),
-    m_sca_bias_3 ( 0 ),
-    m_u_sca_fil  ( 0 ),
-    m_u_sca_fil2 ( 0 ),
-    m_actuator_l ( 0 ),
-    m_actuator_r ( 0 ),
+    _stick_lon  ( 0 ),
+    _alpha_lag  ( 0 ),
+    _g_com_lag  ( 0 ),
+    _omg_q_lag  ( 0 ),
+    _omg_q_fil  ( 0 ),
+    _g_z_input  ( 0 ),
+    _sca_bias_1 ( 0 ),
+    _sca_bias_2 ( 0 ),
+    _sca_bias_3 ( 0 ),
+    _u_sca_fil  ( 0 ),
+    _u_sca_fil2 ( 0 ),
+    _actuator_l ( 0 ),
+    _actuator_r ( 0 ),
 
-    m_pitch_int ( 0.0 ),
-    m_delta_htl ( 0.0 ),
-    m_delta_htr ( 0.0 ),
-    m_delta_h   ( 0.0 ),
-    m_delta_d   ( 0.0 ),
+    _pitch_int ( 0.0 ),
+    _delta_htl ( 0.0 ),
+    _delta_htr ( 0.0 ),
+    _delta_h   ( 0.0 ),
+    _delta_d   ( 0.0 ),
 
-    m_pedals      ( 0 ),
-    m_omg_r_lag   ( 0 ),
-    m_omg_p_yaw   ( 0 ),
-    m_u_sum_ll1   ( 0 ),
-    m_u_sum_ll2   ( 0 ),
-    m_delta_r_fil ( 0 ),
-    m_delta_r_lag ( 0 ),
+    _pedals      ( 0 ),
+    _omg_r_lag   ( 0 ),
+    _omg_p_yaw   ( 0 ),
+    _u_sum_ll1   ( 0 ),
+    _u_sum_ll2   ( 0 ),
+    _delta_r_fil ( 0 ),
+    _delta_r_lag ( 0 ),
 
-    m_delta_r   ( 0.0 ),
+    _delta_r   ( 0.0 ),
 
-    m_gun_compensation ( 0.0 )
+    _gun_compensation ( 0.0 )
 {
     // lef
-    m_alpha_lef = new LeadLag( 2.0, 7.25, 1.0, 7.25 );
+    _alpha_lef = new LeadLag( 2.0, 7.25, 1.0, 7.25 );
 
     // lat
-    m_stick_lat    = new Lag( 1.0 / 60.0 );
-    m_p_com_lag    = new Lag( 1.0 / 10.0 );
-    m_p_com_pos    = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
-    m_p_com_neg    = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
-    m_omg_p_lag    = new Lag( 1.0 / 50.0 );
-    m_omg_p_fil    = new Filter2( 4.0, 64.0, 6400.0, 1.0, 80.0, 6400.0 );
-    m_delta_fl_lag = new Lag( 1.0 / 20.0 );
-    m_delta_fr_lag = new Lag( 1.0 / 20.0 );
+    _stick_lat    = new Lag( 1.0 / 60.0 );
+    _p_com_lag    = new Lag( 1.0 / 10.0 );
+    _p_com_pos    = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
+    _p_com_neg    = new LeadLag( 6.0, 0.0, 1.0, 20.0 );
+    _omg_p_lag    = new Lag( 1.0 / 50.0 );
+    _omg_p_fil    = new Filter2( 4.0, 64.0, 6400.0, 1.0, 80.0, 6400.0 );
+    _delta_fl_lag = new Lag( 1.0 / 20.0 );
+    _delta_fr_lag = new Lag( 1.0 / 20.0 );
 
     // lon
-    m_stick_lon  = new Lag( 1.0 / 60.0 );
-    m_alpha_lag  = new Lag( 1.0 / 10.0 );
-    m_g_com_lag  = new Lag( 1.0 / 8.3 );
-    m_omg_q_lag  = new Lag( 1.0 / 50.0 );
-    m_omg_q_fil  = new LeadLag( 1.0, 0.0, 1.0, 1.0 );
-    m_g_z_input  = new Lag( 1.0 / 50.0 );
-    m_sca_bias_1 = new Lag( 1.0 / 10.0 );
-    m_sca_bias_2 = new Lag( 1.0 / 0.125 );
-    m_sca_bias_3 = new Lag( 1.0 / 0.125 );
-    m_u_sca_fil  = new LeadLag( 3.0, 12.0, 1.0, 12.0 );
-    m_u_sca_fil2 = new Filter2( 2.0, 20.0, 3500.0, 1.0, 40.0, 3500.0 );
-    m_actuator_l = new Lag( 1.0 / 20.0 );
-    m_actuator_r = new Lag( 1.0 / 20.0 );
+    _stick_lon  = new Lag( 1.0 / 60.0 );
+    _alpha_lag  = new Lag( 1.0 / 10.0 );
+    _g_com_lag  = new Lag( 1.0 / 8.3 );
+    _omg_q_lag  = new Lag( 1.0 / 50.0 );
+    _omg_q_fil  = new LeadLag( 1.0, 0.0, 1.0, 1.0 );
+    _g_z_input  = new Lag( 1.0 / 50.0 );
+    _sca_bias_1 = new Lag( 1.0 / 10.0 );
+    _sca_bias_2 = new Lag( 1.0 / 0.125 );
+    _sca_bias_3 = new Lag( 1.0 / 0.125 );
+    _u_sca_fil  = new LeadLag( 3.0, 12.0, 1.0, 12.0 );
+    _u_sca_fil2 = new Filter2( 2.0, 20.0, 3500.0, 1.0, 40.0, 3500.0 );
+    _actuator_l = new Lag( 1.0 / 20.0 );
+    _actuator_r = new Lag( 1.0 / 20.0 );
 
     // yaw
-    m_pedals      = new Lag( 1.0 / 60.0 );
-    m_omg_r_lag   = new Lag( 1.0 / 50.0 );
-    m_omg_p_yaw   = new Filter2( 1.0, 0.0, 3025.0, 1.0, 110.0, 3025.0 );
-    m_u_sum_ll1   = new LeadLag( 3.0, 15.0, 1.0, 15.0 );
-    m_u_sum_ll2   = new LeadLag( 1.5,  0.0, 1.0,  1.0 );
-    m_delta_r_fil = new Filter2( 1.0, 0.0, 1225.0, 1.0, 70.0, 1225.0 );
-    m_delta_r_lag = new Lag( 1.0 / 20.0 );
+    _pedals      = new Lag( 1.0 / 60.0 );
+    _omg_r_lag   = new Lag( 1.0 / 50.0 );
+    _omg_p_yaw   = new Filter2( 1.0, 0.0, 3025.0, 1.0, 110.0, 3025.0 );
+    _u_sum_ll1   = new LeadLag( 3.0, 15.0, 1.0, 15.0 );
+    _u_sum_ll2   = new LeadLag( 1.5,  0.0, 1.0,  1.0 );
+    _delta_r_fil = new Filter2( 1.0, 0.0, 1225.0, 1.0, 70.0, 1225.0 );
+    _delta_r_lag = new Lag( 1.0 / 20.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,95 +159,95 @@ F16_FLCS::F16_FLCS() :
 F16_FLCS::~F16_FLCS()
 {
     // lef
-    if ( m_alpha_lef ) delete m_alpha_lef;
-    m_alpha_lef = 0;
+    if ( _alpha_lef ) delete _alpha_lef;
+    _alpha_lef = 0;
 
     // lat
-    if ( m_stick_lat ) delete m_stick_lat;
-    m_stick_lat = 0;
+    if ( _stick_lat ) delete _stick_lat;
+    _stick_lat = 0;
 
-    if ( m_p_com_lag ) delete m_p_com_lag;
-    m_p_com_lag = 0;
+    if ( _p_com_lag ) delete _p_com_lag;
+    _p_com_lag = 0;
 
-    if ( m_p_com_pos ) delete m_p_com_pos;
-    m_p_com_pos = 0;
+    if ( _p_com_pos ) delete _p_com_pos;
+    _p_com_pos = 0;
 
-    if ( m_p_com_neg ) delete m_p_com_neg;
-    m_p_com_neg = 0;
+    if ( _p_com_neg ) delete _p_com_neg;
+    _p_com_neg = 0;
 
-    if ( m_omg_p_lag ) delete m_omg_p_lag;
-    m_omg_p_lag = 0;
+    if ( _omg_p_lag ) delete _omg_p_lag;
+    _omg_p_lag = 0;
 
-    if ( m_omg_p_fil ) delete m_omg_p_fil;
-    m_omg_p_fil = 0;
+    if ( _omg_p_fil ) delete _omg_p_fil;
+    _omg_p_fil = 0;
 
-    if ( m_delta_fl_lag ) delete m_delta_fl_lag;
-    m_delta_fl_lag = 0;
+    if ( _delta_fl_lag ) delete _delta_fl_lag;
+    _delta_fl_lag = 0;
 
-    if ( m_delta_fr_lag ) delete m_delta_fr_lag;
-    m_delta_fr_lag = 0;
+    if ( _delta_fr_lag ) delete _delta_fr_lag;
+    _delta_fr_lag = 0;
 
     // lon
-    if ( m_stick_lon ) delete m_stick_lon;
-    m_stick_lon = 0;
+    if ( _stick_lon ) delete _stick_lon;
+    _stick_lon = 0;
 
-    if ( m_alpha_lag ) delete m_alpha_lag;
-    m_alpha_lag = 0;
+    if ( _alpha_lag ) delete _alpha_lag;
+    _alpha_lag = 0;
 
-    if ( m_g_com_lag ) delete m_g_com_lag;
-    m_g_com_lag = 0;
+    if ( _g_com_lag ) delete _g_com_lag;
+    _g_com_lag = 0;
 
-    if ( m_omg_q_lag ) delete m_omg_q_lag;
-    m_omg_q_lag = 0;
+    if ( _omg_q_lag ) delete _omg_q_lag;
+    _omg_q_lag = 0;
 
-    if ( m_omg_q_fil ) delete m_omg_q_fil;
-    m_omg_q_fil = 0;
+    if ( _omg_q_fil ) delete _omg_q_fil;
+    _omg_q_fil = 0;
 
-    if ( m_g_z_input ) delete m_g_z_input;
-    m_g_z_input = 0;
+    if ( _g_z_input ) delete _g_z_input;
+    _g_z_input = 0;
 
-    if ( m_sca_bias_1 ) delete m_sca_bias_1;
-    m_sca_bias_1 = 0;
+    if ( _sca_bias_1 ) delete _sca_bias_1;
+    _sca_bias_1 = 0;
 
-    if ( m_sca_bias_2 ) delete m_sca_bias_2;
-    m_sca_bias_2 = 0;
+    if ( _sca_bias_2 ) delete _sca_bias_2;
+    _sca_bias_2 = 0;
 
-    if ( m_sca_bias_3 ) delete m_sca_bias_3;
-    m_sca_bias_3 = 0;
+    if ( _sca_bias_3 ) delete _sca_bias_3;
+    _sca_bias_3 = 0;
 
-    if ( m_u_sca_fil ) delete m_u_sca_fil;
-    m_u_sca_fil = 0;
+    if ( _u_sca_fil ) delete _u_sca_fil;
+    _u_sca_fil = 0;
 
-    if ( m_u_sca_fil2 ) delete m_u_sca_fil2;
-    m_u_sca_fil2 = 0;
+    if ( _u_sca_fil2 ) delete _u_sca_fil2;
+    _u_sca_fil2 = 0;
 
-    if ( m_actuator_l ) delete m_actuator_l;
-    m_actuator_l = 0;
+    if ( _actuator_l ) delete _actuator_l;
+    _actuator_l = 0;
 
-    if ( m_actuator_r ) delete m_actuator_r;
-    m_actuator_r = 0;
+    if ( _actuator_r ) delete _actuator_r;
+    _actuator_r = 0;
 
     // yaw
-    if ( m_pedals ) delete m_pedals;
-    m_pedals = 0;
+    if ( _pedals ) delete _pedals;
+    _pedals = 0;
 
-    if ( m_omg_r_lag ) delete m_omg_r_lag;
-    m_omg_r_lag = 0;
+    if ( _omg_r_lag ) delete _omg_r_lag;
+    _omg_r_lag = 0;
 
-    if ( m_omg_p_yaw ) delete m_omg_p_yaw;
-    m_omg_p_yaw = 0;
+    if ( _omg_p_yaw ) delete _omg_p_yaw;
+    _omg_p_yaw = 0;
 
-    if ( m_u_sum_ll1 ) delete m_u_sum_ll1;
-    m_u_sum_ll1 = 0;
+    if ( _u_sum_ll1 ) delete _u_sum_ll1;
+    _u_sum_ll1 = 0;
 
-    if ( m_u_sum_ll2 ) delete m_u_sum_ll2;
-    m_u_sum_ll2 = 0;
+    if ( _u_sum_ll2 ) delete _u_sum_ll2;
+    _u_sum_ll2 = 0;
 
-    if ( m_delta_r_fil ) delete m_delta_r_fil;
-    m_delta_r_fil = 0;
+    if ( _delta_r_fil ) delete _delta_r_fil;
+    _delta_r_fil = 0;
 
-    if ( m_delta_r_lag ) delete m_delta_r_lag;
-    m_delta_r_lag = 0;
+    if ( _delta_r_lag ) delete _delta_r_lag;
+    _delta_r_lag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -264,17 +264,17 @@ void F16_FLCS::update( double timeStep, double angleOfAttack,
 {
     if ( timeStep > 0.0 )
     {
-        m_timeStep = timeStep;
+        _timeStep = timeStep;
 
         // (AD-A055-417, p.20, Note A)
         // 646 psf = 30,930.6473 Pa
         if ( ( dynPress < 30930.6473 && refuel_door_open ) || lg_handle_dn || alt_flaps_ext )
         {
-            m_gains = Landing;
+            _gains = Landing;
         }
         else
         {
-            m_gains = Cruise;
+            _gains = Cruise;
         }
 
         // stanby gains
@@ -284,7 +284,7 @@ void F16_FLCS::update( double timeStep, double angleOfAttack,
             //   200 psf =   9,576.0518 Pa
             // 1,400 psf =  67,032.3626 Pa
             // 2,116 psf = 101,314.6280 Pa
-            dynPress = ( m_gains == Landing ) ? 9576.0518 : 67032.3626;
+            dynPress = ( _gains == Landing ) ? 9576.0518 : 67032.3626;
             statPress = 101314.628;
         }
 
@@ -302,47 +302,47 @@ void F16_FLCS::update( double timeStep, double angleOfAttack,
 
 void F16_FLCS::setAilerons_max( double ailerons_max )
 {
-    m_ailerons_max = ailerons_max;
-    m_ailerons_max_deg = Units::rad2deg( m_ailerons_max );
+    _ailerons_max = ailerons_max;
+    _ailerons_max_deg = Units::rad2deg( _ailerons_max );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void F16_FLCS::setElevator_max( double elevator_max )
 {
-    m_elevator_max = elevator_max;
-    m_elevator_max_deg = Units::rad2deg( m_elevator_max );
+    _elevator_max = elevator_max;
+    _elevator_max_deg = Units::rad2deg( _elevator_max );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void F16_FLCS::setRudder_max( double rudder_max )
 {
-    m_rudder_max = rudder_max;
-    m_rudder_max_deg = Units::rad2deg( m_rudder_max );
+    _rudder_max = rudder_max;
+    _rudder_max_deg = Units::rad2deg( _rudder_max );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void F16_FLCS::setFlaps_le_max( double flaps_le_max )
 {
-    m_flaps_le_max = flaps_le_max;
-    m_flaps_le_max_deg = Units::rad2deg( m_flaps_le_max );
+    _flaps_le_max = flaps_le_max;
+    _flaps_le_max_deg = Units::rad2deg( _flaps_le_max );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void F16_FLCS::updateLEF( double angleOfAttack, double q_p )
 {
-    m_alpha_lef->update( Units::rad2deg( angleOfAttack ), m_timeStep );
+    _alpha_lef->update( Units::rad2deg( angleOfAttack ), _timeStep );
 
     // (NASA-TP-1538, p.34)
     // delta_lef = 1.38 (2s+7.25)/(s+7.25) alpha - 9.05 q/p_s + 1.45
-    double flaps_le_deg = 1.38 * m_alpha_lef->getValue()
+    double flaps_le_deg = 1.38 * _alpha_lef->getValue()
             - 9.05 * q_p + 1.45;
 
-    m_flaps_le = Misc::satur( 0.0, m_flaps_le_max, Units::deg2rad( flaps_le_deg ) );
-    m_flaps_le_norm = m_flaps_le / m_flaps_le_max;
+    _flaps_le = Misc::satur( 0.0, _flaps_le_max, Units::deg2rad( flaps_le_deg ) );
+    _flaps_le_norm = _flaps_le / _flaps_le_max;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -353,18 +353,18 @@ void F16_FLCS::updateTEF( double q_p, bool alt_flaps_ext, bool lg_handle_dn )
     double flaps_com = ( alt_flaps_ext || lg_handle_dn ) ? 20.0 : 0.0;
 
     double flaps_trans = Misc::satur( -2.0, 2.0, getGainF9( q_p ) );
-    double flaps_limit = Misc::satur( -0.625, 0.625, flaps_com + flaps_trans - m_flaps_int );
-    m_flaps_int = m_flaps_int + 8.0 * m_timeStep * flaps_limit;
-    m_flaps_com = m_flaps_int + 1.5;
+    double flaps_limit = Misc::satur( -0.625, 0.625, flaps_com + flaps_trans - _flaps_int );
+    _flaps_int = _flaps_int + 8.0 * _timeStep * flaps_limit;
+    _flaps_com = _flaps_int + 1.5;
 
-    double flaperon_l = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_fl ) );
-    double flaperon_r = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_fr ) );
+    double flaperon_l = Misc::satur( -_ailerons_max, _ailerons_max, Units::deg2rad( _delta_fl ) );
+    double flaperon_r = Misc::satur( -_ailerons_max, _ailerons_max, Units::deg2rad( _delta_fr ) );
 
-    double flaps_te_r = flaperon_r - m_ailerons;
-    double flaps_te_l = flaperon_l + m_ailerons;
+    double flaps_te_r = flaperon_r - _ailerons;
+    double flaps_te_l = flaperon_l + _ailerons;
 
-    m_flaps_te_norm = 0.5 * ( flaps_te_r + flaps_te_l ) / m_ailerons_max;
-    m_flaps_te = m_flaps_te_norm * m_ailerons_max - Units::deg2rad( 1.5 );
+    _flaps_te_norm = 0.5 * ( flaps_te_r + flaps_te_l ) / _ailerons_max;
+    _flaps_te = _flaps_te_norm * _ailerons_max - Units::deg2rad( 1.5 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -375,50 +375,50 @@ void F16_FLCS::updateLat( double ctrlLat, double trimLat,
     // (AD-A055-417, p.20)
     double omg_p_deg = Units::rad2deg( rollRate );
 
-    m_stick_lat->update( ctrlLat, m_timeStep );
+    _stick_lat->update( ctrlLat, _timeStep );
 
-    double p_com = m_stick_lat->getValue();
+    double p_com = _stick_lat->getValue();
 
-    if ( m_gains == Landing ) p_com *= 0.542;
+    if ( _gains == Landing ) p_com *= 0.542;
 
-    double p_loop_pos = std::max( 0.0, m_p_com_pos->getValue() );
-    double p_loop_neg = std::min( 0.0, m_p_com_neg->getValue() );
-    m_p_com_lag->update( p_com - p_loop_pos - p_loop_neg, m_timeStep );
+    double p_loop_pos = std::max( 0.0, _p_com_pos->getValue() );
+    double p_loop_neg = std::min( 0.0, _p_com_neg->getValue() );
+    _p_com_lag->update( p_com - p_loop_pos - p_loop_neg, _timeStep );
 
-    m_p_com_pos->update( std::max( 0.0, m_p_com_lag->getValue() ), m_timeStep );
-    m_p_com_neg->update( std::min( 0.0, m_p_com_lag->getValue() ), m_timeStep );
+    _p_com_pos->update( std::max( 0.0, _p_com_lag->getValue() ), _timeStep );
+    _p_com_neg->update( std::min( 0.0, _p_com_lag->getValue() ), _timeStep );
 
-    m_omg_p_lag->update( omg_p_deg, m_timeStep );
-    m_omg_p_fil->update( m_omg_p_lag->getValue(), m_timeStep );
+    _omg_p_lag->update( omg_p_deg, _timeStep );
+    _omg_p_fil->update( _omg_p_lag->getValue(), _timeStep );
 
     double roll_ap_tie_in = 0.0; // TODO
-    double roll_control = m_omg_p_fil->getValue()
-            - ( m_p_com_lag->getValue() + trimLat * 1.67 )
+    double roll_control = _omg_p_fil->getValue()
+            - ( _p_com_lag->getValue() + trimLat * 1.67 )
             - roll_ap_tie_in
-            + 1.67 * m_gun_compensation;
+            + 1.67 * _gun_compensation;
 
-    double ailerons_com = Misc::satur( -m_ailerons_max_deg, m_ailerons_max_deg, 0.12 * roll_control );
+    double ailerons_com = Misc::satur( -_ailerons_max_deg, _ailerons_max_deg, 0.12 * roll_control );
 
-    double limit_fl = std::max( 0.0, m_delta_flc - 21.5 );
-    double limit_fr = std::max( 0.0, m_delta_frc - 21.5 );
+    double limit_fl = std::max( 0.0, _delta_flc - 21.5 );
+    double limit_fr = std::max( 0.0, _delta_frc - 21.5 );
 
-    double flaperons_max_deg = Units::rad2deg( m_ailerons_max );
-    m_delta_flc = Misc::satur( -flaperons_max_deg, flaperons_max_deg, m_flaps_com - ailerons_com - limit_fr );
-    m_delta_frc = Misc::satur( -flaperons_max_deg, flaperons_max_deg, m_flaps_com + ailerons_com - limit_fl );
+    double flaperons_max_deg = Units::rad2deg( _ailerons_max );
+    _delta_flc = Misc::satur( -flaperons_max_deg, flaperons_max_deg, _flaps_com - ailerons_com - limit_fr );
+    _delta_frc = Misc::satur( -flaperons_max_deg, flaperons_max_deg, _flaps_com + ailerons_com - limit_fl );
 
-    m_delta_ac = m_delta_frc - m_delta_flc;
+    _delta_ac = _delta_frc - _delta_flc;
 
-    m_delta_fl_lag->update( m_delta_flc, m_timeStep );
-    m_delta_fr_lag->update( m_delta_frc, m_timeStep );
+    _delta_fl_lag->update( _delta_flc, _timeStep );
+    _delta_fr_lag->update( _delta_frc, _timeStep );
 
-    double flaperons_delta_max = 80.0 * m_timeStep;
-    m_delta_fl = getSurfaceMaxRate( m_delta_fl, m_delta_fl_lag->getValue(), flaperons_delta_max );
-    m_delta_fr = getSurfaceMaxRate( m_delta_fr, m_delta_fr_lag->getValue(), flaperons_delta_max );
+    double flaperons_delta_max = 80.0 * _timeStep;
+    _delta_fl = getSurfaceMaxRate( _delta_fl, _delta_fl_lag->getValue(), flaperons_delta_max );
+    _delta_fr = getSurfaceMaxRate( _delta_fr, _delta_fr_lag->getValue(), flaperons_delta_max );
 
-    m_delta_a = 0.5 * ( m_delta_fr - m_delta_fl );
+    _delta_a = 0.5 * ( _delta_fr - _delta_fl );
 
-    m_ailerons = Misc::satur( -m_ailerons_max, m_ailerons_max, Units::deg2rad( m_delta_a ) );
-    m_ailerons_norm = m_ailerons / m_ailerons_max;
+    _ailerons = Misc::satur( -_ailerons_max, _ailerons_max, Units::deg2rad( _delta_a ) );
+    _ailerons_norm = _ailerons / _ailerons_max;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -432,18 +432,18 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
     double alpha_deg = Units::rad2deg( angleOfAttack );
     double omg_q_deg = Units::rad2deg( pitchRate );
 
-    m_alpha_lag->update( Misc::satur( -5.0, 30.0, alpha_deg ), m_timeStep );
-    m_stick_lon->update( ctrlLon   , m_timeStep );
-    m_g_z_input->update( g_z - 1.0 , m_timeStep );
-    m_omg_q_lag->update( omg_q_deg , m_timeStep );
-    m_omg_q_fil->update( m_omg_q_lag->getValue(), m_timeStep );
+    _alpha_lag->update( Misc::satur( -5.0, 30.0, alpha_deg ), _timeStep );
+    _stick_lon->update( ctrlLon   , _timeStep );
+    _g_z_input->update( g_z - 1.0 , _timeStep );
+    _omg_q_lag->update( omg_q_deg , _timeStep );
+    _omg_q_fil->update( _omg_q_lag->getValue(), _timeStep );
 
-    double g_com = m_stick_lon->getValue() + trimLon;
+    double g_com = _stick_lon->getValue() + trimLon;
     double g_max =  8.0;
     double g_min = -4.0;
 
     // negative g limit (AD-A055-417, p.20 - F1)
-    if ( m_gains == Cruise )
+    if ( _gains == Cruise )
     {
         if ( dynPress < 1628.0 ) // 34 psf
         {
@@ -455,63 +455,63 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
         }
     }
 
-    m_g_com_lag->update( Misc::satur( g_min, g_max, g_com ) * ( touchdown ? 1.0 : 0.5 ), m_timeStep );
+    _g_com_lag->update( Misc::satur( g_min, g_max, g_com ) * ( touchdown ? 1.0 : 0.5 ), _timeStep );
 
-    double q_gained = 0.7 * getGainF3( dynPress ) * m_omg_q_fil->getValue();
-    double aoa_limit = std::max( 0.0, 0.5 * ( m_alpha_lag->getValue() - 20.4 + q_gained ) );
+    double q_gained = 0.7 * getGainF3( dynPress ) * _omg_q_fil->getValue();
+    double aoa_limit = std::max( 0.0, 0.5 * ( _alpha_lag->getValue() - 20.4 + q_gained ) );
 
     double pitch_ap_tie_in = 0.0; // TODO
-    double g_command = aoa_limit - m_g_com_lag->getValue() - pitch_ap_tie_in;
+    double g_command = aoa_limit - _g_com_lag->getValue() - pitch_ap_tie_in;
 
-    m_sca_bias_1->update( touchdown ? 0.0 : 6.0, m_timeStep );
-    m_sca_bias_2->update( m_gains == Landing ? 9.0 : 0.0, m_timeStep );
-    m_sca_bias_3->update( m_gains == Landing ? 1.0 : 0.0, m_timeStep );
+    _sca_bias_1->update( touchdown ? 0.0 : 6.0, _timeStep );
+    _sca_bias_2->update( _gains == Landing ? 9.0 : 0.0, _timeStep );
+    _sca_bias_3->update( _gains == Landing ? 1.0 : 0.0, _timeStep );
 
-    double aoa_bias = 9.0 - m_sca_bias_2->getValue() + m_sca_bias_1->getValue();
+    double aoa_bias = 9.0 - _sca_bias_2->getValue() + _sca_bias_1->getValue();
 
-    double u_sca_1 = 0.161 * ( q_gained + m_alpha_lag->getValue() - aoa_bias );
-    double u_sca_2 = ( touchdown ? 0.231 : 0.167 ) * m_omg_q_fil->getValue()
-            + 0.5 * m_g_z_input->getValue();
+    double u_sca_1 = 0.161 * ( q_gained + _alpha_lag->getValue() - aoa_bias );
+    double u_sca_2 = ( touchdown ? 0.231 : 0.167 ) * _omg_q_fil->getValue()
+            + 0.5 * _g_z_input->getValue();
 
     double u_sca = std::max( 0.0, u_sca_1 ) //+ std::min( 0.0, u_sca_1 ) * m_sca_bias_3->getValue()
             + u_sca_2;
 
-    m_u_sca_fil->update( u_sca, m_timeStep );
-    m_u_sca_fil2->update( m_u_sca_fil->getValue(), m_timeStep );
+    _u_sca_fil->update( u_sca, _timeStep );
+    _u_sca_fil2->update( _u_sca_fil->getValue(), _timeStep );
 
-    double pitch_gained = 3.0 * getGainF3( dynPress ) * ( g_command + m_u_sca_fil2->getValue() );
-    double alpha_gained = getGainF2( q_p ) * m_alpha_lag->getValue();
+    double pitch_gained = 3.0 * getGainF3( dynPress ) * ( g_command + _u_sca_fil2->getValue() );
+    double alpha_gained = getGainF2( q_p ) * _alpha_lag->getValue();
 
     double k_a = 2000.0; // open loop amplifier gain (AD-A055-417, p.22)
-    double pitch_out = m_pitch_int + pitch_gained;
-    double pitch_nfl = 5.0 * Misc::deadband( -m_elevator_max_deg, m_elevator_max_deg, pitch_out + alpha_gained );
-    double pitch_inp = ( touchdown ? -0.5 * m_pitch_int : pitch_gained - pitch_nfl )
-            - k_a * Misc::deadband( -m_elevator_max_deg, m_elevator_max_deg, m_pitch_int );
+    double pitch_out = _pitch_int + pitch_gained;
+    double pitch_nfl = 5.0 * Misc::deadband( -_elevator_max_deg, _elevator_max_deg, pitch_out + alpha_gained );
+    double pitch_inp = ( touchdown ? -0.5 * _pitch_int : pitch_gained - pitch_nfl )
+            - k_a * Misc::deadband( -_elevator_max_deg, _elevator_max_deg, _pitch_int );
 
     // pitch integrating
-    m_pitch_int = m_pitch_int + 5.0 * pitch_inp * m_timeStep;
+    _pitch_int = _pitch_int + 5.0 * pitch_inp * _timeStep;
 
-    double selector_input = m_pitch_int + pitch_gained + alpha_gained;
+    double selector_input = _pitch_int + pitch_gained + alpha_gained;
 
-    double delta_dc = 0.5 * getGainF10( q_p ) * m_delta_ac;
+    double delta_dc = 0.5 * getGainF10( q_p ) * _delta_ac;
 
-    m_actuator_l->update( selector_input - delta_dc, m_timeStep );
-    m_actuator_r->update( selector_input + delta_dc, m_timeStep );
+    _actuator_l->update( selector_input - delta_dc, _timeStep );
+    _actuator_r->update( selector_input + delta_dc, _timeStep );
 
-    double elevator_delta_max = 60.0 * m_timeStep;
-    m_delta_htl = getSurfaceMaxRate( m_delta_htl, m_actuator_l->getValue(), elevator_delta_max );
-    m_delta_htr = getSurfaceMaxRate( m_delta_htr, m_actuator_r->getValue(), elevator_delta_max );
+    double elevator_delta_max = 60.0 * _timeStep;
+    _delta_htl = getSurfaceMaxRate( _delta_htl, _actuator_l->getValue(), elevator_delta_max );
+    _delta_htr = getSurfaceMaxRate( _delta_htr, _actuator_r->getValue(), elevator_delta_max );
 
-    m_delta_htl = Misc::satur( -m_elevator_max_deg, m_elevator_max_deg, m_delta_htl );
-    m_delta_htr = Misc::satur( -m_elevator_max_deg, m_elevator_max_deg, m_delta_htr );
+    _delta_htl = Misc::satur( -_elevator_max_deg, _elevator_max_deg, _delta_htl );
+    _delta_htr = Misc::satur( -_elevator_max_deg, _elevator_max_deg, _delta_htr );
 
-    m_delta_h = 0.5 * ( m_delta_htl + m_delta_htr );
-    m_delta_d = 0.5 * ( m_delta_htr - m_delta_htl );
+    _delta_h = 0.5 * ( _delta_htl + _delta_htr );
+    _delta_d = 0.5 * ( _delta_htr - _delta_htl );
 
-    m_elevator = Units::deg2rad( m_delta_h );
-    m_elevator_norm = m_elevator / m_elevator_max;
+    _elevator = Units::deg2rad( _delta_h );
+    _elevator_norm = _elevator / _elevator_max;
 
-    m_elevons = Units::deg2rad( m_delta_d );
+    _elevons = Units::deg2rad( _delta_d );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -522,43 +522,43 @@ void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
 {
     double omg_r_deg = Units::rad2deg( yawRate  );
 
-    m_pedals->update( ctrlYaw, m_timeStep );
-    m_omg_r_lag->update( omg_r_deg, m_timeStep );
-    m_omg_p_yaw->update( m_omg_p_lag->getValue(), m_timeStep );
+    _pedals->update( ctrlYaw, _timeStep );
+    _omg_r_lag->update( omg_r_deg, _timeStep );
+    _omg_p_yaw->update( _omg_p_lag->getValue(), _timeStep );
 
-    double r_com = m_pedals->getValue() + trimYaw;
-    double u_sum = m_omg_r_lag->getValue() - ( 1.0 / 57.3 ) * m_omg_p_yaw->getValue() * m_alpha_lag->getValue();
+    double r_com = _pedals->getValue() + trimYaw;
+    double u_sum = _omg_r_lag->getValue() - ( 1.0 / 57.3 ) * _omg_p_yaw->getValue() * _alpha_lag->getValue();
 
-    m_u_sum_ll1->update( u_sum, m_timeStep );
-    m_u_sum_ll2->update( m_u_sum_ll1->getValue(), m_timeStep );
+    _u_sum_ll1->update( u_sum, _timeStep );
+    _u_sum_ll2->update( _u_sum_ll1->getValue(), _timeStep );
 
     // Aileron Rudder Interconnect (ARI)
     double ari_gain = 0.0;
 
     // (AD-A055-417, p.20)
     // (NASA-TP-1538, p.216)
-    double alpha_abs = fabs( m_alpha_lag->getValue() );
+    double alpha_abs = fabs( _alpha_lag->getValue() );
     if ( alpha_abs < 10.0 )
     {
         ari_gain = 1.0 - alpha_abs / 10.0;
     }
-    double ari = //0.0375 * m_alpha_lag->getValue()
-        - 0.65 * ari_gain * m_alpha_lag->getValue() * getGainF7( q_p );
+    double ari = //0.0375 * _alpha_lag->getValue()
+        - 0.65 * ari_gain * _alpha_lag->getValue() * getGainF7( q_p );
 
     double u_gy = -g_y; // TODO
-    double r_auto = getGainF8( q_p ) * ( m_u_sum_ll2->getValue() + 19.32 * u_gy ) + 0.5 * m_delta_ac * ari;
+    double r_auto = getGainF8( q_p ) * ( _u_sum_ll2->getValue() + 19.32 * u_gy ) + 0.5 * _delta_ac * ari;
 
     double delta_rc = r_com + r_auto;
 
-    m_delta_r_fil->update( delta_rc, m_timeStep );
-    m_delta_r_lag->update( m_delta_r_fil->getValue(), m_timeStep );
+    _delta_r_fil->update( delta_rc, _timeStep );
+    _delta_r_lag->update( _delta_r_fil->getValue(), _timeStep );
 
-    double rudder_delta_max = 120.0 * m_timeStep;
-    m_delta_r = getSurfaceMaxRate( m_delta_r, m_delta_r_lag->getValue(), rudder_delta_max );
-    m_delta_r = Misc::satur( -m_rudder_max_deg, m_rudder_max_deg, m_delta_r );
+    double rudder_delta_max = 120.0 * _timeStep;
+    _delta_r = getSurfaceMaxRate( _delta_r, _delta_r_lag->getValue(), rudder_delta_max );
+    _delta_r = Misc::satur( -_rudder_max_deg, _rudder_max_deg, _delta_r );
 
-    m_rudder = Units::deg2rad( m_delta_r );
-    m_rudder_norm = m_rudder / m_rudder_max;
+    _rudder = Units::deg2rad( _delta_r );
+    _rudder_norm = _rudder / _rudder_max;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

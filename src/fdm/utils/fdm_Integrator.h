@@ -46,10 +46,10 @@ public:
      * @param pointer to function which calculates vector derivative and takes current vector as first argument and resulting vector derivative as second
      */
     Integrator( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > &) = 0 ) :
-        m_obj ( obj ),
-        m_fun ( fun )
+        _obj ( obj ),
+        _fun ( fun )
     {
-        if ( m_obj == 0 )
+        if ( _obj == 0 )
         {
             Exception e;
 
@@ -59,7 +59,7 @@ public:
             FDM_THROW( e );
         }
 
-        if ( m_fun == 0 )
+        if ( _fun == 0 )
         {
             Exception e;
 
@@ -83,14 +83,14 @@ protected:
     /** Calls function calculating derivative of the given vector. */
     inline void fun( const Vector< SIZE > &x_0, Vector< SIZE > &x_dot )
     {
-        (m_obj->*m_fun)( x_0, x_dot );
+        (_obj->*_fun)( x_0, x_dot );
     }
 
 private:
 
-    TYPE *const m_obj;  ///< object pointer
+    TYPE *const _obj;   ///< object pointer
 
-    void (TYPE::*m_fun)(const Vector< SIZE > &, Vector< SIZE > &);  ///< function pointer
+    void (TYPE::*_fun)(const Vector< SIZE > &, Vector< SIZE > &);   ///< function pointer
 
     /** Using this constructor is forbidden. */
     Integrator( const Integrator & ) {}

@@ -60,7 +60,7 @@ public:
 
 private:
 
-    double m_elevator;              ///< [rad] elevator deflection
+    double _elevator;               ///< [rad] elevator deflection
 
     double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
 };

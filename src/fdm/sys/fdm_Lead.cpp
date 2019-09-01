@@ -31,23 +31,23 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Lead::Lead() :
-    m_tc( 1.0 ),
-    m_u ( 0.0 ),
-    m_y ( 0.0 )
+    _tc( 1.0 ),
+    _u ( 0.0 ),
+    _y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Lead::Lead( double tc, double y ) :
-    m_tc ( tc ),
-    m_y ( y )
+    _tc ( tc ),
+    _y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Lead::setValue( double y )
 {
-    m_y = y;
+    _y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ void Lead::setTimeConstant( double tc )
 {
     if ( tc > 0.0 )
     {
-        m_tc = tc;
+        _tc = tc;
     }
 }
 
@@ -66,9 +66,9 @@ void Lead::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
-        double du_dt = ( u - m_u ) / dt;
+        double du_dt = ( u - _u ) / dt;
         //std::cout << u << " " << du_dt << std::endl;
-        m_y = m_tc * du_dt + u;
-        m_u = u;
+        _y = _tc * du_dt + u;
+        _u = u;
     }
 }

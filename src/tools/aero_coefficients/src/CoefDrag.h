@@ -39,29 +39,29 @@ public:
 
 private:
 
-    double m_cd_0;      ///< [-]
-    double m_cd_1;      ///< [-]
-    double m_cd_2;      ///< [-]
-    double m_cd_3;      ///< [-]
-    double m_cd_4;      ///< [-]
-    double m_cd_5;      ///< [-]
+    double _cd_0;       ///< [-]
+    double _cd_1;       ///< [-]
+    double _cd_2;       ///< [-]
+    double _cd_3;       ///< [-]
+    double _cd_4;       ///< [-]
+    double _cd_5;       ///< [-]
 
-    double m_ad_1;      ///< [rad]
-    double m_ad_2;      ///< [rad]
-    double m_ad_3;      ///< [rad]
-    double m_ad_4;      ///< [rad]
+    double _ad_1;       ///< [rad]
+    double _ad_2;       ///< [rad]
+    double _ad_3;       ///< [rad]
+    double _ad_4;       ///< [rad]
 
-    double m_ad_1_2;    ///< [rad^2]
-    double m_ad_2_2;    ///< [rad^2]
+    double _ad_1_2;     ///< [rad^2]
+    double _ad_2_2;     ///< [rad^2]
 
-    double m_div_d1_0;  ///<
-    double m_div_d1_1;  ///<
-    double m_div_d1_2;  ///<
+    double _div_d1_0;   ///<
+    double _div_d1_1;   ///<
+    double _div_d1_2;   ///<
 
-    double m_div_d2_2;  ///<
-    double m_div_d2_3;  ///<
-    double m_div_d2_4;  ///<
-    double m_div_d2_5;  ///<
+    double _div_d2_2;   ///<
+    double _div_d2_3;   ///<
+    double _div_d2_4;   ///<
+    double _div_d2_5;   ///<
 };
 
 ////////////////////////////////////////////////////////////////////////////////

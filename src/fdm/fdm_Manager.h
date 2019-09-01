@@ -55,9 +55,9 @@ public:
      */
     void step( double timeStep, const DataInp &dataInp, DataOut &dataOut );
 
-    inline bool getVerbose() const { return m_verbose; }
+    inline bool getVerbose() const { return _verbose; }
 
-    inline void setVerbose( bool verbose ) { m_verbose = verbose; }
+    inline void setVerbose( bool verbose ) { _verbose = verbose; }
 
 private:
 
@@ -66,31 +66,31 @@ private:
     typedef DataInp::PhaseInp PhaseInp;
     typedef DataOut::StateOut StateOut;
 
-    Aircraft *m_aircraft;           ///< aircraft simulation object
+    Aircraft *_aircraft;            ///< aircraft simulation object
 
-    DataInp m_dataInp;              ///< input data
-    DataOut m_dataOut;              ///< output data
+    DataInp _dataInp;               ///< input data
+    DataOut _dataOut;               ///< output data
 
-    AircraftType m_aircraftType;    ///< aircraft type
+    AircraftType _aircraftType;     ///< aircraft type
 
-    PhaseInp m_phaseInp;            ///< internal phase input
-    StateOut m_stateOut;            ///< internal state output
+    PhaseInp _phaseInp;             ///< internal phase input
+    StateOut _stateOut;             ///< internal state output
 
-    Vector3    m_init_pos_wgs;      ///< [m] initial position expressed in WGS
-    Quaternion m_init_att_wgs;      ///< initial attitude expressed as quaternion of rotation from WGS to BAS
+    Vector3    _init_pos_wgs;       ///< [m] initial position expressed in WGS
+    Quaternion _init_att_wgs;       ///< initial attitude expressed as quaternion of rotation from WGS to BAS
 
-    UInt32 m_initStep;              ///< initialization step number
+    UInt32 _initStep;               ///< initialization step number
 
-    double m_init_phi;              ///< [rad] initial roll angle
-    double m_init_tht;              ///< [rad] initial pitch angle
-    double m_init_alt;              ///< [m] initial altitude above ground level
+    double _init_phi;               ///< [rad] initial roll angle
+    double _init_tht;               ///< [rad] initial pitch angle
+    double _init_alt;               ///< [m] initial altitude above ground level
 
-    double m_timeStep;              ///< [s] simulation time step
-    double m_realTime;              ///< [s] simulation real time
+    double _timeStep;               ///< [s] simulation time step
+    double _realTime;               ///< [s] simulation real time
 
-    unsigned int m_timeSteps;       ///< number of time steps
+    unsigned int _timeSteps;        ///< number of time steps
 
-    bool m_verbose;                 ///< specify if extra information should be printed
+    bool _verbose;                  ///< specify if extra information should be printed
 
     /**
      * Computes aircraft equilibrium in flight.

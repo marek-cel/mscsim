@@ -45,7 +45,7 @@ LPF::LPF( double omega, double y ) :
 
 void LPF::setOmega( double omega )
 {
-    m_tc = 1.0 / std::max( 0.0, omega );
+    _tc = 1.0 / std::max( 0.0, omega );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,5 +53,5 @@ void LPF::setOmega( double omega )
 void LPF::setCutoffFreq( double freq )
 {
     double omega = 2.0 * M_PI * std::max( 0.0, freq );
-    m_tc = 1.0 / omega;
+    _tc = 1.0 / omega;
 }

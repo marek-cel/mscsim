@@ -37,7 +37,7 @@ Terrain::Terrain( const std::string &file, Module *parent ) :
 
     if ( terrain.valid() )
     {
-        m_root->addChild( terrain.get() );
+        _root->addChild( terrain.get() );
     }
 }
 

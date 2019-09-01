@@ -27,20 +27,20 @@
 Simulation::Simulation() :
     QThread ( 0 ),
 
-    m_timeoutTimer ( 0 ),
-    m_elapsedTimer ( 0 ),
+    _timeoutTimer ( 0 ),
+    _elapsedTimer ( 0 ),
 
-    m_fdm ( 0 ),
+    _fdm ( 0 ),
 
-    m_timeStep ( 0.0 ),
-    m_timeCoef ( 1.0 ),
+    _timeStep ( 0.0 ),
+    _timeCoef ( 1.0 ),
 
-    m_timerId ( 0 )
+    _timerId ( 0 )
 {
-    m_fdm = new fdm::Manager();
+    _fdm = new fdm::Manager();
 
-    memset( &m_dataInp, 0, sizeof(fdm::DataInp) );
-    memset( &m_dataOut, 0, sizeof(fdm::DataOut) );
+    memset( &_dataInp, 0, sizeof(fdm::DataInp) );
+    memset( &_dataOut, 0, sizeof(fdm::DataOut) );
 
 #   ifdef SIM_USE_THREADS
     moveToThread( this );
@@ -51,16 +51,16 @@ Simulation::Simulation() :
 
 Simulation::~Simulation()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_timeoutTimer ) delete m_timeoutTimer;
-    m_timeoutTimer = 0;
+    if ( _timeoutTimer ) delete _timeoutTimer;
+    _timeoutTimer = 0;
 
-    if ( m_elapsedTimer ) delete m_elapsedTimer;
-    m_elapsedTimer = 0;
+    if ( _elapsedTimer ) delete _elapsedTimer;
+    _elapsedTimer = 0;
 
-    if ( m_fdm ) delete m_fdm;
-    m_fdm = 0;
+    if ( _fdm ) delete _fdm;
+    _fdm = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,8 +71,8 @@ void Simulation::init()
     start();
     setPriority( QThread::HighPriority );
 #   else
-    m_elapsedTimer = new QElapsedTimer();
-    m_timerId = startTimer( 1000 * FDM_TIME_STEP );
+    _elapsedTimer = new QElapsedTimer();
+    _timerId = startTimer( 1000 * FDM_TIME_STEP );
 #   endif
 }
 
@@ -80,98 +80,98 @@ void Simulation::init()
 
 void Simulation::run()
 {
-    m_timeoutTimer = new QTimer();
-    m_elapsedTimer = new QElapsedTimer();
+    _timeoutTimer = new QTimer();
+    _elapsedTimer = new QElapsedTimer();
 
-    connect( m_timeoutTimer, SIGNAL(timeout()), this, SLOT(update()) );
+    connect( _timeoutTimer, SIGNAL(timeout()), this, SLOT(update()) );
 
-    m_timeoutTimer->start( 1000 * FDM_TIME_STEP );
-    m_elapsedTimer->start();
+    _timeoutTimer->start( 1000 * FDM_TIME_STEP );
+    _elapsedTimer->start();
 
     ///////////////
     QThread::run();
     ///////////////
 
-    disconnect( m_timeoutTimer, SIGNAL(timeout()), 0, 0 );
+    disconnect( _timeoutTimer, SIGNAL(timeout()), 0, 0 );
 
-    m_timeoutTimer->stop();
+    _timeoutTimer->stop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Simulation::onDataInpUpdated( const Data::DataBuf *data )
 {
-    m_timeCoef = data->timeCoef;
+    _timeCoef = data->timeCoef;
 
     // environment
-    m_dataInp.environment.temperature_0  = data->environment.temperature_0;
-    m_dataInp.environment.pressure_0     = data->environment.pressure_0;
-    m_dataInp.environment.wind_direction = data->environment.wind_direction;
-    m_dataInp.environment.wind_speed     = data->environment.wind_speed;
-    m_dataInp.environment.turbulence     = data->environment.turbulence;
-    m_dataInp.environment.windShear      = data->environment.windShear;
+    _dataInp.environment.temperature_0  = data->environment.temperature_0;
+    _dataInp.environment.pressure_0     = data->environment.pressure_0;
+    _dataInp.environment.wind_direction = data->environment.wind_direction;
+    _dataInp.environment.wind_speed     = data->environment.wind_speed;
+    _dataInp.environment.turbulence     = data->environment.turbulence;
+    _dataInp.environment.windShear      = data->environment.windShear;
 
     // initial conditions
-    m_dataInp.initial.latitude     = data->initial.latitude;
-    m_dataInp.initial.longitude    = data->initial.longitude;
-    m_dataInp.initial.altitude_agl = data->initial.altitude_agl;
-    m_dataInp.initial.heading      = data->initial.heading;
-    m_dataInp.initial.airspeed     = data->initial.airspeed;
-    m_dataInp.initial.engineOn     = data->initial.engineOn;
+    _dataInp.initial.latitude     = data->initial.latitude;
+    _dataInp.initial.longitude    = data->initial.longitude;
+    _dataInp.initial.altitude_agl = data->initial.altitude_agl;
+    _dataInp.initial.heading      = data->initial.heading;
+    _dataInp.initial.airspeed     = data->initial.airspeed;
+    _dataInp.initial.engineOn     = data->initial.engineOn;
 
     // ground
-    m_dataInp.ground.elevation = data->ground.elevation;
-    m_dataInp.ground.r_x_wgs   = data->ground.r_x_wgs;
-    m_dataInp.ground.r_y_wgs   = data->ground.r_y_wgs;
-    m_dataInp.ground.r_z_wgs   = data->ground.r_z_wgs;
-    m_dataInp.ground.n_x_wgs   = data->ground.n_x_wgs;
-    m_dataInp.ground.n_y_wgs   = data->ground.n_y_wgs;
-    m_dataInp.ground.n_z_wgs   = data->ground.n_z_wgs;
+    _dataInp.ground.elevation = data->ground.elevation;
+    _dataInp.ground.r_x_wgs   = data->ground.r_x_wgs;
+    _dataInp.ground.r_y_wgs   = data->ground.r_y_wgs;
+    _dataInp.ground.r_z_wgs   = data->ground.r_z_wgs;
+    _dataInp.ground.n_x_wgs   = data->ground.n_x_wgs;
+    _dataInp.ground.n_y_wgs   = data->ground.n_y_wgs;
+    _dataInp.ground.n_z_wgs   = data->ground.n_z_wgs;
 
     // controls
-    m_dataInp.controls.roll         = data->controls.roll;
-    m_dataInp.controls.pitch        = data->controls.pitch;
-    m_dataInp.controls.yaw          = data->controls.yaw;
-    m_dataInp.controls.trim_roll    = data->controls.trim_roll;
-    m_dataInp.controls.trim_pitch   = data->controls.trim_pitch;
-    m_dataInp.controls.trim_yaw     = data->controls.trim_yaw;
-    m_dataInp.controls.brake_l      = data->controls.brake_l;
-    m_dataInp.controls.brake_r      = data->controls.brake_r;
-    m_dataInp.controls.landing_gear = data->controls.landing_gear;
-    m_dataInp.controls.nose_wheel   = data->controls.nose_wheel;
-    m_dataInp.controls.lg_handle    = data->controls.lg_handle;
-    m_dataInp.controls.nw_steering  = data->controls.nw_steering;
-    m_dataInp.controls.flaps        = data->controls.flaps;
-    m_dataInp.controls.airbrake     = data->controls.airbrake;
-    m_dataInp.controls.spoilers     = data->controls.spoilers;
-    m_dataInp.controls.collective   = data->controls.collective;
+    _dataInp.controls.roll         = data->controls.roll;
+    _dataInp.controls.pitch        = data->controls.pitch;
+    _dataInp.controls.yaw          = data->controls.yaw;
+    _dataInp.controls.trim_roll    = data->controls.trim_roll;
+    _dataInp.controls.trim_pitch   = data->controls.trim_pitch;
+    _dataInp.controls.trim_yaw     = data->controls.trim_yaw;
+    _dataInp.controls.brake_l      = data->controls.brake_l;
+    _dataInp.controls.brake_r      = data->controls.brake_r;
+    _dataInp.controls.landing_gear = data->controls.landing_gear;
+    _dataInp.controls.nose_wheel   = data->controls.nose_wheel;
+    _dataInp.controls.lg_handle    = data->controls.lg_handle;
+    _dataInp.controls.nw_steering  = data->controls.nw_steering;
+    _dataInp.controls.flaps        = data->controls.flaps;
+    _dataInp.controls.airbrake     = data->controls.airbrake;
+    _dataInp.controls.spoilers     = data->controls.spoilers;
+    _dataInp.controls.collective   = data->controls.collective;
 
     // engines
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        m_dataInp.engine[ i ].throttle  = data->propulsion.engine[ i ].throttle;
-        m_dataInp.engine[ i ].mixture   = data->propulsion.engine[ i ].mixture;
-        m_dataInp.engine[ i ].propeller = data->propulsion.engine[ i ].propeller;
-        m_dataInp.engine[ i ].fuel      = data->propulsion.engine[ i ].fuel;
-        m_dataInp.engine[ i ].ignition  = data->propulsion.engine[ i ].ignition;
-        m_dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
+        _dataInp.engine[ i ].throttle  = data->propulsion.engine[ i ].throttle;
+        _dataInp.engine[ i ].mixture   = data->propulsion.engine[ i ].mixture;
+        _dataInp.engine[ i ].propeller = data->propulsion.engine[ i ].propeller;
+        _dataInp.engine[ i ].fuel      = data->propulsion.engine[ i ].fuel;
+        _dataInp.engine[ i ].ignition  = data->propulsion.engine[ i ].ignition;
+        _dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
     }
 
     // masses
-    m_dataInp.masses.pilot_1     = data->masses.pilot_1;
-    m_dataInp.masses.pilot_2     = data->masses.pilot_2;
-    m_dataInp.masses.fuel_tank_1 = data->masses.fuel_tank_1;
-    m_dataInp.masses.fuel_tank_2 = data->masses.fuel_tank_2;
-    m_dataInp.masses.fuel_tank_3 = data->masses.fuel_tank_3;
-    m_dataInp.masses.fuel_tank_4 = data->masses.fuel_tank_4;
-    m_dataInp.masses.cabin       = data->masses.cabin;
-    m_dataInp.masses.trunk       = data->masses.trunk;
+    _dataInp.masses.pilot_1     = data->masses.pilot_1;
+    _dataInp.masses.pilot_2     = data->masses.pilot_2;
+    _dataInp.masses.fuel_tank_1 = data->masses.fuel_tank_1;
+    _dataInp.masses.fuel_tank_2 = data->masses.fuel_tank_2;
+    _dataInp.masses.fuel_tank_3 = data->masses.fuel_tank_3;
+    _dataInp.masses.fuel_tank_4 = data->masses.fuel_tank_4;
+    _dataInp.masses.cabin       = data->masses.cabin;
+    _dataInp.masses.trunk       = data->masses.trunk;
 
     // aircraft type
-    m_dataInp.aircraftType = data->aircraftType;
+    _dataInp.aircraftType = data->aircraftType;
 
     // input state
-    m_dataInp.phaseInp = data->phaseInp;
+    _dataInp.phaseInp = data->phaseInp;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -191,11 +191,11 @@ void Simulation::timerEvent( QTimerEvent *event )
 
 void Simulation::update()
 {
-    m_timeStep = m_timeCoef * (double)m_elapsedTimer->restart() / 1000.0;
+    _timeStep = _timeCoef * (double)_elapsedTimer->restart() / 1000.0;
 
-    m_fdm->step( m_timeStep, m_dataInp, m_dataOut );
+    _fdm->step( _timeStep, _dataInp, _dataOut );
 
-    /////////////////////////////////
-    emit dataOutUpdated( m_dataOut );
-    /////////////////////////////////
+    ////////////////////////////////
+    emit dataOutUpdated( _dataOut );
+    ////////////////////////////////
 }

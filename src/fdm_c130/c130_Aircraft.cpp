@@ -36,20 +36,20 @@ C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 C130_Aircraft::~C130_Aircraft()
 {
-    if ( m_aero ) delete m_aero;
-    m_aero = 0;
+    if ( _aero ) delete _aero;
+    _aero = 0;
 
-    if ( m_ctrl ) delete m_ctrl;
-    m_ctrl = 0;
+    if ( _ctrl ) delete _ctrl;
+    _ctrl = 0;
 
-    if ( m_gear ) delete m_gear;
-    m_gear = 0;
+    if ( _gear ) delete _gear;
+    _gear = 0;
 
-    if ( m_mass ) delete m_mass;
-    m_mass = 0;
+    if ( _mass ) delete _mass;
+    _mass = 0;
 
-    if ( m_prop ) delete m_prop;
-    m_prop = 0;
+    if ( _prop ) delete _prop;
+    _prop = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

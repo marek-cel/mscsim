@@ -63,22 +63,22 @@ protected:
 
 private:
 
-    Ui::DialogAction *m_ui;
+    Ui::DialogAction *_ui;
 
-    int m_timerId;
+    int _timerId;
 
-    short m_keyId;
+    short _keyId;
 
-    short m_axisCount;
-    short m_buttCount;
-    short m_povsCount;
+    short _axisCount;
+    short _buttCount;
+    short _povsCount;
 
-    short m_joystickId;
-    short m_axisId;
-    short m_buttonId;
-    short m_povId;
-    POVs  m_povDir;
-    bool  m_inverted;
+    short _joystickId;
+    short _axisId;
+    short _buttonId;
+    short _povId;
+    POVs  _povDir;
+    bool  _inverted;
 
 private slots:
 

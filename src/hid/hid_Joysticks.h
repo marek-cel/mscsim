@@ -150,17 +150,17 @@ public:
 #       endif
     };
 
-    static const std::string m_axisNames[ HID_MAX_AXES ];   ///<
+    static const std::string _axisNames[ HID_MAX_AXES ];    ///<
 
     /** */
     static inline Joysticks* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new Joysticks();
+            _instance = new Joysticks();
         }
 
-        return m_instance;
+        return _instance;
     }
 
     /** Destructor. */
@@ -173,7 +173,7 @@ public:
     void update();
 
     /** @return number of active joysticks */
-    inline short getCount() const { return m_count; }
+    inline short getCount() const { return _count; }
 
     /**
      * @param joystick index number
@@ -183,19 +183,19 @@ public:
 
 private:
 
-    static Joysticks *m_instance;               ///< instance of Joysticks singleton class
+    static Joysticks *_instance;                ///< instance of Joysticks singleton class
 
-    short m_count;                              ///< number of active joysticks
+    short _count;                               ///< number of active joysticks
 
-    Joysticks::Data m_data[ HID_MAX_JOYS ];     ///<
+    Joysticks::Data _data[ HID_MAX_JOYS ];      ///<
 
 #   ifdef HID_LINUX_JOYSTICK
-    int m_fd[ HID_MAX_JOYS ];                   ///<
-    js_event m_event;                           ///<
+    int _fd[ HID_MAX_JOYS ];                    ///<
+    js_event _event;                            ///<
 #   endif
 
 #   ifdef HID_WINMM_JOYSTICK
-    DWORD m_buttons[ HID_MAX_BUTT ];            ///<
+    DWORD _buttons[ HID_MAX_BUTT ];             ///<
 #   endif
 
     /**

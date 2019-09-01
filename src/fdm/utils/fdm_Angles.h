@@ -61,12 +61,12 @@ public:
     /** Normalizes angles. */
     void normalize();
 
-    inline double   phi() const { return m_phi; }
-    inline double   tht() const { return m_tht; }
-    inline double   psi() const { return m_psi; }
-    inline double & phi()       { return m_phi; }
-    inline double & tht()       { return m_tht; }
-    inline double & psi()       { return m_psi; }
+    inline double   phi() const { return _phi; }
+    inline double   tht() const { return _tht; }
+    inline double   psi() const { return _psi; }
+    inline double & phi()       { return _phi; }
+    inline double & tht()       { return _tht; }
+    inline double & psi()       { return _psi; }
 
     /** Sets angles values. */
     void set( double phi, double tht, double psi );
@@ -85,9 +85,9 @@ public:
 
 private:
 
-    double m_phi;   ///< [rad] angle of rotation about x-axis
-    double m_tht;   ///< [rad] angle of rotation about y-axis
-    double m_psi;   ///< [rad] angle of rotation about z-axis
+    double _phi;    ///< [rad] angle of rotation about x-axis
+    double _tht;    ///< [rad] angle of rotation about y-axis
+    double _psi;    ///< [rad] angle of rotation about z-axis
 };
 
 } // end of fdm namespace

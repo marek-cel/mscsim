@@ -42,30 +42,30 @@ class Manager
 {
 public:
 
-    static const std::string m_actionNames[ HID_MAX_ACTIONS ];  ///<
-    static const std::string m_keysNames[ HID_MAX_KEYS ];       ///<
+    static const std::string _actionNames[ HID_MAX_ACTIONS ];   ///<
+    static const std::string _keysNames[ HID_MAX_KEYS ];        ///<
 
-    static const double m_speedCtrl;        ///< [1/s]
-    static const double m_speedTrim;        ///< [1/s]
-    static const double m_speedBrakes;      ///< [1/s]
-    static const double m_speedGear;        ///< [1/s]
-    static const double m_speedFlaps;       ///< [1/s]
-    static const double m_speedAirbrake;    ///< [1/s]
-    static const double m_speedSpoilers;    ///< [1/s]
-    static const double m_speedCollective;  ///< [1/s]
-    static const double m_speedThrottle;    ///< [1/s]
-    static const double m_speedMixture;     ///< [1/s]
-    static const double m_speedPropeller;   ///< [1/s]
+    static const double _speedCtrl;         ///< [1/s]
+    static const double _speedTrim;         ///< [1/s]
+    static const double _speedBrakes;       ///< [1/s]
+    static const double _speedGear;         ///< [1/s]
+    static const double _speedFlaps;        ///< [1/s]
+    static const double _speedAirbrake;     ///< [1/s]
+    static const double _speedSpoilers;     ///< [1/s]
+    static const double _speedCollective;   ///< [1/s]
+    static const double _speedThrottle;     ///< [1/s]
+    static const double _speedMixture;      ///< [1/s]
+    static const double _speedPropeller;    ///< [1/s]
 
     /** */
     static inline Manager* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new Manager();
+            _instance = new Manager();
         }
 
-        return m_instance;
+        return _instance;
     }
 
     /** */
@@ -89,26 +89,26 @@ public:
      */
     void update( double timeStep );
 
-    double getCtrlRoll()     const { return m_ctrlRoll;     }
-    double getCtrlPitch()    const { return m_ctrlPitch;    }
-    double getCtrlYaw()      const { return m_ctrlYaw;      }
-    double getTrimRoll()     const { return m_trimRoll;     }
-    double getTrimPitch()    const { return m_trimPitch;    }
-    double getTrimYaw()      const { return m_trimYaw;      }
-    double getBrakeLeft()    const { return m_brakeLeft;    }
-    double getBrakeRight()   const { return m_brakeRight;   }
-    double getParkingBrake() const { return m_parkingBrake; }
-    double getLandingGear()  const { return m_landingGear;  }
-    double getFlaps()        const { return m_flaps;        }
-    double getAirbrake()     const { return m_airbrake;     }
-    double getSpoilers()     const { return m_spoilers;     }
-    double getCollective()   const { return m_collective;   }
+    double getCtrlRoll()     const { return _ctrlRoll;     }
+    double getCtrlPitch()    const { return _ctrlPitch;    }
+    double getCtrlYaw()      const { return _ctrlYaw;      }
+    double getTrimRoll()     const { return _trimRoll;     }
+    double getTrimPitch()    const { return _trimPitch;    }
+    double getTrimYaw()      const { return _trimYaw;      }
+    double getBrakeLeft()    const { return _brakeLeft;    }
+    double getBrakeRight()   const { return _brakeRight;   }
+    double getParkingBrake() const { return _parkingBrake; }
+    double getLandingGear()  const { return _landingGear;  }
+    double getFlaps()        const { return _flaps;        }
+    double getAirbrake()     const { return _airbrake;     }
+    double getSpoilers()     const { return _spoilers;     }
+    double getCollective()   const { return _collective;   }
 
-    double getThrottle  ( int num ) const { return m_throttle  [ num ]; }
-    double getMixture   ( int num ) const { return m_mixture   [ num ]; }
-    double getPropeller ( int num ) const { return m_propeller [ num ]; }
+    double getThrottle  ( int num ) const { return _throttle  [ num ]; }
+    double getMixture   ( int num ) const { return _mixture   [ num ]; }
+    double getPropeller ( int num ) const { return _propeller [ num ]; }
 
-    bool isLgHandleDown() const { return m_stateLandingGear; }
+    bool isLgHandleDown() const { return _stateLandingGear; }
 
     /** */
     void setAssingment( Assignment::Action action, const Assignment &assignment );
@@ -118,51 +118,51 @@ public:
 
 private:
 
-    static Manager *m_instance;                     ///<  instance of Manager singleton class
+    static Manager *_instance;                      ///<  instance of Manager singleton class
 
-    Assignment m_assignments[ HID_MAX_ACTIONS ];    ///<
+    Assignment _assignments[ HID_MAX_ACTIONS ];     ///<
 
-    bool m_keysState[ HID_MAX_KEYS ];               ///<
+    bool _keysState[ HID_MAX_KEYS ];                ///<
 
-    double m_timeStep;          ///< [s] simulation time step
+    double _timeStep;           ///< [s] simulation time step
 
-    short m_trigger;            ///< trigger
+    short _trigger;             ///< trigger
 
-    double m_ctrlRoll;          ///< [-1.0,1.0]
-    double m_ctrlPitch;         ///< [-1.0,1.0]
-    double m_ctrlYaw;           ///< [-1.0,1.0]
+    double _ctrlRoll;           ///< [-1.0,1.0]
+    double _ctrlPitch;          ///< [-1.0,1.0]
+    double _ctrlYaw;            ///< [-1.0,1.0]
 
-    double m_trimRoll;          ///< [-1.0,1.0]
-    double m_trimPitch;         ///< [-1.0,1.0]
-    double m_trimYaw;           ///< [-1.0,1.0]
+    double _trimRoll;           ///< [-1.0,1.0]
+    double _trimPitch;          ///< [-1.0,1.0]
+    double _trimYaw;            ///< [-1.0,1.0]
 
-    double m_brakeLeft;         ///< [0.0,1.0]
-    double m_brakeRight;        ///< [0.0,1.0]
-    double m_parkingBrake;      ///< [0.0,1.0]
+    double _brakeLeft;          ///< [0.0,1.0]
+    double _brakeRight;         ///< [0.0,1.0]
+    double _parkingBrake;       ///< [0.0,1.0]
 
-    double m_landingGear;       ///< [0.0,1.0]
+    double _landingGear;        ///< [0.0,1.0]
 
-    double m_flaps;             ///< [0.0,1.0]
-    double m_airbrake;          ///< [0.0,1.0]
-    double m_spoilers;          ///< [0.0,1.0]
+    double _flaps;              ///< [0.0,1.0]
+    double _airbrake;           ///< [0.0,1.0]
+    double _spoilers;           ///< [0.0,1.0]
 
-    double m_collective;        ///< [0.0,1.0]
+    double _collective;         ///< [0.0,1.0]
 
-    double m_commonThrottle;    ///< [0.0,1.0]
-    double m_commonMixture;     ///< [0.0,1.0]
-    double m_commonPropeller;   ///< [0.0,1.0]
+    double _commonThrottle;     ///< [0.0,1.0]
+    double _commonMixture;      ///< [0.0,1.0]
+    double _commonPropeller;    ///< [0.0,1.0]
 
-    double m_throttle  [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
-    double m_mixture   [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
-    double m_propeller [ FDM_MAX_ENGINES ]; ///< [0.0,1.0]
+    double _throttle  [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
+    double _mixture   [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
+    double _propeller [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
 
-    bool m_prevLandingGearToggle;   ///<
-    bool m_prevParkingBrakeToggle;  ///<
-    bool m_prevSpoilersToggle;      ///<
+    bool _prevLandingGearToggle;    ///<
+    bool _prevParkingBrakeToggle;   ///<
+    bool _prevSpoilersToggle;       ///<
 
-    bool m_stateLandingGear;        ///<
-    bool m_stateParkingBrake;       ///<
-    bool m_stateSpoilers;           ///<
+    bool _stateLandingGear;         ///<
+    bool _stateParkingBrake;        ///<
+    bool _stateSpoilers;            ///<
 
     /**
      * You should use static function instance() due to get refernce

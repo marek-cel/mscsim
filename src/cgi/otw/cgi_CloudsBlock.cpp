@@ -45,19 +45,19 @@ using namespace cgi;
 CloudsBlock::CloudsBlock( Module *parent ) :
     Module( parent ),
 
-    m_count ( 0 ),
-    m_base_asl ( 0.0f ),
-    m_thickness ( 0.0f ),
+    _count ( 0 ),
+    _base_asl ( 0.0f ),
+    _thickness ( 0.0f ),
 
-    m_framesCounter ( 0 ),
-    m_created ( false )
+    _framesCounter ( 0 ),
+    _created ( false )
 {
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_1.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_2.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_3.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_4.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_5.png" ) );
-    m_textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_6.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_1.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_2.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_3.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_4.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_5.png" ) );
+    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_6.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,27 +74,27 @@ void CloudsBlock::update()
 
     if ( Data::get()->environment.clouds.type == Data::Environment::Clouds::Block )
     {
-        if ( m_framesCounter % 10 == 0 )
+        if ( _framesCounter % 10 == 0 )
         {
-            m_framesCounter = 0;
+            _framesCounter = 0;
 
             float lat = Data::get()->camera.latitude;
             float lon = Data::get()->camera.longitude;
-            float alt = m_base_asl;
+            float alt = _base_asl;
 
             WGS84 wgs_cam( lat, lon, alt );
 
             float radius2 = CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
 
-            if ( !m_created
-              || m_count     != Data::get()->environment.clouds.data.block.count
-              || m_base_asl  != Data::get()->environment.clouds.data.block.base_asl
-              || m_thickness != Data::get()->environment.clouds.data.block.thickness
-              || ( m_pos_wgs - wgs_cam.getPosition() ).length2() > 0.01 * radius2 )
+            if ( !_created
+              || _count     != Data::get()->environment.clouds.data.block.count
+              || _base_asl  != Data::get()->environment.clouds.data.block.base_asl
+              || _thickness != Data::get()->environment.clouds.data.block.thickness
+              || ( _pos_wgs - wgs_cam.getPosition() ).length2() > 0.01 * radius2 )
             {
-                m_count     = Data::get()->environment.clouds.data.block.count;
-                m_base_asl  = Data::get()->environment.clouds.data.block.base_asl;
-                m_thickness = Data::get()->environment.clouds.data.block.thickness;
+                _count     = Data::get()->environment.clouds.data.block.count;
+                _base_asl  = Data::get()->environment.clouds.data.block.base_asl;
+                _thickness = Data::get()->environment.clouds.data.block.thickness;
 
                 create();
             }
@@ -102,9 +102,9 @@ void CloudsBlock::update()
             float azim = 0.0f;
             float dist = 0.0f;
 
-            for ( unsigned int i = 0; i < m_patClouds.size(); i++ )
+            for ( unsigned int i = 0; i < _patClouds.size(); i++ )
             {
-                osg::Vec3 pos_wgs = m_patClouds[ i ]->getPosition();
+                osg::Vec3 pos_wgs = _patClouds[ i ]->getPosition();
 
                 if ( ( wgs_cam.getPosition() - pos_wgs ).length2() > radius2 )
                 {
@@ -118,24 +118,24 @@ void CloudsBlock::update()
                     WGS84 wgs_new( pos_wgs );
                     wgs_new = WGS84( wgs_new.getLat(), wgs_new.getLon(), alt );
 
-                    m_patClouds[ i ]->setPosition( wgs_new.getPosition() );
-                    m_patClouds[ i ]->setAttitude( wgs_new.getAttitude() );
+                    _patClouds[ i ]->setPosition( wgs_new.getPosition() );
+                    _patClouds[ i ]->setAttitude( wgs_new.getAttitude() );
                 }
             }
 
-            m_pos_wgs = wgs_cam.getPosition();
+            _pos_wgs = wgs_cam.getPosition();
         }
 
-        m_framesCounter++;
+        _framesCounter++;
     }
     else
     {
         remove();
 
-        m_framesCounter = 0;
-        m_count = 0;
-        m_base_asl = 0.0;
-        m_thickness = 0.0;
+        _framesCounter = 0;
+        _count = 0;
+        _base_asl = 0.0;
+        _thickness = 0.0;
     }
 }
 
@@ -145,21 +145,21 @@ void CloudsBlock::create()
 {
     remove();
 
-    m_created = true;
+    _created = true;
 
     float lat = Data::get()->camera.latitude;
     float lon = Data::get()->camera.longitude;
-    float alt = m_base_asl;
+    float alt = _base_asl;
     float ang = CGI_SKYDOME_RADIUS / 1852.0f / 60.0f;
 
-    int cloudsNumber = m_count;
+    int cloudsNumber = _count;
     cloudsNumber = std::min( std::max( cloudsNumber, 0 ), CGI_CLOUDS_MAX_COUNT );
 
     for ( int i = 0; i < cloudsNumber; i++ )
     {
         osg::ref_ptr< osg::PositionAttitudeTransform > pat = new osg::PositionAttitudeTransform();
-        m_root->addChild( pat.get() );
-        m_patClouds.push_back( pat );
+        _root->addChild( pat.get() );
+        _patClouds.push_back( pat );
 
         createBlock( pat.get() );
 
@@ -187,10 +187,10 @@ void CloudsBlock::createBlock( osg::Group *parent )
 
         createSprite( pat.get() );
 
-        double scale = m_thickness * fdm::Random::get( 0.6f, 1.0f );
+        double scale = _thickness * fdm::Random::get( 0.6f, 1.0f );
 
-        osg::Vec3 pos( m_thickness * fdm::Random::get( 0.1f, 1.0f ),
-                       m_thickness * fdm::Random::get( 0.1f, 1.0f ),
+        osg::Vec3 pos( _thickness * fdm::Random::get( 0.1f, 1.0f ),
+                       _thickness * fdm::Random::get( 0.1f, 1.0f ),
                        0.0 );
 
         pat->setScale( osg::Vec3( scale, scale, scale ) );
@@ -223,8 +223,8 @@ void CloudsBlock::createSprite( osg::Group *parent )
     osg::ref_ptr<osg::StateSet> billboardStateSet = billboard->getOrCreateStateSet();
 
     // texture
-    int i_tex = fdm::Random::get( 0, m_textures.size() - 1 );
-    billboardStateSet->setTextureAttributeAndModes( 0, m_textures.at( i_tex ).get(), osg::StateAttribute::ON );
+    int i_tex = fdm::Random::get( 0, _textures.size() - 1 );
+    billboardStateSet->setTextureAttributeAndModes( 0, _textures.at( i_tex ).get(), osg::StateAttribute::ON );
 
     // material
     osg::ref_ptr<osg::Material> material = new osg::Material();
@@ -248,17 +248,17 @@ void CloudsBlock::createSprite( osg::Group *parent )
 
 void CloudsBlock::remove()
 {
-    m_created = false;
+    _created = false;
 
-    if ( m_root->getNumChildren() > 0 )
+    if ( _root->getNumChildren() > 0 )
     {
-        m_root->removeChildren( 0, m_root->getNumChildren() );
+        _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    for ( unsigned int i = 0; i < m_patClouds.size(); i++ )
+    for ( unsigned int i = 0; i < _patClouds.size(); i++ )
     {
-        m_patClouds[ i ] = 0;
+        _patClouds[ i ] = 0;
     }
 
-    m_patClouds.clear();
+    _patClouds.clear();
 }

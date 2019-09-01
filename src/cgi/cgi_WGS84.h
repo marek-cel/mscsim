@@ -38,13 +38,13 @@ class WGS84
 {
 public:
 
-    static const double m_a;            ///< [m] equatorial radius
-    static const double m_b;            ///< [m] polar radius
-    static const double m_e2;           ///< [-] ellipsoid first eccentricity squared
-    static const double m_e;            ///< [-] ellipsoid first eccentricity
+    static const double _a;                 ///< [m] equatorial radius
+    static const double _b;                 ///< [m] polar radius
+    static const double _e2;                ///< [-] ellipsoid first eccentricity squared
+    static const double _e;                 ///< [-] ellipsoid first eccentricity
 
-    static const osg::EllipsoidModel m_em;  ///<
-    static const osg::Quat m_enu2ned;       ///<
+    static const osg::EllipsoidModel _em;   ///<
+    static const osg::Quat _enu2ned;        ///<
 
     /**
      * @brief Returns WGS-84 equatorial radius.
@@ -78,29 +78,29 @@ public:
     /** Destructor. */
     virtual ~WGS84();
 
-    inline double getLat() const { return m_lat; }
-    inline double getLon() const { return m_lon; }
-    inline double getAlt() const { return m_alt; }
+    inline double getLat() const { return _lat; }
+    inline double getLon() const { return _lon; }
+    inline double getAlt() const { return _alt; }
 
-    inline osg::Quat  getAttitude() const { return m_attitude; }
-    inline osg::Vec3d getPosition() const { return m_position; }
+    inline osg::Quat  getAttitude() const { return _attitude; }
+    inline osg::Vec3d getPosition() const { return _position; }
 
     void set( double lat, double lon, double alt );
 
     void set( const osg::Vec3d &position );
 
-    inline void setLat( double lat ) { set( lat, m_lon, m_alt ); }
-    inline void setLon( double lon ) { set( m_lat, lon, m_alt ); }
-    inline void setAlt( double alt ) { set( m_lat, m_lon, alt ); }
+    inline void setLat( double lat ) { set( lat, _lon, _alt ); }
+    inline void setLon( double lon ) { set( _lat, lon, _alt ); }
+    inline void setAlt( double alt ) { set( _lat, _lon, alt ); }
 
 private:
 
-    double m_lat;
-    double m_lon;
-    double m_alt;
+    double _lat;
+    double _lon;
+    double _alt;
 
-    osg::Quat  m_attitude;
-    osg::Vec3d m_position;
+    osg::Quat  _attitude;
+    osg::Vec3d _position;
 };
 
 } // end of cgi namespace

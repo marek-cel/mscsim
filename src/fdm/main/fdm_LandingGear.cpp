@@ -75,17 +75,17 @@ double LandingGear::getPacejkaCoef( double kappa,
 ////////////////////////////////////////////////////////////////////////////////
 
 LandingGear::LandingGear( const Aircraft* aircraft ) :
-    m_aircraft ( aircraft ),
+    _aircraft ( aircraft ),
 
-    m_ctrlAngle ( 0.0 ),
+    _ctrlAngle ( 0.0 ),
 
-    m_brake_l ( 0.0 ),
-    m_brake_r ( 0.0 ),
+    _brake_l ( 0.0 ),
+    _brake_r ( 0.0 ),
 
-    m_antiskid ( false ),
-    m_steering ( false ),
+    _antiskid ( false ),
+    _steering ( false ),
 
-    m_onGround ( false )
+    _onGround ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,13 +137,10 @@ void LandingGear::readData( XmlNode &dataNode )
                 result = XmlUtils::read( wheelNode, wheel.angle_max, "max_angle" );
             }
 
-            wheel.k2 = 0.0;
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( wheelNode, wheel.k2, "stiffness_2", true );
-
             if ( result == FDM_SUCCESS )
             {
                 std::pair<Wheels::iterator,bool> temp =
-                        m_wheels.insert( std::pair<std::string,Wheel>( name, wheel ) );
+                        _wheels.insert( std::pair<std::string,Wheel>( name, wheel ) );
 
                 if ( temp.second != true )
                 {
@@ -189,10 +186,10 @@ void LandingGear::readData( XmlNode &dataNode )
 
 void LandingGear::computeForceAndMoment()
 {
-    m_for_bas.set( 0.0, 0.0, 0.0 );
-    m_mom_bas.set( 0.0, 0.0, 0.0 );
+    _for_bas.set( 0.0, 0.0, 0.0 );
+    _mom_bas.set( 0.0, 0.0, 0.0 );
 
-    for ( Wheels::iterator it = m_wheels.begin(); it != m_wheels.end(); it++ )
+    for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); it++ )
     {
         Wheel &wheel = (*it).second;
 
@@ -207,12 +204,12 @@ void LandingGear::computeForceAndMoment()
             Vector3 r_i_bas = getWheelIsect( wheel );
             Vector3 for_bas = getWheelForce( wheel, r_i_bas );
 
-            m_for_bas += for_bas;
-            m_mom_bas += r_i_bas ^ for_bas;
+            _for_bas += for_bas;
+            _mom_bas += r_i_bas ^ for_bas;
         }
     }
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -227,16 +224,16 @@ void LandingGear::computeForceAndMoment()
 
 void LandingGear::update()
 {
-    m_onGround = m_for_bas.getLength2() > 0.0;
+    _onGround = _for_bas.getLength2() > 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 LandingGear::Wheel* LandingGear::getWheelByName( const std::string &name )
 {
-    Wheels::iterator it = m_wheels.find( name );
+    Wheels::iterator it = _wheels.find( name );
 
-    if ( it != m_wheels.end() )
+    if ( it != _wheels.end() )
     {
         return &(it->second);
     }
@@ -249,25 +246,23 @@ LandingGear::Wheel* LandingGear::getWheelByName( const std::string &name )
 Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
                                    double surf_coef, double vel_break )
 {
-    double deflection_norm = m_aircraft->getNormal_BAS() * ( r_i_bas - wheel.r_u_bas );
+    double deflection_norm = _aircraft->getNormal_BAS() * ( r_i_bas - wheel.r_u_bas );
 
     if ( deflection_norm > 1.0e-6 )
     {
         // intersection velocities components
-        Vector3 v_i_bas = m_aircraft->getVel_BAS() + ( m_aircraft->getOmg_BAS() ^ r_i_bas );
-        double v_norm = m_aircraft->getNormal_BAS() * v_i_bas;
-        Vector3 v_norm_bas = v_norm * m_aircraft->getNormal_BAS();
+        Vector3 v_i_bas = _aircraft->getVel_BAS() + ( _aircraft->getOmg_BAS() ^ r_i_bas );
+        double v_norm = _aircraft->getNormal_BAS() * v_i_bas;
+        Vector3 v_norm_bas = v_norm * _aircraft->getNormal_BAS();
         Vector3 v_tang_bas = v_i_bas - v_norm_bas;
         double v_tang = v_tang_bas.getLength();
 
         // normal force
-        double for_norm = wheel.k * deflection_norm
-              + wheel.k2 * fabs( wheel.k2 ) * deflection_norm
-              - wheel.c * v_norm;
+        double for_norm = wheel.k * deflection_norm - wheel.c * v_norm;
 
         // longitudal and lateral directions
-        Vector3 dir_lon_bas = ( m_aircraft->getNormal_BAS() ^ Vector3::m_uy ).getNormalized();
-        Vector3 dir_lat_bas = ( Vector3::m_ux ^ m_aircraft->getNormal_BAS() ).getNormalized();
+        Vector3 dir_lon_bas = ( _aircraft->getNormal_BAS() ^ Vector3::_uy ).getNormalized();
+        Vector3 dir_lat_bas = ( Vector3::_ux ^ _aircraft->getNormal_BAS() ).getNormalized();
 
         // longitudal and lateral velocity components
         double vel_lon = v_tang_bas * dir_lon_bas;
@@ -277,9 +272,9 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         double cosTurn = 1.0;
         double sinTurn = 0.0;
 
-        if ( wheel.steerable && m_steering )
+        if ( wheel.steerable && _steering )
         {
-            double angle = Misc::satur( -wheel.angle_max, wheel.angle_max, m_ctrlAngle );
+            double angle = Misc::satur( -wheel.angle_max, wheel.angle_max, _ctrlAngle );
 
             cosTurn = cos( angle );
             sinTurn = sin( angle );
@@ -306,13 +301,13 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         // braking friction
         if ( wheel.group == Left || wheel.group == Right )
         {
-            double brake = ( wheel.group == Left ) ? m_brake_l : m_brake_r;
+            double brake = ( wheel.group == Left ) ? _brake_l : _brake_r;
 
             mu_roll_t += mu_surf_s * brake;
 
             double mu_roll_max = mu_surf_s;
 
-            if ( m_antiskid )
+            if ( _antiskid )
             {
                 mu_roll_max = mu_surf_k + ( mu_surf_s - mu_surf_k ) * ( 1.0 - coef_slip );
             }
@@ -350,7 +345,7 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         }
 
         // resulting forces
-        return for_tan_bas + for_norm * m_aircraft->getNormal_BAS();
+        return for_tan_bas + for_norm * _aircraft->getNormal_BAS();
     }
 
     return Vector3();
@@ -362,15 +357,15 @@ Vector3 LandingGear::getWheelIsect( const Wheel &wheel )
 {
     Vector3 r_i_bas = wheel.r_u_bas;
 
-    Vector3 b_wgs = m_aircraft->getBAS2WGS() * wheel.r_a_bas + m_aircraft->getPos_WGS();
-    Vector3 e_wgs = m_aircraft->getBAS2WGS() * wheel.r_u_bas + m_aircraft->getPos_WGS();
+    Vector3 b_wgs = _aircraft->getBAS2WGS() * wheel.r_a_bas + _aircraft->getPos_WGS();
+    Vector3 e_wgs = _aircraft->getBAS2WGS() * wheel.r_u_bas + _aircraft->getPos_WGS();
     Vector3 r_wgs;
     Vector3 n_wgs;
 
-    if ( FDM_SUCCESS == m_aircraft->getIsect()->getIntersection( b_wgs, e_wgs,
-                                                                 r_wgs, n_wgs ) )
+    if ( FDM_SUCCESS == _aircraft->getIsect()->getIntersection( b_wgs, e_wgs,
+                                                                r_wgs, n_wgs ) )
     {
-        r_i_bas = m_aircraft->getWGS2BAS() * ( r_wgs - m_aircraft->getPos_WGS() );
+        r_i_bas = _aircraft->getWGS2BAS() * ( r_wgs - _aircraft->getPos_WGS() );
     }
 
     return r_i_bas;

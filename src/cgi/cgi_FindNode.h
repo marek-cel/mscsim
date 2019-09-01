@@ -66,9 +66,9 @@ public:
 
 private:
 
-    bool m_findAll;     ///< specifies if search should be continued after finding first matching node
-    std::string m_name; ///< name of the nodes to be looking for
-    Nodes m_nodes;      ///< found nodes list
+    bool _findAll;      ///< specifies if search should be continued after finding first matching node
+    std::string _name;  ///< name of the nodes to be looking for
+    Nodes _nodes;       ///< found nodes list
 };
 
 } // end of cgi namespace

@@ -30,7 +30,7 @@ using namespace fdm;
 
 UH60_LandingGear::UH60_LandingGear( const UH60_Aircraft *aircraft ) :
     LandingGear( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,11 +45,11 @@ void UH60_LandingGear::update()
     LandingGear::update();
     //////////////////////
 
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
+    _brake_l = _aircraft->getCtrl()->getBrakeL();
+    _brake_r = _aircraft->getCtrl()->getBrakeR();
 
-    m_ctrlAngle = 0.0;
+    _ctrlAngle = 0.0;
 
-    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
-    m_steering = false;
+    _antiskid = _aircraft->getDataInp()->controls.antiskid;
+    _steering = false;
 }

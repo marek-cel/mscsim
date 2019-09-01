@@ -45,8 +45,8 @@ public:
 
     Lead( double tc, double y = 0.0 );
 
-    inline double getValue() const { return m_y;  }
-    inline double getTimeConstant() const { return m_tc; }
+    inline double getValue() const { return _y;  }
+    inline double getTimeConstant() const { return _tc; }
 
     void setValue( double y );
     void setTimeConstant( double tc );
@@ -55,10 +55,10 @@ public:
 
 protected:
 
-    double m_tc;        ///< time constant
+    double _tc;         ///< time constant
 
-    double m_u;         ///< current input
-    double m_y;         ///< current value
+    double _u;          ///< current input
+    double _y;          ///< current value
 };
 
 } // end of fdm namespace

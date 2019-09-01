@@ -55,22 +55,22 @@ public:
 
     /** Constructor. */
     Exception() :
-        m_cause ( 0 )
+        _cause ( 0 )
     {
-        m_type = UnknownException;
-        m_line = 0;
-        m_file = "";
-        m_info = "";
+        _type = UnknownException;
+        _line = 0;
+        _file = "";
+        _info = "";
     }
 
     /** Copy constructor. */
     Exception( const Exception &e ) :
-        m_cause ( ( e.m_cause ) ? new Exception( *e.m_cause ) : 0 )
+        _cause ( ( e._cause ) ? new Exception( *e._cause ) : 0 )
     {
-        m_type = e.m_type;
-        m_line = e.m_line;
-        m_file = e.m_file;
-        m_info = e.m_info;
+        _type = e._type;
+        _line = e._line;
+        _file = e._file;
+        _info = e._info;
     }
 
     /** Destructor. */
@@ -82,30 +82,30 @@ public:
     /** */
     inline bool hasCause() const
     {
-        return ( m_cause ) ? true : false;
+        return ( _cause ) ? true : false;
     }
 
     /** */
     inline const Exception& getCause() const
     {
-        return (*m_cause);
+        return (*_cause);
     }
 
     /** */
     inline std::string getFile() const
     {
-        return m_file;
+        return _file;
     }
 
     /** */
     inline std::string getFileAndLine() const
     {
-        if ( m_file.size() > 0 && m_line > 0 )
+        if ( _file.size() > 0 && _line > 0 )
         {
             char line[255];
-            sprintf( line, "%d", m_line );
+            sprintf( line, "%d", _line );
 
-            return m_file + "(" + line + ")";
+            return _file + "(" + line + ")";
         }
         else
         {
@@ -116,26 +116,26 @@ public:
     /** */
     inline std::string getInfo() const
     {
-        return m_info;
+        return _info;
     }
 
     /** */
     inline int getLine() const
     {
-        return m_line;
+        return _line;
     }
 
     /** */
     inline Type getType() const
     {
-        return m_type;
+        return _type;
     }
 
     /** */
     inline void removeCause()
     {
-        if ( m_cause ) delete m_cause;
-        m_cause = 0;
+        if ( _cause ) delete _cause;
+        _cause = 0;
     }
 
     /** */
@@ -143,7 +143,7 @@ public:
     {
         removeCause();
 
-        m_cause = new Exception( cause );
+        _cause = new Exception( cause );
     }
 
     /** */
@@ -151,42 +151,42 @@ public:
     {
         if ( file != 0 )
         {
-            m_file = file;
+            _file = file;
         }
     }
 
     /** */
     inline void setInfo( const char *info )
     {
-        m_info = info;
+        _info = info;
     }
 
     /** */
     inline void setInfo( std::string info )
     {
-        m_info = info;
+        _info = info;
     }
 
     /** */
     inline void setLine( int line )
     {
-        m_line = line;
+        _line = line;
     }
 
     /** */
     inline void setType( Type type )
     {
-        m_type = type;
+        _type = type;
     }
 
 private:
 
-    Exception *m_cause;         ///< exception cause (if exception triggered by catching other exception)
+    Exception *_cause;          ///< exception cause (if exception triggered by catching other exception)
 
-    Type m_type;                ///< exception type
-    int m_line;                 ///< line number
-    std::string m_file;         ///< file name
-    std::string m_info;         ///< extra informations
+    Type _type;                 ///< exception type
+    int _line;                  ///< line number
+    std::string _file;          ///< file name
+    std::string _info;          ///< extra informations
 };
 
 } // end of fdm namespace

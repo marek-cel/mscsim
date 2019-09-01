@@ -49,7 +49,7 @@ public:
     /** Destructor. */
     virtual ~Manager();
 
-    inline void resetTraces() { m_map->resetTraces(); }
+    inline void resetTraces() { _map->resetTraces(); }
 
     /** */
     void updateHUD();
@@ -63,37 +63,37 @@ public:
     /** */
     inline osgGA::CameraManipulator* getCameraManipulator()
     {
-        return m_camera->getManipulator();
+        return _camera->getManipulator();
     }
 
     /** */
     inline osg::Vec3d getCameraPosition() const
     {
-        return m_camera->getPosition();
+        return _camera->getPosition();
     }
 
     /** */
     inline osg::Quat getCameraAttitude() const
     {
-        return m_camera->getAttitude();
+        return _camera->getAttitude();
     }
 
     /** */
     inline osg::Node* getNodeHUD()
     {
-        return m_hud->getNode();
+        return _hud->getNode();
     }
 
     /** */
     inline osg::Node* getNodeMap()
     {
-        return m_map->getNode();
+        return _map->getNode();
     }
 
     /** */
     inline osg::Node* getNodeOTW()
     {
-        return m_otw->getNode();
+        return _otw->getNode();
     }
 
     /** */
@@ -117,24 +117,24 @@ public:
     /** */
     void setMapScale( double scale );
 
-    inline void setVisibilityCrops     ( bool visible ) { m_map->setVisibilityCrops     ( visible ); }
-    inline void setVisibilityGrassland ( bool visible ) { m_map->setVisibilityGrassland ( visible ); }
-    inline void setVisibilityWoodland  ( bool visible ) { m_map->setVisibilityWoodland  ( visible ); }
-    inline void setVisibilityBuiltup   ( bool visible ) { m_map->setVisibilityBuiltup   ( visible ); }
-    inline void setVisibilityRailroads ( bool visible ) { m_map->setVisibilityRailroads ( visible ); }
-    inline void setVisibilityRoads     ( bool visible ) { m_map->setVisibilityRoads     ( visible ); }
-    inline void setVisibilityAirports  ( bool visible ) { m_map->setVisibilityAirports  ( visible ); }
-    inline void setVisibilitySatellite ( bool visible ) { m_map->setVisibilitySatellite ( visible ); }
-    inline void setVisibilityBorders   ( bool visible ) { m_map->setVisibilityBorders   ( visible ); }
-    inline void setVisibilityTraces    ( bool visible ) { m_map->setVisibilityTraces    ( visible ); }
+    inline void setVisibilityCrops     ( bool visible ) { _map->setVisibilityCrops     ( visible ); }
+    inline void setVisibilityGrassland ( bool visible ) { _map->setVisibilityGrassland ( visible ); }
+    inline void setVisibilityWoodland  ( bool visible ) { _map->setVisibilityWoodland  ( visible ); }
+    inline void setVisibilityBuiltup   ( bool visible ) { _map->setVisibilityBuiltup   ( visible ); }
+    inline void setVisibilityRailroads ( bool visible ) { _map->setVisibilityRailroads ( visible ); }
+    inline void setVisibilityRoads     ( bool visible ) { _map->setVisibilityRoads     ( visible ); }
+    inline void setVisibilityAirports  ( bool visible ) { _map->setVisibilityAirports  ( visible ); }
+    inline void setVisibilitySatellite ( bool visible ) { _map->setVisibilitySatellite ( visible ); }
+    inline void setVisibilityBorders   ( bool visible ) { _map->setVisibilityBorders   ( visible ); }
+    inline void setVisibilityTraces    ( bool visible ) { _map->setVisibilityTraces    ( visible ); }
 
 private:
 
-    HUD *m_hud;         ///<
-    Map *m_map;         ///<
-    OTW *m_otw;         ///<
+    HUD *_hud;          ///<
+    Map *_map;          ///<
+    OTW *_otw;          ///<
 
-    Camera *m_camera;   ///<
+    Camera *_camera;    ///<
 
     /**
      * You should use static function instance() due to get refernce

@@ -90,29 +90,29 @@ protected:
 
 private:
 
-    Ui::DockWidgetProp *m_ui;
+    Ui::DockWidgetProp *_ui;        ///<
 
-    QLabel *m_label[ FDM_MAX_ENGINES ];
+    QLabel *_label[ FDM_MAX_ENGINES ];
 
-    QPushButton *m_pushButtonState    [ FDM_MAX_ENGINES ];
-    QPushButton *m_pushButtonAB       [ FDM_MAX_ENGINES ];
-    QPushButton *m_pushButtonFuel     [ FDM_MAX_ENGINES ];
-    QPushButton *m_pushButtonIgnition [ FDM_MAX_ENGINES ];
-    QPushButton *m_pushButtonStart    [ FDM_MAX_ENGINES ];
+    QPushButton *_pushButtonState    [ FDM_MAX_ENGINES ];
+    QPushButton *_pushButtonAB       [ FDM_MAX_ENGINES ];
+    QPushButton *_pushButtonFuel     [ FDM_MAX_ENGINES ];
+    QPushButton *_pushButtonIgnition [ FDM_MAX_ENGINES ];
+    QPushButton *_pushButtonStart    [ FDM_MAX_ENGINES ];
 
-    QDoubleSpinBox *m_spinRPM  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinPROP [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinNG   [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinN1   [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinN2   [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinTRQ  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinEPR  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinMAP  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinEGT  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinTIT  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinTOT  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinITT  [ FDM_MAX_ENGINES ];
-    QDoubleSpinBox *m_spinFF   [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinRPM  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinPROP [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinNG   [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinN1   [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinN2   [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinTRQ  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinEPR  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinMAP  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinEGT  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinTIT  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinTOT  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinITT  [ FDM_MAX_ENGINES ];
+    QDoubleSpinBox *_spinFF   [ FDM_MAX_ENGINES ];
 
     void settingsRead();
     void settingsRead_UnitCombos( QSettings &settings );

@@ -34,47 +34,47 @@
 GraphicsPedals::GraphicsPedals( QWidget *parent ) :
     QGraphicsView ( parent ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_scene ( 0 ),
+    _scene ( 0 ),
 
-    m_ctrlLineV ( 0 ),
-    m_trimLineV ( 0 ),
-    m_markLineH ( 0 ),
-    m_markLineV ( 0 ),
+    _ctrlLineV ( 0 ),
+    _trimLineV ( 0 ),
+    _markLineH ( 0 ),
+    _markLineV ( 0 ),
 
-    m_ctrlBrush ( QColor( 0x03, 0x2a, 0x63 ), Qt::SolidPattern ),
-    m_trimBrush ( QColor( 0x88, 0x88, 0x88 ), Qt::SolidPattern ),
-    m_markBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
+    _ctrlBrush ( QColor( 0x03, 0x2a, 0x63 ), Qt::SolidPattern ),
+    _trimBrush ( QColor( 0x88, 0x88, 0x88 ), Qt::SolidPattern ),
+    _markBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
 
-    m_ctrlPen( m_ctrlBrush, 1 ),
-    m_trimPen( m_trimBrush, 1 ),
-    m_markPen( m_markBrush, 1 ),
+    _ctrlPen( _ctrlBrush, 1 ),
+    _trimPen( _trimBrush, 1 ),
+    _markPen( _markBrush, 1 ),
 
-    m_ctrlYaw ( 0 ),
-    m_trimYaw ( 0 )
+    _ctrlYaw ( 0 ),
+    _trimYaw ( 0 )
 {
-    m_scene = new QGraphicsScene( this );
-    setScene( m_scene );
+    _scene = new QGraphicsScene( this );
+    setScene( _scene );
 
-    m_scene->clear();
+    _scene->clear();
 
     init();
 
-    m_timerId = startTimer( 100 );
+    _timerId = startTimer( 100 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsPedals::~GraphicsPedals()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
-        delete m_scene;
-        m_scene = 0;
+        _scene->clear();
+        delete _scene;
+        _scene = 0;
     }
 
     reset();
@@ -84,9 +84,9 @@ GraphicsPedals::~GraphicsPedals()
 
 void GraphicsPedals::reinit()
 {
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
+        _scene->clear();
 
         init();
     }
@@ -128,17 +128,17 @@ void GraphicsPedals::init()
 
 void GraphicsPedals::reset()
 {
-    m_ctrlLineV = 0;
-    m_trimLineV = 0;
-    m_markLineH = 0;
-    m_markLineV = 0;
+    _ctrlLineV = 0;
+    _trimLineV = 0;
+    _markLineH = 0;
+    _markLineV = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsPedals::updateView()
 {
-    m_scene->clear();
+    _scene->clear();
 
     short w = width();
     short h = height();
@@ -148,21 +148,21 @@ void GraphicsPedals::updateView()
 
     short x_max = floor( w_2 ) - 1;
 
-    short x_ctrl = floor( m_ctrlYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
-    short x_trim = floor( m_trimYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
+    short x_ctrl = floor( _ctrlYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
+    short x_trim = floor( _trimYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
 
     if ( x_ctrl < -x_max ) x_ctrl = -x_max;
     if ( x_ctrl >  x_max ) x_ctrl =  x_max;
     if ( x_trim < -x_max ) x_trim = -x_max;
     if ( x_trim >  x_max ) x_trim =  x_max;
 
-    m_markLineH = m_scene->addLine( -w_2, 0, w_2, 0, m_markPen );
-    m_markLineV = m_scene->addLine( 0, h_2, 0, -h_2, m_markPen );
+    _markLineH = _scene->addLine( -w_2, 0, w_2, 0, _markPen );
+    _markLineV = _scene->addLine( 0, h_2, 0, -h_2, _markPen );
 
-    m_trimLineV = m_scene->addLine( x_trim, h_2, x_trim, -h_2, m_trimPen );
-    m_ctrlLineV = m_scene->addLine( x_ctrl, h_2, x_ctrl, -h_2, m_ctrlPen );
+    _trimLineV = _scene->addLine( x_trim, h_2, x_trim, -h_2, _trimPen );
+    _ctrlLineV = _scene->addLine( x_ctrl, h_2, x_ctrl, -h_2, _ctrlPen );
 
-    m_scene->update();
+    _scene->update();
 
     centerOn( 0, 0 );
 }

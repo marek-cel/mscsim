@@ -33,18 +33,18 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double Camera::m_downAngle = osg::DegreesToRadians( 10.0 );
+const double Camera::_downAngle = osg::DegreesToRadians( 10.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Camera::Camera()
 {
-    m_manipulatorOrbit = new ManipulatorOrbit();
-    m_manipulatorShift = new ManipulatorShift();
-    m_manipulatorWorld = new ManipulatorWorld();
+    _manipulatorOrbit = new ManipulatorOrbit();
+    _manipulatorShift = new ManipulatorShift();
+    _manipulatorWorld = new ManipulatorWorld();
 
-    m_viewType = Data::Camera::ViewPilot;
-    m_manipulator = m_manipulatorShift.get();
+    _viewType = Data::Camera::ViewPilot;
+    _manipulator = _manipulatorShift.get();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,8 +55,8 @@ Camera::~Camera() {}
 
 void Camera::update()
 {
-    if ( m_viewType == Data::Camera::ViewChase
-      || m_viewType == Data::Camera::ViewPilot )
+    if ( _viewType == Data::Camera::ViewChase
+      || _viewType == Data::Camera::ViewPilot )
     {
         osg::Quat q_tmp( -M_PI / 2.0, osg::X_AXIS,
                                  0.0, osg::Y_AXIS,
@@ -71,15 +71,15 @@ void Camera::update()
                           Data::get()->ownship.pos_y_wgs,
                           Data::get()->ownship.pos_z_wgs );
 
-        if ( m_viewType == Data::Camera::ViewChase )
+        if ( _viewType == Data::Camera::ViewChase )
         {
             double d_phi = 0.0;
             double d_tht = 0.0;// -0.5 * Data::get()->ownship.pitchRate;
             double d_psi = 0.0;//  0.0 * Data::get()->ownship.yawRate;
 
-            double d_x = -m_manipulatorShift->getDistance();
+            double d_x = -_manipulatorShift->getDistance();
             double d_y = d_x * tan( d_psi ) * ( -1.0 );
-            double d_z = d_x * tan( m_downAngle - d_tht );
+            double d_z = d_x * tan( _downAngle - d_tht );
 
             osg::Vec3d r_camera_bas( d_x, d_y, d_z );
             osg::Quat q_camera_bas( d_phi, osg::X_AXIS,
@@ -93,22 +93,22 @@ void Camera::update()
                                * osg::Matrixd::rotate( q_wgs )
                                * osg::Matrixd::translate( r_camera_wgs ) );
 
-            m_manipulatorShift->setByMatrix( matrix );
+            _manipulatorShift->setByMatrix( matrix );
         }
-        else if ( m_viewType == Data::Camera::ViewPilot )
+        else if ( _viewType == Data::Camera::ViewPilot )
         {
             osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
                                * osg::Matrixd::rotate( q_wgs )
                                * osg::Matrixd::translate( r_wgs ) );
 
-            m_manipulatorShift->setByMatrix( matrix );
+            _manipulatorShift->setByMatrix( matrix );
         }
     }
 
-    m_attitude = m_manipulator->getMatrix().getRotate();
-    m_position = m_manipulator->getMatrix().getTrans();
+    _attitude = _manipulator->getMatrix().getRotate();
+    _position = _manipulator->getMatrix().getTrans();
 
-    WGS84 wgs( m_position );
+    WGS84 wgs( _position );
 
     float elevation = Intersections::instance()->getElevation( wgs.getLat(), wgs.getLon() );
 
@@ -117,41 +117,41 @@ void Camera::update()
     Data::get()->camera.altitude_agl = wgs.getAlt() - elevation;
     Data::get()->camera.altitude_asl = wgs.getAlt();
 
-    Data::get()->camera.viewType = m_viewType;
+    Data::get()->camera.viewType = _viewType;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Camera::setDistanceDef( double distance_def )
 {
-    m_manipulatorOrbit->setDistance( distance_def );
-    m_manipulatorShift->setDistance( distance_def );
+    _manipulatorOrbit->setDistance( distance_def );
+    _manipulatorShift->setDistance( distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Camera::setDistanceMin( double distance_min )
 {
-    m_manipulatorOrbit->setDistanceMin( distance_min );
-    m_manipulatorShift->setDistanceMin( distance_min );
+    _manipulatorOrbit->setDistanceMin( distance_min );
+    _manipulatorShift->setDistanceMin( distance_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Camera::setTrackNode( osg::Node *node )
 {
-    m_trackNode = node;
+    _trackNode = node;
 
-    m_manipulatorOrbit->setTrackNode( m_trackNode.get() );
+    _manipulatorOrbit->setTrackNode( _trackNode.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Camera::setWorldNode( osg::Node *node )
 {
-    m_worldNode = node;
+    _worldNode = node;
 
-    m_manipulatorWorld->setNode( m_worldNode.get() );
-    m_manipulatorWorld->setElevation( M_PI_2 );
-    m_manipulatorWorld->setHeading( 0 );
+    _manipulatorWorld->setNode( _worldNode.get() );
+    _manipulatorWorld->setElevation( M_PI_2 );
+    _manipulatorWorld->setHeading( 0 );
 }

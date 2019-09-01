@@ -47,68 +47,68 @@ void scaleChangeCallback( double scale )
 
 WidgetMap::WidgetMap( QWidget *parent ) :
     QWidget ( parent ),
-    m_gridLayout ( 0 ),
-    m_timerId ( 0 ),
-    m_camManipulatorInited ( false ),
-    m_viewCrops     ( false ),
-    m_viewGrassland ( false ),
-    m_viewWoodland  ( false ),
-    m_viewBuiltup   ( false ),
-    m_viewRailroads ( false ),
-    m_viewRoads     ( false ),
-    m_viewAirports  ( true  ),
-    m_viewSatellite ( false ),
-    m_viewBorders   ( false ),
-    m_viewTraces    ( true  )
+    _gridLayout ( 0 ),
+    _timerId ( 0 ),
+    _camManipulatorInited ( false ),
+    _viewCrops     ( false ),
+    _viewGrassland ( false ),
+    _viewWoodland  ( false ),
+    _viewBuiltup   ( false ),
+    _viewRailroads ( false ),
+    _viewRoads     ( false ),
+    _viewAirports  ( true  ),
+    _viewSatellite ( false ),
+    _viewBorders   ( false ),
+    _viewTraces    ( true  )
 {
     setMouseTracking( true );
 
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
-    m_graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
+    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
 
-    m_manipulator = new cgi::ManipulatorMap();
-    m_manipulator->registerScaleChangeCallback( &scaleChangeCallback );
-    m_manipulator->setScaleMin( 1.0e-5 );//m_manipulator->setScaleMin( 5.0e-5 );
-    m_manipulator->setScaleMax( 1.0 );
-    m_manipulator->setMapHeight( 2.0 * CGI_MAP_Y_2 );
-    m_manipulator->setMapMinX( -cgi::Mercator::max_x );
-    m_manipulator->setMapMaxX(  cgi::Mercator::max_x );
-    m_manipulator->setMapMinY( -cgi::Mercator::max_y );
-    m_manipulator->setMapMaxY(  cgi::Mercator::max_y );
-    m_manipulator->setAllowThrow( true );
-    m_manipulator->setScale( 1.0e-3 );
+    _manipulator = new cgi::ManipulatorMap();
+    _manipulator->registerScaleChangeCallback( &scaleChangeCallback );
+    _manipulator->setScaleMin( 1.0e-5 );//m_manipulator->setScaleMin( 5.0e-5 );
+    _manipulator->setScaleMax( 1.0 );
+    _manipulator->setMapHeight( 2.0 * CGI_MAP_Y_2 );
+    _manipulator->setMapMinX( -cgi::Mercator::_max_x );
+    _manipulator->setMapMaxX(  cgi::Mercator::_max_x );
+    _manipulator->setMapMinY( -cgi::Mercator::_max_y );
+    _manipulator->setMapMaxY(  cgi::Mercator::_max_y );
+    _manipulator->setAllowThrow( true );
+    _manipulator->setScale( 1.0e-3 );
 
     QWidget *widget = addViewWidget();
 
-    m_gridLayout = new QGridLayout( this );
-    m_gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    m_gridLayout->addWidget( widget, 0, 0 );
+    _gridLayout = new QGridLayout( this );
+    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
+    _gridLayout->addWidget( widget, 0, 0 );
 
-    setLayout( m_gridLayout );
+    setLayout( _gridLayout );
 
     settingsRead();
 
-    cgi::Manager::instance()->setVisibilityCrops     ( m_viewCrops     );
-    cgi::Manager::instance()->setVisibilityGrassland ( m_viewGrassland );
-    cgi::Manager::instance()->setVisibilityWoodland  ( m_viewWoodland  );
-    cgi::Manager::instance()->setVisibilityBuiltup   ( m_viewBuiltup   );
-    cgi::Manager::instance()->setVisibilityRailroads ( m_viewRailroads );
-    cgi::Manager::instance()->setVisibilityRoads     ( m_viewRoads     );
-    cgi::Manager::instance()->setVisibilityAirports  ( m_viewAirports  );
-    cgi::Manager::instance()->setVisibilitySatellite ( m_viewSatellite );
-    cgi::Manager::instance()->setVisibilityBorders   ( m_viewBorders   );
-    cgi::Manager::instance()->setVisibilityTraces    ( m_viewTraces    );
+    cgi::Manager::instance()->setVisibilityCrops     ( _viewCrops     );
+    cgi::Manager::instance()->setVisibilityGrassland ( _viewGrassland );
+    cgi::Manager::instance()->setVisibilityWoodland  ( _viewWoodland  );
+    cgi::Manager::instance()->setVisibilityBuiltup   ( _viewBuiltup   );
+    cgi::Manager::instance()->setVisibilityRailroads ( _viewRailroads );
+    cgi::Manager::instance()->setVisibilityRoads     ( _viewRoads     );
+    cgi::Manager::instance()->setVisibilityAirports  ( _viewAirports  );
+    cgi::Manager::instance()->setVisibilitySatellite ( _viewSatellite );
+    cgi::Manager::instance()->setVisibilityBorders   ( _viewBorders   );
+    cgi::Manager::instance()->setVisibilityTraces    ( _viewTraces    );
 
-    m_timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetMap::~WidgetMap()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
     settingsSave();
 }
@@ -163,16 +163,16 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     actionViewBorders   .setCheckable( true );
     actionViewTraces    .setCheckable( true );
 
-    actionViewCrops     .setChecked( m_viewCrops     );
-    actionViewGrassland .setChecked( m_viewGrassland );
-    actionViewWoodland  .setChecked( m_viewWoodland  );
-    actionViewBuiltup   .setChecked( m_viewBuiltup   );
-    actionViewRailroads .setChecked( m_viewRailroads );
-    actionViewRoads     .setChecked( m_viewRoads     );
-    actionViewAirports  .setChecked( m_viewAirports  );
-    actionViewSatellite .setChecked( m_viewSatellite );
-    actionViewBorders   .setChecked( m_viewBorders   );
-    actionViewTraces    .setChecked( m_viewTraces    );
+    actionViewCrops     .setChecked( _viewCrops     );
+    actionViewGrassland .setChecked( _viewGrassland );
+    actionViewWoodland  .setChecked( _viewWoodland  );
+    actionViewBuiltup   .setChecked( _viewBuiltup   );
+    actionViewRailroads .setChecked( _viewRailroads );
+    actionViewRoads     .setChecked( _viewRoads     );
+    actionViewAirports  .setChecked( _viewAirports  );
+    actionViewSatellite .setChecked( _viewSatellite );
+    actionViewBorders   .setChecked( _viewBorders   );
+    actionViewTraces    .setChecked( _viewTraces    );
 
     connect( &actionViewCrops     , SIGNAL( toggled(bool) ), this, SLOT( actionViewCrops_toggled     (bool) ) );
     connect( &actionViewGrassland , SIGNAL( toggled(bool) ), this, SLOT( actionViewGrassland_toggled (bool) ) );
@@ -247,10 +247,10 @@ void WidgetMap::timerEvent( QTimerEvent *event )
 
     cgi::Manager::instance()->updateMap();
 
-    updateMouseGeoPositionStr( m_manipulator->getMouseLat(),
-                               m_manipulator->getMouseLon() );
+    updateMouseGeoPositionStr( _manipulator->getMouseLat(),
+                               _manipulator->getMouseLon() );
 
-    emit mouseMoveGeoPosition( m_mouseGeoPositionStr );
+    emit mouseMoveGeoPosition( _mouseGeoPositionStr );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -261,13 +261,13 @@ QWidget* WidgetMap::addViewWidget()
 
     setSceneData( cgi::Manager::instance()->getNodeMap() );
     addEventHandler( new osgViewer::StatsHandler );
-    setCameraManipulator( m_manipulator.get() );
+    setCameraManipulator( _manipulator.get() );
 
     setKeyEventSetsDone( 0 );
 
     assignSceneDataToCameras();
 
-    return m_graphicsWindow->getGLWidget();
+    return _graphicsWindow->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -276,13 +276,13 @@ void WidgetMap::createCameraMap()
 {
     osg::ref_ptr<osg::Camera> cameraMap = getCamera();
 
-    cameraMap->setGraphicsContext( m_graphicsWindow );
+    cameraMap->setGraphicsContext( _graphicsWindow );
 
-    const osg::GraphicsContext::Traits *traits = m_graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
-    cameraMap->setClearColor( osg::Vec4( cgi::Map::colorOceans, 1.0 ) );
+    cameraMap->setClearColor( osg::Vec4( cgi::Map::_colorOceans, 1.0 ) );
     //cameraMap->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
     cameraMap->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
 
@@ -344,25 +344,25 @@ void WidgetMap::updateMouseGeoPositionStr( double lat, double lon )
     int lon_m = floor( 60.0 * ( lon_deg - lon_d ) );
     double lon_s = 3600.0 * ( lon_deg - lon_d - lon_m / 60.0 );
 
-    m_mouseGeoPositionStr.clear();
+    _mouseGeoPositionStr.clear();
 
-    m_mouseGeoPositionStr += QString("%1").arg( lon_d, 3, 'f', 0, QChar(' ') );
-    m_mouseGeoPositionStr += QString::fromUtf8( "° " );
-    m_mouseGeoPositionStr += QString("%1").arg( lon_m, 2, 'f', 0, QChar('0') );
-    m_mouseGeoPositionStr += "' ";
-    m_mouseGeoPositionStr += QString("%1").arg( lon_s, 5, 'f', 2, QChar('0') );
-    m_mouseGeoPositionStr += "\"";
-    m_mouseGeoPositionStr += ( lon > 0.0 ) ? "E" : "W";
+    _mouseGeoPositionStr += QString("%1").arg( lon_d, 3, 'f', 0, QChar(' ') );
+    _mouseGeoPositionStr += QString::fromUtf8( "° " );
+    _mouseGeoPositionStr += QString("%1").arg( lon_m, 2, 'f', 0, QChar('0') );
+    _mouseGeoPositionStr += "' ";
+    _mouseGeoPositionStr += QString("%1").arg( lon_s, 5, 'f', 2, QChar('0') );
+    _mouseGeoPositionStr += "\"";
+    _mouseGeoPositionStr += ( lon > 0.0 ) ? "E" : "W";
 
-    m_mouseGeoPositionStr += ",  ";
+    _mouseGeoPositionStr += ",  ";
 
-    m_mouseGeoPositionStr += QString("%1").arg( lat_d, 2, 'f', 0, QChar(' ') );
-    m_mouseGeoPositionStr += QString::fromUtf8( "° " );
-    m_mouseGeoPositionStr += QString("%1").arg( lat_m, 2, 'f', 0, QChar('0') );
-    m_mouseGeoPositionStr += "' ";
-    m_mouseGeoPositionStr += QString("%1").arg( lat_s, 5, 'f', 2, QChar('0') );
-    m_mouseGeoPositionStr += "\"";
-    m_mouseGeoPositionStr += ( lat > 0.0 ) ? "N" : "S";
+    _mouseGeoPositionStr += QString("%1").arg( lat_d, 2, 'f', 0, QChar(' ') );
+    _mouseGeoPositionStr += QString::fromUtf8( "° " );
+    _mouseGeoPositionStr += QString("%1").arg( lat_m, 2, 'f', 0, QChar('0') );
+    _mouseGeoPositionStr += "' ";
+    _mouseGeoPositionStr += QString("%1").arg( lat_s, 5, 'f', 2, QChar('0') );
+    _mouseGeoPositionStr += "\"";
+    _mouseGeoPositionStr += ( lat > 0.0 ) ? "N" : "S";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -373,16 +373,16 @@ void WidgetMap::settingsRead()
 
     settings.beginGroup( "widget_map" );
 
-    m_viewCrops     = settings.value( "view_crops"     , m_viewCrops     ).toBool();
-    m_viewGrassland = settings.value( "view_grassland" , m_viewGrassland ).toBool();
-    m_viewWoodland  = settings.value( "view_woodland"  , m_viewWoodland  ).toBool();
-    m_viewBuiltup   = settings.value( "view_builtup"   , m_viewBuiltup   ).toBool();
-    m_viewRailroads = settings.value( "view_railroads" , m_viewRailroads ).toBool();
-    m_viewRoads     = settings.value( "view_roads"     , m_viewRoads     ).toBool();
-    m_viewAirports  = settings.value( "view_airports"  , m_viewAirports  ).toBool();
-    m_viewSatellite = settings.value( "view_satellite" , m_viewSatellite ).toBool();
-    m_viewBorders   = settings.value( "view_borders"   , m_viewBorders   ).toBool();
-    m_viewTraces    = settings.value( "view_traces"    , m_viewTraces    ).toBool();
+    _viewCrops     = settings.value( "view_crops"     , _viewCrops     ).toBool();
+    _viewGrassland = settings.value( "view_grassland" , _viewGrassland ).toBool();
+    _viewWoodland  = settings.value( "view_woodland"  , _viewWoodland  ).toBool();
+    _viewBuiltup   = settings.value( "view_builtup"   , _viewBuiltup   ).toBool();
+    _viewRailroads = settings.value( "view_railroads" , _viewRailroads ).toBool();
+    _viewRoads     = settings.value( "view_roads"     , _viewRoads     ).toBool();
+    _viewAirports  = settings.value( "view_airports"  , _viewAirports  ).toBool();
+    _viewSatellite = settings.value( "view_satellite" , _viewSatellite ).toBool();
+    _viewBorders   = settings.value( "view_borders"   , _viewBorders   ).toBool();
+    _viewTraces    = settings.value( "view_traces"    , _viewTraces    ).toBool();
 
     settings.endGroup();
 }
@@ -395,16 +395,16 @@ void WidgetMap::settingsSave()
 
     settings.beginGroup( "widget_map" );
 
-    settings.setValue( "view_crops"     , m_viewCrops     ? 1 : 0 );
-    settings.setValue( "view_grassland" , m_viewGrassland ? 1 : 0 );
-    settings.setValue( "view_woodland"  , m_viewWoodland  ? 1 : 0 );
-    settings.setValue( "view_builtup"   , m_viewBuiltup   ? 1 : 0 );
-    settings.setValue( "view_railroads" , m_viewRailroads ? 1 : 0 );
-    settings.setValue( "view_roads"     , m_viewRoads     ? 1 : 0 );
-    settings.setValue( "view_airports"  , m_viewAirports  ? 1 : 0 );
-    settings.setValue( "view_satellite" , m_viewSatellite ? 1 : 0 );
-    settings.setValue( "view_borders"   , m_viewBorders   ? 1 : 0 );
-    settings.setValue( "view_traces"    , m_viewTraces    ? 1 : 0 );
+    settings.setValue( "view_crops"     , _viewCrops     ? 1 : 0 );
+    settings.setValue( "view_grassland" , _viewGrassland ? 1 : 0 );
+    settings.setValue( "view_woodland"  , _viewWoodland  ? 1 : 0 );
+    settings.setValue( "view_builtup"   , _viewBuiltup   ? 1 : 0 );
+    settings.setValue( "view_railroads" , _viewRailroads ? 1 : 0 );
+    settings.setValue( "view_roads"     , _viewRoads     ? 1 : 0 );
+    settings.setValue( "view_airports"  , _viewAirports  ? 1 : 0 );
+    settings.setValue( "view_satellite" , _viewSatellite ? 1 : 0 );
+    settings.setValue( "view_borders"   , _viewBorders   ? 1 : 0 );
+    settings.setValue( "view_traces"    , _viewTraces    ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -413,7 +413,7 @@ void WidgetMap::settingsSave()
 
 void WidgetMap::actionViewCrops_toggled( bool checked )
 {
-    m_viewCrops = checked;
+    _viewCrops = checked;
     cgi::Manager::instance()->setVisibilityCrops( checked );
 }
 
@@ -421,7 +421,7 @@ void WidgetMap::actionViewCrops_toggled( bool checked )
 
 void WidgetMap::actionViewGrassland_toggled( bool checked )
 {
-    m_viewGrassland = checked;
+    _viewGrassland = checked;
     cgi::Manager::instance()->setVisibilityGrassland( checked );
 }
 
@@ -429,7 +429,7 @@ void WidgetMap::actionViewGrassland_toggled( bool checked )
 
 void WidgetMap::actionViewWoodland_toggled( bool checked )
 {
-    m_viewWoodland = checked;
+    _viewWoodland = checked;
     cgi::Manager::instance()->setVisibilityWoodland( checked );
 }
 
@@ -437,7 +437,7 @@ void WidgetMap::actionViewWoodland_toggled( bool checked )
 
 void WidgetMap::actionViewBuiltup_toggled( bool checked )
 {
-    m_viewBuiltup = checked;
+    _viewBuiltup = checked;
     cgi::Manager::instance()->setVisibilityBuiltup( checked );
 }
 
@@ -445,7 +445,7 @@ void WidgetMap::actionViewBuiltup_toggled( bool checked )
 
 void WidgetMap::actionViewRailroads_toggled( bool checked )
 {
-    m_viewRailroads = checked;
+    _viewRailroads = checked;
     cgi::Manager::instance()->setVisibilityRailroads( checked );
 }
 
@@ -453,7 +453,7 @@ void WidgetMap::actionViewRailroads_toggled( bool checked )
 
 void WidgetMap::actionViewRoads_toggled( bool checked )
 {
-    m_viewRoads = checked;
+    _viewRoads = checked;
     cgi::Manager::instance()->setVisibilityRoads( checked );
 }
 
@@ -461,7 +461,7 @@ void WidgetMap::actionViewRoads_toggled( bool checked )
 
 void WidgetMap::actionViewAirports_toggled( bool checked )
 {
-    m_viewAirports = checked;
+    _viewAirports = checked;
     cgi::Manager::instance()->setVisibilityAirports( checked );
 }
 
@@ -469,7 +469,7 @@ void WidgetMap::actionViewAirports_toggled( bool checked )
 
 void WidgetMap::actionViewSatellite_toggled( bool checked )
 {
-    m_viewSatellite = checked;
+    _viewSatellite = checked;
     cgi::Manager::instance()->setVisibilitySatellite( checked );
 }
 
@@ -477,7 +477,7 @@ void WidgetMap::actionViewSatellite_toggled( bool checked )
 
 void WidgetMap::actionViewBorders_toggled( bool checked )
 {
-    m_viewBorders = checked;
+    _viewBorders = checked;
     cgi::Manager::instance()->setVisibilityBorders( checked );
 }
 
@@ -485,7 +485,7 @@ void WidgetMap::actionViewBorders_toggled( bool checked )
 
 void WidgetMap::actionViewTraces_toggled( bool checked )
 {
-    m_viewTraces = checked;
+    _viewTraces = checked;
     cgi::Manager::instance()->setVisibilityTraces( checked );
 }
 

@@ -31,7 +31,7 @@ using namespace fdm;
 
 P51_LandingGear::P51_LandingGear( const P51_Aircraft *aircraft ) :
     LandingGear( aircraft ),
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,9 +50,9 @@ void P51_LandingGear::init()
       && 0 != wheel_r
       && 0 != wheel_t )
     {
-        wheel_l->input = &m_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &m_aircraft->getDataInp()->controls.landing_gear;
-        wheel_t->input = &m_aircraft->getDataInp()->controls.landing_gear;
+        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_t->input = &_aircraft->getDataInp()->controls.landing_gear;
     }
     else
     {
@@ -77,11 +77,11 @@ void P51_LandingGear::update()
     LandingGear::update();
     //////////////////////
 
-    m_brake_l = m_aircraft->getCtrl()->getBrakeL();
-    m_brake_r = m_aircraft->getCtrl()->getBrakeR();
+    _brake_l = _aircraft->getCtrl()->getBrakeL();
+    _brake_r = _aircraft->getCtrl()->getBrakeR();
 
-    m_ctrlAngle = 0.0;
+    _ctrlAngle = 0.0;
 
-    m_antiskid = m_aircraft->getDataInp()->controls.antiskid;
-    m_steering = m_aircraft->getDataInp()->controls.nw_steering;
+    _antiskid = _aircraft->getDataInp()->controls.antiskid;
+    _steering = _aircraft->getDataInp()->controls.nw_steering;
 }

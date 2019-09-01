@@ -50,18 +50,18 @@ public:
 
 private:
 
-    std::vector< osg::ref_ptr< osg::PositionAttitudeTransform > > m_patClouds;
+    std::vector< osg::ref_ptr< osg::PositionAttitudeTransform > > _patClouds;
 
-    Textures::List m_textures;  ///<
+    Textures::List _textures;   ///<
 
-    osg::Vec3 m_pos_wgs;        ///<
+    osg::Vec3 _pos_wgs;         ///<
 
-    short m_count;              ///< number of clouds within visual range
-    float m_base_asl;           ///< [m] clouds base above mean sea level
-    float m_thickness;          ///< [m] clouds thickness
+    short _count;               ///< number of clouds within visual range
+    float _base_asl;            ///< [m] clouds base above mean sea level
+    float _thickness;           ///< [m] clouds thickness
 
-    short m_framesCounter;      ///<
-    bool m_created;             ///<
+    short _framesCounter;       ///<
+    bool _created;              ///<
 
     void create();
     void createBlock( osg::Group *parent );

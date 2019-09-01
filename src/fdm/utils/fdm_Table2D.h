@@ -55,8 +55,8 @@ public:
     /** Destructor. */
     virtual ~Table2D();
 
-    inline unsigned int getCols() const { return m_cols; }
-    inline unsigned int getRows() const { return m_rows; }
+    inline unsigned int getCols() const { return _cols; }
+    inline unsigned int getRows() const { return _rows; }
 
     /**
      * Returns table value for the given keys values using bilinear
@@ -88,15 +88,15 @@ public:
 
 private:
 
-    unsigned int m_rows;    ///< number of rows
-    unsigned int m_cols;    ///< number of columns
-    unsigned int m_size;    ///< number of table elements
+    unsigned int _rows;     ///< number of rows
+    unsigned int _cols;     ///< number of columns
+    unsigned int _size;     ///< number of table elements
 
-    double *m_rowValues;    ///< rows keys values
-    double *m_colValues;    ///< columns keys values
-    double *m_tableData;    ///< table data
+    double *_rowValues;     ///< rows keys values
+    double *_colValues;     ///< columns keys values
+    double *_tableData;     ///< table data
 
-    double *m_interpolData; ///< interpolation data matrix
+    double *_interpolData;  ///< interpolation data matrix
 
     /** Updates interpolation data due to table data. */
     void updateInterpolationData();

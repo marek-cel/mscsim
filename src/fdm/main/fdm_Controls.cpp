@@ -33,7 +33,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Controls::Controls( const Aircraft* aircraft ) :
-    m_aircraft ( aircraft )
+    _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ void Controls::readData( XmlNode &dataNode )
             if ( result == FDM_SUCCESS )
             {
                 std::pair<Channels::iterator,bool> temp =
-                        m_channels.insert( std::pair<std::string,Channel>( name, channel ) );
+                        _channels.insert( std::pair<std::string,Channel>( name, channel ) );
 
                 if ( temp.second != true )
                 {
@@ -117,7 +117,7 @@ void Controls::readData( XmlNode &dataNode )
 
 void Controls::update()
 {
-    for ( Channels::iterator it = m_channels.begin(); it != m_channels.end(); it++ )
+    for ( Channels::iterator it = _channels.begin(); it != _channels.end(); it++ )
     {
         Channel &ch = (*it).second;
 
@@ -132,9 +132,9 @@ void Controls::update()
 
 Controls::Channel* Controls::getChannelByName( const std::string &name )
 {
-    Channels::iterator it = m_channels.find( name );
+    Channels::iterator it = _channels.find( name );
 
-    if ( it != m_channels.end() )
+    if ( it != _channels.end() )
     {
         return &(it->second);
     }

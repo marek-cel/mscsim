@@ -29,25 +29,25 @@
 ComboUnitsVelocity::ComboUnitsVelocity( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "m/s" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "m/s" ) );
 
-    m_coefs.push_back( (float)fdm::Units::mps2fpm() );
-    m_names.push_back( QString( "ft/min" ) );
+    _coefs.push_back( (float)fdm::Units::mps2fpm() );
+    _names.push_back( QString( "ft/min" ) );
 
-    m_coefs.push_back( (float)fdm::Units::mps2fps() );
-    m_names.push_back( QString( "ft/s" ) );
+    _coefs.push_back( (float)fdm::Units::mps2fps() );
+    _names.push_back( QString( "ft/s" ) );
 
-    m_coefs.push_back( (float)fdm::Units::mps2kmh() );
-    m_names.push_back( QString( "km/h" ) );
+    _coefs.push_back( (float)fdm::Units::mps2kmh() );
+    _names.push_back( QString( "km/h" ) );
 
-    m_coefs.push_back( (float)fdm::Units::mps2kts() );
-    m_names.push_back( QString( "kts" ) );
+    _coefs.push_back( (float)fdm::Units::mps2kts() );
+    _names.push_back( QString( "kts" ) );
 
-    m_coefs.push_back( (float)fdm::Units::mps2mph() );
-    m_names.push_back( QString( "mph" ) );
+    _coefs.push_back( (float)fdm::Units::mps2mph() );
+    _names.push_back( QString( "mph" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -33,84 +33,84 @@
 GraphicsEADI::GraphicsEADI( QWidget *parent ) :
     QGraphicsView ( parent ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_scene ( 0 ),
+    _scene ( 0 ),
 
-    m_adi ( 0 ),
-    m_alt ( 0 ),
-    m_asi ( 0 ),
-    m_hdg ( 0 ),
-    m_vsi ( 0 ),
+    _adi ( 0 ),
+    _alt ( 0 ),
+    _asi ( 0 ),
+    _hdg ( 0 ),
+    _vsi ( 0 ),
 
-    m_itemBack ( 0 ),
-    m_itemMask ( 0 ),
+    _itemBack ( 0 ),
+    _itemMask ( 0 ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalHeight ( 300 ),
-    m_originalWidth  ( 300 ),
+    _originalHeight ( 300 ),
+    _originalWidth  ( 300 ),
 
-    m_backZ (   0 ),
-    m_maskZ ( 100 )
+    _backZ (   0 ),
+    _maskZ ( 100 )
 {
     reset();
 
-    m_scene = new QGraphicsScene( this );
-    setScene( m_scene );
+    _scene = new QGraphicsScene( this );
+    setScene( _scene );
 
-    m_scene->clear();
+    _scene->clear();
 
-    m_adi = new GraphicsEADI::ADI( m_scene );
-    m_alt = new GraphicsEADI::ALT( m_scene );
-    m_asi = new GraphicsEADI::ASI( m_scene );
-    m_hdg = new GraphicsEADI::HDG( m_scene );
-    m_vsi = new GraphicsEADI::VSI( m_scene );
+    _adi = new GraphicsEADI::ADI( _scene );
+    _alt = new GraphicsEADI::ALT( _scene );
+    _asi = new GraphicsEADI::ASI( _scene );
+    _hdg = new GraphicsEADI::HDG( _scene );
+    _vsi = new GraphicsEADI::VSI( _scene );
 
     init();
 
-    m_timerId = startTimer( 50 );
+    _timerId = startTimer( 50 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::~GraphicsEADI()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
-        delete m_scene;
-        m_scene = 0;
+        _scene->clear();
+        delete _scene;
+        _scene = 0;
     }
 
     reset();
 
-    if ( m_adi ) delete m_adi;
-    m_adi = 0;
+    if ( _adi ) delete _adi;
+    _adi = 0;
 
-    if ( m_alt ) delete m_alt;
-    m_alt = 0;
+    if ( _alt ) delete _alt;
+    _alt = 0;
 
-    if ( m_asi ) delete m_asi;
-    m_asi = 0;
+    if ( _asi ) delete _asi;
+    _asi = 0;
 
-    if ( m_hdg ) delete m_hdg;
-    m_hdg = 0;
+    if ( _hdg ) delete _hdg;
+    _hdg = 0;
 
-    if ( m_vsi ) delete m_vsi;
-    m_vsi = 0;
+    if ( _vsi ) delete _vsi;
+    _vsi = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::reinit()
 {
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
+        _scene->clear();
 
         init();
     }
@@ -145,26 +145,26 @@ void GraphicsEADI::timerEvent( QTimerEvent *event )
 
 void GraphicsEADI::init()
 {
-    m_scaleX = (float)width()  / (float)m_originalWidth;
-    m_scaleY = (float)height() / (float)m_originalHeight;
+    _scaleX = (float)width()  / (float)_originalWidth;
+    _scaleY = (float)height() / (float)_originalHeight;
 
-    m_adi->init( m_scaleX, m_scaleY );
-    m_alt->init( m_scaleX, m_scaleY );
-    m_asi->init( m_scaleX, m_scaleY );
-    m_hdg->init( m_scaleX, m_scaleY );
-    m_vsi->init( m_scaleX, m_scaleY );
+    _adi->init( _scaleX, _scaleY );
+    _alt->init( _scaleX, _scaleY );
+    _asi->init( _scaleX, _scaleY );
+    _hdg->init( _scaleX, _scaleY );
+    _vsi->init( _scaleX, _scaleY );
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemBack );
 
-    m_itemMask = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_mask.svg" );
-    m_itemMask->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMask->setZValue( m_maskZ );
-    m_itemMask->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemMask );
+    _itemMask = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_mask.svg" );
+    _itemMask->setCacheMode( QGraphicsItem::NoCache );
+    _itemMask->setZValue( _maskZ );
+    _itemMask->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemMask );
 
     updateView();
 }
@@ -173,24 +173,24 @@ void GraphicsEADI::init()
 
 void GraphicsEADI::reset()
 {
-    m_itemBack = 0;
-    m_itemMask = 0;
+    _itemBack = 0;
+    _itemMask = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::updateView()
 {
-    m_scaleX = (float)width()  / (float)m_originalWidth;
-    m_scaleY = (float)height() / (float)m_originalHeight;
+    _scaleX = (float)width()  / (float)_originalWidth;
+    _scaleY = (float)height() / (float)_originalHeight;
 
-    m_adi->update( m_scaleX, m_scaleY );
-    m_alt->update( m_scaleX, m_scaleY );
-    m_vsi->update( m_scaleX, m_scaleY );
-    m_asi->update( m_scaleX, m_scaleY );
-    m_hdg->update( m_scaleX, m_scaleY );
+    _adi->update( _scaleX, _scaleY );
+    _alt->update( _scaleX, _scaleY );
+    _vsi->update( _scaleX, _scaleY );
+    _asi->update( _scaleX, _scaleY );
+    _hdg->update( _scaleX, _scaleY );
 
-    m_scene->update();
+    _scene->update();
 
     centerOn( width() / 2.0f , height() / 2.0f );
 }
@@ -198,92 +198,92 @@ void GraphicsEADI::updateView()
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
-    m_scene ( scene ),
+    _scene ( scene ),
 
-    m_itemBack   ( 0 ),
-    m_itemLadd   ( 0 ),
-    m_itemRoll   ( 0 ),
-    m_itemSlip   ( 0 ),
-    m_itemTurn   ( 0 ),
-    m_itemDotH   ( 0 ),
-    m_itemDotV   ( 0 ),
-    m_itemFD     ( 0 ),
-    m_itemStall  ( 0 ),
-    m_itemMask   ( 0 ),
-    m_itemScaleH ( 0 ),
-    m_itemScaleV ( 0 ),
+    _itemBack   ( 0 ),
+    _itemLadd   ( 0 ),
+    _itemRoll   ( 0 ),
+    _itemSlip   ( 0 ),
+    _itemTurn   ( 0 ),
+    _itemDotH   ( 0 ),
+    _itemDotV   ( 0 ),
+    _itemFD     ( 0 ),
+    _itemStall  ( 0 ),
+    _itemMask   ( 0 ),
+    _itemScaleH ( 0 ),
+    _itemScaleV ( 0 ),
 
-    m_roll     ( 0.0f ),
-    m_pitch    ( 0.0f ),
-    m_slipSkid ( 0.0f ),
-    m_turnRate ( 0.0f ),
-    m_dotH     ( 0.0f ),
-    m_dotV     ( 0.0f ),
-    m_fdRoll   ( 0.0f ),
-    m_fdPitch  ( 0.0f ),
+    _roll     ( 0.0f ),
+    _pitch    ( 0.0f ),
+    _slipSkid ( 0.0f ),
+    _turnRate ( 0.0f ),
+    _dotH     ( 0.0f ),
+    _dotV     ( 0.0f ),
+    _fdRoll   ( 0.0f ),
+    _fdPitch  ( 0.0f ),
 
-    m_dotVisibleH ( false ),
-    m_dotVisibleV ( false ),
-    m_fdVisible   ( false ),
+    _dotVisibleH ( false ),
+    _dotVisibleV ( false ),
+    _fdVisible   ( false ),
 
-    m_stall ( false ),
+    _stall ( false ),
 
-    m_laddDeltaX_new     ( 0.0f ),
-    m_laddDeltaX_old     ( 0.0f ),
-    m_laddDeltaY_new     ( 0.0f ),
-    m_laddDeltaY_old     ( 0.0f ),
-    m_laddBackDeltaX_new ( 0.0f ),
-    m_laddBackDeltaX_old ( 0.0f ),
-    m_laddBackDeltaY_new ( 0.0f ),
-    m_laddBackDeltaY_old ( 0.0f ),
-    m_slipDeltaX_new     ( 0.0f ),
-    m_slipDeltaX_old     ( 0.0f ),
-    m_slipDeltaY_new     ( 0.0f ),
-    m_slipDeltaY_old     ( 0.0f ),
-    m_turnDeltaX_new     ( 0.0f ),
-    m_turnDeltaX_old     ( 0.0f ),
-    m_dotHDeltaX_new     ( 0.0f ),
-    m_dotHDeltaX_old     ( 0.0f ),
-    m_dotVDeltaY_new     ( 0.0f ),
-    m_dotVDeltaY_old     ( 0.0f ),
-    m_fdDeltaX_new       ( 0.0f ),
-    m_fdDeltaX_old       ( 0.0f ),
-    m_fdDeltaY_new       ( 0.0f ),
-    m_fdDeltaY_old       ( 0.0f ),
+    _laddDeltaX_new     ( 0.0f ),
+    _laddDeltaX_old     ( 0.0f ),
+    _laddDeltaY_new     ( 0.0f ),
+    _laddDeltaY_old     ( 0.0f ),
+    _laddBackDeltaX_new ( 0.0f ),
+    _laddBackDeltaX_old ( 0.0f ),
+    _laddBackDeltaY_new ( 0.0f ),
+    _laddBackDeltaY_old ( 0.0f ),
+    _slipDeltaX_new     ( 0.0f ),
+    _slipDeltaX_old     ( 0.0f ),
+    _slipDeltaY_new     ( 0.0f ),
+    _slipDeltaY_old     ( 0.0f ),
+    _turnDeltaX_new     ( 0.0f ),
+    _turnDeltaX_old     ( 0.0f ),
+    _dotHDeltaX_new     ( 0.0f ),
+    _dotHDeltaX_old     ( 0.0f ),
+    _dotVDeltaY_new     ( 0.0f ),
+    _dotVDeltaY_old     ( 0.0f ),
+    _fdDeltaX_new       ( 0.0f ),
+    _fdDeltaX_old       ( 0.0f ),
+    _fdDeltaY_new       ( 0.0f ),
+    _fdDeltaY_old       ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalPixPerDeg (   3.0f ),
-    m_deltaLaddBack_max (  52.5f ),
-    m_deltaLaddBack_min ( -52.5f ),
-    m_maxSlipDeflection (  20.0f ),
-    m_maxTurnDeflection (  55.0f ),
-    m_maxDotsDeflection (  50.0f ),
+    _originalPixPerDeg (   3.0f ),
+    _deltaLaddBack_max (  52.5f ),
+    _deltaLaddBack_min ( -52.5f ),
+    _maxSlipDeflection (  20.0f ),
+    _maxTurnDeflection (  55.0f ),
+    _maxDotsDeflection (  50.0f ),
 
-    m_originalAdiCtr    ( 150.0f ,  125.0f ),
-    m_originalBackPos   (  45.0f ,  -85.0f ),
-    m_originalLaddPos   ( 110.0f , -175.0f ),
-    m_originalRollPos   (  45.0f ,   20.0f ),
-    m_originalSlipPos   ( 145.5f ,   68.0f ),
-    m_originalTurnPos   ( 142.5f ,  206.0f ),
-    m_originalDotHPos   ( 145.0f ,  188.0f ),
-    m_originalDotVPos   ( 213.0f ,  120.0f ),
-    m_originalFdPos     ( 107.0f ,  124.5f ),
-    m_originalStallPos  ( 122.0f ,   91.0f ),
-    m_originalScaleHPos (   0.0f ,    0.0f ),
-    m_originalScaleVPos (   0.0f ,    0.0f ),
+    _originalAdiCtr    ( 150.0f ,  125.0f ),
+    _originalBackPos   (  45.0f ,  -85.0f ),
+    _originalLaddPos   ( 110.0f , -175.0f ),
+    _originalRollPos   (  45.0f ,   20.0f ),
+    _originalSlipPos   ( 145.5f ,   68.0f ),
+    _originalTurnPos   ( 142.5f ,  206.0f ),
+    _originalDotHPos   ( 145.0f ,  188.0f ),
+    _originalDotVPos   ( 213.0f ,  120.0f ),
+    _originalFdPos     ( 107.0f ,  124.5f ),
+    _originalStallPos  ( 122.0f ,   91.0f ),
+    _originalScaleHPos (   0.0f ,    0.0f ),
+    _originalScaleVPos (   0.0f ,    0.0f ),
 
-    m_backZ   ( 10 ),
-    m_laddZ   ( 20 ),
-    m_rollZ   ( 30 ),
-    m_slipZ   ( 40 ),
-    m_dotsZ   ( 50 ),
-    m_fdZ     ( 50 ),
-    m_scalesZ ( 51 ),
-    m_maskZ   ( 60 ),
-    m_turnZ   ( 70 ),
-    m_stallZ  ( 80 )
+    _backZ   ( 10 ),
+    _laddZ   ( 20 ),
+    _rollZ   ( 30 ),
+    _slipZ   ( 40 ),
+    _dotsZ   ( 50 ),
+    _fdZ     ( 50 ),
+    _scalesZ ( 51 ),
+    _maskZ   ( 60 ),
+    _turnZ   ( 70 ),
+    _stallZ  ( 80 )
 {
     reset();
 }
@@ -292,98 +292,98 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
 
 void GraphicsEADI::ADI::init( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     reset();
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBack->setTransformOriginPoint( m_originalAdiCtr - m_originalBackPos );
-    m_itemBack->moveBy( m_scaleX * m_originalBackPos.x(), m_scaleY * m_originalBackPos.y() );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBack->setTransformOriginPoint( _originalAdiCtr - _originalBackPos );
+    _itemBack->moveBy( _scaleX * _originalBackPos.x(), _scaleY * _originalBackPos.y() );
+    _scene->addItem( _itemBack );
 
-    m_itemLadd = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_ladd.svg" );
-    m_itemLadd->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLadd->setZValue( m_laddZ );
-    m_itemLadd->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLadd->setTransformOriginPoint( m_originalAdiCtr - m_originalLaddPos );
-    m_itemLadd->moveBy( m_scaleX * m_originalLaddPos.x(), m_scaleY * m_originalLaddPos.y() );
-    m_scene->addItem( m_itemLadd );
+    _itemLadd = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_ladd.svg" );
+    _itemLadd->setCacheMode( QGraphicsItem::NoCache );
+    _itemLadd->setZValue( _laddZ );
+    _itemLadd->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLadd->setTransformOriginPoint( _originalAdiCtr - _originalLaddPos );
+    _itemLadd->moveBy( _scaleX * _originalLaddPos.x(), _scaleY * _originalLaddPos.y() );
+    _scene->addItem( _itemLadd );
 
-    m_itemRoll = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_roll.svg" );
-    m_itemRoll->setCacheMode( QGraphicsItem::NoCache );
-    m_itemRoll->setZValue( m_rollZ );
-    m_itemRoll->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemRoll->setTransformOriginPoint( m_originalAdiCtr - m_originalRollPos );
-    m_itemRoll->moveBy( m_scaleX * m_originalRollPos.x(), m_scaleY * m_originalRollPos.y() );
-    m_scene->addItem( m_itemRoll );
+    _itemRoll = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_roll.svg" );
+    _itemRoll->setCacheMode( QGraphicsItem::NoCache );
+    _itemRoll->setZValue( _rollZ );
+    _itemRoll->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemRoll->setTransformOriginPoint( _originalAdiCtr - _originalRollPos );
+    _itemRoll->moveBy( _scaleX * _originalRollPos.x(), _scaleY * _originalRollPos.y() );
+    _scene->addItem( _itemRoll );
 
-    m_itemSlip = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_slip.svg" );
-    m_itemSlip->setCacheMode( QGraphicsItem::NoCache );
-    m_itemSlip->setZValue( m_slipZ );
-    m_itemSlip->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemSlip->setTransformOriginPoint( m_originalAdiCtr - m_originalSlipPos );
-    m_itemSlip->moveBy( m_scaleX * m_originalSlipPos.x(), m_scaleY * m_originalSlipPos.y() );
-    m_scene->addItem( m_itemSlip );
+    _itemSlip = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_slip.svg" );
+    _itemSlip->setCacheMode( QGraphicsItem::NoCache );
+    _itemSlip->setZValue( _slipZ );
+    _itemSlip->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemSlip->setTransformOriginPoint( _originalAdiCtr - _originalSlipPos );
+    _itemSlip->moveBy( _scaleX * _originalSlipPos.x(), _scaleY * _originalSlipPos.y() );
+    _scene->addItem( _itemSlip );
 
-    m_itemTurn = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_turn.svg" );
-    m_itemTurn->setCacheMode( QGraphicsItem::NoCache );
-    m_itemTurn->setZValue( m_turnZ );
-    m_itemTurn->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemTurn->moveBy( m_scaleX * m_originalTurnPos.x(), m_scaleY * m_originalTurnPos.y() );
-    m_scene->addItem( m_itemTurn );
+    _itemTurn = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_turn.svg" );
+    _itemTurn->setCacheMode( QGraphicsItem::NoCache );
+    _itemTurn->setZValue( _turnZ );
+    _itemTurn->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemTurn->moveBy( _scaleX * _originalTurnPos.x(), _scaleY * _originalTurnPos.y() );
+    _scene->addItem( _itemTurn );
 
-    m_itemDotH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_doth.svg" );
-    m_itemDotH->setCacheMode( QGraphicsItem::NoCache );
-    m_itemDotH->setZValue( m_dotsZ - 1 );
-    m_itemDotH->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemDotH->moveBy( m_scaleX * m_originalDotHPos.x(), m_scaleY * m_originalDotHPos.y() );
-    m_scene->addItem( m_itemDotH );
+    _itemDotH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_doth.svg" );
+    _itemDotH->setCacheMode( QGraphicsItem::NoCache );
+    _itemDotH->setZValue( _dotsZ - 1 );
+    _itemDotH->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemDotH->moveBy( _scaleX * _originalDotHPos.x(), _scaleY * _originalDotHPos.y() );
+    _scene->addItem( _itemDotH );
 
-    m_itemDotV = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_dotv.svg" );
-    m_itemDotV->setCacheMode( QGraphicsItem::NoCache );
-    m_itemDotV->setZValue( m_dotsZ - 1 );
-    m_itemDotV->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemDotV->moveBy( m_scaleX * m_originalDotVPos.x(), m_scaleY * m_originalDotVPos.y() );
-    m_scene->addItem( m_itemDotV );
+    _itemDotV = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_dotv.svg" );
+    _itemDotV->setCacheMode( QGraphicsItem::NoCache );
+    _itemDotV->setZValue( _dotsZ - 1 );
+    _itemDotV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemDotV->moveBy( _scaleX * _originalDotVPos.x(), _scaleY * _originalDotVPos.y() );
+    _scene->addItem( _itemDotV );
 
-    m_itemFD = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_fd.svg" );
-    m_itemFD->setCacheMode( QGraphicsItem::NoCache );
-    m_itemFD->setZValue( m_fdZ );
-    m_itemFD->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemFD->setTransformOriginPoint( m_originalAdiCtr - m_originalFdPos );
-    m_itemFD->moveBy( m_scaleX * m_originalFdPos.x(), m_scaleY * m_originalFdPos.y() );
-    m_scene->addItem( m_itemFD );
+    _itemFD = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_fd.svg" );
+    _itemFD->setCacheMode( QGraphicsItem::NoCache );
+    _itemFD->setZValue( _fdZ );
+    _itemFD->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFD->setTransformOriginPoint( _originalAdiCtr - _originalFdPos );
+    _itemFD->moveBy( _scaleX * _originalFdPos.x(), _scaleY * _originalFdPos.y() );
+    _scene->addItem( _itemFD );
 
-    m_itemStall = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_stall.svg" );
-    m_itemStall->setCacheMode( QGraphicsItem::NoCache );
-    m_itemStall->setZValue( m_stallZ );
-    m_itemStall->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemStall->moveBy( m_scaleX * m_originalStallPos.x(), m_scaleY * m_originalStallPos.y() );
-    m_scene->addItem( m_itemStall );
+    _itemStall = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_stall.svg" );
+    _itemStall->setCacheMode( QGraphicsItem::NoCache );
+    _itemStall->setZValue( _stallZ );
+    _itemStall->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemStall->moveBy( _scaleX * _originalStallPos.x(), _scaleY * _originalStallPos.y() );
+    _scene->addItem( _itemStall );
 
-    m_itemScaleH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_scaleh.svg" );
-    m_itemScaleH->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScaleH->setZValue( m_scalesZ );
-    m_itemScaleH->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScaleH->moveBy( m_scaleX * m_originalScaleHPos.x(), m_scaleY * m_originalScaleHPos.y() );
-    m_scene->addItem( m_itemScaleH );
+    _itemScaleH = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_scaleh.svg" );
+    _itemScaleH->setCacheMode( QGraphicsItem::NoCache );
+    _itemScaleH->setZValue( _scalesZ );
+    _itemScaleH->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScaleH->moveBy( _scaleX * _originalScaleHPos.x(), _scaleY * _originalScaleHPos.y() );
+    _scene->addItem( _itemScaleH );
 
-    m_itemScaleV = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_scalev.svg" );
-    m_itemScaleV->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScaleV->setZValue( m_scalesZ );
-    m_itemScaleV->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScaleV->moveBy( m_scaleX * m_originalScaleVPos.x(), m_scaleY * m_originalScaleVPos.y() );
-    m_scene->addItem( m_itemScaleV );
+    _itemScaleV = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_scalev.svg" );
+    _itemScaleV->setCacheMode( QGraphicsItem::NoCache );
+    _itemScaleV->setZValue( _scalesZ );
+    _itemScaleV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScaleV->moveBy( _scaleX * _originalScaleVPos.x(), _scaleY * _originalScaleVPos.y() );
+    _scene->addItem( _itemScaleV );
 
-    m_itemMask = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_mask.svg" );
-    m_itemMask->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMask->setZValue( m_maskZ );
-    m_itemMask->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_scene->addItem( m_itemMask );
+    _itemMask = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_mask.svg" );
+    _itemMask->setCacheMode( QGraphicsItem::NoCache );
+    _itemMask->setZValue( _maskZ );
+    _itemMask->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _scene->addItem( _itemMask );
 
     update( scaleX, scaleY );
 }
@@ -392,15 +392,15 @@ void GraphicsEADI::ADI::init( float scaleX, float scaleY )
 
 void GraphicsEADI::ADI::update( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
-    float delta  = m_originalPixPerDeg * m_pitch;
+    float delta = _originalPixPerDeg * _pitch;
 
 #   ifndef M_PI
-    float roll_rad = 3.14159265358979323846 * m_roll / 180.0f;
+    float roll_rad = 3.14159265358979323846 * _roll / 180.0f;
 #   else
-    float roll_rad = M_PI * m_roll / 180.0f;
+    float roll_rad = M_PI * _roll / 180.0f;
 #   endif
 
     float sinRoll = sin( roll_rad );
@@ -415,74 +415,74 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
     updateFD( sinRoll, cosRoll );
     updateStall();
 
-    m_laddDeltaX_old     = m_laddDeltaX_new;
-    m_laddDeltaY_old     = m_laddDeltaY_new;
-    m_laddBackDeltaX_old = m_laddBackDeltaX_new;
-    m_laddBackDeltaY_old = m_laddBackDeltaY_new;
-    m_slipDeltaX_old     = m_slipDeltaX_new;
-    m_slipDeltaY_old     = m_slipDeltaY_new;
-    m_turnDeltaX_old     = m_turnDeltaX_new;
-    m_dotHDeltaX_old     = m_dotHDeltaX_new;
-    m_dotVDeltaY_old     = m_dotVDeltaY_new;
-    m_fdDeltaX_old       = m_fdDeltaX_new;
-    m_fdDeltaY_old       = m_fdDeltaY_new;
+    _laddDeltaX_old     = _laddDeltaX_new;
+    _laddDeltaY_old     = _laddDeltaY_new;
+    _laddBackDeltaX_old = _laddBackDeltaX_new;
+    _laddBackDeltaY_old = _laddBackDeltaY_new;
+    _slipDeltaX_old     = _slipDeltaX_new;
+    _slipDeltaY_old     = _slipDeltaY_new;
+    _turnDeltaX_old     = _turnDeltaX_new;
+    _dotHDeltaX_old     = _dotHDeltaX_new;
+    _dotVDeltaY_old     = _dotVDeltaY_new;
+    _fdDeltaX_old       = _fdDeltaX_new;
+    _fdDeltaY_old       = _fdDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setRoll( float roll )
 {
-    m_roll = roll;
+    _roll = roll;
 
-    if      ( m_roll < -180.0f ) m_roll = -180.0f;
-    else if ( m_roll >  180.0f ) m_roll =  180.0f;
+    if      ( _roll < -180.0f ) _roll = -180.0f;
+    else if ( _roll >  180.0f ) _roll =  180.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setPitch( float pitch )
 {
-    m_pitch = pitch;
+    _pitch = pitch;
 
-    if      ( m_pitch < -90.0f ) m_pitch = -90.0f;
-    else if ( m_pitch >  90.0f ) m_pitch =  90.0f;
+    if      ( _pitch < -90.0f ) _pitch = -90.0f;
+    else if ( _pitch >  90.0f ) _pitch =  90.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setSlipSkid( float slipSkid )
 {
-    m_slipSkid = slipSkid;
+    _slipSkid = slipSkid;
 
-    if      ( m_slipSkid < -1.0f ) m_slipSkid = -1.0f;
-    else if ( m_slipSkid >  1.0f ) m_slipSkid =  1.0f;
+    if      ( _slipSkid < -1.0f ) _slipSkid = -1.0f;
+    else if ( _slipSkid >  1.0f ) _slipSkid =  1.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setTurnRate( float turnRate )
 {
-    m_turnRate = turnRate;
+    _turnRate = turnRate;
 
-    if      ( m_turnRate < -1.0f ) m_turnRate = -1.0f;
-    else if ( m_turnRate >  1.0f ) m_turnRate =  1.0f;
+    if      ( _turnRate < -1.0f ) _turnRate = -1.0f;
+    else if ( _turnRate >  1.0f ) _turnRate =  1.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool visibleV )
 {
-    m_dotH = dotH;
-    m_dotV = dotV;
+    _dotH = dotH;
+    _dotV = dotV;
 
-    if      ( m_dotH < -1.0f ) m_dotH = -1.0f;
-    else if ( m_dotH >  1.0f ) m_dotH =  1.0f;
+    if      ( _dotH < -1.0f ) _dotH = -1.0f;
+    else if ( _dotH >  1.0f ) _dotH =  1.0f;
 
-    if      ( m_dotV < -1.0f ) m_dotV = -1.0f;
-    else if ( m_dotV >  1.0f ) m_dotV =  1.0f;
+    if      ( _dotV < -1.0f ) _dotV = -1.0f;
+    else if ( _dotV >  1.0f ) _dotV =  1.0f;
 
-    m_dotVisibleH = visibleH;
-    m_dotVisibleV = visibleV;
+    _dotVisibleH = visibleH;
+    _dotVisibleV = visibleV;
 }
 
 
@@ -490,185 +490,185 @@ void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool vis
 
 void GraphicsEADI::ADI::setFD( float roll, float pitch, bool visible )
 {
-    m_fdRoll  = roll;
-    m_fdPitch = pitch;
+    _fdRoll  = roll;
+    _fdPitch = pitch;
 
-    if      ( m_fdRoll < -180.0f ) m_fdRoll = -180.0f;
-    else if ( m_fdRoll >  180.0f ) m_fdRoll =  180.0f;
+    if      ( _fdRoll < -180.0f ) _fdRoll = -180.0f;
+    else if ( _fdRoll >  180.0f ) _fdRoll =  180.0f;
 
-    if      ( m_fdPitch < -90.0f ) m_fdPitch = -90.0f;
-    else if ( m_fdPitch >  90.0f ) m_fdPitch =  90.0f;
+    if      ( _fdPitch < -90.0f ) _fdPitch = -90.0f;
+    else if ( _fdPitch >  90.0f ) _fdPitch =  90.0f;
 
-    m_fdVisible = visible;
+    _fdVisible = visible;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::setStall( bool stall )
 {
-    m_stall = stall;
+    _stall = stall;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::reset()
 {
-    m_itemBack   = 0;
-    m_itemLadd   = 0;
-    m_itemRoll   = 0;
-    m_itemSlip   = 0;
-    m_itemTurn   = 0;
-    m_itemDotH   = 0;
-    m_itemDotV   = 0;
-    m_itemFD     = 0;
-    m_itemMask   = 0;
-    m_itemScaleH = 0;
-    m_itemScaleV = 0;
+    _itemBack   = 0;
+    _itemLadd   = 0;
+    _itemRoll   = 0;
+    _itemSlip   = 0;
+    _itemTurn   = 0;
+    _itemDotH   = 0;
+    _itemDotV   = 0;
+    _itemFD     = 0;
+    _itemMask   = 0;
+    _itemScaleH = 0;
+    _itemScaleV = 0;
 
-    m_roll     = 0.0f;
-    m_pitch    = 0.0f;
-    m_slipSkid = 0.0f;
-    m_turnRate = 0.0f;
-    m_dotH     = 0.0f;
-    m_dotV     = 0.0f;
-    m_fdRoll   = 0.0f;
-    m_fdPitch  = 0.0f;
+    _roll     = 0.0f;
+    _pitch    = 0.0f;
+    _slipSkid = 0.0f;
+    _turnRate = 0.0f;
+    _dotH     = 0.0f;
+    _dotV     = 0.0f;
+    _fdRoll   = 0.0f;
+    _fdPitch  = 0.0f;
 
-    m_dotVisibleH  = false;
-    m_dotVisibleV  = false;
-    m_fdVisible    = false;
+    _dotVisibleH  = false;
+    _dotVisibleV  = false;
+    _fdVisible    = false;
 
-    m_stall = false;
+    _stall = false;
 
-    m_laddDeltaX_new     = 0.0f;
-    m_laddDeltaX_old     = 0.0f;
-    m_laddDeltaY_new     = 0.0f;
-    m_laddDeltaY_old     = 0.0f;
-    m_laddBackDeltaX_new = 0.0f;
-    m_laddBackDeltaX_old = 0.0f;
-    m_laddBackDeltaY_new = 0.0f;
-    m_laddBackDeltaY_old = 0.0f;
-    m_slipDeltaX_new     = 0.0f;
-    m_slipDeltaX_old     = 0.0f;
-    m_slipDeltaY_new     = 0.0f;
-    m_slipDeltaY_old     = 0.0f;
-    m_turnDeltaX_new     = 0.0f;
-    m_turnDeltaX_old     = 0.0f;
-    m_dotHDeltaX_new     = 0.0f;
-    m_dotHDeltaX_old     = 0.0f;
-    m_dotVDeltaY_new     = 0.0f;
-    m_dotVDeltaY_old     = 0.0f;
-    m_fdDeltaX_new       = 0.0f;
-    m_fdDeltaX_old       = 0.0f;
-    m_fdDeltaY_new       = 0.0f;
-    m_fdDeltaY_old       = 0.0f;
+    _laddDeltaX_new     = 0.0f;
+    _laddDeltaX_old     = 0.0f;
+    _laddDeltaY_new     = 0.0f;
+    _laddDeltaY_old     = 0.0f;
+    _laddBackDeltaX_new = 0.0f;
+    _laddBackDeltaX_old = 0.0f;
+    _laddBackDeltaY_new = 0.0f;
+    _laddBackDeltaY_old = 0.0f;
+    _slipDeltaX_new     = 0.0f;
+    _slipDeltaX_old     = 0.0f;
+    _slipDeltaY_new     = 0.0f;
+    _slipDeltaY_old     = 0.0f;
+    _turnDeltaX_new     = 0.0f;
+    _turnDeltaX_old     = 0.0f;
+    _dotHDeltaX_new     = 0.0f;
+    _dotHDeltaX_old     = 0.0f;
+    _dotVDeltaY_new     = 0.0f;
+    _dotVDeltaY_old     = 0.0f;
+    _fdDeltaX_new       = 0.0f;
+    _fdDeltaX_old       = 0.0f;
+    _fdDeltaY_new       = 0.0f;
+    _fdDeltaY_old       = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateLadd( float delta, float sinRoll, float cosRoll )
 {
-    m_itemLadd->setRotation( -m_roll );
+    _itemLadd->setRotation( -_roll );
 
-    m_laddDeltaX_new = m_scaleX * delta * sinRoll;
-    m_laddDeltaY_new = m_scaleY * delta * cosRoll;
+    _laddDeltaX_new = _scaleX * delta * sinRoll;
+    _laddDeltaY_new = _scaleY * delta * cosRoll;
 
-    m_itemLadd->moveBy( m_laddDeltaX_new - m_laddDeltaX_old, m_laddDeltaY_new - m_laddDeltaY_old );
+    _itemLadd->moveBy( _laddDeltaX_new - _laddDeltaX_old, _laddDeltaY_new - _laddDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateLaddBack( float delta, float sinRoll, float cosRoll )
 {
-    m_itemBack->setRotation( -m_roll );
+    _itemBack->setRotation( -_roll );
 
     float deltaLaddBack = 0.0;
 
-    if ( delta > m_deltaLaddBack_max )
+    if ( delta > _deltaLaddBack_max )
     {
-        deltaLaddBack = m_deltaLaddBack_max;
+        deltaLaddBack = _deltaLaddBack_max;
     }
-    else if ( delta < m_deltaLaddBack_min )
+    else if ( delta < _deltaLaddBack_min )
     {
-        deltaLaddBack = m_deltaLaddBack_min;
+        deltaLaddBack = _deltaLaddBack_min;
     }
     else
     {
         deltaLaddBack = delta;
     }
 
-    m_laddBackDeltaX_new = m_scaleX * deltaLaddBack * sinRoll;
-    m_laddBackDeltaY_new = m_scaleY * deltaLaddBack * cosRoll;
+    _laddBackDeltaX_new = _scaleX * deltaLaddBack * sinRoll;
+    _laddBackDeltaY_new = _scaleY * deltaLaddBack * cosRoll;
 
-    m_itemBack->moveBy( m_laddBackDeltaX_new - m_laddBackDeltaX_old, m_laddBackDeltaY_new - m_laddBackDeltaY_old );
+    _itemBack->moveBy( _laddBackDeltaX_new - _laddBackDeltaX_old, _laddBackDeltaY_new - _laddBackDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateRoll()
 {
-    m_itemRoll->setRotation( -m_roll );
+    _itemRoll->setRotation( -_roll );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateSlipSkid( float sinRoll, float cosRoll )
 {
-    m_itemSlip->setRotation( -m_roll );
+    _itemSlip->setRotation( -_roll );
 
-    float deltaSlip = -m_maxSlipDeflection * m_slipSkid;
+    float deltaSlip = -_maxSlipDeflection * _slipSkid;
 
-    m_slipDeltaX_new =  m_scaleX * deltaSlip * cosRoll;
-    m_slipDeltaY_new = -m_scaleY * deltaSlip * sinRoll;
+    _slipDeltaX_new =  _scaleX * deltaSlip * cosRoll;
+    _slipDeltaY_new = -_scaleY * deltaSlip * sinRoll;
 
-    m_itemSlip->moveBy( m_slipDeltaX_new - m_slipDeltaX_old, m_slipDeltaY_new - m_slipDeltaY_old );
+    _itemSlip->moveBy( _slipDeltaX_new - _slipDeltaX_old, _slipDeltaY_new - _slipDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateTurnRate()
 {
-    m_turnDeltaX_new = m_scaleX * m_maxTurnDeflection * m_turnRate;
+    _turnDeltaX_new = _scaleX * _maxTurnDeflection * _turnRate;
 
-    m_itemTurn->moveBy( m_turnDeltaX_new - m_turnDeltaX_old, 0.0 );
+    _itemTurn->moveBy( _turnDeltaX_new - _turnDeltaX_old, 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ADI::updateDots()
 {
-    if ( m_dotVisibleH )
+    if ( _dotVisibleH )
     {
-        m_itemDotH->setVisible( true );
-        m_itemScaleH->setVisible( true );
+        _itemDotH->setVisible( true );
+        _itemScaleH->setVisible( true );
 
-        m_dotHDeltaX_new = m_scaleX * m_maxDotsDeflection * m_dotH;
+        _dotHDeltaX_new = _scaleX * _maxDotsDeflection * _dotH;
 
-        m_itemDotH->moveBy( m_dotHDeltaX_new - m_dotHDeltaX_old, 0.0f );
+        _itemDotH->moveBy( _dotHDeltaX_new - _dotHDeltaX_old, 0.0f );
     }
     else
     {
-        m_itemDotH->setVisible( false );
-        m_itemScaleH->setVisible( false );
+        _itemDotH->setVisible( false );
+        _itemScaleH->setVisible( false );
 
-        m_dotHDeltaX_new = m_dotHDeltaX_old;
+        _dotHDeltaX_new = _dotHDeltaX_old;
     }
 
-    if ( m_dotVisibleV )
+    if ( _dotVisibleV )
     {
-        m_itemDotV->setVisible( true );
-        m_itemScaleV->setVisible( true );
+        _itemDotV->setVisible( true );
+        _itemScaleV->setVisible( true );
 
-        m_dotVDeltaY_new = m_scaleY * m_maxDotsDeflection * m_dotV;
+        _dotVDeltaY_new = _scaleY * _maxDotsDeflection * _dotV;
 
-        m_itemDotV->moveBy( 0.0f, m_dotVDeltaY_old - m_dotVDeltaY_new );
+        _itemDotV->moveBy( 0.0f, _dotVDeltaY_old - _dotVDeltaY_new );
     }
     else
     {
-        m_itemDotV->setVisible( false );
-        m_itemScaleV->setVisible( false );
+        _itemDotV->setVisible( false );
+        _itemScaleV->setVisible( false );
 
-        m_dotVDeltaY_new = m_dotVDeltaY_old;
+        _dotVDeltaY_new = _dotVDeltaY_old;
     }
 }
 
@@ -676,28 +676,28 @@ void GraphicsEADI::ADI::updateDots()
 
 void GraphicsEADI::ADI::updateFD( float sinRoll, float cosRoll )
 {
-    if ( m_fdVisible )
+    if ( _fdVisible )
     {
-        m_itemFD->setVisible( true );
+        _itemFD->setVisible( true );
 
-        m_itemFD->setRotation( m_fdRoll - m_roll );
+        _itemFD->setRotation( _fdRoll - _roll );
 
-        float pitch = m_pitch - m_fdPitch;
+        float pitch = _pitch - _fdPitch;
 
         if      ( pitch < -17.0f ) pitch = -17.0f;
         else if ( pitch >  17.0f ) pitch =  17.0f;
 
-        float delta = m_originalPixPerDeg * pitch;
+        float delta = _originalPixPerDeg * pitch;
 
-        m_fdDeltaX_new = m_scaleX * delta * sinRoll;
-        m_fdDeltaY_new = m_scaleY * delta * cosRoll;
+        _fdDeltaX_new = _scaleX * delta * sinRoll;
+        _fdDeltaY_new = _scaleY * delta * cosRoll;
 
-        m_itemFD->moveBy( m_fdDeltaX_new - m_fdDeltaX_old,
-                          m_fdDeltaY_new - m_fdDeltaY_old );
+        _itemFD->moveBy( _fdDeltaX_new - _fdDeltaX_old,
+                         _fdDeltaY_new - _fdDeltaY_old );
     }
     else
     {
-        m_itemFD->setVisible( false );
+        _itemFD->setVisible( false );
     }
 }
 
@@ -705,92 +705,92 @@ void GraphicsEADI::ADI::updateFD( float sinRoll, float cosRoll )
 
 void GraphicsEADI::ADI::updateStall()
 {
-    if ( m_stall )
+    if ( _stall )
     {
-        m_itemStall->setVisible( true );
+        _itemStall->setVisible( true );
     }
     else
     {
-        m_itemStall->setVisible( false );
+        _itemStall->setVisible( false );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
-    m_scene ( scene ),
+    _scene ( scene ),
 
-    m_itemBack     ( 0 ),
-    m_itemScale1   ( 0 ),
-    m_itemScale2   ( 0 ),
-    m_itemLabel1   ( 0 ),
-    m_itemLabel2   ( 0 ),
-    m_itemLabel3   ( 0 ),
-    m_itemGround   ( 0 ),
-    m_itemFrame    ( 0 ),
-    m_itemAltitude ( 0 ),
-    m_itemPressure ( 0 ),
+    _itemBack     ( 0 ),
+    _itemScale1   ( 0 ),
+    _itemScale2   ( 0 ),
+    _itemLabel1   ( 0 ),
+    _itemLabel2   ( 0 ),
+    _itemLabel3   ( 0 ),
+    _itemGround   ( 0 ),
+    _itemFrame    ( 0 ),
+    _itemAltitude ( 0 ),
+    _itemPressure ( 0 ),
 
-    m_frameTextColor ( 255, 255, 255 ),
-    m_pressTextColor (   0, 255,   0 ),
-    m_labelsColor    ( 255, 255, 255 ),
+    _frameTextColor ( 255, 255, 255 ),
+    _pressTextColor (   0, 255,   0 ),
+    _labelsColor    ( 255, 255, 255 ),
 
-    m_altitude ( 0.0f ),
+    _altitude ( 0.0f ),
 
-    m_scale1DeltaY_new ( 0.0f ),
-    m_scale1DeltaY_old ( 0.0f ),
-    m_scale2DeltaY_new ( 0.0f ),
-    m_scale2DeltaY_old ( 0.0f ),
-    m_groundDeltaY_new ( 0.0f ),
-    m_groundDeltaY_old ( 0.0f ),
-    m_labelsDeltaY_new ( 0.0f ),
-    m_labelsDeltaY_old ( 0.0f ),
+    _scale1DeltaY_new ( 0.0f ),
+    _scale1DeltaY_old ( 0.0f ),
+    _scale2DeltaY_new ( 0.0f ),
+    _scale2DeltaY_old ( 0.0f ),
+    _groundDeltaY_new ( 0.0f ),
+    _groundDeltaY_old ( 0.0f ),
+    _labelsDeltaY_new ( 0.0f ),
+    _labelsDeltaY_old ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalPixPerAlt   ( 0.150f ),
-    m_originalScaleHeight ( 300.0f ),
-    m_originalLabelsX     ( 250.0f ),
-    m_originalLabel1Y     (  50.0f ),
-    m_originalLabel2Y     ( 125.0f ),
-    m_originalLabel3Y     ( 200.0f ),
+    _originalPixPerAlt   ( 0.150f ),
+    _originalScaleHeight ( 300.0f ),
+    _originalLabelsX     ( 250.0f ),
+    _originalLabel1Y     (  50.0f ),
+    _originalLabel2Y     ( 125.0f ),
+    _originalLabel3Y     ( 200.0f ),
 
-    m_originalBackPos     ( 231.0f ,   37.5f ),
-    m_originalScale1Pos   ( 231.0f , -174.5f ),
-    m_originalScale2Pos   ( 231.0f , -474.5f ),
-    m_originalGroundPos   ( 231.5f ,  124.5f ),
-    m_originalFramePos    ( 225.0f ,  110.0f ),
-    m_originalAltitudeCtr ( 254.0f ,  126.0f ),
-    m_originalPressureCtr ( 254.0f ,  225.0f ),
+    _originalBackPos     ( 231.0f ,   37.5f ),
+    _originalScale1Pos   ( 231.0f , -174.5f ),
+    _originalScale2Pos   ( 231.0f , -474.5f ),
+    _originalGroundPos   ( 231.5f ,  124.5f ),
+    _originalFramePos    ( 225.0f ,  110.0f ),
+    _originalAltitudeCtr ( 254.0f ,  126.0f ),
+    _originalPressureCtr ( 254.0f ,  225.0f ),
 
-    m_backZ      (  70 ),
-    m_scaleZ     (  77 ),
-    m_labelsZ    (  78 ),
-    m_groundZ    (  79 ),
-    m_frameZ     ( 110 ),
-    m_frameTextZ ( 120 )
+    _backZ      (  70 ),
+    _scaleZ     (  77 ),
+    _labelsZ    (  78 ),
+    _groundZ    (  79 ),
+    _frameZ     ( 110 ),
+    _frameTextZ ( 120 )
 {
 #   ifdef WIN32
-    m_frameTextFont.setFamily( "Courier" );
-    m_frameTextFont.setPointSizeF( 9.0f );
-    m_frameTextFont.setStretch( QFont::Condensed );
-    m_frameTextFont.setWeight( QFont::Bold );
+    _frameTextFont.setFamily( "Courier" );
+    _frameTextFont.setPointSizeF( 9.0f );
+    _frameTextFont.setStretch( QFont::Condensed );
+    _frameTextFont.setWeight( QFont::Bold );
 
-    m_labelsFont.setFamily( "Courier" );
-    m_labelsFont.setPointSizeF( 7.0f );
-    m_labelsFont.setStretch( QFont::Condensed );
-    m_labelsFont.setWeight( QFont::Bold );
+    _labelsFont.setFamily( "Courier" );
+    _labelsFont.setPointSizeF( 7.0f );
+    _labelsFont.setStretch( QFont::Condensed );
+    _labelsFont.setWeight( QFont::Bold );
 #   else
-    m_frameTextFont.setFamily( "courier" );
-    m_frameTextFont.setPointSizeF( 10.0f );
-    m_frameTextFont.setStretch( QFont::Condensed );
-    m_frameTextFont.setWeight( QFont::Bold );
+    _frameTextFont.setFamily( "courier" );
+    _frameTextFont.setPointSizeF( 10.0f );
+    _frameTextFont.setStretch( QFont::Condensed );
+    _frameTextFont.setWeight( QFont::Bold );
 
-    m_labelsFont.setFamily( "courier" );
-    m_labelsFont.setPointSizeF( 8.0f );
-    m_labelsFont.setStretch( QFont::Condensed );
-    m_labelsFont.setWeight( QFont::Bold );
+    _labelsFont.setFamily( "courier" );
+    _labelsFont.setPointSizeF( 8.0f );
+    _labelsFont.setStretch( QFont::Condensed );
+    _labelsFont.setWeight( QFont::Bold );
 #   endif
 
     reset();
@@ -800,95 +800,95 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
 
 void GraphicsEADI::ALT::init( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     reset();
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBack->moveBy( m_scaleX * m_originalBackPos.x(), m_scaleY * m_originalBackPos.y() );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBack->moveBy( _scaleX * _originalBackPos.x(), _scaleY * _originalBackPos.y() );
+    _scene->addItem( _itemBack );
 
-    m_itemScale1 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_scale.svg" );
-    m_itemScale1->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScale1->setZValue( m_scaleZ );
-    m_itemScale1->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScale1->moveBy( m_scaleX * m_originalScale1Pos.x(), m_scaleY * m_originalScale1Pos.y() );
-    m_scene->addItem( m_itemScale1 );
+    _itemScale1 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_scale.svg" );
+    _itemScale1->setCacheMode( QGraphicsItem::NoCache );
+    _itemScale1->setZValue( _scaleZ );
+    _itemScale1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScale1->moveBy( _scaleX * _originalScale1Pos.x(), _scaleY * _originalScale1Pos.y() );
+    _scene->addItem( _itemScale1 );
 
-    m_itemScale2 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_scale.svg" );
-    m_itemScale2->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScale2->setZValue( m_scaleZ );
-    m_itemScale2->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScale2->moveBy( m_scaleX * m_originalScale2Pos.x(), m_scaleY * m_originalScale2Pos.y() );
-    m_scene->addItem( m_itemScale2 );
+    _itemScale2 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_scale.svg" );
+    _itemScale2->setCacheMode( QGraphicsItem::NoCache );
+    _itemScale2->setZValue( _scaleZ );
+    _itemScale2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScale2->moveBy( _scaleX * _originalScale2Pos.x(), _scaleY * _originalScale2Pos.y() );
+    _scene->addItem( _itemScale2 );
 
-    m_itemLabel1 = new QGraphicsTextItem( QString( "99999" ) );
-    m_itemLabel1->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel1->setZValue( m_labelsZ );
-    m_itemLabel1->setDefaultTextColor( m_labelsColor );
-    m_itemLabel1->setFont( m_labelsFont );
-    m_itemLabel1->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel1->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel1->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel1Y - m_itemLabel1->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel1 );
+    _itemLabel1 = new QGraphicsTextItem( QString( "99999" ) );
+    _itemLabel1->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel1->setZValue( _labelsZ );
+    _itemLabel1->setDefaultTextColor( _labelsColor );
+    _itemLabel1->setFont( _labelsFont );
+    _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel1 );
 
-    m_itemLabel2 = new QGraphicsTextItem( QString( "99999" ) );
-    m_itemLabel2->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel2->setZValue( m_labelsZ );
-    m_itemLabel2->setDefaultTextColor( m_labelsColor );
-    m_itemLabel2->setFont( m_labelsFont );
-    m_itemLabel2->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel2->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel2->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel2Y - m_itemLabel2->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel2 );
+    _itemLabel2 = new QGraphicsTextItem( QString( "99999" ) );
+    _itemLabel2->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel2->setZValue( _labelsZ );
+    _itemLabel2->setDefaultTextColor( _labelsColor );
+    _itemLabel2->setFont( _labelsFont );
+    _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel2 );
 
-    m_itemLabel3 = new QGraphicsTextItem( QString( "99999" ) );
-    m_itemLabel3->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel3->setZValue( m_labelsZ );
-    m_itemLabel3->setDefaultTextColor( m_labelsColor );
-    m_itemLabel3->setFont( m_labelsFont );
-    m_itemLabel3->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel3->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel3->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel3Y - m_itemLabel3->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel3 );
+    _itemLabel3 = new QGraphicsTextItem( QString( "99999" ) );
+    _itemLabel3->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel3->setZValue( _labelsZ );
+    _itemLabel3->setDefaultTextColor( _labelsColor );
+    _itemLabel3->setFont( _labelsFont );
+    _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel3 );
 
-    m_itemGround = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_ground.svg" );
-    m_itemGround->setCacheMode( QGraphicsItem::NoCache );
-    m_itemGround->setZValue( m_groundZ );
-    m_itemGround->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemGround->moveBy( m_scaleX * m_originalGroundPos.x(), m_scaleY * m_originalGroundPos.y() );
-    m_scene->addItem( m_itemGround );
+    _itemGround = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_ground.svg" );
+    _itemGround->setCacheMode( QGraphicsItem::NoCache );
+    _itemGround->setZValue( _groundZ );
+    _itemGround->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemGround->moveBy( _scaleX * _originalGroundPos.x(), _scaleY * _originalGroundPos.y() );
+    _scene->addItem( _itemGround );
 
-    m_itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_frame.svg" );
-    m_itemFrame->setCacheMode( QGraphicsItem::NoCache );
-    m_itemFrame->setZValue( m_frameZ );
-    m_itemFrame->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemFrame->moveBy( m_scaleX * m_originalFramePos.x(), m_scaleY * m_originalFramePos.y() );
-    m_scene->addItem( m_itemFrame );
+    _itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_frame.svg" );
+    _itemFrame->setCacheMode( QGraphicsItem::NoCache );
+    _itemFrame->setZValue( _frameZ );
+    _itemFrame->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFrame->moveBy( _scaleX * _originalFramePos.x(), _scaleY * _originalFramePos.y() );
+    _scene->addItem( _itemFrame );
 
-    m_itemAltitude = new QGraphicsTextItem( QString( "    0" ) );
-    m_itemAltitude->setCacheMode( QGraphicsItem::NoCache );
-    m_itemAltitude->setZValue( m_frameTextZ );
-    m_itemAltitude->setDefaultTextColor( m_frameTextColor );
-    m_itemAltitude->setFont( m_frameTextFont );
-    m_itemAltitude->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemAltitude->moveBy( m_scaleX * ( m_originalAltitudeCtr.x() - m_itemAltitude->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalAltitudeCtr.y() - m_itemAltitude->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemAltitude );
+    _itemAltitude = new QGraphicsTextItem( QString( "    0" ) );
+    _itemAltitude->setCacheMode( QGraphicsItem::NoCache );
+    _itemAltitude->setZValue( _frameTextZ );
+    _itemAltitude->setDefaultTextColor( _frameTextColor );
+    _itemAltitude->setFont( _frameTextFont );
+    _itemAltitude->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemAltitude->moveBy( _scaleX * ( _originalAltitudeCtr.x() - _itemAltitude->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalAltitudeCtr.y() - _itemAltitude->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemAltitude );
 
-    m_itemPressure = new QGraphicsTextItem( QString( "  STD  " ) );
-    m_itemPressure->setCacheMode( QGraphicsItem::NoCache );
-    m_itemPressure->setZValue( m_frameTextZ );
-    m_itemPressure->setDefaultTextColor( m_pressTextColor );
-    m_itemPressure->setFont( m_frameTextFont );
-    m_itemPressure->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemPressure->moveBy( m_scaleX * ( m_originalPressureCtr.x() - m_itemPressure->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalPressureCtr.y() - m_itemPressure->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemPressure );
+    _itemPressure = new QGraphicsTextItem( QString( "  STD  " ) );
+    _itemPressure->setCacheMode( QGraphicsItem::NoCache );
+    _itemPressure->setZValue( _frameTextZ );
+    _itemPressure->setDefaultTextColor( _pressTextColor );
+    _itemPressure->setFont( _frameTextFont );
+    _itemPressure->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemPressure->moveBy( _scaleX * ( _originalPressureCtr.x() - _itemPressure->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalPressureCtr.y() - _itemPressure->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemPressure );
 
     update( scaleX, scaleY );
 }
@@ -897,15 +897,15 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
 
 void GraphicsEADI::ALT::update( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     updateAltitude();
 
-    m_scale1DeltaY_old = m_scale1DeltaY_new;
-    m_scale2DeltaY_old = m_scale2DeltaY_new;
-    m_groundDeltaY_old = m_groundDeltaY_new;
-    m_labelsDeltaY_old = m_labelsDeltaY_new;
+    _scale1DeltaY_old = _scale1DeltaY_new;
+    _scale2DeltaY_old = _scale2DeltaY_new;
+    _groundDeltaY_old = _groundDeltaY_new;
+    _labelsDeltaY_old = _labelsDeltaY_new;
 
 }
 
@@ -913,44 +913,44 @@ void GraphicsEADI::ALT::update( float scaleX, float scaleY )
 
 void GraphicsEADI::ALT::setAltitude( float altitude )
 {
-    m_altitude = altitude;
+    _altitude = altitude;
 
-    if      ( m_altitude <     0.0f ) m_altitude =     0.0f;
-    else if ( m_altitude > 99999.0f ) m_altitude = 99999.0f;
+    if      ( _altitude <     0.0f ) _altitude =     0.0f;
+    else if ( _altitude > 99999.0f ) _altitude = 99999.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ALT::reset()
 {
-    m_itemBack     = 0;
-    m_itemScale1   = 0;
-    m_itemScale2   = 0;
-    m_itemLabel1   = 0;
-    m_itemLabel2   = 0;
-    m_itemLabel3   = 0;
-    m_itemGround   = 0;
-    m_itemFrame    = 0;
-    m_itemAltitude = 0;
-    m_itemPressure = 0;
+    _itemBack     = 0;
+    _itemScale1   = 0;
+    _itemScale2   = 0;
+    _itemLabel1   = 0;
+    _itemLabel2   = 0;
+    _itemLabel3   = 0;
+    _itemGround   = 0;
+    _itemFrame    = 0;
+    _itemAltitude = 0;
+    _itemPressure = 0;
 
-    m_altitude = 0.0f;
+    _altitude = 0.0f;
 
-    m_scale1DeltaY_new = 0.0f;
-    m_scale1DeltaY_old = 0.0f;
-    m_scale2DeltaY_new = 0.0f;
-    m_scale2DeltaY_old = 0.0f;
-    m_groundDeltaY_new = 0.0f;
-    m_groundDeltaY_old = 0.0f;
-    m_labelsDeltaY_new = 0.0f;
-    m_labelsDeltaY_old = 0.0f;
+    _scale1DeltaY_new = 0.0f;
+    _scale1DeltaY_old = 0.0f;
+    _scale2DeltaY_new = 0.0f;
+    _scale2DeltaY_old = 0.0f;
+    _groundDeltaY_new = 0.0f;
+    _groundDeltaY_old = 0.0f;
+    _labelsDeltaY_new = 0.0f;
+    _labelsDeltaY_old = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ALT::updateAltitude()
 {
-    m_itemAltitude->setPlainText( QString("%1").arg(m_altitude, 5, 'f', 0, QChar(' ')) );
+    _itemAltitude->setPlainText( QString("%1").arg(_altitude, 5, 'f', 0, QChar(' ')) );
 
     updateScale();
     updateScaleLabels();
@@ -960,169 +960,169 @@ void GraphicsEADI::ALT::updateAltitude()
 
 void GraphicsEADI::ALT::updateScale()
 {
-    m_scale1DeltaY_new = m_scaleY * m_originalPixPerAlt * m_altitude;
-    m_scale2DeltaY_new = m_scale1DeltaY_new;
-    m_groundDeltaY_new = m_scale1DeltaY_new;
+    _scale1DeltaY_new = _scaleY * _originalPixPerAlt * _altitude;
+    _scale2DeltaY_new = _scale1DeltaY_new;
+    _groundDeltaY_new = _scale1DeltaY_new;
 
-    float scaleSingleHeight = m_scaleY * m_originalScaleHeight;
-    float scaleDoubleHeight = m_scaleY * m_originalScaleHeight * 2.0f;
+    float scaleSingleHeight = _scaleY * _originalScaleHeight;
+    float scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0f;
 
-    while ( m_scale1DeltaY_new > scaleSingleHeight + m_scaleY * 74.5f )
+    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5f )
     {
-        m_scale1DeltaY_new = m_scale1DeltaY_new - scaleDoubleHeight;
+        _scale1DeltaY_new = _scale1DeltaY_new - scaleDoubleHeight;
     }
 
-    while ( m_scale2DeltaY_new > scaleDoubleHeight + m_scaleY * 74.5f )
+    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5f )
     {
-        m_scale2DeltaY_new = m_scale2DeltaY_new - scaleDoubleHeight;
+        _scale2DeltaY_new = _scale2DeltaY_new - scaleDoubleHeight;
     }
 
-    if ( m_groundDeltaY_new > m_scaleY * 100.0f ) m_groundDeltaY_new = m_scaleY * 100.0f;
+    if ( _groundDeltaY_new > _scaleY * 100.0f ) _groundDeltaY_new = _scaleY * 100.0f;
 
-    m_itemScale1->moveBy( 0.0f, m_scale1DeltaY_new - m_scale1DeltaY_old );
-    m_itemScale2->moveBy( 0.0f, m_scale2DeltaY_new - m_scale2DeltaY_old );
-    m_itemGround->moveBy( 0.0f, m_groundDeltaY_new - m_groundDeltaY_old );
+    _itemScale1->moveBy( 0.0f, _scale1DeltaY_new - _scale1DeltaY_old );
+    _itemScale2->moveBy( 0.0f, _scale2DeltaY_new - _scale2DeltaY_old );
+    _itemGround->moveBy( 0.0f, _groundDeltaY_new - _groundDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ALT::updateScaleLabels()
 {
-    int tmp = floor( m_altitude + 0.5f );
+    int tmp = floor( _altitude + 0.5f );
     int alt = tmp - ( tmp % 500 );
 
     float alt1 = (float)alt + 500.0f;
     float alt2 = (float)alt;
     float alt3 = (float)alt - 500.0f;
 
-    m_labelsDeltaY_new = m_scaleY * m_originalPixPerAlt * m_altitude;
+    _labelsDeltaY_new = _scaleY * _originalPixPerAlt * _altitude;
 
-    while ( m_labelsDeltaY_new > m_scaleY * 37.5f )
+    while ( _labelsDeltaY_new > _scaleY * 37.5f )
     {
-        m_labelsDeltaY_new = m_labelsDeltaY_new - m_scaleY * 75.0f;
+        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 75.0f;
     }
 
-    if ( m_labelsDeltaY_new < 0.0f && m_altitude > alt2 )
+    if ( _labelsDeltaY_new < 0.0f && _altitude > alt2 )
     {
         alt1 += 500.0f;
         alt2 += 500.0f;
         alt3 += 500.0f;
     }
 
-    m_itemLabel1->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel2->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel3->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
+    _itemLabel1->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel2->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel3->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
 
     if ( alt1 > 0.0f && alt1 <= 100000.0f )
     {
-        m_itemLabel1->setVisible( true );
-        m_itemLabel1->setPlainText( QString("%1").arg(alt1, 5, 'f', 0, QChar(' ')) );
+        _itemLabel1->setVisible( true );
+        _itemLabel1->setPlainText( QString("%1").arg(alt1, 5, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel1->setVisible( false );
+        _itemLabel1->setVisible( false );
     }
 
     if ( alt2 > 0.0f && alt2 <= 100000.0f )
     {
-        m_itemLabel2->setVisible( true );
-        m_itemLabel2->setPlainText( QString("%1").arg(alt2, 5, 'f', 0, QChar(' ')) );
+        _itemLabel2->setVisible( true );
+        _itemLabel2->setPlainText( QString("%1").arg(alt2, 5, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel2->setVisible( false );
+        _itemLabel2->setVisible( false );
     }
 
     if ( alt3 > 0.0f && alt3 <= 100000.0f )
     {
-        m_itemLabel3->setVisible( true );
-        m_itemLabel3->setPlainText( QString("%1").arg(alt3, 5, 'f', 0, QChar(' ')) );
+        _itemLabel3->setVisible( true );
+        _itemLabel3->setPlainText( QString("%1").arg(alt3, 5, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel3->setVisible( false );
+        _itemLabel3->setVisible( false );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
-    m_scene ( scene ),
+    _scene ( scene ),
 
-    m_itemBack     ( 0 ),
-    m_itemScale1   ( 0 ),
-    m_itemScale2   ( 0 ),
-    m_itemLabel1   ( 0 ),
-    m_itemLabel2   ( 0 ),
-    m_itemLabel3   ( 0 ),
-    m_itemLabel4   ( 0 ),
-    m_itemLabel5   ( 0 ),
-    m_itemLabel6   ( 0 ),
-    m_itemLabel7   ( 0 ),
-    m_itemFrame    ( 0 ),
-    m_itemAirspeed ( 0 ),
-    m_itemMachNo   ( 0 ),
+    _itemBack     ( 0 ),
+    _itemScale1   ( 0 ),
+    _itemScale2   ( 0 ),
+    _itemLabel1   ( 0 ),
+    _itemLabel2   ( 0 ),
+    _itemLabel3   ( 0 ),
+    _itemLabel4   ( 0 ),
+    _itemLabel5   ( 0 ),
+    _itemLabel6   ( 0 ),
+    _itemLabel7   ( 0 ),
+    _itemFrame    ( 0 ),
+    _itemAirspeed ( 0 ),
+    _itemMachNo   ( 0 ),
 
-    m_frameTextColor ( 255, 255, 255 ),
-    m_labelsColor    ( 255, 255, 255 ),
+    _frameTextColor ( 255, 255, 255 ),
+    _labelsColor    ( 255, 255, 255 ),
 
-    m_airspeed ( 0.0f ),
-    m_machNo   ( 0.0f ),
+    _airspeed ( 0.0f ),
+    _machNo   ( 0.0f ),
 
-    m_scale1DeltaY_new ( 0.0f ),
-    m_scale1DeltaY_old ( 0.0f ),
-    m_scale2DeltaY_new ( 0.0f ),
-    m_scale2DeltaY_old ( 0.0f ),
-    m_labelsDeltaY_new ( 0.0f ),
-    m_labelsDeltaY_old ( 0.0f ),
+    _scale1DeltaY_new ( 0.0f ),
+    _scale1DeltaY_old ( 0.0f ),
+    _scale2DeltaY_new ( 0.0f ),
+    _scale2DeltaY_old ( 0.0f ),
+    _labelsDeltaY_new ( 0.0f ),
+    _labelsDeltaY_old ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalPixPerSpd   (   1.5f ),
-    m_originalScaleHeight ( 300.0f ),
-    m_originalLabelsX     (  43.0f ),
-    m_originalLabel1Y     (  35.0f ),
-    m_originalLabel2Y     (  65.0f ),
-    m_originalLabel3Y     (  95.0f ),
-    m_originalLabel4Y     ( 125.0f ),
-    m_originalLabel5Y     ( 155.0f ),
-    m_originalLabel6Y     ( 185.0f ),
-    m_originalLabel7Y     ( 215.0f ),
+    _originalPixPerSpd   (   1.5f ),
+    _originalScaleHeight ( 300.0f ),
+    _originalLabelsX     (  43.0f ),
+    _originalLabel1Y     (  35.0f ),
+    _originalLabel2Y     (  65.0f ),
+    _originalLabel3Y     (  95.0f ),
+    _originalLabel4Y     ( 125.0f ),
+    _originalLabel5Y     ( 155.0f ),
+    _originalLabel6Y     ( 185.0f ),
+    _originalLabel7Y     ( 215.0f ),
 
-    m_originalBackPos     ( 25.0f ,   37.5f ),
-    m_originalScale1Pos   ( 56.0f , -174.5f ),
-    m_originalScale2Pos   ( 56.0f , -474.5f ),
-    m_originalFramePos    (  0.0f ,  110.0f ),
-    m_originalAirspeedCtr ( 40.0f ,  126.0f ),
-    m_originalMachNoCtr   ( 43.0f ,  225.0f ),
+    _originalBackPos     ( 25.0f ,   37.5f ),
+    _originalScale1Pos   ( 56.0f , -174.5f ),
+    _originalScale2Pos   ( 56.0f , -474.5f ),
+    _originalFramePos    (  0.0f ,  110.0f ),
+    _originalAirspeedCtr ( 40.0f ,  126.0f ),
+    _originalMachNoCtr   ( 43.0f ,  225.0f ),
 
-    m_backZ      (  70 ),
-    m_scaleZ     (  80 ),
-    m_labelsZ    (  90 ),
-    m_frameZ     ( 110 ),
-    m_frameTextZ ( 120 )
+    _backZ      (  70 ),
+    _scaleZ     (  80 ),
+    _labelsZ    (  90 ),
+    _frameZ     ( 110 ),
+    _frameTextZ ( 120 )
 {
 #   ifdef WIN32
-    m_frameTextFont.setFamily( "Courier" );
-    m_frameTextFont.setPointSizeF( 9.0f );
-    m_frameTextFont.setStretch( QFont::Condensed );
-    m_frameTextFont.setWeight( QFont::Bold );
+    _frameTextFont.setFamily( "Courier" );
+    _frameTextFont.setPointSizeF( 9.0f );
+    _frameTextFont.setStretch( QFont::Condensed );
+    _frameTextFont.setWeight( QFont::Bold );
 
-    m_labelsFont.setFamily( "Courier" );
-    m_labelsFont.setPointSizeF( 7.0f );
-    m_labelsFont.setStretch( QFont::Condensed );
-    m_labelsFont.setWeight( QFont::Bold );
+    _labelsFont.setFamily( "Courier" );
+    _labelsFont.setPointSizeF( 7.0f );
+    _labelsFont.setStretch( QFont::Condensed );
+    _labelsFont.setWeight( QFont::Bold );
 #   else
-    m_frameTextFont.setFamily( "courier" );
-    m_frameTextFont.setPointSizeF( 10.0f );
-    m_frameTextFont.setStretch( QFont::Condensed );
-    m_frameTextFont.setWeight( QFont::Bold );
+    _frameTextFont.setFamily( "courier" );
+    _frameTextFont.setPointSizeF( 10.0f );
+    _frameTextFont.setStretch( QFont::Condensed );
+    _frameTextFont.setWeight( QFont::Bold );
 
-    m_labelsFont.setFamily( "courier" );
-    m_labelsFont.setPointSizeF( 8.0f );
-    m_labelsFont.setStretch( QFont::Condensed );
-    m_labelsFont.setWeight( QFont::Bold );
+    _labelsFont.setFamily( "courier" );
+    _labelsFont.setPointSizeF( 8.0f );
+    _labelsFont.setStretch( QFont::Condensed );
+    _labelsFont.setWeight( QFont::Bold );
 #   endif
 
     reset();
@@ -1132,130 +1132,130 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
 
 void GraphicsEADI::ASI::init( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     reset();
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBack->moveBy( m_scaleX * m_originalBackPos.x(), m_scaleY * m_originalBackPos.y() );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBack->moveBy( _scaleX * _originalBackPos.x(), _scaleY * _originalBackPos.y() );
+    _scene->addItem( _itemBack );
 
-    m_itemScale1 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_scale.svg" );
-    m_itemScale1->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScale1->setZValue( m_scaleZ );
-    m_itemScale1->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScale1->moveBy( m_scaleX * m_originalScale1Pos.x(), m_scaleY * m_originalScale1Pos.y() );
-    m_scene->addItem( m_itemScale1 );
+    _itemScale1 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_scale.svg" );
+    _itemScale1->setCacheMode( QGraphicsItem::NoCache );
+    _itemScale1->setZValue( _scaleZ );
+    _itemScale1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScale1->moveBy( _scaleX * _originalScale1Pos.x(), _scaleY * _originalScale1Pos.y() );
+    _scene->addItem( _itemScale1 );
 
-    m_itemScale2 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_scale.svg" );
-    m_itemScale2->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScale2->setZValue( m_scaleZ );
-    m_itemScale2->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScale2->moveBy( m_scaleX * m_originalScale2Pos.x(), m_scaleY * m_originalScale2Pos.y() );
-    m_scene->addItem( m_itemScale2 );
+    _itemScale2 = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_scale.svg" );
+    _itemScale2->setCacheMode( QGraphicsItem::NoCache );
+    _itemScale2->setZValue( _scaleZ );
+    _itemScale2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScale2->moveBy( _scaleX * _originalScale2Pos.x(), _scaleY * _originalScale2Pos.y() );
+    _scene->addItem( _itemScale2 );
 
-    m_itemLabel1 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel1->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel1->setZValue( m_labelsZ );
-    m_itemLabel1->setDefaultTextColor( m_labelsColor );
-    m_itemLabel1->setFont( m_labelsFont );
-    m_itemLabel1->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel1->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel1->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel1Y - m_itemLabel1->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel1 );
+    _itemLabel1 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel1->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel1->setZValue( _labelsZ );
+    _itemLabel1->setDefaultTextColor( _labelsColor );
+    _itemLabel1->setFont( _labelsFont );
+    _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel1 );
 
-    m_itemLabel2 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel2->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel2->setZValue( m_labelsZ );
-    m_itemLabel2->setDefaultTextColor( m_labelsColor );
-    m_itemLabel2->setFont( m_labelsFont );
-    m_itemLabel2->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel2->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel2->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel2Y - m_itemLabel2->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel2 );
+    _itemLabel2 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel2->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel2->setZValue( _labelsZ );
+    _itemLabel2->setDefaultTextColor( _labelsColor );
+    _itemLabel2->setFont( _labelsFont );
+    _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel2 );
 
-    m_itemLabel3 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel3->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel3->setZValue( m_labelsZ );
-    m_itemLabel3->setDefaultTextColor( m_labelsColor );
-    m_itemLabel3->setFont( m_labelsFont );
-    m_itemLabel3->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel3->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel3->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel3Y - m_itemLabel3->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel3 );
+    _itemLabel3 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel3->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel3->setZValue( _labelsZ );
+    _itemLabel3->setDefaultTextColor( _labelsColor );
+    _itemLabel3->setFont( _labelsFont );
+    _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel3 );
 
-    m_itemLabel4 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel4->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel4->setZValue( m_labelsZ );
-    m_itemLabel4->setDefaultTextColor( m_labelsColor );
-    m_itemLabel4->setFont( m_labelsFont );
-    m_itemLabel4->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel4->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel4->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel4Y - m_itemLabel4->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel4 );
+    _itemLabel4 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel4->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel4->setZValue( _labelsZ );
+    _itemLabel4->setDefaultTextColor( _labelsColor );
+    _itemLabel4->setFont( _labelsFont );
+    _itemLabel4->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel4->moveBy( _scaleX * ( _originalLabelsX - _itemLabel4->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel4Y - _itemLabel4->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel4 );
 
-    m_itemLabel5 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel5->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel5->setZValue( m_labelsZ );
-    m_itemLabel5->setDefaultTextColor( m_labelsColor );
-    m_itemLabel5->setFont( m_labelsFont );
-    m_itemLabel5->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel5->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel5->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel5Y - m_itemLabel5->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel5 );
+    _itemLabel5 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel5->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel5->setZValue( _labelsZ );
+    _itemLabel5->setDefaultTextColor( _labelsColor );
+    _itemLabel5->setFont( _labelsFont );
+    _itemLabel5->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel5->moveBy( _scaleX * ( _originalLabelsX - _itemLabel5->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel5Y - _itemLabel5->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel5 );
 
-    m_itemLabel6 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel6->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel6->setZValue( m_labelsZ );
-    m_itemLabel6->setDefaultTextColor( m_labelsColor );
-    m_itemLabel6->setFont( m_labelsFont );
-    m_itemLabel6->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel6->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel6->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel6Y - m_itemLabel6->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel6 );
+    _itemLabel6 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel6->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel6->setZValue( _labelsZ );
+    _itemLabel6->setDefaultTextColor( _labelsColor );
+    _itemLabel6->setFont( _labelsFont );
+    _itemLabel6->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel6->moveBy( _scaleX * ( _originalLabelsX - _itemLabel6->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel6Y - _itemLabel6->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel6 );
 
-    m_itemLabel7 = new QGraphicsTextItem( QString( "999" ) );
-    m_itemLabel7->setCacheMode( QGraphicsItem::NoCache );
-    m_itemLabel7->setZValue( m_labelsZ );
-    m_itemLabel7->setDefaultTextColor( m_labelsColor );
-    m_itemLabel7->setFont( m_labelsFont );
-    m_itemLabel7->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemLabel7->moveBy( m_scaleX * ( m_originalLabelsX - m_itemLabel7->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalLabel7Y - m_itemLabel7->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemLabel7 );
+    _itemLabel7 = new QGraphicsTextItem( QString( "999" ) );
+    _itemLabel7->setCacheMode( QGraphicsItem::NoCache );
+    _itemLabel7->setZValue( _labelsZ );
+    _itemLabel7->setDefaultTextColor( _labelsColor );
+    _itemLabel7->setFont( _labelsFont );
+    _itemLabel7->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLabel7->moveBy( _scaleX * ( _originalLabelsX - _itemLabel7->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalLabel7Y - _itemLabel7->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLabel7 );
 
-    m_itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_frame.svg" );
-    m_itemFrame->setCacheMode( QGraphicsItem::NoCache );
-    m_itemFrame->setZValue( m_frameZ );
-    m_itemFrame->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemFrame->moveBy( m_scaleX * m_originalFramePos.x(), m_scaleY * m_originalFramePos.y() );
-    m_scene->addItem( m_itemFrame );
+    _itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_frame.svg" );
+    _itemFrame->setCacheMode( QGraphicsItem::NoCache );
+    _itemFrame->setZValue( _frameZ );
+    _itemFrame->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFrame->moveBy( _scaleX * _originalFramePos.x(), _scaleY * _originalFramePos.y() );
+    _scene->addItem( _itemFrame );
 
-    m_itemAirspeed = new QGraphicsTextItem( QString( "000" ) );
-    m_itemAirspeed->setCacheMode( QGraphicsItem::NoCache );
-    m_itemAirspeed->setZValue( m_frameTextZ );
-    m_itemAirspeed->setTextInteractionFlags( Qt::NoTextInteraction );
-    m_itemAirspeed->setDefaultTextColor( m_frameTextColor );
-    m_itemAirspeed->setFont( m_frameTextFont );
-    m_itemAirspeed->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemAirspeed->moveBy( m_scaleX * ( m_originalAirspeedCtr.x() - m_itemAirspeed->boundingRect().width()  / 2.0f ),
-                           m_scaleY * ( m_originalAirspeedCtr.y() - m_itemAirspeed->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemAirspeed );
+    _itemAirspeed = new QGraphicsTextItem( QString( "000" ) );
+    _itemAirspeed->setCacheMode( QGraphicsItem::NoCache );
+    _itemAirspeed->setZValue( _frameTextZ );
+    _itemAirspeed->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemAirspeed->setDefaultTextColor( _frameTextColor );
+    _itemAirspeed->setFont( _frameTextFont );
+    _itemAirspeed->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemAirspeed->moveBy( _scaleX * ( _originalAirspeedCtr.x() - _itemAirspeed->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalAirspeedCtr.y() - _itemAirspeed->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemAirspeed );
 
-    m_itemMachNo = new QGraphicsTextItem( QString( ".000" ) );
-    m_itemMachNo->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMachNo->setZValue( m_frameTextZ );
-    m_itemMachNo->setTextInteractionFlags( Qt::NoTextInteraction );
-    m_itemMachNo->setDefaultTextColor( m_frameTextColor );
-    m_itemMachNo->setFont( m_frameTextFont );
-    m_itemMachNo->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemMachNo->moveBy( m_scaleX * ( m_originalMachNoCtr.x() - m_itemMachNo->boundingRect().width()  / 2.0f ),
-                         m_scaleY * ( m_originalMachNoCtr.y() - m_itemMachNo->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemMachNo );
+    _itemMachNo = new QGraphicsTextItem( QString( ".000" ) );
+    _itemMachNo->setCacheMode( QGraphicsItem::NoCache );
+    _itemMachNo->setZValue( _frameTextZ );
+    _itemMachNo->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemMachNo->setDefaultTextColor( _frameTextColor );
+    _itemMachNo->setFont( _frameTextFont );
+    _itemMachNo->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemMachNo->moveBy( _scaleX * ( _originalMachNoCtr.x() - _itemMachNo->boundingRect().width()  / 2.0f ),
+                         _scaleY * ( _originalMachNoCtr.y() - _itemMachNo->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemMachNo );
 
     update( scaleX, scaleY );
 }
@@ -1264,85 +1264,85 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
 
 void GraphicsEADI::ASI::update( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     updateAirspeed();
 
-    m_scale1DeltaY_old = m_scale1DeltaY_new;
-    m_scale2DeltaY_old = m_scale2DeltaY_new;
-    m_labelsDeltaY_old = m_labelsDeltaY_new;
+    _scale1DeltaY_old = _scale1DeltaY_new;
+    _scale2DeltaY_old = _scale2DeltaY_new;
+    _labelsDeltaY_old = _labelsDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::setAirspeed( float airspeed )
 {
-    m_airspeed = airspeed;
+    _airspeed = airspeed;
 
-    if      ( m_airspeed <    0.0f ) m_airspeed =    0.0f;
-    else if ( m_airspeed > 9999.0f ) m_airspeed = 9999.0f;
+    if      ( _airspeed <    0.0f ) _airspeed =    0.0f;
+    else if ( _airspeed > 9999.0f ) _airspeed = 9999.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::setMachNo( float machNo )
 {
-    m_machNo = machNo;
+    _machNo = machNo;
 
-    if      ( m_machNo <  0.0f ) m_machNo =  0.0f;
-    else if ( m_machNo > 99.9f ) m_machNo = 99.9f;
+    if      ( _machNo <  0.0f ) _machNo =  0.0f;
+    else if ( _machNo > 99.9f ) _machNo = 99.9f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::reset()
 {
-    m_itemBack     = 0;
-    m_itemScale1   = 0;
-    m_itemScale2   = 0;
-    m_itemLabel1   = 0;
-    m_itemLabel2   = 0;
-    m_itemLabel3   = 0;
-    m_itemLabel4   = 0;
-    m_itemLabel5   = 0;
-    m_itemLabel6   = 0;
-    m_itemLabel7   = 0;
-    m_itemFrame    = 0;
-    m_itemAirspeed = 0;
-    m_itemMachNo   = 0;
+    _itemBack     = 0;
+    _itemScale1   = 0;
+    _itemScale2   = 0;
+    _itemLabel1   = 0;
+    _itemLabel2   = 0;
+    _itemLabel3   = 0;
+    _itemLabel4   = 0;
+    _itemLabel5   = 0;
+    _itemLabel6   = 0;
+    _itemLabel7   = 0;
+    _itemFrame    = 0;
+    _itemAirspeed = 0;
+    _itemMachNo   = 0;
 
-    m_airspeed = 0.0f;
-    m_machNo   = 0.0f;
+    _airspeed = 0.0f;
+    _machNo   = 0.0f;
 
-    m_scale1DeltaY_new = 0.0f;
-    m_scale1DeltaY_old = 0.0f;
-    m_scale2DeltaY_new = 0.0f;
-    m_scale2DeltaY_old = 0.0f;
-    m_labelsDeltaY_new = 0.0f;
-    m_labelsDeltaY_old = 0.0f;
+    _scale1DeltaY_new = 0.0f;
+    _scale1DeltaY_old = 0.0f;
+    _scale2DeltaY_new = 0.0f;
+    _scale2DeltaY_old = 0.0f;
+    _labelsDeltaY_new = 0.0f;
+    _labelsDeltaY_old = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::updateAirspeed()
 {
-    m_itemAirspeed->setPlainText( QString("%1").arg(m_airspeed, 3, 'f', 0, QChar('0')) );
+    _itemAirspeed->setPlainText( QString("%1").arg(_airspeed, 3, 'f', 0, QChar('0')) );
 
-    if ( m_machNo < 1.0f )
+    if ( _machNo < 1.0f )
     {
-        float machNo = 1000.0f * m_machNo;
-        m_itemMachNo->setPlainText( QString(".%1").arg(machNo, 3, 'f', 0, QChar('0')) );
+        float machNo = 1000.0f * _machNo;
+        _itemMachNo->setPlainText( QString(".%1").arg(machNo, 3, 'f', 0, QChar('0')) );
     }
     else
     {
-        if ( m_machNo < 10.0f )
+        if ( _machNo < 10.0f )
         {
-            m_itemMachNo->setPlainText( QString::number( m_machNo, 'f', 2 ) );
+            _itemMachNo->setPlainText( QString::number( _machNo, 'f', 2 ) );
         }
         else
         {
-            m_itemMachNo->setPlainText( QString::number( m_machNo, 'f', 1 ) );
+            _itemMachNo->setPlainText( QString::number( _machNo, 'f', 1 ) );
         }
     }
 
@@ -1354,33 +1354,33 @@ void GraphicsEADI::ASI::updateAirspeed()
 
 void GraphicsEADI::ASI::updateScale()
 {
-    m_scale1DeltaY_new = m_scaleY * m_originalPixPerSpd * m_airspeed;
-    m_scale2DeltaY_new = m_scale1DeltaY_new;
+    _scale1DeltaY_new = _scaleY * _originalPixPerSpd * _airspeed;
+    _scale2DeltaY_new = _scale1DeltaY_new;
 
-    float scaleSingleHeight = m_scaleY * m_originalScaleHeight;
-    float scaleDoubleHeight = m_scaleY * m_originalScaleHeight * 2.0f;
+    float scaleSingleHeight = _scaleY * _originalScaleHeight;
+    float scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0f;
 
-    while ( m_scale1DeltaY_new > scaleSingleHeight + m_scaleY * 74.5f )
+    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5f )
     {
-        m_scale1DeltaY_new = m_scale1DeltaY_new - scaleDoubleHeight;
+        _scale1DeltaY_new = _scale1DeltaY_new - scaleDoubleHeight;
     }
 
-    while ( m_scale2DeltaY_new > scaleDoubleHeight + m_scaleY * 74.5f )
+    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5f )
     {
-        m_scale2DeltaY_new = m_scale2DeltaY_new - scaleDoubleHeight;
+        _scale2DeltaY_new = _scale2DeltaY_new - scaleDoubleHeight;
     }
 
-    m_itemScale1->moveBy( 0.0f, m_scale1DeltaY_new - m_scale1DeltaY_old );
-    m_itemScale2->moveBy( 0.0f, m_scale2DeltaY_new - m_scale2DeltaY_old );
+    _itemScale1->moveBy( 0.0f, _scale1DeltaY_new - _scale1DeltaY_old );
+    _itemScale2->moveBy( 0.0f, _scale2DeltaY_new - _scale2DeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::updateScaleLabels()
 {
-    m_labelsDeltaY_new = m_scaleY * m_originalPixPerSpd * m_airspeed;
+    _labelsDeltaY_new = _scaleY * _originalPixPerSpd * _airspeed;
 
-    int tmp = floor( m_airspeed + 0.5f );
+    int tmp = floor( _airspeed + 0.5f );
     int spd = tmp - ( tmp % 20 );
 
     float spd1 = (float)spd + 60.0f;
@@ -1391,12 +1391,12 @@ void GraphicsEADI::ASI::updateScaleLabels()
     float spd6 = (float)spd - 40.0f;
     float spd7 = (float)spd - 60.0f;
 
-    while ( m_labelsDeltaY_new > m_scaleY * 15.0f )
+    while ( _labelsDeltaY_new > _scaleY * 15.0f )
     {
-        m_labelsDeltaY_new = m_labelsDeltaY_new - m_scaleY * 30.0f;
+        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 30.0f;
     }
 
-    if ( m_labelsDeltaY_new < 0.0 && m_airspeed > spd4 )
+    if ( _labelsDeltaY_new < 0.0 && _airspeed > spd4 )
     {
         spd1 += 20.0f;
         spd2 += 20.0f;
@@ -1407,117 +1407,117 @@ void GraphicsEADI::ASI::updateScaleLabels()
         spd7 += 20.0f;
     }
 
-    m_itemLabel1->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel2->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel3->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel4->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel5->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel6->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
-    m_itemLabel7->moveBy( 0.0f, m_labelsDeltaY_new - m_labelsDeltaY_old );
+    _itemLabel1->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel2->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel3->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel4->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel5->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel6->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel7->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
 
     if ( spd1 >= 0.0f && spd1 <= 10000.0f )
     {
-        m_itemLabel1->setVisible( true );
-        m_itemLabel1->setPlainText( QString("%1").arg(spd1, 3, 'f', 0, QChar(' ')) );
+        _itemLabel1->setVisible( true );
+        _itemLabel1->setPlainText( QString("%1").arg(spd1, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel1->setVisible( false );
+        _itemLabel1->setVisible( false );
     }
 
     if ( spd2 >= 0.0f && spd2 <= 10000.0f )
     {
-        m_itemLabel2->setVisible( true );
-        m_itemLabel2->setPlainText( QString("%1").arg(spd2, 3, 'f', 0, QChar(' ')) );
+        _itemLabel2->setVisible( true );
+        _itemLabel2->setPlainText( QString("%1").arg(spd2, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel2->setVisible( false );
+        _itemLabel2->setVisible( false );
     }
 
     if ( spd3 >= 0.0f && spd3 <= 10000.0f )
     {
-        m_itemLabel3->setVisible( true );
-        m_itemLabel3->setPlainText( QString("%1").arg(spd3, 3, 'f', 0, QChar(' ')) );
+        _itemLabel3->setVisible( true );
+        _itemLabel3->setPlainText( QString("%1").arg(spd3, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel3->setVisible( false );
+        _itemLabel3->setVisible( false );
     }
 
     if ( spd4 >= 0.0f && spd4 <= 10000.0f )
     {
-        m_itemLabel4->setVisible( true );
-        m_itemLabel4->setPlainText( QString("%1").arg(spd4, 3, 'f', 0, QChar(' ')) );
+        _itemLabel4->setVisible( true );
+        _itemLabel4->setPlainText( QString("%1").arg(spd4, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel4->setVisible( false );
+        _itemLabel4->setVisible( false );
     }
 
     if ( spd5 >= 0.0f && spd5 <= 10000.0f )
     {
-        m_itemLabel5->setVisible( true );
-        m_itemLabel5->setPlainText( QString("%1").arg(spd5, 3, 'f', 0, QChar(' ')) );
+        _itemLabel5->setVisible( true );
+        _itemLabel5->setPlainText( QString("%1").arg(spd5, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel5->setVisible( false );
+        _itemLabel5->setVisible( false );
     }
 
     if ( spd6 >= 0.0f && spd6 <= 10000.0f )
     {
-        m_itemLabel6->setVisible( true );
-        m_itemLabel6->setPlainText( QString("%1").arg(spd6, 3, 'f', 0, QChar(' ')) );
+        _itemLabel6->setVisible( true );
+        _itemLabel6->setPlainText( QString("%1").arg(spd6, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel6->setVisible( false );
+        _itemLabel6->setVisible( false );
     }
 
     if ( spd7 >= 0.0f && spd7 <= 10000.0f )
     {
-        m_itemLabel7->setVisible( true );
-        m_itemLabel7->setPlainText( QString("%1").arg(spd7, 3, 'f', 0, QChar(' ')) );
+        _itemLabel7->setVisible( true );
+        _itemLabel7->setPlainText( QString("%1").arg(spd7, 3, 'f', 0, QChar(' ')) );
     }
     else
     {
-        m_itemLabel7->setVisible( false );
+        _itemLabel7->setVisible( false );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
-    m_scene ( scene ),
+    _scene ( scene ),
 
-    m_itemBack      ( 0 ),
-    m_itemFace      ( 0 ),
-    m_itemMarks     ( 0 ),
-    m_itemFrameText ( 0 ),
+    _itemBack      ( 0 ),
+    _itemFace      ( 0 ),
+    _itemMarks     ( 0 ),
+    _itemFrameText ( 0 ),
 
-    m_frameTextColor ( 255, 255, 255 ),
+    _frameTextColor ( 255, 255, 255 ),
 
-    m_heading  ( 0.0f ),
+    _heading  ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalHsiCtr       ( 150.0f , 345.0f ),
-    m_originalBackPos      (  60.0f,  240.0f ),
-    m_originalFacePos      (  45.0f , 240.0f ),
-    m_originalMarksPos     ( 134.0f , 219.0f ),
-    m_originalFrameTextCtr ( 149.5f , 227.5f ),
+    _originalHsiCtr       ( 150.0f , 345.0f ),
+    _originalBackPos      (  60.0f,  240.0f ),
+    _originalFacePos      (  45.0f , 240.0f ),
+    _originalMarksPos     ( 134.0f , 219.0f ),
+    _originalFrameTextCtr ( 149.5f , 227.5f ),
 
-    m_backZ      (  80 ),
-    m_faceZ      (  90 ),
-    m_marksZ     ( 110 ),
-    m_frameTextZ ( 120 )
+    _backZ      (  80 ),
+    _faceZ      (  90 ),
+    _marksZ     ( 110 ),
+    _frameTextZ ( 120 )
 {
-    m_frameTextFont.setFamily( "Courier" );
-    m_frameTextFont.setPointSizeF( 10.0 );
-    m_frameTextFont.setStretch( QFont::Condensed );
-    m_frameTextFont.setWeight( QFont::Bold );
+    _frameTextFont.setFamily( "Courier" );
+    _frameTextFont.setPointSizeF( 10.0 );
+    _frameTextFont.setStretch( QFont::Condensed );
+    _frameTextFont.setWeight( QFont::Bold );
 
     reset();
 }
@@ -1526,43 +1526,43 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
 
 void GraphicsEADI::HDG::init( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     reset();
 
-    m_itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_back.svg" );
-    m_itemBack->setCacheMode( QGraphicsItem::NoCache );
-    m_itemBack->setZValue( m_backZ );
-    m_itemBack->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemBack->moveBy( m_scaleX * m_originalBackPos.x(), m_scaleY * m_originalBackPos.y() );
-    m_scene->addItem( m_itemBack );
+    _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_back.svg" );
+    _itemBack->setCacheMode( QGraphicsItem::NoCache );
+    _itemBack->setZValue( _backZ );
+    _itemBack->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBack->moveBy( _scaleX * _originalBackPos.x(), _scaleY * _originalBackPos.y() );
+    _scene->addItem( _itemBack );
 
-    m_itemFace = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_face.svg" );
-    m_itemFace->setCacheMode( QGraphicsItem::NoCache );
-    m_itemFace->setZValue( m_faceZ );
-    m_itemFace->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemFace->setTransformOriginPoint( m_originalHsiCtr - m_originalFacePos );
-    m_itemFace->moveBy( m_scaleX * m_originalFacePos.x(), m_scaleY * m_originalFacePos.y() );
-    m_scene->addItem( m_itemFace );
+    _itemFace = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_face.svg" );
+    _itemFace->setCacheMode( QGraphicsItem::NoCache );
+    _itemFace->setZValue( _faceZ );
+    _itemFace->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFace->setTransformOriginPoint( _originalHsiCtr - _originalFacePos );
+    _itemFace->moveBy( _scaleX * _originalFacePos.x(), _scaleY * _originalFacePos.y() );
+    _scene->addItem( _itemFace );
 
-    m_itemMarks = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_marks.svg" );
-    m_itemMarks->setCacheMode( QGraphicsItem::NoCache );
-    m_itemMarks->setZValue( m_marksZ );
-    m_itemMarks->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemMarks->moveBy( m_scaleX * m_originalMarksPos.x(), m_scaleY * m_originalMarksPos.y() );
-    m_scene->addItem( m_itemMarks );
+    _itemMarks = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_hsi_marks.svg" );
+    _itemMarks->setCacheMode( QGraphicsItem::NoCache );
+    _itemMarks->setZValue( _marksZ );
+    _itemMarks->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemMarks->moveBy( _scaleX * _originalMarksPos.x(), _scaleY * _originalMarksPos.y() );
+    _scene->addItem( _itemMarks );
 
-    m_itemFrameText = new QGraphicsTextItem( QString( "000" ) );
-    m_itemFrameText->setCacheMode( QGraphicsItem::NoCache );
-    m_itemFrameText->setZValue( m_frameTextZ );
-    m_itemFrameText->setTextInteractionFlags( Qt::NoTextInteraction );
-    m_itemFrameText->setDefaultTextColor( m_frameTextColor );
-    m_itemFrameText->setFont( m_frameTextFont );
-    m_itemFrameText->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemFrameText->moveBy( m_scaleX * ( m_originalFrameTextCtr.x() - m_itemFrameText->boundingRect().width()  / 2.0f ),
-                             m_scaleY * ( m_originalFrameTextCtr.y() - m_itemFrameText->boundingRect().height() / 2.0f ) );
-    m_scene->addItem( m_itemFrameText );
+    _itemFrameText = new QGraphicsTextItem( QString( "000" ) );
+    _itemFrameText->setCacheMode( QGraphicsItem::NoCache );
+    _itemFrameText->setZValue( _frameTextZ );
+    _itemFrameText->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemFrameText->setDefaultTextColor( _frameTextColor );
+    _itemFrameText->setFont( _frameTextFont );
+    _itemFrameText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFrameText->moveBy( _scaleX * ( _originalFrameTextCtr.x() - _itemFrameText->boundingRect().width()  / 2.0f ),
+                            _scaleY * ( _originalFrameTextCtr.y() - _itemFrameText->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemFrameText );
 
     update( scaleX, scaleY );
 }
@@ -1571,8 +1571,8 @@ void GraphicsEADI::HDG::init( float scaleX, float scaleY )
 
 void GraphicsEADI::HDG::update( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     updateHeading();
 }
@@ -1581,16 +1581,16 @@ void GraphicsEADI::HDG::update( float scaleX, float scaleY )
 
 void GraphicsEADI::HDG::setHeading( float heading )
 {
-    m_heading = heading;
+    _heading = heading;
 
-    while ( m_heading < 0.0f )
+    while ( _heading < 0.0f )
     {
-        m_heading += 360.0f;
+        _heading += 360.0f;
     }
 
-    while ( m_heading > 360.0f )
+    while ( _heading > 360.0f )
     {
-        m_heading -= 360.0f;
+        _heading -= 360.0f;
     }
 }
 
@@ -1598,51 +1598,51 @@ void GraphicsEADI::HDG::setHeading( float heading )
 
 void GraphicsEADI::HDG::reset()
 {
-    m_itemBack      = 0;
-    m_itemFace      = 0;
-    m_itemMarks     = 0;
-    m_itemFrameText = 0;
+    _itemBack      = 0;
+    _itemFace      = 0;
+    _itemMarks     = 0;
+    _itemFrameText = 0;
 
-    m_heading  = 0.0f;
+    _heading  = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::HDG::updateHeading()
 {
-    m_itemFace->setRotation( - m_heading );
+    _itemFace->setRotation( -_heading );
 
-    float fHeading = floor( m_heading + 0.5f );
+    float fHeading = floor( _heading + 0.5f );
 
-    m_itemFrameText->setPlainText( QString("%1").arg(fHeading, 3, 'f', 0, QChar('0')) );
+    _itemFrameText->setPlainText( QString("%1").arg(fHeading, 3, 'f', 0, QChar('0')) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
-    m_scene ( scene ),
+    _scene ( scene ),
 
-    m_itemScale  ( 0 ),
-    m_itemMarker ( 0 ),
+    _itemScale  ( 0 ),
+    _itemMarker ( 0 ),
 
-    m_climbRate ( 0.0f ),
+    _climbRate ( 0.0f ),
 
-    m_scaleX ( 1.0f ),
-    m_scaleY ( 1.0f ),
+    _scaleX ( 1.0f ),
+    _scaleY ( 1.0f ),
 
-    m_originalMarkeWidth (  4.0f ),
-    m_originalPixPerSpd1 ( 30.0f ),
-    m_originalPixPerSpd2 ( 20.0f ),
-    m_originalPixPerSpd4 (  5.0f ),
+    _originalMarkeWidth (  4.0f ),
+    _originalPixPerSpd1 ( 30.0f ),
+    _originalPixPerSpd2 ( 20.0f ),
+    _originalPixPerSpd4 (  5.0f ),
 
-    m_originalScalePos  ( 275.0f ,  50.0f ),
-    m_originalMarkerPos ( 285.0f , 124.5f ),
+    _originalScalePos  ( 275.0f ,  50.0f ),
+    _originalMarkerPos ( 285.0f , 124.5f ),
 
-    m_markerBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
-    m_markerPen ( m_markerBrush, 0 ),
+    _markerBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
+    _markerPen ( _markerBrush, 0 ),
 
-    m_scaleZ  ( 70 ),
-    m_markerZ ( 8000 )
+    _scaleZ  ( 70 ),
+    _markerZ ( 8000 )
 {
     reset();
 }
@@ -1651,24 +1651,24 @@ GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
 
 void GraphicsEADI::VSI::init( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     reset();
 
-    m_itemScale = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_vsi_scale.svg" );
-    m_itemScale->setCacheMode( QGraphicsItem::NoCache );
-    m_itemScale->setZValue( m_scaleZ );
-    m_itemScale->setTransform( QTransform::fromScale( m_scaleX, m_scaleY ), true );
-    m_itemScale->moveBy( m_scaleX * m_originalScalePos.x(), m_scaleY * m_originalScalePos.y() );
-    m_scene->addItem( m_itemScale );
+    _itemScale = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_vsi_scale.svg" );
+    _itemScale->setCacheMode( QGraphicsItem::NoCache );
+    _itemScale->setZValue( _scaleZ );
+    _itemScale->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemScale->moveBy( _scaleX * _originalScalePos.x(), _scaleY * _originalScalePos.y() );
+    _scene->addItem( _itemScale );
 
-    m_itemMarker = m_scene->addRect( m_scaleX * m_originalMarkerPos.x(),
-                                     m_scaleY * m_originalMarkerPos.y(),
-                                     m_scaleX * m_originalMarkeWidth,
-                                     m_scaleY * 10,
-                                     m_markerPen, m_markerBrush );
-    m_itemMarker->setZValue( m_markerZ );
+    _itemMarker = _scene->addRect( _scaleX * _originalMarkerPos.x(),
+                                   _scaleY * _originalMarkerPos.y(),
+                                   _scaleX * _originalMarkeWidth,
+                                   _scaleY * 10,
+                                   _markerPen, _markerBrush );
+    _itemMarker->setZValue( _markerZ );
 
     update( scaleX, scaleY );
 }
@@ -1677,8 +1677,8 @@ void GraphicsEADI::VSI::init( float scaleX, float scaleY )
 
 void GraphicsEADI::VSI::update( float scaleX, float scaleY )
 {
-    m_scaleX = scaleX;
-    m_scaleY = scaleY;
+    _scaleX = scaleX;
+    _scaleY = scaleY;
 
     updateVSI();
 }
@@ -1687,19 +1687,18 @@ void GraphicsEADI::VSI::update( float scaleX, float scaleY )
 
 void GraphicsEADI::VSI::setClimbRate( float climbRate )
 {
-    m_climbRate = climbRate;
+    _climbRate = climbRate;
 
-    if      ( m_climbRate >  6.3f ) m_climbRate =  6.3f;
-    else if ( m_climbRate < -6.3f ) m_climbRate = -6.3f;
+    if      ( _climbRate >  6.8f ) _climbRate =  6.8f;
+    else if ( _climbRate < -6.8f ) _climbRate = -6.8f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::VSI::reset()
 {
-    m_itemScale = 0;
-
-    m_climbRate = 0.0;
+    _itemScale = 0;
+    _climbRate = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1708,34 +1707,34 @@ void GraphicsEADI::VSI::updateVSI()
 {
     //m_scene->clear();
 
-    float climbRateAbs = fabs( m_climbRate );
+    float climbRateAbs = fabs( _climbRate );
     float arrowDeltaY = 0.0;
 
     if ( climbRateAbs <= 1.0f )
     {
-        arrowDeltaY = m_originalPixPerSpd1 * climbRateAbs;
+        arrowDeltaY = _originalPixPerSpd1 * climbRateAbs;
     }
     else if ( climbRateAbs <= 2.0f )
     {
-        arrowDeltaY = m_originalPixPerSpd1 + m_originalPixPerSpd2 * ( climbRateAbs - 1.0f );
+        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 * ( climbRateAbs - 1.0f );
     }
     else
     {
-        arrowDeltaY = m_originalPixPerSpd1 + m_originalPixPerSpd2 + m_originalPixPerSpd4 * ( climbRateAbs - 2.0f );
+        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 + _originalPixPerSpd4 * ( climbRateAbs - 2.0f );
     }
 
-    if ( m_climbRate > 0.0f )
+    if ( _climbRate > 0.0f )
     {
-        m_itemMarker->setRect( m_scaleX * m_originalMarkerPos.x(),
-                               m_scaleY * m_originalMarkerPos.y() - m_scaleY * arrowDeltaY,
-                               m_scaleX * m_originalMarkeWidth,
-                               m_scaleY * arrowDeltaY );
+        _itemMarker->setRect( _scaleX * _originalMarkerPos.x(),
+                              _scaleY * _originalMarkerPos.y() - _scaleY * arrowDeltaY,
+                              _scaleX * _originalMarkeWidth,
+                              _scaleY * arrowDeltaY );
     }
     else
     {
-        m_itemMarker->setRect( m_scaleX * m_originalMarkerPos.x(),
-                               m_scaleY * m_originalMarkerPos.y(),
-                               m_scaleX * m_originalMarkeWidth,
-                               m_scaleY * arrowDeltaY );
+        _itemMarker->setRect( _scaleX * _originalMarkerPos.x(),
+                              _scaleY * _originalMarkerPos.y(),
+                              _scaleX * _originalMarkeWidth,
+                              _scaleY * arrowDeltaY );
     }
 }

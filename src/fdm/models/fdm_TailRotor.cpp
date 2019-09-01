@@ -32,36 +32,36 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 TailRotor::TailRotor() :
-    m_nb ( 0 ),
+    _nb ( 0 ),
 
-    m_r ( 0.0 ),
-    m_c ( 0.0 ),
-    m_a ( 0.0 ),
-    m_b ( 0.0 ),
+    _r ( 0.0 ),
+    _c ( 0.0 ),
+    _a ( 0.0 ),
+    _b ( 0.0 ),
 
-    m_delta_0 ( 0.0 ),
-    m_delta_2 ( 0.0 ),
+    _delta_0 ( 0.0 ),
+    _delta_2 ( 0.0 ),
 
-    m_ct_max ( 0.0 ),
-    m_cq_max ( 0.0 ),
+    _ct_max ( 0.0 ),
+    _cq_max ( 0.0 ),
 
-    m_thrust_factor ( 1.0 ),
-    m_torque_factor ( 1.0 ),
-    m_vel_i_factor  ( 1.0 ),
+    _thrust_factor ( 1.0 ),
+    _torque_factor ( 1.0 ),
+    _vel_i_factor  ( 1.0 ),
 
-    m_r2  ( 0.0 ),
-    m_r3  ( 0.0 ),
-    m_ad  ( 0.0 ),
-    m_s   ( 0.0 ),
-    m_i_b ( 0.0 ),
+    _r2  ( 0.0 ),
+    _r3  ( 0.0 ),
+    _ad  ( 0.0 ),
+    _s   ( 0.0 ),
+    _i_b ( 0.0 ),
 
-    m_omega ( 0.0 ),
+    _omega ( 0.0 ),
 
-    m_thrust ( 0.0 ),
-    m_torque ( 0.0 )
+    _thrust ( 0.0 ),
+    _torque ( 0.0 )
 {
-    m_bas2ras = Matrix3x3::createIdentityMatrix();
-    m_ras2bas = Matrix3x3::createIdentityMatrix();
+    _bas2ras = Matrix3x3::createIdentityMatrix();
+    _ras2bas = Matrix3x3::createIdentityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,47 +79,47 @@ void TailRotor::readData( XmlNode &dataNode )
         double cant_angle = 0.0;
         double blade_mass = 0.0;
 
-        m_thrust_factor = 1.0;
-        m_torque_factor = 1.0;
-        m_vel_i_factor  = 1.0;
+        _thrust_factor = 1.0;
+        _torque_factor = 1.0;
+        _vel_i_factor  = 1.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_hub_bas, "hub_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, cant_angle, "cant_angle" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_nb, "number_of_blades" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nb, "number_of_blades" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, blade_mass, "blade_mass" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r, "rotor_radius" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_c, "blades_chord" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r, "rotor_radius" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blades_chord" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_a, "lift_slope" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_b, "tip_losses" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _a, "lift_slope" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _b, "tip_losses" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_0, "delta_0" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_delta_2, "delta_2" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_0, "delta_0" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_2, "delta_2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_ct_max, "ct_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cq_max, "cq_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_thrust_factor , "thrust_factor" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_torque_factor , "torque_factor" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_vel_i_factor  , "vel_i_factor"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_factor , "thrust_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _torque_factor , "torque_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _vel_i_factor  , "vel_i_factor"  , true );
 
         if ( result == FDM_SUCCESS )
         {
-            m_r2 = m_r * m_r;
-            m_r3 = m_r * m_r2;
+            _r2 = _r * _r;
+            _r3 = _r * _r2;
 
-            m_ad = M_PI * m_r2;
-            m_s = ( (double)m_nb ) * m_c * m_r / m_ad;
+            _ad = M_PI * _r2;
+            _s = ( (double)_nb ) * _c * _r / _ad;
 
-            m_i_b = blade_mass * m_r * m_r / 3.0;
+            _i_b = blade_mass * _r * _r / 3.0;
 
             // TODO
-            m_bas2ras = Matrix3x3( Angles( cant_angle, 0.0, 0.0 ) );
-            m_ras2bas = m_bas2ras.getTransposed();
+            _bas2ras = Matrix3x3( Angles( cant_angle, 0.0, 0.0 ) );
+            _ras2bas = _bas2ras.getTransposed();
         }
         else
         {
@@ -149,14 +149,14 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
                                        double airDensity,
                                        double collective )
 {
-    double omega2 = m_omega * m_omega;
-    double omegaR = m_omega * m_r;
+    double omega2 = _omega * _omega;
+    double omegaR = _omega * _r;
 
     // controls
     double theta_0 = collective;
 
     // velocity transformations
-    Vector3 vel_air_ras = m_bas2ras * ( vel_air_bas + ( omg_air_bas ^ m_r_hub_bas ) );
+    Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas ^ _r_hub_bas ) );
 
     // angle of attack
     double alpha = Aerodynamics::getAngleOfAttack( vel_air_ras );
@@ -175,7 +175,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     double ct = 0.0;
 
     // rotor inflow
-    double lambda_i = m_vel_i_bas.getLength() / omegaR;
+    double lambda_i = _vel_i_bas.getLength() / omegaR;
 
     if ( fabs( lambda_i ) < 10e-14 ) lambda_i = 10e-14;
 
@@ -185,8 +185,8 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
         lambda = mu_z - lambda_i;
 
         // thrust coefficient
-        ct = 0.5 * m_a * m_s  * m_b * ( lambda * m_b / 2.0 + theta_0 * ( m_b + 1.5 * mu2 ) / 3.0 );
-        if ( ct > m_ct_max ) ct = m_ct_max;
+        ct = 0.5 * _a * _s  * _b * ( lambda * _b / 2.0 + theta_0 * ( _b + 1.5 * mu2 ) / 3.0 );
+        if ( ct > _ct_max ) ct = _ct_max;
 
         // zero function (Padfield p.124)
         double lambda_d = mu2 + lambda * lambda;
@@ -197,7 +197,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
 
         // (Padfield p.124)
         double h_j = -( 2.0 * lambda_i * sqrt( lambda_d ) - ct ) * lambda_d
-                / ( 2*pow( lambda_d, 2.0/3.0 ) + m_a * m_s * lambda_d / 4.0 - ct * lambda );
+                / ( 2*pow( lambda_d, 2.0/3.0 ) + _a * _s * lambda_d / 4.0 - ct * lambda );
 
         // (Padfield p.124)
         double f_j = 1.0;
@@ -210,22 +210,22 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     }
 
     // drag coefficient
-    double cd = m_delta_0 + m_delta_2 * ct*ct;
+    double cd = _delta_0 + _delta_2 * ct*ct;
 
     // moment of resistance coefficient (Bramwell p.102)
-    double cq = cd * m_s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * ct;
-    if ( cq > m_cq_max ) cq = m_cq_max;
+    double cq = cd * _s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * ct;
+    if ( cq > _cq_max ) cq = _cq_max;
 
     // induced velocity
-    m_vel_i_bas = m_ras2bas * Vector3( 0.0, 0.0, m_vel_i_factor * lambda_i * omegaR );
+    _vel_i_bas = _ras2bas * Vector3( 0.0, 0.0, _vel_i_factor * lambda_i * omegaR );
 
-    m_thrust = m_thrust_factor * airDensity * m_ad * m_r2 * omega2 * ct;
-    m_torque = m_torque_factor * airDensity * m_ad * m_r3 * omega2 * cq;
+    _thrust = _thrust_factor * airDensity * _ad * _r2 * omega2 * ct;
+    _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * cq;
 
-    m_for_bas = m_ras2bas * Vector3( 0.0, 0.0, -m_thrust );
-    m_mom_bas = m_r_hub_bas ^ m_for_bas;
+    _for_bas = _ras2bas * Vector3( 0.0, 0.0, -_thrust );
+    _mom_bas = _r_hub_bas ^ _for_bas;
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -240,5 +240,5 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 void TailRotor::update( double omega )
 {
-    m_omega = omega;
+    _omega = omega;
 }

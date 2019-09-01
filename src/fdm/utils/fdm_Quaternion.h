@@ -97,14 +97,14 @@ public:
     /** Returns normalized quaternion. */
     Quaternion getNormalized() const;
 
-    inline double  e0() const { return m_e0; }
-    inline double  ex() const { return m_ex; }
-    inline double  ey() const { return m_ey; }
-    inline double  ez() const { return m_ez; }
-    inline double& e0()       { return m_e0; }
-    inline double& ex()       { return m_ex; }
-    inline double& ey()       { return m_ey; }
-    inline double& ez()       { return m_ez; }
+    inline double  e0() const { return _e0; }
+    inline double  ex() const { return _ex; }
+    inline double  ey() const { return _ey; }
+    inline double  ez() const { return _ez; }
+    inline double& e0()       { return _e0; }
+    inline double& ex()       { return _ex; }
+    inline double& ey()       { return _ey; }
+    inline double& ez()       { return _ez; }
 
     /** Sets quaternion values. */
     void set( double e0, double ex, double ey, double ez );
@@ -150,10 +150,10 @@ public:
 
 private:
 
-    double m_e0;    ///< quaternion e0 (w) component
-    double m_ex;    ///< quaternion ex (x) component
-    double m_ey;    ///< quaternion ey (y) component
-    double m_ez;    ///< quaternion ez (z) component
+    double _e0;     ///< quaternion e0 (w) component
+    double _ex;     ///< quaternion ex (x) component
+    double _ey;     ///< quaternion ey (y) component
+    double _ez;     ///< quaternion ez (z) component
 };
 
 } // end of fdm namespace

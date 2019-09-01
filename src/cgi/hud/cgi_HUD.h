@@ -43,9 +43,9 @@ class HUD
 {
 public:
 
-    static const float m_charSize;      ///<
-    static const float m_angleCoef;     ///<
-    static const float m_rollLimit;     ///<
+    static const float _charSize;       ///<
+    static const float _angleCoef;      ///<
+    static const float _rollLimit;      ///<
 
     /** Constructor. */
     HUD();
@@ -57,53 +57,53 @@ public:
     void update();
 
     /** Returns OSG node.  */
-    inline osg::Group* getNode() { return m_root.get(); }
+    inline osg::Group* getNode() { return _root.get(); }
 
 private:
 
-    osg::ref_ptr<osg::Group> m_root;        ///< HUD root group
-    osg::ref_ptr<osg::Switch> m_switch;     ///<
+    osg::ref_ptr<osg::Group>  _root;        ///< HUD root group
+    osg::ref_ptr<osg::Switch> _switch;      ///<
 
-    osg::ref_ptr<osg::Switch> m_switchRollIndicator;
-    osg::ref_ptr<osg::Switch> m_switchPitchLadder;
-    osg::ref_ptr<osg::Switch> m_switchHeadingScale;
+    osg::ref_ptr<osg::Switch> _switchRollIndicator;
+    osg::ref_ptr<osg::Switch> _switchPitchLadder;
+    osg::ref_ptr<osg::Switch> _switchHeadingScale;
 
-    osg::ref_ptr<osg::Switch> m_switchFPM;
-    osg::ref_ptr<osg::Switch> m_switchILS;
+    osg::ref_ptr<osg::Switch> _switchFPM;
+    osg::ref_ptr<osg::Switch> _switchILS;
 
-    osg::ref_ptr<osg::Switch> m_switchStall;
+    osg::ref_ptr<osg::Switch> _switchStall;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderRoll;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderPitch;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patPitchLadderSlip;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPitchLadderRoll;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPitchLadderPitch;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patPitchLadderSlip;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patRollIndicator;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patHeadingScale;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patRollIndicator;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patHeadingScale;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patFPM;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patFPM;
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patILS;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patILS_GS;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_patILS_LC;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patILS;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patILS_GS;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patILS_LC;
 
-    osg::ref_ptr<osg::Geode> m_airspeed;
-    osg::ref_ptr<osg::Geode> m_altitude;
-    osg::ref_ptr<osg::Geode> m_machNo;
-    osg::ref_ptr<osg::Geode> m_climbRate;
-    osg::ref_ptr<osg::Geode> m_heading;
-    osg::ref_ptr<osg::Geode> m_gForce;
-    osg::ref_ptr<osg::Geode> m_radioAlt;
+    osg::ref_ptr<osg::Geode> _airspeed;
+    osg::ref_ptr<osg::Geode> _altitude;
+    osg::ref_ptr<osg::Geode> _machNo;
+    osg::ref_ptr<osg::Geode> _climbRate;
+    osg::ref_ptr<osg::Geode> _heading;
+    osg::ref_ptr<osg::Geode> _gForce;
+    osg::ref_ptr<osg::Geode> _radioAlt;
 
-    osg::ref_ptr<osg::Material> m_material;
+    osg::ref_ptr<osg::Material> _material;
 
-    std::vector< osg::ref_ptr<osgText::Text> > m_texts;
+    std::vector< osg::ref_ptr<osgText::Text> > _texts;
 
-    osg::Vec4 m_color;
+    osg::Vec4 _color;
 
-    float m_sideslipAngleFPM_deg;
-    float m_angleOfAttackFPM_deg;
+    float _sideslipAngleFPM_deg;
+    float _angleOfAttackFPM_deg;
 
-    bool m_validFPM;
+    bool _validFPM;
 
     void createWaterLine();
 

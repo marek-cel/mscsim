@@ -60,8 +60,8 @@ public:
 
 private:
 
-    List m_objects;                         ///< objects list
-    std::vector< std::string > m_fileNames; ///< file names
+    List _objects;                          ///< objects list
+    std::vector< std::string > _fileNames;  ///< file names
 
     /**
      * You should use static function instance() due to get refernce

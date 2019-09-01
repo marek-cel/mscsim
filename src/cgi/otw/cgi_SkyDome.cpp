@@ -32,6 +32,8 @@
 
 #include <Data.h>
 
+#include <fdm/fdm_Path.h>
+
 #include <cgi/otw/cgi_FogScene.h>
 
 #include <cgi/cgi_Color.h>
@@ -45,62 +47,62 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const float SkyDome::m_sunRadius  = CGI_SKYDOME_RADIUS * tan( osg::DegreesToRadians( CGI_SKYDOME_DIAMETER_SUN  / 2.0 ) );
-const float SkyDome::m_moonRadius = CGI_SKYDOME_RADIUS * tan( osg::DegreesToRadians( CGI_SKYDOME_DIAMETER_MOON / 2.0 ) );
+const float SkyDome::_sunRadius  = CGI_SKYDOME_RADIUS * tan( osg::DegreesToRadians( CGI_SKYDOME_DIAMETER_SUN  / 2.0 ) );
+const float SkyDome::_moonRadius = CGI_SKYDOME_RADIUS * tan( osg::DegreesToRadians( CGI_SKYDOME_DIAMETER_MOON / 2.0 ) );
 
-const float SkyDome::m_offsetStars   = -1000.0f;
-const float SkyDome::m_offsetSunHalo = -2000.0f;
-const float SkyDome::m_offsetSunFace = -3000.0f;
-const float SkyDome::m_offsetMoon    = -4000.0f;
+const float SkyDome::_offsetStars   = -1000.0f;
+const float SkyDome::_offsetSunHalo = -2000.0f;
+const float SkyDome::_offsetSunFace = -3000.0f;
+const float SkyDome::_offsetMoon    = -4000.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 SkyDome::SkyDome( Module *parent ) :
     Module( parent ),
 
-    m_textureSky  ( 0 ),
-    m_textureFog  ( 0 ),
-    m_textureSun  ( 0 ),
-    m_textureMoon ( 0 ),
+    _textureSky  ( 0 ),
+    _textureFog  ( 0 ),
+    _textureSun  ( 0 ),
+    _textureMoon ( 0 ),
 
-    m_skyScale ( 1.0f ),
+    _skyScale ( 1.0f ),
 
-    m_sunAlpha  ( 0.0f ),
-    m_sunDelta  ( 0.0f ),
-    m_sunElev   ( 0.0f ),
-    m_sunAzim   ( 0.0f ),
-    m_moonAlpha ( 0.0f ),
-    m_moonDelta ( 0.0f ),
-    m_moonElev  ( 0.0f ),
-    m_moonAzim  ( 0.0f ),
+    _sunAlpha  ( 0.0f ),
+    _sunDelta  ( 0.0f ),
+    _sunElev   ( 0.0f ),
+    _sunAzim   ( 0.0f ),
+    _moonAlpha ( 0.0f ),
+    _moonDelta ( 0.0f ),
+    _moonElev  ( 0.0f ),
+    _moonAzim  ( 0.0f ),
 
-    m_starIntensity ( 0 ),
-    m_starsCount ( 0 )
+    _starIntensity ( 0 ),
+    _starsCount ( 0 )
 {
-    m_root->setName( "SkyDome" );
+    _root->setName( "SkyDome" );
 
-    m_switch = new osg::Switch();
-    m_root->addChild( m_switch.get() );
+    _switch = new osg::Switch();
+    _root->addChild( _switch.get() );
 
     // position
-    m_position = new osg::PositionAttitudeTransform();
-    m_switch->addChild( m_position.get() );
+    _position = new osg::PositionAttitudeTransform();
+    _switch->addChild( _position.get() );
 
     // attitude (due to local horizon)
-    m_attitude = new osg::PositionAttitudeTransform();
-    m_position->addChild( m_attitude.get() );
+    _attitude = new osg::PositionAttitudeTransform();
+    _position->addChild( _attitude.get() );
 
     // Sky PAT
-    m_patSky = new osg::PositionAttitudeTransform();
-    m_position->addChild( m_patSky.get() );
+    _patSky = new osg::PositionAttitudeTransform();
+    _position->addChild( _patSky.get() );
 
     // Sun PAT
-    m_patSun = new osg::PositionAttitudeTransform();
-    m_patSky->addChild( m_patSun.get() );
+    _patSun = new osg::PositionAttitudeTransform();
+    _attitude->addChild( _patSun.get() );
 
     // Moon PAT
-    m_patMoon = new osg::PositionAttitudeTransform();
-    m_patSky->addChild( m_patMoon.get() );
+    _patMoon = new osg::PositionAttitudeTransform();
+    _patSky->addChild( _patMoon.get() );
 
     createTextures();
 
@@ -112,15 +114,15 @@ SkyDome::SkyDome( Module *parent ) :
     createLightMoon();
     createLightSun();
 
-    m_root->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+    _root->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 SkyDome::~SkyDome()
 {
-    if ( m_starIntensity ) delete [] m_starIntensity;
-    m_starIntensity = 0;
+    if ( _starIntensity ) delete [] _starIntensity;
+    _starIntensity = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -131,23 +133,23 @@ void SkyDome::update()
     Module::update();
     /////////////////
 
-    m_dateTime.year   = Data::get()->dateTime.year;
-    m_dateTime.month  = Data::get()->dateTime.month;
-    m_dateTime.day    = Data::get()->dateTime.day;
-    m_dateTime.hour   = Data::get()->dateTime.hour;
-    m_dateTime.minute = Data::get()->dateTime.minute;
-    m_dateTime.second = Data::get()->dateTime.second;
+    _dateTime.year   = Data::get()->dateTime.year;
+    _dateTime.month  = Data::get()->dateTime.month;
+    _dateTime.day    = Data::get()->dateTime.day;
+    _dateTime.hour   = Data::get()->dateTime.hour;
+    _dateTime.minute = Data::get()->dateTime.minute;
+    _dateTime.second = Data::get()->dateTime.second;
 
-    m_ephemeris.update( m_dateTime, Data::get()->camera.latitude, Data::get()->camera.longitude );
+    _ephemeris.update( _dateTime, Data::get()->camera.latitude, Data::get()->camera.longitude );
 
-    m_sunAlpha  = m_ephemeris.getSunAlpha();
-    m_sunDelta  = m_ephemeris.getSunDelta();
-    m_sunElev   = m_ephemeris.getSunElev();
-    m_sunAzim   = m_ephemeris.getSunAzim();
-    m_moonAlpha = m_ephemeris.getMoonAlpha();
-    m_moonDelta = m_ephemeris.getMoonDelta();
-    m_moonElev  = m_ephemeris.getMoonElev();
-    m_moonAzim  = m_ephemeris.getMoonAzim();
+    _sunAlpha  = _ephemeris.getSunAlpha();
+    _sunDelta  = _ephemeris.getSunDelta();
+    _sunElev   = _ephemeris.getSunElev();
+    _sunAzim   = _ephemeris.getSunAzim();
+    _moonAlpha = _ephemeris.getMoonAlpha();
+    _moonDelta = _ephemeris.getMoonDelta();
+    _moonElev  = _ephemeris.getMoonElev();
+    _moonAzim  = _ephemeris.getMoonAzim();
 
     ////////////////////////////////////////
 
@@ -156,60 +158,60 @@ void SkyDome::update()
     if ( Data::get()->camera.altitude_agl > CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
     {
         // Scaling (distance to the horizon - simplified formula)
-        m_skyScale = 3600.0 * sqrt( Data::get()->camera.altitude_asl ) / CGI_SKYDOME_RADIUS;
+        _skyScale = 3600.0 * sqrt( Data::get()->camera.altitude_asl ) / CGI_SKYDOME_RADIUS;
 
         float coef = ( Data::get()->camera.altitude_agl - CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
                    / ( CGI_SKYDOME_SCALING_TRANSIENT_ALT_MAX - CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN );
         if ( coef > 1.0f ) coef = 1.0f;
 
-        m_skyScale *= coef;
+        _skyScale *= coef;
 
-        if ( m_skyScale < 1.0 ) m_skyScale = 1.0;
-        if ( m_skyScale > 9.0 ) m_skyScale = 9.0;
+        if ( _skyScale < 1.0 ) _skyScale = 1.0;
+        if ( _skyScale > 9.0 ) _skyScale = 9.0;
     }
     else
     {
-        m_skyScale = 1.0;
+        _skyScale = 1.0;
     }
 #   else
-    m_skyScale = 1.0;
+    _skyScale = 1.0;
 #   endif
 
     // position
     osg::Vec3d pos_wgs = WGS84( Data::get()->camera.latitude, Data::get()->camera.longitude, 0.0 ).getPosition();
 
-    double r_s = m_skyScale * CGI_SKYDOME_RADIUS;
+    double r_s = _skyScale * CGI_SKYDOME_RADIUS;
     double r_e = pos_wgs.length();
 
     double delta_h = -r_s * tan( asin( r_s / r_e ) );
 
     WGS84 wgs( Data::get()->camera.latitude, Data::get()->camera.longitude, delta_h );
 
-    m_attitude->setAttitude( wgs.getAttitude() );
-    m_position->setPosition( wgs.getPosition() );
+    _attitude->setAttitude( wgs.getAttitude() );
+    _position->setPosition( wgs.getPosition() );
 #   ifdef SIM_SKYDOME_SCALING
-    osg::Vec3 vecSkyScale( m_skyScale, m_skyScale, m_skyScale );
-    m_position ->setScale( vecSkyScale );
-    m_patSun   ->setScale( vecSkyScale );
-    m_patMoon  ->setScale( vecSkyScale );
+    osg::Vec3 vecSkyScale( _skyScale, _skyScale, _skyScale );
+    _position ->setScale( vecSkyScale );
+    _patSun   ->setScale( vecSkyScale );
+    _patMoon  ->setScale( vecSkyScale );
 #   endif
 
-    osg::Quat Q_gst( -m_ephemeris.getGST(), osg::Z_AXIS );
+    osg::Quat Q_gst( -_ephemeris.getGST(), osg::Z_AXIS );
 
-    osg::Quat Q_sun( -m_sunDelta, osg::Y_AXIS,
-                      m_sunAlpha, osg::Z_AXIS,
-   -Data::get()->camera.latitude, osg::X_AXIS );
+    osg::Quat Q_sun( M_PI_2, osg::X_AXIS,
+                   _sunElev, osg::Y_AXIS,
+                   _sunAzim, osg::Z_AXIS );
 
     osg::Quat Q_moon( 0.0, osg::X_AXIS,
-             -m_moonDelta, osg::Y_AXIS,
-              m_moonAlpha, osg::Z_AXIS );
+              -_moonDelta, osg::Y_AXIS,
+               _moonAlpha, osg::Z_AXIS );
 
-    m_patSky->setAttitude( Q_gst );
-    m_patSun->setAttitude( Q_sun );
-    m_patMoon->setAttitude( Q_moon );
+    _patSky->setAttitude( Q_gst );
+    _patSun->setAttitude( Q_sun );
+    _patMoon->setAttitude( Q_moon );
 
-    float sun_elevation_deg  = osg::RadiansToDegrees( m_sunElev  );
-    float moon_elevation_deg = osg::RadiansToDegrees( m_moonElev );
+    float sun_elevation_deg  = osg::RadiansToDegrees( _sunElev  );
+    float moon_elevation_deg = osg::RadiansToDegrees( _moonElev );
 
     // Sky
     unsigned short sky_num = 0;
@@ -231,20 +233,20 @@ void SkyDome::update()
     {
         unsigned short fog_num = FogScene::getFogNumber( sun_elevation_deg );
 
-        if ( m_textureFog != fog_num && fog_num < m_texturesFog.size() )
+        if ( _textureFog != fog_num && fog_num < _texturesFog.size() )
         {
-            m_textureSky = 0;
-            m_textureFog = fog_num;
-            m_geodeSky->getOrCreateStateSet()->setTextureAttributeAndModes( 0, m_texturesFog[ m_textureFog ], osg::StateAttribute::ON );
+            _textureSky = 0;
+            _textureFog = fog_num;
+            _geodeSky->getOrCreateStateSet()->setTextureAttributeAndModes( 0, _texturesFog[ _textureFog ], osg::StateAttribute::ON );
         }
     }
     else
     {
-        if ( m_textureSky != sky_num && sky_num < m_texturesSky.size() )
+        if ( _textureSky != sky_num && sky_num < _texturesSky.size() )
         {
-            m_textureFog = 0;
-            m_textureSky = sky_num;
-            m_geodeSky->getOrCreateStateSet()->setTextureAttributeAndModes( 0, m_texturesSky[ m_textureSky ], osg::StateAttribute::ON );
+            _textureFog = 0;
+            _textureSky = sky_num;
+            _geodeSky->getOrCreateStateSet()->setTextureAttributeAndModes( 0, _texturesSky[ _textureSky ], osg::StateAttribute::ON );
         }
     }
 
@@ -262,19 +264,19 @@ void SkyDome::update()
 
     numSun = std::min( std::max( (int)numSun, 0 ), 10 );
 
-    osg::Vec4 sunColor( Color::sun[ numSun ], 1.0f );
+    osg::Vec4 sunColor( Color::_sun[ numSun ], 1.0f );
 
-    m_materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    m_materialSun->setAmbient( osg::Material::FRONT, sunColor );
-    m_materialSun->setDiffuse( osg::Material::FRONT, sunColor );
+    _materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    _materialSun->setAmbient( osg::Material::FRONT, sunColor );
+    _materialSun->setDiffuse( osg::Material::FRONT, sunColor );
 
-    m_geodeSunFace->getOrCreateStateSet()->setAttribute( m_materialSun.get() );
+    _geodeSunFace->getOrCreateStateSet()->setAttribute( _materialSun.get() );
 
-    if ( m_textureSun != numSun && numSun < m_texturesSun.size() )
+    if ( _textureSun != numSun && numSun < _texturesSun.size() )
     {
-        m_textureSun = numSun;
+        _textureSun = numSun;
 
-        m_geodeSunHalo->getOrCreateStateSet()->setTextureAttributeAndModes( 0, m_texturesSun[ m_textureSun ], osg::StateAttribute::ON );
+        _geodeSunHalo->getOrCreateStateSet()->setTextureAttributeAndModes( 0, _texturesSun[ _textureSun ], osg::StateAttribute::ON );
     }
 
     // Moon
@@ -287,17 +289,17 @@ void SkyDome::update()
     // Full Moon   : 0.5
     // 3rd Quarter : 0.75
     // New Moon    : 1.0
-    double moonTmp = ( m_ephemeris.getJD() - 2451550.0 ) / 29.530587981;
+    double moonTmp = ( _ephemeris.getJD() - 2451550.0 ) / 29.530587981;
     double moonAge = moonTmp - floor( moonTmp );
 
     numMoon = floor( 7.0 * moonAge + 0.5 );
     numMoon = std::min( std::max( (int)numMoon, 0 ), 7 );
 
-    if ( m_textureMoon != numMoon && numMoon < m_texturesMoon.size() )
+    if ( _textureMoon != numMoon && numMoon < _texturesMoon.size() )
     {
-        m_textureMoon = numMoon;
+        _textureMoon = numMoon;
 
-        m_geodeMoon->getOrCreateStateSet()->setTextureAttributeAndModes( 0, m_texturesMoon[ m_textureMoon ], osg::StateAttribute::ON );
+        _geodeMoon->getOrCreateStateSet()->setTextureAttributeAndModes( 0, _texturesMoon[ _textureMoon ], osg::StateAttribute::ON );
     }
 
     // Stars
@@ -321,26 +323,26 @@ void SkyDome::update()
 
     if ( starsIntensity > 0.0f )
     {
-        m_switchStars->setAllChildrenOn();
+        _switchStars->setAllChildrenOn();
 
         if ( starsIntensity > 1.0f ) starsIntensity = 1.0f;
 
-        osgSim::LightPointNode::LightPointList lightPointList = m_stars->getLightPointList();
+        osgSim::LightPointNode::LightPointList lightPointList = _stars->getLightPointList();
 
         for ( unsigned int i = 0; i < lightPointList.size(); i++ )
         {
-            lightPointList[ i ]._intensity = starsIntensity * m_starIntensity[ i ];
+            lightPointList[ i ]._intensity = starsIntensity * _starIntensity[ i ];
         }
 
-        m_stars->setLightPointList( lightPointList );
+        _stars->setLightPointList( lightPointList );
     }
     else
     {
-        m_switchStars->setAllChildrenOff();
+        _switchStars->setAllChildrenOff();
     }
 
     // Sun Light
-    osg::ref_ptr<osg::Light> lightSun = m_lightSourceSun->getLight();
+    osg::ref_ptr<osg::Light> lightSun = _lightSourceSun->getLight();
 
     if ( lightSun.valid() )
     {
@@ -365,15 +367,15 @@ void SkyDome::update()
             intensityAmbient = ( sun_elevation_deg < -5.0f ) ? 0.0f : 0.9f;
         }
 
-        osg::Vec4 sunLightColorDiffuse( Color::sun[ numSun ] * intensityDiffuse, 0.0f );
-        osg::Vec4 sunLightColorAmbient( Color::sun[   10   ] * intensityAmbient, 0.0f );
+        osg::Vec4 sunLightColorDiffuse( Color::_sun[ numSun ] * intensityDiffuse, 0.0f );
+        osg::Vec4 sunLightColorAmbient( Color::_sun[   10   ] * intensityAmbient, 0.0f );
 
         lightSun->setAmbient( sunLightColorAmbient );
         lightSun->setDiffuse( sunLightColorDiffuse );
     }
 
     // Moon Light
-    osg::ref_ptr<osg::Light> lightMoon = m_lightSourceMoon->getLight();
+    osg::ref_ptr<osg::Light> lightMoon = _lightSourceMoon->getLight();
 
     if ( lightMoon.valid() )
     {
@@ -394,77 +396,77 @@ void SkyDome::update()
             intensity *= ageCoef;
         }
 
-        osg::Vec4 moonLightColor( Color::moon * intensity, 0.0f );
+        osg::Vec4 moonLightColor( Color::_moon * intensity, 0.0f );
 
         lightMoon->setAmbient( moonLightColor );
         lightMoon->setDiffuse( moonLightColor );
     }
 
-    Data::get()->skyDome.skyScale = m_skyScale;
-    Data::get()->skyDome.sunAlpha = m_sunAlpha;
-    Data::get()->skyDome.sunDelta = m_sunDelta;
-    Data::get()->skyDome.sunElev  = m_sunElev;
-    Data::get()->skyDome.sunAzim  = m_sunAzim;
+    Data::get()->skyDome.skyScale = _skyScale;
+    Data::get()->skyDome.sunAlpha = _sunAlpha;
+    Data::get()->skyDome.sunDelta = _sunDelta;
+    Data::get()->skyDome.sunElev  = _sunElev;
+    Data::get()->skyDome.sunAzim  = _sunAzim;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SkyDome::createTextures()
 {
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_0.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_1.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_2.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_3.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_4.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_5.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_6.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_7.png" ) );
-    m_texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_8.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_0.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_1.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_2.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_3.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_4.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_5.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_6.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_7.png" ) );
+    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_8.png" ) );
 
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_0.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_1.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_2.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_3.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_4.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_5.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_6.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_7.png" ) );
-    m_texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_8.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_0.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_1.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_2.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_3.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_4.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_5.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_6.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_7.png" ) );
+    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_8.png" ) );
 
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_000.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_010.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_020.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_030.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_040.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_050.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_060.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_070.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_080.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_090.png" ) );
-    m_texturesSun.push_back( Textures::get( "data/cgi/textures/sun_100.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_000.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_010.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_020.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_030.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_040.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_050.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_060.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_070.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_080.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_090.png" ) );
+    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_100.png" ) );
 
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_0.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_1.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_2.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_3.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_4.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_5.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_6.png" ) );
-    m_texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_7.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_0.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_1.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_2.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_3.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_4.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_5.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_6.png" ) );
+    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_7.png" ) );
 
-    m_texturesStars.push_back( Textures::get( "data/cgi/textures/star.png" ) );
+    _texturesStars.push_back( Textures::get( "data/cgi/textures/star.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SkyDome::createSky()
 {
-    m_geodeSky = new osg::Geode();
-    m_attitude->addChild( m_geodeSky.get() );
+    _geodeSky = new osg::Geode();
+    _attitude->addChild( _geodeSky.get() );
 
-    createDome( m_geodeSky, m_texturesSky.at( m_textureSky ), CGI_SKYDOME_RADIUS );
+    createDome( _geodeSky, _texturesSky.at( _textureSky ), CGI_SKYDOME_RADIUS );
 
-    m_geodeSky->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_SKY, "DepthSortedBin" );
+    _geodeSky->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_SKY, "DepthSortedBin" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -480,32 +482,32 @@ void SkyDome::createSun()
 void SkyDome::createSunFace()
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> offsetSun = new osg::PositionAttitudeTransform();
-    m_patSun->addChild( offsetSun.get() );
+    _patSun->addChild( offsetSun.get() );
 
     offsetSun->setPosition( osg::Vec3( CGI_SKYDOME_RADIUS, 0, 0 ) );
 
-    m_geodeSunFace = new osg::Geode();
-    offsetSun->addChild( m_geodeSunFace.get() );
+    _geodeSunFace = new osg::Geode();
+    offsetSun->addChild( _geodeSunFace.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-    m_geodeSunFace->addDrawable( geom.get() );
+    _geodeSunFace->addDrawable( geom.get() );
 
-    Geometry::createFace( geom.get(), m_sunRadius, false, 32 );
+    Geometry::createFace( geom.get(), _sunRadius, false, 32 );
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_geodeSunFace->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _geodeSunFace->getOrCreateStateSet();
     stateSet->setMode( GL_LIGHTING , osg::StateAttribute::OFF );
 
     // material
-    m_materialSun = new osg::Material();
+    _materialSun = new osg::Material();
 
-    osg::Vec4 sunColor( Color::sun[ 0 ], 1.0f );
+    osg::Vec4 sunColor( Color::_sun[ 0 ], 1.0f );
 
-    m_materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    m_materialSun->setAmbient( osg::Material::FRONT, sunColor );
-    m_materialSun->setDiffuse( osg::Material::FRONT, sunColor );
+    _materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    _materialSun->setAmbient( osg::Material::FRONT, sunColor );
+    _materialSun->setDiffuse( osg::Material::FRONT, sunColor );
 
-    stateSet->setAttribute( m_materialSun.get() );
-    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, m_offsetSunFace ), osg::StateAttribute::ON );
+    stateSet->setAttribute( _materialSun.get() );
+    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, _offsetSunFace ), osg::StateAttribute::ON );
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_SUN, "DepthSortedBin" );
 }
 
@@ -513,15 +515,15 @@ void SkyDome::createSunFace()
 
 void SkyDome::createSunHalo()
 {
-    m_geodeSunHalo = new osg::Geode();
-    m_patSun->addChild( m_geodeSunHalo.get() );
+    _geodeSunHalo = new osg::Geode();
+    _patSun->addChild( _geodeSunHalo.get() );
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array;
     osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array;
     osg::ref_ptr<osg::Vec3Array> n  = new osg::Vec3Array;
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-    m_geodeSunHalo->addDrawable( geometry.get() );
+    _geodeSunHalo->addDrawable( geometry.get() );
 
     double y = CGI_SKYDOME_RADIUS * tan( osg::DegreesToRadians( 5.0 ) );
 
@@ -558,7 +560,7 @@ void SkyDome::createSunHalo()
 
     geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_STRIP, 0, v->size() ) );
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_geodeSunHalo->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _geodeSunHalo->getOrCreateStateSet();
     stateSet->setMode( GL_LIGHTING , osg::StateAttribute::OFF );
 
     // texture
@@ -566,9 +568,9 @@ void SkyDome::createSunHalo()
 
     stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
     stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, m_offsetSunHalo ), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, _offsetSunHalo ), osg::StateAttribute::ON );
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_SUN, "DepthSortedBin" );
-    stateSet->setTextureAttributeAndModes( 0, m_texturesSun.at( m_textureSun ), osg::StateAttribute::ON );
+    stateSet->setTextureAttributeAndModes( 0, _texturesSun.at( _textureSun ), osg::StateAttribute::ON );
 
     osg::ref_ptr<osg::Material> material = new osg::Material();
 
@@ -584,22 +586,22 @@ void SkyDome::createSunHalo()
 void SkyDome::createMoon()
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> offsetMoon = new osg::PositionAttitudeTransform();
-    m_patMoon->addChild( offsetMoon.get() );
+    _patMoon->addChild( offsetMoon.get() );
 
     offsetMoon->setPosition( osg::Vec3( CGI_SKYDOME_RADIUS, 0, 0 ) );
 
-    m_geodeMoon = new osg::Geode();
-    offsetMoon->addChild( m_geodeMoon.get() );
+    _geodeMoon = new osg::Geode();
+    offsetMoon->addChild( _geodeMoon.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-    m_geodeMoon->addDrawable( geom.get() );
+    _geodeMoon->addDrawable( geom.get() );
 
-    Geometry::createFace( geom.get(), m_moonRadius, true, 32 );
+    Geometry::createFace( geom.get(), _moonRadius, true, 32 );
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_geodeMoon->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _geodeMoon->getOrCreateStateSet();
 
     // texture
-    osg::ref_ptr<osg::Texture2D> texture = m_texturesMoon.at( m_textureMoon );
+    osg::ref_ptr<osg::Texture2D> texture = _texturesMoon.at( _textureMoon );
 
     if ( texture.valid() )
     {
@@ -618,7 +620,7 @@ void SkyDome::createMoon()
     material->setDiffuse( osg::Material::FRONT, osg::Vec4( 1.0, 1.0, 1.0, 1.0 ) );
 
     stateSet->setAttribute( material.get() );
-    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, m_offsetMoon ), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( new osg::PolygonOffset( 1.0f, _offsetMoon ), osg::StateAttribute::ON );
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_MOON, "DepthSortedBin" );
 }
 
@@ -626,15 +628,15 @@ void SkyDome::createMoon()
 
 void SkyDome::createStars()
 {
-    m_switchStars = new osg::Switch();
-    m_patSky->addChild( m_switchStars.get() );
+    _switchStars = new osg::Switch();
+    _patSky->addChild( _switchStars.get() );
 
-    m_stars = new osgSim::LightPointNode();
-    m_switchStars->addChild( m_stars.get() );
+    _stars = new osgSim::LightPointNode();
+    _switchStars->addChild( _stars.get() );
 
     float magLimit = 4.5f;
 
-    FILE *file = fopen( "data/cgi/stars.csv", "r" );
+    FILE *file = fopen( fdm::Path::get( "data/cgi/stars.csv" ).c_str(), "r" );
 
     if ( file )
     {
@@ -667,16 +669,16 @@ void SkyDome::createStars()
     }
 
     // texture
-    osg::ref_ptr<osg::Texture2D> texture = m_texturesStars.at( 0 );
+    osg::ref_ptr<osg::Texture2D> texture = _texturesStars.at( 0 );
     if ( texture.valid() )
     {
-        osg::ref_ptr<osg::StateSet> stateSet = m_stars->getOrCreateStateSet();
-        m_stars->setPointSprite();
+        osg::ref_ptr<osg::StateSet> stateSet = _stars->getOrCreateStateSet();
+        _stars->setPointSprite();
         stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
     }
 
-    m_switchStars->getOrCreateStateSet()->setAttributeAndModes( new osg::PolygonOffset( 1.0f, m_offsetStars ), osg::StateAttribute::ON );
-    m_switchStars->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_STARS, "DepthSortedBin" );
+    _switchStars->getOrCreateStateSet()->setAttributeAndModes( new osg::PolygonOffset( 1.0f, _offsetStars ), osg::StateAttribute::ON );
+    _switchStars->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_STARS, "DepthSortedBin" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -712,7 +714,7 @@ void SkyDome::createStar( float alpha, float delta, float mag, bool trueIntensit
     }
 
     // sphere area
-    float r = CGI_SKYDOME_RADIUS + m_offsetStars;
+    float r = CGI_SKYDOME_RADIUS + _offsetStars;
     float S = 4.0 * M_PI * r * r;
 
     // total luminous flux
@@ -738,42 +740,42 @@ void SkyDome::createStar( float alpha, float delta, float mag, bool trueIntensit
     star._intensity = intensity;
     star._radius    = 0.0005f * CGI_SKYDOME_RADIUS;
 
-    if ( m_starsCount > 0 )
+    if ( _starsCount > 0 )
     {
         std::vector< float > tempIntensity;
 
-        for ( int i = 0; i < m_starsCount; i++ )
+        for ( int i = 0; i < _starsCount; i++ )
         {
-            tempIntensity.push_back( m_starIntensity[ i ] );
+            tempIntensity.push_back( _starIntensity[ i ] );
         }
 
-        delete [] m_starIntensity;
+        delete [] _starIntensity;
 
-        m_starIntensity = new float [ m_starsCount + 1 ];
+        _starIntensity = new float [ _starsCount + 1 ];
 
-        for ( int i = 0; i < m_starsCount; i++ )
+        for ( int i = 0; i < _starsCount; i++ )
         {
-            m_starIntensity[ i ] = tempIntensity.at( i );
+            _starIntensity[ i ] = tempIntensity.at( i );
         }
     }
     else
     {
-        m_starIntensity = new float [ 1 ];
+        _starIntensity = new float [ 1 ];
     }
 
-    m_starIntensity[ m_starsCount ] = star._intensity;
+    _starIntensity[ _starsCount ] = star._intensity;
 
-    m_starsCount++;
+    _starsCount++;
 
-    m_stars->addLightPoint( star );
+    _stars->addLightPoint( star );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SkyDome::createLightMoon()
 {
-    m_lightSourceMoon = new osg::LightSource();
-    m_patMoon->addChild( m_lightSourceMoon.get() );
+    _lightSourceMoon = new osg::LightSource();
+    _patMoon->addChild( _lightSourceMoon.get() );
 
     osg::ref_ptr<osg::Light> lightMoon = new osg::Light();
 
@@ -787,18 +789,18 @@ void SkyDome::createLightMoon()
 
     lightMoon->setConstantAttenuation( 1.0 );
 
-    m_lightSourceMoon->setLight( lightMoon.get() );
+    _lightSourceMoon->setLight( lightMoon.get() );
 
-    m_lightSourceMoon->setLocalStateSetModes( osg::StateAttribute::ON );
-    m_lightSourceMoon->setStateSetModes( *m_root->getOrCreateStateSet(), osg::StateAttribute::ON );
+    _lightSourceMoon->setLocalStateSetModes( osg::StateAttribute::ON );
+    _lightSourceMoon->setStateSetModes( *_root->getOrCreateStateSet(), osg::StateAttribute::ON );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SkyDome::createLightSun()
 {
-    m_lightSourceSun = new osg::LightSource();
-    m_patSun->addChild( m_lightSourceSun.get() );
+    _lightSourceSun = new osg::LightSource();
+    _patSun->addChild( _lightSourceSun.get() );
 
     osg::ref_ptr<osg::Light> lightSun = new osg::Light();
 
@@ -806,16 +808,16 @@ void SkyDome::createLightSun()
 
     lightSun->setPosition( osg::Vec4d( CGI_SKYDOME_RADIUS, 0.0f, 0.0f, 0.0f ) );
 
-    lightSun->setAmbient( osg::Vec4( Color::sun[ 10 ], 1.0 ) );
-    lightSun->setDiffuse( osg::Vec4( Color::sun[ 10 ], 1.0 ) );
-    lightSun->setSpecular( osg::Vec4( Color::sun[ 10 ], 1.0 ) );
+    lightSun->setAmbient(  osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
+    lightSun->setDiffuse(  osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
+    lightSun->setSpecular( osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
 
     lightSun->setConstantAttenuation( 1.0 );
 
-    m_lightSourceSun->setLight( lightSun.get() );
+    _lightSourceSun->setLight( lightSun.get() );
 
-    m_lightSourceSun->setLocalStateSetModes( osg::StateAttribute::ON );
-    m_lightSourceSun->setStateSetModes( *m_root->getOrCreateStateSet(), osg::StateAttribute::ON );
+    _lightSourceSun->setLocalStateSetModes( osg::StateAttribute::ON );
+    _lightSourceSun->setStateSetModes( *_root->getOrCreateStateSet(), osg::StateAttribute::ON );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

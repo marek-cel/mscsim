@@ -73,14 +73,14 @@ public:
 
 private:
 
-    double m_ailerons;              ///< [rad] ailerons deflection
-    double m_flaps;                 ///< [rad] flaps deflection
+    double _ailerons;               ///< [rad] ailerons deflection
+    double _flaps;                  ///< [rad] flaps deflection
 
-    double m_dcl_dailerons;         ///< [1/rad]
+    double _dcl_dailerons;          ///< [1/rad]
 
-    Table m_dcx_dflaps;             ///< [1/rad]
-    Table m_dcz_dflaps;             ///< [1/rad]
-    Table m_dcm_dflaps;             ///< [1/rad]
+    Table _dcx_dflaps;              ///< [1/rad]
+    Table _dcz_dflaps;              ///< [1/rad]
+    Table _dcm_dflaps;              ///< [1/rad]
 
     /**
      * Computes drag coefficient.

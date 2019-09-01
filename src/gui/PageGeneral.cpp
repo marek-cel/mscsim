@@ -32,14 +32,16 @@
 
 PageGeneral::PageGeneral( QWidget *parent ) :
     QWidget ( parent ),
-    m_ui ( new Ui::PageGeneral ),
+    _ui ( new Ui::PageGeneral ),
 
-    m_hud_color( 0, 170, 0 ),
-    m_hud_color_temp( m_hud_color ),
-    m_hud_opacity ( 100 ),
-    m_widescreen ( true )
+    _hud_color( 0, 170, 0 ),
+    _hud_color_temp( _hud_color ),
+    _hud_opacity ( 100 ),
+    _hud_factor_alt ( 1.0 ),
+    _hud_factor_vel ( 1.0 ),
+    _widescreen ( true )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
     settingsRead();
 }
@@ -50,8 +52,8 @@ PageGeneral::~PageGeneral()
 {
     settingsSave();
 
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,18 +62,18 @@ void PageGeneral::readData()
 {
     settingsRead();
 
-    setFrameHudColor( m_hud_color );
-    m_ui->sliderHudOpacity->setValue( m_hud_opacity );
-    m_ui->checkBoxWidescreen->setChecked( m_widescreen );
+    setFrameHudColor( _hud_color );
+    _ui->sliderHudOpacity->setValue( _hud_opacity );
+    _ui->checkBoxWidescreen->setChecked( _widescreen );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageGeneral::saveData()
 {
-    m_hud_color = m_hud_color_temp;
-    m_hud_opacity = m_ui->sliderHudOpacity->value();
-    m_widescreen = m_ui->checkBoxWidescreen->isChecked();
+    _hud_color = _hud_color_temp;
+    _hud_opacity = _ui->sliderHudOpacity->value();
+    _widescreen = _ui->checkBoxWidescreen->isChecked();
 
     settingsSave();
 }
@@ -82,8 +84,8 @@ void PageGeneral::setFrameHudColor( const QColor &color )
 {
     QPalette pal = palette();
     pal.setColor( QPalette::Background, color );
-    m_ui->frameHudColor->setAutoFillBackground( true );
-    m_ui->frameHudColor->setPalette( pal );
+    _ui->frameHudColor->setAutoFillBackground( true );
+    _ui->frameHudColor->setPalette( pal );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,15 +96,21 @@ void PageGeneral::settingsRead()
 
     settings.beginGroup( "page_general" );
     {
-        m_hud_color.setRed   ( settings.value( "hud_color_r",   0 ).toInt() );
-        m_hud_color.setGreen ( settings.value( "hud_color_g", 170 ).toInt() );
-        m_hud_color.setBlue  ( settings.value( "hud_color_b",   0 ).toInt() );
+        _hud_color.setRed   ( settings.value( "hud_color_r",   0 ).toInt() );
+        _hud_color.setGreen ( settings.value( "hud_color_g", 170 ).toInt() );
+        _hud_color.setBlue  ( settings.value( "hud_color_b",   0 ).toInt() );
 
-        m_hud_color_temp = m_hud_color;
+        _hud_color_temp = _hud_color;
 
-        m_hud_opacity = settings.value( "hud_opacity", 100 ).toInt();
+        _hud_opacity = settings.value( "hud_opacity", 100 ).toInt();
 
-        m_widescreen = settings.value( "widescreen_layout", 1 ).toInt() != 0;
+        int hud_factor_alt_index = settings.value( "hud_factor_alt", 1 ).toInt();
+        int hud_factor_vel_index = settings.value( "hud_factor_vel", 4 ).toInt();
+
+        _ui->comboBoxHudAltitude->setCurrentIndex( hud_factor_alt_index );
+        _ui->comboBoxHudVelocity->setCurrentIndex( hud_factor_vel_index );
+
+        _widescreen = settings.value( "widescreen_layout", 1 ).toInt() != 0;
     }
     settings.endGroup(); // page_general
 }
@@ -115,13 +123,16 @@ void PageGeneral::settingsSave()
 
     settings.beginGroup( "page_general" );
     {
-        settings.setValue( "hud_color_r" , m_hud_color.red()   );
-        settings.setValue( "hud_color_g" , m_hud_color.green() );
-        settings.setValue( "hud_color_b" , m_hud_color.blue()  );
+        settings.setValue( "hud_color_r" , _hud_color.red()   );
+        settings.setValue( "hud_color_g" , _hud_color.green() );
+        settings.setValue( "hud_color_b" , _hud_color.blue()  );
 
-        settings.setValue( "hud_opacity" , m_hud_opacity );
+        settings.setValue( "hud_opacity" , _hud_opacity );
 
-        settings.setValue( "widescreen_layout" , m_widescreen ? 1 : 0 );
+        settings.setValue( "hud_factor_alt", _ui->comboBoxHudAltitude->currentIndex() );
+        settings.setValue( "hud_factor_vel", _ui->comboBoxHudVelocity->currentIndex() );
+
+        settings.setValue( "widescreen_layout" , _widescreen ? 1 : 0 );
     }
     settings.endGroup(); // page_general
 }
@@ -130,11 +141,25 @@ void PageGeneral::settingsSave()
 
 void PageGeneral::on_pushButtonHudColor_clicked()
 {
-    QColor color = QColorDialog::getColor( m_hud_color_temp, this );
+    QColor color = QColorDialog::getColor( _hud_color_temp, this );
 
     if ( color.isValid() )
     {
-        m_hud_color_temp = color;
-        setFrameHudColor( m_hud_color_temp );
+        _hud_color_temp = color;
+        setFrameHudColor( _hud_color_temp );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PageGeneral::on_comboBoxHudAltitude_currentIndexChanged( int index )
+{
+    _hud_factor_alt = _ui->comboBoxHudAltitude->getCoef( index );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PageGeneral::on_comboBoxHudVelocity_currentIndexChanged( int index )
+{
+    _hud_factor_vel = _ui->comboBoxHudVelocity->getCoef( index );
 }

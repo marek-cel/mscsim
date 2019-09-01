@@ -95,10 +95,10 @@ public:
 
 private:
 
-    QLayoutItem *m_item;    ///< item reference
+    QLayoutItem *_item;     ///< item reference
 
-    QRect *m_rectLast;      ///< last received geometry
-    QRect *m_geometry;      ///< geometry
+    QRect *_rectLast;       ///< last received geometry
+    QRect *_geometry;       ///< geometry
 
     bool areRectsEqual( const QRect &rect_1, const QRect &rect_2 ) const;
 

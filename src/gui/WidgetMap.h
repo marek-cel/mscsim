@@ -70,28 +70,28 @@ protected:
 
 private:
 
-    QGridLayout *m_gridLayout;
+    QGridLayout *_gridLayout;
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> m_graphicsWindow;
+    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
 
-    osg::ref_ptr<cgi::ManipulatorMap> m_manipulator;
+    osg::ref_ptr<cgi::ManipulatorMap> _manipulator;
 
-    QString m_mouseGeoPositionStr;
+    QString _mouseGeoPositionStr;
 
-    int m_timerId;                  ///< timer ID
+    int _timerId;                   ///< timer ID
 
-    bool m_camManipulatorInited;
+    bool _camManipulatorInited;
 
-    bool m_viewCrops;
-    bool m_viewGrassland;
-    bool m_viewWoodland;
-    bool m_viewBuiltup;
-    bool m_viewRailroads;
-    bool m_viewRoads;
-    bool m_viewAirports;
-    bool m_viewSatellite;
-    bool m_viewBorders;
-    bool m_viewTraces;
+    bool _viewCrops;
+    bool _viewGrassland;
+    bool _viewWoodland;
+    bool _viewBuiltup;
+    bool _viewRailroads;
+    bool _viewRoads;
+    bool _viewAirports;
+    bool _viewSatellite;
+    bool _viewBorders;
+    bool _viewTraces;
 
     /** */
     QWidget* addViewWidget();

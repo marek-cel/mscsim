@@ -31,37 +31,37 @@ using namespace fdm;
 P51_Aircraft::P51_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut ),
 
-    m_aero ( 0 ),
-    m_ctrl ( 0 ),
-    m_gear ( 0 ),
-    m_mass ( 0 ),
-    m_prop ( 0 )
+    _aero ( 0 ),
+    _ctrl ( 0 ),
+    _gear ( 0 ),
+    _mass ( 0 ),
+    _prop ( 0 )
 {
-    Aircraft::m_aero = m_aero = new P51_Aerodynamics( this );
-    Aircraft::m_ctrl = m_ctrl = new P51_Controls( this );
-    Aircraft::m_gear = m_gear = new P51_LandingGear( this );
-    Aircraft::m_mass = m_mass = new P51_Mass( this );
-    Aircraft::m_prop = m_prop = new P51_Propulsion( this );
+    Aircraft::_aero = _aero = new P51_Aerodynamics( this );
+    Aircraft::_ctrl = _ctrl = new P51_Controls( this );
+    Aircraft::_gear = _gear = new P51_LandingGear( this );
+    Aircraft::_mass = _mass = new P51_Mass( this );
+    Aircraft::_prop = _prop = new P51_Propulsion( this );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_Aircraft::~P51_Aircraft()
 {
-    if ( m_aero ) delete m_aero;
-    m_aero = 0;
+    if ( _aero ) delete _aero;
+    _aero = 0;
 
-    if ( m_ctrl ) delete m_ctrl;
-    m_ctrl = 0;
+    if ( _ctrl ) delete _ctrl;
+    _ctrl = 0;
 
-    if ( m_gear ) delete m_gear;
-    m_gear = 0;
+    if ( _gear ) delete _gear;
+    _gear = 0;
 
-    if ( m_mass ) delete m_mass;
-    m_mass = 0;
+    if ( _mass ) delete _mass;
+    _mass = 0;
 
-    if ( m_prop ) delete m_prop;
-    m_prop = 0;
+    if ( _prop ) delete _prop;
+    _prop = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -84,14 +84,14 @@ void P51_Aircraft::updateOutputData()
     /////////////////////////////
 
     // controls
-    m_dataOut->controls.ailerons = m_ctrl->getAilerons();
-    m_dataOut->controls.elevator = m_ctrl->getElevator();
-    m_dataOut->controls.rudder   = m_ctrl->getRudder();
-    m_dataOut->controls.flaps    = m_ctrl->getFlaps();
+    _dataOut->controls.ailerons = _ctrl->getAilerons();
+    _dataOut->controls.elevator = _ctrl->getElevator();
+    _dataOut->controls.rudder   = _ctrl->getRudder();
+    _dataOut->controls.flaps    = _ctrl->getFlaps();
 
     // propulsion
-    m_dataOut->engine[ 0 ].state = m_prop->getEngine()->getState() == Engine::Running;
-    m_dataOut->engine[ 0 ].rpm = m_prop->getEngine()->getRPM();
-    m_dataOut->engine[ 0 ].map = m_prop->getEngine()->getMAP();
-    m_dataOut->engine[ 0 ].ff  = m_prop->getEngine()->getFuelFlow();
+    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == Engine::Running;
+    _dataOut->engine[ 0 ].rpm = _prop->getEngine()->getRPM();
+    _dataOut->engine[ 0 ].map = _prop->getEngine()->getMAP();
+    _dataOut->engine[ 0 ].fuelFlow = _prop->getEngine()->getFuelFlow();
 }

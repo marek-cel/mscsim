@@ -56,37 +56,37 @@ public:
     void update( double timeStep, double error );
 
     /** Returns controller output. */
-    inline double getValue() const { return m_value; }
+    inline double getValue() const { return _value; }
 
-    inline void setKp( double kp ) { m_kp = kp; }
-    inline void setKi( double ki ) { m_ki = ki; }
-    inline void setKd( double kd ) { m_kd = kd; }
+    inline void setKp( double kp ) { _kp = kp; }
+    inline void setKi( double ki ) { _ki = ki; }
+    inline void setKd( double kd ) { _kd = kd; }
 
-    inline void setMin( double min ) { m_min = min; }
-    inline void setMax( double max ) { m_max = max; }
+    inline void setMin( double min ) { _min = min; }
+    inline void setMax( double max ) { _max = max; }
 
-    inline void setSaturation( bool saturation ) { m_saturation = saturation; }
+    inline void setSaturation( bool saturation ) { _saturation = saturation; }
 
     /** Sets controller output (resets integer). */
     void setValue( double value );
 
 protected:
 
-    double m_kp;        ///< proportional gain
-    double m_ki;        ///< integral gain
-    double m_kd;        ///< derivative gain
+    double _kp;         ///< proportional gain
+    double _ki;         ///< integral gain
+    double _kd;         ///< derivative gain
 
-    double m_min;       ///< minimum output value
-    double m_max;       ///< maximum output value
+    double _min;        ///< minimum output value
+    double _max;        ///< maximum output value
 
-    double m_error;     ///< error
-    double m_error_i;   ///< error integral sum
-    double m_error_d;   ///< error derivative
+    double _error;      ///< error
+    double _error_i;    ///< error integral sum
+    double _error_d;    ///< error derivative
 
-    double m_value;     ///< output value
-    double m_delta;     ///< difference between raw and saturated output values
+    double _value;      ///< output value
+    double _delta;      ///< difference between raw and saturated output values
 
-    bool m_saturation;  ///< saturation
+    bool _saturation;   ///< saturation
 };
 
 } // end of fdm namespace

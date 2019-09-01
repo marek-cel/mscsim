@@ -90,9 +90,8 @@ public:
 
 protected:
 
-    const Aircraft *m_aircraft; ///< aircraft model main object
-
-    Channels m_channels;        ///< control channels
+    const Aircraft *_aircraft;  ///< aircraft model main object
+    Channels _channels;         ///< control channels
 
     /**
      * Returns channel by name.

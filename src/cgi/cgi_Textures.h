@@ -53,8 +53,8 @@ public:
 
 private:
 
-    List m_textures;                        ///<
-    std::vector< std::string > m_fileNames; ///<
+    List _textures;                         ///<
+    std::vector< std::string > _fileNames;  ///<
 
     /**
      * You should use static function instance() due to get refernce

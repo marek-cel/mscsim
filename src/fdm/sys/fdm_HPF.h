@@ -45,8 +45,8 @@ public:
 
     HPF( double omega, double y = 0.0 );
 
-    inline double getValue() const { return m_y;  }
-    inline double getOmega() const { return m_omega; }
+    inline double getValue() const { return _y;  }
+    inline double getOmega() const { return _omega; }
 
     void setValue( double y );
     void setOmega( double omega );
@@ -57,12 +57,12 @@ public:
 
 protected:
 
-    double m_omega;     ///< [rad/s]
-    double m_tc;        ///< time constant
+    double _omega;      ///< [rad/s]
+    double _tc;         ///< time constant
 
-    double m_u_prev;    ///<
+    double _u_prev;     ///<
 
-    double m_y;         ///< current value
+    double _y;          ///< current value
 };
 
 } // end of fdm namespace

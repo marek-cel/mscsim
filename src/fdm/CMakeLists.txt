@@ -25,7 +25,6 @@ add_library( fdm STATIC
     models/fdm_TailOff.cpp
     models/fdm_TailRotor.cpp
     models/fdm_Turbofan.cpp
-    models/fdm_TurbofanAB.cpp
     models/fdm_WindShear.cpp
     
     sys/fdm_BPF.cpp

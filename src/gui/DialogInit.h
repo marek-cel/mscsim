@@ -53,17 +53,17 @@ public:
     /** Destructor. */
     virtual ~DialogInit();
 
-    inline QDateTime getDateTime() const { return m_dateTime; }
+    inline QDateTime getDateTime() const { return _dateTime; }
 
-    inline int getTypeIndex() const { return m_typeIndex; }
+    inline int getTypeIndex() const { return _typeIndex; }
 
-    inline float getLat() const { return m_lat; }
-    inline float getLon() const { return m_lon; }
-    inline float getAlt() const { return m_alt; }
-    inline float getPsi() const { return m_psi; }
-    inline float getIAS() const { return m_ias; }
+    inline float getLat() const { return _lat; }
+    inline float getLon() const { return _lon; }
+    inline float getAlt() const { return _alt; }
+    inline float getPsi() const { return _psi; }
+    inline float getIAS() const { return _ias; }
 
-    inline bool getEngine() const { return m_engine; }
+    inline bool getEngine() const { return _engine; }
 
     void readData();
     void saveData();
@@ -74,19 +74,19 @@ signals:
 
 private:
 
-    Ui::DialogInit *m_ui;   ///<
+    Ui::DialogInit *_ui;    ///<
 
-    QDateTime m_dateTime;   ///<
+    QDateTime _dateTime;    ///<
 
-    int m_typeIndex;        ///< aircraft type index
+    int _typeIndex;         ///< aircraft type index
 
-    float m_lat;            ///< [rad]
-    float m_lon;            ///< [rad]
-    float m_alt;            ///< [m] altitude above ground level
-    float m_psi;            ///< [rad] heading
-    float m_ias;            ///< [m/s] airspeed
+    float _lat;             ///< [rad]
+    float _lon;             ///< [rad]
+    float _alt;             ///< [m] altitude above ground level
+    float _psi;             ///< [rad] heading
+    float _ias;             ///< [m/s] airspeed
 
-    bool m_engine;          ///< specifies if engine is on at start
+    bool _engine;           ///< specifies if engine is on at start
 
     void settingsRead();
     void settingsRead_InitData( QSettings &settings );
@@ -105,6 +105,8 @@ private slots:
     void on_comboInitAlt_currentIndexChanged( int index );
     void on_comboInitPsi_currentIndexChanged( int index );
     void on_comboInitIAS_currentIndexChanged( int index );
+
+    void on_pushButtonTime_clicked();
 
     void on_checkBoxEngineOn_toggled( bool checked );
 };

@@ -38,7 +38,7 @@ DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent, As
 
     dialog = new DialogAction( parent, joystickId );
 
-    dialog->m_ui->stackedWidget->setCurrentIndex( 0 );
+    dialog->_ui->stackedWidget->setCurrentIndex( 0 );
 
     if ( assignment.type == Assignment::Joystick )
     {
@@ -55,21 +55,21 @@ DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent, As
                 if ( assignment.data.joystick.axisId == i ) break;
             }
 
-            dialog->m_ui->comboAxis->setCurrentIndex( assignment.data.joystick.axisId - absentAxesCount );
+            dialog->_ui->comboAxis->setCurrentIndex( assignment.data.joystick.axisId - absentAxesCount );
 
-            dialog->m_ui->checkAxisInverted->setChecked( assignment.data.joystick.inverted );
+            dialog->_ui->checkAxisInverted->setChecked( assignment.data.joystick.inverted );
         }
     }
 
     if ( dialog->exec() == QDialog::Accepted )
     {
-        if ( dialog->m_joystickId > -1 && dialog->m_axisId > -1 )
+        if ( dialog->_joystickId > -1 && dialog->_axisId > -1 )
         {
             assignment.type = Assignment::Joystick;
 
-            assignment.data.joystick.joystickId = dialog->m_joystickId;
-            assignment.data.joystick.axisId     = dialog->m_axisId;
-            assignment.data.joystick.inverted   = dialog->m_inverted;
+            assignment.data.joystick.joystickId = dialog->_joystickId;
+            assignment.data.joystick.axisId     = dialog->_axisId;
+            assignment.data.joystick.inverted   = dialog->_inverted;
             assignment.data.joystick.buttonId   = -1;
             assignment.data.joystick.povId      = -1;
             assignment.data.joystick.direction  = hid::Assignment::Centered;
@@ -90,7 +90,7 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, As
 
     dialog = new DialogAction( parent, joystickId );
 
-    dialog->m_ui->stackedWidget->setCurrentIndex( 1 );
+    dialog->_ui->stackedWidget->setCurrentIndex( 1 );
 
     if ( assignment.type == Assignment::Joystick )
     {
@@ -101,7 +101,7 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, As
             if ( assignment.data.joystick.buttonId >= 0
               && assignment.data.joystick.buttonId < joyData.buttCount )
             {
-                dialog->m_ui->comboButt->setCurrentIndex( assignment.data.joystick.buttonId );
+                dialog->_ui->comboButt->setCurrentIndex( assignment.data.joystick.buttonId );
             }
             else if ( assignment.data.joystick.povId >= 0
                    && assignment.data.joystick.povId < joyData.povsCount )
@@ -117,32 +117,32 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, As
                     default: dir = -100; break;
                 }
 
-                dialog->m_ui->comboButt->setCurrentIndex( joyData.buttCount + 4 * assignment.data.joystick.povId + dir );
+                dialog->_ui->comboButt->setCurrentIndex( joyData.buttCount + 4 * assignment.data.joystick.povId + dir );
             }
         }
     }
 
     if ( dialog->exec() == QDialog::Accepted )
     {
-        if ( dialog->m_joystickId > -1 )
+        if ( dialog->_joystickId > -1 )
         {
             assignment.type = Assignment::Joystick;
 
-            assignment.data.joystick.joystickId = dialog->m_joystickId;
+            assignment.data.joystick.joystickId = dialog->_joystickId;
             assignment.data.joystick.axisId     = -1;
             assignment.data.joystick.inverted   = false;
 
-            if ( dialog->m_buttonId > -1 )
+            if ( dialog->_buttonId > -1 )
             {
-                assignment.data.joystick.buttonId   = dialog->m_buttonId;
+                assignment.data.joystick.buttonId   = dialog->_buttonId;
                 assignment.data.joystick.povId      = -1;
                 assignment.data.joystick.direction  = hid::Assignment::Centered;
             }
-            else if ( dialog->m_povId > -1 )
+            else if ( dialog->_povId > -1 )
             {
                 assignment.data.joystick.buttonId   = -1;
-                assignment.data.joystick.povId      = dialog->m_povId;
-                assignment.data.joystick.direction  = dialog->m_povDir;
+                assignment.data.joystick.povId      = dialog->_povId;
+                assignment.data.joystick.direction  = dialog->_povDir;
             }
         }
     }
@@ -161,14 +161,14 @@ DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent, Assign
 
     dialog = new DialogAction( parent );
 
-    dialog->m_ui->stackedWidget->setCurrentIndex( 2 );
+    dialog->_ui->stackedWidget->setCurrentIndex( 2 );
 
     if ( dialog->exec() == QDialog::Accepted )
     {
-        if ( dialog->m_keyId > -1 )
+        if ( dialog->_keyId > -1 )
         {
             assignment.type = Assignment::Keyboard;
-            assignment.data.keyboard.keyId = dialog->m_keyId;
+            assignment.data.keyboard.keyId = dialog->_keyId;
         }
     }
 
@@ -182,83 +182,83 @@ DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent, Assign
 
 DialogAction::DialogAction( QWidget *parent, short joystickId ) :
     QDialog( parent ),
-    m_ui( new Ui::DialogAction ),
+    _ui( new Ui::DialogAction ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_keyId ( -1 ),
+    _keyId ( -1 ),
 
-    m_axisCount ( 0 ),
-    m_buttCount ( 0 ),
-    m_povsCount ( 0 ),
+    _axisCount ( 0 ),
+    _buttCount ( 0 ),
+    _povsCount ( 0 ),
 
-    m_joystickId ( -1 ),
-    m_axisId     ( -1 ),
-    m_buttonId   ( -1 ),
-    m_povId      ( -1 ),
-    m_povDir     ( hid::Assignment::Centered ),
-    m_inverted ( false )
+    _joystickId ( -1 ),
+    _axisId     ( -1 ),
+    _buttonId   ( -1 ),
+    _povId      ( -1 ),
+    _povDir     ( hid::Assignment::Centered ),
+    _inverted ( false )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
     short joysticksCount = hid::Joysticks::instance()->getCount();
 
     if ( joystickId >= 0 && joystickId < joysticksCount )
     {
-        m_joystickId = joystickId;
+        _joystickId = joystickId;
 
-        hid::Joysticks::Data joyData = hid::Joysticks::instance()->getData( m_joystickId );
+        hid::Joysticks::Data joyData = hid::Joysticks::instance()->getData( _joystickId );
 
-        m_ui->labelAxisDeviceName->setText( joyData.name.c_str() );
-        m_ui->labelButtDeviceName->setText( joyData.name.c_str() );
+        _ui->labelAxisDeviceName->setText( joyData.name.c_str() );
+        _ui->labelButtDeviceName->setText( joyData.name.c_str() );
 
-        m_axisCount = joyData.axisCount;
+        _axisCount = joyData.axisCount;
         for ( short i = 0; i < HID_MAX_AXES; i++ )
         {
             if ( joyData.hasAxis[ i ] )
             {
-                m_ui->comboAxis->addItem( hid::Joysticks::m_axisNames[ i ].c_str() );
+                _ui->comboAxis->addItem( hid::Joysticks::_axisNames[ i ].c_str() );
             }
         }
 
-        m_buttCount = joyData.buttCount;
-        for ( short i = 0; i < m_buttCount; i++ )
+        _buttCount = joyData.buttCount;
+        for ( short i = 0; i < _buttCount; i++ )
         {
-            m_ui->comboButt->addItem( QString::number( i + 1 ) );
+            _ui->comboButt->addItem( QString::number( i + 1 ) );
         }
 
-        m_povsCount = joyData.povsCount;
-        for ( short i = 0; i < m_povsCount; i++ )
+        _povsCount = joyData.povsCount;
+        for ( short i = 0; i < _povsCount; i++ )
         {
             QString povText = "POV " + QString::number( i + 1 );
 
-            m_ui->comboButt->addItem( povText + " - N" );
-            m_ui->comboButt->addItem( povText + " - E" );
-            m_ui->comboButt->addItem( povText + " - S" );
-            m_ui->comboButt->addItem( povText + " - W" );
+            _ui->comboButt->addItem( povText + " - N" );
+            _ui->comboButt->addItem( povText + " - E" );
+            _ui->comboButt->addItem( povText + " - S" );
+            _ui->comboButt->addItem( povText + " - W" );
         }
     }
 
     for ( short i = 0; i < HID_MAX_KEYS; i++ )
     {
-        m_ui->comboKeys->addItem( hid::Manager::m_keysNames[ i ].c_str() );
+        _ui->comboKeys->addItem( hid::Manager::_keysNames[ i ].c_str() );
     }
 
-    m_ui->comboAxis->setCurrentIndex( -1 );
-    m_ui->comboButt->setCurrentIndex( -1 );
-    m_ui->comboKeys->setCurrentIndex( -1 );
+    _ui->comboAxis->setCurrentIndex( -1 );
+    _ui->comboButt->setCurrentIndex( -1 );
+    _ui->comboKeys->setCurrentIndex( -1 );
 
-    m_timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DialogAction::~DialogAction()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -269,29 +269,29 @@ void DialogAction::timerEvent( QTimerEvent *event )
     QDialog::timerEvent( event );
     /////////////////////////////
 
-    m_ui->buttonButt->setChecked( false );
+    _ui->buttonButt->setChecked( false );
 
-    if ( m_joystickId >= 0 && m_joystickId < HID_MAX_JOYS )
+    if ( _joystickId >= 0 && _joystickId < HID_MAX_JOYS )
     {
-        float axisValue = hid::Joysticks::instance()->getData( m_joystickId ).axis[ m_axisId ];
+        float axisValue = hid::Joysticks::instance()->getData( _joystickId ).axis[ _axisId ];
 
-        if ( m_inverted ) m_ui->sliderAxis->setValue( -100.0 * axisValue );
-        else              m_ui->sliderAxis->setValue(  100.0 * axisValue );
+        if ( _inverted ) _ui->sliderAxis->setValue( -100.0 * axisValue );
+        else             _ui->sliderAxis->setValue(  100.0 * axisValue );
 
-        if ( m_buttonId >= 0 && m_buttonId < m_buttCount )
+        if ( _buttonId >= 0 && _buttonId < _buttCount )
         {
-            if ( hid::Joysticks::instance()->getData( m_joystickId ).butt[ m_buttonId ] )
+            if ( hid::Joysticks::instance()->getData( _joystickId ).butt[ _buttonId ] )
             {
-                m_ui->buttonButt->setChecked( true );
+                _ui->buttonButt->setChecked( true );
             }
         }
-        else if ( m_povId >= 0 && m_povId < 4*m_povsCount )
+        else if ( _povId >= 0 && _povId < 4*_povsCount )
         {
-            if ( m_povDir != hid::Assignment::Centered )
+            if ( _povDir != hid::Assignment::Centered )
             {
-                if ( hid::Manager::getPOV( hid::Joysticks::instance()->getData( m_joystickId ).povs[ m_povId ] ) & m_povDir )
+                if ( hid::Manager::getPOV( hid::Joysticks::instance()->getData( _joystickId ).povs[ _povId ] ) & _povDir )
                 {
-                    m_ui->buttonButt->setChecked( true );
+                    _ui->buttonButt->setChecked( true );
                 }
             }
         }
@@ -302,11 +302,11 @@ void DialogAction::timerEvent( QTimerEvent *event )
 
 void DialogAction::on_comboAxis_currentIndexChanged( int index )
 {
-    if ( index >= 0 && index < m_axisCount )
+    if ( index >= 0 && index < _axisCount )
     {
         int indexTemp = -1;
 
-        hid::Joysticks::Data joyData = hid::Joysticks::instance()->getData( m_joystickId );
+        hid::Joysticks::Data joyData = hid::Joysticks::instance()->getData( _joystickId );
 
         for ( short i = 0; i < HID_MAX_AXES; i++ )
         {
@@ -314,19 +314,19 @@ void DialogAction::on_comboAxis_currentIndexChanged( int index )
 
             if ( indexTemp == index )
             {
-                m_axisId = i;
+                _axisId = i;
                 break;
             }
         }
 
-        m_ui->checkAxisInverted->setEnabled( true );
-        m_ui->sliderAxis->setEnabled( true );
+        _ui->checkAxisInverted->setEnabled( true );
+        _ui->sliderAxis->setEnabled( true );
     }
     else
     {
-        m_ui->checkAxisInverted->setEnabled( false );
-        m_ui->checkAxisInverted->setChecked( false );
-        m_ui->sliderAxis->setEnabled( false );
+        _ui->checkAxisInverted->setEnabled( false );
+        _ui->checkAxisInverted->setChecked( false );
+        _ui->sliderAxis->setEnabled( false );
     }
 }
 
@@ -334,49 +334,49 @@ void DialogAction::on_comboAxis_currentIndexChanged( int index )
 
 void DialogAction::on_comboButt_currentIndexChanged( int index )
 {
-    if ( index >= 0 && index < m_buttCount )
+    if ( index >= 0 && index < _buttCount )
     {
-        m_buttonId = (short)index;
+        _buttonId = (short)index;
 
-        m_povDir = hid::Assignment::Centered;
-        m_povId  = -1;
+        _povDir = hid::Assignment::Centered;
+        _povId  = -1;
 
-        m_ui->buttonButt->setText( QString("BUTTON ") + QString::number( m_buttonId + 1 ) );
+        _ui->buttonButt->setText( QString("BUTTON ") + QString::number( _buttonId + 1 ) );
     }
-    else if ( index >= m_buttCount && index < m_buttCount + 4*m_povsCount )
+    else if ( index >= _buttCount && index < _buttCount + 4*_povsCount )
     {
-        m_buttonId = -1;
+        _buttonId = -1;
 
-        short dir = ( index - m_buttCount ) % 4;
-        m_povId = (short)( index - m_buttCount - dir );
+        short dir = ( index - _buttCount ) % 4;
+        _povId = (short)( index - _buttCount - dir );
 
-        QString povText = "POV " + QString::number( m_povId + 1 );
+        QString povText = "POV " + QString::number( _povId + 1 );
 
         switch ( dir )
         {
         case 0:
-            m_ui->buttonButt->setText( povText + " - N" );
-            m_povDir = hid::Assignment::North;
+            _ui->buttonButt->setText( povText + " - N" );
+            _povDir = hid::Assignment::North;
             break;
 
         case 1:
-            m_ui->buttonButt->setText( povText + " - E" );
-            m_povDir = hid::Assignment::East;
+            _ui->buttonButt->setText( povText + " - E" );
+            _povDir = hid::Assignment::East;
             break;
 
         case 2:
-            m_ui->buttonButt->setText( povText + " - S" );
-            m_povDir = hid::Assignment::South;
+            _ui->buttonButt->setText( povText + " - S" );
+            _povDir = hid::Assignment::South;
             break;
 
         case 3:
-            m_ui->buttonButt->setText( povText + " - W" );
-            m_povDir = hid::Assignment::West;
+            _ui->buttonButt->setText( povText + " - W" );
+            _povDir = hid::Assignment::West;
             break;
 
         default:
-            m_ui->buttonButt->setText( povText + " - NONE" );
-            m_povDir = hid::Assignment::Centered;
+            _ui->buttonButt->setText( povText + " - NONE" );
+            _povDir = hid::Assignment::Centered;
             break;
         }
     }
@@ -388,7 +388,7 @@ void DialogAction::on_comboKeys_currentIndexChanged( int index )
 {
     if ( index >= 0 && index < HID_MAX_KEYS )
     {
-        m_keyId = (short)index;
+        _keyId = (short)index;
     }
 }
 
@@ -396,5 +396,5 @@ void DialogAction::on_comboKeys_currentIndexChanged( int index )
 
 void DialogAction::on_checkAxisInverted_toggled( bool checked )
 {
-    m_inverted = checked;
+    _inverted = checked;
 }

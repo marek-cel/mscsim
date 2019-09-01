@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogTime</class>
+ <widget class="QDialog" name="DialogTime">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>157</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Change Assignment</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelZone">
+     <property name="text">
+      <string>Time Zone:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>comboBoxZone</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="comboBoxZone">
+     <item>
+      <property name="text">
+       <string>UTC-12:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-11:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-10:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-09:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-08:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-07:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-06:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-05:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-04:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-03:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-02:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC-01:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC±00:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+01:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+02:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+03:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+04:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+05:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+06:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+07:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+08:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+09:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+10:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+11:00</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>UTC+12:00</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelTime">
+     <property name="text">
+      <string>Local Time:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>timeEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QTimeEdit" name="timeEdit">
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>114</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>DialogTime</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DialogTime</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

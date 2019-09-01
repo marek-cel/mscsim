@@ -132,11 +132,11 @@ public:
     /** Updates aerodynamics. */
     virtual void update();
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getFor_aero() const { return m_for_aero; }
-    inline const Vector3& getMom_stab() const { return m_mom_stab; }
+    inline const Vector3& getFor_aero() const { return _for_aero; }
+    inline const Vector3& getMom_stab() const { return _mom_stab; }
 
     /**
      * Returns true if aircraft is stalling, otherwise returns false.
@@ -146,18 +146,18 @@ public:
 
 protected:
 
-    const Aircraft *m_aircraft; ///< aircraft model main object
+    const Aircraft *_aircraft;  ///< aircraft model main object
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 m_for_aero;         ///< [N] total force vector expressed in Aerodynamic Axes System
-    Vector3 m_mom_stab;         ///< [N*m] total moment vector expressed in Stability Axes System
+    Vector3 _for_aero;          ///< [N] total force vector expressed in Aerodynamic Axes System
+    Vector3 _mom_stab;          ///< [N*m] total moment vector expressed in Stability Axes System
 
-    Matrix3x3 m_aero2bas;       ///< rotation matrix from Aerodynamic Axes System to BAS
-    Matrix3x3 m_stab2bas;       ///< rotation matrix from Stability Axes System to BAS
-    Matrix3x3 m_bas2aero;       ///< rotation matrix from BAS to Aerodynamic Axes System
-    Matrix3x3 m_bas2stab;       ///< rotation matrix from BAS to Stability Axes System
+    Matrix3x3 _aero2bas;        ///< rotation matrix from Aerodynamic Axes System to BAS
+    Matrix3x3 _stab2bas;        ///< rotation matrix from Stability Axes System to BAS
+    Matrix3x3 _bas2aero;        ///< rotation matrix from BAS to Aerodynamic Axes System
+    Matrix3x3 _bas2stab;        ///< rotation matrix from BAS to Stability Axes System
 
     /**
      * Updates rotation matrices.

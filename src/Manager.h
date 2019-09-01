@@ -58,15 +58,15 @@ protected:
 
 private:
 
-    Navigation *m_nav;          ///< navigation
-    Simulation *m_sim;          ///< simulation
-    MainWindow *m_win;          ///< GUI
+    Navigation *_nav;           ///< navigation
+    Simulation *_sim;           ///< simulation
+    MainWindow *_win;           ///< GUI
 
-    QElapsedTimer *m_timer;     ///< elapsed timer
+    QElapsedTimer *_timer;      ///< elapsed timer
 
-    int m_timerId;              ///< timer Id
+    int _timerId;               ///< timer Id
 
-    double m_timeStep;          ///< [s] time step
+    double _timeStep;           ///< [s] time step
 
 private slots:
 

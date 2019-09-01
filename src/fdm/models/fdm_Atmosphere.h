@@ -61,22 +61,22 @@ public:
         H2                              ///< index of Hydrogen in tables m_m_i and m_f_i
     };
 
-    static const double m_m_i[ 10 ];    ///< [kg/kmol] molecular weight
-    static const double m_f_i[ 10 ];    ///< [-] fractional volume
+    static const double _m_i[ 10 ];     ///< [kg/kmol] molecular weight
+    static const double _f_i[ 10 ];     ///< [-] fractional volume
 
-    static const double m_h_b[ 7 ];     ///< [m] altitude values
-    static const double m_p_b[ 7 ];     ///< [Pa] pressure values
-    static const double m_t_b[ 7 ];     ///< [K] temperature values
-    static const double m_l_b[ 7 ];     ///< [K/m] temperature gradients
+    static const double _h_b[ 7 ];      ///< [m] altitude values
+    static const double _p_b[ 7 ];      ///< [Pa] pressure values
+    static const double _t_b[ 7 ];      ///< [K] temperature values
+    static const double _l_b[ 7 ];      ///< [K/m] temperature gradients
 
-    static const double m_m;            ///< [kg/kmol] mean molecular weight
-    static const double m_r;            ///< [N*m/(kmol*K)] gas constant
-    static const double m_s;            ///< [K] Sutherland constant
-    static const double m_beta;         ///< [kg/(s*m*K^0.5)] a constant used in computing dynamic viscosity
-    static const double m_gamma;        ///< [-] a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume
+    static const double _m;             ///< [kg/kmol] mean molecular weight
+    static const double _r;             ///< [N*m/(kmol*K)] gas constant
+    static const double _s;             ///< [K] Sutherland constant
+    static const double _beta;          ///< [kg/(s*m*K^0.5)] a constant used in computing dynamic viscosity
+    static const double _gamma;         ///< [-] a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume
 
-    static const double m_std_sl_t;     ///< [K]  standard sea level temperature (15 deg C)
-    static const double m_std_sl_p;     ///< [Pa] standard sea level pressure (1013.25 hPa)
+    static const double _std_sl_t;      ///< [K]  standard sea level temperature (15 deg C)
+    static const double _std_sl_p;      ///< [Pa] standard sea level pressure (1013.25 hPa)
 
     /** Constructor. */
     Atmosphere();
@@ -102,24 +102,24 @@ public:
      */
     virtual void setTemperatureSL( double temperature_0 );
 
-    inline double getTemperature()  const { return m_temperature;  }
-    inline double getPressure()     const { return m_pressure;     }
-    inline double getDensity()      const { return m_density;      }
-    inline double getSpeedOfSound() const { return m_speedOfSound; }
-    inline double getDynViscosity() const { return m_dynViscosity; }
-    inline double getKinViscosity() const { return m_kinViscosity; }
+    inline double getTemperature()  const { return _temperature;  }
+    inline double getPressure()     const { return _pressure;     }
+    inline double getDensity()      const { return _density;      }
+    inline double getSpeedOfSound() const { return _speedOfSound; }
+    inline double getDynViscosity() const { return _dynViscosity; }
+    inline double getKinViscosity() const { return _kinViscosity; }
 
 private:
 
-    double m_temperature_0;     ///< [K] sea level air temperature
-    double m_pressure_0;        ///< [Pa] sea level air pressure
+    double _temperature_0;      ///< [K] sea level air temperature
+    double _pressure_0;         ///< [Pa] sea level air pressure
 
-    double m_temperature;       ///< [K] air temperature
-    double m_pressure;          ///< [Pa] air static pressure
-    double m_density;           ///< [kg/m^3] air density
-    double m_speedOfSound;      ///< [m/s] speed of sound
-    double m_dynViscosity;      ///< [Pa*s] dynamic viscosity
-    double m_kinViscosity;      ///< [m^2/s] kinematic viscosity
+    double _temperature;        ///< [K] air temperature
+    double _pressure;           ///< [Pa] air static pressure
+    double _density;            ///< [kg/m^3] air density
+    double _speedOfSound;       ///< [m/s] speed of sound
+    double _dynViscosity;       ///< [Pa*s] dynamic viscosity
+    double _kinViscosity;       ///< [m^2/s] kinematic viscosity
 };
 
 } // end of fdm namespace

@@ -29,13 +29,13 @@
 ComboUnitsAngle::ComboUnitsAngle( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    m_coefs.push_back( 1.0f );
-    m_names.push_back( QString( "rad" ) );
+    _coefs.push_back( 1.0f );
+    _names.push_back( QString( "rad" ) );
 
-    m_coefs.push_back( (float)fdm::Units::rad2deg() );
-    m_names.push_back( QString( "deg" ) );
+    _coefs.push_back( (float)fdm::Units::rad2deg() );
+    _names.push_back( QString( "deg" ) );
 
-    for ( size_t i = 0; i < m_names.size(); i++ ) addItem( m_names[ i ] );
+    for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

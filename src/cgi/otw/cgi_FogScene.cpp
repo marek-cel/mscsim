@@ -46,12 +46,12 @@ osg::Vec4 FogScene::getFogColor( float sun_elev, float visibility )
 
     if ( visibility < CGI_FOG_LIMIT )
     {
-        return osg::Vec4( Color::fog[ number ], 1.0 );
+        return osg::Vec4( Color::_fog[ number ], 1.0 );
 
     }
     else
     {
-        return osg::Vec4( Color::sky[ number ], 1.0 );
+        return osg::Vec4( Color::_sky[ number ], 1.0 );
     }
 }
 
@@ -82,17 +82,17 @@ int FogScene::getFogNumber( float sun_elev )
 FogScene::FogScene( Module *parent ) :
     Module( parent )
 {
-    m_fog = new osg::Fog();
+    _fog = new osg::Fog();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
-    m_fog->setMode( osg::Fog::LINEAR );
-    m_fog->setDensity( 0.5f );
-    m_fog->setColor( osg::Vec4( Color::fog[ 8 ], 1.0 ) );
-    m_fog->setStart( 0.0f );
-    m_fog->setEnd( 0.9f * CGI_SKYDOME_RADIUS );
+    _fog->setMode( osg::Fog::LINEAR );
+    _fog->setDensity( 0.5f );
+    _fog->setColor( osg::Vec4( Color::_fog[ 8 ], 1.0 ) );
+    _fog->setStart( 0.0f );
+    _fog->setEnd( 0.9f * CGI_SKYDOME_RADIUS );
 
-    stateSet->setAttributeAndModes( m_fog.get(), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( _fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
 
     addChild( new Clouds( this ) );
@@ -115,16 +115,16 @@ void FogScene::update()
     float visibility = Data::get()->environment.visibility;
     visibility = std::min( std::max( visibility, 1.0f ), 0.9f * CGI_SKYDOME_RADIUS );
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     float elevation_deg = osg::RadiansToDegrees( Data::get()->skyDome.sunElev );
 
-    m_fog->setMode( osg::Fog::LINEAR );
-    m_fog->setDensity( 0.5f );
-    m_fog->setColor( getFogColor( elevation_deg, visibility ) );
-    m_fog->setStart( 0.0f );
-    m_fog->setEnd( visibility );
+    _fog->setMode( osg::Fog::LINEAR );
+    _fog->setDensity( 0.5f );
+    _fog->setColor( getFogColor( elevation_deg, visibility ) );
+    _fog->setStart( 0.0f );
+    _fog->setEnd( visibility );
 
-    stateSet->setAttributeAndModes( m_fog.get(), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( _fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
 }

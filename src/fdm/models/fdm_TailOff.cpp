@@ -32,22 +32,22 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 TailOff::TailOff() :
-    m_mac ( 0.0 ),
-    m_area ( 0.0 ),
-    m_area_2 ( 0.0 ),
-    m_mac_s_2 ( 0.0 ),
-    m_aoa_critical_neg ( 0.0 ),
-    m_aoa_critical_pos ( 0.0 ),
-    m_aoa_l ( 0.0 ),
-    m_aoa_r ( 0.0 ),
-    m_stall ( false )
+    _mac ( 0.0 ),
+    _area ( 0.0 ),
+    _area_2 ( 0.0 ),
+    _mac_s_2 ( 0.0 ),
+    _aoa_critical_neg ( 0.0 ),
+    _aoa_critical_pos ( 0.0 ),
+    _aoa_l ( 0.0 ),
+    _aoa_r ( 0.0 ),
+    _stall ( false )
 {
-    m_cx = Table::createOneRecordTable( 0.0 );
-    m_cy = Table::createOneRecordTable( 0.0 );
-    m_cz = Table::createOneRecordTable( 0.0 );
-    m_cl = Table::createOneRecordTable( 0.0 );
-    m_cm = Table::createOneRecordTable( 0.0 );
-    m_cn = Table::createOneRecordTable( 0.0 );
+    _cx = Table::createOneRecordTable( 0.0 );
+    _cy = Table::createOneRecordTable( 0.0 );
+    _cz = Table::createOneRecordTable( 0.0 );
+    _cl = Table::createOneRecordTable( 0.0 );
+    _cm = Table::createOneRecordTable( 0.0 );
+    _cn = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,26 +62,26 @@ void TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_l_bas, "aero_center_l" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_r_ac_r_bas, "aero_center_r" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_l_bas, "aero_center_l" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_r_bas, "aero_center_r" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_mac  , "mac"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_area , "area" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mac  , "mac"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area , "area" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cy, "cy", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cz, "cz" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cl, "cl", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cm, "cm" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_cn, "cn", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cl, "cl", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm, "cm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cn, "cn", true );
 
         if ( result == FDM_SUCCESS )
         {
-            m_area_2 = 0.5 * m_area;
-            m_mac_s_2 = m_mac * m_area_2;
+            _area_2 = 0.5 * _area;
+            _mac_s_2 = _mac * _area_2;
 
-            m_aoa_critical_neg = m_cz.getKeyOfValueMin();
-            m_aoa_critical_pos = m_cz.getKeyOfValueMax();
+            _aoa_critical_neg = _cz.getKeyOfValueMin();
+            _aoa_critical_pos = _cz.getKeyOfValueMax();
         }
         else
         {
@@ -110,13 +110,13 @@ void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
                                      const Vector3 &omg_air_bas,
                                      double airDensity )
 {
-    m_for_bas.zeroize();
-    m_mom_bas.zeroize();
+    _for_bas.zeroize();
+    _mom_bas.zeroize();
 
-    addForceAndMoment( m_r_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
-    addForceAndMoment( m_r_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
+    addForceAndMoment( _r_ac_l_bas, vel_air_bas, omg_air_bas, airDensity );
+    addForceAndMoment( _r_ac_r_bas, vel_air_bas, omg_air_bas, airDensity );
 
-    if ( !m_for_bas.isValid() || !m_mom_bas.isValid() )
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
         Exception e;
 
@@ -131,16 +131,16 @@ void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 void TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 {
-    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_l_bas );
-    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ m_r_ac_r_bas );
+    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_l_bas );
+    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_r_bas );
 
-    m_aoa_l = Aerodynamics::getAngleOfAttack( vel_l_bas );
-    m_aoa_r = Aerodynamics::getAngleOfAttack( vel_r_bas );
+    _aoa_l = Aerodynamics::getAngleOfAttack( vel_l_bas );
+    _aoa_r = Aerodynamics::getAngleOfAttack( vel_r_bas );
 
-    bool stall_l = ( m_aoa_l < m_aoa_critical_neg ) || ( m_aoa_l > m_aoa_critical_pos );
-    bool stall_r = ( m_aoa_r < m_aoa_critical_neg ) || ( m_aoa_r > m_aoa_critical_pos );
+    bool stall_l = ( _aoa_l < _aoa_critical_neg ) || ( _aoa_l > _aoa_critical_pos );
+    bool stall_r = ( _aoa_r < _aoa_critical_neg ) || ( _aoa_r > _aoa_critical_pos );
 
-    m_stall = stall_l || stall_r;
+    _stall = stall_l || stall_r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,13 +160,13 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
     // dynamic pressure
     double dynPress = 0.5 * airDensity * vel_wing_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * m_area_2,
-                      dynPress * getCy( sideslipAngle ) * m_area_2,
-                      dynPress * getCz( angleOfAttack ) * m_area_2 );
+    Vector3 for_aero( dynPress * getCx( angleOfAttack ) * _area_2,
+                      dynPress * getCy( sideslipAngle ) * _area_2,
+                      dynPress * getCz( angleOfAttack ) * _area_2 );
 
-    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * m_mac_s_2,
-                      dynPress * getCm( angleOfAttack ) * m_mac_s_2,
-                      dynPress * getCn( sideslipAngle ) * m_mac_s_2 );
+    Vector3 mom_stab( dynPress * getCl( sideslipAngle ) * _mac_s_2,
+                      dynPress * getCm( angleOfAttack ) * _mac_s_2,
+                      dynPress * getCn( sideslipAngle ) * _mac_s_2 );
 
 
     double sinAlpha = sin( angleOfAttack );
@@ -178,48 +178,48 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
     Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
             + ( r_ac_bas ^ for_bas );
 
-    m_for_bas += for_bas;
-    m_mom_bas += mom_bas;
+    _for_bas += for_bas;
+    _mom_bas += mom_bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCx( double angleOfAttack ) const
 {
-    return m_cx.getValue( angleOfAttack );
+    return _cx.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCy( double sideslipAngle ) const
 {
-    return m_cy.getValue( sideslipAngle );
+    return _cy.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCz( double angleOfAttack ) const
 {
-    return m_cz.getValue( angleOfAttack );
+    return _cz.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCl( double sideslipAngle ) const
 {
-    return m_cl.getValue( sideslipAngle );
+    return _cl.getValue( sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCm( double angleOfAttack ) const
 {
-    return m_cm.getValue( angleOfAttack );
+    return _cm.getValue( angleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double TailOff::getCn( double sideslipAngle ) const
 {
-    return m_cn.getValue( sideslipAngle );
+    return _cn.getValue( sideslipAngle );
 }

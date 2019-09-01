@@ -27,29 +27,29 @@
 
 DockWidgetEFIS::DockWidgetEFIS( QWidget *parent ) :
     QDockWidget ( parent ),
-    m_ui ( new Ui::DockWidgetEFIS ),
-    m_graphicsEADI ( 0 ),
-    m_graphicsEHSI ( 0 )
+    _ui ( new Ui::DockWidgetEFIS ),
+    _graphicsEADI ( 0 ),
+    _graphicsEHSI ( 0 )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
-    m_graphicsEADI = m_ui->graphicsEADI;
-    m_graphicsEHSI = m_ui->graphicsEHSI;
+    _graphicsEADI = _ui->graphicsEADI;
+    _graphicsEHSI = _ui->graphicsEHSI;
 
-    m_ui->widgetEADI->setSquareWidget( m_ui->frameEADI );
-    m_ui->widgetEHSI->setSquareWidget( m_ui->frameEHSI );
+    _ui->widgetEADI->setSquareWidget( _ui->frameEADI );
+    _ui->widgetEHSI->setSquareWidget( _ui->frameEHSI );
 
-    m_graphicsEHSI->setBearing( 0.0f, false );
-    m_graphicsEHSI->setDeviation( 0.0f, false );
-    m_graphicsEHSI->setDistance( 0.0f, false );
+    _graphicsEHSI->setBearing( 0.0f, false );
+    _graphicsEHSI->setDeviation( 0.0f, false );
+    _graphicsEHSI->setDistance( 0.0f, false );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DockWidgetEFIS::~DockWidgetEFIS()
 {
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

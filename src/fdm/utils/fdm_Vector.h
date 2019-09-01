@@ -47,21 +47,21 @@ public:
 
     /** Constructor. */
     Vector() :
-        m_size ( SIZE )
+        _size ( SIZE )
     {
         zeroize();
     }
 
     /** Copy constructor. */
     Vector( const Vector< SIZE > &vect ) :
-        m_size ( SIZE )
+        _size ( SIZE )
     {
-        setArray( vect.m_items );
+        setArray( vect._items );
     }
 
     /** Constructor. */
     Vector( const double items[] ) :
-        m_size ( SIZE )
+        _size ( SIZE )
     {
         setArray( items );
     }
@@ -69,7 +69,7 @@ public:
     /** @return TRUE if all items are valid */
     virtual bool isValid() const
     {
-        return Misc::isValid( m_items, m_size );
+        return Misc::isValid( _items, _size );
     }
 
     /** @return vector length squared */
@@ -77,9 +77,9 @@ public:
     {
         double length2 = 0.0;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            length2 += ( m_items[ i ] * m_items[ i ] );
+            length2 += ( _items[ i ] * _items[ i ] );
         }
 
         return length2;
@@ -98,9 +98,9 @@ public:
 
         if ( length > 0.0 )
         {
-            for ( unsigned int i = 0; i < m_size; i++ )
+            for ( unsigned int i = 0; i < _size; i++ )
             {
-                m_items[ i ] = m_items[ i ] / length;
+                _items[ i ] = _items[ i ] / length;
             }
         }
     }
@@ -108,9 +108,9 @@ public:
     /** Puts vector items into given array. */
     virtual void getArray( double items[] ) const
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            items[i] = m_items[i];
+            items[i] = _items[i];
         }
     }
 
@@ -121,9 +121,9 @@ public:
      */
     virtual double getItem( unsigned int index ) const
     {
-        if ( index < m_size )
+        if ( index < _size )
         {
-            return m_items[ index ];
+            return _items[ index ];
         }
         else
         {
@@ -141,9 +141,9 @@ public:
     /** Sets vector items from given array. */
     virtual void setArray( const double items[] )
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[i] = items[i];
+            _items[i] = items[i];
         }
     }
 
@@ -154,9 +154,9 @@ public:
      */
     virtual void setItem( unsigned int index, double val )
     {
-        if ( index < m_size )
+        if ( index < _size )
         {
-            m_items[ index ] = val;
+            _items[ index ] = val;
         }
         else
         {
@@ -172,11 +172,11 @@ public:
     /** Swaps vector rows. */
     virtual void swapRows( unsigned int row1, unsigned int row2 )
     {
-        if ( row1 < m_size && row2 < m_size )
+        if ( row1 < _size && row2 < _size )
         {
-            double temp = m_items[ row1 ];
-            m_items[ row1 ] = m_items[ row2 ];
-            m_items[ row2 ] = temp;
+            double temp = _items[ row1 ];
+            _items[ row1 ] = _items[ row2 ];
+            _items[ row2 ] = temp;
         }
         else
         {
@@ -194,11 +194,11 @@ public:
     {
         std::stringstream ss;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
             if ( i != 0 ) ss << ",";
 
-            ss << m_items[ i ];
+            ss << _items[ i ];
         }
 
         return ss.str();
@@ -209,9 +209,9 @@ public:
      */
     virtual void zeroize()
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[ i ] = 0.0;
+            _items[ i ] = 0.0;
         }
     }
 
@@ -234,7 +234,7 @@ public:
         }
 #       endif
 
-        return m_items[ index ];
+        return _items[ index ];
     }
 
     /**
@@ -256,13 +256,13 @@ public:
         }
 #       endif
 
-        return m_items[ index ];
+        return _items[ index ];
     }
 
     /** Assignment operator. */
     const Vector< SIZE >& operator= ( const Vector< SIZE > &vect )
     {
-        setArray( vect.m_items );
+        setArray( vect._items );
 
         return (*this);
     }
@@ -272,9 +272,9 @@ public:
     {
         Vector< SIZE > result;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result.m_items[ i ] = m_items[ i ] + vect.m_items[ i ];
+            result._items[ i ] = _items[ i ] + vect._items[ i ];
         }
 
         return result;
@@ -285,9 +285,9 @@ public:
     {
         Vector< SIZE > result;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result.m_items[ i ] = - m_items[ i ];
+            result._items[ i ] = - _items[ i ];
         }
 
         return result;
@@ -298,9 +298,9 @@ public:
     {
         Vector< SIZE > result;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result.m_items[ i ] = m_items[ i ] - vect.m_items[ i ];
+            result._items[ i ] = _items[ i ] - vect._items[ i ];
         }
 
         return result;
@@ -311,9 +311,9 @@ public:
     {
         Vector< SIZE > result;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result.m_items[ i ] = m_items[ i ] * val;
+            result._items[ i ] = _items[ i ] * val;
         }
 
         return result;
@@ -324,9 +324,9 @@ public:
     {
         double result = 0.0;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result += m_items[ i ] * vect.m_items[ i ];
+            result += _items[ i ] * vect._items[ i ];
         }
 
         return result;
@@ -337,9 +337,9 @@ public:
     {
         Vector< SIZE > result;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result.m_items[ i ] = m_items[ i ] / val;
+            result._items[ i ] = _items[ i ] / val;
         }
 
         return result;
@@ -348,9 +348,9 @@ public:
     /** Unary addition operator. */
     Vector< SIZE >& operator+= ( const Vector< SIZE > &vect )
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[ i ] += vect.m_items[ i ];
+            _items[ i ] += vect._items[ i ];
         }
 
         return (*this);
@@ -359,9 +359,9 @@ public:
     /** Unary subtraction operator. */
     Vector< SIZE >& operator-= ( const Vector< SIZE > &vect )
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[ i ] -= vect.m_items[ i ];
+            _items[ i ] -= vect._items[ i ];
         }
 
         return (*this);
@@ -370,9 +370,9 @@ public:
     /** Unary multiplication operator (by scalar). */
     Vector< SIZE >& operator*= ( double val )
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[ i ] *= val;
+            _items[ i ] *= val;
         }
 
         return (*this);
@@ -381,9 +381,9 @@ public:
     /** Unary division operator (by scalar). */
     Vector< SIZE >& operator/= ( double val )
     {
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            m_items[ i ] /= val;
+            _items[ i ] /= val;
         }
 
         return (*this);
@@ -394,9 +394,9 @@ public:
     {
         bool result = true;
 
-        for ( unsigned int i = 0; i < m_size; i++ )
+        for ( unsigned int i = 0; i < _size; i++ )
         {
-            result = result && ( m_items[i] == vect.m_items[i] );
+            result = result && ( _items[i] == vect._items[i] );
         }
 
         return result;
@@ -410,9 +410,9 @@ public:
 
 protected:
 
-    double m_items[ SIZE ];     ///< vector items
+    double _items[ SIZE ];      ///< vector items
 
-    const unsigned int m_size;  ///< vector size
+    const unsigned int _size;   ///< vector size
 };
 
 } // end of fdm namespace

@@ -93,57 +93,57 @@ public:
      */
     virtual void update( double omega );
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getVel_i_BAS() const { return m_vel_i_bas; }
+    inline const Vector3& getVel_i_BAS() const { return _vel_i_bas; }
 
-    inline double getMomentOfInertia() const { return m_nb * m_i_b; }
+    inline double getMomentOfInertia() const { return _nb * _i_b; }
 
-    inline double getThrust() const { return m_thrust; }
-    inline double getTorque() const { return m_torque; }
+    inline double getThrust() const { return _thrust; }
+    inline double getTorque() const { return _torque; }
 
 protected:
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Vector3 m_r_hub_bas;        ///< [m] rotor hub coordinates expressed in BAS
+    Vector3 _r_hub_bas;         ///< [m] rotor hub coordinates expressed in BAS
 
-    Matrix3x3 m_bas2ras;        ///< matrix of rotation from BAS to RAS
-    Matrix3x3 m_ras2bas;        ///< matrix of rotation from RAS to BAS
+    Matrix3x3 _bas2ras;         ///< matrix of rotation from BAS to RAS
+    Matrix3x3 _ras2bas;         ///< matrix of rotation from RAS to BAS
 
-    Vector3 m_vel_i_bas;        ///< [m/s] induced velocity
+    Vector3 _vel_i_bas;         ///< [m/s] induced velocity
 
-    int m_nb;                   ///< number of rotor blades
+    int _nb;                    ///< number of rotor blades
 
-    double m_r;                 ///< [m] rotor radius
-    double m_c;                 ///< [m] blades chord
+    double _r;                  ///< [m] rotor radius
+    double _c;                  ///< [m] blades chord
 
-    double m_a;                 ///< [1/rad] blade section lift curve slope
-    double m_b;                 ///< [-] tip losses coefficient
+    double _a;                  ///< [1/rad] blade section lift curve slope
+    double _b;                  ///< [-] tip losses coefficient
 
-    double m_delta_0;           ///< [-] drag coefficient constant component
-    double m_delta_2;           ///< [-] drag coefficient quadratic component
+    double _delta_0;            ///< [-] drag coefficient constant component
+    double _delta_2;            ///< [-] drag coefficient quadratic component
 
-    double m_ct_max;            ///< [-] maximum thrust coefficient
-    double m_cq_max;            ///< [-] maximum torque coefficient
+    double _ct_max;             ///< [-] maximum thrust coefficient
+    double _cq_max;             ///< [-] maximum torque coefficient
 
-    double m_thrust_factor;     ///< [-] thrust scaling factor
-    double m_torque_factor;     ///< [-] torque scaling factor
-    double m_vel_i_factor;      ///< [-] induced velocity scaling factor
+    double _thrust_factor;      ///< [-] thrust scaling factor
+    double _torque_factor;      ///< [-] torque scaling factor
+    double _vel_i_factor;       ///< [-] induced velocity scaling factor
 
-    double m_r2;                ///< [m^2] rotor radius squared
-    double m_r3;                ///< [m^3] rotor radius cubed
-    double m_ad;                ///< [m^2] rotor disk area
-    double m_s;                 ///< [-] rotor solidity
+    double _r2;                 ///< [m^2] rotor radius squared
+    double _r3;                 ///< [m^3] rotor radius cubed
+    double _ad;                 ///< [m^2] rotor disk area
+    double _s;                  ///< [-] rotor solidity
 
-    double m_i_b;               ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
+    double _i_b;                ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
 
-    double m_omega;             ///< [rad/s] rotor revolution speed
+    double _omega;              ///< [rad/s] rotor revolution speed
 
-    double m_thrust;            ///< [N] rotor thrust
-    double m_torque;            ///< [N*m] rotor torque
+    double _thrust;             ///< [N] rotor thrust
+    double _torque;             ///< [N*m] rotor torque
 };
 
 } // end of fdm namespace

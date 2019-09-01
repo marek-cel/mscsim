@@ -68,13 +68,13 @@ public:
 
 private:
 
-    double m_dcx_delevator;         ///< [1/rad] drag coefficient due to elevator deflection
-    double m_dcz_delevator;         ///< [1/rad] lift coefficient due to elevator deflection
+    double _dcx_delevator;          ///< [1/rad] drag coefficient due to elevator deflection
+    double _dcz_delevator;          ///< [1/rad] lift coefficient due to elevator deflection
 
-    double m_dcz_delevator_trim;    ///< [1/rad] lift coefficient due to elevator trim deflection
+    double _dcz_delevator_trim;     ///< [1/rad] lift coefficient due to elevator trim deflection
 
-    double m_elevator;              ///< [rad] elevator deflection
-    double m_elevatorTrim;          ///< [rad] elevator trim deflection
+    double _elevator;               ///< [rad] elevator deflection
+    double _elevatorTrim;           ///< [rad] elevator trim deflection
 
     /**
      * Computes drag coefficient.

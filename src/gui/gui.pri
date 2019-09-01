@@ -15,6 +15,7 @@ HEADERS += \
     $$PWD/DialogEnvr.h \
     $$PWD/DialogInit.h \
     $$PWD/DialogMass.h \
+    $$PWD/DialogTime.h \
     $$PWD/DockWidgetAuto.h \
     $$PWD/DockWidgetCtrl.h \
     $$PWD/DockWidgetData.h \
@@ -57,6 +58,7 @@ SOURCES += \
     $$PWD/DialogEnvr.cpp \
     $$PWD/DialogInit.cpp \
     $$PWD/DialogMass.cpp \
+    $$PWD/DialogTime.cpp \
     $$PWD/DockWidgetAuto.cpp \
     $$PWD/DockWidgetCtrl.cpp \
     $$PWD/DockWidgetData.cpp \
@@ -87,6 +89,7 @@ FORMS += \
     $$PWD/DialogEnvr.ui \
     $$PWD/DialogInit.ui \
     $$PWD/DialogMass.ui \
+    $$PWD/DialogTime.ui \
     $$PWD/DockWidgetAuto.ui \
     $$PWD/DockWidgetCtrl.ui \
     $$PWD/DockWidgetData.ui \

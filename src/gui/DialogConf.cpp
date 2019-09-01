@@ -31,9 +31,9 @@
 
 DialogConf::DialogConf( QWidget *parent ) :
     QDialog ( parent ),
-    m_ui ( new Ui::DialogConf )
+    _ui ( new Ui::DialogConf )
 {
-    m_ui->setupUi( this );
+    _ui->setupUi( this );
 
     settingsRead();
 }
@@ -44,66 +44,80 @@ DialogConf::~DialogConf()
 {
     settingsSave();
     
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogConf::readData()
 {
-    m_ui->pageGeneral->readData();
-    m_ui->pageControls->readData();
+    _ui->pageGeneral->readData();
+    _ui->pageControls->readData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogConf::saveData()
 {
-    m_ui->pageGeneral->saveData();
-    m_ui->pageControls->saveData();
+    _ui->pageGeneral->saveData();
+    _ui->pageControls->saveData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogConf::updateAssignments()
 {
-    m_ui->pageControls->updateAssignments();
+    _ui->pageControls->updateAssignments();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 qreal DialogConf::getHudColorR() const
 {
-    return m_ui->pageGeneral->getHudColor().redF();
+    return _ui->pageGeneral->getHudColor().redF();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 qreal DialogConf::getHudColorG() const
 {
-    return m_ui->pageGeneral->getHudColor().greenF();
+    return _ui->pageGeneral->getHudColor().greenF();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 qreal DialogConf::getHudColorB() const
 {
-    return m_ui->pageGeneral->getHudColor().blueF();
+    return _ui->pageGeneral->getHudColor().blueF();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 int DialogConf::getHudOpacity() const
 {
-    return m_ui->pageGeneral->getHudOpacity();
+    return _ui->pageGeneral->getHudOpacity();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double DialogConf::getHudFactorAlt() const
+{
+    return _ui->pageGeneral->getHudFactorAlt();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double DialogConf::getHudFactorVel() const
+{
+    return _ui->pageGeneral->getHudFactorVel();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 bool DialogConf::getWidescreen() const
 {
-    return m_ui->pageGeneral->getWidescreen();
+    return _ui->pageGeneral->getWidescreen();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -136,5 +150,5 @@ void DialogConf::settingsSave()
 
 void DialogConf::on_listMenu_currentRowChanged( int iRow )
 {
-    m_ui->stackedContents->setCurrentIndex( iRow );
+    _ui->stackedContents->setCurrentIndex( iRow );
 }

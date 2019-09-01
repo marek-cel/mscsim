@@ -27,53 +27,53 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Data::DataBuf Data::m_data;
+Data::DataBuf Data::_data;
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
     QObject( 0 ),
 
-    m_nav ( 0 ),
-    m_sim ( 0 ),
-    m_win ( 0 ),
+    _nav ( 0 ),
+    _sim ( 0 ),
+    _win ( 0 ),
 
-    m_timer ( 0 ),
-    m_timerId ( 0 ),
-    m_timeStep ( 0.0 )
+    _timer ( 0 ),
+    _timerId ( 0 ),
+    _timeStep ( 0.0 )
 {
-    m_nav = new Navigation();
-    m_sim = new Simulation();
-    m_win = new MainWindow();
+    _nav = new Navigation();
+    _sim = new Simulation();
+    _win = new MainWindow();
 
-    m_timer = new QElapsedTimer();
+    _timer = new QElapsedTimer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::~Manager()
 {
-    if ( m_timerId != 0 ) killTimer( m_timerId );
+    if ( _timerId != 0 ) killTimer( _timerId );
 
-    if ( m_timer ) delete m_timer;
-    m_timer = 0;
+    if ( _timer ) delete _timer;
+    _timer = 0;
 
-    if ( m_nav ) delete m_nav;
-    m_nav = 0;
+    if ( _nav ) delete _nav;
+    _nav = 0;
 
-    if ( m_sim )
+    if ( _sim )
     {
-        while ( m_sim->isRunning() )
+        while ( _sim->isRunning() )
         {
-            m_sim->quit();
+            _sim->quit();
         }
 
-        delete m_sim;
+        delete _sim;
     }
-    m_sim = 0;
+    _sim = 0;
 
-    if ( m_win ) delete m_win;
-    m_win = 0;
+    if ( _win ) delete _win;
+    _win = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,19 +83,19 @@ void Manager::init()
     qRegisterMetaType< Data::DataBuf >( "Data::DataBuf" );
     qRegisterMetaType< fdm::DataOut  >( "fdm::DataOut"  );
 
-    connect( this  , SIGNAL(dataInpUpdated(const Data::DataBuf *)) , m_sim , SLOT(onDataInpUpdated(const Data::DataBuf *)) );
-    connect( m_sim , SIGNAL(dataOutUpdated(const fdm::DataOut &))  , this  , SLOT(onDataOutUpdated(const fdm::DataOut &))  );
+    connect( this, SIGNAL(dataInpUpdated(const Data::DataBuf *)) , _sim, SLOT(onDataInpUpdated(const Data::DataBuf *)) );
+    connect( _sim, SIGNAL(dataOutUpdated(const fdm::DataOut &))  , this, SLOT(onDataOutUpdated(const fdm::DataOut &))  );
 
     hid::Manager::instance()->init();
 
-    m_sim->init();
+    _sim->init();
 
-    m_win->show();
-    m_win->init();
+    _win->show();
+    _win->init();
 
-    m_timerId = startTimer( 1000 * FDM_TIME_STEP );
+    _timerId = startTimer( 1000 * FDM_TIME_STEP );
 
-    m_timer->start();
+    _timer->start();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ void Manager::timerEvent( QTimerEvent *event )
     QObject::timerEvent( event );
     /////////////////////////////
 
-    m_timeStep = Data::get()->timeCoef * (double)m_timer->restart() / 1000.0;
+    _timeStep = Data::get()->timeCoef * (double)_timer->restart() / 1000.0;
 
     if ( Data::get()->phaseInp == fdm::DataInp::Idle )
     {
@@ -117,8 +117,8 @@ void Manager::timerEvent( QTimerEvent *event )
         // TODO
     }
 
-    hid::Manager::instance()->update( m_timeStep );
-    m_nav->update();
+    hid::Manager::instance()->update( _timeStep );
+    _nav->update();
 
     // controls
     Data::get()->controls.roll         = -hid::Manager::instance()->getCtrlRoll();
@@ -236,7 +236,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     {
         for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
-            Data::get()->ownship.propeller[ i ] += m_timeStep * M_PI * dataOut.engine[ i ].rpm / 30.0;
+            Data::get()->ownship.propeller[ i ] += _timeStep * M_PI * dataOut.engine[ i ].rpm / 30.0;
 
             while ( Data::get()->ownship.propeller[ i ] > 2.0f * M_PI )
             {
@@ -280,12 +280,13 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
         Data::get()->propulsion.engine[ i ].egt  = dataOut.engine[ i ].egt;
         Data::get()->propulsion.engine[ i ].itt  = dataOut.engine[ i ].itt;
         Data::get()->propulsion.engine[ i ].tit  = dataOut.engine[ i ].tit;
-        Data::get()->propulsion.engine[ i ].ff   = dataOut.engine[ i ].ff;
+
+        Data::get()->propulsion.engine[ i ].fuelFlow = dataOut.engine[ i ].fuelFlow;
     }
 
     // output state
     Data::get()->stateOut = dataOut.stateOut;
 
     // time step
-    Data::get()->timeStep = m_timeStep;
+    Data::get()->timeStep = _timeStep;
 }

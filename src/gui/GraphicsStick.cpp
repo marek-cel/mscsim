@@ -34,51 +34,51 @@
 GraphicsStick::GraphicsStick( QWidget *parent ) :
     QGraphicsView ( parent ),
 
-    m_timerId ( 0 ),
+    _timerId ( 0 ),
 
-    m_scene ( 0 ),
+    _scene ( 0 ),
 
-    m_ctrlLineH ( 0 ),
-    m_ctrlLineV ( 0 ),
-    m_trimLineH ( 0 ),
-    m_trimLineV ( 0 ),
-    m_markLineH ( 0 ),
-    m_markLineV ( 0 ),
+    _ctrlLineH ( 0 ),
+    _ctrlLineV ( 0 ),
+    _trimLineH ( 0 ),
+    _trimLineV ( 0 ),
+    _markLineH ( 0 ),
+    _markLineV ( 0 ),
 
-    m_ctrlBrush ( QColor( 0x03, 0x2a, 0x63 ), Qt::SolidPattern ),
-    m_trimBrush ( QColor( 0x88, 0x88, 0x88 ), Qt::SolidPattern ),
-    m_markBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
+    _ctrlBrush ( QColor( 0x03, 0x2a, 0x63 ), Qt::SolidPattern ),
+    _trimBrush ( QColor( 0x88, 0x88, 0x88 ), Qt::SolidPattern ),
+    _markBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
 
-    m_ctrlPen( m_ctrlBrush, 1 ),
-    m_trimPen( m_trimBrush, 1 ),
-    m_markPen( m_markBrush, 1 ),
+    _ctrlPen( _ctrlBrush, 1 ),
+    _trimPen( _trimBrush, 1 ),
+    _markPen( _markBrush, 1 ),
 
-    m_ctrlRoll  ( 0 ),
-    m_ctrlPitch ( 0 ),
-    m_trimRoll  ( 0 ),
-    m_trimPitch ( 0 )
+    _ctrlRoll  ( 0 ),
+    _ctrlPitch ( 0 ),
+    _trimRoll  ( 0 ),
+    _trimPitch ( 0 )
 {
-    m_scene = new QGraphicsScene( this );
-    setScene( m_scene );
+    _scene = new QGraphicsScene( this );
+    setScene( _scene );
 
-    m_scene->clear();
+    _scene->clear();
 
     init();
 
-    m_timerId = startTimer( 100 );
+    _timerId = startTimer( 100 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsStick::~GraphicsStick()
 {
-    if ( m_timerId ) killTimer( m_timerId );
+    if ( _timerId ) killTimer( _timerId );
 
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
-        delete m_scene;
-        m_scene = 0;
+        _scene->clear();
+        delete _scene;
+        _scene = 0;
     }
 
     reset();
@@ -88,9 +88,9 @@ GraphicsStick::~GraphicsStick()
 
 void GraphicsStick::reinit()
 {
-    if ( m_scene )
+    if ( _scene )
     {
-        m_scene->clear();
+        _scene->clear();
 
         init();
     }
@@ -132,19 +132,19 @@ void GraphicsStick::init()
 
 void GraphicsStick::reset()
 {
-    m_ctrlLineH = 0;
-    m_ctrlLineV = 0;
-    m_trimLineH = 0;
-    m_trimLineV = 0;
-    m_markLineH = 0;
-    m_markLineV = 0;
+    _ctrlLineH = 0;
+    _ctrlLineV = 0;
+    _trimLineH = 0;
+    _trimLineV = 0;
+    _markLineH = 0;
+    _markLineV = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsStick::updateView()
 {
-    m_scene->clear();
+    _scene->clear();
 
     short w = width();
     short h = height();
@@ -157,11 +157,11 @@ void GraphicsStick::updateView()
 
     short length = 8;
 
-    short x_ctrl = floor( m_ctrlRoll  * ( w_2 - 1.0f ) / 100.0f + 0.5f );
-    short y_ctrl = floor( m_ctrlPitch * ( h_2 - 1.0f ) / 100.0f + 0.5f );
+    short x_ctrl = floor( _ctrlRoll  * ( w_2 - 1.0f ) / 100.0f + 0.5f );
+    short y_ctrl = floor( _ctrlPitch * ( h_2 - 1.0f ) / 100.0f + 0.5f );
 
-    short x_trim = floor( m_trimRoll  * ( w_2 - 1.0f ) / 100.0f + 0.5f );
-    short y_trim = floor( m_trimPitch * ( h_2 - 1.0f ) / 100.0f + 0.5f );
+    short x_trim = floor( _trimRoll  * ( w_2 - 1.0f ) / 100.0f + 0.5f );
+    short y_trim = floor( _trimPitch * ( h_2 - 1.0f ) / 100.0f + 0.5f );
 
     if ( x_ctrl < -x_max ) x_ctrl = -x_max;
     if ( x_ctrl >  x_max ) x_ctrl =  x_max;
@@ -173,16 +173,16 @@ void GraphicsStick::updateView()
     if ( y_trim < -y_max ) y_trim = -y_max;
     if ( y_trim >  y_max ) y_trim =  y_max;
 
-    m_markLineH = m_scene->addLine( -w_2, 0, w_2, 0, m_markPen );
-    m_markLineV = m_scene->addLine( 0, h_2, 0, -h_2, m_markPen );
+    _markLineH = _scene->addLine( -w_2, 0, w_2, 0, _markPen );
+    _markLineV = _scene->addLine( 0, h_2, 0, -h_2, _markPen );
 
-    m_trimLineH = m_scene->addLine( x_trim + length, y_trim, x_trim - length, y_trim, m_trimPen );
-    m_trimLineV = m_scene->addLine( x_trim, y_trim - length, x_trim, y_trim + length, m_trimPen );
+    _trimLineH = _scene->addLine( x_trim + length, y_trim, x_trim - length, y_trim, _trimPen );
+    _trimLineV = _scene->addLine( x_trim, y_trim - length, x_trim, y_trim + length, _trimPen );
 
-    m_ctrlLineH = m_scene->addLine( x_ctrl + length, y_ctrl, x_ctrl - length, y_ctrl, m_ctrlPen );
-    m_ctrlLineV = m_scene->addLine( x_ctrl, y_ctrl - length, x_ctrl, y_ctrl + length, m_ctrlPen );
+    _ctrlLineH = _scene->addLine( x_ctrl + length, y_ctrl, x_ctrl - length, y_ctrl, _ctrlPen );
+    _ctrlLineV = _scene->addLine( x_ctrl, y_ctrl - length, x_ctrl, y_ctrl + length, _ctrlPen );
 
-    m_scene->update();
+    _scene->update();
 
     centerOn( 0, 0 );
 }

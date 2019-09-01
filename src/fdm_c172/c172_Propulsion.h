@@ -67,15 +67,15 @@ public:
     /** Updates propulsion. */
     void update();
 
-    inline const PistonEngine* getEngine() const { return m_engine; }
-    inline const Propeller* getPropeller() const { return m_propeller; }
+    inline const PistonEngine* getEngine() const { return _engine; }
+    inline const Propeller* getPropeller() const { return _propeller; }
 
 private:
 
-    const C172_Aircraft *m_aircraft;    ///< aircraft model main object
+    const C172_Aircraft *_aircraft;     ///< aircraft model main object
 
-    PistonEngine *m_engine;             ///< engine model
-    Propeller *m_propeller;             ///< propeller model
+    PistonEngine *_engine;              ///< engine model
+    Propeller *_propeller;              ///< propeller model
 };
 
 } // end of fdm namespace

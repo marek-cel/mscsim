@@ -106,16 +106,16 @@ public:
     /** Updates mass. */
     virtual void update();
 
-    inline const Vector3& getFor_BAS() const { return m_for_bas; }
-    inline const Vector3& getMom_BAS() const { return m_mom_bas; }
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getCenterOfMass() const { return m_cm_t_bas; }
+    inline const Vector3& getCenterOfMass() const { return _cm_t_bas; }
 
     /**
      * Returns total mass.
      * @return [kg] total mass
      */
-    inline double getMass() const { return m_mass_t; }
+    inline double getMass() const { return _mass_t; }
 
     /**
      * Returns inertia matrix.
@@ -127,33 +127,33 @@ public:
      * Returns inertia tensor for total mass.
      * @return [kg*m^2] inertia tensor
      */
-    inline Matrix3x3 getInertiaTensor() const { return m_it_t_bas; }
+    inline Matrix3x3 getInertiaTensor() const { return _it_t_bas; }
 
     /**
      * Returns first moment of mass (total).
      * @return [kg*m] first moment of mass
      */
-    Vector3 inline getFirstMomentOfMass() const { return m_st_t_bas; }
+    Vector3 inline getFirstMomentOfMass() const { return _st_t_bas; }
 
 protected:
 
-    const Aircraft *m_aircraft; ///< aircraft model main object
+    const Aircraft *_aircraft;  ///< aircraft model main object
 
-    Vector3 m_for_bas;          ///< [N] total force vector expressed in BAS
-    Vector3 m_mom_bas;          ///< [N*m] total moment vector expressed in BAS
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
-    Masses m_masses;            ///< variable masses array
+    Masses _masses;             ///< variable masses array
 
-    double m_mass_e;            ///< [kg] empty aircraft mass
-    double m_mass_t;            ///< [kg] total aircraft mass
+    double _mass_e;             ///< [kg] empty aircraft mass
+    double _mass_t;             ///< [kg] total aircraft mass
 
-    Vector3 m_cm_e_bas;         ///< [m] center of mass (empty) expressed in BAS
-    Vector3 m_cm_t_bas;         ///< [m] center of mass (total) expressed in BAS
+    Vector3 _cm_e_bas;          ///< [m] center of mass (empty) expressed in BAS
+    Vector3 _cm_t_bas;          ///< [m] center of mass (total) expressed in BAS
 
-    Vector3 m_st_t_bas;         ///< [kg*m] first mass moment (total) vector expressed in BAS
+    Vector3 _st_t_bas;          ///< [kg*m] first mass moment (total) vector expressed in BAS
 
-    Matrix3x3 m_it_e_bas;       ///< [kg*m^2] inertia tensor (empty)
-    Matrix3x3 m_it_t_bas;       ///< [kg*m^2] inertia tensor (total)
+    Matrix3x3 _it_e_bas;        ///< [kg*m^2] inertia tensor (empty)
+    Matrix3x3 _it_t_bas;        ///< [kg*m^2] inertia tensor (total)
 
     /**
      * Adds variable mass to the total aircraft mass.

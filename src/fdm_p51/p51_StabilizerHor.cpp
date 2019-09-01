@@ -31,11 +31,11 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_StabilizerHor::P51_StabilizerHor() :
-    m_dcx_delevator ( 0.0 ),
-    m_dcz_delevator ( 0.0 ),
-    m_dcz_delevator_trim ( 0.0 ),
-    m_elevator ( 0.0 ),
-    m_elevatorTrim ( 0.0 )
+    _dcx_delevator ( 0.0 ),
+    _dcz_delevator ( 0.0 ),
+    _dcz_delevator_trim ( 0.0 ),
+    _elevator ( 0.0 ),
+    _elevatorTrim ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,10 +54,10 @@ void P51_StabilizerHor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcx_delevator, "dcx_delevator" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcz_delevator, "dcz_delevator" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_delevator, "dcx_delevator" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator, "dcz_delevator" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, m_dcz_delevator_trim, "dcz_delevator_trim" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator_trim, "dcz_delevator_trim" );
 
         if ( result != FDM_SUCCESS )
         {
@@ -89,8 +89,8 @@ void P51_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
                                                 double elevator,
                                                 double elevatorTrim )
 {
-    m_elevator     = elevator;
-    m_elevatorTrim = elevatorTrim;
+    _elevator     = elevator;
+    _elevatorTrim = elevatorTrim;
 
     Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
                                        airDensity, wingAngleOfAttack );
@@ -101,7 +101,7 @@ void P51_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
 double P51_StabilizerHor::getCx( double angle ) const
 {
     return Stabilizer::getCx( angle )
-            + m_dcx_delevator * m_elevator;
+            + _dcx_delevator * _elevator;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,6 +109,6 @@ double P51_StabilizerHor::getCx( double angle ) const
 double P51_StabilizerHor::getCz( double angle ) const
 {
     return Stabilizer::getCz( angle )
-            + m_dcz_delevator      * m_elevator
-            + m_dcz_delevator_trim * m_elevatorTrim;
+            + _dcz_delevator      * _elevator
+            + _dcz_delevator_trim * _elevatorTrim;
 }

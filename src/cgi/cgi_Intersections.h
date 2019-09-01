@@ -69,17 +69,16 @@ public:
     /** */
     inline void setScenery( osg::Node *scenery )
     {
-        m_scenery = scenery;
+        _scenery = scenery;
     }
 
 private:
 
-    osg::ref_ptr<osg::Node> m_scenery;
+    osg::ref_ptr<osg::Node> _scenery;
+    osg::ref_ptr<ReadCallback> _rc;
 
-    osg::ref_ptr<ReadCallback> m_rc;
-
-//    osg::ref_ptr<osgUtil::IntersectionVisitor> m_iv;
-//    osg::ref_ptr<osgUtil::IntersectorGroup>    m_ig;
+//    osg::ref_ptr<osgUtil::IntersectionVisitor> _iv;
+//    osg::ref_ptr<osgUtil::IntersectorGroup>    _ig;
 
     /**
      * You should use static function instance() due to get refernce
