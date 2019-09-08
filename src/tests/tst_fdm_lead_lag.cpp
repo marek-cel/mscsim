@@ -30,9 +30,9 @@ public:
 
 private:
 
-    std::vector< double > m_y;
+    std::vector< double > _y;
 
-    fdm::LeadLag *m_leadLag;
+    fdm::LeadLag *_leadLag;
 
 private Q_SLOTS:
 
@@ -44,13 +44,13 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LeadLagTest::LeadLagTest() : m_leadLag ( 0 ) {}
+LeadLagTest::LeadLagTest() : _leadLag ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LeadLagTest::initTestCase()
 {
-    m_leadLag = new fdm::LeadLag( C_1, C_2, C_3, C_4 );
+    _leadLag = new fdm::LeadLag( C_1, C_2, C_3, C_4 );
 
     FILE *file = fopen( "data/tst_fdm_lead_lag.bin", "r" );
 
@@ -61,7 +61,7 @@ void LeadLagTest::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -72,8 +72,8 @@ void LeadLagTest::initTestCase()
 
 void LeadLagTest::cleanupTestCase()
 {
-    if ( m_leadLag ) delete m_leadLag;
-    m_leadLag = 0;
+    if ( _leadLag ) delete _leadLag;
+    _leadLag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,19 +87,19 @@ void LeadLagTest::sampleTest()
     int index = 0;
     double dt = TIME_STEP / (double)devider;
 
-    for ( unsigned int i = 0; i < devider * m_y.size(); i++ )
+    for ( unsigned int i = 0; i < devider * _y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        m_leadLag->update( u, dt );
-        y = m_leadLag->getValue();
+        _leadLag->update( u, dt );
+        y = _leadLag->getValue();
 
         if ( i % devider == 0 )
         {
             if ( index > 0 )
             {
-                cout << y << " " << m_y.at( index - 1 ) << endl;
-                QVERIFY2( fabs( y - m_y.at( index - 1 ) ) < 1.0e-1, "Failure" );
+                cout << y << " " << _y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
 
             index++;

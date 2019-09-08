@@ -13,8 +13,8 @@ using namespace std;
 WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget ( parent ),
 
-    m_sceneRoot  ( 0 ),
-    m_gridLayout ( 0 )
+    _sceneRoot  ( 0 ),
+    _gridLayout ( 0 )
 {
 #   ifdef SIM_OSGDEBUGINFO
     osg::setNotifyLevel( osg::DEBUG_INFO );
@@ -24,30 +24,31 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
 
     //std::cout << "WidgetCGI::WidgetCGI( QWidget* )" << std::endl;
 
-    m_sceneRoot = new SceneRoot();
+    _sceneRoot = new SceneRoot();
 
-    m_manipulator = new osgGA::NodeTrackerManipulator();
+    _manipulator = new osgGA::NodeTrackerManipulator();
 
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::CullDrawThreadPerContext );
 
-    m_graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
+    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
 
-    QWidget *widget = addViewWidget( m_graphicsWindow, m_sceneRoot->getRoot().get() );
+    QWidget *widget = addViewWidget( _graphicsWindow, _sceneRoot->getRoot().get() );
 
-    m_gridLayout = new QGridLayout( this );
-    m_gridLayout->setContentsMargins( 1, 1, 1, 1 );
+    _gridLayout = new QGridLayout( this );
+    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
 
-    m_gridLayout->addWidget( widget, 0, 0 );
+    _gridLayout->addWidget( widget, 0, 0 );
 
-    setLayout( m_gridLayout );
+    setLayout( _gridLayout );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::~WidgetCGI()
 {
-    if ( m_sceneRoot ) delete m_sceneRoot; m_sceneRoot = 0;
+    if ( _sceneRoot ) delete _sceneRoot;
+    _sceneRoot = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +89,7 @@ QWidget* WidgetCGI::addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg:
 
     setSceneData( scene );
     addEventHandler( new osgViewer::StatsHandler );
-    setCameraManipulator( m_manipulator.get() );
+    setCameraManipulator( _manipulator.get() );
 
     setKeyEventSetsDone( 0 );
 

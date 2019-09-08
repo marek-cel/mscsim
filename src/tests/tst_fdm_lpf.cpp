@@ -27,11 +27,11 @@ public:
 
 private:
 
-    std::vector< double > m_y;
-    std::vector< double > m_y2;
+    std::vector< double > _y;
+    std::vector< double > _y2;
 
-    fdm::LPF *m_lpf;
-    fdm::LPF *m_lpf2;
+    fdm::LPF *_lpf;
+    fdm::LPF *_lpf2;
 
 private Q_SLOTS:
 
@@ -44,14 +44,14 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LPFTest::LPFTest() : m_lpf ( 0 ), m_lpf2 ( 0 ) {}
+LPFTest::LPFTest() : _lpf ( 0 ), _lpf2 ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LPFTest::initTestCase()
 {
-    m_lpf = new fdm::LPF( OMEGA );
-    m_lpf2 = new fdm::LPF( OMEGA );
+    _lpf = new fdm::LPF( OMEGA );
+    _lpf2 = new fdm::LPF( OMEGA );
 
     FILE *file = fopen( "data/tst_fdm_lpf.bin", "r" );
 
@@ -62,7 +62,7 @@ void LPFTest::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -77,7 +77,7 @@ void LPFTest::initTestCase()
         while ( fread( buffer, 1, 4, file2 ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y2.push_back( *y );
+            _y2.push_back( *y );
         }
 
         fclose( file2 );
@@ -88,11 +88,11 @@ void LPFTest::initTestCase()
 
 void LPFTest::cleanupTestCase()
 {
-    if ( m_lpf ) delete m_lpf;
-    m_lpf = 0;
+    if ( _lpf ) delete _lpf;
+    _lpf = 0;
 
-    if ( m_lpf2 ) delete m_lpf2;
-    m_lpf2 = 0;
+    if ( _lpf2 ) delete _lpf2;
+    _lpf2 = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -106,19 +106,19 @@ void LPFTest::sampleTest()
     int index = 0;
     double dt = TIME_STEP / (double)devider;
 
-    for ( unsigned int i = 0; i < devider * m_y.size(); i++ )
+    for ( unsigned int i = 0; i < devider * _y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        m_lpf->update( u, dt );
-        y = m_lpf->getValue();
+        _lpf->update( u, dt );
+        y = _lpf->getValue();
 
         if ( i % devider == 0 )
         {
             if ( index > 0 )
             {
-                cout << y << " " << m_y.at( index - 1 ) << endl;
-                QVERIFY2( fabs( y - m_y.at( index - 1 ) ) < 1.0e-2, "Failure" );
+                cout << y << " " << _y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-2, "Failure" );
             }
 
             index++;
@@ -141,19 +141,19 @@ void LPFTest::sampleTest2()
 
     //cout << "################################################" << endl;
 
-    for ( unsigned int i = 0; i < devider * m_y2.size(); i++ )
+    for ( unsigned int i = 0; i < devider * _y2.size(); i++ )
     {
         double u = sin( t );
 
-        m_lpf2->update( u, dt );
-        y = m_lpf2->getValue();
+        _lpf2->update( u, dt );
+        y = _lpf2->getValue();
 
         if ( i % devider == 0 )
         {
             if ( index > 0 )
             {
-                cout << y << " " << m_y2.at( index - 1 ) << endl;
-                QVERIFY2( fabs( y - m_y2.at( index - 1 ) ) < 1.0e-2, "Failure" );
+                cout << y << " " << _y2.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y2.at( index - 1 ) ) < 1.0e-2, "Failure" );
             }
 
             index++;

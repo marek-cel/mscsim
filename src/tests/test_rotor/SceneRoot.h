@@ -28,12 +28,12 @@ public:
     void update( const double coning, const double roll, const double pitch );
 
     /** Returns root node. */
-    inline osg::ref_ptr<osg::Group> getRoot() { return m_root; }
+    inline osg::ref_ptr<osg::Group> getRoot() { return _root; }
 
 private:
 
-    osg::ref_ptr<osg::Group> m_root;
-    osg::ref_ptr<osg::PositionAttitudeTransform> m_rotor;
+    osg::ref_ptr<osg::Group> _root;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _rotor;
 
     void createHelicopter();
 

@@ -38,12 +38,12 @@ protected:
 
 private:
 
-    SceneRoot   *m_sceneRoot;
-    QGridLayout *m_gridLayout;
+    SceneRoot   *_sceneRoot;
+    QGridLayout *_gridLayout;
 
-    osg::ref_ptr<osgGA::NodeTrackerManipulator> m_manipulator;
+    osg::ref_ptr<osgGA::NodeTrackerManipulator> _manipulator;
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> m_graphicsWindow;
+    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
 
     /** */
     QWidget* addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg::Node *scene );

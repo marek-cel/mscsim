@@ -5,22 +5,22 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    m_ui(new Ui::MainWindow),
-    m_timerId ( 0 )
+    _ui(new Ui::MainWindow),
+    _timerId ( 0 )
 {
-    m_ui->setupUi(this);
+    _ui->setupUi(this);
 
-    m_timerId = startTimer( 16 );
+    _timerId = startTimer( 16 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 MainWindow::~MainWindow()
 {
-    killTimer( m_timerId );
+    killTimer( _timerId );
 
-    if ( m_ui ) delete m_ui;
-    m_ui = 0;
+    if ( _ui ) delete _ui;
+    _ui = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +31,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
     QMainWindow::timerEvent( event );
     /////////////////////////////////
 
-    m_ui->widgetCGI->update();
+    _ui->widgetCGI->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +40,8 @@ void MainWindow::on_actionMainRotor_triggered(bool checked)
 {
     if ( checked )
     {
-        m_ui->actionPadfield->setChecked( false );
-        m_ui->actionBladeElement->setChecked( false );
+        _ui->actionPadfield->setChecked( false );
+        _ui->actionBladeElement->setChecked( false );
     }
 }
 
@@ -51,8 +51,8 @@ void MainWindow::on_actionPadfield_triggered(bool checked)
 {
     if ( checked )
     {
-        m_ui->actionMainRotor->setChecked( false );
-        m_ui->actionBladeElement->setChecked( false );
+        _ui->actionMainRotor->setChecked( false );
+        _ui->actionBladeElement->setChecked( false );
     }
 }
 
@@ -62,7 +62,7 @@ void MainWindow::on_actionBladeElement_triggered(bool checked)
 {
     if ( checked )
     {
-        m_ui->actionMainRotor->setChecked( false );
-        m_ui->actionPadfield->setChecked( false );
+        _ui->actionMainRotor->setChecked( false );
+        _ui->actionPadfield->setChecked( false );
     }
 }

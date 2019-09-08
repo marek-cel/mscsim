@@ -28,9 +28,9 @@ public:
 
 private:
 
-    std::vector< double > m_y;
+    std::vector< double > _y;
 
-    fdm::Lag2 *m_lag;
+    fdm::Lag2 *_lag;
 
 private Q_SLOTS:
 
@@ -48,7 +48,7 @@ Lag2Test::Lag2Test() {}
 
 void Lag2Test::initTestCase()
 {
-    m_lag = new fdm::Lag2( TIME_CONSTANT_1, TIME_CONSTANT_2 );
+    _lag = new fdm::Lag2( TIME_CONSTANT_1, TIME_CONSTANT_2 );
 
     FILE *file = fopen( "data/tst_fdm_lag2.bin", "r" );
 
@@ -59,7 +59,7 @@ void Lag2Test::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -70,8 +70,8 @@ void Lag2Test::initTestCase()
 
 void Lag2Test::cleanupTestCase()
 {
-    if ( m_lag ) delete m_lag;
-    m_lag = 0;
+    if ( _lag ) delete _lag;
+    _lag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void Lag2Test::testUpdate()
     double t = 0.0;
     double y = 0.0;
 
-    for ( unsigned int i = 0; i < m_y.size(); i++ )
+    for ( unsigned int i = 0; i < _y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
@@ -89,13 +89,13 @@ void Lag2Test::testUpdate()
         for ( int j = 0; j < steps; j++ )
         {
             double dt = TIME_STEP / (double)steps;
-            m_lag->update( u, dt );
-            y = m_lag->getValue();
+            _lag->update( u, dt );
+            y = _lag->getValue();
         }
 
-        cout << y << " " << m_y.at( i ) << endl;
+        cout << y << " " << _y.at( i ) << endl;
 
-        QVERIFY2( fabs( y - m_y.at( i ) ) < 1.0e-3, "Failure" );
+        QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-3, "Failure" );
 
         t += TIME_STEP;
     }

@@ -35,10 +35,10 @@ SceneRoot::SceneRoot()
 {
     //std::cout << "SceneRoot::create()" << std::endl;
 
-    m_root = new osg::Group();
-    m_root->setName( "SceneRoot" );
+    _root = new osg::Group();
+    _root->setName( "SceneRoot" );
 
-    osg::ref_ptr<osg::StateSet> rootStateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> rootStateSet = _root->getOrCreateStateSet();
 
     rootStateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON );
     rootStateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON );
@@ -60,13 +60,13 @@ SceneRoot::SceneRoot()
     createSceneLight();
 
     osg::ref_ptr<osg::PositionAttitudeTransform> patRotor = new osg::PositionAttitudeTransform();
-    m_root->addChild( patRotor );
+    _root->addChild( patRotor );
     patRotor->setPosition( osg::Vec3d( 0.0, 0.0, 1.0 ) );
     drawRotor( patRotor.get(), 0.0, 2.5, osg::Vec4( 0.5, 0.5, 0.5, 0.5 ) );
 
-    m_rotor = new osg::PositionAttitudeTransform();
-    patRotor->addChild( m_rotor );
-    drawRotor( m_rotor.get(), 0.2, 2.5, osg::Vec4( colorRotor, 0.9 ) );
+    _rotor = new osg::PositionAttitudeTransform();
+    patRotor->addChild( _rotor );
+    drawRotor( _rotor.get(), 0.2, 2.5, osg::Vec4( colorRotor, 0.9 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,14 +77,14 @@ SceneRoot::~SceneRoot() {}
 
 void SceneRoot::update( const double coning, const double roll, const double pitch )
 {
-    if ( m_rotor->getNumChildren() > 0 )
+    if ( _rotor->getNumChildren() > 0 )
     {
-        m_rotor->removeChildren( 0, m_rotor->getNumChildren() );
+        _rotor->removeChildren( 0, _rotor->getNumChildren() );
     }
 
-    drawRotor( m_rotor.get(), coning, 2.5, osg::Vec4( colorRotor, 0.9 ) );
+    drawRotor( _rotor.get(), coning, 2.5, osg::Vec4( colorRotor, 0.9 ) );
 
-    m_rotor->setAttitude( osg::Quat( -pitch, osg::Y_AXIS, roll, osg::X_AXIS, 0.0, osg::Z_AXIS ) );
+    _rotor->setAttitude( osg::Quat( -pitch, osg::Y_AXIS, roll, osg::X_AXIS, 0.0, osg::Z_AXIS ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ void SceneRoot::createHelicopter()
 void SceneRoot::createSceneLight()
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> patSun = new osg::PositionAttitudeTransform();
-    m_root->addChild( patSun.get() );
+    _root->addChild( patSun.get() );
 
     patSun->setAttitude( osg::Quat( M_PI_2 - M_PI_4, osg::Z_AXIS, -M_PI_4, osg::Y_AXIS, 0.0, osg::X_AXIS ) );
 
@@ -142,7 +142,7 @@ void SceneRoot::createSceneLight()
     lightSourceSun->setLight( lightSun.get() );
 
     lightSourceSun->setLocalStateSetModes( osg::StateAttribute::ON );
-    lightSourceSun->setStateSetModes( *m_root->getOrCreateStateSet(), osg::StateAttribute::ON );
+    lightSourceSun->setStateSetModes( *_root->getOrCreateStateSet(), osg::StateAttribute::ON );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +152,7 @@ void SceneRoot::drawStartSection( const osg::Vec3d &p0, const osg::Vec3d &p1,
                                   const int nodes )
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_root->addChild( geode.get() );
+    _root->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -226,7 +226,7 @@ void SceneRoot::drawCrossSection( const osg::Vec3d &p0, const osg::Vec3d &p1,
                                   const int nodes )
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    m_root->addChild( geode.get() );
+    _root->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 

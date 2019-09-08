@@ -99,8 +99,8 @@ public:
         Table   delta_cn_p_lef;
     };
 
-    AeroData m_data1;
-    AeroData m_data2;
+    AeroData _data1;
+    AeroData _data2;
 
     void readData( AeroData &data, const QString &path );
 
@@ -249,8 +249,8 @@ void TestF16AeroData::test( Table &table1, Table &table2, const QString &name )
 
 void TestF16AeroData::initTestCase()
 {
-    readData( m_data1, "../data/fdm/f16/f16_fdm.xml" );
-    readData( m_data2, "data/f16_aero_test.xml" );
+    readData( _data1, "../data/fdm/f16/f16_fdm.xml" );
+    readData( _data2, "data/f16_aero_test.xml" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -261,70 +261,70 @@ void TestF16AeroData::cleanupTestCase() {}
 
 void TestF16AeroData::testData()
 {
-    test( m_data1.cx_dh_n25        , m_data2.cx_dh_n25        , "cx_dh_n25"        );
-    test( m_data1.cx_dh_n10        , m_data2.cx_dh_n10        , "cx_dh_n10"        );
-    test( m_data1.cx_dh_0          , m_data2.cx_dh_0          , "cx_dh_0"          );
-    test( m_data1.cx_dh_p10        , m_data2.cx_dh_p10        , "cx_dh_p10"        );
-    test( m_data1.cx_dh_p25        , m_data2.cx_dh_p25        , "cx_dh_p25"        );
-    test( m_data1.cx_lef           , m_data2.cx_lef           , "cx_lef"           );
-    test( m_data1.delta_cx_sb      , m_data2.delta_cx_sb      , "delta_cx_sb"      );
-    test( m_data1.cx_q             , m_data2.cx_q             , "cx_q"             );
-    test( m_data1.delta_cx_q_lef   , m_data2.delta_cx_q_lef   , "delta_cx_q_lef"   );
-    test( m_data1.cy               , m_data2.cy               , "cy"               );
-    test( m_data1.cy_lef           , m_data2.cy_lef           , "cy_lef"           );
-    test( m_data1.cy_da_20         , m_data2.cy_da_20         , "cy_da_20"         );
-    test( m_data1.cy_da_20_lef     , m_data2.cy_da_20_lef     , "cy_da_20_lef"     );
-    test( m_data1.cy_dr_30         , m_data2.cy_dr_30         , "cy_dr_30"         );
-    test( m_data1.cy_r             , m_data2.cy_r             , "cy_r"             );
-    test( m_data1.delta_cy_r_lef   , m_data2.delta_cy_r_lef   , "delta_cy_r_lef"   );
-    test( m_data1.cy_p             , m_data2.cy_p             , "cy_p"             );
-    test( m_data1.delta_cy_p_lef   , m_data2.delta_cy_p_lef   , "delta_cy_p_lef"   );
-    test( m_data1.cz_dh_n25        , m_data2.cz_dh_n25        , "cz_dh_n25"        );
-    test( m_data1.cz_dh_n10        , m_data2.cz_dh_n10        , "cz_dh_n10"        );
-    test( m_data1.cz_dh_0          , m_data2.cz_dh_0          , "cz_dh_0"          );
-    test( m_data1.cz_dh_p10        , m_data2.cz_dh_p10        , "cz_dh_p10"        );
-    test( m_data1.cz_dh_p25        , m_data2.cz_dh_p25        , "cz_dh_p25"        );
-    test( m_data1.cz_lef           , m_data2.cz_lef           , "cz_lef"           );
-    test( m_data1.delta_cz_sb      , m_data2.delta_cz_sb      , "delta_cz_sb"      );
-    test( m_data1.cz_q             , m_data2.cz_q             , "cz_q"             );
-    test( m_data1.delta_cz_q_lef   , m_data2.delta_cz_q_lef   , "delta_cz_q_lef"   );
-    test( m_data1.eta_delta_h      , m_data2.eta_delta_h      , "eta_delta_h"      );
-    test( m_data1.cl_dh_n25        , m_data2.cl_dh_n25        , "cl_dh_n25"        );
-    test( m_data1.cl_dh_0          , m_data2.cl_dh_0          , "cl_dh_0"          );
-    test( m_data1.cl_dh_p25        , m_data2.cl_dh_p25        , "cl_dh_p25"        );
-    test( m_data1.cl_lef           , m_data2.cl_lef           , "cl_lef"           );
-    test( m_data1.cl_da_20         , m_data2.cl_da_20         , "cl_da_20"         );
-    test( m_data1.cl_da_20_lef     , m_data2.cl_da_20_lef     , "cl_da_20_lef"     );
-    test( m_data1.cl_dr_30         , m_data2.cl_dr_30         , "cl_dr_30"         );
-    test( m_data1.cl_r             , m_data2.cl_r             , "cl_r"             );
-    test( m_data1.delta_cl_beta    , m_data2.delta_cl_beta    , "delta_cl_beta"    );
-    test( m_data1.delta_cl_r_lef   , m_data2.delta_cl_r_lef   , "delta_cl_r_lef"   );
-    test( m_data1.cl_p             , m_data2.cl_p             , "cl_p"             );
-    test( m_data1.delta_cl_p_lef   , m_data2.delta_cl_p_lef   , "delta_cl_p_lef"   );
-    test( m_data1.cm_dh_n25        , m_data2.cm_dh_n25        , "cm_dh_n25"        );
-    test( m_data1.cm_dh_n10        , m_data2.cm_dh_n10        , "cm_dh_n10"        );
-    test( m_data1.cm_dh_0          , m_data2.cm_dh_0          , "cm_dh_0"          );
-    test( m_data1.cm_dh_p10        , m_data2.cm_dh_p10        , "cm_dh_p10"        );
-    test( m_data1.cm_dh_p25        , m_data2.cm_dh_p25        , "cm_dh_p25"        );
-    test( m_data1.cm_lef           , m_data2.cm_lef           , "cm_lef"           );
-    test( m_data1.delta_cm_sb      , m_data2.delta_cm_sb      , "delta_cm_sb"      );
-    test( m_data1.cm_q             , m_data2.cm_q             , "cm_q"             );
-    test( m_data1.delta_cm_q_lef   , m_data2.delta_cm_q_lef   , "delta_cm_q_lef"   );
-    test( m_data1.delta_cm         , m_data2.delta_cm         , "delta_cm"         );
-    test( m_data1.delta_cm_ds      , m_data2.delta_cm_ds      , "delta_cm_ds"      );
-    test( m_data1.cn_dh_n25        , m_data2.cn_dh_n25        , "cn_dh_n25"        );
-    test( m_data1.cn_dh_0          , m_data2.cn_dh_0          , "cn_dh_0"          );
-    test( m_data1.cn_dh_p25        , m_data2.cn_dh_p25        , "cn_dh_p25"        );
-    test( m_data1.cn_lef           , m_data2.cn_lef           , "cn_lef"           );
-    test( m_data1.cn_da_20         , m_data2.cn_da_20         , "cn_da_20"         );
-    test( m_data1.cn_da_20_lef     , m_data2.cn_da_20_lef     , "cn_da_20_lef"     );
-    test( m_data1.cn_dr_30         , m_data2.cn_dr_30         , "cn_dr_30"         );
-    test( m_data1.cn_r             , m_data2.cn_r             , "cn_r"             );
-    test( m_data1.delta_cn_beta    , m_data2.delta_cn_beta    , "delta_cn_beta"    );
-    test( m_data1.delta_cn_delta_a , m_data2.delta_cn_delta_a , "delta_cn_delta_a" );
-    test( m_data1.delta_cn_r_lef   , m_data2.delta_cn_r_lef   , "delta_cn_r_lef"   );
-    test( m_data1.cn_p             , m_data2.cn_p             , "cn_p"             );
-    test( m_data1.delta_cn_p_lef   , m_data2.delta_cn_p_lef   , "delta_cn_p_lef"   );
+    test( _data1.cx_dh_n25        , _data2.cx_dh_n25        , "cx_dh_n25"        );
+    test( _data1.cx_dh_n10        , _data2.cx_dh_n10        , "cx_dh_n10"        );
+    test( _data1.cx_dh_0          , _data2.cx_dh_0          , "cx_dh_0"          );
+    test( _data1.cx_dh_p10        , _data2.cx_dh_p10        , "cx_dh_p10"        );
+    test( _data1.cx_dh_p25        , _data2.cx_dh_p25        , "cx_dh_p25"        );
+    test( _data1.cx_lef           , _data2.cx_lef           , "cx_lef"           );
+    test( _data1.delta_cx_sb      , _data2.delta_cx_sb      , "delta_cx_sb"      );
+    test( _data1.cx_q             , _data2.cx_q             , "cx_q"             );
+    test( _data1.delta_cx_q_lef   , _data2.delta_cx_q_lef   , "delta_cx_q_lef"   );
+    test( _data1.cy               , _data2.cy               , "cy"               );
+    test( _data1.cy_lef           , _data2.cy_lef           , "cy_lef"           );
+    test( _data1.cy_da_20         , _data2.cy_da_20         , "cy_da_20"         );
+    test( _data1.cy_da_20_lef     , _data2.cy_da_20_lef     , "cy_da_20_lef"     );
+    test( _data1.cy_dr_30         , _data2.cy_dr_30         , "cy_dr_30"         );
+    test( _data1.cy_r             , _data2.cy_r             , "cy_r"             );
+    test( _data1.delta_cy_r_lef   , _data2.delta_cy_r_lef   , "delta_cy_r_lef"   );
+    test( _data1.cy_p             , _data2.cy_p             , "cy_p"             );
+    test( _data1.delta_cy_p_lef   , _data2.delta_cy_p_lef   , "delta_cy_p_lef"   );
+    test( _data1.cz_dh_n25        , _data2.cz_dh_n25        , "cz_dh_n25"        );
+    test( _data1.cz_dh_n10        , _data2.cz_dh_n10        , "cz_dh_n10"        );
+    test( _data1.cz_dh_0          , _data2.cz_dh_0          , "cz_dh_0"          );
+    test( _data1.cz_dh_p10        , _data2.cz_dh_p10        , "cz_dh_p10"        );
+    test( _data1.cz_dh_p25        , _data2.cz_dh_p25        , "cz_dh_p25"        );
+    test( _data1.cz_lef           , _data2.cz_lef           , "cz_lef"           );
+    test( _data1.delta_cz_sb      , _data2.delta_cz_sb      , "delta_cz_sb"      );
+    test( _data1.cz_q             , _data2.cz_q             , "cz_q"             );
+    test( _data1.delta_cz_q_lef   , _data2.delta_cz_q_lef   , "delta_cz_q_lef"   );
+    test( _data1.eta_delta_h      , _data2.eta_delta_h      , "eta_delta_h"      );
+    test( _data1.cl_dh_n25        , _data2.cl_dh_n25        , "cl_dh_n25"        );
+    test( _data1.cl_dh_0          , _data2.cl_dh_0          , "cl_dh_0"          );
+    test( _data1.cl_dh_p25        , _data2.cl_dh_p25        , "cl_dh_p25"        );
+    test( _data1.cl_lef           , _data2.cl_lef           , "cl_lef"           );
+    test( _data1.cl_da_20         , _data2.cl_da_20         , "cl_da_20"         );
+    test( _data1.cl_da_20_lef     , _data2.cl_da_20_lef     , "cl_da_20_lef"     );
+    test( _data1.cl_dr_30         , _data2.cl_dr_30         , "cl_dr_30"         );
+    test( _data1.cl_r             , _data2.cl_r             , "cl_r"             );
+    test( _data1.delta_cl_beta    , _data2.delta_cl_beta    , "delta_cl_beta"    );
+    test( _data1.delta_cl_r_lef   , _data2.delta_cl_r_lef   , "delta_cl_r_lef"   );
+    test( _data1.cl_p             , _data2.cl_p             , "cl_p"             );
+    test( _data1.delta_cl_p_lef   , _data2.delta_cl_p_lef   , "delta_cl_p_lef"   );
+    test( _data1.cm_dh_n25        , _data2.cm_dh_n25        , "cm_dh_n25"        );
+    test( _data1.cm_dh_n10        , _data2.cm_dh_n10        , "cm_dh_n10"        );
+    test( _data1.cm_dh_0          , _data2.cm_dh_0          , "cm_dh_0"          );
+    test( _data1.cm_dh_p10        , _data2.cm_dh_p10        , "cm_dh_p10"        );
+    test( _data1.cm_dh_p25        , _data2.cm_dh_p25        , "cm_dh_p25"        );
+    test( _data1.cm_lef           , _data2.cm_lef           , "cm_lef"           );
+    test( _data1.delta_cm_sb      , _data2.delta_cm_sb      , "delta_cm_sb"      );
+    test( _data1.cm_q             , _data2.cm_q             , "cm_q"             );
+    test( _data1.delta_cm_q_lef   , _data2.delta_cm_q_lef   , "delta_cm_q_lef"   );
+    test( _data1.delta_cm         , _data2.delta_cm         , "delta_cm"         );
+    test( _data1.delta_cm_ds      , _data2.delta_cm_ds      , "delta_cm_ds"      );
+    test( _data1.cn_dh_n25        , _data2.cn_dh_n25        , "cn_dh_n25"        );
+    test( _data1.cn_dh_0          , _data2.cn_dh_0          , "cn_dh_0"          );
+    test( _data1.cn_dh_p25        , _data2.cn_dh_p25        , "cn_dh_p25"        );
+    test( _data1.cn_lef           , _data2.cn_lef           , "cn_lef"           );
+    test( _data1.cn_da_20         , _data2.cn_da_20         , "cn_da_20"         );
+    test( _data1.cn_da_20_lef     , _data2.cn_da_20_lef     , "cn_da_20_lef"     );
+    test( _data1.cn_dr_30         , _data2.cn_dr_30         , "cn_dr_30"         );
+    test( _data1.cn_r             , _data2.cn_r             , "cn_r"             );
+    test( _data1.delta_cn_beta    , _data2.delta_cn_beta    , "delta_cn_beta"    );
+    test( _data1.delta_cn_delta_a , _data2.delta_cn_delta_a , "delta_cn_delta_a" );
+    test( _data1.delta_cn_r_lef   , _data2.delta_cn_r_lef   , "delta_cn_r_lef"   );
+    test( _data1.cn_p             , _data2.cn_p             , "cn_p"             );
+    test( _data1.delta_cn_p_lef   , _data2.delta_cn_p_lef   , "delta_cn_p_lef"   );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

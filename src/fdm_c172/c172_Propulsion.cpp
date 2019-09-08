@@ -38,8 +38,8 @@ C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft ) :
     _engine ( 0 ),
     _propeller ( 0 )
 {
-    _engine    = new PistonEngine();
-    _propeller = new Propeller();
+    _engine    = new C172_Engine();
+    _propeller = new C172_Propeller();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

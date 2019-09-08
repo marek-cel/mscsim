@@ -21,18 +21,18 @@ class AtmosphereTest : public QObject
 
 public:
 
-    static const double m_h   [ NUM ];  // [m] altitude
-    static const double m_t   [ NUM ];  // [K] temperature
-    static const double m_p   [ NUM ];  // [Pa] pressure
-    static const double m_rho [ NUM ];  // [kg/m^3] density
-    static const double m_c   [ NUM ];  // [m/s] speed of sound
-    static const double m_mu  [ NUM ];  // [Pa*s] dynamic viscosity
+    static const double _h   [ NUM ];   // [m] altitude
+    static const double _t   [ NUM ];   // [K] temperature
+    static const double _p   [ NUM ];   // [Pa] pressure
+    static const double _rho [ NUM ];   // [kg/m^3] density
+    static const double _c   [ NUM ];   // [m/s] speed of sound
+    static const double _mu  [ NUM ];   // [Pa*s] dynamic viscosity
 
     AtmosphereTest();
 
 private:
 
-    fdm::Atmosphere *m_atmosphere;
+    fdm::Atmosphere *_atmosphere;
 
 private Q_SLOTS:
 
@@ -47,7 +47,7 @@ private Q_SLOTS:
 ////////////////////////////////////////////////////////////////////////////////
 
 
-const double AtmosphereTest::m_h[] = {
+const double AtmosphereTest::_h[] = {
     0.0,
     5000.0,
     11000.0,
@@ -60,7 +60,7 @@ const double AtmosphereTest::m_h[] = {
 };
 
 // from Table I
-const double AtmosphereTest::m_t[] = {
+const double AtmosphereTest::_t[] = {
     288.15,
     255.65,
     216.65,
@@ -73,7 +73,7 @@ const double AtmosphereTest::m_t[] = {
 };
 
 // from Table I
-const double AtmosphereTest::m_p[] = {
+const double AtmosphereTest::_p[] = {
     101325.0,
      54019.0,
      22632.0,
@@ -86,7 +86,7 @@ const double AtmosphereTest::m_p[] = {
 };
 
 // from Table I
-const double AtmosphereTest::m_rho[] = {
+const double AtmosphereTest::_rho[] = {
     1.225,
     0.73612,
     0.36392,
@@ -99,7 +99,7 @@ const double AtmosphereTest::m_rho[] = {
 };
 
 // from Table III
-const double AtmosphereTest::m_c[] = {
+const double AtmosphereTest::_c[] = {
     340.29,
     320.53,
     295.07,
@@ -112,7 +112,7 @@ const double AtmosphereTest::m_c[] = {
 };
 
 // from Table III
-const double AtmosphereTest::m_mu[] = {
+const double AtmosphereTest::_mu[] = {
     1.7894e-5,
     1.6281e-5,
     1.4216e-5,
@@ -126,24 +126,24 @@ const double AtmosphereTest::m_mu[] = {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AtmosphereTest::AtmosphereTest() : m_atmosphere ( 0 ) {}
+AtmosphereTest::AtmosphereTest() : _atmosphere ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void AtmosphereTest::initTestCase()
 {
-    m_atmosphere = new fdm::Atmosphere();
+    _atmosphere = new fdm::Atmosphere();
 
 //    double h = 0.0;
 
-//    m_atmosphere->update( h );
+//    _atmosphere->update( h );
 
-//    double t   = m_atmosphere->getTemperature();
-//    double p   = m_atmosphere->getPressure();
-//    double rho = m_atmosphere->getDensity();
-//    double c   = m_atmosphere->getSpeedOfSound();
-//    double mu  = m_atmosphere->getDynViscosity();
-//    double nu  = m_atmosphere->getKinViscosity();
+//    double t   = _atmosphere->getTemperature();
+//    double p   = _atmosphere->getPressure();
+//    double rho = _atmosphere->getDensity();
+//    double c   = _atmosphere->getSpeedOfSound();
+//    double mu  = _atmosphere->getDynViscosity();
+//    double nu  = _atmosphere->getKinViscosity();
 
 //    std::cout << "h: "   << h   << std::endl;
 //    std::cout << "t: "   << t   << std::endl;
@@ -158,33 +158,33 @@ void AtmosphereTest::initTestCase()
 
 void AtmosphereTest::cleanupTestCase()
 {
-    if ( m_atmosphere ) delete m_atmosphere;
-    m_atmosphere = 0;
+    if ( _atmosphere ) delete _atmosphere;
+    _atmosphere = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void AtmosphereTest::stdConditions()
 {
-    m_atmosphere->setPressureSL(    fdm::Atmosphere::m_std_sl_p );
-    m_atmosphere->setTemperatureSL( fdm::Atmosphere::m_std_sl_t );
+    _atmosphere->setPressureSL(    fdm::Atmosphere::_std_sl_p );
+    _atmosphere->setTemperatureSL( fdm::Atmosphere::_std_sl_t );
 
     for ( int i = 0; i < NUM; i++ )
     {
-        m_atmosphere->update( m_h[ i ] );
+        _atmosphere->update( _h[ i ] );
 
-        double h   = m_h[ i ];
-        double t   = m_atmosphere->getTemperature();
-        double p   = m_atmosphere->getPressure();
-        double rho = m_atmosphere->getDensity();
-        double c   = m_atmosphere->getSpeedOfSound();
-        double mu  = m_atmosphere->getDynViscosity();
+        double h   = _h[ i ];
+        double t   = _atmosphere->getTemperature();
+        double p   = _atmosphere->getPressure();
+        double rho = _atmosphere->getDensity();
+        double c   = _atmosphere->getSpeedOfSound();
+        double mu  = _atmosphere->getDynViscosity();
 
-        QVERIFY2( fabs( t   - m_t   [ i ] ) < 1.0e-2 * fabs( m_t   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( p   - m_p   [ i ] ) < 1.0e-2 * fabs( m_p   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( rho - m_rho [ i ] ) < 1.0e-2 * fabs( m_rho [ i ] ) , "Failure" );
-        QVERIFY2( fabs( c   - m_c   [ i ] ) < 1.0e-2 * fabs( m_c   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( mu  - m_mu  [ i ] ) < 1.0e-2 * fabs( m_mu  [ i ] ) , "Failure" );
+        QVERIFY2( fabs( t   - _t   [ i ] ) < 1.0e-2 * fabs( _t   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( p   - _p   [ i ] ) < 1.0e-2 * fabs( _p   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( rho - _rho [ i ] ) < 1.0e-2 * fabs( _rho [ i ] ) , "Failure" );
+        QVERIFY2( fabs( c   - _c   [ i ] ) < 1.0e-2 * fabs( _c   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( mu  - _mu  [ i ] ) < 1.0e-2 * fabs( _mu  [ i ] ) , "Failure" );
     }
 }
 
@@ -192,24 +192,24 @@ void AtmosphereTest::stdConditions()
 
 void AtmosphereTest::modifiedSeaLevelConditions()
 {
-    m_atmosphere->setPressureSL(    fdm::Atmosphere::m_std_sl_p + 1000.0 );
-    m_atmosphere->setTemperatureSL( fdm::Atmosphere::m_std_sl_t + 10.0 );
+    _atmosphere->setPressureSL(    fdm::Atmosphere::_std_sl_p + 1000.0 );
+    _atmosphere->setTemperatureSL( fdm::Atmosphere::_std_sl_t + 10.0 );
 
     for ( int i = 2; i < NUM; i++ )
     {
-        m_atmosphere->update( m_h[ i ] );
+        _atmosphere->update( _h[ i ] );
 
-        double t   = m_atmosphere->getTemperature();
-        double p   = m_atmosphere->getPressure();
-        double rho = m_atmosphere->getDensity();
-        double c   = m_atmosphere->getSpeedOfSound();
-        double mu  = m_atmosphere->getDynViscosity();
+        double t   = _atmosphere->getTemperature();
+        double p   = _atmosphere->getPressure();
+        double rho = _atmosphere->getDensity();
+        double c   = _atmosphere->getSpeedOfSound();
+        double mu  = _atmosphere->getDynViscosity();
 
-        QVERIFY2( fabs( t   - m_t   [ i ] ) < 1.0e-2 * fabs( m_t   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( p   - m_p   [ i ] ) < 1.0e-2 * fabs( m_p   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( rho - m_rho [ i ] ) < 1.0e-2 * fabs( m_rho [ i ] ) , "Failure" );
-        QVERIFY2( fabs( c   - m_c   [ i ] ) < 1.0e-2 * fabs( m_c   [ i ] ) , "Failure" );
-        QVERIFY2( fabs( mu  - m_mu  [ i ] ) < 1.0e-2 * fabs( m_mu  [ i ] ) , "Failure" );
+        QVERIFY2( fabs( t   - _t   [ i ] ) < 1.0e-2 * fabs( _t   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( p   - _p   [ i ] ) < 1.0e-2 * fabs( _p   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( rho - _rho [ i ] ) < 1.0e-2 * fabs( _rho [ i ] ) , "Failure" );
+        QVERIFY2( fabs( c   - _c   [ i ] ) < 1.0e-2 * fabs( _c   [ i ] ) , "Failure" );
+        QVERIFY2( fabs( mu  - _mu  [ i ] ) < 1.0e-2 * fabs( _mu  [ i ] ) , "Failure" );
     }
 }
 

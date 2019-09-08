@@ -44,6 +44,7 @@ include(../fdm/fdm.pri)
 include(../fdm_c130/fdm_c130.pri)
 include(../fdm_c172/fdm_c172.pri)
 include(../fdm_f16/fdm_f16.pri)
+include(../fdm_p51/fdm_p51.pri)
 include(../fdm_uh60/fdm_uh60.pri)
 
 ################################################################################

@@ -49,7 +49,7 @@ void WGS84Test::testWGS2GEO()
     fdm::Vector3 pos_wgs;
 
     // 0N 0E
-    pos_wgs.x() = fdm::WGS84::m_a;
+    pos_wgs.x() = fdm::WGS84::_a;
     pos_wgs.y() = 0.0;
     pos_wgs.z() = 0.0;
 
@@ -65,7 +65,7 @@ void WGS84Test::testWGS2GEO()
 
     // 0N 90E
     pos_wgs.x() = 0.0;
-    pos_wgs.y() = fdm::WGS84::m_a;
+    pos_wgs.y() = fdm::WGS84::_a;
     pos_wgs.z() = 0.0;
 
     geo = fdm::WGS84::wgs2geo( pos_wgs );
@@ -76,7 +76,7 @@ void WGS84Test::testWGS2GEO()
 
     // 0N -90E
     pos_wgs.x() = 0.0;
-    pos_wgs.y() = -fdm::WGS84::m_a;
+    pos_wgs.y() = -fdm::WGS84::_a;
     pos_wgs.z() = 0.0;
 
     geo = fdm::WGS84::wgs2geo( pos_wgs );
@@ -86,7 +86,7 @@ void WGS84Test::testWGS2GEO()
     QVERIFY2( fabs( geo.alt - 0.0 ) < 1.0e-4, "Failure 0N -90E" );
 
     // 0N 180E
-    pos_wgs.x() = -fdm::WGS84::m_a;
+    pos_wgs.x() = -fdm::WGS84::_a;
     pos_wgs.y() = 0.0;
     pos_wgs.z() = 0.0;
 
@@ -98,7 +98,7 @@ void WGS84Test::testWGS2GEO()
 
     // 0N 90W
     pos_wgs.x() = 0.0;
-    pos_wgs.y() = -fdm::WGS84::m_a;
+    pos_wgs.y() = -fdm::WGS84::_a;
     pos_wgs.z() = 0.0;
 
     geo = fdm::WGS84::wgs2geo( pos_wgs );
@@ -110,7 +110,7 @@ void WGS84Test::testWGS2GEO()
     // 90N 0E
     pos_wgs.x() = 0.0;
     pos_wgs.y() = 0.0;
-    pos_wgs.z() = fdm::WGS84::m_b;
+    pos_wgs.z() = fdm::WGS84::_b;
 
     geo = fdm::WGS84::wgs2geo( pos_wgs );
 
@@ -121,7 +121,7 @@ void WGS84Test::testWGS2GEO()
     // 90S 0E
     pos_wgs.x() = 0.0;
     pos_wgs.y() = 0.0;
-    pos_wgs.z() = -fdm::WGS84::m_b;
+    pos_wgs.z() = -fdm::WGS84::_b;
 
     geo = fdm::WGS84::wgs2geo( pos_wgs );
 
@@ -159,7 +159,7 @@ void WGS84Test::testGEO2WGS()
 //    std::cout << __FILE__ << "(" << __LINE__ << ") " << std::fixed <<  pos_wgs.y() << std::endl;
 //    std::cout << __FILE__ << "(" << __LINE__ << ") " << std::fixed <<  pos_wgs.z() << std::endl;
 
-    QVERIFY2( fabs( pos_wgs.x() - fdm::WGS84::m_a ) < 1.0e-4, "Failure 0N 0E" );
+    QVERIFY2( fabs( pos_wgs.x() - fdm::WGS84::_a ) < 1.0e-4, "Failure 0N 0E" );
     QVERIFY2( fabs( pos_wgs.y() - 0.0 ) < 1.0e-4, "Failure 0N 0E" );
     QVERIFY2( fabs( pos_wgs.z() - 0.0 ) < 1.0e-4, "Failure 0N 0E" );
 
@@ -171,7 +171,7 @@ void WGS84Test::testGEO2WGS()
     pos_wgs = fdm::WGS84::geo2wgs( geo );
 
     QVERIFY2( fabs( pos_wgs.x() - 0.0 ) < 1.0e-4, "Failure 0N 90E" );
-    QVERIFY2( fabs( pos_wgs.y() - fdm::WGS84::m_a ) < 1.0e-4, "Failure 0N 90E" );
+    QVERIFY2( fabs( pos_wgs.y() - fdm::WGS84::_a ) < 1.0e-4, "Failure 0N 90E" );
     QVERIFY2( fabs( pos_wgs.z() - 0.0 ) < 1.0e-4, "Failure 0N 90E" );
 
     // 0N 90W
@@ -182,7 +182,7 @@ void WGS84Test::testGEO2WGS()
     pos_wgs = fdm::WGS84::geo2wgs( geo );
 
     QVERIFY2( fabs( pos_wgs.x() - 0.0 ) < 1.0e-4, "Failure 0N 90W" );
-    QVERIFY2( fabs( pos_wgs.y() + fdm::WGS84::m_a ) < 1.0e-4, "Failure 0N 90W" );
+    QVERIFY2( fabs( pos_wgs.y() + fdm::WGS84::_a ) < 1.0e-4, "Failure 0N 90W" );
     QVERIFY2( fabs( pos_wgs.z() - 0.0 ) < 1.0e-4, "Failure 0N 90W" );
 
     // 0N 180E
@@ -192,7 +192,7 @@ void WGS84Test::testGEO2WGS()
 
     pos_wgs = fdm::WGS84::geo2wgs( geo );
 
-    QVERIFY2( fabs( pos_wgs.x() + fdm::WGS84::m_a ) < 1.0e-4, "Failure 0N 180E" );
+    QVERIFY2( fabs( pos_wgs.x() + fdm::WGS84::_a ) < 1.0e-4, "Failure 0N 180E" );
     QVERIFY2( fabs( pos_wgs.y() - 0.0 ) < 1.0e-4, "Failure 0N 180E" );
     QVERIFY2( fabs( pos_wgs.z() - 0.0 ) < 1.0e-4, "Failure 0N 180E" );
 
@@ -205,7 +205,7 @@ void WGS84Test::testGEO2WGS()
 
     QVERIFY2( fabs( pos_wgs.x() - 0.0 ) < 1.0e-4, "Failure 90N 0E" );
     QVERIFY2( fabs( pos_wgs.y() - 0.0 ) < 1.0e-4, "Failure 90N 0E" );
-    QVERIFY2( fabs( pos_wgs.z() - fdm::WGS84::m_b ) < 1.0e-4, "Failure 90N 0E" );
+    QVERIFY2( fabs( pos_wgs.z() - fdm::WGS84::_b ) < 1.0e-4, "Failure 90N 0E" );
 
     // 90S 0E
     geo.lat = -M_PI_2;
@@ -216,7 +216,7 @@ void WGS84Test::testGEO2WGS()
 
     QVERIFY2( fabs( pos_wgs.x() - 0.0 ) < 1.0e-4, "Failure 90S 0E" );
     QVERIFY2( fabs( pos_wgs.y() - 0.0 ) < 1.0e-4, "Failure 90S 0E" );
-    QVERIFY2( fabs( pos_wgs.z() + fdm::WGS84::m_b ) < 1.0e-4, "Failure 90S 0E" );
+    QVERIFY2( fabs( pos_wgs.z() + fdm::WGS84::_b ) < 1.0e-4, "Failure 90S 0E" );
 
     // 45N 45E
     geo.lat = M_PI_4;

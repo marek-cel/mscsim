@@ -32,9 +32,9 @@ public:
 
 private:
 
-    std::vector< double > m_y;
+    std::vector< double > _y;
 
-    fdm::Filter2 *m_filter;
+    fdm::Filter2 *_filter;
 
 private Q_SLOTS:
 
@@ -46,13 +46,13 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Filter2Test::Filter2Test() : m_filter ( 0 ) {}
+Filter2Test::Filter2Test() : _filter ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Filter2Test::initTestCase()
 {
-    m_filter = new fdm::Filter2( C_1, C_2, C_3, C_4, C_5, C_6 );
+    _filter = new fdm::Filter2( C_1, C_2, C_3, C_4, C_5, C_6 );
 
     FILE *file = fopen( "data/tst_fdm_filter2.bin", "r" );
 
@@ -63,7 +63,7 @@ void Filter2Test::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -74,8 +74,8 @@ void Filter2Test::initTestCase()
 
 void Filter2Test::cleanupTestCase()
 {
-    if ( m_filter ) delete m_filter;
-    m_filter = 0;
+    if ( _filter ) delete _filter;
+    _filter = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,19 +89,19 @@ void Filter2Test::sampleTest()
     int index = 0;
     double dt = TIME_STEP / (double)devider;
 
-    for ( unsigned int i = 0; i < devider * m_y.size(); i++ )
+    for ( unsigned int i = 0; i < devider * _y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        m_filter->update( u, dt );
-        y = m_filter->getValue();
+        _filter->update( u, dt );
+        y = _filter->getValue();
 
         if ( i % devider == 0 )
         {
             if ( index > 0 )
             {
-                cout << y << " " << m_y.at( index - 1 ) << endl;
-                QVERIFY2( fabs( y - m_y.at( index - 1 ) ) < 1.0e-1, "Failure" );
+                cout << y << " " << _y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
 
             index++;

@@ -38,8 +38,8 @@ P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft ) :
     _engine ( 0 ),
     _propeller ( 0 )
 {
-    _engine    = new PistonEngine();
-    _propeller = new Propeller();
+    _engine    = new P51_Engine();
+    _propeller = new P51_Propeller();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +142,10 @@ void P51_Propulsion::update()
                      _aircraft->getDataInp()->engine[ 0 ].ignition,
                      _aircraft->getDataInp()->engine[ 0 ].ignition );
 
+    //std::cout << ( _engine->getPower() / 1000.0 ) << std::endl;
+
     _propeller->update( _aircraft->getDataInp()->engine[ 0 ].propeller,
-                        _engine->getTorque(),
+                        1.0 * _engine->getTorque(),
                         _aircraft->getAirspeed(),
                         _aircraft->getEnvir()->getDensity() );
 }

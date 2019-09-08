@@ -37,7 +37,7 @@ public:
 
         void setPowerMax( double power_max )
         {
-            m_power_max = power_max;
+            _power_max = power_max;
         }
     };
 
@@ -45,7 +45,7 @@ public:
 
 private:
 
-    PistonEngine *m_engine;
+    PistonEngine *_engine;
 
 private Q_SLOTS:
 
@@ -58,22 +58,22 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PistonEngineTest::PistonEngineTest() : m_engine ( 0 ) {}
+PistonEngineTest::PistonEngineTest() : _engine ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PistonEngineTest::initTestCase()
 {
-    m_engine = new PistonEngine();
-    m_engine->setPowerMax( POWER_MAX );
+    _engine = new PistonEngine();
+    _engine->setPowerMax( POWER_MAX );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PistonEngineTest::cleanupTestCase()
 {
-    if ( m_engine ) delete m_engine;
-    m_engine = 0;
+    if ( _engine ) delete _engine;
+    _engine = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ void PistonEngineTest::getManifoldAbsolutePressure()
         rpm = 1000.0 + i * 100.0;
         airPressure = 1.0 + i * 0.05;
 
-        double map_e = m_engine->getManifoldAbsolutePressure( throttle, rpm, airPressure );
+        double map_e = _engine->getManifoldAbsolutePressure( throttle, rpm, airPressure );
         double map_t = airPressure + fdm::Units::inhg2pa( ( 0.04635 * throttle - 0.0469 ) * rpm );
         map_t = fdm::Misc::max( 0.0, map_t );
 
@@ -110,7 +110,7 @@ void PistonEngineTest::getStaticPower()
         rpm = 1000.0 + i * 100.0;
         map = i * 101325.0 / 10.0;
 
-        double staticPower_e = m_engine->getStaticPower( rpm, map );
+        double staticPower_e = _engine->getStaticPower( rpm, map );
         double staticPower_t = POWER_MAX * 0.00625 * fdm::Units::pa2inhg( map ) * ( 0.0039 * rpm - 1.0 );
         staticPower_t = fdm::Misc::max( 0.0, staticPower_t );
 

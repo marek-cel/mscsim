@@ -26,9 +26,9 @@ public:
 
 private:
 
-    std::vector< double > m_y;
+    std::vector< double > _y;
 
-    fdm::Lead *m_lead;
+    fdm::Lead *_lead;
 
 private Q_SLOTS:
 
@@ -46,7 +46,7 @@ LeadTest::LeadTest() {}
 
 void LeadTest::initTestCase()
 {
-    m_lead = new fdm::Lead( TIME_CONSTANT );
+    _lead = new fdm::Lead( TIME_CONSTANT );
 
     FILE *file = fopen( "data/tst_fdm_lead.bin", "r" );
 
@@ -57,7 +57,7 @@ void LeadTest::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -68,8 +68,8 @@ void LeadTest::initTestCase()
 
 void LeadTest::cleanupTestCase()
 {
-    if ( m_lead ) delete m_lead;
-    m_lead = 0;
+    if ( _lead ) delete _lead;
+    _lead = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void LeadTest::testUpdate()
     double u_prev = 0.0;
     double y_prev = 0.0;
 
-    for ( unsigned int i = 0; i < m_y.size(); i++ )
+    for ( unsigned int i = 0; i < _y.size(); i++ )
     {
         //double u = sin( t );
 
@@ -94,8 +94,8 @@ void LeadTest::testUpdate()
 
             double u = sin( tt );
 
-            m_lead->update( u, dt );
-            y = m_lead->getValue();
+            _lead->update( u, dt );
+            y = _lead->getValue();
 
             //std::cout << sin( t ) << " " << sin( tt ) << " y= " << y << std::endl;
 
@@ -113,8 +113,8 @@ void LeadTest::testUpdate()
             }
         }
 
-        cout << y << " " << m_y.at( i ) << endl;
-        QVERIFY2( fabs( y - m_y.at( i ) ) < 2.0e-2, "Failure" );
+        cout << y << " " << _y.at( i ) << endl;
+        QVERIFY2( fabs( y - _y.at( i ) ) < 2.0e-2, "Failure" );
 
         t += TIME_STEP;
     }

@@ -37,9 +37,9 @@ private slots:
 
 private:
 
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow *_ui;
 
-    int m_timerId;              ///<
+    int _timerId;               ///<
 };
 
 ////////////////////////////////////////////////////////////////////////////////

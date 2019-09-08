@@ -26,8 +26,8 @@
 
 #include <fdm/main/fdm_Propulsion.h>
 
-#include <fdm/models/fdm_PistonEngine.h>
-#include <fdm/models/fdm_Propeller.h>
+#include <fdm_c172/c172_Engine.h>
+#include <fdm_c172/c172_Propeller.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -67,15 +67,15 @@ public:
     /** Updates propulsion. */
     void update();
 
-    inline const PistonEngine* getEngine() const { return _engine; }
-    inline const Propeller* getPropeller() const { return _propeller; }
+    inline const C172_Engine* getEngine() const { return _engine; }
+    inline const C172_Propeller* getPropeller() const { return _propeller; }
 
 private:
 
     const C172_Aircraft *_aircraft;     ///< aircraft model main object
 
-    PistonEngine *_engine;              ///< engine model
-    Propeller *_propeller;              ///< propeller model
+    C172_Engine    *_engine;            ///< engine model
+    C172_Propeller *_propeller;         ///< propeller model
 };
 
 } // end of fdm namespace

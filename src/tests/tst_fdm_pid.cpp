@@ -30,7 +30,7 @@ public:
 
 private:
 
-    std::vector< double > m_y;
+    std::vector< double > _y;
 
 private Q_SLOTS:
 
@@ -57,7 +57,7 @@ void TestPID::initTestCase()
         while ( fread( buffer, 1, 4, file ) == 4 )
         {
             float *y = (float*)(buffer);
-            m_y.push_back( *y );
+            _y.push_back( *y );
         }
 
         fclose( file );
@@ -77,7 +77,7 @@ void TestPID::testUpdate()
 
     fdm::PID *pid = new fdm::PID( KP, KI, KD );
 
-    for ( unsigned int i = 0; i < m_y.size(); i++ )
+    for ( unsigned int i = 0; i < _y.size(); i++ )
     {
         double u = ( t < 4.99 ) ? 0.0 : 1.0;
 
@@ -92,8 +92,8 @@ void TestPID::testUpdate()
 
         if ( t >= 5.0 )
         {
-            cout << y << " " << m_y.at( i ) << endl;
-            QVERIFY2( fabs( y - m_y.at( i ) ) < 1.0e-1, "Failure" );
+            cout << y << " " << _y.at( i ) << endl;
+            QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-1, "Failure" );
         }
 
         t += DT;

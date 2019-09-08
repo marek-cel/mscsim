@@ -19,67 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef P51_PROPULSION_H
-#define P51_PROPULSION_H
+#ifndef C172_ENGINE_H
+#define C172_ENGINE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
-
-#include <fdm_p51/p51_Engine.h>
-#include <fdm_p51/p51_Propeller.h>
+#include <fdm/models/fdm_PistonEngine.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class P51_Aircraft;    ///< aircraft class forward declaration
-
 /**
- * @brief P-51 propulsion class.
+ * @brief Cessna 172 engine class.
  */
-class P51_Propulsion : public Propulsion
+class C172_Engine : public PistonEngine
 {
-public:
 
-    /** Constructor. */
-    P51_Propulsion( const P51_Aircraft *aircraft );
-
-    /** Destructor. */
-    ~P51_Propulsion();
-
-    /**
-     * Initializes propulsion.
-     * @param engineOn specifies if engine is working at start
-     */
-    void init( bool engineOn );
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-    /** Computes force and moment. */
-    void computeForceAndMoment();
-
-    /** Updates propulsion. */
-    void update();
-
-    inline const P51_Engine* getEngine() const { return _engine; }
-    inline const P51_Propeller* getPropeller() const { return _propeller; }
-
-private:
-
-    const P51_Aircraft *_aircraft;      ///< aircraft model main object
-
-    P51_Engine    *_engine;             ///< engine model
-    P51_Propeller *_propeller;          ///< propeller model
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // P51_PROPULSION_H
+#endif // C172_ENGINE_H
