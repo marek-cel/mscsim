@@ -1,3 +1,11 @@
+2019-09-15 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * aerodynamic coefficients approximation tool moved to its own repository
+    at:https://github.com/marek-cel/aero-coefficients-approximation
+
+
+
+
 2019-09-08 Marek M. Cel <marekcel@marekcel.pl>
 
     * unit tests fixed
