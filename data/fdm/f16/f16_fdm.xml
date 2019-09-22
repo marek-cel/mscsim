@@ -1828,8 +1828,8 @@
        97.0 750.0
       </tit_n2>
       
-      <tsfc>    2.150e-5 </tsfc>
-      <tsfc_ab> 5.496e-5 </tsfc_ab>
+      <tsfc    unit="g_kNs">  21.0   </tsfc>
+      <tsfc_ab unit="g_kNs">  54.96  </tsfc_ab>
       
       <thrust_factor_idle>
                0.0    3048.0    6096.0    9144.0   12192.0   15240.0

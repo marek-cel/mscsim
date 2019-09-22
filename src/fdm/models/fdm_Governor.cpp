@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_p51/p51_Engine.h>
+#include <fdm/models/fdm_Governor.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -30,35 +30,51 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Engine::P51_Engine() :
-    PistonEngine(),
-
-    _compressor ( 0 )
+Governor::Governor() :
+    _pid  ( 0 ),
+    _pitch ( 0.0 )
 {
-    _compressor = new P51_Compressor();
+    _pid = new PID( 0.0, 0.0, 0.0, 0.0, 1.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Engine::~P51_Engine()
-{
-    if ( _compressor ) delete _compressor;
-    _compressor = 0;
-}
+Governor::~Governor() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Engine::readData( XmlNode &dataNode )
+void Governor::readData( XmlNode &dataNode )
 {
-    ///////////////////////////////////
-    PistonEngine::readData( dataNode );
-    ///////////////////////////////////
-
     if ( dataNode.isValid() )
     {
-        XmlNode nodeCompressor = dataNode.getFirstChildElement( "compressor" );
+        int result = FDM_SUCCESS;
 
-        _compressor->readData( nodeCompressor );
+        double kp = 0.0;
+        double ki = 0.0;
+        double kd = 0.0;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kp, "gain_p", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ki, "gain_i", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kd, "gain_d", true );
+
+        if ( result == FDM_SUCCESS )
+        {
+            _pid->setKp( kp );
+            _pid->setKi( ki );
+            _pid->setKd( kd );
+        }
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _prop_rpm, "prop_rpm" );
+
+        if ( result != FDM_SUCCESS )
+        {
+            Exception e;
+
+            e.setType( Exception::FileReadingError );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+            FDM_THROW( e );
+        }
     }
     else
     {
@@ -73,27 +89,10 @@ void P51_Engine::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Engine::update( double throttleLever, double mixtureLever, double rpm,
-                         double airPressure, double airDensity, double airTemperature,
-                         bool fuel, bool starter,
-                         bool magneto_l, bool magneto_r )
+void Governor::update( double timeStep, double propellerLever, double rpm )
 {
-    _compressor->update( airPressure, airDensity, airTemperature, _airFlow, _rpm );
-
-    //std::cout << (_compressor->getPressure() / 100.0) << std::endl;
-
-    ////////////////////////////////////////////////////////////
-    PistonEngine::update( throttleLever, mixtureLever, rpm,
-                          _compressor->getPressure(),
-                          _compressor->getDensity(),
-                          fuel, starter, magneto_l, magneto_r );
-    ////////////////////////////////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double P51_Engine::getFuelToAirRatio( double mixture, double airDensity )
-{
-    return mixture * (1.225 / airDensity ) * 0.1;
-    //return mixture * (1.5 / airDensity ) * 0.1;
+    double error = _prop_rpm.getValue( propellerLever ) - rpm;
+    _pid->update( timeStep, error );
+    _pitch = _pid->getValue();
+    //std::cout << _prop_rpm.getValue( propellerLever ) << "  " << error << "  " << _pitch << std::endl;
 }

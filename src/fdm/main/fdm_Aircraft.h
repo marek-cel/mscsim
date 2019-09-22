@@ -238,6 +238,8 @@ public:
     inline double getClimbRate()     const { return _climbRate;     }
     inline double getTurnRate()      const { return _turnRate;      }
 
+    virtual void setFreeze( bool freeze );
+
     /**
      * Sets aircraft state vector.
      * <p>This function is meant to set initial conditions at the beginning,
@@ -354,6 +356,8 @@ protected:
     double _machNumber;         ///< [-] Mach number
     double _climbRate;          ///< [m/s] climb rate
     double _turnRate;           ///< [rad/s] turn rate
+
+    bool _freeze;               ///< specifies if state is frozen
 
     /**
      * Reads data.

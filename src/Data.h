@@ -326,7 +326,7 @@ public:
     struct DataBuf
     {
         typedef fdm::DataInp::AircraftType AircraftType;
-        typedef fdm::DataInp::PhaseInp PhaseInp;
+        typedef fdm::DataInp::StateInp StateInp;
         typedef fdm::DataOut::StateOut StateOut;
 
         typedef fdm::DataInp::Controls Controls;
@@ -350,11 +350,13 @@ public:
 
         AircraftType aircraftType;          ///< input aircraft type
 
-        PhaseInp phaseInp;                  ///< simulation input phase
+        StateInp stateInp;                  ///< simulation input state
         StateOut stateOut;                  ///< simulation output state
 
         double timeCoef;                    ///< [-] time coefficient
         double timeStep;                    ///< [s] simulation time step
+
+        bool freeze;                        ///< specifies if state is frozen
     };
 
 private:

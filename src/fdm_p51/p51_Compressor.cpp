@@ -19,68 +19,72 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_DEFINES_H
-#define FDM_DEFINES_H
+
+#include <fdm_p51/p51_Compressor.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(_MSC_VER)
-#   if defined(FDM_DLL_EXPORTS)
-#       define FDM_DLL_SPEC __declspec(dllexport)
-#   elif defined(FDM_DLL_IMPORTS)
-#       define FDM_DLL_SPEC __declspec(dllimport)
-#   else
-#       define FDM_DLL_SPEC
-#   endif
-#else
-#   define FDM_DLL_SPEC
-#endif
-
-#if defined(__cplusplus)
-#   define FDMEXPORT FDM_DLL_SPEC
-#endif
-
-#if !defined(FDMEXPORT)
-#   define FDMEXPORT
-#endif
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FDM_TIME_STEP 0.01  /* 100 Hz */
-//#define FDM_TIME_STEP 0.005  /* 200 Hz */
+P51_Compressor::P51_Compressor() :
+    Compressor(),
 
-#define FDM_TIME_STEP_MIN 0.001
-#define FDM_TIME_STEP_MAX 0.1
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define FDM_MAX_ENGINES 4
+    _gearRatio_L ( 0.0 ),
+    _gearRatio_H ( 0.0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-//#warning TEST! TEST! TEST!
-//#define FDM_MIN_INIT_ALTITUDE 0.0
-#define FDM_MIN_INIT_ALTITUDE 30.0
-#define FDM_MAX_INIT_STEPS 20000
+P51_Compressor::~P51_Compressor() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define FDM_SUCCESS 0
-#define FDM_FAILURE 1
+void P51_Compressor::readData( XmlNode &dataNode )
+{
+    /////////////////////////////////
+    Compressor::readData( dataNode );
+    /////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
 
-#define FDM_STATE_DIMENSION 13
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gearRatio_L, "gear_ratio_low"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gearRatio_H, "gear_ratio_high" );
 
-////////////////////////////////////////////////////////////////////////////////
+        if ( result != FDM_SUCCESS )
+        {
+            Exception e;
 
-#define FDM_THROW( e ) \
-{ \
-    e.setFile( __FILE__ ); \
-    e.setLine( __LINE__ ); \
-    throw e; \
+            e.setType( Exception::FileReadingError );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+            FDM_THROW( e );
+        }
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_DEFINES_H
+void P51_Compressor::update( double airPressure, double airDensity, double airTemperature,
+                             double airFlow, double rpm )
+{
+    rpm *= _gearRatio_L;
+
+    ////////////////////////////////////////////////////////////////////////////
+    Compressor::update( airPressure, airDensity, airTemperature, airFlow, rpm );
+    ////////////////////////////////////////////////////////////////////////////
+}

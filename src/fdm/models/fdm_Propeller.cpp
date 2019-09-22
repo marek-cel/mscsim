@@ -35,15 +35,19 @@ using namespace fdm;
 Propeller::Propeller() :
     _direction ( CW ),
     _gearRatio ( 1.0 ),
-    _diameter ( 0.0 ),
-    _inertia ( 0.0 ),
-    _pitch ( 0.0 ),
-    _omega ( 0.0 ),
+    _diameter  ( 0.0 ),
+    _inertia   ( 0.0 ),
+
+    _area ( 0.0 ),
+
+    _pitch     ( 0.0 ),
+    _omega     ( 0.0 ),
     _speed_rps ( 0.0 ),
     _speed_rpm ( 0.0 ),
-    _thrust ( 0.0 ),
+    _thrust    ( 0.0 ),
+
     _torqueAvailable ( 0.0 ),
-    _torqueRequired ( 0.0 )
+    _torqueRequired  ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,7 +81,11 @@ void Propeller::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefThrust , "thrust_coef" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefPower  , "power_coef"  );
 
-        if ( result != FDM_SUCCESS )
+        if ( result == FDM_SUCCESS )
+        {
+            _area = M_PI * pow( 0.5 * _diameter, 2.0 );
+        }
+        else
         {
             Exception e;
 
@@ -139,11 +147,13 @@ void Propeller::integrate( double timeStep, double engineInertia )
 void Propeller::update( double propellerLever, double engineTorque,
                         double airspeed, double airDensity )
 {
-    _pitch = _propPitch.getValue( propellerLever );
+    _pitch = getPropellerPitch( propellerLever );
 
     double advance = airspeed / ( _diameter * ( _speed_rps > 0.1 ? _speed_rps : 0.1 ) );
     double coefPower = _coefPower.getValue( advance, _pitch );
     double powerRequired = coefPower * airDensity * Misc::pow3( _speed_rps ) * Misc::pow5( _diameter );
+
+    _inducedVelocity = getInducedVelocity( airspeed, airDensity );
 
     _torqueRequired  = powerRequired / ( _omega > 1.0 ? _omega : 1.0 );
     _torqueAvailable = engineTorque / _gearRatio;
@@ -156,4 +166,39 @@ void Propeller::setRPM( double rpm )
     _speed_rpm = Misc::max( 0.0, rpm );
     _speed_rps = _speed_rpm / 60.0;
     _omega = 2.0 * M_PI * _speed_rps;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Propeller::getInducedVelocity( double airspeed, double airDensity )
+{
+    // momentum theory:
+    // T = 2*rho*A*(V_infinity+V_induced)*V_induced
+    // V_induced^2 + V_infinity*V_induced - T/(2*rho*A)
+
+    double delta = airspeed*airspeed - 2.0 * _thrust / ( airDensity * _area );
+
+    if ( delta >= 0.0 )
+    {
+        double x1 = 0.5 * ( -airspeed - sqrt( delta ) );
+        double x2 = 0.5 * ( -airspeed + sqrt( delta ) );
+
+        if ( _thrust > 0.0 )
+        {
+            return ( x1 > 0.0 ) ? x1 : x2;
+        }
+        else
+        {
+            return ( x1 < 0.0 ) ? x1 : x2;
+        }
+    }
+
+    return 0.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Propeller::getPropellerPitch( double propellerLever )
+{
+    return _propPitch.getValue( propellerLever );
 }

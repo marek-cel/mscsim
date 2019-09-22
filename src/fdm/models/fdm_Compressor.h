@@ -19,14 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef P51_ENGINE_H
-#define P51_ENGINE_H
+#ifndef FDM_COMPRESSOR_H
+#define FDM_COMPRESSOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_PistonEngine.h>
+#include <fdm/fdm_Base.h>
 
-#include <fdm_p51/p51_Compressor.h>
+#include <fdm/utils/fdm_Table2D.h>
+
+#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,57 +36,63 @@ namespace fdm
 {
 
 /**
- * @brief P-51 engine class.
+ * @brief Generic compressor base class.
+ *
+ * <h5>XML configuration file format:</h5>
+ * @code
+ * <compressor>
+ *   <performance_map>
+ *     { [rpm] compressor speed } ... { more values of compressor speed }
+ *     { [kg/s] air flow } { [-] pressure ratio } ... { more values of pressure ratio }
+ *     ... { more entries }
+ *   </performance_map>
+ * </compressor>
+ * @endcode
  */
-class P51_Engine : public PistonEngine
+class FDMEXPORT Compressor : public Base
 {
 public:
 
+    static const double _gamma; ///< [-] dry air heat capacity ratio
+
     /** Constructor. */
-    P51_Engine();
+    Compressor();
 
     /** Destructor. */
-    virtual ~P51_Engine();
+    virtual ~Compressor();
 
     /**
      * Reads data.
      * @param dataNode XML node
      */
-    void readData( XmlNode &dataNode );
+    virtual void readData( XmlNode &dataNode );
 
     /**
-     * Updates engine.
-     * @param throttleLever [0.0,1.0] throttle lever position
-     * @param mixtureLever [0.0,1.0] mixture lever position
-     * @param rpm [rpm] engine rpm
+     * Updates compressor.
      * @param airPressure [Pa] air pressure
      * @param airDensity [kg/m^3] air density
      * @param airTemperature [K] air temperature
-     * @param fuel specifies if fuel is provided
-     * @param starter specifies if starter is enabled
-     * @param magneto_l specifies if left magneto is enabled
-     * @param magneto_r specifies if right magneto is enabled
+     * @param airFlow [kg/s] air flow
+     * @param rpm [rpm] compressor rpm
      */
-    void update( double throttleLever, double mixtureLever, double rpm,
-                 double airPressure, double airDensity, double airTemperature,
-                 bool fuel, bool starter,
-                 bool magneto_l = true, bool magneto_r = true );
+    virtual void update( double airPressure, double airDensity, double airTemperature,
+                         double airFlow, double rpm );
 
-private:
+    inline double getTemperature() const { return _temperature; }
+    inline double getPressure()    const { return _pressure;    }
+    inline double getDensity()     const { return _density;     }
 
-    P51_Compressor *_compressor;    ///< compressor model
+protected:
 
-    /**
-     * Computes fuel to air ratio.
-     * @param mixture [-] mixture
-     * @param airDensity [kg/m^3] air density
-     * @return [-] fuel to air ratio
-     */
-    double getFuelToAirRatio( double mixture, double airDensity );
+    Table2D _performance_map;   ///< [-] performance map
+
+    double _temperature;        ///< [K] compressed air temperature
+    double _pressure;           ///< [Pa] compressed air static pressure
+    double _density;            ///< [kg/m^3] compressed air density
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // P51_ENGINE_H
+#endif // FDM_COMPRESSOR_H

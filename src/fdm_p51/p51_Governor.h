@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef P51_PROPELLER_H
-#define P51_PROPELLER_H
+#ifndef P51_GOVERNOR_H
+#define P51_GOVERNOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Propeller.h>
+#include <fdm/models/fdm_Governor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,21 +32,21 @@ namespace fdm
 {
 
 /**
- * @brief P-51 propeller class.
+ * @brief P-51 propeller governor class.
  */
-class P51_Propeller : public Propeller
+class P51_Governor : public Governor
 {
 public:
 
     /** Constructor. */
-    P51_Propeller();
+    P51_Governor();
 
     /** Destructor. */
-    virtual ~P51_Propeller();
+    virtual ~P51_Governor();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // P51_PROPELLER_H
+#endif // P51_GOVERNOR_H

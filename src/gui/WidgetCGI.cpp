@@ -71,7 +71,7 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
 
     setLayout( _gridLayout );
 
-    _timerId = startTimer( CGI_TIME_STEP );
+    _timerId = startTimer( 1000.0 * CGI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

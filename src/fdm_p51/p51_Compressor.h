@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef P51_PROPELLER_H
-#define P51_PROPELLER_H
+#ifndef P51_COMPRESSOR_H
+#define P51_COMPRESSOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Propeller.h>
+#include <fdm/models/fdm_Compressor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,21 +32,43 @@ namespace fdm
 {
 
 /**
- * @brief P-51 propeller class.
+ * @brief P-51 compressor.
  */
-class P51_Propeller : public Propeller
+class P51_Compressor : public Compressor
 {
 public:
 
     /** Constructor. */
-    P51_Propeller();
+    P51_Compressor();
 
     /** Destructor. */
-    virtual ~P51_Propeller();
+    virtual ~P51_Compressor();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * Updates compressor.
+     * @param airPressure [Pa] air pressure
+     * @param airDensity [kg/m^3] air density
+     * @param airTemperature [K] air temperature
+     * @param airFlow [kg/s] air flow
+     * @param rpm [rpm] compressor rpm
+     */
+    void update( double airPressure, double airDensity, double airTemperature,
+                 double airFlow, double rpm );
+
+private:
+
+    double _gearRatio_L;        ///< [-] low speed gear ratio (compressor rpm / engine rpm)
+    double _gearRatio_H;        ///< [-] low speed gear ratio (compressor rpm / engine rpm)
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // P51_PROPELLER_H
+#endif // P51_COMPRESSOR_H

@@ -33,7 +33,7 @@ DockWidgetMain::DockWidgetMain( QWidget *parent ) :
     QDockWidget ( parent ),
     _ui ( new Ui::DockWidgetMain ),
 
-    _phaseInp ( fdm::DataInp::Idle ),
+    _stateInp ( fdm::DataInp::Idle ),
     _stateOut ( fdm::DataOut::Idle ),
 
     _timerId ( 0 ),
@@ -55,18 +55,18 @@ DockWidgetMain::~DockWidgetMain()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::setPhaseInp( fdm::DataInp::PhaseInp phaseInp )
+void DockWidgetMain::setStateInp( fdm::DataInp::StateInp stateInp )
 {
-    _phaseInp = phaseInp;
+    _stateInp = stateInp;
 
-    switch ( _phaseInp )
+    switch ( _stateInp )
     {
-        case fdm::DataInp::Idle:  _ui->buttonPhaseInpIdle->setChecked( true );  break;
-        case fdm::DataInp::Init:  _ui->buttonPhaseInpInit->setChecked( true );  break;
-        case fdm::DataInp::Work:  _ui->buttonPhaseInpWork->setChecked( true );  break;
-        case fdm::DataInp::Pause: _ui->buttonPhaseInpPause->setChecked( true ); break;
-        case fdm::DataInp::Stop:  _ui->buttonPhaseInpStop->setChecked( true );  break;
-        default:                  _ui->buttonPhaseInpIdle->setChecked( true );  break;
+        case fdm::DataInp::Idle:  _ui->buttonStateInpIdle->setChecked( true );  break;
+        case fdm::DataInp::Init:  _ui->buttonStateInpInit->setChecked( true );  break;
+        case fdm::DataInp::Work:  _ui->buttonStateInpWork->setChecked( true );  break;
+        case fdm::DataInp::Pause: _ui->buttonStateInpPause->setChecked( true ); break;
+        case fdm::DataInp::Stop:  _ui->buttonStateInpStop->setChecked( true );  break;
+        default:                  _ui->buttonStateInpIdle->setChecked( true );  break;
     }
 }
 
@@ -88,11 +88,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( false );
         _ui->buttonStateOutStopped->setChecked( false );
 
-        _ui->buttonPhaseInpIdle->setEnabled( true );
-        _ui->buttonPhaseInpInit->setEnabled( true );
-        _ui->buttonPhaseInpWork->setEnabled( false );
-        _ui->buttonPhaseInpPause->setEnabled( false );
-        _ui->buttonPhaseInpStop->setEnabled( false );
+        _ui->buttonStateInpIdle->setEnabled( true );
+        _ui->buttonStateInpInit->setEnabled( true );
+        _ui->buttonStateInpWork->setEnabled( false );
+        _ui->buttonStateInpPause->setEnabled( false );
+        _ui->buttonStateInpStop->setEnabled( false );
         break;
 
     case fdm::DataOut::Initializing:
@@ -102,11 +102,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( false );
         _ui->buttonStateOutStopped->setChecked( false );
 
-        _ui->buttonPhaseInpIdle->setEnabled( false );
-        _ui->buttonPhaseInpInit->setEnabled( true );
-        _ui->buttonPhaseInpWork->setEnabled( false );
-        _ui->buttonPhaseInpPause->setEnabled( false );
-        _ui->buttonPhaseInpStop->setEnabled( true );
+        _ui->buttonStateInpIdle->setEnabled( false );
+        _ui->buttonStateInpInit->setEnabled( true );
+        _ui->buttonStateInpWork->setEnabled( false );
+        _ui->buttonStateInpPause->setEnabled( false );
+        _ui->buttonStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Ready:
@@ -116,11 +116,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( false );
         _ui->buttonStateOutStopped->setChecked( false );
 
-        _ui->buttonPhaseInpIdle->setEnabled( false );
-        _ui->buttonPhaseInpInit->setEnabled( true );
-        _ui->buttonPhaseInpWork->setEnabled( true );
-        _ui->buttonPhaseInpPause->setEnabled( true );
-        _ui->buttonPhaseInpStop->setEnabled( true );
+        _ui->buttonStateInpIdle->setEnabled( false );
+        _ui->buttonStateInpInit->setEnabled( true );
+        _ui->buttonStateInpWork->setEnabled( true );
+        _ui->buttonStateInpPause->setEnabled( true );
+        _ui->buttonStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Working:
@@ -130,11 +130,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( false );
         _ui->buttonStateOutStopped->setChecked( false );
 
-        _ui->buttonPhaseInpIdle->setEnabled( false );
-        _ui->buttonPhaseInpInit->setEnabled( false );
-        _ui->buttonPhaseInpWork->setEnabled( true );
-        _ui->buttonPhaseInpPause->setEnabled( true );
-        _ui->buttonPhaseInpStop->setEnabled( true );
+        _ui->buttonStateInpIdle->setEnabled( false );
+        _ui->buttonStateInpInit->setEnabled( false );
+        _ui->buttonStateInpWork->setEnabled( true );
+        _ui->buttonStateInpPause->setEnabled( true );
+        _ui->buttonStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Paused:
@@ -144,11 +144,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( true );
         _ui->buttonStateOutStopped->setChecked( false );
 
-        _ui->buttonPhaseInpIdle->setEnabled( false );
-        _ui->buttonPhaseInpInit->setEnabled( false );
-        _ui->buttonPhaseInpWork->setEnabled( true );
-        _ui->buttonPhaseInpPause->setEnabled( true );
-        _ui->buttonPhaseInpStop->setEnabled( true );
+        _ui->buttonStateInpIdle->setEnabled( false );
+        _ui->buttonStateInpInit->setEnabled( false );
+        _ui->buttonStateInpWork->setEnabled( true );
+        _ui->buttonStateInpPause->setEnabled( true );
+        _ui->buttonStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Stopped:
@@ -158,11 +158,11 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutPaused->setChecked( false );
         _ui->buttonStateOutStopped->setChecked( true );
 
-        _ui->buttonPhaseInpIdle->setEnabled( true );
-        _ui->buttonPhaseInpInit->setEnabled( false );
-        _ui->buttonPhaseInpWork->setEnabled( false );
-        _ui->buttonPhaseInpPause->setEnabled( false );
-        _ui->buttonPhaseInpStop->setEnabled( true );
+        _ui->buttonStateInpIdle->setEnabled( true );
+        _ui->buttonStateInpInit->setEnabled( false );
+        _ui->buttonStateInpWork->setEnabled( false );
+        _ui->buttonStateInpPause->setEnabled( false );
+        _ui->buttonStateInpStop->setEnabled( true );
         break;
     }
 }
@@ -171,7 +171,7 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
 
 void DockWidgetMain::setTimeStep( double timeStep )
 {
-    _ui->spinStep->setValue( 1000 * timeStep );
+    _ui->spinStep->setValue( 1000.0 * timeStep );
     _ui->spinFreq->setValue( ( timeStep > 0.0 ) ? 1.0 / timeStep : 0.0 );
 }
 
@@ -211,40 +211,48 @@ void DockWidgetMain::timerEvent( QTimerEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonPhaseInpIdle_clicked()
+void DockWidgetMain::on_buttonStateInpIdle_clicked()
 {
-    _phaseInp = fdm::DataInp::Idle;
-    emit phaseInpChanged( _phaseInp );
+    _stateInp = fdm::DataInp::Idle;
+    emit stateInpChanged( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonPhaseInpInit_clicked()
+void DockWidgetMain::on_buttonStateInpInit_clicked()
 {
-    _phaseInp = fdm::DataInp::Init;
-    emit phaseInpChanged( _phaseInp );
+    _stateInp = fdm::DataInp::Init;
+    emit stateInpChanged( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonPhaseInpWork_clicked()
+void DockWidgetMain::on_buttonStateInpWork_clicked()
 {
-    _phaseInp = fdm::DataInp::Work;
-    emit phaseInpChanged( _phaseInp );
+    _stateInp = fdm::DataInp::Work;
+    emit stateInpChanged( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonPhaseInpPause_clicked()
+void DockWidgetMain::on_buttonStateInpPause_clicked()
 {
-    _phaseInp = fdm::DataInp::Pause;
-    emit phaseInpChanged( _phaseInp );
+    _stateInp = fdm::DataInp::Pause;
+    emit stateInpChanged( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonPhaseInpStop_clicked()
+void DockWidgetMain::on_buttonStateInpStop_clicked()
 {
-    _phaseInp = fdm::DataInp::Stop;
-    emit phaseInpChanged( _phaseInp );
+    _stateInp = fdm::DataInp::Stop;
+    emit stateInpChanged( _stateInp );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetMain::on_buttonStateFreeze_clicked( bool checked )
+{
+    _ui->buttonStateFrozen->setChecked( checked );
+    emit freezeStateChanged( checked );
 }

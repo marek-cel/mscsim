@@ -27,6 +27,7 @@
 #include <fdm/main/fdm_Propulsion.h>
 
 #include <fdm_p51/p51_Engine.h>
+#include <fdm_p51/p51_Governor.h>
 #include <fdm_p51/p51_Propeller.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,10 +73,11 @@ public:
 
 private:
 
-    const P51_Aircraft *_aircraft;      ///< aircraft model main object
+    const P51_Aircraft *_aircraft;  ///< aircraft model main object
 
-    P51_Engine    *_engine;             ///< engine model
-    P51_Propeller *_propeller;          ///< propeller model
+    P51_Engine    *_engine;         ///< engine model
+    P51_Governor  *_governor;       ///< propeller governor model
+    P51_Propeller *_propeller;      ///< propeller model
 };
 
 } // end of fdm namespace

@@ -70,8 +70,10 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     _typeIndex ( 0 ),
 
-    _phaseInp ( fdm::DataInp::Idle ),
-    _stateOut ( fdm::DataOut::Idle )
+    _stateInp ( fdm::DataInp::Idle ),
+    _stateOut ( fdm::DataOut::Idle ),
+
+    _freeze ( false )
 {
     _ui->setupUi( this );
 
@@ -119,7 +121,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     _scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
 
     connect( _dialogInit, SIGNAL(typeIndexChanged(int)), this, SLOT(dialogInit_typeIndexChanged(int)) );
-    connect( _dockMain, SIGNAL(phaseInpChanged(fdm::DataInp::PhaseInp)), this, SLOT(dockMain_phaseInpChanged(fdm::DataInp::PhaseInp)) );
+    connect( _dockMain, SIGNAL(freezeStateChanged(bool)), this, SLOT(dockMain_freezeStateChanged(bool)) );
+    connect( _dockMain, SIGNAL(stateInpChanged(fdm::DataInp::StateInp)), this, SLOT(dockMain_stateInpChanged(fdm::DataInp::StateInp)) );
 
     connect( _dockAuto , SIGNAL(closed()), this, SLOT(dockAuto_closed()) );
     connect( _dockCtrl , SIGNAL(closed()), this, SLOT(dockCtrl_closed()) );
@@ -133,7 +136,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     setAircraftType( _dialogInit->getTypeIndex() );
 
-    setPhaseIdle();
+    setStateIdle();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +205,7 @@ void MainWindow::init()
 
     updateOutputData();
 
-    _timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -268,9 +271,9 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     if ( _stateOut == fdm::DataOut::Stopped )
     {
-        if ( _phaseInp != fdm::DataInp::Idle && _phaseInp != fdm::DataInp::Stop )
+        if ( _stateInp != fdm::DataInp::Idle && _stateInp != fdm::DataInp::Stop )
         {
-            setPhaseStop();
+            setStateStop();
         }
     }
 
@@ -291,44 +294,44 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::setPhaseIdle()
+void MainWindow::setStateIdle()
 {
-    _phaseInp = fdm::DataInp::Idle;
-    _dockMain->setPhaseInp( _phaseInp );
+    _stateInp = fdm::DataInp::Idle;
+    _dockMain->setStateInp( _stateInp );
 
     _timeCoef = 1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::setPhaseInit()
+void MainWindow::setStateInit()
 {
-    _phaseInp = fdm::DataInp::Init;
-    _dockMain->setPhaseInp( _phaseInp );
+    _stateInp = fdm::DataInp::Init;
+    _dockMain->setStateInp( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::setPhaseWork()
+void MainWindow::setStateWork()
 {
-    _phaseInp = fdm::DataInp::Work;
-    _dockMain->setPhaseInp( _phaseInp );
+    _stateInp = fdm::DataInp::Work;
+    _dockMain->setStateInp( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::setPhasePause()
+void MainWindow::setStatePause()
 {
-    _phaseInp = fdm::DataInp::Pause;
-    _dockMain->setPhaseInp( _phaseInp );
+    _stateInp = fdm::DataInp::Pause;
+    _dockMain->setStateInp( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::setPhaseStop()
+void MainWindow::setStateStop()
 {
-    _phaseInp = fdm::DataInp::Stop;
-    _dockMain->setPhaseInp( _phaseInp );
+    _stateInp = fdm::DataInp::Stop;
+    _dockMain->setStateInp( _stateInp );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -552,8 +555,9 @@ void MainWindow::updateDateTime()
 
     if ( _stateOut == fdm::DataOut::Working )
     {
-        _dateTime   = _dateTime.addMSecs( _timeCoef * GUI_TIME_STEP );
-        _flightTime = _flightTime.addMSecs( _timeCoef * GUI_TIME_STEP );
+        double timeStep_ms = _timeCoef * 1000.0 * GUI_TIME_STEP;
+        _dateTime   = _dateTime.addMSecs( timeStep_ms );
+        _flightTime = _flightTime.addMSecs( timeStep_ms );
     }
 }
 
@@ -688,7 +692,7 @@ void MainWindow::updateDockMain()
 {
     if ( _dockMain->isVisible() )
     {
-        _dockMain->setPhaseInp( _phaseInp );
+        _dockMain->setStateInp( _stateInp );
         _dockMain->setStateOut( _stateOut );
 
         if ( _stateOut == fdm::DataOut::Working )
@@ -739,47 +743,47 @@ void MainWindow::updateMenu()
     {
     default:
     case fdm::DataOut::Idle:
-        _ui->actionPhaseInpIdle->setEnabled( true );
-        _ui->actionPhaseInpInit->setEnabled( true );
-        _ui->actionPhaseInpWork->setEnabled( false );
-        _ui->actionPhaseInpPause->setEnabled( false );
-        _ui->actionPhaseInpStop->setEnabled( false );
+        _ui->actionStateInpIdle->setEnabled( true );
+        _ui->actionStateInpInit->setEnabled( true );
+        _ui->actionStateInpWork->setEnabled( false );
+        _ui->actionStateInpPause->setEnabled( false );
+        _ui->actionStateInpStop->setEnabled( false );
         break;
 
     case fdm::DataOut::Ready:
-        _ui->actionPhaseInpIdle->setEnabled( false );
-        _ui->actionPhaseInpInit->setEnabled( true );
-        _ui->actionPhaseInpWork->setEnabled( true );
-        _ui->actionPhaseInpPause->setEnabled( true );
-        _ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionStateInpIdle->setEnabled( false );
+        _ui->actionStateInpInit->setEnabled( true );
+        _ui->actionStateInpWork->setEnabled( true );
+        _ui->actionStateInpPause->setEnabled( true );
+        _ui->actionStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Working:
-        _ui->actionPhaseInpIdle->setEnabled( false );
-        _ui->actionPhaseInpInit->setEnabled( false );
-        _ui->actionPhaseInpWork->setEnabled( true );
-        _ui->actionPhaseInpPause->setEnabled( true );
-        _ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionStateInpIdle->setEnabled( false );
+        _ui->actionStateInpInit->setEnabled( false );
+        _ui->actionStateInpWork->setEnabled( true );
+        _ui->actionStateInpPause->setEnabled( true );
+        _ui->actionStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Paused:
-        _ui->actionPhaseInpIdle->setEnabled( false );
-        _ui->actionPhaseInpInit->setEnabled( false );
-        _ui->actionPhaseInpWork->setEnabled( true );
-        _ui->actionPhaseInpPause->setEnabled( true );
-        _ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionStateInpIdle->setEnabled( false );
+        _ui->actionStateInpInit->setEnabled( false );
+        _ui->actionStateInpWork->setEnabled( true );
+        _ui->actionStateInpPause->setEnabled( true );
+        _ui->actionStateInpStop->setEnabled( true );
         break;
 
     case fdm::DataOut::Stopped:
-        _ui->actionPhaseInpIdle->setEnabled( true );
-        _ui->actionPhaseInpInit->setEnabled( false );
-        _ui->actionPhaseInpWork->setEnabled( false );
-        _ui->actionPhaseInpPause->setEnabled( false );
-        _ui->actionPhaseInpStop->setEnabled( true );
+        _ui->actionStateInpIdle->setEnabled( true );
+        _ui->actionStateInpInit->setEnabled( false );
+        _ui->actionStateInpWork->setEnabled( false );
+        _ui->actionStateInpPause->setEnabled( false );
+        _ui->actionStateInpStop->setEnabled( true );
         break;
     }
 
-    if ( _phaseInp == fdm::DataInp::Idle && _stateOut == fdm::DataOut::Idle )
+    if ( _stateInp == fdm::DataInp::Idle && _stateOut == fdm::DataOut::Idle )
     {
         _ui->actionDialogInit->setEnabled( true );
         _ui->actionDialogMass->setEnabled( true );
@@ -900,11 +904,14 @@ void MainWindow::updateOutputData()
     // aircraft type
     Data::get()->aircraftType = (fdm::DataInp::AircraftType)aircraft.type;
 
-    // FDM (input phase)
-    Data::get()->phaseInp = _phaseInp;
+    // FDM (input state)
+    Data::get()->stateInp = _stateInp;
 
     // time coefficient
     Data::get()->timeCoef = _timeCoef;
+
+    // integrate
+    Data::get()->freeze = _freeze;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1024,37 +1031,37 @@ void MainWindow::on_actionDockProp_toggled( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionPhaseInpIdle_triggered()
+void MainWindow::on_actionStateInpIdle_triggered()
 {
-    setPhaseIdle();
+    setStateIdle();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionPhaseInpInit_triggered()
+void MainWindow::on_actionStateInpInit_triggered()
 {
-    setPhaseInit();
+    setStateInit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionPhaseInpWork_triggered()
+void MainWindow::on_actionStateInpWork_triggered()
 {
-    setPhaseWork();
+    setStateWork();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionPhaseInpPause_triggered()
+void MainWindow::on_actionStateInpPause_triggered()
 {
-    setPhasePause();
+    setStatePause();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionPhaseInpStop_triggered()
+void MainWindow::on_actionStateInpStop_triggered()
 {
-    setPhaseStop();
+    setStateStop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1198,15 +1205,22 @@ void MainWindow::dialogInit_typeIndexChanged( int typeIndex )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp )
+void MainWindow::dockMain_freezeStateChanged( bool freeze )
 {
-    switch ( phaseInp )
+    _freeze = freeze;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockMain_stateInpChanged( fdm::DataInp::StateInp stateInp )
+{
+    switch ( stateInp )
     {
-        case fdm::DataInp::Idle:  setPhaseIdle();  break;
-        case fdm::DataInp::Init:  setPhaseInit();  break;
-        case fdm::DataInp::Work:  setPhaseWork();  break;
-        case fdm::DataInp::Pause: setPhasePause(); break;
-        case fdm::DataInp::Stop:  setPhaseStop();  break;
+        case fdm::DataInp::Idle:  setStateIdle();  break;
+        case fdm::DataInp::Init:  setStateInit();  break;
+        case fdm::DataInp::Work:  setStateWork();  break;
+        case fdm::DataInp::Pause: setStatePause(); break;
+        case fdm::DataInp::Stop:  setStateStop();  break;
     }
 }
 

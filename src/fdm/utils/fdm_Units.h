@@ -278,6 +278,26 @@ public:
     }
 
     /**
+     * Converts given volume from cubic inches to cubic metres.
+     * @param length length expressed in cubic inches
+     * @return length expressed in cubic metres
+     */
+    static inline double cuin2m3( double volume = 1.0 )
+    {
+        return volume * 0.000016387064;
+    }
+
+    /**
+     * Converts given volume from litres to cubic metres.
+     * @param length length expressed in litress
+     * @return length expressed in cubic metres
+     */
+    static inline double l2m3( double volume = 1.0 )
+    {
+        return volume / 1000.0;
+    }
+
+    /**
      * Converts given length from nautical miles to feet.
      * @param length length expressed in nautical miles
      * @return length expressed in feet
@@ -895,6 +915,16 @@ public:
     static inline double g_kWh_2_kg_Ws( double sfc = 1.0 )
     {
          return sfc / ( 1000.0 * 1000.0 * 3600.0 );
+    }
+
+    /**
+     * Converts given specific fuel consumption from g/kNs to kg/Ns.
+     * @param sfc specific fuel consumption expressed in g/kNs
+     * @return specific fuel consumption expressed in kg/Ns
+     */
+    static inline double g_kNs_2_kg_Ns( double sfc = 1.0 )
+    {
+        return sfc / ( 1000.0 * 1000.0 );
     }
 };
 

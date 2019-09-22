@@ -93,7 +93,7 @@ void Manager::init()
     _win->show();
     _win->init();
 
-    _timerId = startTimer( 1000 * FDM_TIME_STEP );
+    _timerId = startTimer( 1000.0 * FDM_TIME_STEP );
 
     _timer->start();
 }
@@ -108,11 +108,11 @@ void Manager::timerEvent( QTimerEvent *event )
 
     _timeStep = Data::get()->timeCoef * (double)_timer->restart() / 1000.0;
 
-    if ( Data::get()->phaseInp == fdm::DataInp::Idle )
+    if ( Data::get()->stateInp == fdm::DataInp::Idle )
     {
         hid::Manager::instance()->reset( Data::get()->initial.altitude_agl < FDM_MIN_INIT_ALTITUDE );
     }
-    else if ( Data::get()->phaseInp == fdm::DataInp::Work )
+    else if ( Data::get()->stateInp == fdm::DataInp::Work )
     {
         // TODO
     }

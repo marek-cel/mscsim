@@ -77,6 +77,7 @@ public:
 
     static const double _std_sl_t;      ///< [K]  standard sea level temperature (15 deg C)
     static const double _std_sl_p;      ///< [Pa] standard sea level pressure (1013.25 hPa)
+    static const double _std_sl_rho;    ///< [kg/m^3] standard sea level density (1.225 kg/m^3)
 
     /** Constructor. */
     Atmosphere();

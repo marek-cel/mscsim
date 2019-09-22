@@ -138,6 +138,7 @@ const double Atmosphere::_gamma = 1.4;          // US Standard Atmosphere 1976, 
 
 const double Atmosphere::_std_sl_p = 101325.0;  // US Standard Atmosphere 1976, Table 2, p.2
 const double Atmosphere::_std_sl_t = 288.15;    // US Standard Atmosphere 1976, Table 2, p.2
+const double Atmosphere::_std_sl_rho = 1.225;
 
 ////////////////////////////////////////////////////////////////////////////////
 

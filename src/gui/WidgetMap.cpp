@@ -101,7 +101,7 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     cgi::Manager::instance()->setVisibilityBorders   ( _viewBorders   );
     cgi::Manager::instance()->setVisibilityTraces    ( _viewTraces    );
 
-    _timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

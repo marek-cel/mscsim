@@ -42,6 +42,11 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "nmi" ) )
         return &Units::nmi2m;
 
+    else if ( 0 == String::icompare( name, "cuin" ) )
+        return &Units::cuin2m3;
+    else if ( 0 == String::icompare( name, "l" ) )
+        return &Units::l2m3;
+
     else if ( 0 == String::icompare( name, "ft_min" ) )
         return &Units::fpm2mps;
     else if ( 0 == String::icompare( name, "ft_s" ) )
@@ -76,6 +81,9 @@ Units::fptr Units::getConverter( const char *name )
 
     else if ( 0 == String::icompare( name, "g_kWh" ) )
         return &Units::g_kWh_2_kg_Ws;
+
+    else if ( 0 == String::icompare( name, "g_kNs" ) )
+        return &Units::g_kNs_2_kg_Ns;
 
     return &Units::dummy;
 }

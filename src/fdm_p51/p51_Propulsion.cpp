@@ -35,11 +35,13 @@ P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft ) :
     Propulsion( aircraft ),
     _aircraft ( aircraft ),
 
-    _engine ( 0 ),
+    _engine    ( 0 ),
+    _governor  ( 0 ),
     _propeller ( 0 )
 {
-    _engine    = new P51_Engine();
-    _propeller = new P51_Propeller();
+    _engine     = new P51_Engine();
+    _governor   = new P51_Governor();
+    _propeller  = new P51_Propeller();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +50,9 @@ P51_Propulsion::~P51_Propulsion()
 {
     if ( _engine ) delete _engine;
     _engine = 0;
+
+    if ( _governor ) delete _governor;
+    _governor = 0;
 
     if ( _propeller ) delete _propeller;
     _propeller = 0;
@@ -61,7 +66,8 @@ void P51_Propulsion::init( bool engineOn )
     Propulsion::init( engineOn );
     /////////////////////////////
 
-    _propeller->setRPM( engineOn ? 3000.0 : 0.0 );
+    _propeller->setRPM( engineOn ? 1500.0 : 0.0 );
+    _engine->setRPM( _propeller->getEngineRPM() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,9 +77,11 @@ void P51_Propulsion::readData( XmlNode &dataNode )
     if ( dataNode.isValid() )
     {
         XmlNode nodeEngine    = dataNode.getFirstChildElement( "piston_engine" );
+        XmlNode nodeGovernor  = dataNode.getFirstChildElement( "governor"      );
         XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller"     );
 
         _engine->readData( nodeEngine );
+        _governor->readData( nodeGovernor );
         _propeller->readData( nodePropeller );
     }
     else
@@ -132,20 +140,26 @@ void P51_Propulsion::update()
 {
     _propeller->integrate( _aircraft->getTimeStep(), _engine->getInertia() );
 
+    double vel = _aircraft->getAirspeed() + _propeller->getInducedVelocity();
+    double ram = 0.5 * _aircraft->getEnvir()->getDensity() * vel*vel;
+
     _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
                      _aircraft->getDataInp()->engine[ 0 ].mixture,
                      _propeller->getEngineRPM(),
-                     _aircraft->getEnvir()->getPressure(),
+                     _aircraft->getEnvir()->getPressure() + ram,
                      _aircraft->getEnvir()->getDensity(),
+                     _aircraft->getEnvir()->getTemperature(),
                      _aircraft->getDataInp()->engine[ 0 ].fuel,
                      _aircraft->getDataInp()->engine[ 0 ].starter,
                      _aircraft->getDataInp()->engine[ 0 ].ignition,
                      _aircraft->getDataInp()->engine[ 0 ].ignition );
 
-    //std::cout << ( _engine->getPower() / 1000.0 ) << std::endl;
+    _governor->update( _aircraft->getTimeStep(),
+                       _aircraft->getDataInp()->engine[ 0 ].propeller,
+                       _propeller->getRPM() );
 
-    _propeller->update( _aircraft->getDataInp()->engine[ 0 ].propeller,
-                        1.0 * _engine->getTorque(),
+    _propeller->update( _governor->getPitch(),
+                        _engine->getTorque(),
                         _aircraft->getAirspeed(),
                         _aircraft->getEnvir()->getDensity() );
 }

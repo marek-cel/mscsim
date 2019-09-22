@@ -72,7 +72,7 @@ void Simulation::init()
     setPriority( QThread::HighPriority );
 #   else
     _elapsedTimer = new QElapsedTimer();
-    _timerId = startTimer( 1000 * FDM_TIME_STEP );
+    _timerId = startTimer( 1000.0 * FDM_TIME_STEP );
 #   endif
 }
 
@@ -85,7 +85,7 @@ void Simulation::run()
 
     connect( _timeoutTimer, SIGNAL(timeout()), this, SLOT(update()) );
 
-    _timeoutTimer->start( 1000 * FDM_TIME_STEP );
+    _timeoutTimer->start( 1000.0 * FDM_TIME_STEP );
     _elapsedTimer->start();
 
     ///////////////
@@ -171,7 +171,10 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.aircraftType = data->aircraftType;
 
     // input state
-    _dataInp.phaseInp = data->phaseInp;
+    _dataInp.stateInp = data->stateInp;
+
+    // freeze state
+    _dataInp.freeze = data->freeze;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

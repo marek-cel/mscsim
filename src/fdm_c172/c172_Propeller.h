@@ -36,7 +36,13 @@ namespace fdm
  */
 class C172_Propeller : public Propeller
 {
+public:
 
+    /** Constructor. */
+    C172_Propeller();
+
+    /** Destructor. */
+    virtual ~C172_Propeller();
 };
 
 } // end of fdm namespace

@@ -32,14 +32,18 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 PistonEngine::PistonEngine() :
-    _power_max ( 0.0 ),
-    _rpm_min ( 0.0 ),
-    _rpm_max ( 0.0 ),
+    _power_max    ( 0.0 ),
+    _displacement ( 0.0 ),
+    _rpm_min      ( 0.0 ),
+    _rpm_max      ( 0.0 ),
     _specFuelCons ( 0.0 ),
-    _inertia ( 0.0 ),
-    _map ( 0.0 ),
-    _power ( 0.0 ),
-    _torque ( 0.0 ),
+    _inertia      ( 0.0 ),
+
+    _rpm      ( 0.0 ),
+    _map      ( 0.0 ),
+    _power    ( 0.0 ),
+    _torque   ( 0.0 ),
+    _airFlow  ( 0.0 ),
     _fuelFlow ( 0.0 )
 {}
 
@@ -56,6 +60,7 @@ void PistonEngine::readData( XmlNode &dataNode )
         int result = FDM_SUCCESS;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_max    , "power_max"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _displacement , "displacement" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _starter      , "starter"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_min      , "rpm_min"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_max      , "rpm_max"      );
@@ -109,6 +114,8 @@ void PistonEngine::update( double throttleLever, double mixtureLever, double rpm
     // Allerton D.: Principles of Flight Simulation, p.130
     _power = termalPower - powerLosses;
 
+    _airFlow = 0.5 * _displacement * airDensity * ( _rpm / 60.0 );
+
     _fuelFlow = Misc::max( 0.0, _power ) * _specFuelCons;
 
     // engine torque [N*m]
@@ -133,6 +140,13 @@ void PistonEngine::update( double throttleLever, double mixtureLever, double rpm
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void PistonEngine::setRPM( double rpm )
+{
+    _rpm = Misc::max( 0.0, rpm );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 double PistonEngine::getManifoldAbsolutePressure( double throttle, double rpm,
                                                   double airPressure )
 {
@@ -145,11 +159,18 @@ double PistonEngine::getManifoldAbsolutePressure( double throttle, double rpm,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double PistonEngine::getFuelToAirRatio( double mixture, double airDensity )
+{
+    // Allerton D.: Principles of Flight Simulation, p.130
+    return mixture * (1.225 / airDensity ) * 0.1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 double PistonEngine::getPowerFactor( double mixture, double airDensity, bool fuel,
                                      bool magneto_l, bool magneto_r )
 {
-    // Allerton D.: Principles of Flight Simulation, p.130
-    double fuelToAirRatio = mixture * (1.225 / airDensity ) * 0.1;
+    double fuelToAirRatio = getFuelToAirRatio( mixture, airDensity );
 
     // Allerton D.: Principles of Flight Simulation, p.130
     double powerFactor = _powerFactor.getValue( fuelToAirRatio );

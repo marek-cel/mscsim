@@ -48,8 +48,10 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/models/fdm_Atmosphere.h \
+    $$PWD/models/fdm_Compressor.h \
     $$PWD/models/fdm_Engine.h \
     $$PWD/models/fdm_Fuselage.h \
+    $$PWD/models/fdm_Governor.h \
     $$PWD/models/fdm_HingeMoment.h \
     $$PWD/models/fdm_MainRotor.h \
     $$PWD/models/fdm_PistonEngine.h \
@@ -63,7 +65,9 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/models/fdm_Atmosphere.cpp \
+    $$PWD/models/fdm_Compressor.cpp \
     $$PWD/models/fdm_Fuselage.cpp \
+    $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \
     $$PWD/models/fdm_MainRotor.cpp \
     $$PWD/models/fdm_PistonEngine.cpp \

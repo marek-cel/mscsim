@@ -15,7 +15,9 @@ add_library( fdm STATIC
     main/fdm_Propulsion.cpp
     
     models/fdm_Atmosphere.cpp
+    models/fdm_Compressor.cpp
     models/fdm_Fuselage.cpp
+    models/fdm_Governor.cpp
     models/fdm_HingeMoment.cpp
     models/fdm_MainRotor.cpp
     models/fdm_PistonEngine.cpp

@@ -248,7 +248,7 @@ DialogAction::DialogAction( QWidget *parent, short joystickId ) :
     _ui->comboButt->setCurrentIndex( -1 );
     _ui->comboKeys->setCurrentIndex( -1 );
 
-    _timerId = startTimer( GUI_TIME_STEP );
+    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

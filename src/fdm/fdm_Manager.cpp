@@ -45,7 +45,7 @@ using namespace fdm;
 Manager::Manager() :
     _aircraft ( 0 ),
 
-    _phaseInp ( DataInp::Idle ),
+    _stateInp ( DataInp::Idle ),
     _stateOut ( DataOut::Idle ),
 
     _initStep ( 0 ),
@@ -84,20 +84,25 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 
     _dataInp = dataInp;
 
-    updateInternalPhaseInp();
+    updateInternalStateInp();
 
     if ( _stateOut == DataOut::Idle )
     {
         _aircraftType = _dataInp.aircraftType;
     }
 
-    switch ( _phaseInp )
+    if ( _aircraft )
     {
-        case DataInp::Idle:  updatePhaseIdle();  break;
-        case DataInp::Init:  updatePhaseInit();  break;
-        case DataInp::Work:  updatePhaseWork();  break;
-        case DataInp::Pause: updatePhasePause(); break;
-        case DataInp::Stop:  updatePhaseStop();  break;
+        _aircraft->setFreeze( dataInp.freeze );
+    }
+
+    switch ( _stateInp )
+    {
+        case DataInp::Idle:  updateStateIdle();  break;
+        case DataInp::Init:  updateStateInit();  break;
+        case DataInp::Work:  updateStateWork();  break;
+        case DataInp::Pause: updateStatePause(); break;
+        case DataInp::Stop:  updateStateStop();  break;
     }
 
     _dataOut.stateOut = _stateOut;
@@ -260,19 +265,19 @@ void Manager::updateInitialPositionAndAttitude()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updateInternalPhaseInp()
+void Manager::updateInternalStateInp()
 {
-    switch ( _dataInp.phaseInp )
+    switch ( _dataInp.stateInp )
     {
     case DataInp::Idle:
         if ( _stateOut == DataOut::Idle
           || _stateOut == DataOut::Stopped )
         {
-            _phaseInp = DataInp::Idle;
+            _stateInp = DataInp::Idle;
         }
         else
         {
-            _phaseInp = DataInp::Stop;
+            _stateInp = DataInp::Stop;
         }
         break;
 
@@ -281,11 +286,11 @@ void Manager::updateInternalPhaseInp()
           || _stateOut == DataOut::Initializing
           || _stateOut == DataOut::Ready )
         {
-            _phaseInp = DataInp::Init;
+            _stateInp = DataInp::Init;
         }
         else
         {
-            _phaseInp = DataInp::Stop;
+            _stateInp = DataInp::Stop;
         }
         break;
 
@@ -294,19 +299,19 @@ void Manager::updateInternalPhaseInp()
           || _stateOut == DataOut::Working
           || _stateOut == DataOut::Paused )
         {
-            _phaseInp = DataInp::Work;
+            _stateInp = DataInp::Work;
         }
         else if ( _stateOut == DataOut::Idle )
         {
-            _phaseInp = DataInp::Init;
+            _stateInp = DataInp::Init;
         }
         else if ( _stateOut == DataOut::Stopped )
         {
-            _phaseInp = DataInp::Stop;
+            _stateInp = DataInp::Stop;
         }
         else
         {
-            _phaseInp = DataInp::Idle;
+            _stateInp = DataInp::Idle;
         }
         break;
 
@@ -315,25 +320,25 @@ void Manager::updateInternalPhaseInp()
           || _stateOut == DataOut::Working
           || _stateOut == DataOut::Paused )
         {
-            _phaseInp = DataInp::Pause;
+            _stateInp = DataInp::Pause;
         }
         else if ( _stateOut == DataOut::Idle )
         {
-            _phaseInp = DataInp::Init;
+            _stateInp = DataInp::Init;
         }
         else
         {
-            _phaseInp = DataInp::Idle;
+            _stateInp = DataInp::Idle;
         }
         break;
 
     default:
-        _phaseInp = DataInp::Stop;
+        _stateInp = DataInp::Stop;
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updatePhaseIdle()
+void Manager::updateStateIdle()
 {
     updateInitialPositionAndAttitude();
 
@@ -468,7 +473,7 @@ void Manager::updatePhaseIdle()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updatePhaseInit()
+void Manager::updateStateInit()
 {
     if ( _stateOut != DataOut::Ready )
     {
@@ -539,7 +544,7 @@ void Manager::updatePhaseInit()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updatePhaseWork()
+void Manager::updateStateWork()
 {
     if ( _aircraft != 0 )
     {
@@ -605,14 +610,14 @@ void Manager::updatePhaseWork()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updatePhasePause()
+void Manager::updateStatePause()
 {
     _stateOut = DataOut::Paused;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updatePhaseStop()
+void Manager::updateStateStop()
 {
     if ( _verbose )
     {

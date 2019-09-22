@@ -20,7 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_p51/p51_Engine.h>
+#include <fdm/models/fdm_Compressor.h>
+#include <fdm/models/fdm_Atmosphere.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -30,35 +31,39 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Engine::P51_Engine() :
-    PistonEngine(),
-
-    _compressor ( 0 )
-{
-    _compressor = new P51_Compressor();
-}
+const double Compressor::_gamma = Atmosphere::_gamma;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Engine::~P51_Engine()
-{
-    if ( _compressor ) delete _compressor;
-    _compressor = 0;
-}
+Compressor::Compressor() :
+    _temperature ( Atmosphere::_std_sl_t ),
+    _pressure    ( Atmosphere::_std_sl_p ),
+    _density     ( Atmosphere::_std_sl_rho )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Engine::readData( XmlNode &dataNode )
-{
-    ///////////////////////////////////
-    PistonEngine::readData( dataNode );
-    ///////////////////////////////////
+Compressor::~Compressor() {}
 
+////////////////////////////////////////////////////////////////////////////////
+
+void Compressor::readData( XmlNode &dataNode )
+{
     if ( dataNode.isValid() )
     {
-        XmlNode nodeCompressor = dataNode.getFirstChildElement( "compressor" );
+        int result = FDM_SUCCESS;
 
-        _compressor->readData( nodeCompressor );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _performance_map, "performance_map" );
+
+        if ( result != FDM_SUCCESS )
+        {
+            Exception e;
+
+            e.setType( Exception::FileReadingError );
+            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+            FDM_THROW( e );
+        }
     }
     else
     {
@@ -73,27 +78,17 @@ void P51_Engine::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Engine::update( double throttleLever, double mixtureLever, double rpm,
-                         double airPressure, double airDensity, double airTemperature,
-                         bool fuel, bool starter,
-                         bool magneto_l, bool magneto_r )
+void Compressor::update( double airPressure, double airDensity, double airTemperature,
+                         double airFlow, double rpm )
 {
-    _compressor->update( airPressure, airDensity, airTemperature, _airFlow, _rpm );
+    // pressure ratio
+    double pressureRatio = _performance_map.getValue( airFlow, rpm );
 
-    //std::cout << (_compressor->getPressure() / 100.0) << std::endl;
+    double pressure    = airPressure * pressureRatio;
+    double temperature = airTemperature * pow( pressureRatio, ( _gamma - 1.0 ) / _gamma );
+    double density     = airDensity * ( airTemperature / _temperature ) * pressureRatio;
 
-    ////////////////////////////////////////////////////////////
-    PistonEngine::update( throttleLever, mixtureLever, rpm,
-                          _compressor->getPressure(),
-                          _compressor->getDensity(),
-                          fuel, starter, magneto_l, magneto_r );
-    ////////////////////////////////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double P51_Engine::getFuelToAirRatio( double mixture, double airDensity )
-{
-    return mixture * (1.225 / airDensity ) * 0.1;
-    //return mixture * (1.5 / airDensity ) * 0.1;
+    _pressure    = Misc::inertia( pressure    , _pressure    , FDM_TIME_STEP, 0.05 );
+    _temperature = Misc::inertia( temperature , _temperature , FDM_TIME_STEP, 0.05 );
+    _density     = Misc::inertia( density     , _density     , FDM_TIME_STEP, 0.05 );
 }

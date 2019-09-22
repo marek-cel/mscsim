@@ -121,16 +121,18 @@ private:
 
     int _typeIndex;                     ///<
 
-    fdm::DataInp::PhaseInp _phaseInp;   ///< simulation input phase
+    fdm::DataInp::StateInp _stateInp;   ///< simulation input state
     fdm::DataOut::StateOut _stateOut;   ///< simulation output state
+
+    bool _freeze;                       ///<
 
     hid::Assignment::Key getKey( int key );
 
-    void setPhaseIdle();
-    void setPhaseInit();
-    void setPhaseWork();
-    void setPhasePause();
-    void setPhaseStop();
+    void setStateIdle();
+    void setStateInit();
+    void setStateWork();
+    void setStatePause();
+    void setStateStop();
 
     void setAircraftType( int typeIndex );
 
@@ -174,11 +176,11 @@ private slots:
     void on_actionDockMap_toggled( bool checked );
     void on_actionDockProp_toggled( bool checked );
 
-    void on_actionPhaseInpIdle_triggered();
-    void on_actionPhaseInpInit_triggered();
-    void on_actionPhaseInpWork_triggered();
-    void on_actionPhaseInpPause_triggered();
-    void on_actionPhaseInpStop_triggered();
+    void on_actionStateInpIdle_triggered();
+    void on_actionStateInpInit_triggered();
+    void on_actionStateInpWork_triggered();
+    void on_actionStateInpPause_triggered();
+    void on_actionStateInpStop_triggered();
 
     void on_actionQuit_triggered();
 
@@ -195,7 +197,8 @@ private slots:
     void on_shorcutFullScreen_triggered();
 
     void dialogInit_typeIndexChanged( int typeIndex );
-    void dockMain_phaseInpChanged( fdm::DataInp::PhaseInp phaseInp );
+    void dockMain_freezeStateChanged( bool freeze );
+    void dockMain_stateInpChanged( fdm::DataInp::StateInp stateInp );
 
     void dockAuto_closed();
     void dockCtrl_closed();

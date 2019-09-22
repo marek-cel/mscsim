@@ -281,10 +281,10 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
         double factor = String::toDouble( node.getAttribute( "factor" ), 1.0 );
         Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
 
-        double factor_cols = String::toDouble( node.getAttribute( "cols_factor" ), 1.0 );
+        double factor_cols_keys = String::toDouble( node.getAttribute( "cols_keys_factor" ), 1.0 );
         Units::fptr converter_cols = Units::getConverter( node.getAttribute( "cols_unit" ).c_str() );
 
-        double factor_rows = String::toDouble( node.getAttribute( "rows_factor" ), 1.0 );
+        double factor_rows_keys = String::toDouble( node.getAttribute( "rows_keys_factor" ), 1.0 );
         Units::fptr converter_rows = Units::getConverter( node.getAttribute( "rows_unit" ).c_str() );
 
         if ( textNode.isValid() && textNode.isText() )
@@ -310,7 +310,7 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
                 if ( result == 1 )
                 {
-                    colValues.push_back( (*converter_cols)( key ) * factor_cols );
+                    colValues.push_back( (*converter_cols)( key ) * factor_cols_keys );
                 }
             }
             while ( result == 1 );
@@ -329,7 +329,7 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
                 if ( result == 1 )
                 {
-                    rowValues.push_back( (*converter_rows)( key ) * factor_rows );
+                    rowValues.push_back( (*converter_rows)( key ) * factor_rows_keys );
 
                     // table data
                     for ( unsigned int i = 0; i < colValues.size(); i++ )

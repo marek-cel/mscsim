@@ -120,6 +120,8 @@
 
     <propulsion engines="1">
       <rpm />
+      <prop />
+      <map />
     </propulsion>
     
     <masses>

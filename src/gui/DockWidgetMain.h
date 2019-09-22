@@ -55,7 +55,7 @@ public:
     virtual ~DockWidgetMain();
 
     /** */
-    void setPhaseInp( fdm::DataInp::PhaseInp phaseInp );
+    void setStateInp( fdm::DataInp::StateInp stateInp );
     void setStateOut( fdm::DataOut::StateOut stateOut );
 
     void setTimeStep( double timeStep );
@@ -66,7 +66,9 @@ signals:
 
     void closed();
 
-    void phaseInpChanged( fdm::DataInp::PhaseInp phaseInp );
+    void freezeStateChanged( bool freeze );
+
+    void stateInpChanged( fdm::DataInp::StateInp stateInp );
 
 protected:
 
@@ -80,7 +82,7 @@ private:
 
     Ui::DockWidgetMain *_ui;        ///<
 
-    fdm::DataInp::PhaseInp _phaseInp;   ///< simulation input phase
+    fdm::DataInp::StateInp _stateInp;   ///< simulation input state
     fdm::DataOut::StateOut _stateOut;   ///< simulation output state
 
     int _timerId;   ///< timer ID
@@ -88,11 +90,13 @@ private:
 
 private slots:
 
-    void on_buttonPhaseInpIdle_clicked();
-    void on_buttonPhaseInpInit_clicked();
-    void on_buttonPhaseInpWork_clicked();
-    void on_buttonPhaseInpPause_clicked();
-    void on_buttonPhaseInpStop_clicked();
+    void on_buttonStateInpIdle_clicked();
+    void on_buttonStateInpInit_clicked();
+    void on_buttonStateInpWork_clicked();
+    void on_buttonStateInpPause_clicked();
+    void on_buttonStateInpStop_clicked();
+
+    void on_buttonStateFreeze_clicked( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

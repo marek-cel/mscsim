@@ -71,7 +71,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSimulation">
@@ -84,11 +84,11 @@
     <addaction name="separator"/>
     <addaction name="actionDialogConf"/>
     <addaction name="separator"/>
-    <addaction name="actionPhaseInpIdle"/>
-    <addaction name="actionPhaseInpInit"/>
-    <addaction name="actionPhaseInpWork"/>
-    <addaction name="actionPhaseInpPause"/>
-    <addaction name="actionPhaseInpStop"/>
+    <addaction name="actionStateInpIdle"/>
+    <addaction name="actionStateInpInit"/>
+    <addaction name="actionStateInpWork"/>
+    <addaction name="actionStateInpPause"/>
+    <addaction name="actionStateInpStop"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -258,7 +258,7 @@
     <enum>QAction::ApplicationSpecificRole</enum>
    </property>
   </action>
-  <action name="actionPhaseInpIdle">
+  <action name="actionStateInpIdle">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -272,7 +272,7 @@
     <enum>QAction::ApplicationSpecificRole</enum>
    </property>
   </action>
-  <action name="actionPhaseInpInit">
+  <action name="actionStateInpInit">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -283,7 +283,7 @@
     <enum>QAction::ApplicationSpecificRole</enum>
    </property>
   </action>
-  <action name="actionPhaseInpWork">
+  <action name="actionStateInpWork">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -294,7 +294,7 @@
     <enum>QAction::ApplicationSpecificRole</enum>
    </property>
   </action>
-  <action name="actionPhaseInpPause">
+  <action name="actionStateInpPause">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -305,7 +305,7 @@
     <enum>QAction::ApplicationSpecificRole</enum>
    </property>
   </action>
-  <action name="actionPhaseInpStop">
+  <action name="actionStateInpStop">
    <property name="checkable">
     <bool>false</bool>
    </property>

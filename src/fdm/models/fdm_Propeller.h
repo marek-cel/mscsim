@@ -44,15 +44,15 @@ namespace fdm
  * @code
  * <propeller>
  *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>
- *   <gear_ratio> { [-] gear ratio (propeller rpm / engine rpm - sic!) } </gear_ratio>
+ *   <gear_ratio> { [-] gear ratio (propeller rpm / engine rpm) } </gear_ratio>
  *   <diameter> { [m] propeller diameter } </diameter>
  *   <inertia> { [kg*m^2] polar moment of inertia } </inertia>
  *   <pitch>
- *     { [-] propeller lever position } { [deg] propeller pitch at 0.75 radius }
+ *     { [-] normalized pitch } { [deg] propeller pitch at 0.75 radius }
  *     ... { more entries }
  *   </pitch>
  *   <thrust_coef>
- *     { [deg] propeller pitch at 0.75 radius } ... { more values of propeller pitch}
+ *     { [deg] propeller pitch at 0.75 radius } ... { more values of propeller pitch }
  *     { [-] propeller advance } { [-] thrust coefficients } ... { more values of thrust coefficients }
  *     ... { more entries }
  *   </thrust_coef>
@@ -108,7 +108,7 @@ public:
 
     /**
      * Updates propeller.
-     * @param propellerLever [0.0,1.0] normalized propeller lever position
+     * @param normPitch [0.0,1.0] normalized propeller lever position
      * @param engineTorque [N] engine torque
      * @param airspeed [m/s] airspeed
      * @param airDensity [kg/m^3] air density
@@ -131,7 +131,16 @@ public:
      */
     inline double getEngineRPM() const
     {
-        return _speed_rpm * _gearRatio;
+        return _speed_rpm / _gearRatio;
+    }
+
+    /**
+     * Returns propeller rpm.
+     * @return [rpm] propeller rpm
+     */
+    inline double getRPM() const
+    {
+        return _speed_rpm;
     }
 
     /**
@@ -171,6 +180,15 @@ public:
     }
 
     /**
+     * Returns induced velocity.
+     * @return [m/s] induced velocity
+     */
+    inline double getInducedVelocity() const
+    {
+        return _inducedVelocity;
+    }
+
+    /**
      * Returns torque.
      * @return [N*m] torque
      */
@@ -185,16 +203,18 @@ protected:
 
     Vector3 _pos_bas;           ///< [m] propeller position expressed in BAS
 
-    Table _propPitch;           ///< [rad] propeller pitch vs [-] propeller lever position
+    Table _propPitch;           ///< [rad] propeller pitch vs [-] normalized pitch
 
     Table2D _coefThrust;        ///< [-] thrust coefficient
     Table2D _coefPower;         ///< [-] power coefficient
 
     Direction _direction;       ///< propeller direction looking from cockpit
 
-    double _gearRatio;          ///< [-] gear ratio (engine rpm / propeller rpm - sic!)
+    double _gearRatio;          ///< [-] gear ratio (propeller rpm / engine rpm)
     double _diameter;           ///< [m] diameter
     double _inertia;            ///< [kg*m^2] polar moment of inertia
+
+    double _area;               ///< [m^2] propeller disc area
 
     double _pitch;              ///< [rad] propeller pitch at 0.75 radius
     double _omega;              ///< [rad/s] propeller angular velocity
@@ -202,8 +222,23 @@ protected:
     double _speed_rpm;          ///< [rpm] propeller speed
     double _thrust;             ///< [N] thrust
 
+    double _inducedVelocity;    ///< [m/s] induced velocity
+
     double _torqueAvailable;    ///< [N*m] available torque
     double _torqueRequired;     ///< [N*m] required torque
+
+    /**
+     * Computes induced velocity.
+     * @param airspeed [m/s] airspeed
+     * @param airDensity [kg/m^3] air density
+     */
+    virtual double getInducedVelocity( double airspeed, double airDensity );
+
+    /**
+     * Computes propeller pitch.
+     * @param propellerLever [0.0,1.0] normalized propeller lever position
+     */
+    virtual double getPropellerPitch( double propellerLever );
 };
 
 } // end of fdm namespace
