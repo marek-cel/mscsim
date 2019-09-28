@@ -39,10 +39,10 @@ Table2D::Table2D() :
     _rows ( 0 ),
     _cols ( 0 ),
     _size ( 0 ),
-    _rowValues ( 0 ),
-    _colValues ( 0 ),
-    _tableData ( 0 ),
-    _interpolData ( 0 )
+    _rowValues ( FDM_NULL ),
+    _colValues ( FDM_NULL ),
+    _tableData ( FDM_NULL ),
+    _interpolData ( FDM_NULL )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,10 +53,10 @@ Table2D::Table2D( const std::vector< double > &rowValues,
     _rows ( 0 ),
     _cols ( 0 ),
     _size ( 0 ),
-    _rowValues ( 0 ),
-    _colValues ( 0 ),
-    _tableData ( 0 ),
-    _interpolData ( 0 )
+    _rowValues ( FDM_NULL ),
+    _colValues ( FDM_NULL ),
+    _tableData ( FDM_NULL ),
+    _interpolData ( FDM_NULL )
 {
     if ( rowValues.size() * colValues.size() == tableData.size() )
     {
@@ -102,10 +102,10 @@ Table2D::Table2D( const Table2D &table ) :
     _rows ( table._rows ),
     _cols ( table._cols ),
     _size ( table._size ),
-    _rowValues ( 0 ),
-    _colValues ( 0 ),
-    _tableData ( 0 ),
-    _interpolData ( 0 )
+    _rowValues ( FDM_NULL ),
+    _colValues ( FDM_NULL ),
+    _tableData ( FDM_NULL ),
+    _interpolData ( FDM_NULL )
 {
     if ( _size > 0 )
     {
@@ -130,17 +130,10 @@ Table2D::Table2D( const Table2D &table ) :
 
 Table2D::~Table2D()
 {
-    if ( _rowValues ) delete _rowValues;
-    _rowValues = 0;
-
-    if ( _colValues ) delete _colValues;
-    _colValues = 0;
-
-    if ( _tableData ) delete _tableData;
-    _tableData = 0;
-
-    if ( _interpolData ) delete _interpolData;
-    _interpolData = 0;
+    FDM_DELETE_TAB( _rowValues );
+    FDM_DELETE_TAB( _colValues );
+    FDM_DELETE_TAB( _tableData );
+    FDM_DELETE_TAB( _interpolData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -297,17 +290,10 @@ std::string Table2D::toString()
 
 const Table2D& Table2D::operator= ( const Table2D &table )
 {
-    if ( _rowValues ) delete _rowValues;
-    _rowValues = 0;
-
-    if ( _colValues ) delete _colValues;
-    _colValues = 0;
-
-    if ( _tableData ) delete _tableData;
-    _tableData = 0;
-
-    if ( _interpolData ) delete _interpolData;
-    _interpolData = 0;
+    FDM_DELETE_TAB( _rowValues );
+    FDM_DELETE_TAB( _colValues );
+    FDM_DELETE_TAB( _tableData );
+    FDM_DELETE_TAB( _interpolData );
 
     _rows = table._rows;
     _cols = table._cols;

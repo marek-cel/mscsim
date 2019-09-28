@@ -62,12 +62,14 @@ public:
      * <li>Power: watt [W]</li>
      * <li>Temperature: kelvin [K]</li>
      * <li>Specific fuel consumption: kilograms per watt-second [kg/(W*s)]</li>
+     * <li>Thrust Specific fuel consumption: kilograms per newton-second [kg/(N*s)]</li>
      * </ul>
      *
      * <h5>Unit names of certain values types</h5>
      * <ul>
      * <li>Angle: deg (degree)</li>
      * <li>Length: ft (feet), km (kilometer), nmi (nautical mile)</li>
+     * <li>Volumen: cuin (cubic inches), l (litres)
      * <li>Velocity: ft_min (feet per minute), ft_s (feet per second), km_h (kilemeter per hour), kts (knots)</li>
      * <li>Mass: lb (pound)</li>
      * <li>Force: lbf (pound of force)</li>
@@ -75,6 +77,7 @@ public:
      * <li>Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)</li>
      * <li>Temperature: degC (degree Celsius), degF (degree Fahrenheit)</li>
      * <li>Specific fuel consumption: g_kWh (grams per kilowatt-hour)</li>
+     * <li>Thrust Specific fuel consumption: g_kNs (grams per kilonewton-socond)</li>
      * </ul>
      */
     static fptr getConverter( const char *name );

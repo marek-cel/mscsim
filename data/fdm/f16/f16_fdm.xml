@@ -1776,7 +1776,7 @@
   <propulsion>
     
     <!-- F100-PW-229 -->
-    <turbofan_ab>
+    <engine>
       
       <position> -6.18 0.0  0.0  </position>  <!-- [m] nozzle position expressed in BAS -->
       
@@ -1858,7 +1858,7 @@
         1.0    1.0000    0.8073    0.6335    0.4668    0.2992    0.1751
       </thrust_factor_ab>
       
-    </turbofan_ab>
+    </engine>
     
   </propulsion>
   

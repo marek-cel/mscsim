@@ -58,8 +58,7 @@ UH60_Controls::UH60_Controls( const UH60_Aircraft *aircraft ) :
 
 UH60_Controls::~UH60_Controls()
 {
-    if ( _afcs ) delete _afcs;
-    _afcs = 0;
+    FDM_DELETE( _afcs );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

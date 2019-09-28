@@ -28,6 +28,8 @@
 
 #include <hid/hid_Manager.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -49,11 +51,18 @@ public:
     typedef hid::Assignment Assignment;
     typedef hid::Assignment::POVs POVs;
 
-    static Assignment getJoyAxisAssignment( QWidget *parent = 0, Assignment assignment = Assignment(), short joystickId = 0 );
-    static Assignment getJoyButtAssignment( QWidget *parent = 0, Assignment assignment = Assignment(), short joystickId = 0 );
-    static Assignment getKeyAssignment( QWidget *parent = 0, Assignment assignment = Assignment() );
+    static Assignment getJoyAxisAssignment( QWidget *parent = NULLPTR,
+                                            Assignment assignment = Assignment(),
+                                            short joystickId = 0 );
 
-    explicit DialogAction( QWidget *parent = 0, short joystickId = -1 );
+    static Assignment getJoyButtAssignment( QWidget *parent = NULLPTR,
+                                            Assignment assignment = Assignment(),
+                                            short joystickId = 0 );
+
+    static Assignment getKeyAssignment( QWidget *parent = NULLPTR,
+                                        Assignment assignment = Assignment() );
+
+    explicit DialogAction( QWidget *parent = NULLPTR, short joystickId = -1 );
 
     ~DialogAction();
 

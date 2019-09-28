@@ -172,28 +172,25 @@ void Propeller::setRPM( double rpm )
 
 double Propeller::getInducedVelocity( double airspeed, double airDensity )
 {
-    // momentum theory:
-    // T = 2*rho*A*(V_infinity+V_induced)*V_induced
-    // V_induced^2 + V_infinity*V_induced - T/(2*rho*A)
+    double vi = 0.0;
 
-    double delta = airspeed*airspeed - 2.0 * _thrust / ( airDensity * _area );
+    // 0.5*rho*A*vi^2 + rho*A*V*vi - T = 0
+    // a = 0.5*rho*A
+    // b = rho*A*V
+    // c = -T
+    double a = 0.5 * airDensity * _area;
+    double b = airDensity * _area * airspeed;
+    double c = -_thrust;
+
+    double delta = b*b - 4.0*a*c;
 
     if ( delta >= 0.0 )
     {
-        double x1 = 0.5 * ( -airspeed - sqrt( delta ) );
-        double x2 = 0.5 * ( -airspeed + sqrt( delta ) );
-
-        if ( _thrust > 0.0 )
-        {
-            return ( x1 > 0.0 ) ? x1 : x2;
-        }
-        else
-        {
-            return ( x1 < 0.0 ) ? x1 : x2;
-        }
+        // the 2nd result has no physical meaning
+        vi = ( -b + sqrt( delta ) ) / ( 2.0 * a );
     }
 
-    return 0.0;
+    return vi;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

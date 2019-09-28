@@ -21,7 +21,9 @@
  ******************************************************************************/
 
 #include <Manager.h>
+
 #include <Data.h>
+#include <Defines.h>
 
 #include <hid/hid_Manager.h>
 
@@ -32,11 +34,11 @@ Data::DataBuf Data::_data;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    QObject( 0 ),
+    QObject( NULLPTR ),
 
-    _nav ( 0 ),
-    _sim ( 0 ),
-    _win ( 0 ),
+    _nav ( NULLPTR ),
+    _sim ( NULLPTR ),
+    _win ( NULLPTR ),
 
     _timer ( 0 ),
     _timerId ( 0 ),
@@ -55,11 +57,7 @@ Manager::~Manager()
 {
     if ( _timerId != 0 ) killTimer( _timerId );
 
-    if ( _timer ) delete _timer;
-    _timer = 0;
-
-    if ( _nav ) delete _nav;
-    _nav = 0;
+    DELETE( _timer );
 
     if ( _sim )
     {
@@ -67,13 +65,11 @@ Manager::~Manager()
         {
             _sim->quit();
         }
-
-        delete _sim;
     }
-    _sim = 0;
 
-    if ( _win ) delete _win;
-    _win = 0;
+    DELETE( _nav );
+    DELETE( _sim );
+    DELETE( _win );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,9 +226,10 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.flaperons   = dataOut.controls.flaperons;
     Data::get()->ownship.lef         = dataOut.controls.lef;
     Data::get()->ownship.airbrake    = dataOut.controls.airbrake;
-    Data::get()->ownship.landingGear =  hid::Manager::instance()->getLandingGear();
+    Data::get()->ownship.landingGear = dataOut.landing_gear;
 
-    if ( dataOut.stateOut == fdm::DataOut::Working )
+    if ( dataOut.stateOut == fdm::DataOut::Working
+      || dataOut.stateOut == fdm::DataOut::Frozen )
     {
         for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {

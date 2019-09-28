@@ -28,8 +28,8 @@
 DockWidgetEFIS::DockWidgetEFIS( QWidget *parent ) :
     QDockWidget ( parent ),
     _ui ( new Ui::DockWidgetEFIS ),
-    _graphicsEADI ( 0 ),
-    _graphicsEHSI ( 0 )
+    _graphicsEADI ( NULLPTR ),
+    _graphicsEHSI ( NULLPTR )
 {
     _ui->setupUi( this );
 
@@ -48,8 +48,7 @@ DockWidgetEFIS::DockWidgetEFIS( QWidget *parent ) :
 
 DockWidgetEFIS::~DockWidgetEFIS()
 {
-    if ( _ui ) delete _ui;
-    _ui = 0;
+    DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ add_library( fdm STATIC
     fdm_Base.cpp
     fdm_Log.cpp
     fdm_Manager.cpp
+    fdm_Recorder.cpp
     
     auto/fdm_FlightDirector.cpp
     
@@ -15,7 +16,6 @@ add_library( fdm STATIC
     main/fdm_Propulsion.cpp
     
     models/fdm_Atmosphere.cpp
-    models/fdm_Compressor.cpp
     models/fdm_Fuselage.cpp
     models/fdm_Governor.cpp
     models/fdm_HingeMoment.cpp

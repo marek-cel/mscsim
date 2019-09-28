@@ -31,11 +31,11 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Governor::Governor() :
-    _pid  ( 0 ),
+    _gain_1  ( 0.0 ),
+    _gain_2  ( 0.0 ),
+
     _pitch ( 0.0 )
-{
-    _pid = new PID( 0.0, 0.0, 0.0, 0.0, 1.0 );
-}
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -49,20 +49,8 @@ void Governor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        double kp = 0.0;
-        double ki = 0.0;
-        double kd = 0.0;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kp, "gain_p", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ki, "gain_i", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kd, "gain_d", true );
-
-        if ( result == FDM_SUCCESS )
-        {
-            _pid->setKp( kp );
-            _pid->setKi( ki );
-            _pid->setKd( kd );
-        }
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gain_1, "gain_1" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gain_2, "gain_2", true );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _prop_rpm, "prop_rpm" );
 
@@ -89,10 +77,8 @@ void Governor::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Governor::update( double timeStep, double propellerLever, double rpm )
+void Governor::update( double propellerLever, double rpm )
 {
     double error = _prop_rpm.getValue( propellerLever ) - rpm;
-    _pid->update( timeStep, error );
-    _pitch = _pid->getValue();
-    //std::cout << _prop_rpm.getValue( propellerLever ) << "  " << error << "  " << _pitch << std::endl;
+    _pitch = propellerLever + _gain_1 * error + _gain_2 * error * fabs( error );
 }

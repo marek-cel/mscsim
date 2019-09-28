@@ -45,8 +45,7 @@ F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
 
 F16_Propulsion::~F16_Propulsion()
 {
-    if ( _engine ) delete _engine;
-    _engine = 0;
+    FDM_DELETE( _engine );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +65,7 @@ void F16_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        XmlNode nodeEngine = dataNode.getFirstChildElement( "turbofan_ab" );
+        XmlNode nodeEngine = dataNode.getFirstChildElement( "engine" );
 
         _engine->readData( nodeEngine );
     }
@@ -114,7 +113,7 @@ void F16_Propulsion::update()
     _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
                       Units::k2c( _aircraft->getEnvir()->getTemperature() ),
                       _aircraft->getMachNumber(),
-                      _aircraft->getAltitude_ASL(),
+                      _aircraft->getEnvir()->getDensityAltitude(),
                       _aircraft->getDataInp()->engine[ 0 ].fuel,
                       _aircraft->getDataInp()->engine[ 0 ].starter );
 }

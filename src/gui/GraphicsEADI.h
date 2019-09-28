@@ -28,6 +28,8 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -40,7 +42,7 @@ class GraphicsEADI : public QGraphicsView
 public:
 
     /** Constructor. */
-    explicit GraphicsEADI( QWidget *parent = 0 );
+    explicit GraphicsEADI( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~GraphicsEADI();

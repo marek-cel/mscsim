@@ -26,6 +26,8 @@
 
 #include <QDockWidget>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -46,7 +48,7 @@ class DockWidgetAuto : public QDockWidget
 public:
 
     /** Constructor. */
-    explicit DockWidgetAuto( QWidget *parent = 0 );
+    explicit DockWidgetAuto( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~DockWidgetAuto();

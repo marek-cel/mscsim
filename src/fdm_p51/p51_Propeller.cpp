@@ -22,14 +22,61 @@
 
 #include <fdm_p51/p51_Propeller.h>
 
+#include <fdm/xml/fdm_XmlUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Propeller::P51_Propeller() {}
+P51_Propeller::P51_Propeller() :
+    Propeller(),
+
+    _governor ( 0 )
+{
+    _governor = new P51_Governor();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Propeller::~P51_Propeller() {}
+P51_Propeller::~P51_Propeller()
+{
+    FDM_DELETE( _governor );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void P51_Propeller::readData( XmlNode &dataNode )
+{
+    ////////////////////////////////
+    Propeller::readData( dataNode );
+    ////////////////////////////////
+
+    if ( dataNode.isValid() )
+    {
+        XmlNode nodeGovernor = dataNode.getFirstChildElement( "governor" );
+        _governor->readData( nodeGovernor );
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
+
+        FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void P51_Propeller::update( double propellerLever, double engineTorque,
+                            double airspeed, double airDensity )
+{
+    _governor->update( propellerLever, _speed_rpm );
+
+    ///////////////////////////////////////////////////////////////////////////////
+    Propeller::update( _governor->getPitch(), engineTorque, airspeed, airDensity );
+    ///////////////////////////////////////////////////////////////////////////////
+}

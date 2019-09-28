@@ -26,6 +26,8 @@
 
 #include <QDockWidget>
 
+#include "gui_Defines.h"
+
 #include "GraphicsEADI.h"
 #include "GraphicsEHSI.h"
 
@@ -48,7 +50,7 @@ class DockWidgetEFIS : public QDockWidget
 public:
 
     /** Constructor. */
-    explicit DockWidgetEFIS( QWidget *parent = 0 );
+    explicit DockWidgetEFIS( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~DockWidgetEFIS();

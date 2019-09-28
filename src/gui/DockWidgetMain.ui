@@ -51,39 +51,20 @@
            <string>Simulation State</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="6" column="1">
-            <widget class="QPushButton" name="buttonStateFrozen">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton:disabled 
-{
-	padding: 5px;
-	background-color: #555;
-	border-radius: 5px;
-	color: #000;
-}
-
-QPushButton:disabled:pressed
-{
-	background-color: #ff0;
-}
-
-QPushButton:disabled:checked 
-{
-	background-color: #0f0;
-}</string>
-             </property>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="buttonStateInpFreeze">
              <property name="text">
-              <string>FROZEN</string>
+              <string>Freeze</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroupStateInp</string>
+             </attribute>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="6" column="0">
             <widget class="QPushButton" name="buttonStateInpStop">
              <property name="text">
               <string>Stop</string>
@@ -137,7 +118,7 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="6" column="1">
             <widget class="QPushButton" name="buttonStateOutStopped">
              <property name="enabled">
               <bool>false</bool>
@@ -188,7 +169,7 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QPushButton" name="buttonStateInpPause">
              <property name="text">
               <string>Pause</string>
@@ -199,16 +180,6 @@ QPushButton:disabled:checked
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupStateInp</string>
              </attribute>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QPushButton" name="buttonStateFreeze">
-             <property name="text">
-              <string>Freeze</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
             </widget>
            </item>
            <item row="2" column="1">
@@ -278,7 +249,7 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="QPushButton" name="buttonStateOutPaused">
              <property name="enabled">
               <bool>false</bool>
@@ -357,11 +328,39 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="5" column="0" colspan="2">
-            <widget class="Line" name="line">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="buttonStateOutFrozen">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton:disabled 
+{
+	padding: 5px;
+	background-color: #555;
+	border-radius: 5px;
+	color: #000;
+}
+
+QPushButton:disabled:pressed
+{
+	background-color: #ff0;
+}
+
+QPushButton:disabled:checked 
+{
+	background-color: #0f0;
+}</string>
+             </property>
+             <property name="text">
+              <string>FROZEN</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroupStateOut</string>
+             </attribute>
             </widget>
            </item>
           </layout>
@@ -536,11 +535,11 @@ QPushButton:disabled:checked
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupStateInp"/>
   <buttongroup name="buttonGroupStateOut">
    <property name="exclusive">
     <bool>false</bool>
    </property>
   </buttongroup>
+  <buttongroup name="buttonGroupStateInp"/>
  </buttongroups>
 </ui>

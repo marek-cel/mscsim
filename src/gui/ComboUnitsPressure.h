@@ -38,7 +38,7 @@ class ComboUnitsPressure : public ComboUnits
 public:
 
     /** Constructor. */
-    explicit ComboUnitsPressure( QWidget *parent = 0 );
+    explicit ComboUnitsPressure( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~ComboUnitsPressure();

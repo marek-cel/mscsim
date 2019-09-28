@@ -27,6 +27,8 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsView>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -39,7 +41,7 @@ class GraphicsPedals : public QGraphicsView
 public:
 
     /** Constructor. */
-    explicit GraphicsPedals( QWidget *parent = 0 );
+    explicit GraphicsPedals( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~GraphicsPedals();

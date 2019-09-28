@@ -159,95 +159,41 @@ F16_FLCS::F16_FLCS() :
 F16_FLCS::~F16_FLCS()
 {
     // lef
-    if ( _alpha_lef ) delete _alpha_lef;
-    _alpha_lef = 0;
+    FDM_DELETE( _alpha_lef );
 
     // lat
-    if ( _stick_lat ) delete _stick_lat;
-    _stick_lat = 0;
-
-    if ( _p_com_lag ) delete _p_com_lag;
-    _p_com_lag = 0;
-
-    if ( _p_com_pos ) delete _p_com_pos;
-    _p_com_pos = 0;
-
-    if ( _p_com_neg ) delete _p_com_neg;
-    _p_com_neg = 0;
-
-    if ( _omg_p_lag ) delete _omg_p_lag;
-    _omg_p_lag = 0;
-
-    if ( _omg_p_fil ) delete _omg_p_fil;
-    _omg_p_fil = 0;
-
-    if ( _delta_fl_lag ) delete _delta_fl_lag;
-    _delta_fl_lag = 0;
-
-    if ( _delta_fr_lag ) delete _delta_fr_lag;
-    _delta_fr_lag = 0;
+    FDM_DELETE( _stick_lat );
+    FDM_DELETE( _p_com_lag );
+    FDM_DELETE( _p_com_pos );
+    FDM_DELETE( _p_com_neg );
+    FDM_DELETE( _omg_p_lag );
+    FDM_DELETE( _omg_p_fil );
+    FDM_DELETE( _delta_fl_lag );
+    FDM_DELETE( _delta_fr_lag );
 
     // lon
-    if ( _stick_lon ) delete _stick_lon;
-    _stick_lon = 0;
-
-    if ( _alpha_lag ) delete _alpha_lag;
-    _alpha_lag = 0;
-
-    if ( _g_com_lag ) delete _g_com_lag;
-    _g_com_lag = 0;
-
-    if ( _omg_q_lag ) delete _omg_q_lag;
-    _omg_q_lag = 0;
-
-    if ( _omg_q_fil ) delete _omg_q_fil;
-    _omg_q_fil = 0;
-
-    if ( _g_z_input ) delete _g_z_input;
-    _g_z_input = 0;
-
-    if ( _sca_bias_1 ) delete _sca_bias_1;
-    _sca_bias_1 = 0;
-
-    if ( _sca_bias_2 ) delete _sca_bias_2;
-    _sca_bias_2 = 0;
-
-    if ( _sca_bias_3 ) delete _sca_bias_3;
-    _sca_bias_3 = 0;
-
-    if ( _u_sca_fil ) delete _u_sca_fil;
-    _u_sca_fil = 0;
-
-    if ( _u_sca_fil2 ) delete _u_sca_fil2;
-    _u_sca_fil2 = 0;
-
-    if ( _actuator_l ) delete _actuator_l;
-    _actuator_l = 0;
-
-    if ( _actuator_r ) delete _actuator_r;
-    _actuator_r = 0;
+    FDM_DELETE( _stick_lon );
+    FDM_DELETE( _alpha_lag );
+    FDM_DELETE( _g_com_lag );
+    FDM_DELETE( _omg_q_lag );
+    FDM_DELETE( _omg_q_fil );
+    FDM_DELETE( _g_z_input );
+    FDM_DELETE( _sca_bias_1 );
+    FDM_DELETE( _sca_bias_2 );
+    FDM_DELETE( _sca_bias_3 );
+    FDM_DELETE( _u_sca_fil );
+    FDM_DELETE( _u_sca_fil2 );
+    FDM_DELETE( _actuator_l );
+    FDM_DELETE( _actuator_r );
 
     // yaw
-    if ( _pedals ) delete _pedals;
-    _pedals = 0;
-
-    if ( _omg_r_lag ) delete _omg_r_lag;
-    _omg_r_lag = 0;
-
-    if ( _omg_p_yaw ) delete _omg_p_yaw;
-    _omg_p_yaw = 0;
-
-    if ( _u_sum_ll1 ) delete _u_sum_ll1;
-    _u_sum_ll1 = 0;
-
-    if ( _u_sum_ll2 ) delete _u_sum_ll2;
-    _u_sum_ll2 = 0;
-
-    if ( _delta_r_fil ) delete _delta_r_fil;
-    _delta_r_fil = 0;
-
-    if ( _delta_r_lag ) delete _delta_r_lag;
-    _delta_r_lag = 0;
+    FDM_DELETE( _pedals );
+    FDM_DELETE( _omg_r_lag );
+    FDM_DELETE( _omg_p_yaw );
+    FDM_DELETE( _u_sum_ll1 );
+    FDM_DELETE( _u_sum_ll2 );
+    FDM_DELETE( _delta_r_fil );
+    FDM_DELETE( _delta_r_lag );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,8 +26,6 @@
 
 #include <fdm/models/fdm_PistonEngine.h>
 
-#include <fdm_p51/p51_Compressor.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -45,42 +43,6 @@ public:
 
     /** Destructor. */
     virtual ~P51_Engine();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-    /**
-     * Updates engine.
-     * @param throttleLever [0.0,1.0] throttle lever position
-     * @param mixtureLever [0.0,1.0] mixture lever position
-     * @param rpm [rpm] engine rpm
-     * @param airPressure [Pa] air pressure
-     * @param airDensity [kg/m^3] air density
-     * @param airTemperature [K] air temperature
-     * @param fuel specifies if fuel is provided
-     * @param starter specifies if starter is enabled
-     * @param magneto_l specifies if left magneto is enabled
-     * @param magneto_r specifies if right magneto is enabled
-     */
-    void update( double throttleLever, double mixtureLever, double rpm,
-                 double airPressure, double airDensity, double airTemperature,
-                 bool fuel, bool starter,
-                 bool magneto_l = true, bool magneto_r = true );
-
-private:
-
-    P51_Compressor *_compressor;    ///< compressor model
-
-    /**
-     * Computes fuel to air ratio.
-     * @param mixture [-] mixture
-     * @param airDensity [kg/m^3] air density
-     * @return [-] fuel to air ratio
-     */
-    double getFuelToAirRatio( double mixture, double airDensity );
 };
 
 } // end of fdm namespace

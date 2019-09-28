@@ -29,6 +29,8 @@
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
+#include <fdm/fdm_Recorder.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -67,6 +69,7 @@ private:
     typedef DataOut::StateOut StateOut;
 
     Aircraft *_aircraft;            ///< aircraft simulation object
+    Recorder *_recorder;            ///< recorder object
 
     DataInp _dataInp;               ///< input data
     DataOut _dataOut;               ///< output data
@@ -93,14 +96,26 @@ private:
     bool _verbose;                  ///< specify if extra information should be printed
 
     /**
+     * Creates aircraft object.
+     * @param aircraftType aircraft type
+     * @return aircraft object on success null pointer on failure
+     */
+    Aircraft* createAircraft( AircraftType aircraftType );
+
+    /**
      * Computes aircraft equilibrium in flight.
      */
-    void initEquilibriumInFlight();
+    void initInFlight();
 
     /**
      * Computes aircraft equilibrium on ground.
      */
-    void initEquilibriumOnGround();
+    void initOnGround();
+
+    /**
+     * Initializes recorder.
+     */
+    void initRecorder();
 
     /**
      * Updates initial position and attitude.
@@ -110,11 +125,12 @@ private:
     /**
      * Updates internal state input.
      */
-    void updateInternalStateInp();
+    void updateStateInp();
 
     void updateStateIdle();
     void updateStateInit();
     void updateStateWork();
+    void updateStateFreeze();
     void updateStatePause();
     void updateStateStop();
 

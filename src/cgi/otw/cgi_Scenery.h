@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <osgSim/OverlayNode>
+
 #include <fdm/xml/fdm_XmlNode.h>
 
 #include <cgi/cgi_Module.h>
@@ -46,7 +48,20 @@ public:
     /** Destructor. */
     virtual ~Scenery();
 
+    /** Adds child to the module. */
+    void addChild( Module *child );
+
+    /** Updates scenery. */
+    void update();
+
 private:
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patMaster;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patScenery;
+
+    osg::ref_ptr<osgSim::OverlayNode> _on;
+
+    void createShadow();
 
     void readAirports( const fdm::XmlNode &node );
 

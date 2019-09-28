@@ -38,7 +38,7 @@ class ComboUnitsMass : public ComboUnits
 public:
 
     /** Constructor. */
-    explicit ComboUnitsMass( QWidget *parent = 0 );
+    explicit ComboUnitsMass( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~ComboUnitsMass();

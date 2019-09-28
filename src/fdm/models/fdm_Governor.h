@@ -27,7 +27,6 @@
 #include <fdm/fdm_Base.h>
 
 #include <fdm/utils/fdm_Table.h>
-#include <fdm/sys/fdm_PID.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,15 +59,16 @@ public:
      */
     virtual void readData( XmlNode &dataNode );
 
-    virtual void update( double timeStep, double propellerLever, double rpm );
+    virtual void update( double propellerLever, double rpm );
 
     inline double getPitch() const { return _pitch; }
 
 protected:
 
-    PID *_pid;          ///< PID controller
-
     Table _prop_rpm;    ///< [rpm] propeller setpoint RPM vs [-] propeller RPM lever position
+
+    double _gain_1;
+    double _gain_2;
 
     double _pitch;
 };

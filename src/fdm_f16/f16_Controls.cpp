@@ -79,8 +79,7 @@ F16_Controls::F16_Controls( const F16_Aircraft *aircraft ) :
 
 F16_Controls::~F16_Controls()
 {
-    if ( _flcs ) delete _flcs;
-    _flcs = 0;
+    FDM_DELETE( _flcs );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

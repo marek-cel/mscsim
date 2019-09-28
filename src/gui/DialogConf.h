@@ -28,6 +28,8 @@
 
 #include <hid/hid_Assignment.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -47,7 +49,7 @@ class DialogConf : public QDialog
 public:
 
     /** Constructor. */
-    explicit DialogConf( QWidget *parent = 0 );
+    explicit DialogConf( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~DialogConf();

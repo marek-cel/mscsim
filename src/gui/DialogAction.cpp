@@ -32,9 +32,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent, Assignment assignment, short joystickId )
+DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent,
+                                                             Assignment assignment,
+                                                             short joystickId )
 {
-    DialogAction *dialog = 0;
+    DialogAction *dialog = NULLPTR;
 
     dialog = new DialogAction( parent, joystickId );
 
@@ -76,17 +78,18 @@ DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent, As
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELETE( dialog );
 
     return assignment;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, Assignment assignment, short joystickId )
+DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent,
+                                                             Assignment assignment,
+                                                             short joystickId )
 {
-    DialogAction *dialog = 0;
+    DialogAction *dialog = NULLPTR;
 
     dialog = new DialogAction( parent, joystickId );
 
@@ -117,7 +120,9 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, As
                     default: dir = -100; break;
                 }
 
-                dialog->_ui->comboButt->setCurrentIndex( joyData.buttCount + 4 * assignment.data.joystick.povId + dir );
+                dialog->_ui->comboButt->setCurrentIndex( joyData.buttCount
+                                                         + 4 * assignment.data.joystick.povId
+                                                         + dir );
             }
         }
     }
@@ -147,17 +152,17 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent, As
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELETE( dialog );
 
     return assignment;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent, Assignment assignment )
+DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent,
+                                                         Assignment assignment )
 {
-    DialogAction *dialog = 0;
+    DialogAction *dialog = NULLPTR;
 
     dialog = new DialogAction( parent );
 
@@ -172,8 +177,7 @@ DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent, Assign
         }
     }
 
-    if ( dialog ) delete dialog;
-    dialog = 0;
+    DELETE( dialog );
 
     return assignment;
 }
@@ -257,8 +261,7 @@ DialogAction::~DialogAction()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    if ( _ui ) delete _ui;
-    _ui = 0;
+    DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,8 @@
 
 #include <osg/Group>
 
+#include <cgi/cgi_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace cgi
@@ -44,7 +46,7 @@ public:
      * Constructor.
      * @param parent parent module
      */
-    Module( Module *parent = 0 );
+    Module( Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Module();

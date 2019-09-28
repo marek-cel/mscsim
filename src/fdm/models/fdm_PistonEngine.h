@@ -39,27 +39,42 @@ namespace fdm
  *
  * <h5>XML configuration file format:</h5>
  * @code
- * <piston_engine>
- *   <power_max> { [W] engine maximum power } </power_max>
- *   <displacement> { [m^3] engine displacement } </displacement>
- *   <starter> { [N*m] starter torque } </starter>
+ * <engine>
  *   <rpm_min> { [rpm] minimum rpm } </rpm_min>
  *   <rpm_max> { [rpm] maximum rpm } </rpm_max>
- *   <sfc> { [kg/(W*s)] specific fuel consumption } </sfc>
+ *   <starter> { [N*m] starter torque } </starter>
+ *   <displacement> { [m^3] engine displacement } </displacement>
  *   <inertia> { [kg*m^2] polar moment of inertia } </inertia>
+ *   <sfc> { [kg/(W*s)] specific fuel consumption } </sfc>
+ *   <power_rpm>
+ *     { [rpm] engine rpm } { [W] power }
+ *     ... { more entries }
+ *   </power_rpm>
+ *   <power_throttle>
+ *     { [-] throttle } { [-] power coefficient }
+ *     ... { more entries }
+ *   </power_throttle>
+ *   <power_altitude>
+ *     { [h] altitude } { [-] power coefficient }
+ *     ... { more entries }
+ *   </power_altitude>
  *   <mixture>
- *     { [-] mixture } { [-] mixture lever position }
+ *     { [-] mixture lever position } { [-] mixture }
  *     ... { more entries }
  *   </mixture>
- *   <throttle>
- *     { [-] throttle } { [-] throttle lever position }
- *     ... { more entries }
- *   </throttle>
  *   <power_factor>
  *     { [-] fuel to air ratio } { [-] power factor }
  *     ... { more entries }
  *   </power_factor>
- * </piston_engine>
+ *   <map_throttle>
+ *     { [-] throttle } { [-] manifold absolute pressure ratio due to throttle }
+ *     ... { more entries }
+ *   </map_throttle>
+ *   <map_rpm>
+ *     { [rpm] engine rpm } { [-] manifold absolute pressure ratio due to rpm }
+ *     ... { more entries }
+ *   </map_rpm>
+ * </engine>
  * @endcode
  *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.128
@@ -87,13 +102,14 @@ public:
      * @param rpm [rpm] engine rpm
      * @param airPressure [Pa] air pressure
      * @param airDensity [kg/m^3] air density
+     * @param densityAltitude [m] air density altitude
      * @param fuel specifies if fuel is provided
      * @param starter specifies if starter is enabled
      * @param magneto_l specifies if left magneto is enabled
      * @param magneto_r specifies if right magneto is enabled
      */
     virtual void update( double throttleLever, double mixtureLever, double rpm,
-                         double airPressure, double airDensity,
+                         double airPressure, double airDensity, double densityAltitude,
                          bool fuel, bool starter,
                          bool magneto_l = true, bool magneto_r = true );
 
@@ -164,18 +180,20 @@ public:
 
 protected:
 
+    Table _power_rpm;           ///< [W] power vs engine rpm
+    Table _power_throttle;      ///< [-] power coefficient vs throttle
+    Table _power_altitude;      ///< [-] power coefficient vs altitude
     Table _mixture;             ///< [-] mixture vs mixture lever position
-    Table _throttle;            ///< [-] throttle vs throttle lever position
+    Table _power_factor;        ///< [-] power factor vs fuel to air ratio
+    Table _map_throttle;        ///< [-] manifold absolute pressure ratio due to throttle
+    Table _map_rpm;             ///< [-] manifold absolute pressure ratio due to engine rpm
 
-    Table _powerFactor;         ///< [-] power factor
-
-    double _power_max;          ///< [W] maximum power
-    double _displacement;       ///< [m^3] displacement
-    double _starter;            ///< [N*m] starter torque
     double _rpm_min;            ///< [rpm] engine minimum rpm
     double _rpm_max;            ///< [rpm] engine maximum rpm
-    double _specFuelCons;       ///< [kg/(W*s)] specific fuel consumption
+    double _starter;            ///< [N*m] starter torque
+    double _displacement;       ///< [m^3] displacement
     double _inertia;            ///< [kg*m^2] polar moment of inertia
+    double _specFuelCons;       ///< [kg/(W*s)] specific fuel consumption
 
     double _rpm;                ///< [rpm] engine rpm
     double _map;                ///< [Pa] manifold absolute pressure
@@ -186,13 +204,13 @@ protected:
 
     /**
      * Computes manifold absolute pressure.
-     * @param throttle <0.0;1.0> throttle
+     * @param throttleLever [0.0,1.0] throttle lever position
      * @param rpm [rpm] engine rpm
      * @param airPressure [Pa] air pressure
      * @return [Pa] manifold absolute pressure
      */
-    virtual double getManifoldAbsolutePressure( double throttle, double rpm,
-                                                double airPressure );
+    virtual double getManifoldAbsolutePressure( double throttleLever,
+                                                double rpm, double airPressure );
 
     /**
      * Computes fuel to air ratio.
@@ -215,19 +233,20 @@ protected:
                                    bool magneto_l = true, bool magneto_r = true );
 
     /**
-     * Computes engine power losses.
+     * Computes engine net power.
+     * @param throttleLever [0.0,1.0] throttle lever position
+     * @param mixtureLever [0.0,1.0] mixture lever position
      * @param rpm [rpm] engine rpm
-     * @return [W] power losses
+     * @param airDensity [kg/m^3] air density
+     * @param densityAltitude [m] air density altitude
+     * @param fuel specifies if fuel is provided
+     * @param magneto_l specifies if left magneto is enabled
+     * @param magneto_r specifies if right magneto is enabled
+     * @return [W] net power
      */
-    virtual double getPowerLosses( double rpm );
-
-    /**
-     * Computes engine static power (the power produced by combustion).
-     * @param rpm [rpm] engine rpm
-     * @param map [Pa] manifold absolute pressure
-     * @return [W] static power
-     */
-    virtual double getStaticPower( double rpm, double map );
+    virtual double getNetPower( double throttleLever, double mixtureLever, double rpm,
+                                double airDensity, double densityAltitude,
+                                bool fuel, bool magneto_l, bool magneto_r );
 };
 
 } // end of fdm namespace

@@ -1,3 +1,45 @@
+2019-09-28 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * piston engine modified
+    
+    * propeller induced velocity
+
+    * propeller governor
+
+    * compressor model removed
+
+    * Cessna 172 engine tuning
+
+    * P-51 engine and propeller tuning
+    
+    * dynamics freeze as state
+    
+    * recording and replaying
+    
+    * new macros
+    
+    * Table and Table2D deleting arrays fix
+
+    * overlay shadow
+
+
+
+2019-09-22 Marek M. Cel <marekcel@marekcel.pl>
+
+    * Cessna 172 propeller data according to NACA-TR-640 and NACA-TR-641
+    
+    * P-51 propeller data according to NACA-TR-640 and NACA-TR-641
+    
+    * time step fix
+    
+    * compressor model - first attempt
+    
+    * propeller governor - first attempt
+    
+    * dynamics freeze
+
+
+
 2019-09-21 Marek M. Cel <marekcel@marekcel.pl>
     
     * documentation

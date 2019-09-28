@@ -32,12 +32,12 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 PistonEngine::PistonEngine() :
-    _power_max    ( 0.0 ),
-    _displacement ( 0.0 ),
     _rpm_min      ( 0.0 ),
     _rpm_max      ( 0.0 ),
-    _specFuelCons ( 0.0 ),
+    _starter      ( 0.0 ),
+    _displacement ( 0.0 ),
     _inertia      ( 0.0 ),
+    _specFuelCons ( 0.0 ),
 
     _rpm      ( 0.0 ),
     _map      ( 0.0 ),
@@ -59,16 +59,20 @@ void PistonEngine::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_max    , "power_max"    );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _displacement , "displacement" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _starter      , "starter"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_min      , "rpm_min"      );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_max      , "rpm_max"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _specFuelCons , "sfc"          );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _starter      , "starter"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _displacement , "displacement" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _inertia      , "inertia"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mixture      , "mixture"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _throttle     , "throttle"     );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _powerFactor  , "power_factor" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _specFuelCons , "sfc"          );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_rpm      , "power_rpm"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_throttle , "power_throttle" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_altitude , "power_altitude" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mixture        , "mixture"        );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_factor   , "power_factor"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _map_throttle   , "map_throttle"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _map_rpm        , "map_rpm"        );
 
         if ( result != FDM_SUCCESS )
         {
@@ -94,28 +98,18 @@ void PistonEngine::readData( XmlNode &dataNode )
 ////////////////////////////////////////////////////////////////////////////////
 
 void PistonEngine::update( double throttleLever, double mixtureLever, double rpm,
-                           double airPressure, double airDensity,
+                           double airPressure, double airDensity, double densityAltitude,
                            bool fuel, bool starter,
                            bool magneto_l, bool magneto_r )
 {
     double omega = M_PI * rpm / 30.0;
 
     _rpm = rpm;
-    _map = getManifoldAbsolutePressure( _throttle.getValue( throttleLever ), _rpm, airPressure );
-
-    double powerFactor = getPowerFactor( _mixture.getValue( mixtureLever ), airDensity, fuel, magneto_l, magneto_r );
-    double staticPower = getStaticPower( _rpm, _map );
-    double powerLosses = getPowerLosses( _rpm );
-    double termalPower = staticPower * powerFactor;
-
-    if ( _rpm < _rpm_min ) termalPower = 0.0;
-
-    // net power [W]
-    // Allerton D.: Principles of Flight Simulation, p.130
-    _power = termalPower - powerLosses;
+    _map = getManifoldAbsolutePressure( throttleLever, _rpm, airPressure );
+    _power = getNetPower( throttleLever, mixtureLever, _rpm, airDensity, densityAltitude,
+                          fuel, magneto_l, magneto_r );
 
     _airFlow = 0.5 * _displacement * airDensity * ( _rpm / 60.0 );
-
     _fuelFlow = Misc::max( 0.0, _power ) * _specFuelCons;
 
     // engine torque [N*m]
@@ -147,11 +141,13 @@ void PistonEngine::setRPM( double rpm )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double PistonEngine::getManifoldAbsolutePressure( double throttle, double rpm,
-                                                  double airPressure )
+double PistonEngine::getManifoldAbsolutePressure( double throttleLever,
+                                                  double rpm, double airPressure )
 {
-    // Allerton D.: Principles of Flight Simulation, p.129
-    double map = airPressure + ( 156.9411 * throttle - 158.8034 ) * rpm;
+    double map = airPressure
+            * _map_throttle.getValue( throttleLever )
+            * _map_rpm.getValue( rpm );
+
     map = Misc::max( 0.0, map );
 
     return map;
@@ -161,8 +157,7 @@ double PistonEngine::getManifoldAbsolutePressure( double throttle, double rpm,
 
 double PistonEngine::getFuelToAirRatio( double mixture, double airDensity )
 {
-    // Allerton D.: Principles of Flight Simulation, p.130
-    return mixture * (1.225 / airDensity ) * 0.1;
+    return mixture * (1.225 / airDensity );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +168,7 @@ double PistonEngine::getPowerFactor( double mixture, double airDensity, bool fue
     double fuelToAirRatio = getFuelToAirRatio( mixture, airDensity );
 
     // Allerton D.: Principles of Flight Simulation, p.130
-    double powerFactor = _powerFactor.getValue( fuelToAirRatio );
+    double powerFactor = _power_factor.getValue( fuelToAirRatio );
 
     if ( !fuel )
     {
@@ -185,8 +180,7 @@ double PistonEngine::getPowerFactor( double mixture, double airDensity, bool fue
         // both magnetos disabled
         powerFactor = 0.0;
     }
-    else if ( (  magneto_l && !magneto_r )
-           || ( !magneto_l &&  magneto_r ) )
+    else if ( ( magneto_l && !magneto_r ) || ( !magneto_l && magneto_r ) )
     {
         // 5% reduction in power caused by the reduced effectiveness of the combustion
         // Allerton D.: Principles of Flight Simulation, p.131
@@ -200,33 +194,17 @@ double PistonEngine::getPowerFactor( double mixture, double airDensity, bool fue
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double PistonEngine::getPowerLosses( double rpm )
+double PistonEngine::getNetPower( double throttleLever, double mixtureLever, double rpm,
+                                  double airDensity, double densityAltitude,
+                                  bool fuel, bool magneto_l, bool magneto_r )
 {
-    // Power losses of a 160 HP (horsepower) engine proportional to the square
-    // of RPM are given by:
-    // fpow = 0.0413 * n^2 / n_max
-    // Allerton D.: Principles of Flight Simulation, p.130
-    // 1/160 = 0.00625
-    // 0.00625 * 0.0413 = 0.000258125
-    double powerLosses = _power_max * 2.58125e-4 * ( rpm * rpm ) / _rpm_max;
-    powerLosses = Misc::max( 0.0, powerLosses );
+    double power = _power_rpm.getValue( rpm );
+    power *= _power_throttle.getValue( throttleLever );
+    power *= _power_altitude.getValue( densityAltitude );
+    power *= getPowerFactor( _mixture.getValue( mixtureLever ), airDensity,
+                             fuel, magneto_l, magneto_r );
 
-    return powerLosses;
-}
+    if ( rpm < _rpm_min ) power = 0.0;
 
-////////////////////////////////////////////////////////////////////////////////
-
-double PistonEngine::getStaticPower( double rpm, double map )
-{
-    // For a model of a 160 HP (horsepower) engine, the static horsepower shp
-    // (the power produced by combustion) is computed as:
-    // shp = mp * (0.0039 * n - 1)
-    // Allerton D.: Principles of Flight Simulation, p.130
-    // 1/160 = 0.00625
-    // 0.00625 * 0.0039 =
-    //double staticPower = m_power_max * 0.00625 * Units::pa2inhg( map ) * ( 0.0039 * rpm - 1.0 );
-    double staticPower = _power_max * map * ( 7.198759595625e-9 * rpm - 1.84583579375e-6 );
-    staticPower = Misc::max( 0.0, staticPower );
-
-    return staticPower;
+    return power;
 }

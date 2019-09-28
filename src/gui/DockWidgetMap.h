@@ -26,6 +26,8 @@
 
 #include <QDockWidget>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -45,7 +47,7 @@ class DockWidgetMap : public QDockWidget
 public:
 
     /** Constructor. */
-    explicit DockWidgetMap( QWidget *parent = 0 );
+    explicit DockWidgetMap( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~DockWidgetMap();

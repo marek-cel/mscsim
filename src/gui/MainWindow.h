@@ -63,8 +63,10 @@ class MainWindow : public QMainWindow
 
 public:
 
+    static const QString _tmp_file;     ///< temporary record file
+
     /** Constructor. */
-    explicit MainWindow( QWidget *parent = 0 );
+    explicit MainWindow( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~MainWindow();
@@ -108,9 +110,13 @@ private:
     DockWidgetMap  *_dockMap;           ///<
     DockWidgetProp *_dockProp;          ///<
 
+    QShortcut *_scCycleViews;           ///<
+    QShortcut *_scToggleHud;            ///<
     QShortcut *_scFullScreen;           ///<
     QShortcut *_scTimeFaster;           ///<
     QShortcut *_scTimeSlower;           ///<
+
+    QString _rec_file;                  ///<
 
     ViewType _viewType;                 ///<
     bool _showHUD;                      ///<
@@ -124,15 +130,22 @@ private:
     fdm::DataInp::StateInp _stateInp;   ///< simulation input state
     fdm::DataOut::StateOut _stateOut;   ///< simulation output state
 
-    bool _freeze;                       ///<
-
     hid::Assignment::Key getKey( int key );
+
+    void flightRecordOpen();
+    void flightRecordSave();
 
     void setStateIdle();
     void setStateInit();
     void setStateWork();
+    void setStateFreeze();
     void setStatePause();
     void setStateStop();
+
+    void setViewChase();
+    void setViewOrbit();
+    void setViewPilot();
+    void setViewWorld();
 
     void setAircraftType( int typeIndex );
 
@@ -176,9 +189,13 @@ private slots:
     void on_actionDockMap_toggled( bool checked );
     void on_actionDockProp_toggled( bool checked );
 
+    void on_actionFlightOpen_triggered();
+    void on_actionFlightSave_triggered();
+
     void on_actionStateInpIdle_triggered();
     void on_actionStateInpInit_triggered();
     void on_actionStateInpWork_triggered();
+    void on_actionStateInpFreeze_triggered();
     void on_actionStateInpPause_triggered();
     void on_actionStateInpStop_triggered();
 
@@ -194,10 +211,11 @@ private slots:
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();
 
-    void on_shorcutFullScreen_triggered();
+    void shorcutCycleViews_activated();
+    void shorcutToggleHud_activated();
+    void shorcutFullScreen_activated();
 
     void dialogInit_typeIndexChanged( int typeIndex );
-    void dockMain_freezeStateChanged( bool freeze );
     void dockMain_stateInpChanged( fdm::DataInp::StateInp stateInp );
 
     void dockAuto_closed();

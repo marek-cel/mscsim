@@ -29,6 +29,8 @@
 
 #include <Data.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -54,7 +56,7 @@ public:
     typedef Data::Environment::Clouds::Data::Layer::Cover Cover;
 
     /** Constructor. */
-    explicit DialogEnvr( QWidget *parent = 0 );
+    explicit DialogEnvr( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~DialogEnvr();

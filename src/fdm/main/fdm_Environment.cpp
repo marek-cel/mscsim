@@ -29,7 +29,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Environment::Environment() :
-    _atmosphere ( 0 )
+    _atmosphere ( FDM_NULL )
 {
     _atmosphere = new Atmosphere();
 }
@@ -38,8 +38,7 @@ Environment::Environment() :
 
 Environment::~Environment()
 {
-    if ( _atmosphere ) delete _atmosphere;
-    _atmosphere = 0;
+    FDM_DELETE( _atmosphere );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,4 +51,7 @@ void Environment::update( double altitude_asl )
     _pressure     = _atmosphere->getPressure();
     _density      = _atmosphere->getDensity();
     _speedOfSound = _atmosphere->getSpeedOfSound();
+
+    _densityAltitude = Atmosphere::getDensityAltitude( _pressure, _temperature,
+                                                       altitude_asl );
 }

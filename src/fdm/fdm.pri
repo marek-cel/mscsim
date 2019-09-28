@@ -7,12 +7,14 @@ HEADERS += \
     $$PWD/fdm_Log.h \
     $$PWD/fdm_Manager.h \
     $$PWD/fdm_Path.h \
+    $$PWD/fdm_Recorder.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \
     $$PWD/fdm_Base.cpp \
     $$PWD/fdm_Log.cpp \
-    $$PWD/fdm_Manager.cpp
+    $$PWD/fdm_Manager.cpp \
+    $$PWD/fdm_Recorder.cpp
 
 ################################################################################
 
@@ -48,7 +50,6 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/models/fdm_Atmosphere.h \
-    $$PWD/models/fdm_Compressor.h \
     $$PWD/models/fdm_Engine.h \
     $$PWD/models/fdm_Fuselage.h \
     $$PWD/models/fdm_Governor.h \
@@ -65,7 +66,6 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/models/fdm_Atmosphere.cpp \
-    $$PWD/models/fdm_Compressor.cpp \
     $$PWD/models/fdm_Fuselage.cpp \
     $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \

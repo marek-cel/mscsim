@@ -27,6 +27,8 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsView>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -39,7 +41,7 @@ class GraphicsStick : public QGraphicsView
 public:
 
     /** Constructor. */
-    explicit GraphicsStick( QWidget *parent = 0 );
+    explicit GraphicsStick( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~GraphicsStick();

@@ -30,6 +30,8 @@
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -49,7 +51,7 @@ class DockWidgetMain : public QDockWidget
 public:
 
     /** Constructor. */
-    explicit DockWidgetMain( QWidget *parent = 0 );
+    explicit DockWidgetMain( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~DockWidgetMain();
@@ -65,8 +67,6 @@ public:
 signals:
 
     void closed();
-
-    void freezeStateChanged( bool freeze );
 
     void stateInpChanged( fdm::DataInp::StateInp stateInp );
 
@@ -93,10 +93,9 @@ private slots:
     void on_buttonStateInpIdle_clicked();
     void on_buttonStateInpInit_clicked();
     void on_buttonStateInpWork_clicked();
+    void on_buttonStateInpFreeze_clicked();
     void on_buttonStateInpPause_clicked();
     void on_buttonStateInpStop_clicked();
-
-    void on_buttonStateFreeze_clicked( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,8 @@
 
 #include <fdm/models/fdm_Propeller.h>
 
+#include <fdm_p51/p51_Governor.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -43,6 +45,26 @@ public:
 
     /** Destructor. */
     virtual ~P51_Propeller();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * Updates propeller.
+     * @param normPitch [0.0,1.0] normalized propeller lever position
+     * @param engineTorque [N] engine torque
+     * @param airspeed [m/s] airspeed
+     * @param airDensity [kg/m^3] air density
+     */
+    void update( double propellerLever, double engineTorque,
+                 double airspeed, double airDensity );
+
+private:
+
+    P51_Governor *_governor;        ///< propeller governor model
 };
 
 } // end of fdm namespace

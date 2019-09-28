@@ -123,8 +123,7 @@ PageControls::PageControls( QWidget *parent ) :
 
 PageControls::~PageControls()
 {
-    if ( _ui ) delete _ui;
-    _ui = 0;
+    DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

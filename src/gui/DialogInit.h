@@ -29,6 +29,8 @@
 #include <QDomElement>
 #include <QSettings>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -48,7 +50,7 @@ class DialogInit : public QDialog
 public:
 
     /** Constructor. */
-    explicit DialogInit( QWidget *parent = 0 );
+    explicit DialogInit( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~DialogInit();

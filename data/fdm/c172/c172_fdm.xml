@@ -42,8 +42,8 @@
       4.0   1.00
     </lift_ground_effect>
     
-    <dl_dtorque>  0.04 </dl_dtorque>  <!-- [-] rolling moment due propeller torque -->
-    <dn_dtorque> -0.04 </dn_dtorque>  <!-- [-] yawing moment due propeller torque -->
+    <dl_dtorque> -0.04 </dl_dtorque>  <!-- [-] rolling moment due propeller torque -->
+    <dn_dtorque>  0.04 </dn_dtorque>  <!-- [-] yawing moment due propeller torque -->
 
     <!-- tail-off aircraft -->
     <tail_off>
@@ -774,7 +774,7 @@
       </pitch>
       
       <!-- [-] thrust coefficient vs advance [-] (rows) and propeller pitch [rad] (cols) -->
-      <thrust_coef cols_unit="deg">
+      <thrust_coef cols_unit="deg" factor="0.9">
                20.0
         0.0     0.104
         0.1     0.104
@@ -839,45 +839,81 @@
     </propeller>
     
     <!-- IO-360-L2A engine -->
-    <piston_engine>
-      <power_max unit="kW"> 134.2 </power_max>          <!-- [W] maximum power -->
-      
-      <displacement unit="cuin"> 360.0 </displacement>  <!-- [m^3] engine displacement -->
-      
-      <starter>  200.0  </starter>                      <!-- [N*m] starter torque -->
+    <engine>
       <rpm_min>  550.0  </rpm_min>                      <!-- [rpm] minimum rpm -->
       <rpm_max> 2700.0  </rpm_max>                      <!-- [rpm] maximum rpm -->
-      <inertia>    2.0  </inertia>                      <!-- [kg*m^2] polar moment of inertia -->
+      
+      <starter>  200.0  </starter>                      <!-- [N*m] starter torque -->
+      
+      <displacement unit="cuin"> 360.0 </displacement>  <!-- [m^3] engine displacement -->
+      <inertia>  2.0  </inertia>                        <!-- [kg*m^2] polar moment of inertia -->
       
       <sfc unit="g_kWh"> 253.4 </sfc>                   <!-- [kg/(kW*s)] specific fuel consumption -->
       
+      <!-- power [W] vs engine rpm -->
+      <power_rpm unit="kW">
+            0.0     -10.4
+          500.0      26.0
+         1000.0      58.1
+         1500.0      85.7
+         2000.0     109.0
+         2500.0     127.9
+         2700.0     134.2
+      </power_rpm>
+      
+      <!-- power coefficient vs throttle lever position -->
+      <power_throttle>
+        0.0   0.08
+        1.0   1.0
+      </power_throttle>
+      
+      <!-- [-] power coefficient vs [h] altitude -->
+      <power_altitude>
+            0.0     1.000
+         2000.0     0.773
+         4000.0     0.588
+         6000.0     0.438
+         8000.0     0.318
+        10000.0     0.223
+        12000.0     0.149
+      </power_altitude>
+      
       <!-- mixture vs mixture lever position -->
       <mixture>
-        0.00  2.00
-        0.50  1.75
-        0.75  1.44
-        1.00  1.00
+        0.0   0.02
+        1.0   0.08
       </mixture>
-      
-      <!-- throttle vs throttle lever position -->
-      <throttle>
-        0.0  0.2
-        1.0  1.0
-      </throttle>
       
       <!-- power factor vs fuel to air ratio -->
       <power_factor>
-        0.05  0.00
-        0.06  0.87
-        0.07  0.97
-        0.08  1.00
-        0.09  0.98
-        0.10  0.96
-        0.11  0.87
-        0.12  0.50
-        0.13  0.00
+        0.05    0.00
+        0.06    0.87
+        0.07    0.97
+        0.08    1.00
+        0.09    0.98
+        0.10    0.96
+        0.11    0.87
+        0.12    0.50
+        0.13    0.00
       </power_factor>
-    </piston_engine>
+      
+      <!-- [-] manifold absolute pressure ratio vs throttle -->
+      <map_throttle>
+        0.0  0.6
+        1.0  1.0
+      </map_throttle>
+      
+      <!-- [-] manifold absolute pressure ratio vs engine rpm -->
+      <map_rpm>
+            0.0     1.00
+          500.0     0.99
+         1000.0     0.98
+         1500.0     0.97
+         2000.0     0.96
+         2500.0     0.95
+         2700.0     0.95
+      </map_rpm>
+    </engine>
     
   </propulsion>
   

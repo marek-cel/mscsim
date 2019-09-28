@@ -22,11 +22,21 @@
 
 #include <cgi/otw/cgi_Scenery.h>
 
+#include <osg/Geode>
+#include <osg/Geometry>
+#include <osg/Material>
+#include <osg/TexEnv>
+
+#include <Data.h>
+
 #include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
+#include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_Intersections.h>
+#include <cgi/cgi_Textures.h>
+#include <cgi/cgi_WGS84.h>
 
 #include <cgi/otw/cgi_Airport.h>
 #include <cgi/otw/cgi_Terrain.h>
@@ -41,6 +51,23 @@ Scenery::Scenery( Module *parent ) :
     Module( parent )
 {
     _root->setName( "Scenery" );
+
+    _patMaster = new osg::PositionAttitudeTransform();
+    _root->addChild( _patMaster.get() );
+
+    _on = new osgSim::OverlayNode( osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY );
+    _on->setContinuousUpdate( true );
+    _on->setOverlayTextureSizeHint( 1024 );
+    _on->getOrCreateStateSet()->setTextureAttribute( 1, new osg::TexEnv( osg::TexEnv::DECAL ) );
+    _on->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
+    _on->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+    _on->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_WORLD, "RenderBin" );
+    _patMaster->addChild( _on.get() );
+
+    _patScenery = new osg::PositionAttitudeTransform();
+    _on->addChild( _patScenery.get() );
+
+    //createShadow();
 
     fdm::XmlDoc doc( fdm::Path::get( "data/cgi/scenery/scenery.xml" ) );
 
@@ -64,6 +91,76 @@ Scenery::Scenery( Module *parent ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 Scenery::~Scenery() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Scenery::addChild( Module *child )
+{
+    if ( child )
+    {
+        _children.push_back( child );
+        _patScenery->addChild( child->getNode() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Scenery::update()
+{
+    /////////////////
+    Module::update();
+    /////////////////
+
+//    osg::Quat q( -Data::get()->ownship.heading           , osg::Z_AXIS,
+//                 -Data::get()->ownship.latitude + M_PI_2 , osg::Y_AXIS,
+//                  Data::get()->ownship.longitude         , osg::Z_AXIS );
+
+//    osg::Matrixd localToWorld;
+//    WGS84::_em.computeLocalToWorldTransformFromXYZ( Data::get()->ownship.pos_x_wgs,
+//                                                    Data::get()->ownship.pos_y_wgs,
+//                                                    Data::get()->ownship.pos_z_wgs,
+//                                                    localToWorld );
+//    osg::Quat q = localToWorld.getRotate();
+
+//    _patScenery->setAttitude( q.inverse() );
+//    _patMaster->setAttitude( q );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Scenery::createShadow()
+{
+    const double w_2 = 30.0;
+    const double l_2 = 30.0;
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    _on->setOverlaySubgraph( geode.get() );
+
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+    geode->addDrawable( geom.get() );
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+
+    v->push_back( osg::Vec3d(  w_2, -l_2, 0.0 ) );
+    v->push_back( osg::Vec3d(  w_2,  l_2, 0.0 ) );
+    v->push_back( osg::Vec3d( -w_2,  l_2, 0.0 ) );
+    v->push_back( osg::Vec3d( -w_2, -l_2, 0.0 ) );
+
+    Geometry::createQuad( geom.get(), v.get(), true );
+
+    // material
+    osg::ref_ptr<osg::Material> material = new osg::Material();
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.5f, 0.5f, 0.5f, 1.0f ) );
+
+    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+
+    stateSet->setAttribute( material.get() );
+
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( "data/cgi/textures/shadow.png" );
+    stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

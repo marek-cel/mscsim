@@ -43,6 +43,7 @@ struct DataOut
         Initializing,                   ///< initializing
         Ready,                          ///< ready
         Working,                        ///< working
+        Frozen,                         ///< frozen
         Paused,                         ///< paused
         Stopped                         ///< stopped
     };
@@ -181,10 +182,9 @@ struct DataOut
     Controls controls;                  ///< controls data
     Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
     Rotor  rotor;                       ///< rotor data
-
     Crash crash;                        ///< crash cause
-
     StateOut stateOut;                  ///< output state
+    double landing_gear;                ///< [0.0,1.0] landing gear
 };
 
 } // end of fdm namespace

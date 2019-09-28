@@ -33,11 +33,11 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    _hud ( 0 ),
-    _map ( 0 ),
-    _otw ( 0 ),
+    _hud ( NULLPTR ),
+    _map ( NULLPTR ),
+    _otw ( NULLPTR ),
 
-    _camera ( 0 )
+    _camera ( NULLPTR )
 {
     _hud = new HUD();
     _map = new Map();
@@ -50,17 +50,11 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-    if ( _hud ) delete _hud;
-    _hud = 0;
+    DELETE( _hud );
+    DELETE( _map );
+    DELETE( _otw );
 
-    if ( _map ) delete _map;
-    _map = 0;
-
-    if ( _otw ) delete _otw;
-    _otw = 0;
-
-    if ( _camera ) delete _camera;
-    _camera = 0;
+    DELETE( _camera );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

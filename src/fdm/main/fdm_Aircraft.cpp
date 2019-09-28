@@ -39,21 +39,21 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _dataInp ( dataInp ),
     _dataOut ( dataOut ),
 
-    _envir ( 0 ),
-    _isect ( 0 ),
+    _envir ( FDM_NULL ),
+    _isect ( FDM_NULL ),
 
-    _aero ( 0 ),
-    _ctrl ( 0 ),
-    _gear ( 0 ),
-    _mass ( 0 ),
-    _prop ( 0 ),
+    _aero ( FDM_NULL ),
+    _ctrl ( FDM_NULL ),
+    _gear ( FDM_NULL ),
+    _mass ( FDM_NULL ),
+    _prop ( FDM_NULL ),
 
     _airspeed_max  ( 0.0 ),
     _load_aero_min ( 0.0 ),
     _load_aero_max ( 0.0 ),
     _load_gear_max ( 0.0 ),
 
-    _integrator ( 0 ),
+    _integrator ( FDM_NULL ),
 
     _timeStep ( 0.0 ),
 
@@ -76,7 +76,7 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _climbRate     ( 0.0 ),
     _turnRate      ( 0.0 ),
 
-    _freeze ( false )
+    _integration ( true )
 {
     memset( _dataOut, 0, sizeof(DataOut) );
 
@@ -90,14 +90,10 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 Aircraft::~Aircraft()
 {
-    if ( _integrator ) delete _integrator;
-    _integrator = 0;
+    FDM_DELETE( _integrator );
 
-    if ( _envir ) delete _envir;
-    _envir = 0;
-
-    if ( _isect ) delete _isect;
-    _isect = 0;
+    FDM_DELETE( _envir );
+    FDM_DELETE( _isect );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,6 +105,8 @@ void Aircraft::init( bool engineOn )
     _gear->init();
     _mass->init();
     _prop->init( engineOn );
+
+    updateVariables( _stateVect, _derivVect );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +118,7 @@ void Aircraft::step( double timeStep )
     try
     {
         anteIntegration();
-        if ( !_freeze ) integrate();
+        integrate();
         postIntegration();
     }
     catch ( Exception &catched )
@@ -212,13 +210,23 @@ void Aircraft::updateOutputData()
 
     // crash
     _dataOut->crash = _crash;
+
+    // landing gear
+    _dataOut->landing_gear = _dataInp->controls.landing_gear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::setFreeze( bool freeze )
+void Aircraft::disableIntegration()
 {
-    _freeze = freeze;
+    _integration = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircraft::enableIntegration()
+{
+    _integration = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -341,9 +349,19 @@ void Aircraft::anteIntegration()
 
 void Aircraft::integrate()
 {
-    ////////////////////////////////////////////////
-    _integrator->integrate( _timeStep, _stateVect );
-    ////////////////////////////////////////////////
+    if ( _integration )
+    {
+        ////////////////////////////////////////////////
+        _integrator->integrate( _timeStep, _stateVect );
+        ////////////////////////////////////////////////
+    }
+    else
+    {
+        _aero->computeForceAndMoment();
+        _gear->computeForceAndMoment();
+        _mass->computeForceAndMoment();
+        _prop->computeForceAndMoment();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

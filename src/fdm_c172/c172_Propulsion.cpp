@@ -46,11 +46,8 @@ C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft ) :
 
 C172_Propulsion::~C172_Propulsion()
 {
-    if ( _engine ) delete _engine;
-    _engine = 0;
-
-    if ( _propeller ) delete _propeller;
-    _propeller = 0;
+    FDM_DELETE( _engine );
+    FDM_DELETE( _propeller );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,8 +68,8 @@ void C172_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        XmlNode nodeEngine    = dataNode.getFirstChildElement( "piston_engine" );
-        XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller"     );
+        XmlNode nodeEngine    = dataNode.getFirstChildElement( "engine"    );
+        XmlNode nodePropeller = dataNode.getFirstChildElement( "propeller" );
 
         _engine->readData( nodeEngine );
         _propeller->readData( nodePropeller );
@@ -138,6 +135,7 @@ void C172_Propulsion::update()
                      _propeller->getEngineRPM(),
                      _aircraft->getEnvir()->getPressure(),
                      _aircraft->getEnvir()->getDensity(),
+                     _aircraft->getEnvir()->getDensityAltitude(),
                      _aircraft->getDataInp()->engine[ 0 ].fuel,
                      _aircraft->getDataInp()->engine[ 0 ].starter,
                      _aircraft->getDataInp()->engine[ 0 ].ignition,

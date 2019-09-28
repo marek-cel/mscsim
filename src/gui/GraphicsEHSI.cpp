@@ -36,22 +36,22 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
 
     _timerId ( 0 ),
 
-    _scene ( 0 ),
+    _scene ( NULLPTR ),
 
-    _itemBack ( 0 ),
-    _itemMask ( 0 ),
-    _itemMark ( 0 ),
+    _itemBack ( NULLPTR ),
+    _itemMask ( NULLPTR ),
+    _itemMark ( NULLPTR ),
 
-    _itemBrgArrow ( 0 ),
-    _itemCrsArrow ( 0 ),
-    _itemDevBar   ( 0 ),
-    _itemDevScale ( 0 ),
-    _itemHdgBug   ( 0 ),
-    _itemHdgScale ( 0 ),
+    _itemBrgArrow ( NULLPTR ),
+    _itemCrsArrow ( NULLPTR ),
+    _itemDevBar   ( NULLPTR ),
+    _itemDevScale ( NULLPTR ),
+    _itemHdgBug   ( NULLPTR ),
+    _itemHdgScale ( NULLPTR ),
 
-    _itemCrsText ( 0 ),
-    _itemHdgText ( 0 ),
-    _itemDmeText ( 0 ),
+    _itemCrsText ( NULLPTR ),
+    _itemHdgText ( NULLPTR ),
+    _itemDmeText ( NULLPTR ),
 
     _crsTextColor (   0, 255,   0 ),
     _hdgTextColor ( 255,   0, 255 ),
@@ -155,7 +155,7 @@ GraphicsEHSI::~GraphicsEHSI()
     {
         _scene->clear();
         delete _scene;
-        _scene = 0;
+        _scene = NULLPTR;
     }
 
     reset();

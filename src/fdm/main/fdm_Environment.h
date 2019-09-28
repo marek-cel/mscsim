@@ -52,10 +52,11 @@ public:
      */
     virtual void update( double altitude_asl );
 
-    inline double getTemperature()  const { return _temperature;  }
-    inline double getPressure()     const { return _pressure;     }
-    inline double getDensity()      const { return _density;      }
-    inline double getSpeedOfSound() const { return _speedOfSound; }
+    inline double getTemperature()     const { return _temperature;     }
+    inline double getPressure()        const { return _pressure;        }
+    inline double getDensity()         const { return _density;         }
+    inline double getSpeedOfSound()    const { return _speedOfSound;    }
+    inline double getDensityAltitude() const { return _densityAltitude; }
 
     inline Vector3 getWind_BAS() const { return _wind_bas; }
 
@@ -85,6 +86,7 @@ protected:
     double _pressure;           ///< [Pa] air static pressure
     double _density;            ///< [kg/m^3] air density
     double _speedOfSound;       ///< [m/s] speed of sound
+    double _densityAltitude;    ///< [m] density altitude
 
     Vector3 _wind_bas;          ///< [m/s] wind speed vector expressed in BAS
 };

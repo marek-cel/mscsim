@@ -27,6 +27,8 @@
 
 #include <marble/MarbleWidget.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -39,7 +41,7 @@ class WidgetMarble : public Marble::MarbleWidget
 public:
 
     /** Constructor. */
-    WidgetMarble( QWidget *parent = 0 );
+    WidgetMarble( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~WidgetMarble();

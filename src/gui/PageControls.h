@@ -30,6 +30,8 @@
 
 #include <hid/hid_Assignment.h>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -49,7 +51,7 @@ class PageControls : public QWidget
 public:
 
     /** Constructor. */
-    explicit PageControls( QWidget *parent = 0 );
+    explicit PageControls( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~PageControls();

@@ -36,14 +36,14 @@ GraphicsStick::GraphicsStick( QWidget *parent ) :
 
     _timerId ( 0 ),
 
-    _scene ( 0 ),
+    _scene ( NULLPTR ),
 
-    _ctrlLineH ( 0 ),
-    _ctrlLineV ( 0 ),
-    _trimLineH ( 0 ),
-    _trimLineV ( 0 ),
-    _markLineH ( 0 ),
-    _markLineV ( 0 ),
+    _ctrlLineH ( NULLPTR ),
+    _ctrlLineV ( NULLPTR ),
+    _trimLineH ( NULLPTR ),
+    _trimLineV ( NULLPTR ),
+    _markLineH ( NULLPTR ),
+    _markLineV ( NULLPTR ),
 
     _ctrlBrush ( QColor( 0x03, 0x2a, 0x63 ), Qt::SolidPattern ),
     _trimBrush ( QColor( 0x88, 0x88, 0x88 ), Qt::SolidPattern ),
@@ -78,7 +78,7 @@ GraphicsStick::~GraphicsStick()
     {
         _scene->clear();
         delete _scene;
-        _scene = 0;
+        _scene = NULLPTR;
     }
 
     reset();

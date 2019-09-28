@@ -33,8 +33,7 @@ WidgetSquare::WidgetSquare( QWidget *parent ) :
 
 WidgetSquare::~WidgetSquare()
 {
-    if ( _layoutSquare ) delete _layoutSquare;
-    _layoutSquare = 0;
+    DELETE( _layoutSquare );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

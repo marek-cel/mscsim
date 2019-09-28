@@ -329,10 +329,11 @@ public:
         typedef fdm::DataInp::StateInp StateInp;
         typedef fdm::DataOut::StateOut StateOut;
 
-        typedef fdm::DataInp::Controls Controls;
-        typedef fdm::DataInp::Ground   Ground;
-        typedef fdm::DataInp::Initial  Initial;
-        typedef fdm::DataInp::Masses   Masses;
+        typedef fdm::DataInp::Controls  Controls;
+        typedef fdm::DataInp::Ground    Ground;
+        typedef fdm::DataInp::Initial   Initial;
+        typedef fdm::DataInp::Masses    Masses;
+        typedef fdm::DataInp::Recording Recording;
 
         Airport     airport;                ///< airport data
         Camera      camera;                 ///< camera data
@@ -346,6 +347,7 @@ public:
         Navigation  navigation;             ///< navigation data
         Ownship     ownship;                ///< ownship data
         Propulsion  propulsion;             ///< propulsion data
+        Recording   recording;              ///< recording data
         SkyDome     skyDome;                ///< sky dome data
 
         AircraftType aircraftType;          ///< input aircraft type
@@ -355,8 +357,6 @@ public:
 
         double timeCoef;                    ///< [-] time coefficient
         double timeStep;                    ///< [s] simulation time step
-
-        bool freeze;                        ///< specifies if state is frozen
     };
 
 private:

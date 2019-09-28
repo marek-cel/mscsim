@@ -73,11 +73,10 @@ void Module::removeAllChildren()
         _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    for ( unsigned int i = 0; i < _children.size(); i++ )
+    List::iterator it = _children.begin();
+    while ( it != _children.end() )
     {
-        if ( _children[ i ] ) delete _children[ i ];
-        _children[ i ] = 0;
+        DELETE( (*it) );
+        it = _children.erase( it );
     }
-
-    _children.clear();
 }

@@ -53,6 +53,7 @@ struct DataInp
         Idle = 0,                       ///< idle
         Init,                           ///< initialize
         Work,                           ///< work
+        Freeze,                         ///< freeze
         Pause,                          ///< pause
         Stop                            ///< stop
     };
@@ -162,17 +163,31 @@ struct DataInp
         double trunk;                   ///< [kg] cargo trunk
     };
 
+    /** Recording data. */
+    struct Recording
+    {
+        /** Recording modes. */
+        enum Mode
+        {
+            Disabled = 0,               ///< disabled
+            Record,                     ///< record
+            Replay                      ///< replay
+        };
+
+        Mode mode;                      ///< recording mode
+        char file[ 4096 ];              ///< recording file
+    };
+
     Initial     initial;                ///< initial conditions
     Environment environment;            ///< environment data
     Ground      ground;                 ///< ground data
     Controls    controls;               ///< controls data
     Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
     Masses      masses;                 ///< masses data
+    Recording   recording;              ///< recording data
 
     AircraftType aircraftType;          ///< input aircraft type
     StateInp stateInp;                  ///< input state
-
-    bool freeze;                        ///< specifies if state is frozen
 };
 
 } // end of fdm namespace

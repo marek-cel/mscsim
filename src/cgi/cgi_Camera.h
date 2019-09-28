@@ -131,6 +131,8 @@ private:
     osg::Quat  _attitude;   ///<
 
     ViewType _viewType;     ///<
+
+    double _deltaPitch;
 };
 
 } // end of cgi namespace

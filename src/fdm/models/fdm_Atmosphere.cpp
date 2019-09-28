@@ -142,6 +142,24 @@ const double Atmosphere::_std_sl_rho = 1.225;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double Atmosphere::getDensityAltitude( double pressure, double temperature,
+                                       double altitude )
+{
+    static double b = ( -_l_b[ 0 ]*_r  ) / ( WGS84::_g*_m + _l_b[ 0 ]*_r  );
+
+    double result = altitude;
+
+    if ( altitude < _h_b[ 0 ] )
+    {
+        double a = ( pressure / _std_sl_p ) / ( temperature / _std_sl_t );
+        result = -( _std_sl_t / _l_b[ 0 ] ) * ( 1.0 - pow( a, b ) );
+    }
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Atmosphere::Atmosphere() :
     _temperature_0 ( _std_sl_t ),
     _pressure_0    ( _std_sl_p )

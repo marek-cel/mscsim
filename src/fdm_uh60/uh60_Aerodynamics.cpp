@@ -52,20 +52,11 @@ UH60_Aerodynamics::UH60_Aerodynamics( const UH60_Aircraft *aircraft ) :
 
 UH60_Aerodynamics::~UH60_Aerodynamics()
 {
-    if ( _mainRotor ) delete _mainRotor;
-    _mainRotor = 0;
-
-    if ( _tailRotor ) delete _tailRotor;
-    _tailRotor = 0;
-
-    if ( _fuselage ) delete _fuselage;
-    _fuselage = 0;
-
-    if ( _stabHor ) delete _stabHor;
-    _stabHor = 0;
-
-    if ( _stabVer ) delete _stabVer;
-    _stabVer = 0;
+    FDM_DELETE( _mainRotor );
+    FDM_DELETE( _tailRotor );
+    FDM_DELETE( _fuselage );
+    FDM_DELETE( _stabHor );
+    FDM_DELETE( _stabVer );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

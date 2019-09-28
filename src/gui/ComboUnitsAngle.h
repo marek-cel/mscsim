@@ -38,7 +38,7 @@ class ComboUnitsAngle : public ComboUnits
 public:
 
     /** Constructor. */
-    explicit ComboUnitsAngle( QWidget *parent = 0 );
+    explicit ComboUnitsAngle( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~ComboUnitsAngle();

@@ -38,7 +38,7 @@ class ComboUnitsLength : public ComboUnits
 public:
 
     /** Constructor. */
-    explicit ComboUnitsLength( QWidget *parent = 0 );
+    explicit ComboUnitsLength( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~ComboUnitsLength();

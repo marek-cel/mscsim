@@ -84,9 +84,13 @@
     <addaction name="separator"/>
     <addaction name="actionDialogConf"/>
     <addaction name="separator"/>
+    <addaction name="actionFlightOpen"/>
+    <addaction name="actionFlightSave"/>
+    <addaction name="separator"/>
     <addaction name="actionStateInpIdle"/>
     <addaction name="actionStateInpInit"/>
     <addaction name="actionStateInpWork"/>
+    <addaction name="actionStateInpFreeze"/>
     <addaction name="actionStateInpPause"/>
     <addaction name="actionStateInpStop"/>
     <addaction name="separator"/>
@@ -475,6 +479,21 @@
    </property>
    <property name="text">
     <string>Map</string>
+   </property>
+  </action>
+  <action name="actionStateInpFreeze">
+   <property name="text">
+    <string>Freeze</string>
+   </property>
+  </action>
+  <action name="actionFlightOpen">
+   <property name="text">
+    <string>Open Flight...</string>
+   </property>
+  </action>
+  <action name="actionFlightSave">
+   <property name="text">
+    <string>Save Flight...</string>
    </property>
   </action>
  </widget>

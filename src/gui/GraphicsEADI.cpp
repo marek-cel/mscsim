@@ -35,16 +35,16 @@ GraphicsEADI::GraphicsEADI( QWidget *parent ) :
 
     _timerId ( 0 ),
 
-    _scene ( 0 ),
+    _scene ( NULLPTR ),
 
-    _adi ( 0 ),
-    _alt ( 0 ),
-    _asi ( 0 ),
-    _hdg ( 0 ),
-    _vsi ( 0 ),
+    _adi ( NULLPTR ),
+    _alt ( NULLPTR ),
+    _asi ( NULLPTR ),
+    _hdg ( NULLPTR ),
+    _vsi ( NULLPTR ),
 
-    _itemBack ( 0 ),
-    _itemMask ( 0 ),
+    _itemBack ( NULLPTR ),
+    _itemMask ( NULLPTR ),
 
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
@@ -83,25 +83,16 @@ GraphicsEADI::~GraphicsEADI()
     {
         _scene->clear();
         delete _scene;
-        _scene = 0;
+        _scene = NULLPTR;
     }
 
     reset();
 
-    if ( _adi ) delete _adi;
-    _adi = 0;
-
-    if ( _alt ) delete _alt;
-    _alt = 0;
-
-    if ( _asi ) delete _asi;
-    _asi = 0;
-
-    if ( _hdg ) delete _hdg;
-    _hdg = 0;
-
-    if ( _vsi ) delete _vsi;
-    _vsi = 0;
+    DELETE( _adi );
+    DELETE( _alt );
+    DELETE( _asi );
+    DELETE( _hdg );
+    DELETE( _vsi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,18 +191,18 @@ void GraphicsEADI::updateView()
 GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack   ( 0 ),
-    _itemLadd   ( 0 ),
-    _itemRoll   ( 0 ),
-    _itemSlip   ( 0 ),
-    _itemTurn   ( 0 ),
-    _itemDotH   ( 0 ),
-    _itemDotV   ( 0 ),
-    _itemFD     ( 0 ),
-    _itemStall  ( 0 ),
-    _itemMask   ( 0 ),
-    _itemScaleH ( 0 ),
-    _itemScaleV ( 0 ),
+    _itemBack   ( NULLPTR ),
+    _itemLadd   ( NULLPTR ),
+    _itemRoll   ( NULLPTR ),
+    _itemSlip   ( NULLPTR ),
+    _itemTurn   ( NULLPTR ),
+    _itemDotH   ( NULLPTR ),
+    _itemDotV   ( NULLPTR ),
+    _itemFD     ( NULLPTR ),
+    _itemStall  ( NULLPTR ),
+    _itemMask   ( NULLPTR ),
+    _itemScaleH ( NULLPTR ),
+    _itemScaleV ( NULLPTR ),
 
     _roll     ( 0.0f ),
     _pitch    ( 0.0f ),
@@ -720,16 +711,16 @@ void GraphicsEADI::ADI::updateStall()
 GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack     ( 0 ),
-    _itemScale1   ( 0 ),
-    _itemScale2   ( 0 ),
-    _itemLabel1   ( 0 ),
-    _itemLabel2   ( 0 ),
-    _itemLabel3   ( 0 ),
-    _itemGround   ( 0 ),
-    _itemFrame    ( 0 ),
-    _itemAltitude ( 0 ),
-    _itemPressure ( 0 ),
+    _itemBack     ( NULLPTR ),
+    _itemScale1   ( NULLPTR ),
+    _itemScale2   ( NULLPTR ),
+    _itemLabel1   ( NULLPTR ),
+    _itemLabel2   ( NULLPTR ),
+    _itemLabel3   ( NULLPTR ),
+    _itemGround   ( NULLPTR ),
+    _itemFrame    ( NULLPTR ),
+    _itemAltitude ( NULLPTR ),
+    _itemPressure ( NULLPTR ),
 
     _frameTextColor ( 255, 255, 255 ),
     _pressTextColor (   0, 255,   0 ),
@@ -1049,19 +1040,19 @@ void GraphicsEADI::ALT::updateScaleLabels()
 GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack     ( 0 ),
-    _itemScale1   ( 0 ),
-    _itemScale2   ( 0 ),
-    _itemLabel1   ( 0 ),
-    _itemLabel2   ( 0 ),
-    _itemLabel3   ( 0 ),
-    _itemLabel4   ( 0 ),
-    _itemLabel5   ( 0 ),
-    _itemLabel6   ( 0 ),
-    _itemLabel7   ( 0 ),
-    _itemFrame    ( 0 ),
-    _itemAirspeed ( 0 ),
-    _itemMachNo   ( 0 ),
+    _itemBack     ( NULLPTR ),
+    _itemScale1   ( NULLPTR ),
+    _itemScale2   ( NULLPTR ),
+    _itemLabel1   ( NULLPTR ),
+    _itemLabel2   ( NULLPTR ),
+    _itemLabel3   ( NULLPTR ),
+    _itemLabel4   ( NULLPTR ),
+    _itemLabel5   ( NULLPTR ),
+    _itemLabel6   ( NULLPTR ),
+    _itemLabel7   ( NULLPTR ),
+    _itemFrame    ( NULLPTR ),
+    _itemAirspeed ( NULLPTR ),
+    _itemMachNo   ( NULLPTR ),
 
     _frameTextColor ( 255, 255, 255 ),
     _labelsColor    ( 255, 255, 255 ),
@@ -1491,10 +1482,10 @@ void GraphicsEADI::ASI::updateScaleLabels()
 GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack      ( 0 ),
-    _itemFace      ( 0 ),
-    _itemMarks     ( 0 ),
-    _itemFrameText ( 0 ),
+    _itemBack      ( NULLPTR ),
+    _itemFace      ( NULLPTR ),
+    _itemMarks     ( NULLPTR ),
+    _itemFrameText ( NULLPTR ),
 
     _frameTextColor ( 255, 255, 255 ),
 
@@ -1622,8 +1613,8 @@ void GraphicsEADI::HDG::updateHeading()
 GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemScale  ( 0 ),
-    _itemMarker ( 0 ),
+    _itemScale  ( NULLPTR ),
+    _itemMarker ( NULLPTR ),
 
     _climbRate ( 0.0f ),
 

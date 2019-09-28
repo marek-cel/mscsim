@@ -38,7 +38,7 @@ class ComboUnitsTemperature : public ComboUnits
 public:
 
     /** Constructor. */
-    explicit ComboUnitsTemperature( QWidget *parent = 0 );
+    explicit ComboUnitsTemperature( QWidget *parent = NULLPTR );
     
     /** Destructor. */
     virtual ~ComboUnitsTemperature();

@@ -79,6 +79,16 @@ public:
     static const double _std_sl_p;      ///< [Pa] standard sea level pressure (1013.25 hPa)
     static const double _std_sl_rho;    ///< [kg/m^3] standard sea level density (1.225 kg/m^3)
 
+    /**
+     * @brief Computes density altitude.
+     * @param pressure [Pa] outside pressure
+     * @param temperature [K] outside temperature
+     * @param altitude [m] altitude above sea level
+     * @return [m] density altitude
+     */
+    static double getDensityAltitude( double pressure, double temperature,
+                                      double altitude );
+
     /** Constructor. */
     Atmosphere();
 
@@ -93,13 +103,13 @@ public:
 
     /**
      * Sets sea level air pressure value.
-     * @param slAirPressure [Pa] sea level air pressure
+     * @param pressure_0 [Pa] sea level air pressure
      */
     virtual void setPressureSL( double pressure_0 );
 
     /**
      * Sets sea level air temperature value.
-     * @param slAirTemperature [K] sea level air temperature
+     * @param temperature_0 [K] sea level air temperature
      */
     virtual void setTemperatureSL( double temperature_0 );
 

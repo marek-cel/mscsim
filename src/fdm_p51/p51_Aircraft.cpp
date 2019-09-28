@@ -48,20 +48,11 @@ P51_Aircraft::P51_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 P51_Aircraft::~P51_Aircraft()
 {
-    if ( _aero ) delete _aero;
-    _aero = 0;
-
-    if ( _ctrl ) delete _ctrl;
-    _ctrl = 0;
-
-    if ( _gear ) delete _gear;
-    _gear = 0;
-
-    if ( _mass ) delete _mass;
-    _mass = 0;
-
-    if ( _prop ) delete _prop;
-    _prop = 0;
+    FDM_DELETE( _aero );
+    FDM_DELETE( _ctrl );
+    FDM_DELETE( _gear );
+    FDM_DELETE( _mass );
+    FDM_DELETE( _prop );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

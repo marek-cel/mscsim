@@ -62,7 +62,7 @@ Ownship::Ownship( Module *parent ) :
 Ownship::~Ownship() {}
 
 ////////////////////////////////////////////////////////////////////////////////
-
+#include <cgi/cgi_WGS84.h>
 void Ownship::update()
 {
     if ( 0 != strcmp( _aircraftFile.c_str(), Data::get()->ownship.aircraftFile ) )
@@ -87,6 +87,8 @@ void Ownship::update()
     osg::Vec3d r_wgs( Data::get()->ownship.pos_x_wgs,
                       Data::get()->ownship.pos_y_wgs,
                       Data::get()->ownship.pos_z_wgs );
+
+    //osg::Vec3d r_wgs( 0.0, 0.0, osg::WGS_84_RADIUS_EQUATOR + 30.0 );
 
     _pat->setAttitude( q_wgs );
     _pat->setPosition( r_wgs );

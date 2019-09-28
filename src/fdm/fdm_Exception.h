@@ -24,8 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <ostream>
-#include <stdio.h>
+#include <sstream>
 #include <string>
 
 #include <fdm/fdm_Defines.h>
@@ -36,7 +35,7 @@ namespace fdm
 {
 
 /**
- * @brief The Exception class.
+ * @brief Exception class.
  */
 class FDMEXPORT Exception
 {
@@ -55,7 +54,7 @@ public:
 
     /** Constructor. */
     Exception() :
-        _cause ( 0 )
+        _cause ( FDM_NULL )
     {
         _type = UnknownException;
         _line = 0;
@@ -100,17 +99,9 @@ public:
     /** */
     inline std::string getFileAndLine() const
     {
-        if ( _file.size() > 0 && _line > 0 )
-        {
-            char line[255];
-            sprintf( line, "%d", _line );
-
-            return _file + "(" + line + ")";
-        }
-        else
-        {
-            return std::string();
-        }
+        std::stringstream ss;
+        ss << _file << "(" << _line << ")";
+        return ss.str();
     }
 
     /** */
@@ -134,8 +125,7 @@ public:
     /** */
     inline void removeCause()
     {
-        if ( _cause ) delete _cause;
-        _cause = 0;
+        FDM_DELETE( _cause );
     }
 
     /** */
@@ -179,6 +169,15 @@ public:
         _type = type;
     }
 
+    /** */
+    inline std::string toString() const
+    {
+        std::stringstream ss;
+        if ( hasCause() ) ss << _cause->toString();
+        ss << _info << " " << getFileAndLine() << std::endl;
+        return ss.str();
+    }
+
 private:
 
     Exception *_cause;          ///< exception cause (if exception triggered by catching other exception)
@@ -190,24 +189,6 @@ private:
 };
 
 } // end of fdm namespace
-
-////////////////////////////////////////////////////////////////////////////////
-
-/** */
-inline std::ostream& operator<< ( std::ostream &s, const fdm::Exception &e )
-{
-    if ( e.hasCause() )
-    {
-        s << e.getCause();
-    }
-
-    s << e.getInfo();
-    s << " ";
-    s << e.getFileAndLine();
-    s << std::endl;
-
-    return s;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 

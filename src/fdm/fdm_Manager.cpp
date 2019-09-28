@@ -43,7 +43,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    _aircraft ( 0 ),
+    _aircraft ( FDM_NULL ),
+    _recorder ( FDM_NULL ),
 
     _stateInp ( DataInp::Idle ),
     _stateOut ( DataOut::Idle ),
@@ -69,8 +70,8 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-    if ( _aircraft ) delete _aircraft;
-    _aircraft = 0;
+    FDM_DELETE( _aircraft );
+    FDM_DELETE( _recorder );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -84,25 +85,23 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 
     _dataInp = dataInp;
 
-    updateInternalStateInp();
+    updateStateInp();
 
     if ( _stateOut == DataOut::Idle )
     {
         _aircraftType = _dataInp.aircraftType;
     }
 
-    if ( _aircraft )
-    {
-        _aircraft->setFreeze( dataInp.freeze );
-    }
-
     switch ( _stateInp )
     {
-        case DataInp::Idle:  updateStateIdle();  break;
-        case DataInp::Init:  updateStateInit();  break;
-        case DataInp::Work:  updateStateWork();  break;
-        case DataInp::Pause: updateStatePause(); break;
-        case DataInp::Stop:  updateStateStop();  break;
+        case DataInp::Idle:   updateStateIdle();   break;
+        case DataInp::Init:   updateStateInit();   break;
+        case DataInp::Work:   updateStateWork();   break;
+        case DataInp::Freeze: updateStateFreeze(); break;
+        case DataInp::Pause:  updateStatePause();  break;
+
+        default:
+        case DataInp::Stop:   updateStateStop();   break;
     }
 
     _dataOut.stateOut = _stateOut;
@@ -112,7 +111,39 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::initEquilibriumInFlight()
+Aircraft* Manager::createAircraft( AircraftType aircraftType )
+{
+    Aircraft *aircraft = 0;
+
+    switch ( aircraftType )
+    {
+    case DataInp::C130:
+        aircraft = new C130_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::C172:
+        aircraft = new C172_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::F16:
+        aircraft = new F16_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::P51:
+        aircraft = new P51_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::UH60:
+        aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
+        break;
+    }
+
+    return aircraft;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::initInFlight()
 {
     if ( _stateOut != DataOut::Ready )
     {
@@ -143,7 +174,7 @@ void Manager::initEquilibriumInFlight()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::initEquilibriumOnGround()
+void Manager::initOnGround()
 {
     if ( _stateOut != DataOut::Ready )
     {
@@ -240,6 +271,79 @@ void Manager::initEquilibriumOnGround()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Manager::initRecorder()
+{
+    // state
+    _recorder->addVariable( new Recorder::Variable< double >( "state_x"  , &( _aircraft->getStateVect()( _is_x  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_y"  , &( _aircraft->getStateVect()( _is_y  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_z"  , &( _aircraft->getStateVect()( _is_z  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_e0" , &( _aircraft->getStateVect()( _is_e0 ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_ex" , &( _aircraft->getStateVect()( _is_ex ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_ey" , &( _aircraft->getStateVect()( _is_ey ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_ez" , &( _aircraft->getStateVect()( _is_ez ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_u"  , &( _aircraft->getStateVect()( _is_u  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_v"  , &( _aircraft->getStateVect()( _is_v  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_w"  , &( _aircraft->getStateVect()( _is_w  ) ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_p"  , &( _aircraft->getStateVect()( _is_p  ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_q"  , &( _aircraft->getStateVect()( _is_q  ) ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "state_r"  , &( _aircraft->getStateVect()( _is_r  ) ), 8 ) );
+
+    // initial conditions
+    _recorder->addVariable( new Recorder::Variable< bool >( "engine_on" , &( _dataInp.initial.engineOn ) ) );
+
+    // flight data
+    _recorder->addVariable( new Recorder::Variable< double >( "latitude"        , &( _dataOut.flight.latitude      ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "longitude"       , &( _dataOut.flight.longitude     ), 8 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "altitude_agl"    , &( _dataOut.flight.altitude_agl  ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "altitude_asl"    , &( _dataOut.flight.altitude_asl  ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "roll"            , &( _dataOut.flight.roll          ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "pitch"           , &( _dataOut.flight.pitch         ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "heading"         , &( _dataOut.flight.heading       ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "angle_of_attack" , &( _dataOut.flight.angleOfAttack ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "sideslip_angle"  , &( _dataOut.flight.sideslipAngle ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "course"          , &( _dataOut.flight.course        ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "path_angle"      , &( _dataOut.flight.pathAngle     ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "slip_skid_angle" , &( _dataOut.flight.slipSkidAngle ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "airspeed"        , &( _dataOut.flight.airspeed      ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "mach_number"     , &( _dataOut.flight.machNumber    ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "climb_rate"      , &( _dataOut.flight.climbRate     ), 3 ) );
+
+    // controls
+    _recorder->addVariable( new Recorder::Variable< double >( "controls_roll"  , &( _dataInp.controls.roll         ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "controls_pitch" , &( _dataInp.controls.pitch        ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "controls_yaw"   , &( _dataInp.controls.yaw          ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "trim_roll"      , &( _dataInp.controls.trim_roll    ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "trim_pitch"     , &( _dataInp.controls.trim_pitch   ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "trim_yaw"       , &( _dataInp.controls.trim_yaw     ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "brake_l"        , &( _dataInp.controls.brake_l      ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "brake_r"        , &( _dataInp.controls.brake_r      ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "landing_gear"   , &( _dataInp.controls.landing_gear ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "nose_wheel"     , &( _dataInp.controls.nose_wheel   ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "flaps"          , &( _dataInp.controls.flaps        ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "airbrake"       , &( _dataInp.controls.airbrake     ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "spoilers"       , &( _dataInp.controls.spoilers     ), 3 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "collective"     , &( _dataInp.controls.collective   ), 3 ) );
+
+    _recorder->addVariable( new Recorder::Variable< bool >( "lg_handle"   , &( _dataInp.controls.lg_handle   ) ) );
+    _recorder->addVariable( new Recorder::Variable< bool >( "nw_steering" , &( _dataInp.controls.nw_steering ) ) );
+    _recorder->addVariable( new Recorder::Variable< bool >( "antiskid"    , &( _dataInp.controls.antiskid    ) ) );
+
+//    // engines
+//    for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
+//    {
+//        _dataInp.engine[ i ].throttle  = data->propulsion.engine[ i ].throttle;
+//        _dataInp.engine[ i ].mixture   = data->propulsion.engine[ i ].mixture;
+//        _dataInp.engine[ i ].propeller = data->propulsion.engine[ i ].propeller;
+//        _dataInp.engine[ i ].fuel      = data->propulsion.engine[ i ].fuel;
+//        _dataInp.engine[ i ].ignition  = data->propulsion.engine[ i ].ignition;
+//        _dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
+//    }
+
+    _recorder->init( _dataInp.recording.mode, _dataInp.recording.file );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Manager::updateInitialPositionAndAttitude()
 {
     double altitude_asl = _dataInp.initial.altitude_agl + _dataInp.ground.elevation;
@@ -265,7 +369,7 @@ void Manager::updateInitialPositionAndAttitude()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updateInternalStateInp()
+void Manager::updateStateInp()
 {
     switch ( _dataInp.stateInp )
     {
@@ -297,6 +401,7 @@ void Manager::updateInternalStateInp()
     case DataInp::Work:
         if ( _stateOut == DataOut::Ready
           || _stateOut == DataOut::Working
+          || _stateOut == DataOut::Frozen
           || _stateOut == DataOut::Paused )
         {
             _stateInp = DataInp::Work;
@@ -315,9 +420,28 @@ void Manager::updateInternalStateInp()
         }
         break;
 
+    case DataInp::Freeze:
+        if ( _stateOut == DataOut::Ready
+          || _stateOut == DataOut::Working
+          || _stateOut == DataOut::Frozen
+          || _stateOut == DataOut::Paused )
+        {
+            _stateInp = DataInp::Freeze;
+        }
+        else if ( _stateOut == DataOut::Idle )
+        {
+            _stateInp = DataInp::Init;
+        }
+        else
+        {
+            _stateInp = DataInp::Idle;
+        }
+        break;
+
     case DataInp::Pause:
         if ( _stateOut == DataOut::Ready
           || _stateOut == DataOut::Working
+          || _stateOut == DataOut::Frozen
           || _stateOut == DataOut::Paused )
         {
             _stateInp = DataInp::Pause;
@@ -468,6 +592,9 @@ void Manager::updateStateIdle()
     // crash
     _dataOut.crash = DataOut::NoCrash;
 
+    // landing gear
+    _dataOut.landing_gear = 0.0;
+
     _stateOut = DataOut::Idle;
 }
 
@@ -484,45 +611,28 @@ void Manager::updateStateInit()
                 _stateOut = DataOut::Initializing;
                 _initStep = 0;
 
-                switch ( _aircraftType )
-                {
-                case DataInp::C130:
-                    _aircraft = new C130_Aircraft( &_dataInp, &_dataOut );
-                    break;
-
-                case DataInp::C172:
-                    _aircraft = new C172_Aircraft( &_dataInp, &_dataOut );
-                    break;
-
-                case DataInp::F16:
-                    _aircraft = new F16_Aircraft( &_dataInp, &_dataOut );
-                    break;
-
-                case DataInp::P51:
-                    _aircraft = new P51_Aircraft( &_dataInp, &_dataOut );
-                    break;
-
-                case DataInp::UH60:
-                    _aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
-                    break;
-                }
+                _aircraft = createAircraft( _aircraftType );
+                _recorder = new Recorder( 0.1 );
 
                 if ( _aircraft != 0 )
                 {
+                    initRecorder();
                     _aircraft->init( _dataInp.initial.engineOn );
+
+                    if ( _dataInp.recording.mode == DataInp::Recording::Replay )
+                    {
+                        _stateOut = DataOut::Ready;
+                        printState();
+                    }
                 }
             }
 
             if ( _aircraft != 0 )
             {
                 if ( _dataInp.initial.altitude_agl < FDM_MIN_INIT_ALTITUDE )
-                {
-                    initEquilibriumOnGround();
-                }
+                    initOnGround();
                 else
-                {
-                    initEquilibriumInFlight();
-                }
+                    initInFlight();
 
                 _aircraft->updateOutputData();
             }
@@ -550,15 +660,28 @@ void Manager::updateStateWork()
     {
         try
         {
+            _recorder->step( _timeStep );
+
+            if ( _recorder->isReplaying() )
+                _aircraft->disableIntegration();
+            else
+                _aircraft->enableIntegration();
+
+            if ( _dataInp.recording.mode != DataInp::Recording::Replay || _recorder->isReplaying() )
+            {
+                _aircraft->step( _timeStep );
+                _aircraft->updateOutputData();
+            }
+
             _realTime += _timeStep;
             _timeSteps++;
 
-            _aircraft->step( _timeStep );
-            _aircraft->updateOutputData();
-
-            if ( DataOut::NoCrash == _aircraft->getCrash() )
+            if ( DataOut::NoCrash == _aircraft->getCrash() || _recorder->isReplaying() )
             {
-                _stateOut = DataOut::Working;
+                if ( _dataInp.recording.mode == DataInp::Recording::Replay && !_recorder->isReplaying() )
+                    _stateOut = DataOut::Stopped;
+                else
+                    _stateOut = DataOut::Working;
             }
             else
             {
@@ -569,25 +692,61 @@ void Manager::updateStateWork()
                     switch ( _aircraft->getCrash() )
                     {
                     case fdm::DataOut::Collision:
-                        Log::i() << "CRASH: Collision with terrain or obstacle." << std::endl;
+                        Log::i() << "Crash: Collision with terrain or obstacle." << std::endl;
                         break;
 
                     case fdm::DataOut::Overspeed:
-                        Log::i() << "CRASH: Airspeed too high. Airspeed= " << _aircraft->getAirspeed() << " [m/s]" << std::endl;
+                        Log::i() << "Crash: Airspeed too high. Airspeed= " << _aircraft->getAirspeed() << " [m/s]" << std::endl;
                         break;
 
                     case fdm::DataOut::Overstressed:
-                        Log::i() << "CRASH: Load factor too high. Gz= " << _aircraft->getGForce().z() << std::endl;
+                        Log::i() << "Crash: Load factor too high. Gz= " << _aircraft->getGForce().z() << std::endl;
                         break;
 
                     default:
-                        Log::i() << "CRASH: Unknown crash cause." << std::endl;
+                        Log::i() << "Crash: Unknown crash cause." << std::endl;
                         break;
                     }
 
                     printState();
                 }
             }
+        }
+        catch ( Exception &e )
+        {
+            Log::e() << e.getInfo() << std::endl;
+
+            while ( e.hasCause() )
+            {
+                e = e.getCause();
+                Log::e() << e.getInfo() << std::endl;
+            }
+
+            _stateOut = DataOut::Stopped;
+        }
+    }
+    else
+    {
+        _stateOut = DataOut::Stopped;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::updateStateFreeze()
+{
+    if ( _aircraft != 0 )
+    {
+        try
+        {
+            _aircraft->disableIntegration();
+            _aircraft->step( _timeStep );
+            _aircraft->updateOutputData();
+
+            _realTime += _timeStep;
+            _timeSteps++;
+
+            _stateOut = DataOut::Frozen;
         }
         catch ( Exception &e )
         {
@@ -621,7 +780,7 @@ void Manager::updateStateStop()
 {
     if ( _verbose )
     {
-        if ( _timeSteps > 0 )
+        if ( _timeSteps > 0 && _stateOut != DataOut::Stopped )
         {
             double meanStep = _realTime / (double)_timeSteps;
             double meanFreq = 1.0 / meanStep;
@@ -633,8 +792,8 @@ void Manager::updateStateStop()
     _realTime = 0.0;
     _timeSteps = 0;
 
-    if ( _aircraft ) delete _aircraft;
-    _aircraft = 0;
+    FDM_DELETE( _aircraft );
+    FDM_DELETE( _recorder );
 
     _stateOut = DataOut::Stopped;
 }

@@ -22,13 +22,15 @@
 
 #include <Simulation.h>
 
+#include <Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 Simulation::Simulation() :
     QThread ( 0 ),
 
-    _timeoutTimer ( 0 ),
-    _elapsedTimer ( 0 ),
+    _timeoutTimer ( NULLPTR ),
+    _elapsedTimer ( NULLPTR ),
 
     _fdm ( 0 ),
 
@@ -53,14 +55,10 @@ Simulation::~Simulation()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    if ( _timeoutTimer ) delete _timeoutTimer;
-    _timeoutTimer = 0;
+    DELETE( _timeoutTimer );
+    DELETE( _elapsedTimer );
 
-    if ( _elapsedTimer ) delete _elapsedTimer;
-    _elapsedTimer = 0;
-
-    if ( _fdm ) delete _fdm;
-    _fdm = 0;
+    DELETE( _fdm );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,12 +137,14 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.controls.brake_r      = data->controls.brake_r;
     _dataInp.controls.landing_gear = data->controls.landing_gear;
     _dataInp.controls.nose_wheel   = data->controls.nose_wheel;
-    _dataInp.controls.lg_handle    = data->controls.lg_handle;
-    _dataInp.controls.nw_steering  = data->controls.nw_steering;
     _dataInp.controls.flaps        = data->controls.flaps;
     _dataInp.controls.airbrake     = data->controls.airbrake;
     _dataInp.controls.spoilers     = data->controls.spoilers;
     _dataInp.controls.collective   = data->controls.collective;
+
+    _dataInp.controls.lg_handle   = data->controls.lg_handle;
+    _dataInp.controls.nw_steering = data->controls.nw_steering;
+    _dataInp.controls.antiskid    = data->controls.antiskid;
 
     // engines
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -167,14 +167,15 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.masses.cabin       = data->masses.cabin;
     _dataInp.masses.trunk       = data->masses.trunk;
 
+    // recording
+    _dataInp.recording.mode = data->recording.mode;
+    strncpy( _dataInp.recording.file, data->recording.file, 4096 );
+
     // aircraft type
     _dataInp.aircraftType = data->aircraftType;
 
     // input state
     _dataInp.stateInp = data->stateInp;
-
-    // freeze state
-    _dataInp.freeze = data->freeze;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

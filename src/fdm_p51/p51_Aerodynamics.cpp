@@ -51,14 +51,9 @@ P51_Aerodynamics::P51_Aerodynamics( const P51_Aircraft *aircraft ) :
 
 P51_Aerodynamics::~P51_Aerodynamics()
 {
-    if ( _tailOff ) delete _tailOff;
-    _tailOff = 0;
-
-    if ( _stabHor ) delete _stabHor;
-    _stabHor = 0;
-
-    if ( _stabVer ) delete _stabVer;
-    _stabVer = 0;
+    FDM_DELETE( _tailOff );
+    FDM_DELETE( _stabHor );
+    FDM_DELETE( _stabVer );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,20 +105,22 @@ void P51_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
+    Vector3 vel_i_bas( _aircraft->getProp()->getPropeller()->getInducedVelocity(), 0.0, 0.0 );
+
     _tailOff->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getAilerons(),
                                      _aircraft->getCtrl()->getFlaps() );
 
-    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS() + vel_i_bas,
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getAngleOfAttack(),
                                      _aircraft->getCtrl()->getElevator(),
                                      _aircraft->getCtrl()->getElevatorTrim() );
 
-    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS() + vel_i_bas,
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getRudder() );

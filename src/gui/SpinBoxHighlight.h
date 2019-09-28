@@ -26,6 +26,8 @@
 
 #include <QDoubleSpinBox>
 
+#include "gui_Defines.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /** */
@@ -36,7 +38,7 @@ class SpinBoxHighlight : public QDoubleSpinBox
 public:
 
     /** Constructor. */
-    explicit SpinBoxHighlight( QWidget *parent = 0 );
+    explicit SpinBoxHighlight( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~SpinBoxHighlight();

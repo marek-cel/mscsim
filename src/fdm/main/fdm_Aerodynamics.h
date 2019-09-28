@@ -61,7 +61,8 @@ public:
     /**
      * Returns sideslip angle.
      * It is positive when the aircraft velocity component along the transverse
-     * axis is positive. [ISO 1151-1:1988]
+     * axis is positive.
+     * @see ISO 1151-1:1988
      * @param vel_bas [m/s] airspeed vector
      * @param vel_min [m/s] minimum airspeed of calculations
      * @return [rad] sideslip angle

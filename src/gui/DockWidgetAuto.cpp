@@ -36,8 +36,7 @@ DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
 
 DockWidgetAuto::~DockWidgetAuto()
 {
-    if ( _ui ) delete _ui;
-    _ui = 0;
+    DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

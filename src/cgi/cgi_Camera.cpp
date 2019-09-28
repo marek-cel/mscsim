@@ -22,6 +22,9 @@
 
 #include <cgi/cgi_Camera.h>
 
+#include <cgi/cgi_Defines.h>
+
+#include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_WGS84.h>
 
 #include <cgi/cgi_Intersections.h>
@@ -37,7 +40,8 @@ const double Camera::_downAngle = osg::DegreesToRadians( 10.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Camera::Camera()
+Camera::Camera() :
+    _deltaPitch ( 0.0 )
 {
     _manipulatorOrbit = new ManipulatorOrbit();
     _manipulatorShift = new ManipulatorShift();
@@ -73,8 +77,11 @@ void Camera::update()
 
         if ( _viewType == Data::Camera::ViewChase )
         {
+            double deltaPitch = Data::get()->ownship.onGround ? -Data::get()->ownship.pitch : 0.0;
+            _deltaPitch = fdm::Misc::inertia( deltaPitch, _deltaPitch, CGI_TIME_STEP, 1.0 );
+
             double d_phi = 0.0;
-            double d_tht = 0.0;// -0.5 * Data::get()->ownship.pitchRate;
+            double d_tht = _deltaPitch;// -0.5 * Data::get()->ownship.pitchRate;
             double d_psi = 0.0;//  0.0 * Data::get()->ownship.yawRate;
 
             double d_x = -_manipulatorShift->getDistance();
@@ -104,6 +111,8 @@ void Camera::update()
             _manipulatorShift->setByMatrix( matrix );
         }
     }
+
+    //if ( _viewType != Data::Camera::ViewChase ) _deltaPitch = 0.0;
 
     _attitude = _manipulator->getMatrix().getRotate();
     _position = _manipulator->getMatrix().getTrans();

@@ -22,10 +22,16 @@
 
 #include <gui/LayoutSquare.h>
 
+#include <gui/gui_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 LayoutSquare::LayoutSquare( QWidget * parent, int spacing ) :
-    QLayout ( parent )
+    QLayout ( parent ),
+
+    _item ( NULLPTR ),
+    _rectLast ( NULLPTR ),
+    _geometry ( NULLPTR )
 {
     init( spacing );
 }
@@ -33,7 +39,11 @@ LayoutSquare::LayoutSquare( QWidget * parent, int spacing ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 LayoutSquare::LayoutSquare( int spacing ) :
-    QLayout ( 0 )
+    QLayout ( NULLPTR ),
+
+    _item ( NULLPTR ),
+    _rectLast ( NULLPTR ),
+    _geometry ( NULLPTR )
 {
     init( spacing );
 }
@@ -42,14 +52,9 @@ LayoutSquare::LayoutSquare( int spacing ) :
 
 LayoutSquare::~LayoutSquare()
 {
-    if ( _item ) delete _item;
-    _item = 0;
-    
-    if ( _rectLast ) delete _rectLast;
-    _rectLast = 0;
-
-    if ( _geometry ) delete _geometry;
-    _geometry = 0;
+    DELETE( _item );
+    DELETE( _rectLast );
+    DELETE( _geometry );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -69,8 +69,7 @@ DialogInit::~DialogInit()
 {
     settingsSave();
 
-    if ( _ui ) delete _ui;
-    _ui = 0;
+    DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
