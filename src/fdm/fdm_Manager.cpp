@@ -673,6 +673,10 @@ void Manager::updateStateWork()
                 _aircraft->updateOutputData();
             }
 
+            //double lat = Units::rad2deg( _aircraft->getWGS().getPos_Geo().lat );
+            //double lon = Units::rad2deg( _aircraft->getWGS().getPos_Geo().lon );
+            //printf( "%lf %lf\n", lat , lon );
+
             _realTime += _timeStep;
             _timeSteps++;
 

@@ -2,11 +2,51 @@
 <locations>
   
   <location>
+    <name>PHDH: Threshold - Runway 8</name>
+    <lat>21.579593</lat>
+    <lon>-158.208482</lon>
+    <alt>0.0</alt>
+    <hdg>90.8</hdg>
+  </location>
+  
+  <location>
+    <name>PHHI: Threshold - Runway 6</name>
+    <lat>21.479404</lat>
+    <lon>-158.043365</lon>
+    <alt>0.0</alt>
+    <hdg>67.6</hdg>
+  </location>
+  
+  <location>
+    <name>PHJR: Threshold - Runway 11</name>
+    <lat>21.311466</lat>
+    <lon>-158.083536</lon>
+    <alt>0.0</alt>
+    <hdg>118.0</hdg>
+  </location>
+  
+  <location>
+    <name>PHNG: Threshold - Runway 4</name>
+    <lat>21.444181</lat>
+    <lon>-157.776379</lon>
+    <alt>0.0</alt>
+    <hdg>50.9</hdg>
+  </location>
+  
+  <location>
+    <name>PHNL: Threshold - Runway 22L</name>
+    <lat>21.328560</lat>
+    <lon>-157.906398</lon>
+    <alt>0.0</alt>
+    <hdg>233.0</hdg>
+  </location>
+  
+  <location>
     <name>PHNL: Threshold - Runway 22R</name>
     <lat>21.329569</lat>
     <lon>-157.907433</lon>
     <alt>0.0</alt>
-    <hdg>223.4</hdg><!-- mag var 9.6 deg E -->
+    <hdg>233.0</hdg>
   </location>
 
   
