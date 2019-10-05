@@ -47,11 +47,11 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "l" ) )
         return &Units::l2m3;
 
-    else if ( 0 == String::icompare( name, "ft_min" ) )
+    else if ( 0 == String::icompare( name, "fpm" ) )
         return &Units::fpm2mps;
-    else if ( 0 == String::icompare( name, "ft_s" ) )
+    else if ( 0 == String::icompare( name, "fps" ) )
         return &Units::fps2mps;
-    else if ( 0 == String::icompare( name, "km_h" ) )
+    else if ( 0 == String::icompare( name, "kmh" ) )
         return &Units::kmh2mps;
     else if ( 0 == String::icompare( name, "kts" ) )
         return &Units::kts2mps;

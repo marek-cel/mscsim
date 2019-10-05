@@ -23,8 +23,6 @@
 #include <gui/DialogAction.h>
 #include <ui_DialogAction.h>
 
-#include <iostream>
-
 #include <hid/hid_Manager.h>
 #include <hid/hid_Joysticks.h>
 
@@ -78,7 +76,7 @@ DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent,
         }
     }
 
-    DELETE( dialog );
+    SIM_DELETE( dialog );
 
     return assignment;
 }
@@ -152,7 +150,7 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent,
         }
     }
 
-    DELETE( dialog );
+    SIM_DELETE( dialog );
 
     return assignment;
 }
@@ -177,7 +175,7 @@ DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent,
         }
     }
 
-    DELETE( dialog );
+    SIM_DELETE( dialog );
 
     return assignment;
 }
@@ -261,7 +259,7 @@ DialogAction::~DialogAction()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

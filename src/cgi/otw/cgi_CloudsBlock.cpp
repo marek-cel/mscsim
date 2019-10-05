@@ -72,14 +72,14 @@ void CloudsBlock::update()
     Module::update();
     /////////////////
 
-    if ( Data::get()->environment.clouds.type == Data::Environment::Clouds::Block )
+    if ( Data::get()->cgi.environment.clouds.type == Data::CGI::Environment::Clouds::Block )
     {
         if ( _framesCounter % 10 == 0 )
         {
             _framesCounter = 0;
 
-            float lat = Data::get()->camera.latitude;
-            float lon = Data::get()->camera.longitude;
+            float lat = Data::get()->cgi.camera.latitude;
+            float lon = Data::get()->cgi.camera.longitude;
             float alt = _base_asl;
 
             WGS84 wgs_cam( lat, lon, alt );
@@ -87,14 +87,14 @@ void CloudsBlock::update()
             float radius2 = CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
 
             if ( !_created
-              || _count     != Data::get()->environment.clouds.data.block.count
-              || _base_asl  != Data::get()->environment.clouds.data.block.base_asl
-              || _thickness != Data::get()->environment.clouds.data.block.thickness
+              || _count     != Data::get()->cgi.environment.clouds.data.block.count
+              || _base_asl  != Data::get()->cgi.environment.clouds.data.block.base_asl
+              || _thickness != Data::get()->cgi.environment.clouds.data.block.thickness
               || ( _pos_wgs - wgs_cam.getPosition() ).length2() > 0.01 * radius2 )
             {
-                _count     = Data::get()->environment.clouds.data.block.count;
-                _base_asl  = Data::get()->environment.clouds.data.block.base_asl;
-                _thickness = Data::get()->environment.clouds.data.block.thickness;
+                _count     = Data::get()->cgi.environment.clouds.data.block.count;
+                _base_asl  = Data::get()->cgi.environment.clouds.data.block.base_asl;
+                _thickness = Data::get()->cgi.environment.clouds.data.block.thickness;
 
                 create();
             }
@@ -147,8 +147,8 @@ void CloudsBlock::create()
 
     _created = true;
 
-    float lat = Data::get()->camera.latitude;
-    float lon = Data::get()->camera.longitude;
+    float lat = Data::get()->cgi.camera.latitude;
+    float lon = Data::get()->cgi.camera.longitude;
     float alt = _base_asl;
     float ang = CGI_SKYDOME_RADIUS / 1852.0f / 60.0f;
 

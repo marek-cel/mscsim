@@ -16,10 +16,12 @@
         <file>gui/images/efis/eadi/eadi_adi_stall.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_turn.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_alt_bug.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_frame.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_ground.svg</file>
         <file>gui/images/efis/eadi/eadi_alt_scale.svg</file>
         <file>gui/images/efis/eadi/eadi_asi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_asi_bug.svg</file>
         <file>gui/images/efis/eadi/eadi_asi_frame.svg</file>
         <file>gui/images/efis/eadi/eadi_asi_scale.svg</file>
         <file>gui/images/efis/eadi/eadi_hsi_back.svg</file>

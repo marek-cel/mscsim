@@ -117,6 +117,7 @@ private:
     double _Gy;                     ///< [-] Y component of G-Force vector expressed in BAS
     double _Gz;                     ///< [-] Z component of G-Force vector expressed in BAS
 
+    double _minGz;                  ///< [-]
     double _maxGz;                  ///< [-]
 
     void settingsRead();
@@ -147,7 +148,10 @@ private slots:
     void on_comboGx_currentIndexChanged( int /*index*/ );
     void on_comboGy_currentIndexChanged( int /*index*/ );
     void on_comboGz_currentIndexChanged( int /*index*/ );
+    void on_comboMinGz_currentIndexChanged( int /*index*/ );
     void on_comboMaxGz_currentIndexChanged( int /*index*/ );
+
+    void on_buttonResetGz_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

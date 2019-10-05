@@ -133,9 +133,9 @@ struct DataInp
 
         double collective;              ///< [0.0,1.0] collective control (positive in the upward direction)
 
-        bool lg_handle;                 ///< specifies if landing gear handle is down
-        bool nw_steering;               ///< specifies if nose wheel seering is enabled
-        bool antiskid;                  ///< specifies if antiskid system is enabled
+        bool lgh;                       ///< landing gear handle
+        bool nws;                       ///< nose wheel steering
+        bool abs;                       ///< anti-skid braking system
     };
 
     /** Engine data. */

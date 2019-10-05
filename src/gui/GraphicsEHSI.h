@@ -52,9 +52,6 @@ public:
     /** @param heading [deg] */
     void setHeading( float heading );
 
-    /** @param heading bug [deg] */
-    void setHeadingBug( float headingBug );
-
     /** @param course [deg] */
     void setCourse( float course );
 
@@ -66,6 +63,9 @@ public:
 
     /** @param distance [nm] */
     void setDistance( float distance, bool visible = false );
+
+    /** @param heading [deg] */
+    void setHeadingSet( float heading );
 
 protected:
 
@@ -96,20 +96,13 @@ private:
     QGraphicsTextItem *_itemHdgText;    ///<
     QGraphicsTextItem *_itemDmeText;    ///<
 
-    QColor _crsTextColor;               ///<
-    QColor _hdgTextColor;               ///<
-    QColor _dmeTextColor;               ///<
-
-    QFont  _crsTextFont;                ///<
-    QFont  _hdgTextFont;                ///<
-    QFont  _dmeTextFont;                ///<
-
     float _heading;                     ///< [deg]
-    float _headingBug;                  ///< [deg]
     float _course;                      ///<
     float _bearing;                     ///<
     float _deviation;                   ///<
     float _distance;                    ///<
+
+    float _heading_set;                 ///< [deg]
 
     bool _bearingVisible;               ///<
     bool _deviationVisible;             ///<

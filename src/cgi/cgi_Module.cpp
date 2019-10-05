@@ -76,7 +76,7 @@ void Module::removeAllChildren()
     List::iterator it = _children.begin();
     while ( it != _children.end() )
     {
-        DELETE( (*it) );
+        SIM_DELETE( (*it) );
         it = _children.erase( it );
     }
 }

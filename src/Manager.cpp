@@ -22,8 +22,8 @@
 
 #include <Manager.h>
 
+#include <Common.h>
 #include <Data.h>
-#include <Defines.h>
 
 #include <hid/hid_Manager.h>
 
@@ -57,7 +57,7 @@ Manager::~Manager()
 {
     if ( _timerId != 0 ) killTimer( _timerId );
 
-    DELETE( _timer );
+    SIM_DELETE( _timer );
 
     if ( _sim )
     {
@@ -67,9 +67,9 @@ Manager::~Manager()
         }
     }
 
-    DELETE( _nav );
-    DELETE( _sim );
-    DELETE( _win );
+    SIM_DELETE( _nav );
+    SIM_DELETE( _sim );
+    SIM_DELETE( _win );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -131,9 +131,25 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.airbrake     =  hid::Manager::instance()->getAirbrake();
     Data::get()->controls.spoilers     =  hid::Manager::instance()->getSpoilers();
     Data::get()->controls.collective   =  hid::Manager::instance()->getCollective();
-    Data::get()->controls.lg_handle    =  hid::Manager::instance()->isLgHandleDown();
-    Data::get()->controls.nw_steering  =  true; // TODO
-    Data::get()->controls.antiskid     =  true; // TODO
+
+    Data::get()->controls.lgh = hid::Manager::instance()->isLgHandleDown();
+    Data::get()->controls.nws = _win->getNWS();
+    Data::get()->controls.abs = _win->getABS();
+
+    if ( _win->isActiveAP() && _win->isActiveFD() )
+    {
+        Data::get()->controls.roll  -= _win->getAutoRoll();
+        Data::get()->controls.pitch -= _win->getAutoPitch();
+
+        Data::get()->controls.roll  = std::max( -1.0, std::min( 1.0, Data::get()->controls.roll  ) );
+        Data::get()->controls.pitch = std::max( -1.0, std::min( 1.0, Data::get()->controls.pitch ) );
+    }
+
+    if ( _win->isActiveYD() )
+    {
+        Data::get()->controls.yaw -= _win->getAutoYaw();
+        Data::get()->controls.yaw = std::max( -1.0, std::min( 1.0, Data::get()->controls.yaw ) );
+    }
 
     // engines
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -153,26 +169,26 @@ void Manager::timerEvent( QTimerEvent *event )
 void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 {
     // hud
-    Data::get()->hud.roll    = dataOut.flight.roll;
-    Data::get()->hud.pitch   = dataOut.flight.pitch;
-    Data::get()->hud.heading = dataOut.flight.heading;
+    Data::get()->cgi.hud.roll    = dataOut.flight.roll;
+    Data::get()->cgi.hud.pitch   = dataOut.flight.pitch;
+    Data::get()->cgi.hud.heading = dataOut.flight.heading;
 
-    Data::get()->hud.angleOfAttack = dataOut.flight.angleOfAttack;
-    Data::get()->hud.sideslipAngle = dataOut.flight.sideslipAngle;
+    Data::get()->cgi.hud.angleOfAttack = dataOut.flight.angleOfAttack;
+    Data::get()->cgi.hud.sideslipAngle = dataOut.flight.sideslipAngle;
 
-    Data::get()->hud.altitude  = dataOut.flight.altitude_asl;
-    Data::get()->hud.climbRate = dataOut.flight.climbRate;
-    Data::get()->hud.radioAlt  = dataOut.flight.altitude_agl;
+    Data::get()->cgi.hud.altitude  = dataOut.flight.altitude_asl;
+    Data::get()->cgi.hud.climbRate = dataOut.flight.climbRate;
+    Data::get()->cgi.hud.radioAlt  = dataOut.flight.altitude_agl;
 
-    Data::get()->hud.airspeed   = dataOut.flight.airspeed;
-    Data::get()->hud.machNumber = dataOut.flight.machNumber;
-    Data::get()->hud.g_force    = dataOut.flight.g_force_z;
+    Data::get()->cgi.hud.airspeed   = dataOut.flight.airspeed;
+    Data::get()->cgi.hud.machNumber = dataOut.flight.machNumber;
+    Data::get()->cgi.hud.g_force    = dataOut.flight.g_force_z;
 
-    Data::get()->hud.ils_visible      = Data::get()->navigation.ils_visible;
-    Data::get()->hud.ils_gs_deviation = Data::get()->navigation.ils_gs_deviation;
-    Data::get()->hud.ils_lc_deviation = Data::get()->navigation.ils_lc_deviation;
+    Data::get()->cgi.hud.ils_visible      = Data::get()->navigation.ils_visible;
+    Data::get()->cgi.hud.ils_gs_deviation = Data::get()->navigation.ils_gs_deviation;
+    Data::get()->cgi.hud.ils_lc_deviation = Data::get()->navigation.ils_lc_deviation;
 
-    Data::get()->hud.stall = dataOut.flight.stall;
+    Data::get()->cgi.hud.stall = dataOut.flight.stall;
 
     // ownship
     Data::get()->ownship.latitude  = dataOut.flight.latitude;

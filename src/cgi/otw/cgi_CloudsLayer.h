@@ -39,7 +39,7 @@ class CloudsLayer : public Module
 {
 public:
 
-    typedef Data::Environment::Clouds::Data::Layer::Cover Cover;
+    typedef Data::CGI::Environment::Clouds::Data::Layer::Cover Cover;
 
     /** Constructor. */
     CloudsLayer( Module *parent = 0 );

@@ -2,6 +2,18 @@
 <aircraft>
   <model>data/cgi/entities/f16c.osgb</model>
   
+  <wing_tip_l>
+    <x>  -2.89  </x>
+    <y>  -4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -2.89  </x>
+    <y>   4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_r>
+  
   <!-- door left -->
   <landing_gear_1>
     <x>

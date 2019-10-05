@@ -57,24 +57,11 @@ void HingeMoment::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta   , "dch_ddelta"   );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta_t , "dch_ddelta_t" );
 
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

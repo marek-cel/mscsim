@@ -56,7 +56,7 @@ public:
 private:
 
     osg::ref_ptr<osg::Switch> _switch;
-    osg::ref_ptr<osg::Vec3dArray> _positions;
+    osg::ref_ptr<osg::Vec3Array> _positions;
     bool _visible;
     unsigned int _counter;
     fdm::DataOut::StateOut _prevState;

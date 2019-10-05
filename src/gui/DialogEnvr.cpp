@@ -45,7 +45,7 @@ DialogEnvr::DialogEnvr( QWidget *parent ) :
 
     _visibility ( 0.0 ),
 
-    _cloudsType ( Data::Environment::Clouds::Block )
+    _cloudsType ( Data::CGI::Environment::Clouds::Block )
 {
     _ui->setupUi( this );
 
@@ -61,7 +61,7 @@ DialogEnvr::DialogEnvr( QWidget *parent ) :
     _blockClouds.base_asl = 500.0;
     _blockClouds.thickness = 500.0;
 
-    _layerClouds.cover = Data::Environment::Clouds::Data::Layer::SKC;
+    _layerClouds.cover = Data::CGI::Environment::Clouds::Data::Layer::SKC;
     _layerClouds.base_asl = 100.0;
 
     settingsRead();
@@ -73,7 +73,7 @@ DialogEnvr::~DialogEnvr()
 {
     settingsSave();
 
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,11 +89,11 @@ void DialogEnvr::readData()
 
     _ui->sliderVisibility->setValue( _visibility / 100.0f );
 
-    if ( _cloudsType == Data::Environment::Clouds::Block )
+    if ( _cloudsType == Data::CGI::Environment::Clouds::Block )
     {
         _ui->radioButtonCloudsTypeBlock->setChecked( true );
     }
-    else if ( _cloudsType == Data::Environment::Clouds::Layer )
+    else if ( _cloudsType == Data::CGI::Environment::Clouds::Layer )
     {
         _ui->radioButtonCloudsTypeLayer->setChecked( true );
     }
@@ -121,7 +121,10 @@ void DialogEnvr::saveData()
 
     _visibility = 100.0f * _ui->sliderVisibility->value();
 
-    _cloudsType = _ui->radioButtonCloudsTypeBlock->isChecked() ? Data::Environment::Clouds::Block : Data::Environment::Clouds::Layer;
+    if ( _ui->radioButtonCloudsTypeBlock->isChecked() )
+        _cloudsType = Data::CGI::Environment::Clouds::Block;
+    else
+        _cloudsType = Data::CGI::Environment::Clouds::Layer;
 
     double area_sq_m = M_PI * CGI_SKYDOME_RADIUS * CGI_SKYDOME_RADIUS;
     double area_sq_km = area_sq_m / 1000.0 / 1000.0;
@@ -139,24 +142,24 @@ DialogEnvr::Cover DialogEnvr::intToCover( int index, Cover def )
 {
     switch ( index )
     {
-    case Data::Environment::Clouds::Data::Layer::SKC:
-        return Data::Environment::Clouds::Data::Layer::SKC;
+    case Data::CGI::Environment::Clouds::Data::Layer::SKC:
+        return Data::CGI::Environment::Clouds::Data::Layer::SKC;
         break;
 
-    case Data::Environment::Clouds::Data::Layer::FEW:
-        return Data::Environment::Clouds::Data::Layer::FEW;
+    case Data::CGI::Environment::Clouds::Data::Layer::FEW:
+        return Data::CGI::Environment::Clouds::Data::Layer::FEW;
         break;
 
-    case Data::Environment::Clouds::Data::Layer::SCT:
-        return Data::Environment::Clouds::Data::Layer::SCT;
+    case Data::CGI::Environment::Clouds::Data::Layer::SCT:
+        return Data::CGI::Environment::Clouds::Data::Layer::SCT;
         break;
 
-    case Data::Environment::Clouds::Data::Layer::BKN:
-        return Data::Environment::Clouds::Data::Layer::BKN;
+    case Data::CGI::Environment::Clouds::Data::Layer::BKN:
+        return Data::CGI::Environment::Clouds::Data::Layer::BKN;
         break;
 
-    case Data::Environment::Clouds::Data::Layer::OVC:
-        return Data::Environment::Clouds::Data::Layer::OVC;
+    case Data::CGI::Environment::Clouds::Data::Layer::OVC:
+        return Data::CGI::Environment::Clouds::Data::Layer::OVC;
         break;
     }
 
@@ -194,14 +197,14 @@ void DialogEnvr::settingsRead_EnvrData( QSettings &settings )
 
     _visibility = settings.value( "visibility", CGI_SKYDOME_RADIUS ).toFloat();
 
-    switch ( settings.value( "clouds_type", Data::Environment::Clouds::Block ).toInt() )
+    switch ( settings.value( "clouds_type", Data::CGI::Environment::Clouds::Block ).toInt() )
     {
-    case Data::Environment::Clouds::Block:
-        _cloudsType = Data::Environment::Clouds::Block;
+    case Data::CGI::Environment::Clouds::Block:
+        _cloudsType = Data::CGI::Environment::Clouds::Block;
         break;
 
-    case Data::Environment::Clouds::Layer:
-        _cloudsType = Data::Environment::Clouds::Layer;
+    case Data::CGI::Environment::Clouds::Layer:
+        _cloudsType = Data::CGI::Environment::Clouds::Layer;
         break;
     }
 
@@ -210,7 +213,7 @@ void DialogEnvr::settingsRead_EnvrData( QSettings &settings )
     _blockClouds.thickness = settings.value( "clouds_block_thick" , _blockClouds.thickness ).toFloat();
 
     _layerClouds.cover = intToCover( settings.value( "clouds_layer_cover",
-                               Data::Environment::Clouds::Data::Layer::SKC ).toInt() );
+                               Data::CGI::Environment::Clouds::Data::Layer::SKC ).toInt() );
     _layerClouds.base_asl  = settings.value( "clouds_layer_base"  , _layerClouds.base_asl  ).toFloat();
 
     settings.endGroup();

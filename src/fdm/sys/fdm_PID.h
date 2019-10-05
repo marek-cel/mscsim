@@ -32,16 +32,37 @@ namespace fdm
 {
 
 /**
- * @brief Proportional-Integral-Derivative controller with anti-windup filter class.
+ * @brief Proportional-Integral-Derivative controller.
  *
- * Transfer function:
- * G(s)  =  Kp + Ki*(1/s) + Kd*s
+ * Transfer function (parallel):
+ * G(s)  =  kp + ki*( 1/s ) + kd*s
+ *
+ * Transfer function (series):
+ * G(s)  =  k*( 1 + 1/( s*tau_i ) )*( 1 + s*tau_d )
+ *
+ * Transfer function (standard):
+ * G(s)  =  Kp*( 1 + 1/( s*Ti ) + s*Td )
  *
  * @see Duzinkiewicz K., et al.: Zadania do cwiczen laboratoryjnych T10: Sterowanie predkoscia obrotowa silnika pradu stalego, 2016. [in Polish]
+ * @see Brdys M., et al.: Silnik pradu stalego (NI Elvis 2) - Dobieranie nastaw regulatorow P, PI, PI. Filtr przeciwnasyceniowy Anti-windup, 2010. [in Polish]
+ * @see Anirban G., Vinod J. :Anti-windup Schemes for Proportional Integral and Proportional Resonant Controller, 2010
+ * @see https://en.wikipedia.org/wiki/PID_controller
+ * @see https://en.wikipedia.org/wiki/Integral_windup
+ * @see https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method
+ * @see https://www.scilab.org/pid-anti-windup-schemes
  */
 class FDMEXPORT PID
 {
 public:
+
+    /** Anti-Windup methods. */
+    enum AntiWindup
+    {
+        None = 0,       ///< anti-windup innactive
+        Calculation,    ///< back calculation
+        Conditional,    ///< conditional integration
+        Filtering       ///< feedback filtering
+    };
 
     /** Constructor. */
     PID( double kp, double ki, double kd );
@@ -53,40 +74,64 @@ public:
     virtual ~PID();
 
     /** Updates controller. */
-    void update( double timeStep, double error );
+    virtual void update( double timeStep, double error );
+
+    /** Resets controller. */
+    inline void reset() { setValue( 0.0 ); }
 
     /** Returns controller output. */
     inline double getValue() const { return _value; }
+
+    inline double getKp() const { return _kp; }
+    inline double getKi() const { return _ki; }
+    inline double getKd() const { return _kd; }
+
+    inline double getKaw() const { return _kaw; }
+
+    inline double getMin() const { return _min; }
+    inline double getMax() const { return _max; }
+
+    virtual void setParallel( double kp, double ki, double kd );
+    virtual void setSerial( double k, double tau_i, double tau_d );
+    virtual void setStandard( double Kp, double Ti, double Td );
+
+    /** Sets controller output (resets error integral sum). */
+    virtual void setValue( double value );
 
     inline void setKp( double kp ) { _kp = kp; }
     inline void setKi( double ki ) { _ki = ki; }
     inline void setKd( double kd ) { _kd = kd; }
 
+    inline void setKaw( double kaw ) { _kaw = kaw; }
+
     inline void setMin( double min ) { _min = min; }
     inline void setMax( double max ) { _max = max; }
 
-    inline void setSaturation( bool saturation ) { _saturation = saturation; }
+    inline void setAntiWindup( AntiWindup antiWindup ) { _antiWindup = antiWindup; }
 
-    /** Sets controller output (resets integer). */
-    void setValue( double value );
+    inline void setSaturation( bool saturation ) { _saturation  = saturation; }
 
 protected:
 
-    double _kp;         ///< proportional gain
-    double _ki;         ///< integral gain
-    double _kd;         ///< derivative gain
+    AntiWindup _antiWindup; ///< anti-windup method
 
-    double _min;        ///< minimum output value
-    double _max;        ///< maximum output value
+    double _kp;             ///< proportional gain
+    double _ki;             ///< integral gain
+    double _kd;             ///< derivative gain
 
-    double _error;      ///< error
-    double _error_i;    ///< error integral sum
-    double _error_d;    ///< error derivative
+    double _kaw;            ///< anti-windup gain
 
-    double _value;      ///< output value
-    double _delta;      ///< difference between raw and saturated output values
+    double _min;            ///< minimum output value
+    double _max;            ///< maximum output value
 
-    bool _saturation;   ///< saturation
+    double _error;          ///< error
+    double _error_i;        ///< error integral sum
+    double _error_d;        ///< error derivative
+
+    double _value;          ///< output value
+    double _delta;          ///< difference between raw and saturated output values
+
+    bool _saturation;       ///< specify if saturation is enabled
 };
 
 } // end of fdm namespace

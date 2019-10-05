@@ -54,6 +54,14 @@ class FDMEXPORT Misc
 {
 public:
 
+    /**
+     * Firt order inertia.
+     * @param u desired value
+     * @param y current value
+     * @param dt [s] time step
+     * @param tc [s] time constant
+     * @return firt order inertia output
+     */
     inline static double inertia( double u, double y, double dt, double tc )
     {
         return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
@@ -169,6 +177,20 @@ public:
     inline static double pow5( const double &val )
     {
         return val * val * val * val * val;
+    }
+
+    /**
+     * Maximum rate of change.
+     * @param dt [s] time step
+     * @param max [1/s] maximum rate of change
+     * @param y current value
+     * @param u desired value
+     * @return output value
+     */
+    inline static double rate( double dt, double max, double y, double u )
+    {
+        double d_max = dt * max;
+        return y + satur( -d_max, d_max, u - y );
     }
 
     /**

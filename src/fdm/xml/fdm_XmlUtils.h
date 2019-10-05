@@ -181,6 +181,14 @@ public:
 
         return FDM_FAILURE;
     }
+
+    /**
+     * @brief Throws FileReadingError error
+     * @param file
+     * @param line
+     * @param node
+     */
+    static void throwError( const char *file, int line, const XmlNode &node );
 };
 
 } // end of fdm namespace

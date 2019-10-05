@@ -368,3 +368,18 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
     return FDM_FAILURE;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void XmlUtils::throwError( const char *file, int line, const XmlNode &node )
+{
+    Exception e;
+
+    e.setType( Exception::FileReadingError );
+    e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( node ) );
+
+    e.setFile( file );
+    e.setLine( line );
+
+    throw e;
+}

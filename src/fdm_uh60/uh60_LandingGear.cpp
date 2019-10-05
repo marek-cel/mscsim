@@ -50,6 +50,6 @@ void UH60_LandingGear::update()
 
     _ctrlAngle = 0.0;
 
-    _antiskid = _aircraft->getDataInp()->controls.antiskid;
+    _antiskid = _aircraft->getDataInp()->controls.abs;
     _steering = false;
 }

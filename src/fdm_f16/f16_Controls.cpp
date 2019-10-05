@@ -115,22 +115,12 @@ void F16_Controls::readData( XmlNode &dataNode )
         }
         else
         {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -248,7 +238,7 @@ void F16_Controls::update()
                        ctrlYaw, trimYaw,
                        statPress, dynPress,
                        false, false,
-                       _aircraft->getDataInp()->controls.lg_handle,
+                       _aircraft->getDataInp()->controls.lgh,
                        _aircraft->getGear()->getOnGround() );
 
 //        _flcs->update( _aircraft->getTimeStep(),

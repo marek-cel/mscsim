@@ -2,6 +2,18 @@
 <aircraft>
   <model>data/cgi/entities/p51.osgb</model>
   
+  <wing_tip_l>
+    <x>  -0.97  </x>
+    <y>  -5.64  </y>
+    <z>   0.22  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -0.97  </x>
+    <y>   5.64  </y>
+    <z>   0.22  </z>
+  </wing_tip_r>
+  
   <!-- left wheel -->
   <landing_gear_1>
     <x>

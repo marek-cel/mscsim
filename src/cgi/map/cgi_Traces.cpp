@@ -39,13 +39,13 @@ using namespace cgi;
 
 Traces::Traces( Module *parent ) :
     Module( parent ),
-    _positions ( new osg::Vec3dArray() ),
     _visible ( true ),
-    _counter ( 0 ),
-    _prevState ( fdm::DataOut::Idle )
+    _counter ( 0 )
 {
     _switch = new osg::Switch();
     _root->addChild( _switch.get() );
+
+    _positions = new osg::Vec3Array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,14 +56,9 @@ Traces::~Traces() {}
 
 void Traces::update()
 {
-    if ( fdm::DataOut::Working == Data::get()->stateOut
-      || fdm::DataOut::Working == _prevState )
+    if ( fdm::DataOut::Working == Data::get()->stateOut || fdm::DataOut::Working == _prevState )
     {
-        _positions->push_back( osg::Vec3d( Mercator::x( Data::get()->ownship.longitude ),
-                                           Mercator::y( Data::get()->ownship.latitude ),
-                                           Map::_zTraces ) );
-
-        if ( ( _visible && _counter % 10 == 0 ) || Data::get()->stateOut != fdm::DataOut::Working )
+        if ( ( _visible && _counter % 10 == 0 ) || fdm::DataOut::Working != Data::get()->stateOut )
         {
             _counter = 0;
 
@@ -71,6 +66,10 @@ void Traces::update()
             {
                 _switch->removeChildren( 0, _switch->getNumChildren() );
             }
+
+            _positions->push_back( osg::Vec3( Mercator::x( Data::get()->ownship.longitude ),
+                                              Mercator::y( Data::get()->ownship.latitude ),
+                                              Map::_zTraces ) );
 
             osg::ref_ptr<osg::Geode> geode = new osg::Geode();
             _switch->addChild( geode.get() );

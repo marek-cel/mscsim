@@ -140,7 +140,9 @@ void SkyDome::update()
     _dateTime.minute = Data::get()->dateTime.minute;
     _dateTime.second = Data::get()->dateTime.second;
 
-    _ephemeris.update( _dateTime, Data::get()->camera.latitude, Data::get()->camera.longitude );
+    _ephemeris.update( _dateTime,
+                       Data::get()->cgi.camera.latitude,
+                       Data::get()->cgi.camera.longitude );
 
     _sunAlpha  = _ephemeris.getSunAlpha();
     _sunDelta  = _ephemeris.getSunDelta();
@@ -155,12 +157,12 @@ void SkyDome::update()
 
 #   ifdef SIM_SKYDOME_SCALING
     // scale
-    if ( Data::get()->camera.altitude_agl > CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
+    if ( Data::get()->cgi.camera.altitude_agl > CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
     {
         // Scaling (distance to the horizon - simplified formula)
-        _skyScale = 3600.0 * sqrt( Data::get()->camera.altitude_asl ) / CGI_SKYDOME_RADIUS;
+        _skyScale = 3600.0 * sqrt( Data::get()->cgi.camera.altitude_asl ) / CGI_SKYDOME_RADIUS;
 
-        float coef = ( Data::get()->camera.altitude_agl - CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
+        float coef = ( Data::get()->cgi.camera.altitude_agl - CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN )
                    / ( CGI_SKYDOME_SCALING_TRANSIENT_ALT_MAX - CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN );
         if ( coef > 1.0f ) coef = 1.0f;
 
@@ -178,14 +180,18 @@ void SkyDome::update()
 #   endif
 
     // position
-    osg::Vec3d pos_wgs = WGS84( Data::get()->camera.latitude, Data::get()->camera.longitude, 0.0 ).getPosition();
+    osg::Vec3d pos_wgs = WGS84( Data::get()->cgi.camera.latitude,
+                                Data::get()->cgi.camera.longitude,
+                                0.0 ).getPosition();
 
     double r_s = _skyScale * CGI_SKYDOME_RADIUS;
     double r_e = pos_wgs.length();
 
     double delta_h = -r_s * tan( asin( r_s / r_e ) );
 
-    WGS84 wgs( Data::get()->camera.latitude, Data::get()->camera.longitude, delta_h );
+    WGS84 wgs( Data::get()->cgi.camera.latitude,
+               Data::get()->cgi.camera.longitude,
+               delta_h );
 
     _attitude->setAttitude( wgs.getAttitude() );
     _position->setPosition( wgs.getPosition() );
@@ -229,7 +235,7 @@ void SkyDome::update()
         }
     }
 
-    if ( Data::get()->environment.visibility < CGI_FOG_LIMIT )
+    if ( Data::get()->cgi.environment.visibility < CGI_FOG_LIMIT )
     {
         unsigned short fog_num = FogScene::getFogNumber( sun_elevation_deg );
 
@@ -402,11 +408,11 @@ void SkyDome::update()
         lightMoon->setDiffuse( moonLightColor );
     }
 
-    Data::get()->skyDome.skyScale = _skyScale;
-    Data::get()->skyDome.sunAlpha = _sunAlpha;
-    Data::get()->skyDome.sunDelta = _sunDelta;
-    Data::get()->skyDome.sunElev  = _sunElev;
-    Data::get()->skyDome.sunAzim  = _sunAzim;
+    Data::get()->cgi.skyDome.skyScale = _skyScale;
+    Data::get()->cgi.skyDome.sunAlpha = _sunAlpha;
+    Data::get()->cgi.skyDome.sunDelta = _sunDelta;
+    Data::get()->cgi.skyDome.sunElev  = _sunElev;
+    Data::get()->cgi.skyDome.sunAzim  = _sunAzim;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

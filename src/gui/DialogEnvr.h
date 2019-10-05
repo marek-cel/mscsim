@@ -50,10 +50,10 @@ class DialogEnvr : public QDialog
 public:
 
     typedef fdm::DataInp::Environment::WindShear WindShear;
-    typedef Data::Environment::Clouds::Type CloudsType;
-    typedef Data::Environment::Clouds::Data::Block BlockClouds;
-    typedef Data::Environment::Clouds::Data::Layer LayerClouds;
-    typedef Data::Environment::Clouds::Data::Layer::Cover Cover;
+    typedef Data::CGI::Environment::Clouds::Type CloudsType;
+    typedef Data::CGI::Environment::Clouds::Data::Block BlockClouds;
+    typedef Data::CGI::Environment::Clouds::Data::Layer LayerClouds;
+    typedef Data::CGI::Environment::Clouds::Data::Layer::Cover Cover;
 
     /** Constructor. */
     explicit DialogEnvr( QWidget *parent = NULLPTR );
@@ -101,7 +101,7 @@ private:
     LayerClouds _layerClouds;       ///< layer clouds data
 
     Cover intToCover( int index,
-                      Cover def = Data::Environment::Clouds::Data::Layer::SKC );
+                      Cover def = Data::CGI::Environment::Clouds::Data::Layer::SKC );
 
     void settingsRead();
     void settingsRead_EnvrData( QSettings &settings );

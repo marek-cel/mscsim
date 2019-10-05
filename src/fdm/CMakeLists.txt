@@ -3,7 +3,8 @@ add_library( fdm STATIC
     fdm_Log.cpp
     fdm_Manager.cpp
     fdm_Recorder.cpp
-    
+
+    auto/fdm_Autopilot.cpp
     auto/fdm_FlightDirector.cpp
     
     main/fdm_Aerodynamics.cpp
@@ -45,6 +46,7 @@ add_library( fdm STATIC
     utils/fdm_Matrix4x4.cpp
     utils/fdm_Matrix6x6.cpp
     utils/fdm_Quaternion.cpp
+    utils/fdm_Period.cpp
     utils/fdm_Random.cpp
     utils/fdm_String.cpp
     utils/fdm_Table.cpp

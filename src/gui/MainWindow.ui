@@ -119,6 +119,7 @@
     <addaction name="actionViewWorld"/>
     <addaction name="separator"/>
     <addaction name="actionShowHUD"/>
+    <addaction name="actionShowTraces"/>
    </widget>
    <widget class="QMenu" name="menuAirport">
     <property name="title">
@@ -494,6 +495,14 @@
   <action name="actionFlightSave">
    <property name="text">
     <string>Save Flight...</string>
+   </property>
+  </action>
+  <action name="actionShowTraces">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Traces</string>
    </property>
   </action>
  </widget>

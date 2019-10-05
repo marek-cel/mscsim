@@ -41,7 +41,7 @@ using namespace cgi;
 CloudsLayer::CloudsLayer( Module *parent ) :
     Module( parent ),
 
-    _cover ( Data::Environment::Clouds::Data::Layer::SKC ),
+    _cover ( Data::CGI::Environment::Clouds::Data::Layer::SKC ),
     _base_asl ( 0.0f ),
 
     _framesCounter ( 0 ),
@@ -65,18 +65,18 @@ void CloudsLayer::update()
     Module::update();
     /////////////////
 
-    if ( Data::get()->environment.clouds.type == Data::Environment::Clouds::Layer )
+    if ( Data::get()->cgi.environment.clouds.type == Data::CGI::Environment::Clouds::Layer )
     {
         if ( _framesCounter % 10 == 0 )
         {
             _framesCounter = 0;
 
             if ( !_created
-              || _cover     != Data::get()->environment.clouds.data.layer.cover
-              || _base_asl  != Data::get()->environment.clouds.data.layer.base_asl )
+              || _cover     != Data::get()->cgi.environment.clouds.data.layer.cover
+              || _base_asl  != Data::get()->cgi.environment.clouds.data.layer.base_asl )
             {
-                _cover     = Data::get()->environment.clouds.data.layer.cover;
-                _base_asl  = Data::get()->environment.clouds.data.layer.base_asl;
+                _cover     = Data::get()->cgi.environment.clouds.data.layer.cover;
+                _base_asl  = Data::get()->cgi.environment.clouds.data.layer.base_asl;
 
                 create();
             }
@@ -208,19 +208,19 @@ void CloudsLayer::createLayer( osg::Group *parent, double lat , double lon, doub
     osg::ref_ptr<osg::Texture2D> texture;
     switch ( _cover )
     {
-    case Data::Environment::Clouds::Data::Layer::FEW:
+    case Data::CGI::Environment::Clouds::Data::Layer::FEW:
         texture = _textures.at( 0 ).get();
         break;
 
-    case Data::Environment::Clouds::Data::Layer::SCT:
+    case Data::CGI::Environment::Clouds::Data::Layer::SCT:
         texture = _textures.at( 1 ).get();
         break;
 
-    case Data::Environment::Clouds::Data::Layer::BKN:
+    case Data::CGI::Environment::Clouds::Data::Layer::BKN:
         texture = _textures.at( 2 ).get();
         break;
 
-    case Data::Environment::Clouds::Data::Layer::OVC:
+    case Data::CGI::Environment::Clouds::Data::Layer::OVC:
     default:
         texture = _textures.at( 3 ).get();
         break;

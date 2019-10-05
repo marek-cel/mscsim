@@ -24,6 +24,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <Common.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -51,7 +53,7 @@ osgText::Font* Fonts::get( const std::string &fontFile )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open font file: " << fontFile << std::endl;
+        Log::e() << "Cannot open font file: " << fontFile << std::endl;
     }
 
     return 0;

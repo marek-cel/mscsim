@@ -23,12 +23,11 @@
 #include <hid/hid_Joysticks.h>
 
 #include <math.h>
-#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 
-#include <Defines.h>
+#include <Common.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -357,21 +356,21 @@ void Joysticks::init()
 
             //if ( joySetCapture( winId, joyIdTemp, 10, false ) == JOYERR_NOERROR )
             {
-                _data[ m_count ].name = tempNameChar;
+                _data[ _count ].name = tempNameChar;
 
-                _data[ m_count ].axisCount = joyCaps.wNumAxes;
-                _data[ m_count ].buttCount = joyCaps.wNumButtons;
-                _data[ m_count ].povsCount = 0;
+                _data[ _count ].axisCount = joyCaps.wNumAxes;
+                _data[ _count ].buttCount = joyCaps.wNumButtons;
+                _data[ _count ].povsCount = 0;
 
-                _data[ m_count ].active = true;
+                _data[ _count ].active = true;
 
-                _data[ m_count ].hasAxis[ AxisX ] = true;
-                _data[ m_count ].hasAxis[ AxisY ] = true;
+                _data[ _count ].hasAxis[ AxisX ] = true;
+                _data[ _count ].hasAxis[ AxisY ] = true;
 
-                if ( joyCaps.wCaps & JOYCAPS_HASZ ) _data[ m_count ].hasAxis[ AxisZ ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASR ) _data[ m_count ].hasAxis[ AxisR ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASU ) _data[ m_count ].hasAxis[ AxisU ] = true;
-                if ( joyCaps.wCaps & JOYCAPS_HASV ) _data[ m_count ].hasAxis[ AxisZ ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASZ ) _data[ _count ].hasAxis[ AxisZ ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASR ) _data[ _count ].hasAxis[ AxisR ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASU ) _data[ _count ].hasAxis[ AxisU ] = true;
+                if ( joyCaps.wCaps & JOYCAPS_HASV ) _data[ _count ].hasAxis[ AxisZ ] = true;
 
                 if ( joyCaps.wCaps & JOYCAPS_HASPOV )
                 {
@@ -491,13 +490,13 @@ void Joysticks::update()
 
     UINT joyIdTemp = JOYSTICKID1;
 
-    for ( int i = 0; i < m_count; i++ )
+    for ( int i = 0; i < _count; i++ )
     {
         if ( joyGetPosEx( joyIdTemp, &joyInfoEx ) == JOYERR_NOERROR )
         {
-            for ( int j = 0; j < m_data[ i ].buttCount; j++ )
+            for ( int j = 0; j < _data[ i ].buttCount; j++ )
             {
-                m_data[ i ].butt[ j ] = ( m_buttons[ j ] & joyInfoEx.dwButtons ) ? 1 : 0;
+                _data[ i ].butt[ j ] = ( _buttons[ j ] & joyInfoEx.dwButtons ) ? 1 : 0;
             }
         }
 
@@ -528,7 +527,7 @@ Joysticks::Data Joysticks::getData( short joyNum ) const
 {
     if ( joyNum < 0 && joyNum >= HID_MAX_JOYS )
     {
-        std::cerr << "ERROR! Wrong joystick index number." << std::endl;
+        Log::e() << "Wrong joystick index number." << std::endl;
 
 #       ifdef SIM_EXITONERROR
         exit( EXIT_FAILURE );

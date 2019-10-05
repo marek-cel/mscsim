@@ -28,6 +28,9 @@
 
 #include <math.h>
 
+#include <gui/Colors.h>
+#include <gui/Fonts.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEADI::GraphicsEADI( QWidget *parent ) :
@@ -46,14 +49,39 @@ GraphicsEADI::GraphicsEADI( QWidget *parent ) :
     _itemBack ( NULLPTR ),
     _itemMask ( NULLPTR ),
 
+    _itemFMA ( NULLPTR ),
+    _itemSPD ( NULLPTR ),
+
+    _itemLNAV ( NULLPTR ),
+    _itemVNAV ( NULLPTR ),
+
+    _itemLNAV_ARM ( NULLPTR ),
+    _itemVNAV_ARM ( NULLPTR ),
+
+    _flightMode ( FM_OFF ),
+    _speedMode  ( SM_OFF ),
+
+    _lnav ( LNAV_OFF ),
+    _vnav ( VNAV_OFF ),
+
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
+
+    _originalFMA ( 150.0f, 42.0f ),
+    _originalSPD ( 100.0f, 12.0f ),
+
+    _originalLNAV ( 150.0f, 12.0f ),
+    _originalVNAV ( 200.0f, 12.0f ),
+
+    _originalLNAV_ARM ( 150.0f, 22.0f ),
+    _originalVNAV_ARM ( 200.0f, 22.0f ),
 
     _originalHeight ( 300 ),
     _originalWidth  ( 300 ),
 
     _backZ (   0 ),
-    _maskZ ( 100 )
+    _maskZ ( 100 ),
+    _textZ ( 120 )
 {
     reset();
 
@@ -88,11 +116,11 @@ GraphicsEADI::~GraphicsEADI()
 
     reset();
 
-    DELETE( _adi );
-    DELETE( _alt );
-    DELETE( _asi );
-    DELETE( _hdg );
-    DELETE( _vsi );
+    SIM_DELETE( _adi );
+    SIM_DELETE( _alt );
+    SIM_DELETE( _asi );
+    SIM_DELETE( _hdg );
+    SIM_DELETE( _vsi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +185,72 @@ void GraphicsEADI::init()
     _itemMask->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _scene->addItem( _itemMask );
 
+    _itemFMA = new QGraphicsTextItem( QString( "  CMD  " ) );
+    _itemFMA->setCacheMode( QGraphicsItem::NoCache );
+    _itemFMA->setZValue( _textZ );
+    _itemFMA->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemFMA->setDefaultTextColor( Colors::_lime );
+    _itemFMA->setFont( Fonts::medium() );
+    _itemFMA->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFMA->moveBy( _scaleX * ( _originalFMA.x() - _itemFMA->boundingRect().width()  / 2.0f ),
+                      _scaleY * ( _originalFMA.y() - _itemFMA->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemFMA );
+
+    _itemSPD = new QGraphicsTextItem( QString( "FMC SPD" ) );
+    _itemSPD->setCacheMode( QGraphicsItem::NoCache );
+    _itemSPD->setZValue( _textZ );
+    _itemSPD->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemSPD->setDefaultTextColor( Colors::_lime );
+    _itemSPD->setFont( Fonts::xsmall() );
+    _itemSPD->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemSPD->moveBy( _scaleX * ( _originalSPD.x() - _itemSPD->boundingRect().width()  / 2.0f ),
+                      _scaleY * ( _originalSPD.y() - _itemSPD->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemSPD );
+
+    _itemLNAV = new QGraphicsTextItem( QString( "HDG SEL" ) );
+    _itemLNAV->setCacheMode( QGraphicsItem::NoCache );
+    _itemLNAV->setZValue( _textZ );
+    _itemLNAV->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemLNAV->setDefaultTextColor( Colors::_lime );
+    _itemLNAV->setFont( Fonts::xsmall() );
+    _itemLNAV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLNAV->moveBy( _scaleX * ( _originalLNAV.x() - _itemLNAV->boundingRect().width()  / 2.0f ),
+                       _scaleY * ( _originalLNAV.y() - _itemLNAV->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLNAV );
+
+    _itemVNAV = new QGraphicsTextItem( QString( "ALT SEL" ) );
+    _itemVNAV->setCacheMode( QGraphicsItem::NoCache );
+    _itemVNAV->setZValue( _textZ );
+    _itemVNAV->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemVNAV->setDefaultTextColor( Colors::_lime );
+    _itemVNAV->setFont( Fonts::xsmall() );
+    _itemVNAV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemVNAV->moveBy( _scaleX * ( _originalVNAV.x() - _itemVNAV->boundingRect().width()  / 2.0f ),
+                       _scaleY * ( _originalVNAV.y() - _itemVNAV->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemVNAV );
+
+    _itemLNAV_ARM = new QGraphicsTextItem( QString( "VOR/LOC" ) );
+    _itemLNAV_ARM->setCacheMode( QGraphicsItem::NoCache );
+    _itemLNAV_ARM->setZValue( _textZ );
+    _itemLNAV_ARM->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemLNAV_ARM->setDefaultTextColor( Colors::_white );
+    _itemLNAV_ARM->setFont( Fonts::xsmall() );
+    _itemLNAV_ARM->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemLNAV_ARM->moveBy( _scaleX * ( _originalLNAV_ARM.x() - _itemLNAV_ARM->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalLNAV_ARM.y() - _itemLNAV_ARM->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemLNAV_ARM );
+
+    _itemVNAV_ARM = new QGraphicsTextItem( QString( "GS PATH" ) );
+    _itemVNAV_ARM->setCacheMode( QGraphicsItem::NoCache );
+    _itemVNAV_ARM->setZValue( _textZ );
+    _itemVNAV_ARM->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemVNAV_ARM->setDefaultTextColor( Colors::_white );
+    _itemVNAV_ARM->setFont( Fonts::xsmall() );
+    _itemVNAV_ARM->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemVNAV_ARM->moveBy( _scaleX * ( _originalVNAV_ARM.x() - _itemVNAV_ARM->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalVNAV_ARM.y() - _itemVNAV_ARM->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemVNAV_ARM );
+
     updateView();
 }
 
@@ -164,8 +258,17 @@ void GraphicsEADI::init()
 
 void GraphicsEADI::reset()
 {
-    _itemBack = 0;
-    _itemMask = 0;
+    _itemBack = NULLPTR;
+    _itemMask = NULLPTR;
+
+    _itemFMA = NULLPTR;
+    _itemSPD = NULLPTR;
+
+    _itemLNAV = NULLPTR;
+    _itemVNAV = NULLPTR;
+
+    _itemLNAV_ARM = NULLPTR;
+    _itemVNAV_ARM = NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,6 +283,42 @@ void GraphicsEADI::updateView()
     _vsi->update( _scaleX, _scaleY );
     _asi->update( _scaleX, _scaleY );
     _hdg->update( _scaleX, _scaleY );
+
+    switch ( _flightMode )
+    {
+        case FM_FD:  _itemFMA->setPlainText( "  FD   " ); break;
+        case FM_CMD: _itemFMA->setPlainText( "  CMD  " ); break;
+        default:     _itemFMA->setPlainText( "       " ); break;
+    }
+
+    switch ( _speedMode )
+    {
+        case SM_FMC_SPD: _itemSPD->setPlainText( "FMC SPD" ); break;
+        default:         _itemSPD->setPlainText( "       " ); break;
+    }
+
+    switch ( _lnav )
+    {
+        case LNAV_HDG:     _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV_NAV:     _itemLNAV->setPlainText( "VOR/LOC" ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV_NAV_ARM: _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "VOR/LOC" ); break;
+        case LNAV_APR:     _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV_APR_ARM: _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "  APR  " ); break;
+        case LNAV_BC:      _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV_BC_ARM:  _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "  BC   " ); break;
+        default:           _itemLNAV->setPlainText( "       " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+    }
+
+    switch ( _vnav )
+    {
+        case VNAV_ALT:     _itemVNAV->setPlainText( "  ALT  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV_IAS:     _itemVNAV->setPlainText( "  IAS  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV_VS:      _itemVNAV->setPlainText( "  VS   " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV_ALT_SEL: _itemVNAV->setPlainText( "ALT SEL" ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV_GS:      _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV_GS_ARM:  _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "GS PATH" ); break;
+        default:           _itemVNAV->setPlainText( "       " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+    }
 
     _scene->update();
 
@@ -504,17 +643,17 @@ void GraphicsEADI::ADI::setStall( bool stall )
 
 void GraphicsEADI::ADI::reset()
 {
-    _itemBack   = 0;
-    _itemLadd   = 0;
-    _itemRoll   = 0;
-    _itemSlip   = 0;
-    _itemTurn   = 0;
-    _itemDotH   = 0;
-    _itemDotV   = 0;
-    _itemFD     = 0;
-    _itemMask   = 0;
-    _itemScaleH = 0;
-    _itemScaleV = 0;
+    _itemBack   = NULLPTR;
+    _itemLadd   = NULLPTR;
+    _itemRoll   = NULLPTR;
+    _itemSlip   = NULLPTR;
+    _itemTurn   = NULLPTR;
+    _itemDotH   = NULLPTR;
+    _itemDotV   = NULLPTR;
+    _itemFD     = NULLPTR;
+    _itemMask   = NULLPTR;
+    _itemScaleH = NULLPTR;
+    _itemScaleV = NULLPTR;
 
     _roll     = 0.0f;
     _pitch    = 0.0f;
@@ -718,15 +857,14 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _itemLabel2   ( NULLPTR ),
     _itemLabel3   ( NULLPTR ),
     _itemGround   ( NULLPTR ),
+    _itemBugAlt   ( NULLPTR ),
     _itemFrame    ( NULLPTR ),
     _itemAltitude ( NULLPTR ),
     _itemPressure ( NULLPTR ),
-
-    _frameTextColor ( 255, 255, 255 ),
-    _pressTextColor (   0, 255,   0 ),
-    _labelsColor    ( 255, 255, 255 ),
+    _itemSetpoint ( NULLPTR ),
 
     _altitude ( 0.0f ),
+    _altitude_set ( 0.0f ),
 
     _scale1DeltaY_new ( 0.0f ),
     _scale1DeltaY_old ( 0.0f ),
@@ -736,13 +874,15 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _groundDeltaY_old ( 0.0f ),
     _labelsDeltaY_new ( 0.0f ),
     _labelsDeltaY_old ( 0.0f ),
+    _bugDeltaY_new    ( 0.0f ),
+    _bugDeltaY_old    ( 0.0f ),
 
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
 
     _originalPixPerAlt   ( 0.150f ),
     _originalScaleHeight ( 300.0f ),
-    _originalLabelsX     ( 250.0f ),
+    _originalLabelsX     ( 253.0f ),
     _originalLabel1Y     (  50.0f ),
     _originalLabel2Y     ( 125.0f ),
     _originalLabel3Y     ( 200.0f ),
@@ -752,38 +892,18 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _originalScale2Pos   ( 231.0f , -474.5f ),
     _originalGroundPos   ( 231.5f ,  124.5f ),
     _originalFramePos    ( 225.0f ,  110.0f ),
-    _originalAltitudeCtr ( 254.0f ,  126.0f ),
+    _originalAltitudeCtr ( 256.0f ,  126.0f ),
     _originalPressureCtr ( 254.0f ,  225.0f ),
+    _originalAltitudeSet ( 250.0f ,   27.0f ),
 
     _backZ      (  70 ),
     _scaleZ     (  77 ),
     _labelsZ    (  78 ),
     _groundZ    (  79 ),
+    _altBugZ    ( 100 ),
     _frameZ     ( 110 ),
     _frameTextZ ( 120 )
 {
-#   ifdef WIN32
-    _frameTextFont.setFamily( "Courier" );
-    _frameTextFont.setPointSizeF( 9.0f );
-    _frameTextFont.setStretch( QFont::Condensed );
-    _frameTextFont.setWeight( QFont::Bold );
-
-    _labelsFont.setFamily( "Courier" );
-    _labelsFont.setPointSizeF( 7.0f );
-    _labelsFont.setStretch( QFont::Condensed );
-    _labelsFont.setWeight( QFont::Bold );
-#   else
-    _frameTextFont.setFamily( "courier" );
-    _frameTextFont.setPointSizeF( 10.0f );
-    _frameTextFont.setStretch( QFont::Condensed );
-    _frameTextFont.setWeight( QFont::Bold );
-
-    _labelsFont.setFamily( "courier" );
-    _labelsFont.setPointSizeF( 8.0f );
-    _labelsFont.setStretch( QFont::Condensed );
-    _labelsFont.setWeight( QFont::Bold );
-#   endif
-
     reset();
 }
 
@@ -820,8 +940,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel1 = new QGraphicsTextItem( QString( "99999" ) );
     _itemLabel1->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel1->setZValue( _labelsZ );
-    _itemLabel1->setDefaultTextColor( _labelsColor );
-    _itemLabel1->setFont( _labelsFont );
+    _itemLabel1->setDefaultTextColor( Colors::_white );
+    _itemLabel1->setFont( Fonts::small() );
     _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
@@ -830,8 +950,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel2 = new QGraphicsTextItem( QString( "99999" ) );
     _itemLabel2->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel2->setZValue( _labelsZ );
-    _itemLabel2->setDefaultTextColor( _labelsColor );
-    _itemLabel2->setFont( _labelsFont );
+    _itemLabel2->setDefaultTextColor( Colors::_white );
+    _itemLabel2->setFont( Fonts::small() );
     _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
@@ -840,8 +960,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel3 = new QGraphicsTextItem( QString( "99999" ) );
     _itemLabel3->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel3->setZValue( _labelsZ );
-    _itemLabel3->setDefaultTextColor( _labelsColor );
-    _itemLabel3->setFont( _labelsFont );
+    _itemLabel3->setDefaultTextColor( Colors::_white );
+    _itemLabel3->setFont( Fonts::small() );
     _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
@@ -854,6 +974,13 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemGround->moveBy( _scaleX * _originalGroundPos.x(), _scaleY * _originalGroundPos.y() );
     _scene->addItem( _itemGround );
 
+    _itemBugAlt = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_bug.svg" );
+    _itemBugAlt->setCacheMode( QGraphicsItem::NoCache );
+    _itemBugAlt->setZValue( _altBugZ );
+    _itemBugAlt->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBugAlt->moveBy( _scaleX * _originalFramePos.x(), _scaleY * _originalFramePos.y() );
+    _scene->addItem( _itemBugAlt );
+
     _itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_frame.svg" );
     _itemFrame->setCacheMode( QGraphicsItem::NoCache );
     _itemFrame->setZValue( _frameZ );
@@ -864,8 +991,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemAltitude = new QGraphicsTextItem( QString( "    0" ) );
     _itemAltitude->setCacheMode( QGraphicsItem::NoCache );
     _itemAltitude->setZValue( _frameTextZ );
-    _itemAltitude->setDefaultTextColor( _frameTextColor );
-    _itemAltitude->setFont( _frameTextFont );
+    _itemAltitude->setDefaultTextColor( Colors::_white );
+    _itemAltitude->setFont( Fonts::medium() );
     _itemAltitude->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemAltitude->moveBy( _scaleX * ( _originalAltitudeCtr.x() - _itemAltitude->boundingRect().width()  / 2.0f ),
                            _scaleY * ( _originalAltitudeCtr.y() - _itemAltitude->boundingRect().height() / 2.0f ) );
@@ -874,12 +1001,22 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemPressure = new QGraphicsTextItem( QString( "  STD  " ) );
     _itemPressure->setCacheMode( QGraphicsItem::NoCache );
     _itemPressure->setZValue( _frameTextZ );
-    _itemPressure->setDefaultTextColor( _pressTextColor );
-    _itemPressure->setFont( _frameTextFont );
+    _itemPressure->setDefaultTextColor( Colors::_lime );
+    _itemPressure->setFont( Fonts::medium() );
     _itemPressure->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemPressure->moveBy( _scaleX * ( _originalPressureCtr.x() - _itemPressure->boundingRect().width()  / 2.0f ),
                            _scaleY * ( _originalPressureCtr.y() - _itemPressure->boundingRect().height() / 2.0f ) );
     _scene->addItem( _itemPressure );
+
+    _itemSetpoint = new QGraphicsTextItem( QString( "    0" ) );
+    _itemSetpoint->setCacheMode( QGraphicsItem::NoCache );
+    _itemSetpoint->setZValue( _frameTextZ );
+    _itemSetpoint->setDefaultTextColor( Colors::_magenta );
+    _itemSetpoint->setFont( Fonts::medium() );
+    _itemSetpoint->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemSetpoint->moveBy( _scaleX * ( _originalAltitudeSet.x() - _itemAltitude->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalAltitudeSet.y() - _itemAltitude->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemSetpoint );
 
     update( scaleX, scaleY );
 }
@@ -897,7 +1034,7 @@ void GraphicsEADI::ALT::update( float scaleX, float scaleY )
     _scale2DeltaY_old = _scale2DeltaY_new;
     _groundDeltaY_old = _groundDeltaY_new;
     _labelsDeltaY_old = _labelsDeltaY_new;
-
+    _bugDeltaY_old    = _bugDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -912,20 +1049,33 @@ void GraphicsEADI::ALT::setAltitude( float altitude )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void GraphicsEADI::ALT::setAltitudeSet( double altitude )
+{
+    _altitude_set = altitude;
+
+    if      ( _altitude_set <     0.0f ) _altitude_set =     0.0f;
+    else if ( _altitude_set > 99999.0f ) _altitude_set = 99999.0f;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void GraphicsEADI::ALT::reset()
 {
-    _itemBack     = 0;
-    _itemScale1   = 0;
-    _itemScale2   = 0;
-    _itemLabel1   = 0;
-    _itemLabel2   = 0;
-    _itemLabel3   = 0;
-    _itemGround   = 0;
-    _itemFrame    = 0;
-    _itemAltitude = 0;
-    _itemPressure = 0;
+    _itemBack     = NULLPTR;
+    _itemScale1   = NULLPTR;
+    _itemScale2   = NULLPTR;
+    _itemLabel1   = NULLPTR;
+    _itemLabel2   = NULLPTR;
+    _itemLabel3   = NULLPTR;
+    _itemGround   = NULLPTR;
+    _itemBugAlt   = NULLPTR;
+    _itemFrame    = NULLPTR;
+    _itemAltitude = NULLPTR;
+    _itemPressure = NULLPTR;
+    _itemSetpoint = NULLPTR;
 
     _altitude = 0.0f;
+    _altitude_set = 0.0f;
 
     _scale1DeltaY_new = 0.0f;
     _scale1DeltaY_old = 0.0f;
@@ -935,16 +1085,32 @@ void GraphicsEADI::ALT::reset()
     _groundDeltaY_old = 0.0f;
     _labelsDeltaY_new = 0.0f;
     _labelsDeltaY_old = 0.0f;
+    _bugDeltaY_new    = 0.0f;
+    _bugDeltaY_old    = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ALT::updateAltitude()
 {
-    _itemAltitude->setPlainText( QString("%1").arg(_altitude, 5, 'f', 0, QChar(' ')) );
+    _itemAltitude->setPlainText( QString("%1").arg(_altitude     , 5, 'f', 0, QChar(' ')) );
+    _itemSetpoint->setPlainText( QString("%1").arg(_altitude_set , 5, 'f', 0, QChar(' ')) );
 
     updateScale();
     updateScaleLabels();
+    updateAltitudeBug();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ALT::updateAltitudeBug()
+{
+    _bugDeltaY_new = _scaleY * _originalPixPerAlt * ( _altitude - _altitude_set );
+
+    if      ( _bugDeltaY_new < -_scaleY * 85.0 ) _bugDeltaY_new = -_scaleY * 85.0;
+    else if ( _bugDeltaY_new >  _scaleY * 85.0 ) _bugDeltaY_new =  _scaleY * 85.0;
+
+    _itemBugAlt->moveBy( 0.0f, _bugDeltaY_new - _bugDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1050,15 +1216,16 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _itemLabel5   ( NULLPTR ),
     _itemLabel6   ( NULLPTR ),
     _itemLabel7   ( NULLPTR ),
+    _itemBugIAS   ( NULLPTR ),
     _itemFrame    ( NULLPTR ),
     _itemAirspeed ( NULLPTR ),
     _itemMachNo   ( NULLPTR ),
-
-    _frameTextColor ( 255, 255, 255 ),
-    _labelsColor    ( 255, 255, 255 ),
+    _itemSetpoint ( NULLPTR ),
 
     _airspeed ( 0.0f ),
     _machNo   ( 0.0f ),
+
+    _airspeed_set ( 0.0f ),
 
     _scale1DeltaY_new ( 0.0f ),
     _scale1DeltaY_old ( 0.0f ),
@@ -1066,13 +1233,15 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _scale2DeltaY_old ( 0.0f ),
     _labelsDeltaY_new ( 0.0f ),
     _labelsDeltaY_old ( 0.0f ),
+    _bugDeltaY_new    ( 0.0f ),
+    _bugDeltaY_old    ( 0.0f ),
 
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
 
     _originalPixPerSpd   (   1.5f ),
     _originalScaleHeight ( 300.0f ),
-    _originalLabelsX     (  43.0f ),
+    _originalLabelsX     (  40.0f ),
     _originalLabel1Y     (  35.0f ),
     _originalLabel2Y     (  65.0f ),
     _originalLabel3Y     (  95.0f ),
@@ -1087,35 +1256,15 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _originalFramePos    (  0.0f ,  110.0f ),
     _originalAirspeedCtr ( 40.0f ,  126.0f ),
     _originalMachNoCtr   ( 43.0f ,  225.0f ),
+    _originalAirspeedSet ( 47.0f ,   27.0f ),
 
     _backZ      (  70 ),
     _scaleZ     (  80 ),
     _labelsZ    (  90 ),
+    _iasBugZ    ( 110 ),
     _frameZ     ( 110 ),
     _frameTextZ ( 120 )
 {
-#   ifdef WIN32
-    _frameTextFont.setFamily( "Courier" );
-    _frameTextFont.setPointSizeF( 9.0f );
-    _frameTextFont.setStretch( QFont::Condensed );
-    _frameTextFont.setWeight( QFont::Bold );
-
-    _labelsFont.setFamily( "Courier" );
-    _labelsFont.setPointSizeF( 7.0f );
-    _labelsFont.setStretch( QFont::Condensed );
-    _labelsFont.setWeight( QFont::Bold );
-#   else
-    _frameTextFont.setFamily( "courier" );
-    _frameTextFont.setPointSizeF( 10.0f );
-    _frameTextFont.setStretch( QFont::Condensed );
-    _frameTextFont.setWeight( QFont::Bold );
-
-    _labelsFont.setFamily( "courier" );
-    _labelsFont.setPointSizeF( 8.0f );
-    _labelsFont.setStretch( QFont::Condensed );
-    _labelsFont.setWeight( QFont::Bold );
-#   endif
-
     reset();
 }
 
@@ -1152,8 +1301,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel1 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel1->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel1->setZValue( _labelsZ );
-    _itemLabel1->setDefaultTextColor( _labelsColor );
-    _itemLabel1->setFont( _labelsFont );
+    _itemLabel1->setDefaultTextColor( Colors::_white );
+    _itemLabel1->setFont( Fonts::small() );
     _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
@@ -1162,8 +1311,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel2 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel2->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel2->setZValue( _labelsZ );
-    _itemLabel2->setDefaultTextColor( _labelsColor );
-    _itemLabel2->setFont( _labelsFont );
+    _itemLabel2->setDefaultTextColor( Colors::_white );
+    _itemLabel2->setFont( Fonts::small() );
     _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
@@ -1172,8 +1321,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel3 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel3->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel3->setZValue( _labelsZ );
-    _itemLabel3->setDefaultTextColor( _labelsColor );
-    _itemLabel3->setFont( _labelsFont );
+    _itemLabel3->setDefaultTextColor( Colors::_white );
+    _itemLabel3->setFont( Fonts::small() );
     _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
@@ -1182,8 +1331,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel4 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel4->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel4->setZValue( _labelsZ );
-    _itemLabel4->setDefaultTextColor( _labelsColor );
-    _itemLabel4->setFont( _labelsFont );
+    _itemLabel4->setDefaultTextColor( Colors::_white );
+    _itemLabel4->setFont( Fonts::small() );
     _itemLabel4->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel4->moveBy( _scaleX * ( _originalLabelsX - _itemLabel4->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel4Y - _itemLabel4->boundingRect().height() / 2.0f ) );
@@ -1192,8 +1341,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel5 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel5->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel5->setZValue( _labelsZ );
-    _itemLabel5->setDefaultTextColor( _labelsColor );
-    _itemLabel5->setFont( _labelsFont );
+    _itemLabel5->setDefaultTextColor( Colors::_white );
+    _itemLabel5->setFont( Fonts::small() );
     _itemLabel5->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel5->moveBy( _scaleX * ( _originalLabelsX - _itemLabel5->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel5Y - _itemLabel5->boundingRect().height() / 2.0f ) );
@@ -1202,8 +1351,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel6 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel6->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel6->setZValue( _labelsZ );
-    _itemLabel6->setDefaultTextColor( _labelsColor );
-    _itemLabel6->setFont( _labelsFont );
+    _itemLabel6->setDefaultTextColor( Colors::_white );
+    _itemLabel6->setFont( Fonts::small() );
     _itemLabel6->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel6->moveBy( _scaleX * ( _originalLabelsX - _itemLabel6->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel6Y - _itemLabel6->boundingRect().height() / 2.0f ) );
@@ -1212,12 +1361,19 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel7 = new QGraphicsTextItem( QString( "999" ) );
     _itemLabel7->setCacheMode( QGraphicsItem::NoCache );
     _itemLabel7->setZValue( _labelsZ );
-    _itemLabel7->setDefaultTextColor( _labelsColor );
-    _itemLabel7->setFont( _labelsFont );
+    _itemLabel7->setDefaultTextColor( Colors::_white );
+    _itemLabel7->setFont( Fonts::small() );
     _itemLabel7->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemLabel7->moveBy( _scaleX * ( _originalLabelsX - _itemLabel7->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalLabel7Y - _itemLabel7->boundingRect().height() / 2.0f ) );
     _scene->addItem( _itemLabel7 );
+
+    _itemBugIAS = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_bug.svg" );
+    _itemBugIAS->setCacheMode( QGraphicsItem::NoCache );
+    _itemBugIAS->setZValue( _iasBugZ );
+    _itemBugIAS->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemBugIAS->moveBy( _scaleX * _originalFramePos.x(), _scaleY * _originalFramePos.y() );
+    _scene->addItem( _itemBugIAS );
 
     _itemFrame = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_frame.svg" );
     _itemFrame->setCacheMode( QGraphicsItem::NoCache );
@@ -1230,8 +1386,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemAirspeed->setCacheMode( QGraphicsItem::NoCache );
     _itemAirspeed->setZValue( _frameTextZ );
     _itemAirspeed->setTextInteractionFlags( Qt::NoTextInteraction );
-    _itemAirspeed->setDefaultTextColor( _frameTextColor );
-    _itemAirspeed->setFont( _frameTextFont );
+    _itemAirspeed->setDefaultTextColor( Colors::_white );
+    _itemAirspeed->setFont( Fonts::medium() );
     _itemAirspeed->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemAirspeed->moveBy( _scaleX * ( _originalAirspeedCtr.x() - _itemAirspeed->boundingRect().width()  / 2.0f ),
                            _scaleY * ( _originalAirspeedCtr.y() - _itemAirspeed->boundingRect().height() / 2.0f ) );
@@ -1241,12 +1397,23 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemMachNo->setCacheMode( QGraphicsItem::NoCache );
     _itemMachNo->setZValue( _frameTextZ );
     _itemMachNo->setTextInteractionFlags( Qt::NoTextInteraction );
-    _itemMachNo->setDefaultTextColor( _frameTextColor );
-    _itemMachNo->setFont( _frameTextFont );
+    _itemMachNo->setDefaultTextColor( Colors::_white );
+    _itemMachNo->setFont( Fonts::medium() );
     _itemMachNo->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemMachNo->moveBy( _scaleX * ( _originalMachNoCtr.x() - _itemMachNo->boundingRect().width()  / 2.0f ),
                          _scaleY * ( _originalMachNoCtr.y() - _itemMachNo->boundingRect().height() / 2.0f ) );
     _scene->addItem( _itemMachNo );
+
+    _itemSetpoint = new QGraphicsTextItem( QString( "000" ) );
+    _itemSetpoint->setCacheMode( QGraphicsItem::NoCache );
+    _itemSetpoint->setZValue( _frameTextZ );
+    _itemSetpoint->setTextInteractionFlags( Qt::NoTextInteraction );
+    _itemSetpoint->setDefaultTextColor( Colors::_magenta );
+    _itemSetpoint->setFont( Fonts::medium() );
+    _itemSetpoint->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemSetpoint->moveBy( _scaleX * ( _originalAirspeedSet.x() - _itemMachNo->boundingRect().width()  / 2.0f ),
+                           _scaleY * ( _originalAirspeedSet.y() - _itemMachNo->boundingRect().height() / 2.0f ) );
+    _scene->addItem( _itemSetpoint );
 
     update( scaleX, scaleY );
 }
@@ -1263,6 +1430,7 @@ void GraphicsEADI::ASI::update( float scaleX, float scaleY )
     _scale1DeltaY_old = _scale1DeltaY_new;
     _scale2DeltaY_old = _scale2DeltaY_new;
     _labelsDeltaY_old = _labelsDeltaY_new;
+    _bugDeltaY_old    = _bugDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1287,24 +1455,38 @@ void GraphicsEADI::ASI::setMachNo( float machNo )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void GraphicsEADI::ASI::setAirspeedSet( double airspeed )
+{
+    _airspeed_set = airspeed;
+
+    if      ( _airspeed_set < 0.0f    ) _airspeed_set = 0.0;
+    else if ( _airspeed_set > 9999.0f ) _airspeed_set = 9999.0f;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void GraphicsEADI::ASI::reset()
 {
-    _itemBack     = 0;
-    _itemScale1   = 0;
-    _itemScale2   = 0;
-    _itemLabel1   = 0;
-    _itemLabel2   = 0;
-    _itemLabel3   = 0;
-    _itemLabel4   = 0;
-    _itemLabel5   = 0;
-    _itemLabel6   = 0;
-    _itemLabel7   = 0;
-    _itemFrame    = 0;
-    _itemAirspeed = 0;
-    _itemMachNo   = 0;
+    _itemBack     = NULLPTR;
+    _itemScale1   = NULLPTR;
+    _itemScale2   = NULLPTR;
+    _itemLabel1   = NULLPTR;
+    _itemLabel2   = NULLPTR;
+    _itemLabel3   = NULLPTR;
+    _itemLabel4   = NULLPTR;
+    _itemLabel5   = NULLPTR;
+    _itemLabel6   = NULLPTR;
+    _itemLabel7   = NULLPTR;
+    _itemBugIAS   = NULLPTR;
+    _itemFrame    = NULLPTR;
+    _itemAirspeed = NULLPTR;
+    _itemMachNo   = NULLPTR;
+    _itemSetpoint = NULLPTR;
 
     _airspeed = 0.0f;
     _machNo   = 0.0f;
+
+    _airspeed_set = 0.0f;
 
     _scale1DeltaY_new = 0.0f;
     _scale1DeltaY_old = 0.0f;
@@ -1312,13 +1494,16 @@ void GraphicsEADI::ASI::reset()
     _scale2DeltaY_old = 0.0f;
     _labelsDeltaY_new = 0.0f;
     _labelsDeltaY_old = 0.0f;
+    _bugDeltaY_new    = 0.0f;
+    _bugDeltaY_old    = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ASI::updateAirspeed()
 {
-    _itemAirspeed->setPlainText( QString("%1").arg(_airspeed, 3, 'f', 0, QChar('0')) );
+    _itemAirspeed->setPlainText( QString("%1").arg(_airspeed     , 3, 'f', 0, QChar('0')) );
+    _itemSetpoint->setPlainText( QString("%1").arg(_airspeed_set , 3, 'f', 0, QChar(' ')) );
 
     if ( _machNo < 1.0f )
     {
@@ -1339,6 +1524,19 @@ void GraphicsEADI::ASI::updateAirspeed()
 
     updateScale();
     updateScaleLabels();
+    updateAirspeedBug();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ASI::updateAirspeedBug()
+{
+    _bugDeltaY_new = _scaleY * _originalPixPerSpd * ( _airspeed - _airspeed_set );
+
+    if      ( _bugDeltaY_new < -_scaleY * 85.0 ) _bugDeltaY_new = -_scaleY * 85.0;
+    else if ( _bugDeltaY_new >  _scaleY * 85.0 ) _bugDeltaY_new =  _scaleY * 85.0;
+
+    _itemBugIAS->moveBy( 0.0f, _bugDeltaY_new - _bugDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1487,8 +1685,6 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _itemMarks     ( NULLPTR ),
     _itemFrameText ( NULLPTR ),
 
-    _frameTextColor ( 255, 255, 255 ),
-
     _heading  ( 0.0f ),
 
     _scaleX ( 1.0f ),
@@ -1505,11 +1701,6 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _marksZ     ( 110 ),
     _frameTextZ ( 120 )
 {
-    _frameTextFont.setFamily( "Courier" );
-    _frameTextFont.setPointSizeF( 10.0 );
-    _frameTextFont.setStretch( QFont::Condensed );
-    _frameTextFont.setWeight( QFont::Bold );
-
     reset();
 }
 
@@ -1548,8 +1739,8 @@ void GraphicsEADI::HDG::init( float scaleX, float scaleY )
     _itemFrameText->setCacheMode( QGraphicsItem::NoCache );
     _itemFrameText->setZValue( _frameTextZ );
     _itemFrameText->setTextInteractionFlags( Qt::NoTextInteraction );
-    _itemFrameText->setDefaultTextColor( _frameTextColor );
-    _itemFrameText->setFont( _frameTextFont );
+    _itemFrameText->setDefaultTextColor( Colors::_white );
+    _itemFrameText->setFont( Fonts::medium() );
     _itemFrameText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemFrameText->moveBy( _scaleX * ( _originalFrameTextCtr.x() - _itemFrameText->boundingRect().width()  / 2.0f ),
                             _scaleY * ( _originalFrameTextCtr.y() - _itemFrameText->boundingRect().height() / 2.0f ) );
@@ -1589,10 +1780,10 @@ void GraphicsEADI::HDG::setHeading( float heading )
 
 void GraphicsEADI::HDG::reset()
 {
-    _itemBack      = 0;
-    _itemFace      = 0;
-    _itemMarks     = 0;
-    _itemFrameText = 0;
+    _itemBack      = NULLPTR;
+    _itemFace      = NULLPTR;
+    _itemMarks     = NULLPTR;
+    _itemFrameText = NULLPTR;
 
     _heading  = 0.0f;
 }
@@ -1688,7 +1879,7 @@ void GraphicsEADI::VSI::setClimbRate( float climbRate )
 
 void GraphicsEADI::VSI::reset()
 {
-    _itemScale = 0;
+    _itemScale = NULLPTR;
     _climbRate = 0.0;
 }
 

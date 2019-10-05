@@ -54,7 +54,7 @@ public:
 
     /** Constructor. */
     Exception() :
-        _cause ( FDM_NULL )
+        _cause ( FDM_NULLPTR )
     {
         _type = UnknownException;
         _line = 0;

@@ -112,12 +112,12 @@ void FogScene::update()
     Module::update();
     /////////////////
 
-    float visibility = Data::get()->environment.visibility;
+    float visibility = Data::get()->cgi.environment.visibility;
     visibility = std::min( std::max( visibility, 1.0f ), 0.9f * CGI_SKYDOME_RADIUS );
 
     osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
-    float elevation_deg = osg::RadiansToDegrees( Data::get()->skyDome.sunElev );
+    float elevation_deg = osg::RadiansToDegrees( Data::get()->cgi.skyDome.sunElev );
 
     _fog->setMode( osg::Fog::LINEAR );
     _fog->setDensity( 0.5f );

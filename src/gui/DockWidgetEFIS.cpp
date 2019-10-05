@@ -48,7 +48,7 @@ DockWidgetEFIS::DockWidgetEFIS( QWidget *parent ) :
 
 DockWidgetEFIS::~DockWidgetEFIS()
 {
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

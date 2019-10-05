@@ -34,9 +34,13 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 PID::PID( double kp, double ki, double kd ) :
+    _antiWindup ( None ),
+
     _kp ( kp ),
     _ki ( ki ),
     _kd ( kd ),
+
+    _kaw ( 0.0 ),
 
     _min ( std::numeric_limits< double >::min() ),
     _max ( std::numeric_limits< double >::max() ),
@@ -54,9 +58,13 @@ PID::PID( double kp, double ki, double kd ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 PID::PID( double kp, double ki, double kd, double min, double max ) :
+    _antiWindup ( None ),
+
     _kp ( kp ),
     _ki ( ki ),
     _kd ( kd ),
+
+    _kaw ( 0.0 ),
 
     _min ( min ),
     _max ( max ),
@@ -81,27 +89,70 @@ void PID::update( double timeStep, double error )
 {
     if ( timeStep > 0.0 )
     {
-        // integration with anti-windup filter
-        _error_i = _error_i + ( error - _delta ) * timeStep;
+        double error_i = _error_i;
 
+        _error_i = _error_i + ( error - _kaw * _delta ) * timeStep;
         _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
 
         _error = error;
 
-        double value = _kp * _error + _ki * _error_i + _kd * _error_d;
+        double value_pd = _kp * _error + _kd * _error_d;
+        double value = value_pd + _ki * _error_i;
 
-        // saturation
         if ( _saturation )
         {
             _value = Misc::satur( _min, _max, value );
+
+            // anti-windup
+            if ( _antiWindup == Calculation )
+            {
+                if ( fabs( _ki ) > 0.0 )
+                {
+                    value_pd = Misc::satur( _min, _max, value_pd );
+                    _error_i = ( _value - value_pd ) / _ki;
+                }
+            }
+            else if ( _antiWindup == Conditional )
+            {
+                if ( _value != value ) _error_i = error_i;
+            }
+            else if ( _antiWindup == Filtering )
+            {
+                _delta = value - _value;
+            }
         }
         else
         {
             _value = value;
         }
-
-        _delta = value - _value;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PID::setParallel( double kp, double ki, double kd )
+{
+    _kp = kp;
+    _ki = ki;
+    _kd = kd;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PID::setSerial( double k, double tau_i, double tau_d )
+{
+    _kp = k * ( 1.0 + tau_d / tau_i );
+    _ki = k / tau_i;
+    _kd = k * tau_d;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PID::setStandard( double Kp, double Ti, double Td )
+{
+    _kp = Kp;
+    _ki = Kp / Ti;
+    _kd = Kp * Td;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +160,7 @@ void PID::update( double timeStep, double error )
 void PID::setValue( double value )
 {
     _error   = 0.0;
-    _error_i = 0.0;
+    _error_i = fabs( _ki ) > 0.0 ? value / _ki : 0.0;
     _error_d = 0.0;
 
     _value = value;

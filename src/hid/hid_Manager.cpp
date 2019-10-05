@@ -22,10 +22,9 @@
 
 #include <hid/hid_Manager.h>
 
-#include <iostream>
 #include <memory.h>
 
-#include <Defines.h>
+#include <Common.h>
 
 #include <hid/hid_Joysticks.h>
 
@@ -251,13 +250,13 @@ void Manager::reset( bool onGround )
 
     _collective = 0.0;
 
-    _commonThrottle  = 0.0;
+    _commonThrottle  = onGround ? 0.0 : 1.0;
     _commonMixture   = 1.0;
     _commonPropeller = 1.0;
 
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        _throttle  [ i ] = 0.0;
+        _throttle  [ i ] = onGround ? 0.0 : 1.0;
         _mixture   [ i ] = 1.0;
         _propeller [ i ] = 1.0;
     }

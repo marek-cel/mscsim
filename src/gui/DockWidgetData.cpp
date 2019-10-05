@@ -46,7 +46,7 @@ DockWidgetData::~DockWidgetData()
 {
     settingsSave();
     
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -76,9 +76,10 @@ void DockWidgetData::reset()
 
     _Gx = 0.0;
     _Gy = 0.0;
-    _Gz = 0.0;
+    _Gz = 1.0;
 
-    _maxGz = 0.0;
+    _minGz = 1.0;
+    _maxGz = 1.0;
 
     setAltitudeASL( _altitude_asl );
     setAltitudeAGL( _altitude_agl );
@@ -243,13 +244,13 @@ void DockWidgetData::setGz( double Gz )
 {
     _Gz = Gz;
 
-    if ( fabs(_Gz) > fabs(_maxGz) )
-    {
-        _maxGz = _Gz;
-    }
+    if ( _Gz > _maxGz ) _maxGz = _Gz;
+    if ( _Gz < _minGz ) _minGz = _Gz;
 
     _ui->spinGz->setValue( _ui->comboGz->convert( _Gz ) );
+
     _ui->spinMaxGz->setValue( _ui->comboMaxGz->convert( _maxGz ) );
+    _ui->spinMinGz->setValue( _ui->comboMinGz->convert( _minGz ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -535,7 +536,25 @@ void DockWidgetData::on_comboGz_currentIndexChanged( int /*index*/ )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DockWidgetData::on_comboMinGz_currentIndexChanged( int /*index*/ )
+{
+    setGz( _Gz );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetData::on_comboMaxGz_currentIndexChanged( int /*index*/ )
 {
     setGz( _Gz );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::on_buttonResetGz_clicked()
+{
+    _minGz = _Gz;
+    _maxGz = _Gz;
+
+    _ui->spinMinGz->setValue( _ui->comboMinGz->convert( _minGz ) );
+    _ui->spinMaxGz->setValue( _ui->comboMaxGz->convert( _maxGz ) );
 }

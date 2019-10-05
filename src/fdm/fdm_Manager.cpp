@@ -22,7 +22,6 @@
 
 #include <fdm/fdm_Manager.h>
 
-#include <iostream>
 #include <memory.h>
 
 #include <fdm/fdm_Log.h>
@@ -43,8 +42,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Manager::Manager() :
-    _aircraft ( FDM_NULL ),
-    _recorder ( FDM_NULL ),
+    _aircraft ( FDM_NULLPTR ),
+    _recorder ( FDM_NULLPTR ),
 
     _stateInp ( DataInp::Idle ),
     _stateOut ( DataOut::Idle ),
@@ -99,7 +98,6 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
         case DataInp::Work:   updateStateWork();   break;
         case DataInp::Freeze: updateStateFreeze(); break;
         case DataInp::Pause:  updateStatePause();  break;
-
         default:
         case DataInp::Stop:   updateStateStop();   break;
     }
@@ -324,20 +322,23 @@ void Manager::initRecorder()
     _recorder->addVariable( new Recorder::Variable< double >( "spoilers"       , &( _dataInp.controls.spoilers     ), 3 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "collective"     , &( _dataInp.controls.collective   ), 3 ) );
 
-    _recorder->addVariable( new Recorder::Variable< bool >( "lg_handle"   , &( _dataInp.controls.lg_handle   ) ) );
-    _recorder->addVariable( new Recorder::Variable< bool >( "nw_steering" , &( _dataInp.controls.nw_steering ) ) );
-    _recorder->addVariable( new Recorder::Variable< bool >( "antiskid"    , &( _dataInp.controls.antiskid    ) ) );
+    _recorder->addVariable( new Recorder::Variable< bool >( "lgh" , &( _dataInp.controls.lgh ) ) );
+    _recorder->addVariable( new Recorder::Variable< bool >( "nws" , &( _dataInp.controls.nws ) ) );
+    _recorder->addVariable( new Recorder::Variable< bool >( "abs" , &( _dataInp.controls.abs ) ) );
 
-//    // engines
-//    for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
-//    {
-//        _dataInp.engine[ i ].throttle  = data->propulsion.engine[ i ].throttle;
-//        _dataInp.engine[ i ].mixture   = data->propulsion.engine[ i ].mixture;
-//        _dataInp.engine[ i ].propeller = data->propulsion.engine[ i ].propeller;
-//        _dataInp.engine[ i ].fuel      = data->propulsion.engine[ i ].fuel;
-//        _dataInp.engine[ i ].ignition  = data->propulsion.engine[ i ].ignition;
-//        _dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
-//    }
+    // engines
+    for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
+    {
+        std::string num = "_" + String::toString( (int)i );
+
+        _recorder->addVariable( new Recorder::Variable< double >( "throttle"  + num, &( _dataInp.engine[ i ].throttle  ), 3 ) );
+        _recorder->addVariable( new Recorder::Variable< double >( "mixture"   + num, &( _dataInp.engine[ i ].mixture   ), 3 ) );
+        _recorder->addVariable( new Recorder::Variable< double >( "propeller" + num, &( _dataInp.engine[ i ].propeller ), 3 ) );
+
+        _recorder->addVariable( new Recorder::Variable< bool >( "fuel"     + num, &( _dataInp.engine[ i ].fuel     ) ) );
+        _recorder->addVariable( new Recorder::Variable< bool >( "ignition" + num, &( _dataInp.engine[ i ].ignition ) ) );
+        _recorder->addVariable( new Recorder::Variable< bool >( "starter"  + num, &( _dataInp.engine[ i ].starter  ) ) );
+    }
 
     _recorder->init( _dataInp.recording.mode, _dataInp.recording.file );
 }

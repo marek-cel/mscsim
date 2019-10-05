@@ -23,9 +23,9 @@
 #include <gui/PageControls.h>
 #include <ui_PageControls.h>
 
-#include <iostream>
-
 #include <QSettings>
+
+#include <Common.h>
 
 #include <hid/hid_Manager.h>
 #include <hid/hid_Joysticks.h>
@@ -111,7 +111,7 @@ PageControls::PageControls( QWidget *parent ) :
 
     if ( _ui->tableControls->rowCount() != HID_MAX_ACTIONS )
     {
-        std::cerr << "ERROR! Wrong actions count: " << HID_MAX_ACTIONS << std::endl;
+        Log::e() << "Wrong actions count: " << HID_MAX_ACTIONS << std::endl;
 
 #       ifdef SIM_EXITONERROR
         exit( EXIT_FAILURE );
@@ -123,7 +123,7 @@ PageControls::PageControls( QWidget *parent ) :
 
 PageControls::~PageControls()
 {
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -259,7 +259,7 @@ void PageControls::changeAssignment( int action )
     }
     else
     {
-        std::cerr << "ERROR! Wrong action number: " << action << std::endl;
+        Log::e() << "Wrong action number: " << action << std::endl;
 
 #       ifdef SIM_EXITONERROR
         exit( EXIT_FAILURE );
@@ -282,7 +282,7 @@ void PageControls::clearAssignment( int action )
     }
     else
     {
-        std::cerr << "ERROR! Wrong action number: " << action << std::endl;
+        Log::e() << "Wrong action number: " << action << std::endl;
 
 #       ifdef SIM_EXITONERROR
         exit( EXIT_FAILURE );

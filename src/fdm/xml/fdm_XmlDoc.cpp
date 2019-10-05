@@ -33,7 +33,7 @@ using namespace fdm;
 XmlDoc::XmlDoc( const std::string &fileName ) :
     _doc  ( 0 ),
     _open ( false ),
-    _root ( FDM_NULL )
+    _root ( FDM_NULLPTR )
 {
     readFile( fileName );
 }

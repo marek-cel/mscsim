@@ -364,14 +364,15 @@ protected:
     double _machNumber;         ///< [-] Mach number
     double _climbRate;          ///< [m/s] climb rate
     double _turnRate;           ///< [rad/s] turn rate
+    double _headingPrev;        ///< [rad] previous heading
 
     bool _integration;          ///< specifies if integration is enabled
 
     /**
      * Reads data.
-     * @param dataFilePath XML data file path
+     * @param dataFile XML data file path
      */
-    virtual void readData( const std::string &dataFilePath );
+    virtual void readData( const std::string &dataFile );
 
     /** This function is called just before time integration step. */
     virtual void anteIntegration();

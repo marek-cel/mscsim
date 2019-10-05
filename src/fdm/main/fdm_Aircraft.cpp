@@ -39,21 +39,21 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _dataInp ( dataInp ),
     _dataOut ( dataOut ),
 
-    _envir ( FDM_NULL ),
-    _isect ( FDM_NULL ),
+    _envir ( FDM_NULLPTR ),
+    _isect ( FDM_NULLPTR ),
 
-    _aero ( FDM_NULL ),
-    _ctrl ( FDM_NULL ),
-    _gear ( FDM_NULL ),
-    _mass ( FDM_NULL ),
-    _prop ( FDM_NULL ),
+    _aero ( FDM_NULLPTR ),
+    _ctrl ( FDM_NULLPTR ),
+    _gear ( FDM_NULLPTR ),
+    _mass ( FDM_NULLPTR ),
+    _prop ( FDM_NULLPTR ),
 
     _airspeed_max  ( 0.0 ),
     _load_aero_min ( 0.0 ),
     _load_aero_max ( 0.0 ),
     _load_gear_max ( 0.0 ),
 
-    _integrator ( FDM_NULL ),
+    _integrator ( FDM_NULLPTR ),
 
     _timeStep ( 0.0 ),
 
@@ -75,6 +75,7 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
     _turnRate      ( 0.0 ),
+    _headingPrev   ( 0.0 ),
 
     _integration ( true )
 {
@@ -242,9 +243,9 @@ void Aircraft::setStateVector( const StateVector &stateVector )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::readData( const std::string &dataFilePath )
+void Aircraft::readData( const std::string &dataFile )
 {
-    XmlDoc doc( dataFilePath );
+    XmlDoc doc( dataFile );
 
     if ( doc.isOpen() )
     {
@@ -286,15 +287,7 @@ void Aircraft::readData( const std::string &dataFilePath )
             // pilot position
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _pos_pilot_bas, "pilot_position" );
 
-            if ( result != FDM_SUCCESS )
-            {
-                Exception e;
-
-                e.setType( Exception::FileReadingError );
-                e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( rootNode ) );
-
-                FDM_THROW( e );
-            }
+            if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, rootNode );
 
             XmlNode nodeAero = rootNode.getFirstChildElement( "aerodynamics" );
             XmlNode nodeCtrl = rootNode.getFirstChildElement( "controls"     );
@@ -313,7 +306,7 @@ void Aircraft::readData( const std::string &dataFilePath )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading file \"" + dataFilePath + "\" failed. Invalid root node." );
+            e.setInfo( "Reading file \"" + dataFile + "\" failed. Invalid root node." );
 
             FDM_THROW( e );
         }
@@ -323,7 +316,7 @@ void Aircraft::readData( const std::string &dataFilePath )
         Exception e;
 
         e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading file \"" + dataFilePath + "\" failed." );
+        e.setInfo( "Reading file \"" + dataFile + "\" failed." );
 
         FDM_THROW( e );
     }
@@ -377,8 +370,14 @@ void Aircraft::postIntegration()
 
     if ( _stateVect.isValid() )
     {
-        _derivVect = ( _stateVect - _statePrev ) / _timeStep;
+        if ( _timeStep > 0.0 )
+        {
+            _derivVect = ( _stateVect - _statePrev   ) / _timeStep;
+            _turnRate  = ( _heading   - _headingPrev ) / _timeStep;
+        }
+
         _statePrev = _stateVect;
+        _headingPrev = _heading;
 
         updateVariables( _stateVect, _derivVect );
     }
@@ -623,8 +622,6 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _airspeed   = _vel_air_bas.getLength();
     _dynPress   = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
-    _machNumber = _airspeed / _envir->getSpeedOfSound();
+    _machNumber = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate  = -_vel_ned.z();
-
-    _turnRate = 0.0;                            // TODO
 }

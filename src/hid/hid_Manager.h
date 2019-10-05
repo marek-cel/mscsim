@@ -118,51 +118,51 @@ public:
 
 private:
 
-    static Manager *_instance;                      ///<  instance of Manager singleton class
+    static Manager *_instance;                  ///<  instance of Manager singleton class
 
-    Assignment _assignments[ HID_MAX_ACTIONS ];     ///<
+    Assignment _assignments[ HID_MAX_ACTIONS ]; ///<
 
-    bool _keysState[ HID_MAX_KEYS ];                ///<
+    bool _keysState[ HID_MAX_KEYS ];            ///<
 
-    double _timeStep;           ///< [s] simulation time step
+    double _timeStep;                           ///< [s] simulation time step
 
-    short _trigger;             ///< trigger
+    short _trigger;                             ///< trigger
 
-    double _ctrlRoll;           ///< [-1.0,1.0]
-    double _ctrlPitch;          ///< [-1.0,1.0]
-    double _ctrlYaw;            ///< [-1.0,1.0]
+    double _ctrlRoll;                           ///< [-1.0,1.0]
+    double _ctrlPitch;                          ///< [-1.0,1.0]
+    double _ctrlYaw;                            ///< [-1.0,1.0]
 
-    double _trimRoll;           ///< [-1.0,1.0]
-    double _trimPitch;          ///< [-1.0,1.0]
-    double _trimYaw;            ///< [-1.0,1.0]
+    double _trimRoll;                           ///< [-1.0,1.0]
+    double _trimPitch;                          ///< [-1.0,1.0]
+    double _trimYaw;                            ///< [-1.0,1.0]
 
-    double _brakeLeft;          ///< [0.0,1.0]
-    double _brakeRight;         ///< [0.0,1.0]
-    double _parkingBrake;       ///< [0.0,1.0]
+    double _brakeLeft;                          ///< [0.0,1.0]
+    double _brakeRight;                         ///< [0.0,1.0]
+    double _parkingBrake;                       ///< [0.0,1.0]
 
-    double _landingGear;        ///< [0.0,1.0]
+    double _landingGear;                        ///< [0.0,1.0]
 
-    double _flaps;              ///< [0.0,1.0]
-    double _airbrake;           ///< [0.0,1.0]
-    double _spoilers;           ///< [0.0,1.0]
+    double _flaps;                              ///< [0.0,1.0]
+    double _airbrake;                           ///< [0.0,1.0]
+    double _spoilers;                           ///< [0.0,1.0]
 
-    double _collective;         ///< [0.0,1.0]
+    double _collective;                         ///< [0.0,1.0]
 
-    double _commonThrottle;     ///< [0.0,1.0]
-    double _commonMixture;      ///< [0.0,1.0]
-    double _commonPropeller;    ///< [0.0,1.0]
+    double _commonThrottle;                     ///< [0.0,1.0]
+    double _commonMixture;                      ///< [0.0,1.0]
+    double _commonPropeller;                    ///< [0.0,1.0]
 
-    double _throttle  [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
-    double _mixture   [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
-    double _propeller [ FDM_MAX_ENGINES ];  ///< [0.0,1.0]
+    double _throttle  [ FDM_MAX_ENGINES ];      ///< [0.0,1.0]
+    double _mixture   [ FDM_MAX_ENGINES ];      ///< [0.0,1.0]
+    double _propeller [ FDM_MAX_ENGINES ];      ///< [0.0,1.0]
 
-    bool _prevLandingGearToggle;    ///<
-    bool _prevParkingBrakeToggle;   ///<
-    bool _prevSpoilersToggle;       ///<
+    bool _prevLandingGearToggle;                ///<
+    bool _prevParkingBrakeToggle;               ///<
+    bool _prevSpoilersToggle;                   ///<
 
-    bool _stateLandingGear;         ///<
-    bool _stateParkingBrake;        ///<
-    bool _stateSpoilers;            ///<
+    bool _stateLandingGear;                     ///<
+    bool _stateParkingBrake;                    ///<
+    bool _stateSpoilers;                        ///<
 
     /**
      * You should use static function instance() due to get refernce

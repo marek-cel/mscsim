@@ -52,6 +52,9 @@ public:
     /** Destructor. */
     ~DockWidgetCtrl();
 
+    bool getABS() const;
+    bool getNWS() const;
+
     /** */
     void setAircraftType( int typeIndex );
 

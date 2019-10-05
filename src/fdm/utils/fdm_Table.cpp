@@ -50,9 +50,9 @@ Table Table::createOneRecordTable( double val )
 
 Table::Table() :
     _size ( 0 ),
-    _keyValues ( FDM_NULL ),
-    _tableData ( FDM_NULL ),
-    _interpolData ( FDM_NULL )
+    _keyValues ( FDM_NULLPTR ),
+    _tableData ( FDM_NULLPTR ),
+    _interpolData ( FDM_NULLPTR )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,9 +60,9 @@ Table::Table() :
 Table::Table( const std::vector< double > &keyValues,
               const std::vector< double > &tableData ) :
     _size ( 0 ),
-    _keyValues ( FDM_NULL ),
-    _tableData ( FDM_NULL ),
-    _interpolData ( FDM_NULL )
+    _keyValues ( FDM_NULLPTR ),
+    _tableData ( FDM_NULLPTR ),
+    _interpolData ( FDM_NULLPTR )
 {
     if ( keyValues.size() == tableData.size() )
     {
@@ -101,9 +101,9 @@ Table::Table( const std::vector< double > &keyValues,
 
 Table::Table( const Table &table ) :
     _size ( table._size ),
-    _keyValues ( FDM_NULL ),
-    _tableData ( FDM_NULL ),
-    _interpolData ( FDM_NULL )
+    _keyValues ( FDM_NULLPTR ),
+    _tableData ( FDM_NULLPTR ),
+    _interpolData ( FDM_NULLPTR )
 {
     if ( _size > 0 )
     {

@@ -24,6 +24,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <Common.h>
+
 #include <fdm/fdm_Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +72,7 @@ osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotro
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << filePath << std::endl;
+        Log::e() << "ERROR! Cannot open file: " << filePath << std::endl;
     }
 
     return 0;

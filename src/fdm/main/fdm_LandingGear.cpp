@@ -148,37 +148,16 @@ void LandingGear::readData( XmlNode &dataNode )
                 }
             }
 
-            if ( result != FDM_SUCCESS )
-            {
-                Exception e;
-
-                e.setType( Exception::FileReadingError );
-                e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( wheelNode ) );
-
-                FDM_THROW( e );
-            }
+            if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, wheelNode );
 
             wheelNode = wheelNode.getNextSiblingElement( "wheel" );
         }
 
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

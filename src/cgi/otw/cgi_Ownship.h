@@ -24,6 +24,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <osg/PositionAttitudeTransform>
+#include <osg/Switch>
+
 #include <fdm/utils/fdm_Table.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
@@ -71,9 +74,14 @@ public:
 
 private:
 
+    osg::Quat  _att_wgs;    ///< aircraft attitude
+    osg::Vec3d _pos_wgs;    ///< aircraft position
+
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;          ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patRibbons;   ///<
 
     osg::ref_ptr<osg::Switch> _switch;                          ///<
+    osg::ref_ptr<osg::Switch> _switchRibbons;                   ///<
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronL;     ///< left aileron deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronR;     ///< right aileron deflection
@@ -104,11 +112,21 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;    ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> _tailRotor;    ///<
 
-    Blades _mainRotorBlades;
+    Blades _mainRotorBlades;                                    ///< main rotor blades
 
-    std::string _aircraftFile;
+    std::string _aircraftFile;                                  ///< aircraft file
 
-    LandingGearElementsData _landingGearElementsData;
+    LandingGearElementsData _landingGearElementsData;           ///< landing gear elements
+
+    osg::Vec3d _pos_0_wgs;                                      ///< [m] initial position
+
+    osg::Vec3 _wing_tip_l;                                      ///< [m] coordinates of left wing tip
+    osg::Vec3 _wing_tip_r;                                      ///< [m] coordinates of right wing tip
+
+    osg::ref_ptr<osg::Vec3Array> _trace_1;                      ///<
+    osg::ref_ptr<osg::Vec3Array> _trace_2;                      ///<
+
+    bool _double_trace;                                         ///<
 
     double getAngle( double input, LandingGearElementData::AxisData *axisData );
 
@@ -119,8 +137,16 @@ private:
     void readLandingGearElementAxisData( const fdm::XmlNode &node,
                                          LandingGearElementData::AxisData *axisData );
 
+    void readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip );
+
     void reload();
     void reset();
+
+    void updateModel();
+
+    void updateTraces();
+    void updateTrace( osg::Group *parent, osg::Vec3Array *positions,
+                      const osg::Vec3 &color );
 };
 
 } // end of cgi namespace

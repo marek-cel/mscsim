@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>799</height>
+    <height>891</height>
    </rect>
   </property>
   <property name="locale">
@@ -41,7 +41,7 @@
          <x>0</x>
          <y>0</y>
          <width>398</width>
-         <height>772</height>
+         <height>864</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
@@ -58,6 +58,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -68,10 +71,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -92,6 +95,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -102,10 +108,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -129,6 +135,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -139,10 +148,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -157,6 +166,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -167,10 +179,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -185,6 +197,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -195,10 +210,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -213,6 +228,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -223,10 +241,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -254,6 +272,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -264,10 +285,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -328,6 +349,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -338,10 +362,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -356,6 +380,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -366,10 +393,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -394,6 +421,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -404,10 +434,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -431,6 +461,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -441,10 +474,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -475,6 +508,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -485,10 +521,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -512,7 +548,7 @@
             </property>
            </widget>
           </item>
-          <item row="18" column="2">
+          <item row="19" column="2">
            <widget class="ComboUnitsNumber" name="comboMaxGz"/>
           </item>
           <item row="11" column="1">
@@ -526,6 +562,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -536,10 +575,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -589,7 +628,7 @@
             </property>
            </widget>
           </item>
-          <item row="18" column="1">
+          <item row="19" column="1">
            <widget class="SpinBoxHighlight" name="spinMaxGz">
             <property name="font">
              <font>
@@ -599,6 +638,9 @@
             </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
             </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -610,10 +652,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -638,6 +680,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -648,10 +693,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -676,6 +721,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -686,14 +734,14 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
-          <item row="18" column="0">
+          <item row="19" column="0">
            <widget class="QLabel" name="labelMaxGz">
             <property name="text">
              <string>Max Gz:</string>
@@ -727,6 +775,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -737,10 +788,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -761,6 +812,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -771,10 +825,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -799,6 +853,9 @@
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
@@ -809,10 +866,10 @@
              <enum>QAbstractSpinBox::NoButtons</enum>
             </property>
             <property name="minimum">
-             <double>-99999.000000000000000</double>
+             <double>-99999.990000000005239</double>
             </property>
             <property name="maximum">
-             <double>99999.000000000000000</double>
+             <double>99999.990000000005239</double>
             </property>
            </widget>
           </item>
@@ -829,9 +886,53 @@
           <item row="2" column="2">
            <widget class="ComboUnitsVelocity" name="comboAirspeed"/>
           </item>
+          <item row="18" column="1">
+           <widget class="QDoubleSpinBox" name="spinMinGz">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="18" column="2">
+           <widget class="ComboUnitsNumber" name="comboMinGz"/>
+          </item>
+          <item row="18" column="0">
+           <widget class="QLabel" name="labelMinGz">
+            <property name="text">
+             <string>Min Gz:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -843,6 +944,13 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="buttonResetGz">
+          <property name="text">
+           <string>Reset Gz</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

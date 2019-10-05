@@ -47,7 +47,7 @@ Camera::Camera() :
     _manipulatorShift = new ManipulatorShift();
     _manipulatorWorld = new ManipulatorWorld();
 
-    _viewType = Data::Camera::ViewPilot;
+    _viewType = Data::CGI::ViewPilot;
     _manipulator = _manipulatorShift.get();
 }
 
@@ -59,8 +59,7 @@ Camera::~Camera() {}
 
 void Camera::update()
 {
-    if ( _viewType == Data::Camera::ViewChase
-      || _viewType == Data::Camera::ViewPilot )
+    if ( _viewType == Data::CGI::ViewChase || _viewType == Data::CGI::ViewPilot )
     {
         osg::Quat q_tmp( -M_PI / 2.0, osg::X_AXIS,
                                  0.0, osg::Y_AXIS,
@@ -75,7 +74,7 @@ void Camera::update()
                           Data::get()->ownship.pos_y_wgs,
                           Data::get()->ownship.pos_z_wgs );
 
-        if ( _viewType == Data::Camera::ViewChase )
+        if ( _viewType == Data::CGI::ViewChase )
         {
             double deltaPitch = Data::get()->ownship.onGround ? -Data::get()->ownship.pitch : 0.0;
             _deltaPitch = fdm::Misc::inertia( deltaPitch, _deltaPitch, CGI_TIME_STEP, 1.0 );
@@ -102,7 +101,7 @@ void Camera::update()
 
             _manipulatorShift->setByMatrix( matrix );
         }
-        else if ( _viewType == Data::Camera::ViewPilot )
+        else if ( _viewType == Data::CGI::ViewPilot )
         {
             osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
                                * osg::Matrixd::rotate( q_wgs )
@@ -121,12 +120,12 @@ void Camera::update()
 
     float elevation = Intersections::instance()->getElevation( wgs.getLat(), wgs.getLon() );
 
-    Data::get()->camera.latitude     = wgs.getLat();
-    Data::get()->camera.longitude    = wgs.getLon();
-    Data::get()->camera.altitude_agl = wgs.getAlt() - elevation;
-    Data::get()->camera.altitude_asl = wgs.getAlt();
+    Data::get()->cgi.camera.latitude     = wgs.getLat();
+    Data::get()->cgi.camera.longitude    = wgs.getLon();
+    Data::get()->cgi.camera.altitude_agl = wgs.getAlt() - elevation;
+    Data::get()->cgi.camera.altitude_asl = wgs.getAlt();
 
-    Data::get()->camera.viewType = _viewType;
+    Data::get()->cgi.viewType = _viewType;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

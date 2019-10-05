@@ -54,24 +54,11 @@ void Governor::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _prop_rpm, "prop_rpm" );
 
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

@@ -41,6 +41,12 @@ class GraphicsEADI : public QGraphicsView
 
 public:
 
+    enum FlightMode { FM_OFF = 0, FM_FD, FM_CMD };
+    enum SpeedMode  { SM_OFF = 0, SM_FMC_SPD };
+
+    enum LNAV { LNAV_OFF = 0, LNAV_HDG, LNAV_NAV, LNAV_NAV_ARM, LNAV_APR, LNAV_APR_ARM, LNAV_BC, LNAV_BC_ARM };
+    enum VNAV { VNAV_OFF = 0, VNAV_ALT, VNAV_IAS, VNAV_VS, VNAV_ALT_SEL, VNAV_GS, VNAV_GS_ARM };
+
     /** Constructor. */
     explicit GraphicsEADI( QWidget *parent = NULLPTR );
 
@@ -49,6 +55,30 @@ public:
 
     /** */
     void reinit();
+
+    /** */
+    inline void setFlightMode( FlightMode flightMode )
+    {
+        _flightMode = flightMode;
+    }
+
+    /** */
+    inline void setSpeedMode( SpeedMode speedMode )
+    {
+        _speedMode = speedMode;
+    }
+
+    /** */
+    inline void setLNAV( LNAV lnav )
+    {
+        _lnav = lnav;
+    }
+
+    /** */
+    inline void setVNAV( VNAV vnav )
+    {
+        _vnav = vnav;
+    }
 
     /** @param roll angle [deg] */
     inline void setRoll( float roll )
@@ -131,6 +161,18 @@ public:
         _vsi->setClimbRate( climbRate );
     }
 
+    /** @param airspeed (dimensionless numeric value) */
+    inline void setAirspeedSet( double airspeed )
+    {
+        _asi->setAirspeedSet( airspeed );
+    }
+
+    /** @param altitude (dimensionless numeric value) */
+    inline void setAltitudeSet( double altitude )
+    {
+        _alt->setAltitudeSet( altitude );
+    }
+
 protected:
 
     /** */
@@ -160,14 +202,39 @@ private:
     QGraphicsSvgItem *_itemBack;            ///< PFD background
     QGraphicsSvgItem *_itemMask;            ///< PFD mask
 
+    QGraphicsTextItem *_itemFMA;            ///< FMA (Flight Mode Annunciator)
+    QGraphicsTextItem *_itemSPD;
+
+    QGraphicsTextItem *_itemLNAV;           ///< LNAV (Lateral Navigation Mode)
+    QGraphicsTextItem *_itemVNAV;           ///< VNAV (Vertical Navigation Mode)
+
+    QGraphicsTextItem *_itemLNAV_ARM;       ///< LNAV (Lateral Navigation Mode)
+    QGraphicsTextItem *_itemVNAV_ARM;       ///< LNAV (Lateral Navigation Mode)
+
+    FlightMode _flightMode;                 ///<
+    SpeedMode  _speedMode;                  ///<
+
+    LNAV _lnav;                             ///<
+    VNAV _vnav;                             ///<
+
     float _scaleX;                          ///<
     float _scaleY;                          ///<
+
+    QPointF _originalFMA;
+    QPointF _originalSPD;
+
+    QPointF _originalLNAV;
+    QPointF _originalVNAV;
+
+    QPointF _originalLNAV_ARM;
+    QPointF _originalVNAV_ARM;
 
     const int _originalHeight;              ///< [px]
     const int _originalWidth;               ///< [px]
 
     const int _backZ;                       ///<
     const int _maskZ;                       ///<
+    const int _textZ;                       ///<
 
     void init();
 
@@ -303,6 +370,7 @@ private:
         void update( float scaleX, float scaleY );
 
         void setAltitude( float altitude );
+        void setAltitudeSet( double altitude );
 
     private:
 
@@ -315,18 +383,14 @@ private:
         QGraphicsTextItem *_itemLabel2;     ///<
         QGraphicsTextItem *_itemLabel3;     ///<
         QGraphicsSvgItem  *_itemGround;     ///<
+        QGraphicsSvgItem  *_itemBugAlt;     ///<
         QGraphicsSvgItem  *_itemFrame;      ///<
         QGraphicsTextItem *_itemAltitude;   ///<
         QGraphicsTextItem *_itemPressure;   ///<
-
-        QColor _frameTextColor;             ///<
-        QColor _pressTextColor;             ///<
-        QColor _labelsColor;                ///<
-
-        QFont  _frameTextFont;              ///<
-        QFont  _labelsFont;                 ///<
+        QGraphicsTextItem *_itemSetpoint;   ///<
 
         float _altitude;                    ///<
+        float _altitude_set;                ///<
 
         float _scale1DeltaY_new;            ///<
         float _scale1DeltaY_old;            ///<
@@ -336,6 +400,8 @@ private:
         float _groundDeltaY_old;            ///<
         float _labelsDeltaY_new;            ///<
         float _labelsDeltaY_old;            ///<
+        float _bugDeltaY_new;               ///<
+        float _bugDeltaY_old;               ///<
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -354,17 +420,20 @@ private:
         QPointF _originalFramePos;          ///<
         QPointF _originalAltitudeCtr;       ///<
         QPointF _originalPressureCtr;       ///<
+        QPointF _originalAltitudeSet;       ///<
 
         const int _backZ;                   ///<
         const int _scaleZ;                  ///<
         const int _labelsZ;                 ///<
         const int _groundZ;                 ///<
+        const int _altBugZ;                 ///<
         const int _frameZ;                  ///<
         const int _frameTextZ;              ///<
 
         void reset();
 
         void updateAltitude();
+        void updateAltitudeBug();
         void updateScale();
         void updateScaleLabels();
     };
@@ -380,6 +449,7 @@ private:
 
         void setAirspeed( float airspeed );
         void setMachNo( float machNo );
+        void setAirspeedSet( double airspeed );
 
     private:
 
@@ -395,18 +465,15 @@ private:
         QGraphicsTextItem *_itemLabel5;     ///<
         QGraphicsTextItem *_itemLabel6;     ///<
         QGraphicsTextItem *_itemLabel7;     ///<
+        QGraphicsSvgItem  *_itemBugIAS;     ///<
         QGraphicsSvgItem  *_itemFrame;      ///<
         QGraphicsTextItem *_itemAirspeed;   ///<
         QGraphicsTextItem *_itemMachNo;     ///<
-
-        QColor _frameTextColor;             ///<
-        QColor _labelsColor;                ///<
-
-        QFont  _frameTextFont;              ///<
-        QFont  _labelsFont;                 ///<
+        QGraphicsTextItem *_itemSetpoint;   ///<
 
         float _airspeed;                    ///<
         float _machNo;                      ///<
+        float _airspeed_set;                ///<
 
         float _scale1DeltaY_new;            ///<
         float _scale1DeltaY_old;            ///<
@@ -414,6 +481,8 @@ private:
         float _scale2DeltaY_old;            ///<
         float _labelsDeltaY_new;            ///<
         float _labelsDeltaY_old;            ///<
+        float _bugDeltaY_new;               ///<
+        float _bugDeltaY_old;               ///<
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -435,16 +504,19 @@ private:
         QPointF _originalFramePos;          ///<
         QPointF _originalAirspeedCtr;       ///<
         QPointF _originalMachNoCtr;         ///<
+        QPointF _originalAirspeedSet;       ///<
 
         const int _backZ;                   ///<
         const int _scaleZ;                  ///<
         const int _labelsZ;                 ///<
+        const int _iasBugZ;                 ///<
         const int _frameZ;                  ///<
         const int _frameTextZ;              ///<
 
         void reset();
 
         void updateAirspeed();
+        void updateAirspeedBug();
         void updateScale();
         void updateScaleLabels();
     };
@@ -468,10 +540,6 @@ private:
         QGraphicsSvgItem  *_itemFace;       ///< heading face
         QGraphicsSvgItem  *_itemMarks;      ///< HSI markings
         QGraphicsTextItem *_itemFrameText;  ///<
-
-        QColor _frameTextColor;             ///<
-
-        QFont  _frameTextFont;              ///<
 
         float _heading;                     ///< [deg]
 

@@ -22,6 +22,8 @@
 
 #include <gui/ComboUnits.h>
 
+#include <limits>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 ComboUnits::ComboUnits( QWidget *parent ) :

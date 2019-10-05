@@ -1,5 +1,6 @@
 HEADERS += \
     $$PWD/Aircrafts.h \
+    $$PWD/Colors.h \
     $$PWD/ComboUnits.h \
     $$PWD/ComboUnitsAngle.h \
     $$PWD/ComboUnitsFlowRate.h \
@@ -23,6 +24,7 @@ HEADERS += \
     $$PWD/DockWidgetMain.h \
     $$PWD/DockWidgetMap.h \
     $$PWD/DockWidgetProp.h \
+    $$PWD/Fonts.h \
     $$PWD/GraphicsEADI.h \
     $$PWD/GraphicsEHSI.h \
     $$PWD/GraphicsPedals.h \
@@ -43,6 +45,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/Aircrafts.cpp \
+    $$PWD/Colors.cpp \
     $$PWD/ComboUnits.cpp \
     $$PWD/ComboUnitsAngle.cpp \
     $$PWD/ComboUnitsFlowRate.cpp \
@@ -66,6 +69,7 @@ SOURCES += \
     $$PWD/DockWidgetMain.cpp \
     $$PWD/DockWidgetMap.cpp \
     $$PWD/DockWidgetProp.cpp \
+    $$PWD/Fonts.cpp \
     $$PWD/GraphicsEADI.cpp \
     $$PWD/GraphicsEHSI.cpp \
     $$PWD/GraphicsPedals.cpp \

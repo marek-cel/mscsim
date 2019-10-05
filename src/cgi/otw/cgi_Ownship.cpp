@@ -25,8 +25,9 @@
 #include <sstream>
 #include <stdio.h>
 
-#include <osg/PositionAttitudeTransform>
-#include <osg/Switch>
+#include <osg/Geode>
+#include <osg/Geometry>
+#include <osg/LineWidth>
 
 #include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
@@ -35,6 +36,7 @@
 
 #include <Data.h>
 
+#include <cgi/cgi_Color.h>
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_FindNode.h>
 #include <cgi/cgi_Models.h>
@@ -52,9 +54,17 @@ Ownship::Ownship( Module *parent ) :
     _root->addChild( _pat.get() );
 
     _switch = new osg::Switch();
+    _switch->setName( "Ownship" );
     _pat->addChild( _switch.get() );
 
-    _switch->setName( "Ownship" );
+    _patRibbons = new osg::PositionAttitudeTransform();
+    _root->addChild( _patRibbons.get() );
+
+    _switchRibbons = new osg::Switch();
+    _patRibbons->addChild( _switchRibbons.get() );
+
+    _trace_1 = new osg::Vec3Array();
+    _trace_2 = new osg::Vec3Array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +72,7 @@ Ownship::Ownship( Module *parent ) :
 Ownship::~Ownship() {}
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <cgi/cgi_WGS84.h>
+
 void Ownship::update()
 {
     if ( 0 != strcmp( _aircraftFile.c_str(), Data::get()->ownship.aircraftFile ) )
@@ -70,7 +80,7 @@ void Ownship::update()
         reload();
     }
 
-    if ( Data::get()->camera.viewType == Data::Camera::ViewPilot )
+    if ( Data::get()->cgi.viewType == Data::CGI::ViewPilot )
     {
         _switch->setAllChildrenOff();
     }
@@ -79,180 +89,20 @@ void Ownship::update()
         _switch->setAllChildrenOn();
     }
 
-    osg::Quat q_wgs( Data::get()->ownship.att_ex_wgs,
-                     Data::get()->ownship.att_ey_wgs,
-                     Data::get()->ownship.att_ez_wgs,
-                     Data::get()->ownship.att_e0_wgs );
+    _att_wgs = osg::Quat( Data::get()->ownship.att_ex_wgs,
+                          Data::get()->ownship.att_ey_wgs,
+                          Data::get()->ownship.att_ez_wgs,
+                          Data::get()->ownship.att_e0_wgs );
 
-    osg::Vec3d r_wgs( Data::get()->ownship.pos_x_wgs,
-                      Data::get()->ownship.pos_y_wgs,
-                      Data::get()->ownship.pos_z_wgs );
+    _pos_wgs = osg::Vec3d( Data::get()->ownship.pos_x_wgs,
+                           Data::get()->ownship.pos_y_wgs,
+                           Data::get()->ownship.pos_z_wgs );
 
-    //osg::Vec3d r_wgs( 0.0, 0.0, osg::WGS_84_RADIUS_EQUATOR + 30.0 );
+    _pat->setAttitude( _att_wgs );
+    _pat->setPosition( _pos_wgs );
 
-    _pat->setAttitude( q_wgs );
-    _pat->setPosition( r_wgs );
-
-    // ailerons
-    if ( _aileronL.valid() && _aileronR.valid() )
-    {
-        _aileronL->setAttitude( osg::Quat( -Data::get()->ownship.ailerons, osg::Y_AXIS ) );
-        _aileronR->setAttitude( osg::Quat(  Data::get()->ownship.ailerons, osg::Y_AXIS ) );
-    }
-
-    // elevator
-    if ( _elevatorL.valid() )
-    {
-        _elevatorL->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
-    }
-
-    if ( _elevatorR.valid() )
-    {
-        _elevatorR->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
-    }
-
-    // rudder
-    if ( _rudderL.valid() )
-    {
-        _rudderL->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
-    }
-
-    if ( _rudderR.valid() )
-    {
-        _rudderR->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
-    }
-
-    // elevons
-    if ( _elevonL.valid() && _elevonR.valid() )
-    {
-        float angle_l = Data::get()->ownship.elevator - Data::get()->ownship.elevons;
-        float angle_r = Data::get()->ownship.elevator + Data::get()->ownship.elevons;
-
-        _elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
-        _elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
-    }
-
-    // flaperons
-    if ( _flaperonL.valid() && _flaperonR.valid() )
-    {
-        float angle_l = Data::get()->ownship.flaps - Data::get()->ownship.flaperons;
-        float angle_r = Data::get()->ownship.flaps + Data::get()->ownship.flaperons;
-
-        _flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
-        _flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
-    }
-
-    // flaps
-    if ( _flapL.valid() && _flapR.valid() )
-    {
-        _flapL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
-        _flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
-    }
-
-    // lefs
-    if ( _lefL.valid() && _lefR.valid() )
-    {
-        _lefL->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
-        _lefR->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
-    }
-
-    // airbrake
-    if ( _airbrakeP.valid() )
-    {
-        _airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
-    }
-
-    if ( _airbrakeN.valid() )
-    {
-        _airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
-    }
-
-    // landing gear
-    if ( _landingGear.valid() )
-    {
-        if ( Data::get()->ownship.landingGear > 0.0 )
-        {
-            _landingGear->setValue( 0, false );
-            _landingGear->setValue( 1, true  );
-
-            for ( unsigned int i = 0; i < _landingGearElements.size() && i < _landingGearElementsData.size(); i++ )
-            {
-                double angle_x = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].x) );
-                double angle_y = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].y) );
-                double angle_z = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].z) );
-
-                _landingGearElements[ i ]->setAttitude( osg::Quat( angle_x, osg::X_AXIS,
-                                                                   angle_y, osg::Y_AXIS,
-                                                                   angle_z, osg::Z_AXIS ) );
-            }
-        }
-        else
-        {
-            _landingGear->setValue( 0, true  );
-            _landingGear->setValue( 1, false );
-        }
-    }
-
-    // propeller
-    if ( _propeller1.valid() )
-    {
-        _propeller1->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 0 ], osg::X_AXIS ) );
-    }
-
-    if ( _propeller2.valid() )
-    {
-        _propeller2->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 1 ], osg::X_AXIS ) );
-    }
-
-    if ( _propeller3.valid() )
-    {
-        _propeller3->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 2 ], osg::X_AXIS ) );
-    }
-
-    if ( _propeller4.valid() )
-    {
-        _propeller4->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 3 ], osg::X_AXIS ) );
-    }
-
-    // main rotor
-    if ( _mainRotor.valid() )
-    {
-        double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_azimuth;
-        _mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
-    }
-
-    // tail rotor
-    if ( _tailRotor.valid() )
-    {
-        double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_azimuth;
-        _tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
-    }
-
-    // main rotor blades
-    unsigned int bladesCount = _mainRotorBlades.size();
-    double psiStep = 2.0*M_PI / (float)bladesCount;
-
-    for ( unsigned int i = 0; i < bladesCount; i++ )
-    {
-        double psi = Data::get()->ownship.mainRotor_azimuth
-                   + (double)(i*psiStep) * Data::get()->ownship.mainRotor_coef;
-
-        double sinPsi = sin( psi );
-        double cosPsi = cos( psi );
-
-        // pitching
-        double pitching = Data::get()->ownship.mainRotor_collective
-                        - Data::get()->ownship.mainRotor_cyclicLon * cosPsi * Data::get()->ownship.mainRotor_coef
-                        + Data::get()->ownship.mainRotor_cyclicLat * sinPsi;
-
-        double flapping = Data::get()->ownship.mainRotor_coningAngle
-                        + Data::get()->ownship.mainRotor_diskPitch * cosPsi
-                        - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
-
-        _mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
-                                                       flapping, osg::Y_AXIS,
-                                                            0.0, osg::Z_AXIS ) );
-    }
+    updateModel();
+    updateTraces();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -461,6 +311,26 @@ void Ownship::readLandingGearElementAxisData( const fdm::XmlNode &node,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Ownship::readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip )
+{
+    double x = 0.0;
+    double y = 0.0;
+    double z = 0.0;
+
+    int result = FDM_SUCCESS;
+
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, x, "x" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, y, "y" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, z, "z" );
+
+    if ( result == FDM_SUCCESS )
+    {
+        wing_tip->set( x, y, z );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Ownship::reload()
 {
     reset();
@@ -481,6 +351,14 @@ void Ownship::reload()
 
             if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, modelFile, "model" );
 
+            fdm::XmlNode wingTipNodeL = rootNode.getFirstChildElement( "wing_tip_l" );
+            fdm::XmlNode wingTipNodeR = rootNode.getFirstChildElement( "wing_tip_r" );
+
+            if ( wingTipNodeL.isValid() ) readWingTipData( wingTipNodeL, &_wing_tip_l );
+            if ( wingTipNodeR.isValid() ) readWingTipData( wingTipNodeR, &_wing_tip_r );
+
+            _double_trace = ( _wing_tip_l.length() + _wing_tip_r.length() ) > 0.0;
+
             readLandingGearElementsData( rootNode, &_landingGearElementsData );
 
             if ( result == FDM_SUCCESS )
@@ -500,31 +378,300 @@ void Ownship::reset()
         _switch->removeChildren( 0, _switch->getNumChildren() );
     }
 
-    _aileronL  = 0;
-    _aileronR  = 0;
-    _elevatorL = 0;
-    _elevatorR = 0;
-    _elevonL   = 0;
-    _elevonR   = 0;
-    _flaperonL = 0;
-    _flaperonR = 0;
-    _flapL     = 0;
-    _flapR     = 0;
-    _lefL      = 0;
-    _lefR      = 0;
-    _rudderL   = 0;
-    _rudderR   = 0;
+    if ( _switchRibbons->getNumChildren() > 0 )
+    {
+        _switchRibbons->removeChildren( 0, _switchRibbons->getNumChildren() );
+    }
 
-    _propeller1 = 0;
-    _propeller2 = 0;
-    _propeller3 = 0;
-    _propeller4 = 0;
+    _aileronL  = NULLPTR;
+    _aileronR  = NULLPTR;
+    _elevatorL = NULLPTR;
+    _elevatorR = NULLPTR;
+    _elevonL   = NULLPTR;
+    _elevonR   = NULLPTR;
+    _flaperonL = NULLPTR;
+    _flaperonR = NULLPTR;
+    _flapL     = NULLPTR;
+    _flapR     = NULLPTR;
+    _lefL      = NULLPTR;
+    _lefR      = NULLPTR;
+    _rudderL   = NULLPTR;
+    _rudderR   = NULLPTR;
 
-    _mainRotor = 0;
-    _tailRotor = 0;
+    _propeller1 = NULLPTR;
+    _propeller2 = NULLPTR;
+    _propeller3 = NULLPTR;
+    _propeller4 = NULLPTR;
+
+    _mainRotor = NULLPTR;
+    _tailRotor = NULLPTR;
 
     _landingGearElements.clear();
     _mainRotorBlades.clear();
 
     _landingGearElementsData.clear();
+
+    _pos_0_wgs = osg::Vec3d( 0.0, 0.0, 0.0 );
+
+    _wing_tip_l = osg::Vec3( 0.0, 0.0, 0.0 );
+    _wing_tip_r = osg::Vec3( 0.0, 0.0, 0.0 );
+
+    _trace_1->clear();
+    _trace_2->clear();
+
+    _double_trace = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Ownship::updateModel()
+{
+    // ailerons
+    if ( _aileronL.valid() && _aileronR.valid() )
+    {
+        _aileronL->setAttitude( osg::Quat( -Data::get()->ownship.ailerons, osg::Y_AXIS ) );
+        _aileronR->setAttitude( osg::Quat(  Data::get()->ownship.ailerons, osg::Y_AXIS ) );
+    }
+
+    // elevator
+    if ( _elevatorL.valid() )
+    {
+        _elevatorL->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
+    }
+
+    if ( _elevatorR.valid() )
+    {
+        _elevatorR->setAttitude( osg::Quat( Data::get()->ownship.elevator, osg::Y_AXIS ) );
+    }
+
+    // rudder
+    if ( _rudderL.valid() )
+    {
+        _rudderL->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
+    }
+
+    if ( _rudderR.valid() )
+    {
+        _rudderR->setAttitude( osg::Quat( Data::get()->ownship.rudder, osg::Z_AXIS ) );
+    }
+
+    // elevons
+    if ( _elevonL.valid() && _elevonR.valid() )
+    {
+        float angle_l = Data::get()->ownship.elevator - Data::get()->ownship.elevons;
+        float angle_r = Data::get()->ownship.elevator + Data::get()->ownship.elevons;
+
+        _elevonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        _elevonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
+    }
+
+    // flaperons
+    if ( _flaperonL.valid() && _flaperonR.valid() )
+    {
+        float angle_l = Data::get()->ownship.flaps - Data::get()->ownship.flaperons;
+        float angle_r = Data::get()->ownship.flaps + Data::get()->ownship.flaperons;
+
+        _flaperonL->setAttitude( osg::Quat( angle_l, osg::Y_AXIS ) );
+        _flaperonR->setAttitude( osg::Quat( angle_r, osg::Y_AXIS ) );
+    }
+
+    // flaps
+    if ( _flapL.valid() && _flapR.valid() )
+    {
+        _flapL->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+        _flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
+    }
+
+    // lefs
+    if ( _lefL.valid() && _lefR.valid() )
+    {
+        _lefL->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
+        _lefR->setAttitude( osg::Quat( -Data::get()->ownship.lef, osg::Y_AXIS ) );
+    }
+
+    // airbrake
+    if ( _airbrakeP.valid() )
+    {
+        _airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
+    }
+
+    if ( _airbrakeN.valid() )
+    {
+        _airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
+    }
+
+    // landing gear
+    if ( _landingGear.valid() )
+    {
+        if ( Data::get()->ownship.landingGear > 0.0 )
+        {
+            _landingGear->setValue( 0, false );
+            _landingGear->setValue( 1, true  );
+
+            for ( unsigned int i = 0; i < _landingGearElements.size() && i < _landingGearElementsData.size(); i++ )
+            {
+                double angle_x = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].x) );
+                double angle_y = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].y) );
+                double angle_z = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].z) );
+
+                _landingGearElements[ i ]->setAttitude( osg::Quat( angle_x, osg::X_AXIS,
+                                                                   angle_y, osg::Y_AXIS,
+                                                                   angle_z, osg::Z_AXIS ) );
+            }
+        }
+        else
+        {
+            _landingGear->setValue( 0, true  );
+            _landingGear->setValue( 1, false );
+        }
+    }
+
+    // propeller
+    if ( _propeller1.valid() )
+    {
+        _propeller1->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 0 ], osg::X_AXIS ) );
+    }
+
+    if ( _propeller2.valid() )
+    {
+        _propeller2->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 1 ], osg::X_AXIS ) );
+    }
+
+    if ( _propeller3.valid() )
+    {
+        _propeller3->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 2 ], osg::X_AXIS ) );
+    }
+
+    if ( _propeller4.valid() )
+    {
+        _propeller4->setAttitude( osg::Quat( -Data::get()->ownship.propeller[ 3 ], osg::X_AXIS ) );
+    }
+
+    // main rotor
+    if ( _mainRotor.valid() )
+    {
+        double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_azimuth;
+        _mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
+    }
+
+    // tail rotor
+    if ( _tailRotor.valid() )
+    {
+        double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_azimuth;
+        _tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
+    }
+
+    // main rotor blades
+    unsigned int bladesCount = _mainRotorBlades.size();
+    double psiStep = 2.0*M_PI / (float)bladesCount;
+
+    for ( unsigned int i = 0; i < bladesCount; i++ )
+    {
+        double psi = Data::get()->ownship.mainRotor_azimuth
+                   + (double)(i*psiStep) * Data::get()->ownship.mainRotor_coef;
+
+        double sinPsi = sin( psi );
+        double cosPsi = cos( psi );
+
+        // pitching
+        double pitching = Data::get()->ownship.mainRotor_collective
+                        - Data::get()->ownship.mainRotor_cyclicLon * cosPsi * Data::get()->ownship.mainRotor_coef
+                        + Data::get()->ownship.mainRotor_cyclicLat * sinPsi;
+
+        double flapping = Data::get()->ownship.mainRotor_coningAngle
+                        + Data::get()->ownship.mainRotor_diskPitch * cosPsi
+                        - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
+
+        _mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
+                                                       flapping, osg::Y_AXIS,
+                                                            0.0, osg::Z_AXIS ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Ownship::updateTraces()
+{
+    if ( _switchRibbons->getNumChildren() > 0 )
+    {
+        _switchRibbons->removeChildren( 0, _switchRibbons->getNumChildren() );
+    }
+
+    if ( Data::get()->stateOut == fdm::DataOut::Idle )
+    {
+        _trace_1->clear();
+        _trace_2->clear();
+
+        if ( _switchRibbons->getNumChildren() > 0 )
+        {
+            _switchRibbons->removeChildren( 0, _switchRibbons->getNumChildren() );
+        }
+    }
+    else if ( Data::get()->stateOut == fdm::DataOut::Ready )
+    {
+        _pos_0_wgs = _pos_wgs;
+        _patRibbons->setPosition( _pos_wgs );
+    }
+    else if ( Data::get()->stateOut == fdm::DataOut::Working )
+    {
+        if ( _double_trace )
+        {
+            _trace_1->push_back( _pos_wgs + _att_wgs * _wing_tip_l - _pos_0_wgs );
+            _trace_2->push_back( _pos_wgs + _att_wgs * _wing_tip_r - _pos_0_wgs );
+        }
+        else
+        {
+            _trace_1->push_back( _pos_wgs - _pos_0_wgs );
+        }
+    }
+
+    if ( Data::get()->cgi.traces )
+    {
+        _switchRibbons->setAllChildrenOn();
+
+        if ( _double_trace )
+        {
+            updateTrace( _switchRibbons.get(), _trace_1.get(), Color::_red  );
+            updateTrace( _switchRibbons.get(), _trace_2.get(), Color::_lime );
+        }
+        else
+        {
+            updateTrace( _switchRibbons.get(), _trace_1.get(), Color::_black );
+        }
+    }
+    else
+    {
+        _switchRibbons->setAllChildrenOff();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Ownship::updateTrace( osg::Group *parent, osg::Vec3Array *positions,
+                           const osg::Vec3 &color )
+{
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    parent->addChild( geode.get() );
+
+    osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+    c->push_back( osg::Vec4( color, 1.0f ) );
+
+    geometry->setVertexArray( positions );
+    geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, positions->size() ) );
+    geometry->setNormalArray( n.get() );
+    geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geometry->setColorArray( c.get() );
+    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    geode->addDrawable( geometry.get() );
+
+    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+    lineWidth->setWidth( 2.0f );
+
+    geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 }

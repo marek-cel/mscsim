@@ -61,13 +61,12 @@ void Lead::setTimeConstant( double tc )
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-#include <iostream>
+
 void Lead::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
         double du_dt = ( u - _u ) / dt;
-        //std::cout << u << " " << du_dt << std::endl;
         _y = _tc * du_dt + u;
         _u = u;
     }

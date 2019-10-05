@@ -23,8 +23,6 @@
 #include <gui/MainWindow.h>
 #include <ui_MainWindow.h>
 
-#include <iostream>
-
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
@@ -93,8 +91,9 @@ MainWindow::MainWindow( QWidget *parent ) :
     _scTimeFaster ( NULLPTR ),
     _scTimeSlower ( NULLPTR ),
 
-    _viewType ( Data::Camera::ViewPilot ),
+    _viewType ( Data::CGI::ViewPilot ),
     _showHUD ( true ),
+    _showTraces ( false ),
 
     _timeCoef ( 1.0 ),
 
@@ -178,26 +177,26 @@ MainWindow::~MainWindow()
 
     settingsSave();
 
-    DELETE( _dialogConf );
-    DELETE( _dialogEnvr );
-    DELETE( _dialogInit );
-    DELETE( _dialogMass );
+    SIM_DELETE( _dialogConf );
+    SIM_DELETE( _dialogEnvr );
+    SIM_DELETE( _dialogInit );
+    SIM_DELETE( _dialogMass );
 
-    DELETE( _dockAuto );
-    DELETE( _dockCtrl );
-    DELETE( _dockData );
-    DELETE( _dockEFIS );
-    DELETE( _dockMain );
-    DELETE( _dockMap  );
-    DELETE( _dockProp );
+    SIM_DELETE( _dockAuto );
+    SIM_DELETE( _dockCtrl );
+    SIM_DELETE( _dockData );
+    SIM_DELETE( _dockEFIS );
+    SIM_DELETE( _dockMain );
+    SIM_DELETE( _dockMap  );
+    SIM_DELETE( _dockProp );
 
-    DELETE( _scCycleViews );
-    DELETE( _scToggleHud  );
-    DELETE( _scFullScreen );
-    DELETE( _scTimeFaster );
-    DELETE( _scTimeSlower );
+    SIM_DELETE( _scCycleViews );
+    SIM_DELETE( _scToggleHud  );
+    SIM_DELETE( _scFullScreen );
+    SIM_DELETE( _scTimeFaster );
+    SIM_DELETE( _scTimeSlower );
 
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -360,6 +359,7 @@ void MainWindow::setStateInit()
 {
     _stateInp = fdm::DataInp::Init;
     _dockMain->setStateInp( _stateInp );
+    _dockAuto->init();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -392,13 +392,14 @@ void MainWindow::setStateStop()
 {
     _stateInp = fdm::DataInp::Stop;
     _dockMain->setStateInp( _stateInp );
+    _dockAuto->stop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::setViewChase()
 {
-    _viewType = Data::Camera::ViewChase;
+    _viewType = Data::CGI::ViewChase;
     _ui->stackedMain->setCurrentIndex( 1 );
     _ui->widgetCGI->setCameraManipulatorChase();
     _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
@@ -408,7 +409,7 @@ void MainWindow::setViewChase()
 
 void MainWindow::setViewOrbit()
 {
-    _viewType = Data::Camera::ViewOrbit;
+    _viewType = Data::CGI::ViewOrbit;
     _ui->stackedMain->setCurrentIndex( 1 );
     _ui->widgetCGI->setCameraManipulatorOrbit();
     _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
@@ -418,7 +419,7 @@ void MainWindow::setViewOrbit()
 
 void MainWindow::setViewPilot()
 {
-    _viewType = Data::Camera::ViewPilot;
+    _viewType = Data::CGI::ViewPilot;
     _ui->stackedMain->setCurrentIndex( 1 );
     _ui->widgetCGI->setCameraManipulatorPilot();
 }
@@ -427,7 +428,7 @@ void MainWindow::setViewPilot()
 
 void MainWindow::setViewWorld()
 {
-    _viewType = Data::Camera::ViewWorld;
+    _viewType = Data::CGI::ViewWorld;
     _ui->stackedMain->setCurrentIndex( 1 );
     _ui->widgetCGI->setCameraManipulatorWorld();
 }
@@ -551,35 +552,41 @@ void MainWindow::settingsRead_View( QSettings &settings )
 {
     settings.beginGroup( "view" );
 
-    int viewType = settings.value( "view_type", Data::Camera::ViewPilot ).toInt();
+    int viewType = settings.value( "view_type", Data::CGI::ViewPilot ).toInt();
+
+    ////////////////////////////////////////////////////////////////////////
+    if ( viewType == Data::CGI::ViewWorld ) viewType = Data::CGI::ViewOrbit;
+    ////////////////////////////////////////////////////////////////////////
 
     switch ( viewType )
     {
-    case Data::Camera::ViewChase:
-        _viewType = Data::Camera::ViewChase;
+    case Data::CGI::ViewChase:
+        _viewType = Data::CGI::ViewChase;
         _ui->widgetCGI->setCameraManipulatorChase();
         break;
 
     default:
-    case Data::Camera::ViewPilot:
-        _viewType = Data::Camera::ViewPilot;
+    case Data::CGI::ViewPilot:
+        _viewType = Data::CGI::ViewPilot;
         _ui->widgetCGI->setCameraManipulatorPilot();
         break;
 
-    case Data::Camera::ViewOrbit:
-        _viewType = Data::Camera::ViewOrbit;
+    case Data::CGI::ViewOrbit:
+        _viewType = Data::CGI::ViewOrbit;
         _ui->widgetCGI->setCameraManipulatorOrbit();
         break;
 
-    case Data::Camera::ViewWorld:
-        _viewType = Data::Camera::ViewWorld;
+    case Data::CGI::ViewWorld:
+        _viewType = Data::CGI::ViewWorld;
         _ui->widgetCGI->setCameraManipulatorWorld();
         break;
     }
 
     _showHUD = settings.value( "show_hud", 1 ).toInt();
+    _showTraces = settings.value( "show_traces", 0 ).toInt();
 
     _ui->actionShowHUD->setChecked( _showHUD );
+    _ui->actionShowTraces->setChecked( _showTraces );
 
     settings.endGroup();
 }
@@ -635,8 +642,9 @@ void MainWindow::settingsSave_View( QSettings &settings )
 {
     settings.beginGroup( "view" );
 
-    settings.setValue( "view_type", (int)_viewType );
-    settings.setValue( "show_hud", (int)_showHUD );
+    settings.setValue( "view_type"   , (int)_viewType   );
+    settings.setValue( "show_hud"    , (int)_showHUD    );
+    settings.setValue( "show_traces" , (int)_showTraces );
 
     settings.endGroup();
 }
@@ -671,38 +679,38 @@ void MainWindow::updateDockCtrl()
     {
         _dockCtrl->setCollective( hid::Manager::instance()->getCollective() );
 
-        _dockCtrl->setCtrlStick( hid::Manager::instance()->getCtrlRoll(),
-                                 hid::Manager::instance()->getCtrlPitch() );
+        _dockCtrl->setCtrlStick( -Data::get()->controls.roll,
+                                 -Data::get()->controls.pitch );
 
-        _dockCtrl->setTrimStick( hid::Manager::instance()->getTrimRoll(),
-                                 hid::Manager::instance()->getTrimPitch() );
+        _dockCtrl->setTrimStick( -Data::get()->controls.trim_roll,
+                                 -Data::get()->controls.trim_pitch );
 
-        _dockCtrl->setCtrlPedals( hid::Manager::instance()->getCtrlYaw() );
-        _dockCtrl->setTrimPedals( hid::Manager::instance()->getTrimYaw() );
+        _dockCtrl->setCtrlPedals( -Data::get()->controls.yaw );
+        _dockCtrl->setTrimPedals( -Data::get()->controls.trim_yaw );
 
-        _dockCtrl->setBrakes( hid::Manager::instance()->getBrakeLeft(),
-                              hid::Manager::instance()->getBrakeRight() );
+        _dockCtrl->setBrakes( Data::get()->controls.brake_l,
+                              Data::get()->controls.brake_r );
 
-        _dockCtrl->setGear( hid::Manager::instance()->getLandingGear() );
-        _dockCtrl->setFlaps( hid::Manager::instance()->getFlaps() );
+        _dockCtrl->setGear( Data::get()->controls.landing_gear );
+        _dockCtrl->setFlaps( Data::get()->controls.flaps );
 
-        _dockCtrl->setThrottle( hid::Manager::instance()->getThrottle( 0 ),
-                                hid::Manager::instance()->getThrottle( 1 ),
-                                hid::Manager::instance()->getThrottle( 2 ),
-                                hid::Manager::instance()->getThrottle( 3 ) );
+        _dockCtrl->setThrottle( Data::get()->propulsion.engine[ 0 ].throttle,
+                                Data::get()->propulsion.engine[ 1 ].throttle,
+                                Data::get()->propulsion.engine[ 2 ].throttle,
+                                Data::get()->propulsion.engine[ 3 ].throttle );
 
-        _dockCtrl->setMixture( hid::Manager::instance()->getMixture( 0 ),
-                               hid::Manager::instance()->getMixture( 1 ),
-                               hid::Manager::instance()->getMixture( 2 ),
-                               hid::Manager::instance()->getMixture( 3 ) );
+        _dockCtrl->setMixture( Data::get()->propulsion.engine[ 0 ].mixture,
+                               Data::get()->propulsion.engine[ 1 ].mixture,
+                               Data::get()->propulsion.engine[ 2 ].mixture,
+                               Data::get()->propulsion.engine[ 3 ].mixture );
 
-        _dockCtrl->setPropeller( hid::Manager::instance()->getPropeller( 0 ),
-                                 hid::Manager::instance()->getPropeller( 1 ),
-                                 hid::Manager::instance()->getPropeller( 2 ),
-                                 hid::Manager::instance()->getPropeller( 3 ) );
+        _dockCtrl->setPropeller( Data::get()->propulsion.engine[ 0 ].propeller,
+                                 Data::get()->propulsion.engine[ 1 ].propeller,
+                                 Data::get()->propulsion.engine[ 2 ].propeller,
+                                 Data::get()->propulsion.engine[ 3 ].propeller );
 
-        _dockCtrl->setAirbrake( hid::Manager::instance()->getAirbrake() );
-        _dockCtrl->setSpoilers( hid::Manager::instance()->getSpoilers() );
+        _dockCtrl->setAirbrake( Data::get()->controls.airbrake );
+        _dockCtrl->setSpoilers( Data::get()->controls.spoilers );
     }
 }
 
@@ -751,29 +759,37 @@ void MainWindow::updateDockEFIS()
 {
     if ( _dockEFIS->isVisible() )
     {
+        const double coef_alt = fdm::Units::m2ft();
+        const double coef_ias = fdm::Units::mps2kts();
+        const double coef_vsi = fdm::Units::mps2fpm();
+
         _dockEFIS->setRoll( fdm::Units::rad2deg( Data::get()->ownship.roll ) );
         _dockEFIS->setPitch( fdm::Units::rad2deg( Data::get()->ownship.pitch ) );
 
         _dockEFIS->setSlipSkid( Data::get()->ownship.slipSkidAngle / fdm::Units::deg2rad( 9.0 ) );
-        _dockEFIS->setTurnRate( Data::get()->ownship.yawRate       / fdm::Units::deg2rad( 6.0 ) );
+        _dockEFIS->setTurnRate( Data::get()->ownship.turnRate      / fdm::Units::deg2rad( 6.0 ) );
 
         _dockEFIS->setDots( Data::get()->navigation.ils_lc_deviation,
                             Data::get()->navigation.ils_gs_deviation,
                             Data::get()->navigation.ils_lc_visible,
                             Data::get()->navigation.ils_gs_visible );
 
-        _dockEFIS->setFD( 0.0, 0.0, false );
+        _dockEFIS->setFD( fdm::Units::rad2deg( _dockAuto->getCmdRoll() ),
+                          fdm::Units::rad2deg( _dockAuto->getCmdPitch() ),
+                          _dockAuto->isActiveFD() );
 
         _dockEFIS->setStall( Data::get()->ownship.stall );
 
-        _dockEFIS->setAltitude( fdm::Units::m2ft( Data::get()->ownship.altitude_asl ) );
-        _dockEFIS->setAirspeed( fdm::Units::mps2kts( Data::get()->ownship.airspeed ) );
+        _dockEFIS->setAltitude( coef_alt * Data::get()->ownship.altitude_asl );
+        _dockEFIS->setAirspeed( coef_ias * Data::get()->ownship.airspeed );
 
         _dockEFIS->setMachNo( Data::get()->ownship.machNumber );
 
         _dockEFIS->setHeading( fdm::Units::rad2deg( Data::get()->ownship.heading ) );
 
-        _dockEFIS->setClimbRate( fdm::Units::mps2fpm( Data::get()->ownship.climbRate ) / 1000.0 );
+        _dockEFIS->setClimbRate( coef_vsi * Data::get()->ownship.climbRate / 1000.0 );
+
+        _dockEFIS->setCourse( fdm::Units::rad2deg( _dockAuto->getCourse() ) );
 
         _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
                                 Data::get()->navigation.nav_visible );
@@ -781,6 +797,34 @@ void MainWindow::updateDockEFIS()
                                Data::get()->navigation.adf_visible );
         _dockEFIS->setDeviation( Data::get()->navigation.nav_deviation,
                                  Data::get()->navigation.nav_visible );
+
+        GraphicsEADI::FlightMode flightMode = GraphicsEADI::FM_OFF;
+        if ( _dockAuto->isActiveFD() )
+        {
+            flightMode = GraphicsEADI::FM_FD;
+
+            if ( _dockAuto->isActiveAP() ) flightMode = GraphicsEADI::FM_CMD;
+        }
+        _dockEFIS->setFlightMode( flightMode );
+
+        GraphicsEADI::LNAV lnav = GraphicsEADI::LNAV_OFF;
+        if      ( _dockAuto->isActiveHDG() ) lnav = GraphicsEADI::LNAV_HDG;
+        else if ( _dockAuto->isActiveNAV() ) lnav = GraphicsEADI::LNAV_NAV;
+        else if ( _dockAuto->isActiveAPR() ) lnav = GraphicsEADI::LNAV_APR;
+        else if ( _dockAuto->isActiveBC()  ) lnav = GraphicsEADI::LNAV_BC;
+        _dockEFIS->setLNAV( lnav );
+
+        GraphicsEADI::VNAV vnav = GraphicsEADI::VNAV_OFF;
+        if      ( _dockAuto->isActiveALT() ) vnav = GraphicsEADI::VNAV_ALT;
+        else if ( _dockAuto->isActiveIAS() ) vnav = GraphicsEADI::VNAV_IAS;
+        else if ( _dockAuto->isActiveVS()  ) vnav = GraphicsEADI::VNAV_VS;
+        else if ( _dockAuto->isActiveARM() ) vnav = GraphicsEADI::VNAV_ALT_SEL;
+        else if ( _dockAuto->isActiveGS()  ) vnav = GraphicsEADI::VNAV_GS;
+        _dockEFIS->setVNAV( vnav );
+
+        _dockEFIS->setAirspeedSet( coef_ias * _dockAuto->getAirspeed() );
+        _dockEFIS->setAltitudeSet( coef_alt * _dockAuto->getAltitude() );
+        _dockEFIS->setHeadingSet( fdm::Units::rad2deg( _dockAuto->getHeading() ) );
     }
 }
 
@@ -944,17 +988,42 @@ void MainWindow::updateStatusBar()
 
 void MainWindow::updateOutputData()
 {
-    // airport
-    Data::get()->airport.lightsHELI = _ui->actionAirportLightsHELI->isChecked();
-    Data::get()->airport.lightsRALS = _ui->actionAirportLightsRALS->isChecked();
-    Data::get()->airport.lightsRCLS = _ui->actionAirportLightsRCLS->isChecked();
-    Data::get()->airport.lightsRELS = _ui->actionAirportLightsRELS->isChecked();
-    Data::get()->airport.lightsTDZL = _ui->actionAirportLightsTDZL->isChecked();
-    Data::get()->airport.lightsTELS = _ui->actionAirportLightsTELS->isChecked();
-    Data::get()->airport.lightsTWRL = _ui->actionAirportLightsTWRL->isChecked();
-    Data::get()->airport.lightsVGSI = _ui->actionAirportLightsVGSI->isChecked();
-    Data::get()->airport.gatesRwy18 = _ui->actionAirportGatesRwy18->isChecked();
-    Data::get()->airport.gatesRwy36 = _ui->actionAirportGatesRwy36->isChecked();
+    // CGI - airport
+    Data::get()->cgi.airport.lightsHELI = _ui->actionAirportLightsHELI->isChecked();
+    Data::get()->cgi.airport.lightsRALS = _ui->actionAirportLightsRALS->isChecked();
+    Data::get()->cgi.airport.lightsRCLS = _ui->actionAirportLightsRCLS->isChecked();
+    Data::get()->cgi.airport.lightsRELS = _ui->actionAirportLightsRELS->isChecked();
+    Data::get()->cgi.airport.lightsTDZL = _ui->actionAirportLightsTDZL->isChecked();
+    Data::get()->cgi.airport.lightsTELS = _ui->actionAirportLightsTELS->isChecked();
+    Data::get()->cgi.airport.lightsTWRL = _ui->actionAirportLightsTWRL->isChecked();
+    Data::get()->cgi.airport.lightsVGSI = _ui->actionAirportLightsVGSI->isChecked();
+    Data::get()->cgi.airport.gatesRwy18 = _ui->actionAirportGatesRwy18->isChecked();
+    Data::get()->cgi.airport.gatesRwy36 = _ui->actionAirportGatesRwy36->isChecked();
+
+    // CGI - environment
+    Data::get()->cgi.environment.clouds.type = _dialogEnvr->getCloudsType();
+    if ( _dialogEnvr->getCloudsType() == Data::CGI::Environment::Clouds::Block )
+    {
+        Data::get()->cgi.environment.clouds.data.block = _dialogEnvr->getBlockClouds();
+    }
+    else if ( _dialogEnvr->getCloudsType() == Data::CGI::Environment::Clouds::Layer )
+    {
+        Data::get()->cgi.environment.clouds.data.layer = _dialogEnvr->getLayerClouds();
+    }
+
+    Data::get()->cgi.environment.visibility = _dialogEnvr->getVisibility();
+
+    // CGI - HUD
+    Data::get()->cgi.hud.enabled = _showHUD;
+    Data::get()->cgi.hud.color_r = _dialogConf->getHudColorR();
+    Data::get()->cgi.hud.color_g = _dialogConf->getHudColorG();
+    Data::get()->cgi.hud.color_b = _dialogConf->getHudColorB();
+    Data::get()->cgi.hud.opacity = (float)_dialogConf->getHudOpacity() / 100.0f;
+    Data::get()->cgi.hud.factor_alt = (float)_dialogConf->getHudFactorAlt();
+    Data::get()->cgi.hud.factor_vel = (float)_dialogConf->getHudFactorVel();
+
+    // CGI - ribbons
+    Data::get()->cgi.traces = _showTraces;
 
     // date time
     Data::get()->dateTime.year   = (unsigned short)_dateTime.date().year();
@@ -965,32 +1034,12 @@ void MainWindow::updateOutputData()
     Data::get()->dateTime.second = (unsigned short)_dateTime.time().second();
 
     // environment
-    Data::get()->environment.clouds.type = _dialogEnvr->getCloudsType();
-    if ( _dialogEnvr->getCloudsType() == Data::Environment::Clouds::Block )
-    {
-        Data::get()->environment.clouds.data.block = _dialogEnvr->getBlockClouds();
-    }
-    else if ( _dialogEnvr->getCloudsType() == Data::Environment::Clouds::Layer )
-    {
-        Data::get()->environment.clouds.data.layer = _dialogEnvr->getLayerClouds();
-    }
-
-    Data::get()->environment.visibility     = _dialogEnvr->getVisibility();
     Data::get()->environment.temperature_0  = _dialogEnvr->getTemperatureSL();
     Data::get()->environment.pressure_0     = _dialogEnvr->getPressureSL();
     Data::get()->environment.wind_direction = _dialogEnvr->getWindDirection();
     Data::get()->environment.wind_speed     = _dialogEnvr->getWindSpeed();
     Data::get()->environment.turbulence     = _dialogEnvr->getTurbulence();
     Data::get()->environment.windShear      = _dialogEnvr->getWindShear();
-
-    // HUD
-    Data::get()->hud.enabled = _showHUD;
-    Data::get()->hud.color_r = _dialogConf->getHudColorR();
-    Data::get()->hud.color_g = _dialogConf->getHudColorG();
-    Data::get()->hud.color_b = _dialogConf->getHudColorB();
-    Data::get()->hud.opacity = (float)_dialogConf->getHudOpacity() / 100.0f;
-    Data::get()->hud.factor_alt = (float)_dialogConf->getHudFactorAlt();
-    Data::get()->hud.factor_vel = (float)_dialogConf->getHudFactorVel();
 
     // initial conditions
     Data::get()->initial.latitude     = _dialogInit->getLat();
@@ -1263,6 +1312,13 @@ void MainWindow::on_actionShowHUD_triggered( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::on_actionShowTraces_triggered( bool checked )
+{
+    _showTraces = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::on_actionTimeFaster_triggered()
 {
     int timeCoef10 = floor( 10.0 * _timeCoef + 0.5 );
@@ -1327,19 +1383,19 @@ void MainWindow::on_actionTimeSlower_triggered()
 
 void MainWindow::shorcutCycleViews_activated()
 {
-    ViewType viewType = Data::Camera::ViewChase;
+    ViewType viewType = Data::CGI::ViewChase;
 
-    if ( _viewType + 1 < Data::Camera::ViewWorld ) // sic!
+    if ( _viewType + 1 < Data::CGI::ViewWorld ) // sic!
     {
         viewType = (ViewType)( _viewType + 1 );
     }
 
     switch ( viewType )
     {
-        case Data::Camera::ViewChase: setViewChase(); break;
-        case Data::Camera::ViewOrbit: setViewOrbit(); break;
-        case Data::Camera::ViewPilot: setViewPilot(); break;
-        case Data::Camera::ViewWorld: setViewWorld(); break;
+        case Data::CGI::ViewChase: setViewChase(); break;
+        case Data::CGI::ViewOrbit: setViewOrbit(); break;
+        case Data::CGI::ViewPilot: setViewPilot(); break;
+        case Data::CGI::ViewWorld: setViewWorld(); break;
     }
 }
 

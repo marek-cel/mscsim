@@ -29,6 +29,9 @@
 #include <math.h>
 #include <stdio.h>
 
+#include <gui/Colors.h>
+#include <gui/Fonts.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
@@ -53,16 +56,13 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     _itemHdgText ( NULLPTR ),
     _itemDmeText ( NULLPTR ),
 
-    _crsTextColor (   0, 255,   0 ),
-    _hdgTextColor ( 255,   0, 255 ),
-    _dmeTextColor ( 255, 255, 255 ),
+    _heading   ( 0.0f ),
+    _course    ( 0.0f ),
+    _bearing   ( 0.0f ),
+    _deviation ( 0.0f ),
+    _distance  ( 0.0f ),
 
-    _heading    ( 0.0f ),
-    _headingBug ( 0.0f ),
-    _course     ( 0.0f ),
-    _bearing    ( 0.0f ),
-    _deviation  ( 0.0f ),
-    _distance   ( 0.0f ),
+    _heading_set ( 0.0f ),
 
     _bearingVisible   ( true ),
     _deviationVisible ( true ),
@@ -101,38 +101,6 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     _hdgTextZ  ( 130 ),
     _dmeTextZ  ( 130 )
 {
-#   ifdef WIN32
-    _crsTextFont.setFamily( "Courier" );
-    _crsTextFont.setPointSizeF( 12.0f );
-    _crsTextFont.setStretch( QFont::Condensed );
-    _crsTextFont.setWeight( QFont::Bold );
-
-    _hdgTextFont.setFamily( "Courier" );
-    _hdgTextFont.setPointSizeF( 12.0f );
-    _hdgTextFont.setStretch( QFont::Condensed );
-    _hdgTextFont.setWeight( QFont::Bold );
-
-    _dmeTextFont.setFamily( "Courier" );
-    _dmeTextFont.setPointSizeF( 10.0f );
-    _dmeTextFont.setStretch( QFont::Condensed );
-    _dmeTextFont.setWeight( QFont::Bold );
-#   else
-    _crsTextFont.setFamily( "courier" );
-    _crsTextFont.setPointSizeF( 12.0f );
-    _crsTextFont.setStretch( QFont::Condensed );
-    _crsTextFont.setWeight( QFont::Bold );
-
-    _hdgTextFont.setFamily( "courier" );
-    _hdgTextFont.setPointSizeF( 12.0f );
-    _hdgTextFont.setStretch( QFont::Condensed );
-    _hdgTextFont.setWeight( QFont::Bold );
-
-    _dmeTextFont.setFamily( "courier" );
-    _dmeTextFont.setPointSizeF( 10.0f );
-    _dmeTextFont.setStretch( QFont::Condensed );
-    _dmeTextFont.setWeight( QFont::Bold );
-#   endif
-
     reset();
 
     _scene = new QGraphicsScene( this );
@@ -185,16 +153,6 @@ void GraphicsEHSI::setHeading( float heading )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setHeadingBug( float headingBug )
-{
-    _headingBug = headingBug;
-
-    while ( _headingBug <   0.0f ) _headingBug += 360.0f;
-    while ( _headingBug > 360.0f ) _headingBug -= 360.0f;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void GraphicsEHSI::setCourse( float course )
 {
     _course = course;
@@ -231,6 +189,16 @@ void GraphicsEHSI::setDistance( float distance, bool visible )
 {
     _distance        = fabs( distance );
     _distanceVisible = visible;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEHSI::setHeadingSet( float heading )
+{
+    _heading_set = heading;
+
+    while ( _heading_set <   0.0f ) _heading_set += 360.0f;
+    while ( _heading_set > 360.0f ) _heading_set -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -333,8 +301,8 @@ void GraphicsEHSI::init()
     _itemCrsText = new QGraphicsTextItem( QString( "CRS 999" ) );
     _itemCrsText->setCacheMode( QGraphicsItem::NoCache );
     _itemCrsText->setZValue( _crsTextZ );
-    _itemCrsText->setDefaultTextColor( _crsTextColor );
-    _itemCrsText->setFont( _crsTextFont );
+    _itemCrsText->setDefaultTextColor( Colors::_lime );
+    _itemCrsText->setFont( Fonts::medium() );
     _itemCrsText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemCrsText->moveBy( _scaleX * ( _originalCrsTextCtr.x() - _itemCrsText->boundingRect().width()  / 2.0f ),
                           _scaleY * ( _originalCrsTextCtr.y() - _itemCrsText->boundingRect().height() / 2.0f ) );
@@ -343,8 +311,8 @@ void GraphicsEHSI::init()
     _itemHdgText = new QGraphicsTextItem( QString( "HDG 999" ) );
     _itemHdgText->setCacheMode( QGraphicsItem::NoCache );
     _itemHdgText->setZValue( _hdgTextZ );
-    _itemHdgText->setDefaultTextColor( _hdgTextColor );
-    _itemHdgText->setFont( _hdgTextFont );
+    _itemHdgText->setDefaultTextColor( Colors::_magenta );
+    _itemHdgText->setFont( Fonts::medium() );
     _itemHdgText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemHdgText->moveBy( _scaleX * ( _originalHdgTextCtr.x() - _itemHdgText->boundingRect().width()  / 2.0f ),
                           _scaleY * ( _originalHdgTextCtr.y() - _itemHdgText->boundingRect().height() / 2.0f ) );
@@ -353,8 +321,8 @@ void GraphicsEHSI::init()
     _itemDmeText = new QGraphicsTextItem( QString( "99.9 NM" ) );
     _itemDmeText->setCacheMode( QGraphicsItem::NoCache );
     _itemDmeText->setZValue( _dmeTextZ );
-    _itemDmeText->setDefaultTextColor( _dmeTextColor );
-    _itemDmeText->setFont( _dmeTextFont );
+    _itemDmeText->setDefaultTextColor( Colors::_white );
+    _itemDmeText->setFont( Fonts::medium() );
     _itemDmeText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _itemDmeText->moveBy( _scaleX * ( _originalDmeTextCtr.x() - _itemDmeText->boundingRect().width()  / 2.0f ),
                           _scaleY * ( _originalDmeTextCtr.y() - _itemDmeText->boundingRect().height() / 2.0f ) );
@@ -367,23 +335,24 @@ void GraphicsEHSI::init()
 
 void GraphicsEHSI::reset()
 {
-    _itemBrgArrow = 0;
-    _itemCrsArrow = 0;
-    _itemDevBar   = 0;
-    _itemDevScale = 0;
-    _itemHdgBug   = 0;
-    _itemHdgScale = 0;
+    _itemBrgArrow = NULLPTR;
+    _itemCrsArrow = NULLPTR;
+    _itemDevBar   = NULLPTR;
+    _itemDevScale = NULLPTR;
+    _itemHdgBug   = NULLPTR;
+    _itemHdgScale = NULLPTR;
 
     _itemCrsText = 0;
     _itemHdgText = 0;
     _itemDmeText = 0;
 
-    _heading    = 0.0f;
-    _headingBug = 0.0f;
-    _course     = 0.0f;
-    _bearing    = 0.0f;
-    _deviation  = 0.0f;
-    _distance   = 0.0f;
+    _heading   = 0.0f;
+    _course    = 0.0f;
+    _bearing   = 0.0f;
+    _deviation = 0.0f;
+    _distance  = 0.0f;
+
+    _heading_set = 0.0f;
 
     _bearingVisible   = true;
     _deviationVisible = true;
@@ -403,7 +372,7 @@ void GraphicsEHSI::updateView()
     _scaleY = (float)height() / (float)_originalHeight;
 
     _itemCrsArrow->setRotation( -_heading + _course );
-    _itemHdgBug->setRotation( -_heading + _headingBug );
+    _itemHdgBug->setRotation( -_heading + _heading_set );
     _itemHdgScale->setRotation( -_heading );
 
     if ( _bearingVisible )
@@ -451,8 +420,8 @@ void GraphicsEHSI::updateView()
         _devBarDeltaY_new = _devBarDeltaY_old;
     }
 
-    _itemCrsText->setPlainText( QString("CRS %1").arg( _course     , 3, 'f', 0, QChar('0') ) );
-    _itemHdgText->setPlainText( QString("HDG %1").arg( _headingBug , 3, 'f', 0, QChar('0') ) );
+    _itemCrsText->setPlainText( QString("CRS %1").arg( _course      , 3, 'f', 0, QChar('0') ) );
+    _itemHdgText->setPlainText( QString("HDG %1").arg( _heading_set , 3, 'f', 0, QChar('0') ) );
 
     if ( _distanceVisible )
     {

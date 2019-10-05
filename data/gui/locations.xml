@@ -2,7 +2,7 @@
 <locations>
   
   <location>
-    <name>PHDH: Threshold - Runway 8</name>
+    <name>PHDH (Dillingham Airfield): Runway 8</name>
     <lat>21.579593</lat>
     <lon>-158.208482</lon>
     <alt>0.0</alt>
@@ -10,7 +10,7 @@
   </location>
   
   <location>
-    <name>PHHI: Threshold - Runway 6</name>
+    <name>PHHI (Wheeler Army Airfield): Runway 6</name>
     <lat>21.479404</lat>
     <lon>-158.043365</lon>
     <alt>0.0</alt>
@@ -18,7 +18,7 @@
   </location>
   
   <location>
-    <name>PHJR: Threshold - Runway 11</name>
+    <name>PHJR (Kalaeloa Airport): Runway 11</name>
     <lat>21.311466</lat>
     <lon>-158.083536</lon>
     <alt>0.0</alt>
@@ -26,7 +26,7 @@
   </location>
   
   <location>
-    <name>PHNG: Threshold - Runway 4</name>
+    <name>PHNG (Kaneohe Bay MCAS): Runway 4</name>
     <lat>21.444181</lat>
     <lon>-157.776379</lon>
     <alt>0.0</alt>
@@ -34,15 +34,7 @@
   </location>
   
   <location>
-    <name>PHNL: Threshold - Runway 22L</name>
-    <lat>21.328560</lat>
-    <lon>-157.906398</lon>
-    <alt>0.0</alt>
-    <hdg>233.0</hdg>
-  </location>
-  
-  <location>
-    <name>PHNL: Threshold - Runway 22R</name>
+    <name>PHNL (Honolulu Intl.): - Runway 22R</name>
     <lat>21.329569</lat>
     <lon>-157.907433</lon>
     <alt>0.0</alt>

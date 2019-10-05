@@ -89,34 +89,34 @@ public:
     /** Sets chase view. */
     inline void setViewChase()
     {
-        _viewType = Data::Camera::ViewChase;
+        _viewType = Data::CGI::ViewChase;
         _manipulator = _manipulatorShift.get();
     }
 
     /** Sets orbit view. */
     inline void setViewOrbit()
     {
-        _viewType = Data::Camera::ViewOrbit;
+        _viewType = Data::CGI::ViewOrbit;
         _manipulator = _manipulatorOrbit.get();
     }
 
     /** Sets pilot view. */
     inline void setViewPilot()
     {
-        _viewType = Data::Camera::ViewPilot;
+        _viewType = Data::CGI::ViewPilot;
         _manipulator = _manipulatorShift.get();
     }
 
     /** Sets world view. */
     inline void setViewWorld()
     {
-        _viewType = Data::Camera::ViewWorld;
+        _viewType = Data::CGI::ViewWorld;
         _manipulator = _manipulatorWorld.get();
     }
 
 private:
 
-    typedef Data::Camera::ViewType ViewType;
+    typedef Data::CGI::ViewType ViewType;
 
     osg::ref_ptr<osgGA::CameraManipulator> _manipulator;    ///< current manipulator
 

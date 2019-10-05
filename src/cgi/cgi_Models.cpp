@@ -28,6 +28,8 @@
 
 #include <osgDB/ReadFile>
 
+#include <Common.h>
+
 #include <fdm/fdm_Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,7 +60,7 @@ osg::Node* Models::get( const std::string &objectFile, bool straight )
     }
     else
     {
-        osg::notify(osg::ALWAYS) << "ERROR! Cannot open file: " << filePath << std::endl;
+        Log::e() << "Cannot open file: " << filePath << std::endl;
     }
 
     return 0;

@@ -86,37 +86,16 @@ void Mass::readData( XmlNode &dataNode )
                 }
             }
 
-            if ( result != FDM_SUCCESS )
-            {
-                Exception e;
-
-                e.setType( Exception::FileReadingError );
-                e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( varMassNode ) );
-
-                FDM_THROW( e );
-            }
+            if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, varMassNode );
 
             varMassNode = varMassNode.getNextSiblingElement( "variable_mass" );
         }
 
-        if ( result != FDM_SUCCESS )
-        {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-            FDM_THROW( e );
-        }
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading XML file failed. " + XmlUtils::getErrorInfo( dataNode ) );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -159,9 +138,6 @@ void Mass::update()
     }
 
     _cm_t_bas = _st_t_bas / _mass_t;
-
-    //std::cout << __FILE__ << "(" << __LINE__ << ") CG: " << _cm_t_bas.toString() << std::endl;
-    //std::cout << __FILE__ << "(" << __LINE__ << ") mt: " << _mass_t << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

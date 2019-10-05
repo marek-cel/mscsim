@@ -82,6 +82,6 @@ void P51_LandingGear::update()
 
     _ctrlAngle = 0.0;
 
-    _antiskid = _aircraft->getDataInp()->controls.antiskid;
-    _steering = _aircraft->getDataInp()->controls.nw_steering;
+    _antiskid = _aircraft->getDataInp()->controls.abs;
+    _steering = _aircraft->getDataInp()->controls.nws;
 }

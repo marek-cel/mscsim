@@ -31,11 +31,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define NULLPTR nullptr
+#if defined(_MSC_VER) && _MSC_VER < 1600
+#   define NULLPTR 0
+#else
+#   define NULLPTR nullptr
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define DELETE( ptr ) \
+#define SIM_DELETE( ptr ) \
 { \
     if ( ptr ) delete ptr; \
     ptr = NULLPTR; \

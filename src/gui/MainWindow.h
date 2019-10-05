@@ -74,6 +74,17 @@ public:
     /** */
     void init();
 
+    double getAutoRoll()  const { return _dockAuto->getCtrlRoll();  }
+    double getAutoPitch() const { return _dockAuto->getCtrlPitch(); }
+    double getAutoYaw()   const { return _dockAuto->getCtrlYaw();   }
+
+    bool getABS() const { return _dockCtrl->getABS(); }
+    bool getNWS() const { return _dockCtrl->getNWS(); }
+
+    bool isActiveAP() const { return _dockAuto->isActiveAP(); }
+    bool isActiveFD() const { return _dockAuto->isActiveFD(); }
+    bool isActiveYD() const { return _dockAuto->isActiveYD(); }
+
 protected:
 
     /** */
@@ -90,7 +101,7 @@ protected:
 
 private:
 
-    typedef Data::Camera::ViewType ViewType;
+    typedef Data::CGI::ViewType ViewType;
 
     Ui::MainWindow *_ui;                ///<
 
@@ -120,6 +131,7 @@ private:
 
     ViewType _viewType;                 ///<
     bool _showHUD;                      ///<
+    bool _showTraces;
 
     double _timeCoef;                   ///<
 
@@ -207,6 +219,7 @@ private slots:
     void on_actionViewWorld_triggered();
 
     void on_actionShowHUD_triggered( bool checked );
+    void on_actionShowTraces_triggered( bool checked );
 
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();

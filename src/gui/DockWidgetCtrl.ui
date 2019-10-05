@@ -63,9 +63,9 @@ QProgressBar::chunk
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>-945</x>
          <y>0</y>
-         <width>2040</width>
+         <width>2002</width>
          <height>274</height>
         </rect>
        </property>
@@ -583,33 +583,7 @@ QProgressBar::chunk
            </size>
           </property>
           <layout class="QGridLayout" name="gridLayout_24">
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pushButtonNWS">
-             <property name="text">
-              <string>NW Steering</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="pushButtonABS">
-             <property name="text">
-              <string>Antiskid</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -621,6 +595,38 @@ QProgressBar::chunk
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButtonNWS">
+             <property name="toolTip">
+              <string>Nose Wheel Steering</string>
+             </property>
+             <property name="text">
+              <string>NWS</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pushButtonABS">
+             <property name="toolTip">
+              <string>Anti-skid Braking System</string>
+             </property>
+             <property name="text">
+              <string>ABS</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

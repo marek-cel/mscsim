@@ -82,6 +82,6 @@ void F16_LandingGear::update()
 
     _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
 
-    _antiskid = _aircraft->getDataInp()->controls.antiskid;
-    _steering = _aircraft->getDataInp()->controls.nw_steering;
+    _antiskid = _aircraft->getDataInp()->controls.abs;
+    _steering = _aircraft->getDataInp()->controls.nws;
 }

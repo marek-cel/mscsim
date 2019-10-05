@@ -19,8 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef C172_AILERONS_H
-#define C172_AILERONS_H
+#ifndef C172_AUTOPILOT_H
+#define C172_AUTOPILOT_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdm/auto/fdm_Autopilot.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,9 +34,9 @@ namespace fdm
 /**
  * @brief Autopilot class.
  *
- * @see Bendix King KAP 140 Pilot's Guide
+ * @see Bendix King KFC 325 Pilot's Guide
  */
-class C172_Autopilot
+class C172_Autopilot : public Autopilot
 {
 public:
 
@@ -40,11 +44,58 @@ public:
     C172_Autopilot();
 
     /** Destructor. */
-    ~C172_Autopilot();
+    virtual ~C172_Autopilot();
+
+    /** Initializes autopilot. */
+    void init();
+
+    void onPressedAP();
+    void onPressedFD();
+
+    void onPressedALT();
+    void onPressedIAS();
+    void onPressedENG();
+    void onPressedARM();
+
+    void onPressedHDG();
+    void onPressedNAV();
+    void onPressedAPR();
+    void onPressedBC();
+
+    void onPressedYD();
+
+    void onPressedSoftRide();
+    void onPressedHalfBank();
+
+    void onPressedTest();
+    void onReleasedTest();
+
+    inline bool getLampAP()  const { return _testing || isActiveAP(); }
+    inline bool getLampFD()  const { return _testing || isActiveFD(); }
+    inline bool getLampYD()  const { return _testing || isActiveYD(); }
+
+    inline bool getLampALT() const { return _testing || isActiveALT(); }
+    inline bool getLampIAS() const { return _testing || isActiveIAS(); }
+    inline bool getLampGS()  const { return _testing || isActiveGS();  }
+    inline bool getLampHDG() const { return _testing || isActiveHDG(); }
+    inline bool getLampNAV() const { return _testing || isActiveNAV(); }
+    inline bool getLampAPR() const { return _testing || isActiveAPR() || isActiveBC(); }
+    inline bool getLampBC()  const { return _testing || isActiveBC();  }
+
+    inline bool getLampNAV_ARM() const { return _testing || ( getLampNAV() && false ); }
+    inline bool getLampAPR_ARM() const { return _testing || ( getLampAPR() && false ); }
+
+    inline bool getLampSR() const { return _testing || isActiveSoftRide(); }
+    inline bool getLampHB() const { return _testing || isActiveHalfBank(); }
+
+    inline bool getLampTRIM() const { return _testing || false; }
+
+    inline bool getLampVS()  const { return isActiveVS();  }
+    inline bool getLampARM() const { return isActiveARM(); }
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // C172_AILERONS_H
+#endif // C172_AUTOPILOT_H

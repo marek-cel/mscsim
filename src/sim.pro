@@ -129,6 +129,7 @@ marble_maps: unix: {
 ################################################################################
 
 HEADERS += \
+    Common.h \
     Data.h \
     Defines.h \
     Manager.h \

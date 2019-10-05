@@ -128,7 +128,7 @@ DockWidgetProp::~DockWidgetProp()
 {
     settingsSave();
 
-    DELETE( _ui );
+    SIM_DELETE( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

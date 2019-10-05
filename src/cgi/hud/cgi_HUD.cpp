@@ -107,12 +107,12 @@ HUD::~HUD() {}
 
 void HUD::update()
 {
-    if ( Data::get()->hud.enabled )
+    if ( Data::get()->cgi.hud.enabled )
     {
         _switch->setAllChildrenOn();
 
-        _sideslipAngleFPM_deg = osg::RadiansToDegrees( Data::get()->hud.sideslipAngle );
-        _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.angleOfAttack );
+        _sideslipAngleFPM_deg = osg::RadiansToDegrees( Data::get()->cgi.hud.sideslipAngle );
+        _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->cgi.hud.angleOfAttack );
 
         _validFPM = true;
 
@@ -128,10 +128,10 @@ void HUD::update()
             _angleOfAttackFPM_deg = ( _angleOfAttackFPM_deg < 0.0f ) ? -10.0f : 10.0f;
         }
 
-        if ( Data::get()->hud.airspeed < 0.5f )
+        if ( Data::get()->cgi.hud.airspeed < 0.5f )
         {
             _validFPM = false;
-            _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->hud.pitch );
+            _angleOfAttackFPM_deg = osg::RadiansToDegrees( Data::get()->cgi.hud.pitch );
             _sideslipAngleFPM_deg = 0.0f;
         }
 
@@ -148,10 +148,10 @@ void HUD::update()
         updateTextR();
 
         // update color
-        osg::Vec4 color( Data::get()->hud.color_r,
-                         Data::get()->hud.color_g,
-                         Data::get()->hud.color_b,
-                         Data::get()->hud.opacity );
+        osg::Vec4 color( Data::get()->cgi.hud.color_r,
+                         Data::get()->cgi.hud.color_g,
+                         Data::get()->cgi.hud.color_b,
+                         Data::get()->cgi.hud.opacity );
 
         if ( color != _color )
         {
@@ -1148,11 +1148,11 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, float y_del, int x )
 
 void HUD::updateRollIndicator()
 {
-    if ( fabs( Data::get()->hud.roll ) < _rollLimit )
+    if ( fabs( Data::get()->cgi.hud.roll ) < _rollLimit )
     {
         _switchRollIndicator->setAllChildrenOn();
 
-        osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
+        osg::Quat q( Data::get()->cgi.hud.roll, osg::Z_AXIS );
 
         _patRollIndicator->setAttitude( q );
     }
@@ -1166,10 +1166,10 @@ void HUD::updateRollIndicator()
 
 void HUD::updatePitchLadder()
 {
-    float roll_deg  = osg::RadiansToDegrees( Data::get()->hud.roll  );
-    float pitch_deg = osg::RadiansToDegrees( Data::get()->hud.pitch );
+    float roll_deg  = osg::RadiansToDegrees( Data::get()->cgi.hud.roll  );
+    float pitch_deg = osg::RadiansToDegrees( Data::get()->cgi.hud.pitch );
 
-    osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
+    osg::Quat q( Data::get()->cgi.hud.roll, osg::Z_AXIS );
 
     _patPitchLadderRoll->setAttitude( q );
 
@@ -1177,8 +1177,8 @@ void HUD::updatePitchLadder()
 
     _patPitchLadderPitch->setPosition( r );
 
-    float sinRoll = sin( Data::get()->hud.roll );
-    float cosRoll = cos( Data::get()->hud.roll );
+    float sinRoll = sin( Data::get()->cgi.hud.roll );
+    float cosRoll = cos( Data::get()->cgi.hud.roll );
 
     float x = -_angleCoef * ( -_sideslipAngleFPM_deg * cosRoll + _angleOfAttackFPM_deg * sinRoll );
 
@@ -1219,7 +1219,7 @@ void HUD::updateHeadingScale()
 {
     osg::ref_ptr<osgText::Text> text;
 
-    float head_deg = osg::RadiansToDegrees( Data::get()->hud.heading );
+    float head_deg = osg::RadiansToDegrees( Data::get()->cgi.hud.heading );
 
     short head_ind = floor( ( ( ( head_deg < 180.0f ) ? 360.0f : 0.0f ) + head_deg ) / 5.0 + 0.5 );
     if ( head_ind <   0 ) head_ind =   0;
@@ -1272,11 +1272,11 @@ void HUD::updateFPM()
 
 void HUD::updateILS()
 {
-    if ( Data::get()->hud.ils_visible )
+    if ( Data::get()->cgi.hud.ils_visible )
     {
         _switchILS->setAllChildrenOn();
 
-        osg::Quat q( Data::get()->hud.roll, osg::Z_AXIS );
+        osg::Quat q( Data::get()->cgi.hud.roll, osg::Z_AXIS );
         osg::Vec3 r(  _angleCoef * _sideslipAngleFPM_deg,
                      -_angleCoef * _angleOfAttackFPM_deg,
                       0.0 );
@@ -1284,8 +1284,8 @@ void HUD::updateILS()
         _patILS->setAttitude( q );
         _patILS->setPosition( r );
 
-        float ils_gs = Data::get()->hud.ils_gs_deviation;
-        float ils_lc = Data::get()->hud.ils_lc_deviation;
+        float ils_gs = Data::get()->cgi.hud.ils_gs_deviation;
+        float ils_lc = Data::get()->cgi.hud.ils_lc_deviation;
 
         if ( ils_gs < -1.0f ) ils_gs = -1.0f;
         if ( ils_gs >  1.0f ) ils_gs =  1.0f;
@@ -1305,7 +1305,7 @@ void HUD::updateILS()
 
 void HUD::updateStall()
 {
-    if ( Data::get()->hud.stall )
+    if ( Data::get()->cgi.hud.stall )
     {
         _switchStall->setAllChildrenOn();
     }
@@ -1326,7 +1326,7 @@ void HUD::updateTextL()
 
     if ( text.valid() )
     {
-        float airspeed = Data::get()->hud.airspeed * Data::get()->hud.factor_vel;
+        float airspeed = Data::get()->cgi.hud.airspeed * Data::get()->cgi.hud.factor_vel;
 
         char airspeed_str[256];
         sprintf( airspeed_str, "%d", (int)( floor( airspeed + 0.5 ) ) );
@@ -1339,7 +1339,7 @@ void HUD::updateTextL()
     if ( text.valid() )
     {
         char machNo_str[256];
-        sprintf( machNo_str, "M %.2f", Data::get()->hud.machNumber );
+        sprintf( machNo_str, "M %.2f", Data::get()->cgi.hud.machNumber );
         text->setText( machNo_str );
     }
 
@@ -1349,7 +1349,7 @@ void HUD::updateTextL()
     if ( text.valid() )
     {
         char gForce_str[256];
-        sprintf( gForce_str, "%.1fG", Data::get()->hud.g_force );
+        sprintf( gForce_str, "%.1fG", Data::get()->cgi.hud.g_force );
         text->setText( gForce_str );
     }
 }
@@ -1365,7 +1365,7 @@ void HUD::updateTextR()
 
     if ( text.valid() )
     {
-        float altitude = Data::get()->hud.altitude * Data::get()->hud.factor_alt;
+        float altitude = Data::get()->cgi.hud.altitude * Data::get()->cgi.hud.factor_alt;
 
         char altitude_str[256];
         sprintf( altitude_str, "%d", (int)( floor( altitude + 0.5 ) ) );
@@ -1377,7 +1377,7 @@ void HUD::updateTextR()
 
     if ( text.valid() )
     {
-        float climbRate = 60.0f * Data::get()->hud.climbRate * Data::get()->hud.factor_alt;
+        float climbRate = 60.0f * Data::get()->cgi.hud.climbRate * Data::get()->cgi.hud.factor_alt;
 
         char climbRate_str[256];
         sprintf( climbRate_str, "%d", (int)( floor( climbRate + 0.5 ) ) );
@@ -1389,7 +1389,7 @@ void HUD::updateTextR()
 
     if ( text.valid() )
     {
-        float altitude = Data::get()->hud.radioAlt * Data::get()->hud.factor_alt;
+        float altitude = Data::get()->cgi.hud.radioAlt * Data::get()->cgi.hud.factor_alt;
 
         if ( altitude < 3000.0 )
         {

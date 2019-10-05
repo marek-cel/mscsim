@@ -80,7 +80,7 @@ void Airport::update()
 
     if ( _switchLightsHELI.valid() )
     {
-        if ( Data::get()->airport.lightsHELI )
+        if ( Data::get()->cgi.airport.lightsHELI )
             _switchLightsHELI->setAllChildrenOn();
         else
             _switchLightsHELI->setAllChildrenOff();
@@ -88,7 +88,7 @@ void Airport::update()
 
     if ( _switchLightsRALS.valid() )
     {
-        if ( Data::get()->airport.lightsRALS )
+        if ( Data::get()->cgi.airport.lightsRALS )
             _switchLightsRALS->setAllChildrenOn();
         else
             _switchLightsRALS->setAllChildrenOff();
@@ -96,7 +96,7 @@ void Airport::update()
 
     if ( _switchLightsRCLS.valid() )
     {
-        if ( Data::get()->airport.lightsRCLS )
+        if ( Data::get()->cgi.airport.lightsRCLS )
             _switchLightsRCLS->setAllChildrenOn();
         else
             _switchLightsRCLS->setAllChildrenOff();
@@ -104,7 +104,7 @@ void Airport::update()
 
     if ( _switchLightsRELS.valid() )
     {
-        if ( Data::get()->airport.lightsRELS )
+        if ( Data::get()->cgi.airport.lightsRELS )
             _switchLightsRELS->setAllChildrenOn();
         else
             _switchLightsRELS->setAllChildrenOff();
@@ -112,7 +112,7 @@ void Airport::update()
 
     if ( _switchLightsTDZL.valid() )
     {
-        if ( Data::get()->airport.lightsTDZL )
+        if ( Data::get()->cgi.airport.lightsTDZL )
             _switchLightsTDZL->setAllChildrenOn();
         else
             _switchLightsTDZL->setAllChildrenOff();
@@ -120,7 +120,7 @@ void Airport::update()
 
     if ( _switchLightsTELS.valid() )
     {
-        if ( Data::get()->airport.lightsTELS )
+        if ( Data::get()->cgi.airport.lightsTELS )
             _switchLightsTELS->setAllChildrenOn();
         else
             _switchLightsTELS->setAllChildrenOff();
@@ -128,7 +128,7 @@ void Airport::update()
 
     if ( _switchLightsTWRL.valid() )
     {
-        if ( Data::get()->airport.lightsTWRL )
+        if ( Data::get()->cgi.airport.lightsTWRL )
             _switchLightsTWRL->setAllChildrenOn();
         else
             _switchLightsTWRL->setAllChildrenOff();
@@ -136,7 +136,7 @@ void Airport::update()
 
     if ( _switchLightsVGSI.valid() )
     {
-        if ( Data::get()->airport.lightsVGSI )
+        if ( Data::get()->cgi.airport.lightsVGSI )
             _switchLightsVGSI->setAllChildrenOn();
         else
             _switchLightsVGSI->setAllChildrenOff();
@@ -144,7 +144,7 @@ void Airport::update()
 
     if ( _switchGatesRwy18.valid() )
     {
-        if ( Data::get()->airport.gatesRwy18 )
+        if ( Data::get()->cgi.airport.gatesRwy18 )
             _switchGatesRwy18->setAllChildrenOn();
         else
             _switchGatesRwy18->setAllChildrenOff();
@@ -152,7 +152,7 @@ void Airport::update()
 
     if ( _switchGatesRwy36.valid() )
     {
-        if ( Data::get()->airport.gatesRwy36 )
+        if ( Data::get()->cgi.airport.gatesRwy36 )
             _switchGatesRwy36->setAllChildrenOn();
         else
             _switchGatesRwy36->setAllChildrenOff();

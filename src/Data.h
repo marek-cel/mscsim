@@ -36,26 +36,136 @@ class Data
 {
 public:
 
-    /** Airport data. */
-    struct Airport
+    /** CGI data. */
+    struct CGI
     {
-        bool lightsHELI;                    ///< helipad lights
-        bool lightsRALS;                    ///< Runway Approach Lighting System
-        bool lightsRCLS;                    ///< Runway Centerline Lighting System
-        bool lightsRELS;                    ///< Runway Edge Light System
-        bool lightsTDZL;                    ///< Touchdown Zone Lights
-        bool lightsTELS;                    ///< Taxiway Edge Lights System
-        bool lightsTWRL;                    ///< Tower Lights
-        bool lightsVGSI;                    ///< Visual Glide Slope Indicator
+        /** Airport data. */
+        struct Airport
+        {
+            bool lightsHELI;                    ///< helipad lights
+            bool lightsRALS;                    ///< Runway Approach Lighting System
+            bool lightsRCLS;                    ///< Runway Centerline Lighting System
+            bool lightsRELS;                    ///< Runway Edge Light System
+            bool lightsTDZL;                    ///< Touchdown Zone Lights
+            bool lightsTELS;                    ///< Taxiway Edge Lights System
+            bool lightsTWRL;                    ///< Tower Lights
+            bool lightsVGSI;                    ///< Visual Glide Slope Indicator
 
-        bool gatesRwy18;                    ///<
-        bool gatesRwy36;                    ///<
-    };
+            bool gatesRwy18;                    ///<
+            bool gatesRwy36;                    ///<
+        };
 
-    /** Camera data. */
-    struct Camera
-    {
-        /** Camera manipulator types. */
+        /** Camera data. */
+        struct Camera
+        {
+            double latitude;                ///< [rad] camera latitude
+            double longitude;               ///< [rad] camera longitude
+            double altitude_agl;            ///< [m] camera altitude above ground level
+            double altitude_asl;            ///< [m] camera altitude above sea level
+        };
+
+        /** Environment data. */
+        struct Environment
+        {
+            /** Clouds data. */
+            struct Clouds
+            {
+                /** Clouds type. */
+                enum Type
+                {
+                    None = 0,               ///< no clouds
+                    Block,                  ///< block volumetric clouds (Cumulus type)
+                    Layer                   ///< flat clouds layers (Stratus type)
+                };
+
+                /** Clouds data. */
+                union Data
+                {
+                    /** Block clouds data. */
+                    struct Block
+                    {
+                        short count;        ///< number of clouds within visual range
+                        float base_asl;     ///< [m] clouds base above mean sea level
+                        float thickness;    ///< [m] clouds thickness
+                    };
+
+                    /** Layer clouds data. */
+                    struct Layer
+                    {
+                        /** Cover. */
+                        enum Cover
+                        {
+                            SKC = 0,        ///< sky clear
+                            FEW = 1,        ///< few
+                            SCT = 2,        ///< scattered
+                            BKN = 3,        ///< broken
+                            OVC = 4         ///< overcast
+                        };
+
+                        Cover cover;        ///< cover
+                        float base_asl;     ///< [m] clouds base above mean sea level
+                    };
+
+                    Block block;            ///< block clouds data
+                    Layer layer;            ///< layer clouds data
+                };
+
+                Type type;                  ///< clouds type
+                Data data;                  ///< clouds data
+            };
+
+            Clouds clouds;                  ///< clouds data
+
+            float visibility;               ///< [m] visibility due haze, fog, etc
+        };
+
+        /** HUD data. */
+        struct HUD
+        {
+            bool enabled;                   ///< specifies if HUD is enabled
+
+            float color_r;                  ///< [-] HUD color red component
+            float color_g;                  ///< [-] HUD color green component
+            float color_b;                  ///< [-] HUD color blue component
+
+            float opacity;                  ///< [-] HUD opacity
+
+            float factor_alt;               ///< [-] altitude factor
+            float factor_vel;               ///< [-] velocity factor
+
+            float roll;                     ///< [rad] roll angle
+            float pitch;                    ///< [rad] pitch angle
+            float heading;                  ///< [rad] true heading
+
+            float angleOfAttack;            ///< [rad] angle of attack
+            float sideslipAngle;            ///< [rad] angle of sideslip
+
+            float altitude;                 ///< [m]   baro altitude
+            float climbRate;                ///< [m/s] climb rate
+            float radioAlt;                 ///< [m]   radio altitude
+
+            float airspeed;                 ///< [m/s] airspeed
+            float machNumber;               ///< [-]   Mach number
+            float g_force;                  ///< [-] G-Force
+
+            bool  ils_visible;              ///< specifies if ILS is visible
+            float ils_gs_deviation;         ///< [-1.0,1.0] ILS Glide Slope deviation
+            float ils_lc_deviation;         ///< [-1.0,1.0] ILS Localizer deviation
+
+            bool stall;                     ///< stall flag
+        };
+
+        /** Sky dome data. */
+        struct SkyDome
+        {
+            float skyScale;                 ///< [-] sky dome scaling factor
+            float sunAlpha;                 ///< [rad] Sun right ascension
+            float sunDelta;                 ///< [rad] Sun declination
+            float sunElev;                  ///< [rad] Sun elevation
+            float sunAzim;                  ///< [rad] Sun azimuth
+        };
+
+        /** View types. */
         enum ViewType
         {
             ViewChase = 1,                  ///< chase view camera manipulator
@@ -64,12 +174,15 @@ public:
             ViewWorld = 4                   ///< world view camera manipulator
         };
 
-        double latitude;                    ///< [rad] camera latitude
-        double longitude;                   ///< [rad] camera longitude
-        double altitude_agl;                ///< [m] camera altitude above ground level
-        double altitude_asl;                ///< [m] camera altitude above sea level
+        Airport     airport;                ///< airport data
+        Camera      camera;                 ///< camera data
+        Environment environment;            ///< environment data
+        HUD         hud;                    ///< HUD data
+        SkyDome     skyDome;                ///< sky dome data
 
-        ViewType viewType;                  ///< camera manipulator type
+        ViewType viewType;                  ///< view type
+
+        bool traces;                        ///< specify if traces are visible
     };
 
     /** Date and Time. */
@@ -89,57 +202,6 @@ public:
     {
         typedef fdm::DataInp::Environment::WindShear WindShear;
 
-        /** Clouds data. */
-        struct Clouds
-        {
-            /** Clouds type. */
-            enum Type
-            {
-                None = 0,                   ///< no clouds
-                Block,                      ///< block volumetric clouds (Cumulus type)
-                Layer                       ///< flat clouds layers (Stratus type)
-            };
-
-            /** Clouds data. */
-            union Data
-            {
-                /** Block clouds data. */
-                struct Block
-                {
-                    short count;            ///< number of clouds within visual range
-                    float base_asl;         ///< [m] clouds base above mean sea level
-                    float thickness;        ///< [m] clouds thickness
-                };
-
-                /** Layer clouds data. */
-                struct Layer
-                {
-                    /** Cover. */
-                    enum Cover
-                    {
-                        SKC = 0,            ///< sky clear
-                        FEW = 1,            ///< few
-                        SCT = 2,            ///< scattered
-                        BKN = 3,            ///< broken
-                        OVC = 4             ///< overcast
-                    };
-
-                    Cover cover;            ///< cover
-                    float base_asl;         ///< [m] clouds base above mean sea level
-                };
-
-                Block block;                ///< block clouds data
-                Layer layer;                ///< layer clouds data
-            };
-
-            Type type;                      ///< clouds type
-            Data data;                      ///< clouds data
-        };
-
-        Clouds clouds;                      ///< clouds data
-
-        float visibility;                   ///< [m] visibility due haze, fog, etc
-
         double temperature_0;               ///< [K] sea level air temperature
         double pressure_0;                  ///< [Pa] sea level air pressure
 
@@ -148,42 +210,6 @@ public:
         double turbulence;                  ///< [-] turbulence intensity
 
         WindShear windShear;                ///< wind shear model type
-    };
-
-    /** HUD data. */
-    struct HUD
-    {
-        bool enabled;                       ///< specifies if HUD is enabled
-
-        float color_r;                      ///< [-] HUD color red component
-        float color_g;                      ///< [-] HUD color green component
-        float color_b;                      ///< [-] HUD color blue component
-
-        float opacity;                      ///< [-] HUD opacity
-
-        float factor_alt;                   ///< [-] altitude factor
-        float factor_vel;                   ///< [-] velocity factor
-
-        float roll;                         ///< [rad] roll angle
-        float pitch;                        ///< [rad] pitch angle
-        float heading;                      ///< [rad] true heading
-
-        float angleOfAttack;                ///< [rad] angle of attack
-        float sideslipAngle;                ///< [rad] angle of sideslip
-
-        float altitude;                     ///< [m]   baro altitude
-        float climbRate;                    ///< [m/s] climb rate
-        float radioAlt;                     ///< [m]   radio altitude
-
-        float airspeed;                     ///< [m/s] airspeed
-        float machNumber;                   ///< [-]   Mach number
-        float g_force;                      ///< [-] G-Force
-
-        bool  ils_visible;                  ///< specifies if ILS is visible
-        float ils_gs_deviation;             ///< [-1.0,1.0] ILS Glide Slope deviation
-        float ils_lc_deviation;             ///< [-1.0,1.0] ILS Localizer deviation
-
-        bool stall;                         ///< stall flag
     };
 
     /** Navigation data. */
@@ -195,8 +221,8 @@ public:
         bool  ils_visible;                  ///<
         bool  ils_gs_visible;               ///<
         bool  ils_lc_visible;               ///<
-        float ils_gs_deviation;             ///< [1.0,1.0] horizontal deviation
-        float ils_lc_deviation;             ///< [1.0,1.0] vertical deviation
+        float ils_gs_deviation;             ///< [-1.0,1.0] horizontal deviation
+        float ils_lc_deviation;             ///< [-1.0,1.0] vertical deviation
 
         bool  nav_visible;                  ///<
         float nav_deviation;                ///<
@@ -312,16 +338,6 @@ public:
         Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
     };
 
-    /** Sky dome data. */
-    struct SkyDome
-    {
-        float skyScale;                     ///< [-] sky dome scaling factor
-        float sunAlpha;                     ///< [rad] Sun right ascension
-        float sunDelta;                     ///< [rad] Sun declination
-        float sunElev;                      ///< [rad] Sun elevation
-        float sunAzim;                      ///< [rad] Sun azimuth
-    };
-
     /** Simulation data struct. */
     struct DataBuf
     {
@@ -335,20 +351,17 @@ public:
         typedef fdm::DataInp::Masses    Masses;
         typedef fdm::DataInp::Recording Recording;
 
-        Airport     airport;                ///< airport data
-        Camera      camera;                 ///< camera data
+        CGI         cgi;                    ///< CGI data
         Controls    controls;               ///< controls data
         DateTime    dateTime;               ///< date time data
         Environment environment;            ///< environment data
         Ground      ground;                 ///< ground data
-        HUD         hud;                    ///< HUD data
         Initial     initial;                ///< initial conditions
         Masses      masses;                 ///< masses data
         Navigation  navigation;             ///< navigation data
         Ownship     ownship;                ///< ownship data
         Propulsion  propulsion;             ///< propulsion data
         Recording   recording;              ///< recording data
-        SkyDome     skyDome;                ///< sky dome data
 
         AircraftType aircraftType;          ///< input aircraft type
 
