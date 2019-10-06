@@ -55,9 +55,9 @@ DockWidgetAuto::~DockWidgetAuto()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    SIM_DELETE( _autopilot );
+    DELPTR( _autopilot );
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void DockWidgetAuto::init()
 
 void DockWidgetAuto::stop()
 {
-    SIM_DELETE( _autopilot );
+    DELPTR( _autopilot );
     _autopilot_c172 = NULLPTR;
 }
 
@@ -634,16 +634,42 @@ void DockWidgetAuto::on_pushButtonTest_released()
 
 void DockWidgetAuto::on_spinBox_CRS_valueChanged( double arg1 )
 {
-//    if ( _autopilot )
-//        _autopilot->setCourse( fdm::Units::deg2rad( arg1 ) );
+    double psi = arg1;
+
+    if ( psi < 0.0 || psi >= 360.0 )
+    {
+        if ( psi < 0.0 )
+            psi += 360.0;
+        else
+            psi -= 360.0;
+
+        _ui->spinBox_CRS->setValue( psi );
+    }
+    else
+    {
+        //if ( _autopilot ) _autopilot->setCourse( fdm::Units::deg2rad( psi ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_spinBox_HDG_valueChanged( double arg1 )
 {
-    if ( _autopilot )
-        _autopilot->setHeading( fdm::Units::deg2rad( arg1 ) );
+    double psi = arg1;
+
+    if ( psi < 0.0 || psi >= 360.0 )
+    {
+        if ( psi < 0.0 )
+            psi += 360.0;
+        else
+            psi -= 360.0;
+
+        _ui->spinBox_HDG->setValue( psi );
+    }
+    else
+    {
+        if ( _autopilot ) _autopilot->setHeading( fdm::Units::deg2rad( psi ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

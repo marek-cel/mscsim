@@ -57,7 +57,7 @@ Manager::~Manager()
 {
     if ( _timerId != 0 ) killTimer( _timerId );
 
-    SIM_DELETE( _timer );
+    DELPTR( _timer );
 
     if ( _sim )
     {
@@ -67,9 +67,9 @@ Manager::~Manager()
         }
     }
 
-    SIM_DELETE( _nav );
-    SIM_DELETE( _sim );
-    SIM_DELETE( _win );
+    DELPTR( _nav );
+    DELPTR( _sim );
+    DELPTR( _win );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -51,9 +51,9 @@ P51_Aerodynamics::P51_Aerodynamics( const P51_Aircraft *aircraft ) :
 
 P51_Aerodynamics::~P51_Aerodynamics()
 {
-    FDM_DELETE( _tailOff );
-    FDM_DELETE( _stabHor );
-    FDM_DELETE( _stabVer );
+    FDM_DELPTR( _tailOff );
+    FDM_DELPTR( _stabHor );
+    FDM_DELPTR( _stabVer );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

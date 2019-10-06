@@ -73,7 +73,7 @@ DialogEnvr::~DialogEnvr()
 {
     settingsSave();
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

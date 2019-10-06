@@ -76,7 +76,7 @@ DialogAction::Assignment DialogAction::getJoyAxisAssignment( QWidget *parent,
         }
     }
 
-    SIM_DELETE( dialog );
+    DELPTR( dialog );
 
     return assignment;
 }
@@ -150,7 +150,7 @@ DialogAction::Assignment DialogAction::getJoyButtAssignment( QWidget *parent,
         }
     }
 
-    SIM_DELETE( dialog );
+    DELPTR( dialog );
 
     return assignment;
 }
@@ -175,7 +175,7 @@ DialogAction::Assignment DialogAction::getKeyAssignment( QWidget *parent,
         }
     }
 
-    SIM_DELETE( dialog );
+    DELPTR( dialog );
 
     return assignment;
 }
@@ -259,7 +259,7 @@ DialogAction::~DialogAction()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

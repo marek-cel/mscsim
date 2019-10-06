@@ -45,6 +45,11 @@ public:
         float lon;      ///< [rad]
         float alt;      ///< [m]
         float hdg;      ///< [rad]
+
+        float elev;     ///< [m]
+        float slope;    ///< [rad]
+
+        bool runway;    ///<
     };
 
     /** */
@@ -83,7 +88,7 @@ private:
     /** Using this constructor is forbidden. */
     Locations( const Locations & ) {}
 
-    void parseLocation( const QDomElement &node );
+    void parseLocation( QDomElement &node );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

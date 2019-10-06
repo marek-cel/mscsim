@@ -125,7 +125,7 @@ public:
     /** */
     inline void removeCause()
     {
-        FDM_DELETE( _cause );
+        FDM_DELPTR( _cause );
     }
 
     /** */

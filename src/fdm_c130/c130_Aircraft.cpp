@@ -36,11 +36,11 @@ C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 C130_Aircraft::~C130_Aircraft()
 {
-    FDM_DELETE( _aero );
-    FDM_DELETE( _ctrl );
-    FDM_DELETE( _gear );
-    FDM_DELETE( _mass );
-    FDM_DELETE( _prop );
+    FDM_DELPTR( _aero );
+    FDM_DELPTR( _ctrl );
+    FDM_DELPTR( _gear );
+    FDM_DELPTR( _mass );
+    FDM_DELPTR( _prop );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

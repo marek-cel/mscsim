@@ -102,9 +102,7 @@ private:
     void createCameraMap();
 
     /** */
-    osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h,
-                                                                const std::string &name = "",
-                                                                bool windowDecoration = false );
+    osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );
 
     void updateMouseGeoPositionStr( double lat, double lon );
 

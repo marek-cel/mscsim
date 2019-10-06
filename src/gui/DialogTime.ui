@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>157</height>
+    <width>410</width>
+    <height>190</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,19 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>114</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="labelZone">
      <property name="text">
@@ -162,6 +175,13 @@
      </item>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QTimeEdit" name="timeEdit">
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="labelTime">
      <property name="text">
@@ -175,14 +195,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QTimeEdit" name="timeEdit">
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
+   <item row="4" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -193,17 +206,44 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
+    <widget class="QWidget" name="widget" native="true">
+     <property name="minimumSize">
       <size>
-       <width>20</width>
-       <height>114</height>
+       <width>0</width>
+       <height>50</height>
       </size>
      </property>
-    </spacer>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButton_06">
+        <property name="text">
+         <string>Dawn</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButton_00">
+        <property name="text">
+         <string>Midnight</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QPushButton" name="pushButton_12">
+        <property name="text">
+         <string>Noon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QPushButton" name="pushButton_18">
+        <property name="text">
+         <string>Dusk</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

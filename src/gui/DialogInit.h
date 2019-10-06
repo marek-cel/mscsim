@@ -102,6 +102,15 @@ private slots:
 
     void on_comboLocations_currentIndexChanged( int index );
 
+    void on_checkBoxOnFinal_toggled( bool checked );
+
+    void on_spinInitLat_valueChanged( double arg1 );
+    void on_spinInitLon_valueChanged( double arg1 );
+    void on_spinInitAlt_valueChanged( double arg1 );
+    void on_spinInitPsi_valueChanged( double arg1 );
+
+    void on_comboDistance_currentIndexChanged( int index );
+
     void on_comboInitLat_currentIndexChanged( int index );
     void on_comboInitLon_currentIndexChanged( int index );
     void on_comboInitAlt_currentIndexChanged( int index );

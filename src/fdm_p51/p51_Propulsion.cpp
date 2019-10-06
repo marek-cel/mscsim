@@ -46,8 +46,8 @@ P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft ) :
 
 P51_Propulsion::~P51_Propulsion()
 {
-    FDM_DELETE( _engine );
-    FDM_DELETE( _propeller );
+    FDM_DELPTR( _engine );
+    FDM_DELPTR( _propeller );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

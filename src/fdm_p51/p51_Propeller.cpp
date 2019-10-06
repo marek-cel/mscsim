@@ -42,7 +42,7 @@ P51_Propeller::P51_Propeller() :
 
 P51_Propeller::~P51_Propeller()
 {
-    FDM_DELETE( _governor );
+    FDM_DELPTR( _governor );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

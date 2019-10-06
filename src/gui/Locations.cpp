@@ -66,7 +66,7 @@ Locations::~Locations() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Locations::parseLocation(const QDomElement &node )
+void Locations::parseLocation( QDomElement &node )
 {
     QDomElement nameNode = node.firstChildElement( "name" );
 
@@ -89,6 +89,11 @@ void Locations::parseLocation(const QDomElement &node )
         location.lon = fdm::Units::deg2rad( lonNode.text().toFloat() );
         location.alt = altNode.text().toFloat();
         location.hdg = fdm::Units::deg2rad( hdgNode.text().toFloat() );
+
+        location.elev  = node.attributeNode( "elevation" ).value().toFloat();
+        location.slope = fdm::Units::deg2rad( node.attributeNode( "slope" ).value().toFloat() );
+
+        location.runway = node.attributeNode( "runway" ).value().toInt() != 0;
 
         _locations.push_back( location );
     }

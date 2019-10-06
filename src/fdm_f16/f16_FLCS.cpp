@@ -158,41 +158,41 @@ F16_FLCS::F16_FLCS() :
 F16_FLCS::~F16_FLCS()
 {
     // lef
-    FDM_DELETE( _alpha_lef );
+    FDM_DELPTR( _alpha_lef );
 
     // lat
-    FDM_DELETE( _stick_lat );
-    FDM_DELETE( _p_com_lag );
-    FDM_DELETE( _p_com_pos );
-    FDM_DELETE( _p_com_neg );
-    FDM_DELETE( _omg_p_lag );
-    FDM_DELETE( _omg_p_fil );
-    FDM_DELETE( _delta_fl_lag );
-    FDM_DELETE( _delta_fr_lag );
+    FDM_DELPTR( _stick_lat );
+    FDM_DELPTR( _p_com_lag );
+    FDM_DELPTR( _p_com_pos );
+    FDM_DELPTR( _p_com_neg );
+    FDM_DELPTR( _omg_p_lag );
+    FDM_DELPTR( _omg_p_fil );
+    FDM_DELPTR( _delta_fl_lag );
+    FDM_DELPTR( _delta_fr_lag );
 
     // lon
-    FDM_DELETE( _stick_lon );
-    FDM_DELETE( _alpha_lag );
-    FDM_DELETE( _g_com_lag );
-    FDM_DELETE( _omg_q_lag );
-    FDM_DELETE( _omg_q_fil );
-    FDM_DELETE( _g_z_input );
-    FDM_DELETE( _sca_bias_1 );
-    FDM_DELETE( _sca_bias_2 );
-    FDM_DELETE( _sca_bias_3 );
-    FDM_DELETE( _u_sca_fil );
-    FDM_DELETE( _u_sca_fil2 );
-    FDM_DELETE( _actuator_l );
-    FDM_DELETE( _actuator_r );
+    FDM_DELPTR( _stick_lon );
+    FDM_DELPTR( _alpha_lag );
+    FDM_DELPTR( _g_com_lag );
+    FDM_DELPTR( _omg_q_lag );
+    FDM_DELPTR( _omg_q_fil );
+    FDM_DELPTR( _g_z_input );
+    FDM_DELPTR( _sca_bias_1 );
+    FDM_DELPTR( _sca_bias_2 );
+    FDM_DELPTR( _sca_bias_3 );
+    FDM_DELPTR( _u_sca_fil );
+    FDM_DELPTR( _u_sca_fil2 );
+    FDM_DELPTR( _actuator_l );
+    FDM_DELPTR( _actuator_r );
 
     // yaw
-    FDM_DELETE( _pedals );
-    FDM_DELETE( _omg_r_lag );
-    FDM_DELETE( _omg_p_yaw );
-    FDM_DELETE( _u_sum_ll1 );
-    FDM_DELETE( _u_sum_ll2 );
-    FDM_DELETE( _delta_r_fil );
-    FDM_DELETE( _delta_r_lag );
+    FDM_DELPTR( _pedals );
+    FDM_DELPTR( _omg_r_lag );
+    FDM_DELPTR( _omg_p_yaw );
+    FDM_DELPTR( _u_sum_ll1 );
+    FDM_DELPTR( _u_sum_ll2 );
+    FDM_DELPTR( _delta_r_fil );
+    FDM_DELPTR( _delta_r_lag );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

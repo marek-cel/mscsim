@@ -57,7 +57,7 @@ DialogTime::DialogTime( QWidget *parent ) :
 
 DialogTime::~DialogTime()
 {
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,4 +94,32 @@ void DialogTime::on_comboBoxZone_currentIndexChanged( int index )
 void DialogTime::on_timeEdit_timeChanged( const QTime &time )
 {
     _time_utc = time.addSecs( -3600.0 * _offset );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogTime::on_pushButton_00_clicked()
+{
+    _ui->timeEdit->setTime( QTime( 0, 0 ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogTime::on_pushButton_06_clicked()
+{
+    _ui->timeEdit->setTime( QTime( 6, 0 ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogTime::on_pushButton_12_clicked()
+{
+    _ui->timeEdit->setTime( QTime( 12, 0 ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogTime::on_pushButton_18_clicked()
+{
+    _ui->timeEdit->setTime( QTime( 18, 0 ) );
 }

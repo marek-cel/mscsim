@@ -39,7 +39,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define SIM_DELETE( ptr ) \
+#define DELPTR( ptr ) \
 { \
     if ( ptr ) delete ptr; \
     ptr = NULLPTR; \

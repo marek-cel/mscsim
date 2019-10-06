@@ -55,10 +55,10 @@ Simulation::~Simulation()
 {
     if ( _timerId ) killTimer( _timerId );
 
-    SIM_DELETE( _timeoutTimer );
-    SIM_DELETE( _elapsedTimer );
+    DELPTR( _timeoutTimer );
+    DELPTR( _elapsedTimer );
 
-    SIM_DELETE( _fdm );
+    DELPTR( _fdm );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

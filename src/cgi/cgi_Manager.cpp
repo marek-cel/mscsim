@@ -50,11 +50,11 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-    SIM_DELETE( _hud );
-    SIM_DELETE( _map );
-    SIM_DELETE( _otw );
+    DELPTR( _hud );
+    DELPTR( _map );
+    DELPTR( _otw );
 
-    SIM_DELETE( _camera );
+    DELPTR( _camera );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

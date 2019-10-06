@@ -54,7 +54,7 @@ DialogMass::~DialogMass()
 {
     settingsSave();
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

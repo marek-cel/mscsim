@@ -70,6 +70,11 @@ private slots:
 
     void on_comboBoxZone_currentIndexChanged( int index );
     void on_timeEdit_timeChanged( const QTime &time );
+
+    void on_pushButton_00_clicked();
+    void on_pushButton_06_clicked();
+    void on_pushButton_12_clicked();
+    void on_pushButton_18_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

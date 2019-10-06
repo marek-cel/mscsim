@@ -45,7 +45,7 @@ F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
 
 F16_Propulsion::~F16_Propulsion()
 {
-    FDM_DELETE( _engine );
+    FDM_DELPTR( _engine );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

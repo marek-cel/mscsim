@@ -25,6 +25,9 @@
 
 #include <math.h>
 
+#include <fdm/utils/fdm_Units.h>
+#include <fdm/utils/fdm_WGS84.h>
+
 #include <gui/Aircrafts.h>
 #include <gui/Locations.h>
 
@@ -69,7 +72,7 @@ DialogInit::~DialogInit()
 {
     settingsSave();
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +81,11 @@ void DialogInit::readData()
 {
     _ui->comboAircrafts->setCurrentIndex( _typeIndex );
     _ui->comboLocations->setCurrentIndex( -1 );
+
+    _ui->checkBoxOnFinal->setEnabled( false );
+    _ui->checkBoxOnFinal->setChecked( false );
+
+    _ui->spinDistance->setValue( 0.0 );
 
     _ui->spinInitLat->setValue( _ui->comboInitLat->convert( _lat ) );
     _ui->spinInitLon->setValue( _ui->comboInitLon->convert( _lon ) );
@@ -99,9 +107,49 @@ void DialogInit::saveData()
 
     _typeIndex = _ui->comboAircrafts->currentIndex();
 
-    _lat = _ui->comboInitLat->invert( _ui->spinInitLat->value() );
-    _lon = _ui->comboInitLon->invert( _ui->spinInitLon->value() );
-    _alt = _ui->comboInitAlt->invert( _ui->spinInitAlt->value() );
+    if ( _ui->checkBoxOnFinal->isChecked() && _ui->spinDistance->value() != 0.0 )
+    {
+        int index = _ui->comboLocations->currentIndex();
+
+        if ( index >= 0 && index < Locations::instance()->getCount() )
+        {
+            double dist = _ui->comboDistance->invert( _ui->spinDistance->value() );
+
+            fdm::Vector3 pos_bas( -dist, 0.0, 0.0 );
+
+            double psi = _ui->comboInitPsi->invert( _ui->spinInitPsi->value() );
+
+            fdm::Vector3 pos_ned = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, -psi ) ) * pos_bas;
+
+            fdm::WGS84::Geo pos_geo;
+
+            pos_geo.lat = _ui->comboInitLat->invert( _ui->spinInitLat->value() );
+            pos_geo.lon = _ui->comboInitLon->invert( _ui->spinInitLon->value() );
+            pos_geo.alt = 0.0;//Locations::instance()->getLocation( index ).elev;
+
+            fdm::WGS84 wgs( pos_geo );
+
+            fdm::Vector3 pos_wgs = wgs.getPos_WGS() + wgs.getNED2WGS() * pos_ned;
+
+            wgs.setPos_WGS( pos_wgs );
+
+            _lat = wgs.getPos_Geo().lat;
+            _lon = wgs.getPos_Geo().lon;
+
+            double slope = Locations::instance()->getLocation( index ).slope;
+
+            if ( dist < 0.0 ) slope = 0.0;
+
+            _alt = Locations::instance()->getLocation( index ).elev + dist * tan( slope );
+        }
+    }
+    else
+    {
+        _lat = _ui->comboInitLat->invert( _ui->spinInitLat->value() );
+        _lon = _ui->comboInitLon->invert( _ui->spinInitLon->value() );
+        _alt = _ui->comboInitAlt->invert( _ui->spinInitAlt->value() );
+    }
+
     _psi = _ui->comboInitPsi->invert( _ui->spinInitPsi->value() );
     _ias = _ui->comboInitIAS->invert( _ui->spinInitIAS->value() );
 
@@ -196,6 +244,8 @@ void DialogInit::settingsRead_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
+    _ui->comboDistance->setCurrentIndex( settings.value( "distance", 0 ).toInt() );
+
     _ui->comboInitLat->setCurrentIndex( settings.value( "lat", 1 ).toInt() );
     _ui->comboInitLon->setCurrentIndex( settings.value( "lon", 1 ).toInt() );
     _ui->comboInitAlt->setCurrentIndex( settings.value( "alt", 0 ).toInt() );
@@ -252,6 +302,8 @@ void DialogInit::settingsSave_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
+    settings.setValue( "distance", _ui->comboDistance->currentIndex() );
+
     settings.setValue( "lat", _ui->comboInitLat->currentIndex() );
     settings.setValue( "lon", _ui->comboInitLon->currentIndex() );
     settings.setValue( "alt", _ui->comboInitAlt->currentIndex() );
@@ -276,7 +328,80 @@ void DialogInit::on_comboLocations_currentIndexChanged( int index )
         _ui->spinInitLon->setValue( _ui->comboInitLon->convert( lon ) );
         _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( ( alt > 1.0e-6 ) ? alt : 0.0f ) );
         _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( hdg ) );
+
+        if ( Locations::instance()->getLocation( index ).runway )
+        {
+            _ui->checkBoxOnFinal->setEnabled( true );
+        }
+        else
+        {
+            _ui->checkBoxOnFinal->setEnabled( false );
+            _ui->checkBoxOnFinal->setChecked( false );
+        }
     }
+    else
+    {
+        _ui->checkBoxOnFinal->setEnabled( false );
+        _ui->checkBoxOnFinal->setChecked( false );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_checkBoxOnFinal_toggled( bool checked )
+{
+    _ui->labelDistance->setEnabled( checked );
+    _ui->spinDistance->setEnabled( checked );
+    _ui->comboDistance->setEnabled( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_spinInitLat_valueChanged( double /*arg1*/ )
+{
+    _ui->checkBoxOnFinal->setEnabled( false );
+    _ui->checkBoxOnFinal->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_spinInitLon_valueChanged( double /*arg1*/ )
+{
+    _ui->checkBoxOnFinal->setEnabled( false );
+    _ui->checkBoxOnFinal->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_spinInitAlt_valueChanged( double /*arg1*/ )
+{
+    _ui->checkBoxOnFinal->setEnabled( false );
+    _ui->checkBoxOnFinal->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_spinInitPsi_valueChanged( double /*arg1*/ )
+{
+    _ui->checkBoxOnFinal->setEnabled( false );
+    _ui->checkBoxOnFinal->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogInit::on_comboDistance_currentIndexChanged( int index )
+{
+    float value = _ui->comboDistance->invertPrev( _ui->spinDistance->value() );
+
+    float max  = fdm::Units::nmi2m( 10.0 );
+    float step = fdm::Units::nmi2m( 1.0 );
+
+    _ui->spinDistance->setMinimum( -_ui->comboDistance->convert( max ) );
+    _ui->spinDistance->setMaximum(  _ui->comboDistance->convert( max ) );
+
+    _ui->spinDistance->setSingleStep( _ui->comboDistance->convert( step ) );
+
+    _ui->spinDistance->setValue( _ui->comboDistance->convert( value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -48,7 +48,7 @@ Lag2::Lag2( double tc1, double tc2, double y ) :
 
 Lag2::~Lag2()
 {
-    FDM_DELETE( _lag1 );
+    FDM_DELPTR( _lag1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

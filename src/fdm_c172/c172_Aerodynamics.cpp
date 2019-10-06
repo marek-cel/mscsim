@@ -51,9 +51,9 @@ C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft ) :
 
 C172_Aerodynamics::~C172_Aerodynamics()
 {
-    FDM_DELETE( _tailOff );
-    FDM_DELETE( _stabHor );
-    FDM_DELETE( _stabVer );
+    FDM_DELPTR( _tailOff );
+    FDM_DELPTR( _stabHor );
+    FDM_DELPTR( _stabVer );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

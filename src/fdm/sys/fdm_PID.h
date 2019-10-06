@@ -40,12 +40,13 @@ namespace fdm
  * Transfer function (series):
  * G(s)  =  k*( 1 + 1/( s*tau_i ) )*( 1 + s*tau_d )
  *
- * Transfer function (standard):
+ * Transfer function (ideal - standard):
  * G(s)  =  Kp*( 1 + 1/( s*Ti ) + s*Td )
  *
+ * @see McCormack A., Godfrey K.: Rule-Based Autotuning Based on Frequency Domain Identification, 1998
  * @see Duzinkiewicz K., et al.: Zadania do cwiczen laboratoryjnych T10: Sterowanie predkoscia obrotowa silnika pradu stalego, 2016. [in Polish]
  * @see Brdys M., et al.: Silnik pradu stalego (NI Elvis 2) - Dobieranie nastaw regulatorow P, PI, PI. Filtr przeciwnasyceniowy Anti-windup, 2010. [in Polish]
- * @see Anirban G., Vinod J. :Anti-windup Schemes for Proportional Integral and Proportional Resonant Controller, 2010
+ * @see Anirban G., Vinod J.: Anti-windup Schemes for Proportional Integral and Proportional Resonant Controller, 2010
  * @see https://en.wikipedia.org/wiki/PID_controller
  * @see https://en.wikipedia.org/wiki/Integral_windup
  * @see https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method

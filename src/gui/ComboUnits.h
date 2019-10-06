@@ -54,7 +54,9 @@ public:
     virtual float invertPrev( float value ) const;
 
     virtual float getCoef( int index ) const;
-    
+
+    inline float getFactor() const { return _factor; }
+
 protected:
 
     float _factor;          ///< [-]

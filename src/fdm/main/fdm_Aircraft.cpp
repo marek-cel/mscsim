@@ -91,10 +91,10 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 Aircraft::~Aircraft()
 {
-    FDM_DELETE( _integrator );
+    FDM_DELPTR( _integrator );
 
-    FDM_DELETE( _envir );
-    FDM_DELETE( _isect );
+    FDM_DELPTR( _envir );
+    FDM_DELPTR( _isect );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

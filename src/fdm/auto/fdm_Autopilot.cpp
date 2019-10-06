@@ -90,7 +90,7 @@ Autopilot::Autopilot() :
 
 Autopilot::~Autopilot()
 {
-    FDM_DELETE( _fd );
+    FDM_DELPTR( _fd );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

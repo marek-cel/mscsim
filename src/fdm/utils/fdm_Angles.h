@@ -35,6 +35,7 @@ namespace fdm
 
 /**
  * @brief Bryant angles class.
+ *
  * @see https://en.wikipedia.org/wiki/Euler_angles
  */
 class FDMEXPORT Angles

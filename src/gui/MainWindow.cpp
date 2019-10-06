@@ -177,26 +177,26 @@ MainWindow::~MainWindow()
 
     settingsSave();
 
-    SIM_DELETE( _dialogConf );
-    SIM_DELETE( _dialogEnvr );
-    SIM_DELETE( _dialogInit );
-    SIM_DELETE( _dialogMass );
+    DELPTR( _dialogConf );
+    DELPTR( _dialogEnvr );
+    DELPTR( _dialogInit );
+    DELPTR( _dialogMass );
 
-    SIM_DELETE( _dockAuto );
-    SIM_DELETE( _dockCtrl );
-    SIM_DELETE( _dockData );
-    SIM_DELETE( _dockEFIS );
-    SIM_DELETE( _dockMain );
-    SIM_DELETE( _dockMap  );
-    SIM_DELETE( _dockProp );
+    DELPTR( _dockAuto );
+    DELPTR( _dockCtrl );
+    DELPTR( _dockData );
+    DELPTR( _dockEFIS );
+    DELPTR( _dockMain );
+    DELPTR( _dockMap  );
+    DELPTR( _dockProp );
 
-    SIM_DELETE( _scCycleViews );
-    SIM_DELETE( _scToggleHud  );
-    SIM_DELETE( _scFullScreen );
-    SIM_DELETE( _scTimeFaster );
-    SIM_DELETE( _scTimeSlower );
+    DELPTR( _scCycleViews );
+    DELPTR( _scToggleHud  );
+    DELPTR( _scFullScreen );
+    DELPTR( _scTimeFaster );
+    DELPTR( _scTimeSlower );
 
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -789,7 +789,7 @@ void MainWindow::updateDockEFIS()
 
         _dockEFIS->setClimbRate( coef_vsi * Data::get()->ownship.climbRate / 1000.0 );
 
-        _dockEFIS->setCourse( fdm::Units::rad2deg( _dockAuto->getCourse() ) );
+        _dockEFIS->setCourse( _dockAuto->getCourse() );
 
         _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
                                 Data::get()->navigation.nav_visible );

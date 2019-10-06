@@ -42,7 +42,7 @@ XmlDoc::XmlDoc( const std::string &fileName ) :
 
 XmlDoc::~XmlDoc()
 {
-    FDM_DELETE( _root );
+    FDM_DELPTR( _root );
 
     xmlFreeDoc( _doc );
 }

@@ -880,7 +880,7 @@
       
       <!-- mixture vs mixture lever position -->
       <mixture>
-        0.0   0.02
+        0.0   0.04
         1.0   0.08
       </mixture>
       

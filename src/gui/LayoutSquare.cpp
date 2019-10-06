@@ -52,9 +52,9 @@ LayoutSquare::LayoutSquare( int spacing ) :
 
 LayoutSquare::~LayoutSquare()
 {
-    SIM_DELETE( _item );
-    SIM_DELETE( _rectLast );
-    SIM_DELETE( _geometry );
+    DELPTR( _item );
+    DELPTR( _rectLast );
+    DELPTR( _geometry );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

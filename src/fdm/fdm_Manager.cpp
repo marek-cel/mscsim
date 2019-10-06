@@ -69,8 +69,8 @@ Manager::Manager() :
 
 Manager::~Manager()
 {
-    FDM_DELETE( _aircraft );
-    FDM_DELETE( _recorder );
+    FDM_DELPTR( _aircraft );
+    FDM_DELPTR( _recorder );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -797,8 +797,8 @@ void Manager::updateStateStop()
     _realTime = 0.0;
     _timeSteps = 0;
 
-    FDM_DELETE( _aircraft );
-    FDM_DELETE( _recorder );
+    FDM_DELPTR( _aircraft );
+    FDM_DELPTR( _recorder );
 
     _stateOut = DataOut::Stopped;
 }

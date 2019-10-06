@@ -116,11 +116,11 @@ GraphicsEADI::~GraphicsEADI()
 
     reset();
 
-    SIM_DELETE( _adi );
-    SIM_DELETE( _alt );
-    SIM_DELETE( _asi );
-    SIM_DELETE( _hdg );
-    SIM_DELETE( _vsi );
+    DELPTR( _adi );
+    DELPTR( _alt );
+    DELPTR( _asi );
+    DELPTR( _hdg );
+    DELPTR( _vsi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -263,15 +263,13 @@ void WidgetCGI::createCameraHUD()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetCGI::createGraphicsWindow( int x, int y, int w, int h,
-                                                                       const std::string &name,
-                                                                       bool windowDecoration )
+osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetCGI::createGraphicsWindow( int x, int y, int w, int h )
 {
     osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
 
-    traits->windowName       = name;
-    traits->windowDecoration = windowDecoration;
+    traits->windowName       = "";
+    traits->windowDecoration = false;
     traits->x                = x;
     traits->y                = y;
     traits->width            = w;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <locations>
   
-  <location>
+  <location runway="1" elevation="3" slope="3">
     <name>PHDH (Dillingham Airfield): Runway 8</name>
     <lat>21.579593</lat>
     <lon>-158.208482</lon>
@@ -9,7 +9,7 @@
     <hdg>90.8</hdg>
   </location>
   
-  <location>
+  <location runway="1" elevation="250" slope="3">
     <name>PHHI (Wheeler Army Airfield): Runway 6</name>
     <lat>21.479404</lat>
     <lon>-158.043365</lon>
@@ -17,7 +17,7 @@
     <hdg>67.6</hdg>
   </location>
   
-  <location>
+  <location runway="1" elevation="7" slope="3">
     <name>PHJR (Kalaeloa Airport): Runway 11</name>
     <lat>21.311466</lat>
     <lon>-158.083536</lon>
@@ -25,7 +25,7 @@
     <hdg>118.0</hdg>
   </location>
   
-  <location>
+  <location runway="1" elevation="2" slope="3">
     <name>PHNG (Kaneohe Bay MCAS): Runway 4</name>
     <lat>21.444181</lat>
     <lon>-157.776379</lon>
@@ -33,7 +33,7 @@
     <hdg>50.9</hdg>
   </location>
   
-  <location>
+  <location runway="1" elevation="3" slope="3">
     <name>PHNL (Honolulu Intl.): - Runway 22R</name>
     <lat>21.329569</lat>
     <lon>-157.907433</lon>
@@ -42,43 +42,11 @@
   </location>
 
   
-  <location>
+  <location runway="1" elevation="0" slope="3">
     <name>XGEN: Threshold - Runway 36</name>
     <lat>-0.013500</lat>
     <lon>1.0e-7</lon>
     <alt>0.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: 1 Mile Approach - Runway 36</name>
-    <lat>-0.028333</lat>
-    <lon>1.0e-7</lon>
-    <alt>97.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: 2 Miles Approach - Runway 36</name>
-    <lat>-0.045</lat>
-    <lon>1.0e-7</lon>
-    <alt>194.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: 5 Miles Approach - Runway 36</name>
-    <lat>-0.095</lat>
-    <lon>1.0e-7</lon>
-    <alt>515.0</alt>
-    <hdg>0.0</hdg>
-  </location>
-  
-  <location>
-    <name>XGEN: 10 Miles Approach - Runway 36</name>
-    <lat>-0.178333</lat>
-    <lon>1.0e-7</lon>
-    <alt>1001.0</alt>
     <hdg>0.0</hdg>
   </location>
   

@@ -37,7 +37,9 @@ namespace fdm
 /**
  * @brief Function period class.
  *
- * @todo Thera are some problems with calculations. More testing is required!
+ * UNDER CONSTRUCTION!
+ *
+ * @todo There are some problems with calculations. More testing is required!
  */
 class FDMEXPORT Period
 {

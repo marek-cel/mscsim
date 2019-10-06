@@ -123,7 +123,7 @@ PageControls::PageControls( QWidget *parent ) :
 
 PageControls::~PageControls()
 {
-    SIM_DELETE( _ui );
+    DELPTR( _ui );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

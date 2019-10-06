@@ -38,7 +38,7 @@ Environment::Environment() :
 
 Environment::~Environment()
 {
-    FDM_DELETE( _atmosphere );
+    FDM_DELPTR( _atmosphere );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

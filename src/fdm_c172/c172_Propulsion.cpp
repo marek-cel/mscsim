@@ -46,8 +46,8 @@ C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft ) :
 
 C172_Propulsion::~C172_Propulsion()
 {
-    FDM_DELETE( _engine );
-    FDM_DELETE( _propeller );
+    FDM_DELPTR( _engine );
+    FDM_DELPTR( _propeller );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

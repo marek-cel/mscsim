@@ -57,7 +57,7 @@ Recorder::~Recorder()
     Variables::iterator it = _variables.begin();
     while ( it != _variables.end() )
     {
-        FDM_DELETE( (*it) );
+        FDM_DELPTR( (*it) );
         it = _variables.erase( it );
     }
 }
