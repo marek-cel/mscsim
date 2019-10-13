@@ -31,6 +31,10 @@
 #include <Navigation.h>
 #include <Simulation.h>
 
+#ifdef SIM_NETWORKING
+#   include <Networking.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -61,6 +65,10 @@ private:
     Navigation *_nav;           ///< navigation
     Simulation *_sim;           ///< simulation
     MainWindow *_win;           ///< GUI
+
+#   ifdef SIM_NETWORKING
+    Networking *_net;           ///< networking
+#   endif
 
     QElapsedTimer *_timer;      ///< elapsed timer
 

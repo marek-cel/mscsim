@@ -5,8 +5,8 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="180"
-   height="50"
+   width="300"
+   height="90"
    id="svg2"
    version="1.1">
   <defs
@@ -24,11 +24,15 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="layer1"
-     transform="translate(0,-1002.3622)">
+     transform="translate(0,-210)"
+     id="g1270">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.00157475;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 0,210 v 90 h 300 v -90 z m 150,30 c 37.82078,0 70.98414,20.0031 89.46875,50 H 60.5625 C 79.0471,260.0031 112.17921,240 150,240 Z"
+       id="rect1204" />
     <path
        style="fill:#323232;fill-opacity:1;stroke:none"
-       d="m 89.984374,1002.3622 c -37.82079,0 -70.952898,20.0031 -89.437498,50 l 178.906244,0 c -18.48461,-29.9969 -51.64797,-50 -89.468746,-50 z"
+       d="m 150,240 c -37.82079,0 -70.9529,20.0031 -89.4375,50 H 239.46875 C 220.98414,260.0031 187.82078,240 150,240 Z"
        id="path3478-4-5" />
   </g>
 </svg>

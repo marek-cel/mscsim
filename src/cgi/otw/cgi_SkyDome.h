@@ -57,7 +57,7 @@ public:
     static const float _offsetMoon;
 
     /** Constructor. */
-    SkyDome( Module *parent = 0 );
+    SkyDome( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~SkyDome();

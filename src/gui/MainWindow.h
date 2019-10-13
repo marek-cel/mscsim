@@ -74,16 +74,21 @@ public:
     /** */
     void init();
 
-    double getAutoRoll()  const { return _dockAuto->getCtrlRoll();  }
-    double getAutoPitch() const { return _dockAuto->getCtrlPitch(); }
-    double getAutoYaw()   const { return _dockAuto->getCtrlYaw();   }
+    inline double getAutoRoll()  const { return _dockAuto->getCtrlRoll();  }
+    inline double getAutoPitch() const { return _dockAuto->getCtrlPitch(); }
+    inline double getAutoYaw()   const { return _dockAuto->getCtrlYaw();   }
 
-    bool getABS() const { return _dockCtrl->getABS(); }
-    bool getNWS() const { return _dockCtrl->getNWS(); }
+    inline bool getABS() const { return _dockCtrl->getABS(); }
+    inline bool getNWS() const { return _dockCtrl->getNWS(); }
 
-    bool isActiveAP() const { return _dockAuto->isActiveAP(); }
-    bool isActiveFD() const { return _dockAuto->isActiveFD(); }
-    bool isActiveYD() const { return _dockAuto->isActiveYD(); }
+    inline double getCourse()  const { return _dockAuto->getCourse();  }
+    inline double getHeading() const { return _dockAuto->getHeading(); }
+
+    inline double getNavFreq()  const { return _dockAuto->getNavFreq();  }
+
+    inline bool isActiveAP() const { return _dockAuto->isActiveAP(); }
+    inline bool isActiveFD() const { return _dockAuto->isActiveFD(); }
+    inline bool isActiveYD() const { return _dockAuto->isActiveYD(); }
 
 protected:
 

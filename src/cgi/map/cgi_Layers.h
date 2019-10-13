@@ -42,7 +42,7 @@ class Layers : public Module
 public:
 
     /** Constructor. */
-    Layers( Module *parent = 0 );
+    Layers( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Layers();

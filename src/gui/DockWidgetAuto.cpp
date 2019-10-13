@@ -141,6 +141,13 @@ double DockWidgetAuto::getHeading() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double DockWidgetAuto::getNavFreq() const
+{
+    return _ui->spinBoxFreqActive->value();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 double DockWidgetAuto::getCmdRoll() const
 {
     if ( _autopilot )
@@ -393,10 +400,11 @@ void DockWidgetAuto::updateWork()
                             Data::get()->ownship.roll,
                             Data::get()->ownship.pitch,
                             Data::get()->ownship.heading,
-                            Data::get()->ownship.yawRate,
                             Data::get()->ownship.altitude_asl,
                             Data::get()->ownship.airspeed,
                             Data::get()->ownship.climbRate,
+                            Data::get()->ownship.yawRate,
+                            Data::get()->ownship.turnRate,
                             Data::get()->navigation.nav_deviation,
                             Data::get()->navigation.ils_gs_deviation,
                             _ui->pushButtonDN->isDown(),

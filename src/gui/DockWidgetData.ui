@@ -47,7 +47,7 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout">
-          <item row="15" column="1">
+          <item row="17" column="1">
            <widget class="SpinBoxHighlight" name="spinGx">
             <property name="font">
              <font>
@@ -84,368 +84,11 @@
           <item row="3" column="2">
            <widget class="ComboUnitsVelocity" name="comboClimbRate"/>
           </item>
-          <item row="10" column="1">
-           <widget class="SpinBoxHighlight" name="spinCourse">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="15" column="2">
+          <item row="17" column="2">
            <widget class="ComboUnitsNumber" name="comboGx"/>
           </item>
-          <item row="17" column="2">
+          <item row="19" column="2">
            <widget class="ComboUnitsNumber" name="comboGz"/>
-          </item>
-          <item row="11" column="2">
-           <widget class="ComboUnitsAngle" name="comboPathAngle"/>
-          </item>
-          <item row="14" column="1">
-           <widget class="SpinBoxHighlight" name="spinYawRate">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="17" column="1">
-           <widget class="SpinBoxHighlight" name="spinGz">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="SpinBoxHighlight" name="spinHeading">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="13" column="1">
-           <widget class="SpinBoxHighlight" name="spinPitchRate">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="2">
-           <widget class="ComboUnitsAngle" name="comboAngleOfAttack"/>
-          </item>
-          <item row="13" column="0">
-           <widget class="QLabel" name="labelPitchRate">
-            <property name="text">
-             <string>Pitch Rate:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1">
-           <widget class="SpinBoxHighlight" name="spinAngleOfAttack">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="ComboUnitsNumber" name="comboMachNumber"/>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="labelClimbRate">
-            <property name="text">
-             <string>Climb Rate:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="labelAirspeed">
-            <property name="text">
-             <string>Airspeed:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="labelPathAngle">
-            <property name="text">
-             <string>Path Angle:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="ComboUnitsLength" name="comboAltitudeAGL"/>
-          </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="labelPitchAngle">
-            <property name="text">
-             <string>Pitch Angle:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="SpinBoxHighlight" name="spinSideslipAngle">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="1">
-           <widget class="SpinBoxHighlight" name="spinRollRate">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="0">
-           <widget class="QLabel" name="labelRollRate">
-            <property name="text">
-             <string>Roll Rate:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="SpinBoxHighlight" name="spinRollAngle">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="2">
-           <widget class="ComboUnitsNumber" name="comboGy"/>
-          </item>
-          <item row="9" column="2">
-           <widget class="ComboUnitsAngle" name="comboSideslipAngle"/>
           </item>
           <item row="0" column="2">
            <widget class="ComboUnitsLength" name="comboAltitudeASL"/>
@@ -548,159 +191,10 @@
             </property>
            </widget>
           </item>
-          <item row="19" column="2">
+          <item row="21" column="2">
            <widget class="ComboUnitsNumber" name="comboMaxGz"/>
           </item>
-          <item row="11" column="1">
-           <widget class="SpinBoxHighlight" name="spinPathAngle">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="labelYawAngle">
-            <property name="text">
-             <string>Heading:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="2">
-           <widget class="ComboUnitsRotation" name="comboRollRate"/>
-          </item>
-          <item row="14" column="0">
-           <widget class="QLabel" name="labelYawRate">
-            <property name="text">
-             <string>Yaw Rate:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="14" column="2">
-           <widget class="ComboUnitsRotation" name="comboYawRate"/>
-          </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="labelVelCourse">
-            <property name="text">
-             <string>Course:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="labelRollAngle">
-            <property name="text">
-             <string>Roll Angle:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="19" column="1">
-           <widget class="SpinBoxHighlight" name="spinMaxGz">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="16" column="0">
-           <widget class="QLabel" name="labelGy">
-            <property name="text">
-             <string>Gy:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="SpinBoxHighlight" name="spinMachNumber">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-            <property name="buttonSymbols">
-             <enum>QAbstractSpinBox::NoButtons</enum>
-            </property>
-            <property name="minimum">
-             <double>-99999.990000000005239</double>
-            </property>
-            <property name="maximum">
-             <double>99999.990000000005239</double>
-            </property>
-           </widget>
-          </item>
-          <item row="17" column="0">
+          <item row="19" column="0">
            <widget class="QLabel" name="labelGz">
             <property name="text">
              <string>Gz:</string>
@@ -741,7 +235,7 @@
             </property>
            </widget>
           </item>
-          <item row="19" column="0">
+          <item row="21" column="0">
            <widget class="QLabel" name="labelMaxGz">
             <property name="text">
              <string>Max Gz:</string>
@@ -751,7 +245,7 @@
             </property>
            </widget>
           </item>
-          <item row="13" column="2">
+          <item row="14" column="2">
            <widget class="ComboUnitsRotation" name="comboPitchRate"/>
           </item>
           <item row="1" column="0">
@@ -764,7 +258,7 @@
             </property>
            </widget>
           </item>
-          <item row="16" column="1">
+          <item row="18" column="1">
            <widget class="SpinBoxHighlight" name="spinGy">
             <property name="font">
              <font>
@@ -794,9 +288,6 @@
              <double>99999.990000000005239</double>
             </property>
            </widget>
-          </item>
-          <item row="10" column="2">
-           <widget class="ComboUnitsAngle" name="comboCourse"/>
           </item>
           <item row="0" column="1">
            <widget class="SpinBoxHighlight" name="spinAltitudeASL">
@@ -832,7 +323,7 @@
             </property>
            </widget>
           </item>
-          <item row="15" column="0">
+          <item row="17" column="0">
            <widget class="QLabel" name="labelGx">
             <property name="text">
              <string>Gx:</string>
@@ -873,6 +364,295 @@
             </property>
            </widget>
           </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelYawAngle">
+            <property name="text">
+             <string>Heading:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="2">
+           <widget class="ComboUnitsRotation" name="comboRollRate"/>
+          </item>
+          <item row="15" column="0">
+           <widget class="QLabel" name="labelYawRate">
+            <property name="text">
+             <string>Yaw Rate:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="2">
+           <widget class="ComboUnitsRotation" name="comboYawRate"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelRollAngle">
+            <property name="text">
+             <string>Roll Angle:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="21" column="1">
+           <widget class="SpinBoxHighlight" name="spinMaxGz">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="18" column="0">
+           <widget class="QLabel" name="labelGy">
+            <property name="text">
+             <string>Gy:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="SpinBoxHighlight" name="spinMachNumber">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="15" column="1">
+           <widget class="SpinBoxHighlight" name="spinYawRate">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="19" column="1">
+           <widget class="SpinBoxHighlight" name="spinGz">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="SpinBoxHighlight" name="spinHeading">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="14" column="1">
+           <widget class="SpinBoxHighlight" name="spinPitchRate">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="ComboUnitsAngle" name="comboAngleOfAttack"/>
+          </item>
+          <item row="14" column="0">
+           <widget class="QLabel" name="labelPitchRate">
+            <property name="text">
+             <string>Pitch Rate:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="SpinBoxHighlight" name="spinAngleOfAttack">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="ComboUnitsNumber" name="comboMachNumber"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelClimbRate">
+            <property name="text">
+             <string>Climb Rate:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="labelAltitudeASL">
             <property name="text">
@@ -886,7 +666,7 @@
           <item row="2" column="2">
            <widget class="ComboUnitsVelocity" name="comboAirspeed"/>
           </item>
-          <item row="18" column="1">
+          <item row="20" column="1">
            <widget class="QDoubleSpinBox" name="spinMinGz">
             <property name="font">
              <font>
@@ -917,10 +697,10 @@
             </property>
            </widget>
           </item>
-          <item row="18" column="2">
+          <item row="20" column="2">
            <widget class="ComboUnitsNumber" name="comboMinGz"/>
           </item>
-          <item row="18" column="0">
+          <item row="20" column="0">
            <widget class="QLabel" name="labelMinGz">
             <property name="text">
              <string>Min Gz:</string>
@@ -929,6 +709,267 @@
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelAirspeed">
+            <property name="text">
+             <string>Airspeed:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="ComboUnitsLength" name="comboAltitudeAGL"/>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelPitchAngle">
+            <property name="text">
+             <string>Pitch Angle:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="9" column="1">
+           <widget class="SpinBoxHighlight" name="spinSideslipAngle">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="1">
+           <widget class="SpinBoxHighlight" name="spinRollRate">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="13" column="0">
+           <widget class="QLabel" name="labelRollRate">
+            <property name="text">
+             <string>Roll Rate:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="SpinBoxHighlight" name="spinRollAngle">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="18" column="2">
+           <widget class="ComboUnitsNumber" name="comboGy"/>
+          </item>
+          <item row="9" column="2">
+           <widget class="ComboUnitsAngle" name="comboSideslipAngle"/>
+          </item>
+          <item row="10" column="0">
+           <widget class="QLabel" name="labelClimbAngle">
+            <property name="text">
+             <string>Climb Angle:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="1">
+           <widget class="SpinBoxHighlight" name="spinClimbAngle">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="2">
+           <widget class="ComboUnitsAngle" name="comboClimbAngle"/>
+          </item>
+          <item row="11" column="0" rowspan="2">
+           <widget class="QLabel" name="labelTrackAngle">
+            <property name="text">
+             <string>Track Angle:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1" rowspan="2">
+           <widget class="SpinBoxHighlight" name="spinTrackAngle">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="2" rowspan="2">
+           <widget class="ComboUnitsAngle" name="comboTrackAngle"/>
+          </item>
+          <item row="16" column="0">
+           <widget class="QLabel" name="labelTurnRate">
+            <property name="text">
+             <string>Turn Rate:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="1">
+           <widget class="SpinBoxHighlight" name="spinTurnRate">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="buttonSymbols">
+             <enum>QAbstractSpinBox::NoButtons</enum>
+            </property>
+            <property name="minimum">
+             <double>-99999.990000000005239</double>
+            </property>
+            <property name="maximum">
+             <double>99999.990000000005239</double>
+            </property>
+           </widget>
+          </item>
+          <item row="16" column="2">
+           <widget class="ComboUnitsRotation" name="comboTurnRate"/>
           </item>
          </layout>
         </item>
@@ -991,6 +1032,31 @@
    <header>gui/SpinBoxHighlight.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>comboAltitudeASL</tabstop>
+  <tabstop>comboAltitudeAGL</tabstop>
+  <tabstop>comboAirspeed</tabstop>
+  <tabstop>comboClimbRate</tabstop>
+  <tabstop>comboMachNumber</tabstop>
+  <tabstop>comboRollAngle</tabstop>
+  <tabstop>comboPitchAngle</tabstop>
+  <tabstop>comboHeading</tabstop>
+  <tabstop>comboAngleOfAttack</tabstop>
+  <tabstop>comboSideslipAngle</tabstop>
+  <tabstop>comboClimbAngle</tabstop>
+  <tabstop>comboTrackAngle</tabstop>
+  <tabstop>comboRollRate</tabstop>
+  <tabstop>comboPitchRate</tabstop>
+  <tabstop>comboYawRate</tabstop>
+  <tabstop>comboTurnRate</tabstop>
+  <tabstop>comboGx</tabstop>
+  <tabstop>comboGy</tabstop>
+  <tabstop>comboGz</tabstop>
+  <tabstop>comboMinGz</tabstop>
+  <tabstop>comboMaxGz</tabstop>
+  <tabstop>buttonResetGz</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

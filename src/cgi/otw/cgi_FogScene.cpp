@@ -24,7 +24,7 @@
 
 #include <osg/Fog>
 
-#include <cgi/cgi_Color.h>
+#include <cgi/cgi_Colors.h>
 #include <cgi/cgi_Defines.h>
 
 #include <cgi/otw/cgi_Clouds.h>
@@ -46,12 +46,12 @@ osg::Vec4 FogScene::getFogColor( float sun_elev, float visibility )
 
     if ( visibility < CGI_FOG_LIMIT )
     {
-        return osg::Vec4( Color::_fog[ number ], 1.0 );
+        return osg::Vec4( Colors::_fog[ number ], 1.0 );
 
     }
     else
     {
-        return osg::Vec4( Color::_sky[ number ], 1.0 );
+        return osg::Vec4( Colors::_sky[ number ], 1.0 );
     }
 }
 
@@ -79,7 +79,7 @@ int FogScene::getFogNumber( float sun_elev )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-FogScene::FogScene( Module *parent ) :
+FogScene::FogScene( const Module *parent ) :
     Module( parent )
 {
     _fog = new osg::Fog();
@@ -88,7 +88,7 @@ FogScene::FogScene( Module *parent ) :
 
     _fog->setMode( osg::Fog::LINEAR );
     _fog->setDensity( 0.5f );
-    _fog->setColor( osg::Vec4( Color::_fog[ 8 ], 1.0 ) );
+    _fog->setColor( osg::Vec4( Colors::_fog[ 8 ], 1.0 ) );
     _fog->setStart( 0.0f );
     _fog->setEnd( 0.9f * CGI_SKYDOME_RADIUS );
 

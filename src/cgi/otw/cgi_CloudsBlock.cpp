@@ -42,7 +42,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CloudsBlock::CloudsBlock( Module *parent ) :
+CloudsBlock::CloudsBlock( const Module *parent ) :
     Module( parent ),
 
     _count ( 0 ),

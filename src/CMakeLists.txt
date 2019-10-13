@@ -103,6 +103,7 @@ add_executable( ${PROJECT_NAME}
     main.cpp
     Manager.cpp
     Navigation.cpp
+    Networking.cpp
     Simulation.cpp
 
     ${MOC_SRCS}

@@ -239,8 +239,8 @@ public:
     inline double getHeading()       const { return _heading;       }
     inline double getAngleOfAttack() const { return _angleOfAttack; }
     inline double getSideslipAngle() const { return _sideslipAngle; }
-    inline double getCourse()        const { return _course;        }
-    inline double getPathAngle()     const { return _pathAngle;     }
+    inline double getClimbAngle()    const { return _climbAngle;    }
+    inline double getTrackAngle()    const { return _trackAngle;    }
     inline double getSlipSkidAngle() const { return _slipSkidAngle; }
     inline double getAirspeed()      const { return _airspeed;      }
     inline double getDynPress()      const { return _dynPress;      }
@@ -356,8 +356,8 @@ protected:
     double _heading;            ///< [rad] true heading
     double _angleOfAttack;      ///< [rad] angle of attack
     double _sideslipAngle;      ///< [rad] sideslip angle
-    double _course;             ///< [rad] velocity course
-    double _pathAngle;          ///< [rad] path angle
+    double _climbAngle;         ///< [rad] climb angle
+    double _trackAngle;         ///< [rad] track angle
     double _slipSkidAngle;      ///< [rad] slip/skid angle
     double _airspeed;           ///< [m/s] true airspeed
     double _dynPress;           ///< [Pa] dynamic pressure

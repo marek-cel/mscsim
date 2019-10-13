@@ -1,6 +1,6 @@
 HEADERS += \
     $$PWD/cgi_Camera.h \
-    $$PWD/cgi_Color.h \
+    $$PWD/cgi_Colors.h \
     $$PWD/cgi_Defines.h \
     $$PWD/cgi_Ephemeris.h \
     $$PWD/cgi_FindNode.h \
@@ -20,7 +20,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/cgi_Camera.cpp \
-    $$PWD/cgi_Color.cpp \
+    $$PWD/cgi_Colors.cpp \
     $$PWD/cgi_Ephemeris.cpp \
     $$PWD/cgi_FindNode.cpp \
     $$PWD/cgi_Fonts.cpp \

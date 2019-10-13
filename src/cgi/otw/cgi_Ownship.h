@@ -64,7 +64,7 @@ public:
     typedef std::vector< LandingGearElementData > LandingGearElementsData;
 
     /** Constructor. */
-    Ownship( Module *parent = 0 );
+    Ownship( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Ownship();

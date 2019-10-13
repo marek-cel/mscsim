@@ -38,7 +38,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CloudsLayer::CloudsLayer( Module *parent ) :
+CloudsLayer::CloudsLayer( const Module *parent ) :
     Module( parent ),
 
     _cover ( Data::CGI::Environment::Clouds::Data::Layer::SKC ),

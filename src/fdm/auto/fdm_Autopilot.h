@@ -67,19 +67,21 @@ public:
      * @param timeStep [s]
      * @param roll [rad]
      * @param pitch [rad]
-     * @param yawRate [rad/s]
+     * @param heading [rad]
      * @param airspeed [m/s]
      * @param altitude [m]
      * @param climbRate [m/s]
-     * @param heading [rad]
+     * @param yawRate [rad/s]
+     * @param turnRate [rad/s]
      * @param deviation_hor [-1.0;1.0]
      * @param deviation_ver [-1.0;1.0]
      * @param buttonDN
      * @param buttonUP
      */
     virtual void update( double timeStep,
-                         double roll, double pitch, double heading, double yawRate,
-                         double altitude, double airspeed, double climbRate,
+                         double roll, double pitch, double heading,
+                         double altitude, double airspeed,
+                         double climbRate, double yawRate, double turnRate,
                          double deviation_hor, double deviation_ver,
                          bool buttonDN, bool buttonUP );
 

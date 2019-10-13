@@ -36,7 +36,7 @@
 
 #include <cgi/otw/cgi_FogScene.h>
 
-#include <cgi/cgi_Color.h>
+#include <cgi/cgi_Colors.h>
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_WGS84.h>
@@ -57,7 +57,7 @@ const float SkyDome::_offsetMoon    = -4000.0f;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SkyDome::SkyDome( Module *parent ) :
+SkyDome::SkyDome( const Module *parent ) :
     Module( parent ),
 
     _textureSky  ( 0 ),
@@ -270,7 +270,7 @@ void SkyDome::update()
 
     numSun = std::min( std::max( (int)numSun, 0 ), 10 );
 
-    osg::Vec4 sunColor( Color::_sun[ numSun ], 1.0f );
+    osg::Vec4 sunColor( Colors::_sun[ numSun ], 1.0f );
 
     _materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
     _materialSun->setAmbient( osg::Material::FRONT, sunColor );
@@ -373,8 +373,8 @@ void SkyDome::update()
             intensityAmbient = ( sun_elevation_deg < -5.0f ) ? 0.0f : 0.9f;
         }
 
-        osg::Vec4 sunLightColorDiffuse( Color::_sun[ numSun ] * intensityDiffuse, 0.0f );
-        osg::Vec4 sunLightColorAmbient( Color::_sun[   10   ] * intensityAmbient, 0.0f );
+        osg::Vec4 sunLightColorDiffuse( Colors::_sun[ numSun ] * intensityDiffuse, 0.0f );
+        osg::Vec4 sunLightColorAmbient( Colors::_sun[   10   ] * intensityAmbient, 0.0f );
 
         lightSun->setAmbient( sunLightColorAmbient );
         lightSun->setDiffuse( sunLightColorDiffuse );
@@ -402,7 +402,7 @@ void SkyDome::update()
             intensity *= ageCoef;
         }
 
-        osg::Vec4 moonLightColor( Color::_moon * intensity, 0.0f );
+        osg::Vec4 moonLightColor( Colors::_moon * intensity, 0.0f );
 
         lightMoon->setAmbient( moonLightColor );
         lightMoon->setDiffuse( moonLightColor );
@@ -506,7 +506,7 @@ void SkyDome::createSunFace()
     // material
     _materialSun = new osg::Material();
 
-    osg::Vec4 sunColor( Color::_sun[ 0 ], 1.0f );
+    osg::Vec4 sunColor( Colors::_sun[ 0 ], 1.0f );
 
     _materialSun->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
     _materialSun->setAmbient( osg::Material::FRONT, sunColor );
@@ -817,9 +817,9 @@ void SkyDome::createLightSun()
 
     lightSun->setPosition( osg::Vec4d( CGI_SKYDOME_RADIUS, 0.0f, 0.0f, 0.0f ) );
 
-    lightSun->setAmbient(  osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
-    lightSun->setDiffuse(  osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
-    lightSun->setSpecular( osg::Vec4( Color::_sun[ 10 ], 1.0 ) );
+    lightSun->setAmbient(  osg::Vec4( Colors::_sun[ 10 ], 1.0 ) );
+    lightSun->setDiffuse(  osg::Vec4( Colors::_sun[ 10 ], 1.0 ) );
+    lightSun->setSpecular( osg::Vec4( Colors::_sun[ 10 ], 1.0 ) );
 
     lightSun->setConstantAttenuation( 1.0 );
 

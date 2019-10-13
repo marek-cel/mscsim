@@ -15,7 +15,7 @@ add_library( cgi STATIC
     otw/cgi_SkyDome.cpp
     otw/cgi_Terrain.cpp
     cgi_Camera.cpp
-    cgi_Color.cpp
+    cgi_Colors.cpp
     cgi_Ephemeris.cpp
     cgi_FindNode.cpp
     cgi_Fonts.cpp

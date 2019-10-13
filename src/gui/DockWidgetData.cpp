@@ -67,12 +67,13 @@ void DockWidgetData::reset()
     _angleOfAttack = 0.0;
     _sideslipAngle = 0.0;
 
-    _course    = 0.0;
-    _pathAngle = 0.0;
+    _trackAngle = 0.0;
+    _climbAngle = 0.0;
 
     _rollRate  = 0.0;
     _pitchRate = 0.0;
     _yawRate   = 0.0;
+    _turnRate  = 0.0;
 
     _Gx = 0.0;
     _Gy = 0.0;
@@ -91,11 +92,12 @@ void DockWidgetData::reset()
     setHeading( _heading );
     setAngleOfAttack( _angleOfAttack );
     setSideslipAngle( _sideslipAngle );
-    setCourse( _course );
-    setPathAngle( _pathAngle );
+    setTrackAngle( _trackAngle );
+    setClimbAngle( _climbAngle );
     setRollRate( _rollRate );
     setPitchRate( _pitchRate );
     setYawRate( _yawRate );
+    setTurnRate( _turnRate );
     setGx( _Gx );
     setGy( _Gy );
     setGz( _Gz );
@@ -184,18 +186,18 @@ void DockWidgetData::setSideslipAngle( double sideslipAngle )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetData::setCourse( double course )
+void DockWidgetData::setClimbAngle( double climbAngle )
 {
-    _course = course;
-    _ui->spinCourse->setValue( _ui->comboCourse->convert( _course ) );
+    _climbAngle = climbAngle;
+    _ui->spinClimbAngle->setValue( _ui->comboClimbAngle->convert( _climbAngle ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetData::setPathAngle( double pathAngle )
+void DockWidgetData::setTrackAngle( double trackAngle )
 {
-    _pathAngle = pathAngle;
-    _ui->spinPathAngle->setValue( _ui->comboPathAngle->convert( _pathAngle ) );
+    _trackAngle = trackAngle;
+    _ui->spinTrackAngle->setValue( _ui->comboTrackAngle->convert( _trackAngle ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -220,6 +222,14 @@ void DockWidgetData::setYawRate( double yawRate )
 {
     _yawRate = yawRate;
     _ui->spinYawRate->setValue( _ui->comboYawRate->convert( _yawRate ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::setTurnRate( double turnRate )
+{
+    _turnRate = turnRate;
+    _ui->spinTurnRate->setValue( _ui->comboTurnRate->convert( _turnRate ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -294,11 +304,12 @@ void DockWidgetData::settingsRead_Highlight( QSettings &settings )
     _ui->spinHeading       ->setHighlighted( settings.value( "heading"         , 0 ).toBool() );
     _ui->spinAngleOfAttack ->setHighlighted( settings.value( "angle_of_attack" , 0 ).toBool() );
     _ui->spinSideslipAngle ->setHighlighted( settings.value( "sideslip_angle"  , 0 ).toBool() );
-    _ui->spinPathAngle     ->setHighlighted( settings.value( "path_angle"      , 0 ).toBool() );
-    _ui->spinCourse        ->setHighlighted( settings.value( "course"          , 0 ).toBool() );
+    _ui->spinClimbAngle    ->setHighlighted( settings.value( "climb_angle"     , 0 ).toBool() );
+    _ui->spinTrackAngle    ->setHighlighted( settings.value( "track_angle"     , 0 ).toBool() );
     _ui->spinRollRate      ->setHighlighted( settings.value( "roll_rate"       , 0 ).toBool() );
     _ui->spinPitchRate     ->setHighlighted( settings.value( "pitch_rate"      , 0 ).toBool() );
     _ui->spinYawRate       ->setHighlighted( settings.value( "yaw_rate"        , 0 ).toBool() );
+    _ui->spinTurnRate      ->setHighlighted( settings.value( "turn_rate"       , 0 ).toBool() );
     _ui->spinGx            ->setHighlighted( settings.value( "gx"              , 0 ).toBool() );
     _ui->spinGy            ->setHighlighted( settings.value( "gy"              , 0 ).toBool() );
     _ui->spinGz            ->setHighlighted( settings.value( "gz"              , 0 ).toBool() );
@@ -323,11 +334,12 @@ void DockWidgetData::settingsRead_UnitCombos( QSettings &settings )
     _ui->comboHeading       ->setCurrentIndex( settings.value( "heading"         , 1 ).toInt() );
     _ui->comboAngleOfAttack ->setCurrentIndex( settings.value( "angle_of_attack" , 1 ).toInt() );
     _ui->comboSideslipAngle ->setCurrentIndex( settings.value( "sideslip_angle"  , 1 ).toInt() );
-    _ui->comboPathAngle     ->setCurrentIndex( settings.value( "path_angle"      , 1 ).toInt() );
-    _ui->comboCourse        ->setCurrentIndex( settings.value( "course"          , 1 ).toInt() );
+    _ui->comboClimbAngle    ->setCurrentIndex( settings.value( "climb_angle"     , 1 ).toInt() );
+    _ui->comboTrackAngle    ->setCurrentIndex( settings.value( "track_angle"     , 1 ).toInt() );
     _ui->comboRollRate      ->setCurrentIndex( settings.value( "roll_rate"       , 1 ).toInt() );
     _ui->comboPitchRate     ->setCurrentIndex( settings.value( "pitch_rate"      , 1 ).toInt() );
     _ui->comboYawRate       ->setCurrentIndex( settings.value( "yaw_rate"        , 1 ).toInt() );
+    _ui->comboTurnRate      ->setCurrentIndex( settings.value( "turn_rate"       , 1 ).toInt() );
     _ui->comboGx            ->setCurrentIndex( settings.value( "gx"              , 0 ).toInt() );
     _ui->comboGy            ->setCurrentIndex( settings.value( "gy"              , 0 ).toInt() );
     _ui->comboGz            ->setCurrentIndex( settings.value( "gz"              , 0 ).toInt() );
@@ -366,11 +378,12 @@ void DockWidgetData::settingsSave_Highlight( QSettings &settings )
     settings.setValue( "heading"         , _ui->spinHeading       ->isHighlighted() ? 1 : 0 );
     settings.setValue( "angle_of_attack" , _ui->spinAngleOfAttack ->isHighlighted() ? 1 : 0 );
     settings.setValue( "sideslip_angle"  , _ui->spinSideslipAngle ->isHighlighted() ? 1 : 0 );
-    settings.setValue( "path_angle"      , _ui->spinPathAngle     ->isHighlighted() ? 1 : 0 );
-    settings.setValue( "course"          , _ui->spinCourse        ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "climb_angle"     , _ui->spinClimbAngle    ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "track_angle"     , _ui->spinTrackAngle    ->isHighlighted() ? 1 : 0 );
     settings.setValue( "roll_rate"       , _ui->spinRollRate      ->isHighlighted() ? 1 : 0 );
     settings.setValue( "pitch_rate"      , _ui->spinPitchRate     ->isHighlighted() ? 1 : 0 );
     settings.setValue( "yaw_rate"        , _ui->spinYawRate       ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "turn_rate"       , _ui->spinTurnRate      ->isHighlighted() ? 1 : 0 );
     settings.setValue( "gx"              , _ui->spinGx            ->isHighlighted() ? 1 : 0 );
     settings.setValue( "gy"              , _ui->spinGy            ->isHighlighted() ? 1 : 0 );
     settings.setValue( "gz"              , _ui->spinGz            ->isHighlighted() ? 1 : 0 );
@@ -395,11 +408,12 @@ void DockWidgetData::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "heading"         , _ui->comboHeading       ->currentIndex() );
     settings.setValue( "angle_of_attack" , _ui->comboAngleOfAttack ->currentIndex() );
     settings.setValue( "sideslip_angle"  , _ui->comboSideslipAngle ->currentIndex() );
-    settings.setValue( "path_angle"      , _ui->comboPathAngle     ->currentIndex() );
-    settings.setValue( "course"          , _ui->comboCourse        ->currentIndex() );
+    settings.setValue( "climb_angle"     , _ui->comboClimbAngle    ->currentIndex() );
+    settings.setValue( "track_angle"     , _ui->comboTrackAngle    ->currentIndex() );
     settings.setValue( "roll_rate"       , _ui->comboRollRate      ->currentIndex() );
     settings.setValue( "pitch_rate"      , _ui->comboPitchRate     ->currentIndex() );
     settings.setValue( "yaw_rate"        , _ui->comboYawRate       ->currentIndex() );
+    settings.setValue( "turn_rate"       , _ui->comboTurnRate      ->currentIndex() );
     settings.setValue( "gx"              , _ui->comboGx            ->currentIndex() );
     settings.setValue( "gy"              , _ui->comboGy            ->currentIndex() );
     settings.setValue( "gz"              , _ui->comboGz            ->currentIndex() );
@@ -480,16 +494,16 @@ void DockWidgetData::on_comboSideslipAngle_currentIndexChanged( int /*index*/ )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetData::on_comboCourse_currentIndexChanged( int /*index*/ )
+void DockWidgetData::on_comboClimbAngle_currentIndexChanged( int /*index*/ )
 {
-    setCourse( _course );
+    setClimbAngle( _climbAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetData::on_comboPathAngle_currentIndexChanged( int /*index*/ )
+void DockWidgetData::on_comboTrackAngle_currentIndexChanged( int /*index*/ )
 {
-    setPathAngle( _pathAngle );
+    setTrackAngle( _trackAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -511,6 +525,13 @@ void DockWidgetData::on_comboPitchRate_currentIndexChanged( int /*index*/ )
 void DockWidgetData::on_comboYawRate_currentIndexChanged( int /*index*/ )
 {
     setYawRate( _yawRate );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::on_comboTurnRate_currentIndexChanged( int /*index*/ )
+{
+    setTurnRate( _turnRate );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -30,7 +30,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Terrain::Terrain( const std::string &file, Module *parent ) :
+Terrain::Terrain( const std::string &file, const Module *parent ) :
     Module( parent )
 {
     osg::ref_ptr<osg::Node> terrain = Models::get( file );

@@ -74,6 +74,8 @@ public:
     /** Updates navigation. */
     void update();
 
+    inline void setCourse( double course ) { _course = course; }
+
 private:
 
     ILS _ils;                   ///<
@@ -81,6 +83,8 @@ private:
     VOR _vor;                   ///<
 
     fdm::WGS84 _aircraft_wgs;   ///<
+
+    float _course;              ///< [rad]
 
     bool  _adf_visible;         ///<
     float _adf_bearing;         ///< [rad]

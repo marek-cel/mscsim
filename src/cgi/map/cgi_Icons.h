@@ -47,7 +47,7 @@ public:
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Aerodromes;
 
     /** Constructor. */
-    Icons( Module *parent = 0 );
+    Icons( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Icons();

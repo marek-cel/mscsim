@@ -37,7 +37,7 @@ class Clouds : public Module
 public:
 
     /** Constructor. */
-    Clouds( Module *parent = 0 );
+    Clouds( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Clouds();

@@ -214,7 +214,14 @@ public:
     /** @param heading [deg] */
     inline void setHeadingSet( float heading )
     {
+        _graphicsEADI->setHeadingSet( heading );
         _graphicsEHSI->setHeadingSet( heading );
+    }
+
+    /** @param vne (dimensionless numeric value) */
+    inline void setVne( double vne )
+    {
+        _graphicsEADI->setVne( vne );
     }
 
 signals:

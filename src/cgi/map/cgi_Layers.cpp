@@ -44,7 +44,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Layers::Layers( Module *parent ) :
+Layers::Layers( const Module *parent ) :
     Module( parent )
 {
     _switchCrops     = new osg::Switch();

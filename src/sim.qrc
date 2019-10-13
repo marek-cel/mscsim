@@ -24,7 +24,9 @@
         <file>gui/images/efis/eadi/eadi_asi_bug.svg</file>
         <file>gui/images/efis/eadi/eadi_asi_frame.svg</file>
         <file>gui/images/efis/eadi/eadi_asi_scale.svg</file>
+        <file>gui/images/efis/eadi/eadi_asi_vne.svg</file>
         <file>gui/images/efis/eadi/eadi_hsi_back.svg</file>
+        <file>gui/images/efis/eadi/eadi_hsi_bug.svg</file>
         <file>gui/images/efis/eadi/eadi_hsi_face.svg</file>
         <file>gui/images/efis/eadi/eadi_hsi_marks.svg</file>
         <file>gui/images/efis/eadi/eadi_vsi_scale.svg</file>

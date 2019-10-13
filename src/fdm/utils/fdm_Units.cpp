@@ -56,6 +56,11 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "kts" ) )
         return &Units::kts2mps;
 
+    else if ( 0 == String::icompare( name, "deg_s" ) )
+        return &Units::deg2rad;
+    else if ( 0 == String::icompare( name, "rpm" ) )
+        return &Units::rpm2rad_s;
+
     else if ( 0 == String::icompare( name, "lb" ) )
         return &Units::lb2kg;
 

@@ -39,7 +39,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Icons::Icons( Module *parent ) :
+Icons::Icons( const Module *parent ) :
     Module( parent )
 {
     createSymbolAerodrome();

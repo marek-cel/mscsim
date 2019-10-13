@@ -69,12 +69,13 @@ public:
 
     void setAngleOfAttack( double angleOfAttack );
     void setSideslipAngle( double sideslipAngle );
-    void setCourse( double course );
-    void setPathAngle( double pathAngle );
+    void setClimbAngle( double climbAngle );
+    void setTrackAngle( double trackAngle );
 
     void setRollRate( double rollRate );
     void setPitchRate( double pitchRate );
     void setYawRate( double yawRate );
+    void setTurnRate( double turnRate );
 
     void setGx( double Gx );
     void setGy( double Gy );
@@ -106,12 +107,13 @@ private:
     double _angleOfAttack;          ///< [rad] angle of attack
     double _sideslipAngle;          ///< [rad] angle of sideslip
 
-    double _course;                 ///< [rad] course
-    double _pathAngle;              ///< [rad] path angle
+    double _trackAngle;             ///< [rad] track angle
+    double _climbAngle;             ///< [rad] climb angle
 
     double _rollRate;               ///< [rad/s] roll rate
     double _pitchRate;              ///< [rad/s] pitch rate
     double _yawRate;                ///< [rad/s] yaw rate
+    double _turnRate;               ///< [rad/s] turn rate
 
     double _Gx;                     ///< [-] X component of G-Force vector expressed in BAS
     double _Gy;                     ///< [-] Y component of G-Force vector expressed in BAS
@@ -140,11 +142,12 @@ private slots:
     void on_comboHeading_currentIndexChanged( int /*index*/ );
     void on_comboAngleOfAttack_currentIndexChanged( int /*index*/ );
     void on_comboSideslipAngle_currentIndexChanged( int /*index*/ );
-    void on_comboCourse_currentIndexChanged( int /*index*/ );
-    void on_comboPathAngle_currentIndexChanged( int /*index*/ );
+    void on_comboClimbAngle_currentIndexChanged( int /*index*/ );
+    void on_comboTrackAngle_currentIndexChanged( int /*index*/ );
     void on_comboRollRate_currentIndexChanged( int /*index*/ );
     void on_comboPitchRate_currentIndexChanged( int /*index*/ );
     void on_comboYawRate_currentIndexChanged( int /*index*/ );
+    void on_comboTurnRate_currentIndexChanged( int /*index*/ );
     void on_comboGx_currentIndexChanged( int /*index*/ );
     void on_comboGy_currentIndexChanged( int /*index*/ );
     void on_comboGz_currentIndexChanged( int /*index*/ );

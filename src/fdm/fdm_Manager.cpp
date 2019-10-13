@@ -299,8 +299,8 @@ void Manager::initRecorder()
     _recorder->addVariable( new Recorder::Variable< double >( "heading"         , &( _dataOut.flight.heading       ), 6 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "angle_of_attack" , &( _dataOut.flight.angleOfAttack ), 6 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "sideslip_angle"  , &( _dataOut.flight.sideslipAngle ), 6 ) );
-    _recorder->addVariable( new Recorder::Variable< double >( "course"          , &( _dataOut.flight.course        ), 6 ) );
-    _recorder->addVariable( new Recorder::Variable< double >( "path_angle"      , &( _dataOut.flight.pathAngle     ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "climb_angle"     , &( _dataOut.flight.climbAngle    ), 6 ) );
+    _recorder->addVariable( new Recorder::Variable< double >( "track_angle"     , &( _dataOut.flight.trackAngle    ), 6 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "slip_skid_angle" , &( _dataOut.flight.slipSkidAngle ), 6 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "airspeed"        , &( _dataOut.flight.airspeed      ), 3 ) );
     _recorder->addVariable( new Recorder::Variable< double >( "mach_number"     , &( _dataOut.flight.machNumber    ), 3 ) );
@@ -494,8 +494,8 @@ void Manager::updateStateIdle()
     _dataOut.flight.angleOfAttack = 0.0;
     _dataOut.flight.sideslipAngle = 0.0;
 
-    _dataOut.flight.course    = _dataInp.initial.heading;
-    _dataOut.flight.pathAngle = 0.0;
+    _dataOut.flight.climbAngle = 0.0;
+    _dataOut.flight.trackAngle = _dataInp.initial.heading;
 
     _dataOut.flight.slipSkidAngle = 0.0;
 

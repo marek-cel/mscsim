@@ -27,6 +27,7 @@
 #include <gui/gui_Defines.h>
 
 #include <fdm/fdm_Path.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +75,9 @@ void Aircrafts::parseAircraft(const QDomElement &node )
     QDomElement nodeDistDef = node.firstChildElement( "distance_def" );
     QDomElement nodeDistMin = node.firstChildElement( "distance_min" );
 
-    if ( !nodeName.isNull() && !nodeType.isNull() && !nodeFile.isNull() )
+    QDomElement nodeVne = node.firstChildElement( "vne" );
+
+    if ( !nodeName.isNull() && !nodeType.isNull() && !nodeFile.isNull() && !nodeVne.isNull() )
     {
         Aircraft aircraft;
 
@@ -84,6 +87,14 @@ void Aircrafts::parseAircraft(const QDomElement &node )
 
         aircraft.distance_def = nodeDistDef.isNull() ? 5.0 : nodeDistDef.text().toFloat();
         aircraft.distance_min = nodeDistMin.isNull() ? 5.0 : nodeDistMin.text().toFloat();
+
+        aircraft.vne = nodeVne.text().toFloat();
+
+        if ( nodeVne.hasAttribute( "unit" ) )
+        {
+            std::string unit_name = nodeVne.attributeNode( "unit" ).value().toStdString();
+            aircraft.vne = fdm::Units::getConverter( unit_name.c_str() )( aircraft.vne );
+        }
 
         parseAircraftControls( node, aircraft.controls );
         parseAircraftPropulsion( node, aircraft.propulsion );

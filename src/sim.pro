@@ -12,6 +12,11 @@ TARGET = mscsim
 ################################################################################
 
 #CONFIG += marble_maps
+CONFIG += networking
+
+################################################################################
+
+networking: QT += network
 
 ################################################################################
 
@@ -38,6 +43,7 @@ DEFINES += \
 #    SIM_VERTICALSYNC
 
 marble_maps: DEFINES += SIM_MARBLE_MAPS
+networking:  DEFINES += SIM_NETWORKING
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -132,15 +138,18 @@ marble_maps: unix: {
 HEADERS += \
     Common.h \
     Data.h \
+    DataNet.h \
     Defines.h \
     Manager.h \
     Navigation.h \
+    Networking.h \
     Simulation.h
 
 SOURCES += \
     main.cpp \
     Manager.cpp \
     Navigation.cpp \
+    Networking.cpp \
     Simulation.cpp
 
 RESOURCES += \

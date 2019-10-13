@@ -41,7 +41,7 @@ class Traces : public Module
 public:
 
     /** Constructor. */
-    Traces( Module *parent = 0 );
+    Traces( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Traces();

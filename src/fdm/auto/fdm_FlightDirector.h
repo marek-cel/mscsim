@@ -79,7 +79,7 @@ public:
      * Updates flight director.
      */
     virtual void update( double timeStep, double heading, double altitude,
-                         double airspeed, double climbRate,
+                         double airspeed, double climbRate, double turnRate,
                          double deviation_hor, double deviation_ver );
 
     void disableHalfBank();
@@ -125,6 +125,7 @@ protected:
     PID _pid_vs;            ///<
     PID _pid_arm;           ///<
     PID _pid_hdg;           ///<
+    PID _pid_trn;           ///<
 
     double _max_roll;       ///< [rad] max roll
     double _min_pitch;      ///< [rad] min pitch
@@ -132,6 +133,7 @@ protected:
 
     double _max_rate_roll;  ///< [rad/s] roll max rate
     double _max_rate_pitch; ///< [rad/s] pitch max rate
+    double _max_rate_tr;    ///< [rad/s^2] turn rate max rate
 
     double _cmd_roll;       ///< roll command
     double _cmd_pitch;      ///< pitch command
@@ -146,6 +148,8 @@ protected:
     double _climbRate_act;  ///< [m/s] acting desired climb rate
     double _climbRate_tc;   ///< [s] acting desired climb rate time constant
 
+    double _turnRate;       ///< [rad/s] turn rate
+
     double _min_dh_arm;     ///< [m] ARM mode min altitude difference
 
     bool _engaged;          ///< specify if flight director is engaged
@@ -153,11 +157,12 @@ protected:
     virtual void readMode( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
     virtual void readPID( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
 
-    virtual void updateHorFD( double timeStep );
+    virtual void updateHorFD( double timeStep, double turnRate );
     virtual void updateHorHDG( double timeStep, double heading );
     virtual void updateHorNAV();
     virtual void updateHorAPR();
     virtual void updateHorBC();
+    virtual void updateHorTRN( double timeStep, double turnRate );
 
     virtual void updateVerFD( double timeStep );
     virtual void updateVerALT( double timeStep, double altitude );

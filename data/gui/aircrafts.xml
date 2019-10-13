@@ -44,6 +44,8 @@
     <distance_def> 25.0 </distance_def>
     <distance_min>  5.0 </distance_min>
     
+    <vne unit="kts"> 160.0 </vne>
+    
     <controls>
       <flaps />
       <throttle count="1" />
@@ -76,6 +78,8 @@
     
     <distance_def> 33.0 </distance_def>
     <distance_min>  5.0 </distance_min>
+    
+    <vne unit="kts"> 800.0 </vne>
 
     <controls>
       <landing_gear />
@@ -109,6 +113,8 @@
     
     <distance_def> 25.0 </distance_def>
     <distance_min>  5.0 </distance_min>
+    
+    <vne unit="mph"> 505.0 </vne>
 
     <controls>
       <landing_gear />
@@ -142,6 +148,8 @@
     
     <distance_def> 40.0 </distance_def>
     <distance_min>  5.0 </distance_min>
+    
+    <vne unit="kts"> 193.0 </vne>
     
     <controls>
       <collective />

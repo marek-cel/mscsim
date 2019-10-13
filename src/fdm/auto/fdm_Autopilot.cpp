@@ -169,8 +169,9 @@ void Autopilot::readData( const std::string &dataFile )
 ////////////////////////////////////////////////////////////////////////////////
 
 void Autopilot::update( double timeStep,
-                        double roll, double pitch, double heading, double yawRate,
-                        double altitude, double airspeed, double climbRate,
+                        double roll, double pitch, double heading,
+                        double altitude, double airspeed,
+                        double climbRate, double yawRate, double turnRate,
                         double deviation_hor, double deviation_ver,
                         bool buttonDN, bool buttonUP )
 {
@@ -204,7 +205,7 @@ void Autopilot::update( double timeStep,
     }
 
     _fd->update( timeStep, heading, altitude,
-                 airspeed, climbRate,
+                 airspeed, climbRate, turnRate,
                  deviation_hor, deviation_ver );
 
     if ( _engaged && _fd->isEngaged() )

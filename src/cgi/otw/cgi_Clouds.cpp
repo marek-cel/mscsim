@@ -31,7 +31,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Clouds::Clouds( Module *parent ) :
+Clouds::Clouds( const Module *parent ) :
     Module( parent )
 {
     addChild( new CloudsBlock( this ) );

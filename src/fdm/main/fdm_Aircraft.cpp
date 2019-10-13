@@ -67,8 +67,8 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _heading       ( 0.0 ),
     _angleOfAttack ( 0.0 ),
     _sideslipAngle ( 0.0 ),
-    _course        ( 0.0 ),
-    _pathAngle     ( 0.0 ),
+    _climbAngle    ( 0.0 ),
+    _trackAngle    ( 0.0 ),
     _slipSkidAngle ( 0.0 ),
     _airspeed      ( 0.0 ),
     _dynPress      ( 0.0 ),
@@ -152,8 +152,8 @@ void Aircraft::updateOutputData()
     _dataOut->flight.angleOfAttack = _angleOfAttack;
     _dataOut->flight.sideslipAngle = _sideslipAngle;
 
-    _dataOut->flight.course    = _course;
-    _dataOut->flight.pathAngle = _pathAngle;
+    _dataOut->flight.climbAngle = _climbAngle;
+    _dataOut->flight.trackAngle = _trackAngle;
 
     _dataOut->flight.slipSkidAngle = _slipSkidAngle;
 
@@ -612,11 +612,11 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     double vel_ne = sqrt( _vel_ned.x()*_vel_ned.x() + _vel_ned.y()*_vel_ned.y() );
 
-    _course    = atan2( _vel_ned.y(), _vel_ned.x() );
-    _pathAngle = atan2( -_vel_ned.z(), vel_ne );
+    _trackAngle = atan2( _vel_ned.y(), _vel_ned.x() );
+    _climbAngle = atan2( -_vel_ned.z(), vel_ne );
 
-    while ( _course < 0.0      ) _course += 2.0*M_PI;
-    while ( _course > 2.0*M_PI ) _course -= 2.0*M_PI;
+    while ( _trackAngle < 0.0      ) _trackAngle += 2.0*M_PI;
+    while ( _trackAngle > 2.0*M_PI ) _trackAngle -= 2.0*M_PI;
 
     _slipSkidAngle = atan2( -_g_pilot.y(), _g_pilot.z() );
 

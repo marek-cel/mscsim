@@ -739,12 +739,13 @@ void MainWindow::updateDockData()
 
             _dockData->setAngleOfAttack( Data::get()->ownship.angleOfAttack );
             _dockData->setSideslipAngle( Data::get()->ownship.sideslipAngle );
-            _dockData->setCourse( Data::get()->ownship.course );
-            _dockData->setPathAngle( Data::get()->ownship.pathAngle );
+            _dockData->setClimbAngle( Data::get()->ownship.climbAngle );
+            _dockData->setTrackAngle( Data::get()->ownship.trackAngle );
 
             _dockData->setRollRate( Data::get()->ownship.rollRate );
             _dockData->setPitchRate( Data::get()->ownship.pitchRate );
             _dockData->setYawRate( Data::get()->ownship.yawRate );
+            _dockData->setTurnRate( Data::get()->ownship.turnRate );
 
             _dockData->setGx( Data::get()->ownship.g_force_x );
             _dockData->setGy( Data::get()->ownship.g_force_y );
@@ -825,6 +826,8 @@ void MainWindow::updateDockEFIS()
         _dockEFIS->setAirspeedSet( coef_ias * _dockAuto->getAirspeed() );
         _dockEFIS->setAltitudeSet( coef_alt * _dockAuto->getAltitude() );
         _dockEFIS->setHeadingSet( fdm::Units::rad2deg( _dockAuto->getHeading() ) );
+
+        _dockEFIS->setVne( coef_ias * Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() ).vne );
     }
 }
 

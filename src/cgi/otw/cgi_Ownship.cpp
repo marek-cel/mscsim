@@ -36,7 +36,7 @@
 
 #include <Data.h>
 
-#include <cgi/cgi_Color.h>
+#include <cgi/cgi_Colors.h>
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_FindNode.h>
 #include <cgi/cgi_Models.h>
@@ -47,7 +47,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Ownship::Ownship( Module *parent ) :
+Ownship::Ownship( const Module *parent ) :
     Module( parent )
 {
     _pat = new osg::PositionAttitudeTransform();
@@ -631,12 +631,12 @@ void Ownship::updateTraces()
 
         if ( _double_trace )
         {
-            updateTrace( _switchRibbons.get(), _trace_1.get(), Color::_red  );
-            updateTrace( _switchRibbons.get(), _trace_2.get(), Color::_lime );
+            updateTrace( _switchRibbons.get(), _trace_1.get(), Colors::_red  );
+            updateTrace( _switchRibbons.get(), _trace_2.get(), Colors::_lime );
         }
         else
         {
-            updateTrace( _switchRibbons.get(), _trace_1.get(), Color::_black );
+            updateTrace( _switchRibbons.get(), _trace_1.get(), Colors::_black );
         }
     }
     else

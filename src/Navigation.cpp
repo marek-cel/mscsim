@@ -43,6 +43,8 @@ const double Navigation::_vor_max = fdm::Units::deg2rad( 10.0 );
 ////////////////////////////////////////////////////////////////////////////////
 
 Navigation::Navigation() :
+    _course ( 0.0f ),
+
     _adf_visible ( false ),
     _adf_bearing ( 0.0f ),
 
@@ -138,6 +140,8 @@ void Navigation::update()
     updateADF();
     updateILS();
     updateNav();
+
+    Data::get()->navigation.course = _course;
 
     Data::get()->navigation.adf_visible = _adf_visible;
     Data::get()->navigation.adf_bearing = _adf_bearing;

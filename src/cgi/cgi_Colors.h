@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_COLOR_H
-#define CGI_COLOR_H
+#ifndef CGI_COLORS_H
+#define CGI_COLORS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,20 +34,28 @@ namespace cgi
 /**
  * @brief Colors class.
  */
-class Color
+class Colors
 {
 public:
 
+    static const osg::Vec3 _black;      ///< black
+    static const osg::Vec3 _white;      ///< white
+
+    static const osg::Vec3 _cyan;       ///< cyan    (according to W3C)
+    static const osg::Vec3 _green;      ///< green   (according to W3C)
+    static const osg::Vec3 _grey;       ///< grey    (according to W3C)
+    static const osg::Vec3 _lime;       ///< lime    (according to W3C)
+    static const osg::Vec3 _magenta;    ///< magenta (according to W3C)
+    static const osg::Vec3 _maroon;     ///< maroon  (according to W3C)
+    static const osg::Vec3 _navy;       ///< navy    (according to W3C)
+    static const osg::Vec3 _olive;      ///< olive   (according to W3C)
+    static const osg::Vec3 _orange;     ///< orange  (according to W3C)
+    static const osg::Vec3 _purple;     ///< purple  (according to W3C)
+    static const osg::Vec3 _red;        ///< red     (according to W3C)
+    static const osg::Vec3 _teal;       ///< teal    (according to W3C)
+    static const osg::Vec3 _yellow;     ///< yellow  (according to W3C)
+
     static const osg::Vec3 _amber;      ///< amber
-    static const osg::Vec3 _black;      ///< black  (according to W3C)
-    static const osg::Vec3 _cyan;       ///< cyan   (according to W3C)
-    static const osg::Vec3 _green;      ///< green  (according to W3C)
-    static const osg::Vec3 _grey;       ///< grey   (according to W3C)
-    static const osg::Vec3 _lime;       ///< lime   (according to W3C)
-    static const osg::Vec3 _orange;     ///< orange (according to W3C)
-    static const osg::Vec3 _red;        ///< red    (according to W3C)
-    static const osg::Vec3 _white;      ///< white  (according to W3C)
-    static const osg::Vec3 _yellow;     ///< yellow (according to W3C)
 
     static const osg::Vec3 _hud;        ///<
 
@@ -62,4 +70,4 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CGI_COLOR_H
+#endif // CGI_COLORS_H

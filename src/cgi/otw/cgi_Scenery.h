@@ -43,7 +43,7 @@ class Scenery : public Module
 public:
 
     /** Constructor. */
-    Scenery( Module *parent = 0 );
+    Scenery( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Scenery();

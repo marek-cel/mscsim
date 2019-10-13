@@ -173,6 +173,18 @@ public:
         _alt->setAltitudeSet( altitude );
     }
 
+    /** @param heading [deg] */
+    inline void setHeadingSet( float heading )
+    {
+        _hdg->setHeadingSet( heading );
+    }
+
+    /** @param vne (dimensionless numeric value) */
+    inline void setVne( double vne )
+    {
+        _asi->setVne( vne );
+    }
+
 protected:
 
     /** */
@@ -450,6 +462,7 @@ private:
         void setAirspeed( float airspeed );
         void setMachNo( float machNo );
         void setAirspeedSet( double airspeed );
+        void setVne( double vne );
 
     private:
 
@@ -467,6 +480,7 @@ private:
         QGraphicsTextItem *_itemLabel7;     ///<
         QGraphicsSvgItem  *_itemBugIAS;     ///<
         QGraphicsSvgItem  *_itemFrame;      ///<
+        QGraphicsSvgItem  *_itemVne;        ///<
         QGraphicsTextItem *_itemAirspeed;   ///<
         QGraphicsTextItem *_itemMachNo;     ///<
         QGraphicsTextItem *_itemSetpoint;   ///<
@@ -474,6 +488,7 @@ private:
         float _airspeed;                    ///<
         float _machNo;                      ///<
         float _airspeed_set;                ///<
+        float _vne;                         ///<
 
         float _scale1DeltaY_new;            ///<
         float _scale1DeltaY_old;            ///<
@@ -483,6 +498,8 @@ private:
         float _labelsDeltaY_old;            ///<
         float _bugDeltaY_new;               ///<
         float _bugDeltaY_old;               ///<
+        float _vneDeltaY_new;               ///<
+        float _vneDeltaY_old;               ///<
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -510,6 +527,7 @@ private:
         const int _scaleZ;                  ///<
         const int _labelsZ;                 ///<
         const int _iasBugZ;                 ///<
+        const int _iasVneZ;                 ///<
         const int _frameZ;                  ///<
         const int _frameTextZ;              ///<
 
@@ -519,6 +537,7 @@ private:
         void updateAirspeedBug();
         void updateScale();
         void updateScaleLabels();
+        void updateVne();
     };
 
     /** Heading Scale */
@@ -531,6 +550,7 @@ private:
         void update( float scaleX, float scaleY );
 
         void setHeading( float heading );
+        void setHeadingSet( float heading );
 
     private:
 
@@ -538,10 +558,13 @@ private:
 
         QGraphicsSvgItem  *_itemBack;       ///<
         QGraphicsSvgItem  *_itemFace;       ///< heading face
+        QGraphicsSvgItem  *_itemHdgBug;     ///<
         QGraphicsSvgItem  *_itemMarks;      ///< HSI markings
         QGraphicsTextItem *_itemFrameText;  ///<
 
         float _heading;                     ///< [deg]
+
+        float _heading_set;                 ///< [deg]
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -549,11 +572,13 @@ private:
         QPointF _originalHsiCtr;            ///<
         QPointF _originalBackPos;           ///<
         QPointF _originalFacePos;           ///<
+        QPointF _originalBugPos;            ///<
         QPointF _originalMarksPos;          ///<
         QPointF _originalFrameTextCtr;      ///<
 
         const int _backZ;                   ///<
         const int _faceZ;                   ///<
+        const int _hdgBugZ;                 ///<
         const int _marksZ;                  ///<
         const int _frameTextZ;              ///<
 

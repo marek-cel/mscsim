@@ -73,8 +73,8 @@ struct DataOut
         double angleOfAttack;           ///< [rad] angle of attack
         double sideslipAngle;           ///< [rad] angle of sideslip
 
-        double course;                  ///< [rad] course
-        double pathAngle;               ///< [rad] path angle
+        double climbAngle;              ///< [rad] climb angle
+        double trackAngle;              ///< [rad] track angle
 
         double slipSkidAngle;           ///< [rad] slip/skid angle
 

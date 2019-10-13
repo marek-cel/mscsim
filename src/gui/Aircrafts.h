@@ -103,6 +103,8 @@ public:
         float distance_def;     ///< [m] minimum distance
         float distance_min;     ///< [m] minimum distance
 
+        float vne;              ///< [m/s] never exceed speed
+
         Controls   controls;    ///< controls data
         Propulsion propulsion;  ///< propulsion data
         Masses     masses;      ///< masses data

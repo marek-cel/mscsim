@@ -44,7 +44,7 @@ public:
 
     /** Constructor. */
     Airport( const std::string &file, double lat, double lon, double alt,
-             Module *parent = 0 );
+             const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Airport();

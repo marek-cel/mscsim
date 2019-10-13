@@ -46,7 +46,7 @@ public:
      * Constructor.
      * @param parent parent module
      */
-    Module( Module *parent = NULLPTR );
+    Module( const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Module();
@@ -62,9 +62,10 @@ public:
 
 protected:
 
+    const Module *_parent;              ///< parent node
+
     osg::ref_ptr<osg::Group> _root;     ///< OSG module root node
     List _children;                     ///< children nodes
-    Module *_parent;                    ///< parent node
 
     /** Removes all children. */
     virtual void removeAllChildren();
