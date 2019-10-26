@@ -25,7 +25,6 @@
 #include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_Units.h>
 
-#include <fdm/xml/fdm_XmlDoc.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 #include <iostream>
@@ -36,8 +35,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Autopilot::Autopilot() :
-    _fd ( FDM_NULLPTR ),
+Autopilot::Autopilot( FlightDirector *fd ) :
+    _fd ( fd ),
 
     _pid_r ( 0.0, 0.0, 0.0, -1.0, 1.0 ),
     _pid_p ( 0.0, 0.0, 0.0, -1.0, 1.0 ),
@@ -56,27 +55,15 @@ Autopilot::Autopilot() :
     _min_vs    ( 0.0 ),
     _max_vs    ( 0.0 ),
 
-    _rate_pitch ( 0.0 ),
-    _rate_alt   ( 0.0 ),
-    _rate_ias   ( 0.0 ),
-    _rate_vs    ( 0.0 ),
-
-    _softRideCoef ( 0.0 ),
-
     _ctrl_roll  ( 0.0 ),
     _ctrl_pitch ( 0.0 ),
     _ctrl_yaw   ( 0.0 ),
 
     _yawDamper ( false ),
 
-    _softRide ( false ),
-    _halfBank ( false ),
-
     _testing ( false ),
     _engaged ( false )
 {
-    _fd = new FlightDirector();
-
     _pid_r.setAntiWindup( PID::Calculation );
     _pid_p.setAntiWindup( PID::Calculation );
     _pid_y.setAntiWindup( PID::Calculation );
@@ -88,10 +75,7 @@ Autopilot::Autopilot() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Autopilot::~Autopilot()
-{
-    FDM_DELPTR( _fd );
-}
+Autopilot::~Autopilot() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,70 +83,42 @@ void Autopilot::init() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Autopilot::readData( const std::string &dataFile )
+void Autopilot::readData( XmlNode &dataNode )
 {
-    fdm::XmlDoc doc( dataFile );
-
-    if ( doc.isOpen() )
+    if ( dataNode.isValid() )
     {
-        fdm::XmlNode rootNode = doc.getRootNode();
+        int result = FDM_SUCCESS;
 
-        if ( rootNode.isValid() )
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_pitch , "min_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_pitch , "max_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_alt   , "min_alt"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_alt   , "max_alt"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_ias   , "min_ias"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_ias   , "max_ias"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_vs    , "min_vs"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_vs    , "max_vs"    );
+
+        if ( result == FDM_SUCCESS )
         {
-            int result = FDM_SUCCESS;
+            XmlNode nodeRoll  = dataNode.getFirstChildElement( "ctrl_roll"  );
+            XmlNode nodePitch = dataNode.getFirstChildElement( "ctrl_pitch" );
+            XmlNode nodeYaw   = dataNode.getFirstChildElement( "ctrl_yaw"   );
 
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _min_pitch , "min_pitch" );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _max_pitch , "max_pitch" );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _min_alt   , "min_alt"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _max_alt   , "max_alt"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _min_ias   , "min_ias"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _max_ias   , "max_ias"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _min_vs    , "min_vs"    );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _max_vs    , "max_vs"    );
-
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _rate_pitch , "rate_pitch" );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _rate_alt   , "rate_alt"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _rate_ias   , "rate_ias"   );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _rate_vs    , "rate_vs"    );
-
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _softRideCoef, "soft_ride_coef" );
-
-            if ( result == FDM_SUCCESS )
-            {
-                XmlNode nodeRoll  = rootNode.getFirstChildElement( "ctrl_roll"  );
-                XmlNode nodePitch = rootNode.getFirstChildElement( "ctrl_pitch" );
-                XmlNode nodeYaw   = rootNode.getFirstChildElement( "ctrl_yaw"   );
-
-                readChannel( nodeRoll  , _max_rate_roll  , _pid_r, _gain_ias_r );
-                readChannel( nodePitch , _max_rate_pitch , _pid_p, _gain_ias_p );
-                readChannel( nodeYaw   , _max_rate_yaw   , _pid_y, _gain_ias_y );
-            }
-            else
-            {
-                XmlUtils::throwError( __FILE__, __LINE__, rootNode );
-            }
-
-            XmlNode nodeFlightDirector = rootNode.getFirstChildElement( "flight_director" );
-            _fd->readData( nodeFlightDirector );
+            readChannel( nodeRoll  , _max_rate_roll  , _pid_r, _gain_ias_r );
+            readChannel( nodePitch , _max_rate_pitch , _pid_p, _gain_ias_p );
+            readChannel( nodeYaw   , _max_rate_yaw   , _pid_y, _gain_ias_y );
         }
         else
         {
-            Exception e;
-
-            e.setType( Exception::FileReadingError );
-            e.setInfo( "Reading file \"" + dataFile + "\" failed. Invalid root node." );
-
-            FDM_THROW( e );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
+
+        XmlNode nodeFlightDirector = dataNode.getFirstChildElement( "flight_director" );
+        _fd->readData( nodeFlightDirector );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading file \"" + dataFile + "\" failed." );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -171,42 +127,18 @@ void Autopilot::readData( const std::string &dataFile )
 void Autopilot::update( double timeStep,
                         double roll, double pitch, double heading,
                         double altitude, double airspeed,
-                        double climbRate, double yawRate, double turnRate,
-                        double deviation_hor, double deviation_ver,
-                        bool buttonDN, bool buttonUP )
+                        double turnRate, double yawRate, double climbRate,
+                        double distance,
+                        double lat_deviation, bool lat_active,
+                        double ver_deviation, bool ver_active )
 {
-    if ( buttonDN || buttonUP )
-    {
-        double coef = buttonUP ? 1.0 : -1.0;
-
-        switch ( _fd->getVerMode() )
-        {
-        case fdm::FlightDirector::VM_FD:
-            setPitch( getPitch() + coef * timeStep * _rate_pitch );
-            break;
-
-        case fdm::FlightDirector::VM_ALT:
-            setAltitude( getAltitude() + coef * timeStep * _rate_alt );
-            break;
-
-        case fdm::FlightDirector::VM_IAS:
-            setAirspeed( getAirspeed() + coef * timeStep * _rate_ias );
-            break;
-
-        case fdm::FlightDirector::VM_VS:
-            setClimbRate( getClimbRate() + coef * timeStep * _rate_vs );
-            break;
-
-        case fdm::FlightDirector::VM_ARM:
-        default:
-            // do nothing
-            break;
-        }
-    }
-
-    _fd->update( timeStep, heading, altitude,
-                 airspeed, climbRate, turnRate,
-                 deviation_hor, deviation_ver );
+    _fd->update( timeStep,
+                 heading,
+                 altitude, airspeed,
+                 turnRate, climbRate,
+                 distance,
+                 lat_deviation, lat_active,
+                 ver_deviation, ver_active );
 
     if ( _engaged && _fd->isEngaged() )
     {
@@ -236,12 +168,12 @@ void Autopilot::update( double timeStep,
     double ctrl_pitch = _gain_ias_p.getValue( airspeed ) * _pid_p.getValue();
     double ctrl_yaw   = _gain_ias_y.getValue( airspeed ) * _pid_y.getValue();
 
-    if ( _softRide )
-    {
-        ctrl_roll  *= _softRideCoef;
-        ctrl_pitch *= _softRideCoef;
-        ctrl_yaw   *= _softRideCoef;
-    }
+//    if ( _softRide )
+//    {
+//        ctrl_roll  *= _softRideCoef;
+//        ctrl_pitch *= _softRideCoef;
+//        ctrl_yaw   *= _softRideCoef;
+//    }
 
     _ctrl_roll  = Misc::rate( timeStep, _max_rate_roll  , _ctrl_roll  , ctrl_roll  );
     _ctrl_pitch = Misc::rate( timeStep, _max_rate_pitch , _ctrl_pitch , ctrl_pitch );

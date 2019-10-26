@@ -43,59 +43,61 @@ PageControls::PageControls( QWidget *parent ) :
     _comboDeviceInited ( false )
 {
     _actionNames[ hid::Assignment::Trigger             ] = "trigger";              // 0
-    _actionNames[ hid::Assignment::RollAxis            ] = "roll_axis";            // 1
-    _actionNames[ hid::Assignment::RollBankLeft        ] = "roll_bank_left";       // 2
-    _actionNames[ hid::Assignment::RollBankRight       ] = "roll_bank_right";      // 3
-    _actionNames[ hid::Assignment::PitchAxis           ] = "pitch_axis";           // 4
-    _actionNames[ hid::Assignment::PitchNoseUp         ] = "pitch_nose_up";        // 5
-    _actionNames[ hid::Assignment::PitchNoseDown       ] = "pitch_nose_down";      // 6
-    _actionNames[ hid::Assignment::YawAxis             ] = "yaw_axis";             // 7
-    _actionNames[ hid::Assignment::YawTurnLeft         ] = "yaw_turn_left";        // 8
-    _actionNames[ hid::Assignment::YawTurnRight        ] = "yaw_turn_right";       // 9
-    _actionNames[ hid::Assignment::TrimRollAxis        ] = "trim_roll_axis";       // 10
-    _actionNames[ hid::Assignment::TrimRollBankLeft    ] = "trim_roll_bank_left";  // 11
-    _actionNames[ hid::Assignment::TrimRollBankRight   ] = "trim_roll_bank_right"; // 12
-    _actionNames[ hid::Assignment::TrimPitchAxis       ] = "trim_pitch_axis";      // 13
-    _actionNames[ hid::Assignment::TrimPitchNoseUp     ] = "trim_pitch_nose_up";   // 14
-    _actionNames[ hid::Assignment::TrimPitchNoseDown   ] = "trim_pitch_nose_down"; // 15
-    _actionNames[ hid::Assignment::TrimYawAxis         ] = "trim_yaw_axis";        // 16
-    _actionNames[ hid::Assignment::TrimYawTurnLeft     ] = "trim_yaw_turn_left";   // 17
-    _actionNames[ hid::Assignment::TrimYawTurnRight    ] = "trim_yaw_turn_right";  // 18
-    _actionNames[ hid::Assignment::TrimReset           ] = "trim_reset";           // 19
-    _actionNames[ hid::Assignment::BrakeLeftAxis       ] = "brake_left_axis";      // 20
-    _actionNames[ hid::Assignment::BrakeLeftApply      ] = "brake_left_apply";     // 21
-    _actionNames[ hid::Assignment::BrakeRightAxis      ] = "brake_right_axis";     // 22
-    _actionNames[ hid::Assignment::BrakeRightApply     ] = "brake_right_apply";    // 23
-    _actionNames[ hid::Assignment::ParkingBrakeToggle  ] = "parking_brake_toggle"; // 24
-    _actionNames[ hid::Assignment::LandingGearToggle   ] = "landing_gear_toggle";  // 25
-    _actionNames[ hid::Assignment::FlapsExtend         ] = "flaps_extend";         // 26
-    _actionNames[ hid::Assignment::FlapsRetract        ] = "flaps_retract";        // 27
-    _actionNames[ hid::Assignment::AirbrakeExtend      ] = "airbrake_extend";      // 28
-    _actionNames[ hid::Assignment::AirbrakeRetract     ] = "airbrake_retract";     // 29
-    _actionNames[ hid::Assignment::SpoilersToggle      ] = "spoilers_toggle";      // 30
-    _actionNames[ hid::Assignment::CollectiveAxis      ] = "collective_axis";      // 31
-    _actionNames[ hid::Assignment::CollectiveIncrease  ] = "collective_increase";  // 32
-    _actionNames[ hid::Assignment::CollectiveDecreade  ] = "collective_decrease";  // 33
-    _actionNames[ hid::Assignment::ThrottleAxis1       ] = "throttle_axis_1";      // 34
-    _actionNames[ hid::Assignment::ThrottleAxis2       ] = "throttle_axis_2";      // 35
-    _actionNames[ hid::Assignment::ThrottleAxis3       ] = "throttle_axis_3";      // 36
-    _actionNames[ hid::Assignment::ThrottleAxis4       ] = "throttle_axis_4";      // 37
-    _actionNames[ hid::Assignment::ThrottleIncrease    ] = "throttle_increase";    // 38
-    _actionNames[ hid::Assignment::ThrottleDecrease    ] = "throttle_decrease";    // 39
-    _actionNames[ hid::Assignment::MixtureAxis1        ] = "mixture_axis_1";       // 40
-    _actionNames[ hid::Assignment::MixtureAxis2        ] = "mixture_axis_2";       // 41
-    _actionNames[ hid::Assignment::MixtureAxis3        ] = "mixture_axis_3";       // 42
-    _actionNames[ hid::Assignment::MixtureAxis4        ] = "mixture_axis_4";       // 43
-    _actionNames[ hid::Assignment::MixtureRich         ] = "mixture_rich";         // 44
-    _actionNames[ hid::Assignment::MixtureLean         ] = "mixture_lean";         // 45
-    _actionNames[ hid::Assignment::PropellerAxis1      ] = "propeller_axis_1";     // 46
-    _actionNames[ hid::Assignment::PropellerAxis2      ] = "propeller_axis_2";     // 47
-    _actionNames[ hid::Assignment::PropellerAxis3      ] = "propeller_axis_3";     // 48
-    _actionNames[ hid::Assignment::PropellerAxis4      ] = "propeller_axis_4";     // 49
-    _actionNames[ hid::Assignment::PropellerIncrease   ] = "propeller_increase";   // 50
-    _actionNames[ hid::Assignment::PropellerDecrease   ] = "propeller_decrease";   // 51
+    _actionNames[ hid::Assignment::AP_Disc             ] = "ap_disc";              // 1
+    _actionNames[ hid::Assignment::CWS                 ] = "cws";                  // 2
+    _actionNames[ hid::Assignment::RollAxis            ] = "roll_axis";            // 3
+    _actionNames[ hid::Assignment::RollBankLeft        ] = "roll_bank_left";       // 4
+    _actionNames[ hid::Assignment::RollBankRight       ] = "roll_bank_right";      // 5
+    _actionNames[ hid::Assignment::PitchAxis           ] = "pitch_axis";           // 6
+    _actionNames[ hid::Assignment::PitchNoseUp         ] = "pitch_nose_up";        // 7
+    _actionNames[ hid::Assignment::PitchNoseDown       ] = "pitch_nose_down";      // 8
+    _actionNames[ hid::Assignment::YawAxis             ] = "yaw_axis";             // 9
+    _actionNames[ hid::Assignment::YawTurnLeft         ] = "yaw_turn_left";        // 10
+    _actionNames[ hid::Assignment::YawTurnRight        ] = "yaw_turn_right";       // 11
+    _actionNames[ hid::Assignment::TrimRollAxis        ] = "trim_roll_axis";       // 12
+    _actionNames[ hid::Assignment::TrimRollBankLeft    ] = "trim_roll_bank_left";  // 13
+    _actionNames[ hid::Assignment::TrimRollBankRight   ] = "trim_roll_bank_right"; // 14
+    _actionNames[ hid::Assignment::TrimPitchAxis       ] = "trim_pitch_axis";      // 15
+    _actionNames[ hid::Assignment::TrimPitchNoseUp     ] = "trim_pitch_nose_up";   // 16
+    _actionNames[ hid::Assignment::TrimPitchNoseDown   ] = "trim_pitch_nose_down"; // 17
+    _actionNames[ hid::Assignment::TrimYawAxis         ] = "trim_yaw_axis";        // 18
+    _actionNames[ hid::Assignment::TrimYawTurnLeft     ] = "trim_yaw_turn_left";   // 19
+    _actionNames[ hid::Assignment::TrimYawTurnRight    ] = "trim_yaw_turn_right";  // 20
+    _actionNames[ hid::Assignment::TrimReset           ] = "trim_reset";           // 21
+    _actionNames[ hid::Assignment::BrakeLeftAxis       ] = "brake_left_axis";      // 22
+    _actionNames[ hid::Assignment::BrakeLeftApply      ] = "brake_left_apply";     // 23
+    _actionNames[ hid::Assignment::BrakeRightAxis      ] = "brake_right_axis";     // 24
+    _actionNames[ hid::Assignment::BrakeRightApply     ] = "brake_right_apply";    // 25
+    _actionNames[ hid::Assignment::ParkingBrakeToggle  ] = "parking_brake_toggle"; // 26
+    _actionNames[ hid::Assignment::LandingGearToggle   ] = "landing_gear_toggle";  // 27
+    _actionNames[ hid::Assignment::FlapsExtend         ] = "flaps_extend";         // 28
+    _actionNames[ hid::Assignment::FlapsRetract        ] = "flaps_retract";        // 29
+    _actionNames[ hid::Assignment::AirbrakeExtend      ] = "airbrake_extend";      // 30
+    _actionNames[ hid::Assignment::AirbrakeRetract     ] = "airbrake_retract";     // 31
+    _actionNames[ hid::Assignment::SpoilersToggle      ] = "spoilers_toggle";      // 32
+    _actionNames[ hid::Assignment::CollectiveAxis      ] = "collective_axis";      // 33
+    _actionNames[ hid::Assignment::CollectiveIncrease  ] = "collective_increase";  // 34
+    _actionNames[ hid::Assignment::CollectiveDecreade  ] = "collective_decrease";  // 35
+    _actionNames[ hid::Assignment::ThrottleAxis1       ] = "throttle_axis_1";      // 36
+    _actionNames[ hid::Assignment::ThrottleAxis2       ] = "throttle_axis_2";      // 37
+    _actionNames[ hid::Assignment::ThrottleAxis3       ] = "throttle_axis_3";      // 38
+    _actionNames[ hid::Assignment::ThrottleAxis4       ] = "throttle_axis_4";      // 39
+    _actionNames[ hid::Assignment::ThrottleIncrease    ] = "throttle_increase";    // 40
+    _actionNames[ hid::Assignment::ThrottleDecrease    ] = "throttle_decrease";    // 41
+    _actionNames[ hid::Assignment::MixtureAxis1        ] = "mixture_axis_1";       // 42
+    _actionNames[ hid::Assignment::MixtureAxis2        ] = "mixture_axis_2";       // 43
+    _actionNames[ hid::Assignment::MixtureAxis3        ] = "mixture_axis_3";       // 44
+    _actionNames[ hid::Assignment::MixtureAxis4        ] = "mixture_axis_4";       // 45
+    _actionNames[ hid::Assignment::MixtureRich         ] = "mixture_rich";         // 46
+    _actionNames[ hid::Assignment::MixtureLean         ] = "mixture_lean";         // 47
+    _actionNames[ hid::Assignment::PropellerAxis1      ] = "propeller_axis_1";     // 48
+    _actionNames[ hid::Assignment::PropellerAxis2      ] = "propeller_axis_2";     // 49
+    _actionNames[ hid::Assignment::PropellerAxis3      ] = "propeller_axis_3";     // 50
+    _actionNames[ hid::Assignment::PropellerAxis4      ] = "propeller_axis_4";     // 51
+    _actionNames[ hid::Assignment::PropellerIncrease   ] = "propeller_increase";   // 52
+    _actionNames[ hid::Assignment::PropellerDecrease   ] = "propeller_decrease";   // 53
 
-#   if ( HID_MAX_ACTIONS != 52 )
+#   if ( HID_MAX_ACTIONS != 54 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #   endif
 
@@ -417,6 +419,12 @@ void PageControls::initDefaultAssignments()
         _assignments[ hid::Assignment::Trigger ].type = hid::Assignment::Keyboard;
         _assignments[ hid::Assignment::Trigger ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
+        _assignments[ hid::Assignment::AP_Disc ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::AP_Disc ].data.keyboard.keyId = hid::Assignment::KeyQ;
+
+        _assignments[ hid::Assignment::CWS ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::CWS ].data.keyboard.keyId = hid::Assignment::KeyW;
+
         int joysCount = hid::Joysticks::instance()->getCount();
 
         if ( joysCount > 0 )
@@ -530,7 +538,7 @@ void PageControls::initDefaultAssignments()
         _assignments[ hid::Assignment::PropellerDecrease ].type = hid::Assignment::Keyboard;
         _assignments[ hid::Assignment::PropellerDecrease ].data.keyboard.keyId = hid::Assignment::KeySemicolon;
 
-#       if ( HID_MAX_ACTIONS != 52 )
+#       if ( HID_MAX_ACTIONS != 54 )
 #           error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #       endif
 

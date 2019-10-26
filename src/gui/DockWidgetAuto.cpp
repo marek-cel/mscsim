@@ -23,12 +23,16 @@
 #include <gui/DockWidgetAuto.h>
 #include <ui_DockWidgetAuto.h>
 
+#include <QSettings>
+
 #include <Common.h>
 #include <Data.h>
 
 #include <fdm/fdm_Exception.h>
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlDoc.h>
+
+#include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -46,6 +50,8 @@ DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
+    settingsRead();
+
     _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
@@ -54,6 +60,8 @@ DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
 DockWidgetAuto::~DockWidgetAuto()
 {
     if ( _timerId ) killTimer( _timerId );
+
+    settingsSave();
 
     DELPTR( _autopilot );
 
@@ -141,7 +149,7 @@ double DockWidgetAuto::getHeading() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double DockWidgetAuto::getNavFreq() const
+double DockWidgetAuto::getFreqNav() const
 {
     return _ui->spinBoxFreqActive->value();
 }
@@ -230,8 +238,8 @@ bool DockWidgetAuto::isActiveYD() const
 
 bool DockWidgetAuto::isActiveALT() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveALT();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveALT();
 
     return false;
 }
@@ -240,8 +248,8 @@ bool DockWidgetAuto::isActiveALT() const
 
 bool DockWidgetAuto::isActiveIAS() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveIAS();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveIAS();
 
     return false;
 }
@@ -250,8 +258,8 @@ bool DockWidgetAuto::isActiveIAS() const
 
 bool DockWidgetAuto::isActiveVS() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveVS();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveVS();
 
     return false;
 }
@@ -260,8 +268,8 @@ bool DockWidgetAuto::isActiveVS() const
 
 bool DockWidgetAuto::isActiveARM() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveARM();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveARM();
 
     return false;
 }
@@ -270,8 +278,8 @@ bool DockWidgetAuto::isActiveARM() const
 
 bool DockWidgetAuto::isActiveGS() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveGS();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveGS();
 
     return false;
 }
@@ -280,8 +288,8 @@ bool DockWidgetAuto::isActiveGS() const
 
 bool DockWidgetAuto::isActiveHDG() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveHDG();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveHDG();
 
     return false;
 }
@@ -290,8 +298,8 @@ bool DockWidgetAuto::isActiveHDG() const
 
 bool DockWidgetAuto::isActiveNAV() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveNAV();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveNAV();
 
     return false;
 }
@@ -300,8 +308,8 @@ bool DockWidgetAuto::isActiveNAV() const
 
 bool DockWidgetAuto::isActiveAPR() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveAPR();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveAPR();
 
     return false;
 }
@@ -310,8 +318,8 @@ bool DockWidgetAuto::isActiveAPR() const
 
 bool DockWidgetAuto::isActiveBC() const
 {
-    if ( _autopilot )
-        return _autopilot->isActiveBC();
+    if ( _autopilot_c172 )
+        return _autopilot_c172->isActiveBC();
 
     return false;
 }
@@ -351,6 +359,37 @@ bool DockWidgetAuto::isWorking()
 {
     return ( Data::get()->stateOut == fdm::DataOut::Working
           || Data::get()->stateOut == fdm::DataOut::Frozen );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::settingsRead()
+{
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
+
+    settings.beginGroup( "dock_widget_auto" );
+
+    double freq_active  = settings.value( "freq_active"  , 108.0  ).toDouble();
+    double freq_standby = settings.value( "freq_standby" , 117.95 ).toDouble();
+
+    _ui->spinBoxFreqActive  ->setValue( freq_active  );
+    _ui->spinBoxFreqStandby ->setValue( freq_standby );
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::settingsSave()
+{
+    QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
+
+    settings.beginGroup( "dock_widget_auto" );
+
+    settings.setValue( "freq_active"  , _ui->spinBoxFreqActive  ->value() );
+    settings.setValue( "freq_standby" , _ui->spinBoxFreqStandby ->value() );
+
+    settings.endGroup();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -396,22 +435,32 @@ void DockWidgetAuto::updateWork()
 {
     if ( _autopilot )
     {
-        _autopilot->update( GUI_TIME_STEP,
-                            Data::get()->ownship.roll,
-                            Data::get()->ownship.pitch,
-                            Data::get()->ownship.heading,
-                            Data::get()->ownship.altitude_asl,
-                            Data::get()->ownship.airspeed,
-                            Data::get()->ownship.climbRate,
-                            Data::get()->ownship.yawRate,
-                            Data::get()->ownship.turnRate,
-                            Data::get()->navigation.nav_deviation,
-                            Data::get()->navigation.ils_gs_deviation,
-                            _ui->pushButtonDN->isDown(),
-                            _ui->pushButtonUP->isDown() );
+        _ui->spinBoxALT_VS->setReadOnly( false );
 
         if ( _autopilot_c172 )
         {
+            _autopilot_c172->update( GUI_TIME_STEP,
+                                     Data::get()->ownship.roll,
+                                     Data::get()->ownship.pitch,
+                                     Data::get()->ownship.heading,
+                                     Data::get()->ownship.altitude_asl,
+                                     Data::get()->ownship.airspeed,
+                                     Data::get()->ownship.turnRate,
+                                     Data::get()->ownship.yawRate,
+                                     Data::get()->ownship.climbRate,
+                                     Data::get()->navigation.nav_distance,
+                                     Data::get()->navigation.nav_deviation,
+                                     Data::get()->navigation.nav_cdi != Data::Navigation::NONE,
+                                     Data::get()->navigation.ils_gs_deviation,
+                                     Data::get()->navigation.ils_gs_visible,
+                                     _ui->pushButtonDN->isDown(),
+                                     _ui->pushButtonUP->isDown() );
+
+            if ( hid::Manager::instance()->getAP_Disc() )
+            {
+                _autopilot_c172->disengage();
+            }
+
             _ui->labelAP->setEnabled( _autopilot_c172->getLampAP() );
             _ui->labelFD->setEnabled( _autopilot_c172->getLampFD() );
             _ui->labelYD->setEnabled( _autopilot_c172->getLampYD() );
@@ -434,6 +483,11 @@ void DockWidgetAuto::updateWork()
 
             _ui->labelVS->setEnabled( _autopilot_c172->getLampVS() );
             _ui->labelARM->setEnabled( _autopilot_c172->getLampARM() );
+
+            if ( _ui->pushButtonShowALT->isChecked() )
+                _ui->spinBoxALT_VS->setReadOnly( _autopilot_c172->isActiveALT() );
+            else
+                _ui->spinBoxALT_VS->setReadOnly( false );
         }
 
         if ( _ui->pushButtonDN->isDown() || _ui->pushButtonUP->isDown() )
@@ -446,11 +500,6 @@ void DockWidgetAuto::updateWork()
             else
                 _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _altitude ) );
         }
-
-        if ( _ui->pushButtonShowALT->isChecked() )
-            _ui->spinBoxALT_VS->setReadOnly( _autopilot->isActiveALT() );
-        else
-            _ui->spinBoxALT_VS->setReadOnly( false );
     }
 }
 
@@ -468,12 +517,15 @@ void DockWidgetAuto::on_pushButtonAP_clicked()
 
 void DockWidgetAuto::on_pushButtonFD_clicked()
 {
-    if ( _autopilot && isWorking() )
+    if ( isWorking() )
     {
-        if ( !_autopilot->isActiveFD() )
-            _autopilot->setPitch( Data::get()->ownship.pitch );
+        if ( _autopilot_c172 )
+        {
+            if ( !_autopilot_c172->isActiveFD() )
+                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
 
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedFD();
+            _autopilot_c172->onPressedFD();
+        }
     }
 }
 
@@ -483,11 +535,14 @@ void DockWidgetAuto::on_pushButtonALT_clicked()
 {
     if ( isWorking() )
     {
-        if ( !_autopilot->isActiveALT() )
-            _altitude = Data::get()->ownship.altitude_asl;
+        if ( _autopilot_c172 )
+        {
+            if ( !_autopilot_c172->isActiveALT() )
+                _altitude = Data::get()->ownship.altitude_asl;
 
-        if ( _autopilot ) _autopilot->setAltitude( _altitude );
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedALT();
+            _autopilot_c172->setAltitude( _altitude );
+            _autopilot_c172->onPressedALT();
+        }
 
         if ( _ui->pushButtonShowALT->isChecked() )
         {
@@ -500,12 +555,15 @@ void DockWidgetAuto::on_pushButtonALT_clicked()
 
 void DockWidgetAuto::on_pushButtonIAS_clicked()
 {
-    if ( _autopilot && isWorking() )
+    if ( isWorking() )
     {
-        if ( !_autopilot->isActiveIAS() )
-            _autopilot->setAirspeed( Data::get()->ownship.airspeed );
+        if ( _autopilot_c172 )
+        {
+            if ( !_autopilot_c172->isActiveIAS() )
+                _autopilot_c172->setAirspeed( Data::get()->ownship.airspeed );
 
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedIAS();
+            _autopilot_c172->onPressedIAS();
+        }
     }
 }
 
@@ -515,16 +573,19 @@ void DockWidgetAuto::on_pushButtonENG_clicked()
 {
     if ( isWorking() )
     {
-        if ( !_autopilot->isActiveVS() )
+        if ( _autopilot_c172 )
         {
-            _climbRate = Data::get()->ownship.climbRate;
+            if ( !_autopilot_c172->isActiveVS() )
+            {
+                _climbRate = Data::get()->ownship.climbRate;
 
-            if ( _ui->pushButtonShowVS->isChecked() )
-                _climbRate = fdm::Units::fpm2mps( _ui->spinBoxALT_VS->value() );
+                if ( _ui->pushButtonShowVS->isChecked() )
+                    _climbRate = fdm::Units::fpm2mps( _ui->spinBoxALT_VS->value() );
+            }
+
+            _autopilot_c172->setClimbRate( _climbRate );
+            _autopilot_c172->onPressedENG();
         }
-
-        if ( _autopilot ) _autopilot->setClimbRate( _climbRate );
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedENG();
     }
 }
 
@@ -534,16 +595,19 @@ void DockWidgetAuto::on_pushButtonARM_clicked()
 {
     if ( isWorking() )
     {
-        if ( !_autopilot->isActiveARM() )
+        if ( _autopilot_c172 )
         {
-            _altitude = Data::get()->ownship.altitude_asl;
+            if ( !_autopilot_c172->isActiveARM() )
+            {
+                _altitude = Data::get()->ownship.altitude_asl;
 
-            if ( _ui->pushButtonShowALT->isChecked() )
-                _altitude = fdm::Units::ft2m( _ui->spinBoxALT_VS->value() );
+                if ( _ui->pushButtonShowALT->isChecked() )
+                    _altitude = fdm::Units::ft2m( _ui->spinBoxALT_VS->value() );
+            }
+
+            _autopilot_c172->setAltitude( _altitude );
+            _autopilot_c172->onPressedARM();
         }
-
-        if ( _autopilot ) _autopilot->setAltitude( _altitude );
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedARM();
     }
 }
 
@@ -551,10 +615,13 @@ void DockWidgetAuto::on_pushButtonARM_clicked()
 
 void DockWidgetAuto::on_pushButtonHDG_clicked()
 {
-    if ( _autopilot && isWorking() )
+    if ( isWorking() )
     {
-        _autopilot->setHeading( fdm::Units::deg2rad( _ui->spinBox_HDG->value() ) );
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedHDG();
+        if ( _autopilot_c172 )
+        {
+            _autopilot_c172->setHeading( fdm::Units::deg2rad( _ui->spinBox_HDG->value() ) );
+            _autopilot_c172->onPressedHDG();
+        }
     }
 }
 
@@ -637,6 +704,41 @@ void DockWidgetAuto::on_pushButtonTest_released()
         if ( _autopilot_c172 ) _autopilot_c172->onReleasedTest();
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::on_pushButton_CRS_clicked()
+{
+
+
+    if ( Data::get()->navigation.nav_cdi != Data::Navigation::NONE )
+    {
+        double bearing = Data::get()->navigation.nav_bearing;
+        double bearing_rel = bearing - Data::get()->ownship.heading;
+
+        if ( bearing_rel < -M_PI ) bearing_rel += 2.0 * M_PI;
+        if ( bearing_rel >  M_PI ) bearing_rel -= 2.0 * M_PI;
+
+        if ( bearing_rel < -M_PI_2 || M_PI_2 < bearing_rel )
+            bearing += M_PI;
+
+        double bearing_deg = floor( fdm::Units::rad2deg( bearing ) + 0.5 );
+
+        while ( bearing_deg <   0.0 ) bearing_deg += 360.0;
+        while ( bearing_deg > 360.0 ) bearing_deg -= 360.0;
+
+        _ui->spinBox_CRS->setValue( bearing_deg );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::on_pushButton_HDG_clicked()
+{
+    double heading = floor( fdm::Units::rad2deg( Data::get()->ownship.heading ) + 0.5 );
+    _ui->spinBox_HDG->setValue( heading );
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -749,6 +851,15 @@ void DockWidgetAuto::on_pushButtonShowALT_clicked( bool checked )
         _ui->spinBoxALT_VS->setValue( altitude );
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::on_spinBoxFreqStandby_editingFinished()
+{
+    double freq = 0.05 * (int)( 20.0 * _ui->spinBoxFreqStandby->value() );
+    _ui->spinBoxFreqStandby->setValue( freq );
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 

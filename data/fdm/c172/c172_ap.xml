@@ -67,20 +67,21 @@
   <!-- flight director -->
   <flight_director>
     
-    <max_roll  unit="deg_s">  30.0  </max_roll>
-    <min_pitch unit="deg_s"> -20.0  </min_pitch>
-    <max_pitch unit="deg_s">  20.0  </max_pitch>
+    <max_roll  unit="deg">  30.0  </max_roll>
+    <min_pitch unit="deg"> -20.0  </min_pitch>
+    <max_pitch unit="deg">  20.0  </max_pitch>
+    <max_yaw   unit="deg">  30.0  </max_yaw>
     
-    <max_rate_roll  unit="deg_s"> 10.0 </max_rate_roll>
+    <max_rate_roll  unit="deg_s">  5.0 </max_rate_roll>
     <max_rate_pitch unit="deg_s"> 10.0 </max_rate_pitch>
-    
-    <max_rate_tr unit="deg_s"> 1.5 </max_rate_tr>
+    <max_rate_tr    unit="deg_s">  1.5 </max_rate_tr>
     
     <climb_rate_tc> 2.0 </climb_rate_tc>
     
-    <climb_rate_arm unit="fpm"> 500.0 </climb_rate_arm>
+    <min_dh_arm unit="ft">  50.0 </min_dh_arm>
     
-    <min_dh_arm unit="ft"> 50.0 </min_dh_arm>
+    <nav_dev_max unit="deg"> 8.0 </nav_dev_max>
+    <apr_dev_max unit="deg"> 5.0 </apr_dev_max>
     
     <mode_alt>
       <pid>
@@ -120,11 +121,41 @@
       </pid>
     </mode_arm>
     
+    <mode_gs>
+      <pid>
+        <kp> 10.0 </kp>
+        <ki> 10.0 </ki>
+        <!--<kd> 1.0e-3 </kd>-->
+      </pid>
+    </mode_gs>
+    
+    <mode_nav>
+      <pid>
+        <kp> 4.0e-4 </kp>
+        <ki> 1.0e-6 </ki>
+        <kd> 1.0e-5 </kd>
+        
+        <min unit="deg"> -30.0 </min>
+        <max unit="deg">  30.0 </max>
+      </pid>
+    </mode_nav>
+    
+    <mode_apr>
+      <pid>
+        <kp> 4.0e-3 </kp>
+        <ki> 1.0e-5 </ki>
+        <kd> 1.0e-4 </kd>
+        
+        <min unit="deg"> -15.0 </min>
+        <max unit="deg">  15.0 </max>
+      </pid>
+    </mode_apr>
+    
     <mode_hdg>
       <pid>
-        <kp> 1.8e-1 </kp>
-        <ki> 2.5e-3 </ki>
-        <kd> 1.0e-3</kd>
+        <kp> 1.0e-1 </kp>
+        <ki> 1.0e-3 </ki>
+        <kd> 1.0e-3 </kd>
         
         <min unit="deg_s"> -3.0 </min> <!-- 2 minute turn -->
         <max unit="deg_s">  3.0 </max> <!-- 2 minute turn -->
@@ -134,8 +165,9 @@
     <!-- turn rate quasi mode -->
     <mode_trn>
       <pid>
-        <kp> 1.8 </kp>
-        <ki> 1.8 </ki>
+        <kp> 1.0e-1 </kp>
+        <ki> 0.5e-2 </ki>
+        <kd> 0.5e-2 </kd>
       </pid>
     </mode_trn>
     

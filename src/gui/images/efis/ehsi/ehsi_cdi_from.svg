@@ -23,15 +23,8 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="matrix(1,0,0,1.0086618,0,-2.7318026)"
-     id="g1293">
-    <rect
-       y="104.32813"
-       x="149"
-       height="94.184196"
-       width="2"
-       id="rect966-9"
-       style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:1.26270354;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-  </g>
+  <path
+     id="path990"
+     d="m 150,200.32812 -1.41406,-1.41406 -9.19336,-9.19336 1.41406,-1.41406 L 150,197.5 l 9.19141,-9.19336 1.41406,1.41406 -9.1914,9.19336 z"
+     style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.50385427;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 </svg>

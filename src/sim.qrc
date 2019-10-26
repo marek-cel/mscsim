@@ -34,6 +34,8 @@
         <file>gui/images/efis/ehsi/ehsi_mask.svg</file>
         <file>gui/images/efis/ehsi/ehsi_mark.svg</file>
         <file>gui/images/efis/ehsi/ehsi_brg_arrow.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_cdi_from.svg</file>
+        <file>gui/images/efis/ehsi/ehsi_cdi_to.svg</file>
         <file>gui/images/efis/ehsi/ehsi_crs_arrow.svg</file>
         <file>gui/images/efis/ehsi/ehsi_dev_bar.svg</file>
         <file>gui/images/efis/ehsi/ehsi_dev_scale.svg</file>

@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define HID_MAX_ACTIONS 52
+#define HID_MAX_ACTIONS 54
 #define HID_MAX_KEYS    57
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,62 +39,64 @@ struct Assignment
     enum Action
     {
         Trigger             = 0,    ///< 0:  Trigger
-        RollAxis            = 1,    ///< 1:  Roll (Axis)
-        RollBankLeft        = 2,    ///< 2:  Roll: Bank Left
-        RollBankRight       = 3,    ///< 3:  Roll: Bank Right
-        PitchAxis           = 4,    ///< 4:  Pitch (Axis)
-        PitchNoseUp         = 5,    ///< 5:  Pitch: Nose Up
-        PitchNoseDown       = 6,    ///< 6:  Pitch: Nose Down
-        YawAxis             = 7,    ///< 7:  Yaw (Axis)
-        YawTurnLeft         = 8,    ///< 8:  Yaw: Turn Left
-        YawTurnRight        = 9,    ///< 9:  Yaw: Turn Right
-        TrimRollAxis        = 10,   ///< 10: Trim Roll (Axis)
-        TrimRollBankLeft    = 11,   ///< 11: Trim Roll: Bank Left
-        TrimRollBankRight   = 12,   ///< 12: Trim Roll: Bank Right
-        TrimPitchAxis       = 13,   ///< 13: Trim Pitch (Axis)
-        TrimPitchNoseUp     = 14,   ///< 14: Trim Pitch: Nose Up
-        TrimPitchNoseDown   = 15,   ///< 15: Trim Pitch: Nose Down
-        TrimYawAxis         = 16,   ///< 16: Trim Yaw (Axis)
-        TrimYawTurnLeft     = 17,   ///< 17: Trim Yaw: Turn Left
-        TrimYawTurnRight    = 18,   ///< 18: Trim Yaw: Turn Right
-        TrimReset           = 19,   ///< 19: Trim Reset
-        BrakeLeftAxis       = 20,   ///< 20: Wheel Brake Left (Axis)
-        BrakeLeftApply      = 21,   ///< 21: Wheel Brake Left: Apply
-        BrakeRightAxis      = 22,   ///< 22: Wheel Brake Right (Axis)
-        BrakeRightApply     = 23,   ///< 23: Wheel Brake Right: Apply
-        ParkingBrakeToggle  = 24,   ///< 24: Parking Brake: Toggle
-        LandingGearToggle   = 25,   ///< 25: Landing Gear: Toggle
-        FlapsExtend         = 26,   ///< 26: Flaps: Extend
-        FlapsRetract        = 27,   ///< 27: Flaps: Retract
-        AirbrakeExtend      = 28,   ///< 28: Airbrake: Extend
-        AirbrakeRetract     = 29,   ///< 29: Airbrake: Retract
-        SpoilersToggle      = 30,   ///< 30: Spoilers: Toggle
-        CollectiveAxis      = 31,   ///< 31: Collective (Axis)
-        CollectiveIncrease  = 32,   ///< 32: Collective: Increase
-        CollectiveDecreade  = 33,   ///< 33: Collective: Decrease
-        ThrottleAxis1       = 34,   ///< 34: Throttle 1 (Axis)
-        ThrottleAxis2       = 35,   ///< 35; Throttle 2 (Axis)
-        ThrottleAxis3       = 36,   ///< 36: Throttle 3 (Axis)
-        ThrottleAxis4       = 37,   ///< 37: Throttle 4 (Axis)
-        ThrottleIncrease    = 38,   ///< 38: Throttle: Increase
-        ThrottleDecrease    = 39,   ///< 39: Throttle: Decrease
-        MixtureAxis1        = 40,   ///< 40: Mixture 1 (Axis)
-        MixtureAxis2        = 41,   ///< 41: Mixture 2 (Axis)
-        MixtureAxis3        = 42,   ///< 42: Mixture 3 (Axis)
-        MixtureAxis4        = 43,   ///< 43: Mixture 4 (Axis)
-        MixtureRich         = 44,   ///< 44: Mixture: Rich
-        MixtureLean         = 45,   ///< 45: Mixture: Lean
-        PropellerAxis1      = 46,   ///< 46: Propeller 1 (Axis)
-        PropellerAxis2      = 47,   ///< 47: Propeller 2 (Axis)
-        PropellerAxis3      = 48,   ///< 48: Propeller 3 (Axis)
-        PropellerAxis4      = 49,   ///< 49: Propeller 4 (Axis)
-        PropellerIncrease   = 50,   ///< 50: Propeller: Increase
-        PropellerDecrease   = 51    ///< 51: Propeller: Decrease
+        AP_Disc             = 1,    ///< 1:  Autopilot Disconnect
+        CWS                 = 2,    ///< 2:  Control Wheel Steering
+        RollAxis            = 3,    ///< 3:  Roll (Axis)
+        RollBankLeft        = 4,    ///< 4:  Roll: Bank Left
+        RollBankRight       = 5,    ///< 5:  Roll: Bank Right
+        PitchAxis           = 6,    ///< 6:  Pitch (Axis)
+        PitchNoseUp         = 7,    ///< 7:  Pitch: Nose Up
+        PitchNoseDown       = 8,    ///< 8:  Pitch: Nose Down
+        YawAxis             = 9,    ///< 9:  Yaw (Axis)
+        YawTurnLeft         = 10,   ///< 10: Yaw: Turn Left
+        YawTurnRight        = 11,   ///< 11: Yaw: Turn Right
+        TrimRollAxis        = 12,   ///< 12: Trim Roll (Axis)
+        TrimRollBankLeft    = 13,   ///< 13: Trim Roll: Bank Left
+        TrimRollBankRight   = 14,   ///< 14: Trim Roll: Bank Right
+        TrimPitchAxis       = 15,   ///< 15: Trim Pitch (Axis)
+        TrimPitchNoseUp     = 16,   ///< 16: Trim Pitch: Nose Up
+        TrimPitchNoseDown   = 17,   ///< 17: Trim Pitch: Nose Down
+        TrimYawAxis         = 18,   ///< 18: Trim Yaw (Axis)
+        TrimYawTurnLeft     = 19,   ///< 19: Trim Yaw: Turn Left
+        TrimYawTurnRight    = 20,   ///< 20: Trim Yaw: Turn Right
+        TrimReset           = 21,   ///< 21: Trim Reset
+        BrakeLeftAxis       = 22,   ///< 22: Wheel Brake Left (Axis)
+        BrakeLeftApply      = 23,   ///< 23: Wheel Brake Left: Apply
+        BrakeRightAxis      = 24,   ///< 24: Wheel Brake Right (Axis)
+        BrakeRightApply     = 25,   ///< 25: Wheel Brake Right: Apply
+        ParkingBrakeToggle  = 26,   ///< 26: Parking Brake: Toggle
+        LandingGearToggle   = 27,   ///< 27: Landing Gear: Toggle
+        FlapsExtend         = 28,   ///< 28: Flaps: Extend
+        FlapsRetract        = 29,   ///< 29: Flaps: Retract
+        AirbrakeExtend      = 30,   ///< 30: Airbrake: Extend
+        AirbrakeRetract     = 31,   ///< 31: Airbrake: Retract
+        SpoilersToggle      = 32,   ///< 32: Spoilers: Toggle
+        CollectiveAxis      = 33,   ///< 33: Collective (Axis)
+        CollectiveIncrease  = 34,   ///< 34: Collective: Increase
+        CollectiveDecreade  = 35,   ///< 35: Collective: Decrease
+        ThrottleAxis1       = 36,   ///< 36: Throttle 1 (Axis)
+        ThrottleAxis2       = 37,   ///< 37; Throttle 2 (Axis)
+        ThrottleAxis3       = 38,   ///< 38: Throttle 3 (Axis)
+        ThrottleAxis4       = 39,   ///< 39: Throttle 4 (Axis)
+        ThrottleIncrease    = 40,   ///< 40: Throttle: Increase
+        ThrottleDecrease    = 41,   ///< 41: Throttle: Decrease
+        MixtureAxis1        = 42,   ///< 42: Mixture 1 (Axis)
+        MixtureAxis2        = 43,   ///< 43: Mixture 2 (Axis)
+        MixtureAxis3        = 44,   ///< 44: Mixture 3 (Axis)
+        MixtureAxis4        = 45,   ///< 45: Mixture 4 (Axis)
+        MixtureRich         = 46,   ///< 46: Mixture: Rich
+        MixtureLean         = 47,   ///< 47: Mixture: Lean
+        PropellerAxis1      = 48,   ///< 48: Propeller 1 (Axis)
+        PropellerAxis2      = 49,   ///< 49: Propeller 2 (Axis)
+        PropellerAxis3      = 50,   ///< 50: Propeller 3 (Axis)
+        PropellerAxis4      = 51,   ///< 51: Propeller 4 (Axis)
+        PropellerIncrease   = 52,   ///< 52: Propeller: Increase
+        PropellerDecrease   = 53    ///< 53: Propeller: Decrease
     };
 
-#       if ( HID_MAX_ACTIONS != 52 )
-#           error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
-#       endif
+#   if ( HID_MAX_ACTIONS != 54 )
+#       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
+#   endif
 
     /** */
     enum DeviceType

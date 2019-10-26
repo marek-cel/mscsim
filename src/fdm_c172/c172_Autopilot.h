@@ -26,6 +26,8 @@
 
 #include <fdm/auto/fdm_Autopilot.h>
 
+#include <fdm_c172/c172_FlightDirector.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -48,6 +50,40 @@ public:
 
     /** Initializes autopilot. */
     void init();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * @brief Updates autopilot.
+     * @param timeStep
+     * @param roll
+     * @param pitch
+     * @param heading
+     * @param altitude
+     * @param airspeed
+     * @param turnRate
+     * @param yawRate
+     * @param climbRate
+     * @param distance
+     * @param lat_deviation
+     * @param lat_active
+     * @param ver_deviation
+     * @param ver_active
+     * @param button_dn
+     * @param button_up
+     */
+    void update( double timeStep,
+                 double roll, double pitch, double heading,
+                 double altitude, double airspeed,
+                 double turnRate, double yawRate, double climbRate,
+                 double distance,
+                 double lat_deviation, bool lat_active,
+                 double ver_deviation, bool ver_active,
+                 bool button_dn, bool button_up );
 
     void onPressedAP();
     void onPressedFD();
@@ -78,12 +114,12 @@ public:
     inline bool getLampIAS() const { return _testing || isActiveIAS(); }
     inline bool getLampGS()  const { return _testing || isActiveGS();  }
     inline bool getLampHDG() const { return _testing || isActiveHDG(); }
-    inline bool getLampNAV() const { return _testing || isActiveNAV(); }
-    inline bool getLampAPR() const { return _testing || isActiveAPR() || isActiveBC(); }
+    inline bool getLampNAV() const { return _testing || isActiveNAV() || isArmedNAV(); }
+    inline bool getLampAPR() const { return _testing || isActiveAPR() || isArmedAPR() || isActiveBC(); }
     inline bool getLampBC()  const { return _testing || isActiveBC();  }
 
-    inline bool getLampNAV_ARM() const { return _testing || ( getLampNAV() && false ); }
-    inline bool getLampAPR_ARM() const { return _testing || ( getLampAPR() && false ); }
+    inline bool getLampNAV_ARM() const { return _testing || isArmedNAV(); }
+    inline bool getLampAPR_ARM() const { return _testing || isArmedAPR(); }
 
     inline bool getLampSR() const { return _testing || isActiveSoftRide(); }
     inline bool getLampHB() const { return _testing || isActiveHalfBank(); }
@@ -92,6 +128,38 @@ public:
 
     inline bool getLampVS()  const { return isActiveVS();  }
     inline bool getLampARM() const { return isActiveARM(); }
+
+
+    inline bool isActiveALT() const { return _fd->getVerMode() == C172_FlightDirector::VM_ALT; }
+    inline bool isActiveIAS() const { return _fd->getVerMode() == C172_FlightDirector::VM_IAS; }
+    inline bool isActiveVS()  const { return _fd->getVerMode() == C172_FlightDirector::VM_VS;  }
+    inline bool isActiveARM() const { return _fd->getVerMode() == C172_FlightDirector::VM_ARM; }
+    inline bool isActiveGS()  const { return _fd->getVerMode() == C172_FlightDirector::VM_GS;  }
+    inline bool isActiveHDG() const { return _fd->getLatMode() == C172_FlightDirector::LM_HDG; }
+    inline bool isActiveNAV() const { return _fd->getLatMode() == C172_FlightDirector::LM_NAV; }
+    inline bool isActiveAPR() const { return _fd->getLatMode() == C172_FlightDirector::LM_APR; }
+    inline bool isActiveBC()  const { return _fd->getLatMode() == C172_FlightDirector::LM_BC;  }
+
+    inline bool isActiveSoftRide() const { return _softRide; }
+    inline bool isActiveHalfBank() const { return _halfBank; }
+
+    inline bool isArmedNAV() const { return _fd->getArmMode() == C172_FlightDirector::ARM_NAV; }
+    inline bool isArmedAPR() const { return _fd->getArmMode() == C172_FlightDirector::ARM_APR
+                                         || _fd->getArmMode() == C172_FlightDirector::ARM_BC; }
+
+private:
+
+    C172_FlightDirector *_fd;   ///< flight director
+
+    double _rate_pitch;         ///< [deg/s] pitch rate of change
+    double _rate_alt;           ///< [m/s] altitude rate of change
+    double _rate_ias;           ///< [(m/s)/s] airspeed rate of change
+    double _rate_vs;            ///< [(m/s)/s] vertical speed rate of change
+
+    double _softRideCoef;       ///< [-] soft ride coefficient
+
+    bool _softRide;             ///< specify if soft ride is engaged
+    bool _halfBank;             ///< specify if half bank is engaged
 };
 
 } // end of fdm namespace

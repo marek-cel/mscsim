@@ -85,8 +85,8 @@ public:
                     struct Block
                     {
                         short count;        ///< number of clouds within visual range
-                        float base_asl;     ///< [m] clouds base above mean sea level
-                        float thickness;    ///< [m] clouds thickness
+                        double base_asl;    ///< [m] clouds base above mean sea level
+                        double thickness;   ///< [m] clouds thickness
                     };
 
                     /** Layer clouds data. */
@@ -103,7 +103,7 @@ public:
                         };
 
                         Cover cover;        ///< cover
-                        float base_asl;     ///< [m] clouds base above mean sea level
+                        double base_asl;    ///< [m] clouds base above mean sea level
                     };
 
                     Block block;            ///< block clouds data
@@ -116,7 +116,7 @@ public:
 
             Clouds clouds;                  ///< clouds data
 
-            float visibility;               ///< [m] visibility due haze, fog, etc
+            double visibility;              ///< [m] visibility due haze, fog, etc
         };
 
         /** HUD data. */
@@ -124,33 +124,33 @@ public:
         {
             bool enabled;                   ///< specifies if HUD is enabled
 
-            float color_r;                  ///< [-] HUD color red component
-            float color_g;                  ///< [-] HUD color green component
-            float color_b;                  ///< [-] HUD color blue component
+            double color_r;                 ///< [-] HUD color red component
+            double color_g;                 ///< [-] HUD color green component
+            double color_b;                 ///< [-] HUD color blue component
 
-            float opacity;                  ///< [-] HUD opacity
+            double opacity;                 ///< [-] HUD opacity
 
-            float factor_alt;               ///< [-] altitude factor
-            float factor_vel;               ///< [-] velocity factor
+            double factor_alt;              ///< [-] altitude factor
+            double factor_vel;              ///< [-] velocity factor
 
-            float roll;                     ///< [rad] roll angle
-            float pitch;                    ///< [rad] pitch angle
-            float heading;                  ///< [rad] true heading
+            double roll;                    ///< [rad] roll angle
+            double pitch;                   ///< [rad] pitch angle
+            double heading;                 ///< [rad] true heading
 
-            float angleOfAttack;            ///< [rad] angle of attack
-            float sideslipAngle;            ///< [rad] angle of sideslip
+            double angleOfAttack;           ///< [rad] angle of attack
+            double sideslipAngle;           ///< [rad] angle of sideslip
 
-            float altitude;                 ///< [m]   baro altitude
-            float climbRate;                ///< [m/s] climb rate
-            float radioAlt;                 ///< [m]   radio altitude
+            double altitude;                ///< [m]   baro altitude
+            double climbRate;               ///< [m/s] climb rate
+            double radioAlt;                ///< [m]   radio altitude
 
-            float airspeed;                 ///< [m/s] airspeed
-            float machNumber;               ///< [-]   Mach number
-            float g_force;                  ///< [-] G-Force
+            double airspeed;                ///< [m/s] airspeed
+            double machNumber;              ///< [-]   Mach number
+            double g_force;                 ///< [-] G-Force
 
-            bool  ils_visible;              ///< specifies if ILS is visible
-            float ils_gs_deviation;         ///< [-1.0,1.0] ILS Glide Slope deviation
-            float ils_lc_deviation;         ///< [-1.0,1.0] ILS Localizer deviation
+            bool ils_visible;               ///< specifies if ILS is visible
+            double ils_gs_deviation;        ///< [-1.0,1.0] ILS Glide Slope deviation
+            double ils_lc_deviation;        ///< [-1.0,1.0] ILS Localizer deviation
 
             bool stall;                     ///< stall flag
         };
@@ -158,11 +158,11 @@ public:
         /** Sky dome data. */
         struct SkyDome
         {
-            float skyScale;                 ///< [-] sky dome scaling factor
-            float sunAlpha;                 ///< [rad] Sun right ascension
-            float sunDelta;                 ///< [rad] Sun declination
-            float sunElev;                  ///< [rad] Sun elevation
-            float sunAzim;                  ///< [rad] Sun azimuth
+            double skyScale;                ///< [-] sky dome scaling factor
+            double sunAlpha;                ///< [rad] Sun right ascension
+            double sunDelta;                ///< [rad] Sun declination
+            double sunElev;                 ///< [rad] Sun elevation
+            double sunAzim;                 ///< [rad] Sun azimuth
         };
 
         /** View types. */
@@ -215,20 +215,27 @@ public:
     /** Navigation data. */
     struct Navigation
     {
-        float course;                       ///< [rad]
+        /** VOR TO/FROM indicator. */
+        enum NAV_CDI { NONE = 0, TO, FROM };
 
-        bool  adf_visible;                  ///<
-        float adf_bearing;                  ///< [rad]
+        double course;                      ///< [rad]
 
-        bool  ils_visible;                  ///<
-        bool  ils_gs_visible;               ///<
-        bool  ils_lc_visible;               ///<
-        float ils_gs_deviation;             ///< [-1.0,1.0] horizontal deviation
-        float ils_lc_deviation;             ///< [-1.0,1.0] vertical deviation
+        bool adf_visible;                   ///<
+        double adf_bearing;                 ///< [rad]
 
-        bool  nav_visible;                  ///<
-        float nav_deviation;                ///<
-        float nav_distance;                 ///<
+        bool ils_visible;                   ///<
+        bool ils_gs_visible;                ///<
+        bool ils_lc_visible;                ///<
+        double ils_gs_deviation;            ///< [rad] horizontal deviation
+        double ils_lc_deviation;            ///< [rad] vertical deviation
+        double ils_gs_norm;                 ///< [-1.0;1.0]
+        double ils_lc_norm;                 ///< [-1.0;1.0]
+
+        NAV_CDI nav_cdi;                    ///<
+        double nav_bearing;                 ///< [rad]
+        double nav_deviation;               ///< [rad]
+        double nav_distance;                ///< [m]
+        double nav_norm;                    ///< [-1.0;1.0]
     };
 
     /** Ownship data. */
@@ -279,28 +286,28 @@ public:
         double vel_north;                   ///< [m/s] north velocity
         double vel_east;                    ///< [m/s] east velocity
 
-        float ailerons;                     ///< [rad] ailerons deflection (positive left aileron in the upward direction)
-        float elevator;                     ///< [rad] elevator deflection (positive in the downward direction)
-        float elevons;                      ///< [rad] elevons differential deflection
-        float rudder;                       ///< [rad] rudder deflection (positive in the port direction)
-        float flaps;                        ///< [rad] flaps deflection
-        float flaperons;                    ///< [rad] flaperons differtial deflection
-        float lef;                          ///< [rad] leading edge flaps deflection
-        float airbrake;                     ///< [rad] airbrake deflection
-        float landingGear;                  ///< [0.0,1.0] landing gear normalized deflection
+        double ailerons;                    ///< [rad] ailerons deflection (positive left aileron in the upward direction)
+        double elevator;                    ///< [rad] elevator deflection (positive in the downward direction)
+        double elevons;                     ///< [rad] elevons differential deflection
+        double rudder;                      ///< [rad] rudder deflection (positive in the port direction)
+        double flaps;                       ///< [rad] flaps deflection
+        double flaperons;                   ///< [rad] flaperons differtial deflection
+        double lef;                         ///< [rad] leading edge flaps deflection
+        double airbrake;                    ///< [rad] airbrake deflection
+        double landingGear;                 ///< [0.0,1.0] landing gear normalized deflection
 
-        float propeller[ FDM_MAX_ENGINES ]; ///< [rad] propeller angle
+        double propeller[ FDM_MAX_ENGINES ];///< [rad] propeller angle
 
-        float mainRotor_azimuth;            ///< [rad] main rotor rotation angle (azimuth)
-        float mainRotor_coningAngle;        ///< [rad] main rotor coning angle
-        float mainRotor_diskRoll;           ///< [rad] main rotor disk roll angle
-        float mainRotor_diskPitch;          ///< [rad] main rotor disk pitch angle
-        float mainRotor_collective;         ///< [rad] main rotor collective pitch angle
-        float mainRotor_cyclicLon;          ///< [rad] main rotor longitudinal cyclic pitch angle
-        float mainRotor_cyclicLat;          ///< [rad] main rotor lateral cyclic pitch angle
-        float tailRotor_azimuth;            ///< [rad] tail rotor rotation angle
-        float mainRotor_coef;               ///< [-] main rotor rotation coefficient (sign)
-        float tailRotor_coef;               ///< [-] tail rotor rotation coefficient (sign)
+        double mainRotor_azimuth;           ///< [rad] main rotor rotation angle (azimuth)
+        double mainRotor_coningAngle;       ///< [rad] main rotor coning angle
+        double mainRotor_diskRoll;          ///< [rad] main rotor disk roll angle
+        double mainRotor_diskPitch;         ///< [rad] main rotor disk pitch angle
+        double mainRotor_collective;        ///< [rad] main rotor collective pitch angle
+        double mainRotor_cyclicLon;         ///< [rad] main rotor longitudinal cyclic pitch angle
+        double mainRotor_cyclicLat;         ///< [rad] main rotor lateral cyclic pitch angle
+        double tailRotor_azimuth;           ///< [rad] tail rotor rotation angle
+        double mainRotor_coef;              ///< [-] main rotor rotation coefficient (sign)
+        double tailRotor_coef;              ///< [-] tail rotor rotation coefficient (sign)
 
         bool onGround;                      ///< specifies if aircraft is on ground
         bool stall;                         ///< specifies if aircraft is stalling
@@ -314,23 +321,23 @@ public:
             bool state;                     ///< specifies if engine is working
             bool afterburner;               ///<
 
-            float rpm;                      ///< [rpm]
-            float prop;                     ///< [rpm]
-            float ng;                       ///< [%]
-            float n1;                       ///< [%]
-            float n2;                       ///< [%]
-            float trq;                      ///< [%]
-            float epr;                      ///< [-]
-            float map;                      ///< [Pa]
-            float egt;                      ///< [deg C]
-            float itt;                      ///< [deg C]
-            float tit;                      ///< [deg C]
+            double rpm;                     ///< [rpm]
+            double prop;                    ///< [rpm]
+            double ng;                      ///< [%]
+            double n1;                      ///< [%]
+            double n2;                      ///< [%]
+            double trq;                     ///< [%]
+            double epr;                     ///< [-]
+            double map;                     ///< [Pa]
+            double egt;                     ///< [deg C]
+            double itt;                     ///< [deg C]
+            double tit;                     ///< [deg C]
 
-            float fuelFlow;                 ///< [kg/s]
+            double fuelFlow;                ///< [kg/s]
 
-            float throttle;                 ///< [0.0,1.0] throttle
-            float mixture;                  ///< [0.0,1.0] mixture lever
-            float propeller;                ///< [0.0,1.0] propeller lever
+            double throttle;                ///< [0.0,1.0] throttle
+            double mixture;                 ///< [0.0,1.0] mixture lever
+            double propeller;               ///< [0.0,1.0] propeller lever
 
             bool fuel;                      ///<
             bool ignition;                  ///<

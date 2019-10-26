@@ -11,6 +11,8 @@ TARGET = mscsim
 
 ################################################################################
 
+CONFIG += c++11
+
 #CONFIG += marble_maps
 CONFIG += networking
 

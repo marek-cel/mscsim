@@ -53,7 +53,9 @@ Simulation::Simulation() :
 
 Simulation::~Simulation()
 {
+#   ifndef SIM_USE_THREADS
     if ( _timerId ) killTimer( _timerId );
+#   endif
 
     DELPTR( _timeoutTimer );
     DELPTR( _elapsedTimer );

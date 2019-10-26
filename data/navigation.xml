@@ -1,35 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <navigation>
+  
+  <!-- ILS - XGEN - 36 -->
   <ils>
-    <gs>
-      <position>
-        <lat>-0.0114</lat>
-        <lon>-0.0005</lon>
-        <alt>30.0</alt>
-      </position>
-      <glide_slope>3.0</glide_slope>
-    </gs>
-    <lc>
-      <position>
-        <lat>0.015</lat>
-        <lon>0.0</lon>
-        <alt>30.0</alt>
-      </position>
-      <heading>0.0</heading>
-    </lc>
+    <freq> 108.10 </freq>
+    <glide_slope> 3.0 </glide_slope>
+    <heading> 0.0 </heading>
+    
+    <position_gs>
+      <lat>-0.0114</lat>
+      <lon>-0.0005</lon>
+      <alt>30.0</alt>
+    </position_gs>
+    
+    <position_loc>
+      <lat>0.015</lat>
+      <lon>0.0</lon>
+      <alt>30.0</alt>
+    </position_loc>
+    
+    <position_dme>
+      <lat>-0.0114</lat>
+      <lon>-0.0005</lon>
+      <alt>30.0</alt>
+    </position_dme>
   </ils>
+  
+  <!-- NDB - XGEN -->
   <ndb>
+    <freq> 190 </freq>
     <position>
       <lat>0.0</lat>
       <lon>0.0009</lon>
       <alt>30.0</alt>
     </position>
   </ndb>
+  
+  <!-- VOR - XGEN -->
   <vor>
+    <freq> 108.00 </freq>
     <position>
       <lat>0.0</lat>
       <lon>0.0009</lon>
       <alt>30.0</alt>
     </position>
   </vor>
+  
+  <!-- VOR - HONOLULU -->
+  <vor>
+    <freq> 114.80 </freq>
+    <position>
+      <lat>21.308308</lat>
+      <lon>-157.930422</lon>
+      <alt>3.0</alt>
+    </position>
+  </vor>
+  
+  <!-- VOR - KOKO HEAD -->
+  <vor>
+    <freq> 113.90 </freq>
+    <position>
+      <lat>21.265167</lat>
+      <lon>-157.703000</lon>
+      <alt>195.1</alt>
+    </position>
+  </vor>
+  
 </navigation>

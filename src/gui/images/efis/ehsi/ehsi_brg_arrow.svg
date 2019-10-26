@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg2"
+   width="300"
    height="300"
-   width="300">
+   id="svg2"
+   version="1.1">
   <defs
      id="defs4" />
   <metadata
@@ -24,11 +24,45 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(0,-752.36218)"
-     id="layer1">
+     transform="translate(-5.15e-4,-0.00616646)"
+     id="g1114">
     <path
-       id="rect7690-7"
-       d="m 150,798.36218 -6,16 3,0 0,35.5 2,0 0,-35.5 2,0 0,35.5 2,0 0,-35.5 3,0 -6,-16 z m -3,156.5 0,51.50002 2,0 0,-51.50002 -2,0 z m 4,0 0,51.50002 2,0 0,-51.50002 -2,0 z"
-       style="fill:#ffffff;fill-opacity:1;stroke:none" />
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.41133881;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 150.00004,67.816428 -0.43165,0.75 -10,17.320313 -0.43359,0.751953 0.86524,-0.002 h 20 v -0.5 l 0.002,0.5 h 0.86523 l -0.4336,-0.75 -10,-17.320313 z m 0,2 9.13476,15.820313 h -18.26757 z"
+       id="rect992" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.86257756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1048"
+       width="1"
+       height="11.863271"
+       x="149.5"
+       y="85.636742" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.63893366;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1048-5"
+       width="0.99989897"
+       height="23.816422"
+       x="149.50005"
+       y="46.000004" />
+    <path
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.41133881;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 149.999,212.3756 -0.43164,0.75 -10,17.32031 -0.4336,0.75195 0.86524,-0.002 h 20 v -0.5 l 0.002,0.5 h 0.86523 l -0.43361,-0.75 -10,-17.32031 z m 0,2 9.13476,15.82031 h -18.26757 z"
+       id="rect992-5" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.86257756;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1048-6"
+       width="1"
+       height="11.863271"
+       x="149.5"
+       y="-214.3756"
+       transform="scale(1,-1)" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.63893366;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1048-5-2"
+       width="0.99989897"
+       height="23.816422"
+       x="149.50005"
+       y="-254.01233"
+       transform="scale(1,-1)" />
   </g>
 </svg>

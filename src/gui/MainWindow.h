@@ -84,7 +84,7 @@ public:
     inline double getCourse()  const { return _dockAuto->getCourse();  }
     inline double getHeading() const { return _dockAuto->getHeading(); }
 
-    inline double getNavFreq()  const { return _dockAuto->getNavFreq();  }
+    inline double getFreqNav()  const { return _dockAuto->getFreqNav();  }
 
     inline bool isActiveAP() const { return _dockAuto->isActiveAP(); }
     inline bool isActiveFD() const { return _dockAuto->isActiveFD(); }

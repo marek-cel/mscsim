@@ -1,0 +1,175 @@
+/****************************************************************************//*
+ * Copyright (C) 2019 Marek M. Cel
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ ******************************************************************************/
+#ifndef C172_FLIGHTDIRECTOR_H
+#define C172_FLIGHTDIRECTOR_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdm/auto/fdm_FlightDirector.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
+
+/**
+ * @brief Flight director class.
+ *
+ * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999, p.213. [in Polish]
+ */
+class C172_FlightDirector : public FlightDirector
+{
+public:
+
+    /** Lateral modes. */
+    enum LatMode
+    {
+        LM_FD = 0,      ///< wing level
+        LM_HDG,         ///< heading select
+        LM_NAV,         ///< track navigation senson
+        LM_APR,         ///< approach
+        LM_BC           ///< back course approach
+    };
+
+    /** Vertical modes. */
+    enum VerMode
+    {
+        VM_FD = 0,      ///< pitch attitude hold
+        VM_ALT,         ///< altitude hold
+        VM_IAS,         ///< indicated airspeed hold
+        VM_VS,          ///< vertical speed
+        VM_ARM,         ///< altitude select
+        VM_GS           ///< approach glide slope
+    };
+
+    /** Armed modes. */
+    enum ArmMode
+    {
+        ARM_NONE = 0,   ///< no mode armed
+        ARM_NAV,        ///< track navigation senson
+        ARM_APR,        ///< approach
+        ARM_BC          ///< back course approach
+    };
+
+    /** Constructor. */
+    C172_FlightDirector();
+
+    /** Destructor. */
+    virtual ~C172_FlightDirector();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * Updates flight director.
+     */
+    void update( double timeStep,
+                 double heading,
+                 double altitude, double airspeed,
+                 double turnRate, double climbRate,
+                 double distance,
+                 double lat_deviation, bool lat_active,
+                 double ver_deviation, bool ver_active );
+
+    void disableHalfBank();
+    void enableHalfBank();
+
+    inline LatMode getLatMode() const { return _lat_mode; }
+    inline VerMode getVerMode() const { return _ver_mode; }
+    inline ArmMode getArmMode() const { return _arm_mode; }
+
+    inline void setLatMode( LatMode lat_mode ) { _lat_mode = lat_mode; }
+    inline void setVerMode( VerMode ver_mode ) { _ver_mode = ver_mode; }
+    inline void setArmMode( ArmMode arm_mode ) { _arm_mode = arm_mode; }
+
+    void toggleLatMode( LatMode lat_mode );
+    void toggleVerMode( VerMode ver_mode );
+
+protected:
+
+    LatMode _lat_mode;      ///< lateral mode
+    VerMode _ver_mode;      ///< vertical mode
+    ArmMode _arm_mode;      ///< horizontal arm mode
+
+    PID _pid_alt;           ///< ALT mode PID controller
+    PID _pid_ias;           ///< IAS mode PID controller
+    PID _pid_vs;            ///< VS mode PID controller
+    PID _pid_arm;           ///< ARM mode PID controller
+    PID _pid_gs;            ///< GS quasi mode PID controller
+    PID _pid_nav;           ///< NAV mode PID controller
+    PID _pid_apr;           ///< APR mode PID controller
+    PID _pid_hdg;           ///< HDG mode PID controller
+    PID _pid_trn;           ///< TRN quasi mode PID controller
+
+    double _max_roll;       ///< [rad] max roll
+    double _min_pitch;      ///< [rad] min pitch
+    double _max_pitch;      ///< [rad] max pitch
+    double _max_yaw;        ///< [rad] max yaw
+
+    double _max_rate_roll;  ///< [rad/s] roll max rate
+    double _max_rate_pitch; ///< [rad/s] pitch max rate
+    double _max_rate_tr;    ///< [rad/s^2] turn rate max rate
+
+    double _heading_act;    ///< [rad] acting desired heading
+
+    double _climbRate_act;  ///< [m/s] acting desired climb rate
+    double _climbRate_tc;   ///< [s] acting desired climb rate time constant
+
+    double _turnRate;       ///< [rad/s] turn rate
+
+    double _min_dh_arm;     ///< [m] ARM mode min altitude difference
+
+    double _nav_dev_max;    ///< [rad]
+    double _apr_dev_max;    ///< [rad]
+
+    double _ver_dev_prev;   ///< [rad]
+
+    bool _turnRateMode;     ///<
+
+    virtual void readMode( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
+    virtual void readPID( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
+
+    virtual void updateArmMode( double distance, double lat_deviation, bool lat_active );
+
+    virtual void updateLatFD( double timeStep );
+    virtual void updateLatNAV( double timeStep, double distance, double lat_deviation );
+    virtual void updateLatAPR( double timeStep, double distance, double lat_deviation );
+    virtual void updateLatBC();
+    virtual void updateLatHDG( double timeStep, double heading, double turnRate );
+    virtual void updateLatTRN( double timeStep, double turnRate, double airspeed );
+
+    virtual void updateVerFD( double timeStep );
+    virtual void updateVerALT( double timeStep, double altitude );
+    virtual void updateVerIAS( double timeStep, double airspeed );
+    virtual void updateVerVS( double timeStep, double climbRate );
+    virtual void updateVerARM( double timeStep, double altitude, double climbRate );
+    virtual void updateVerGS( double timeStep, double ver_deviation, bool ver_active );
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // C172_FLIGHTDIRECTOR_H

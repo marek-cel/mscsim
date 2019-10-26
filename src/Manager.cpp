@@ -25,6 +25,8 @@
 #include <Common.h>
 #include <Data.h>
 
+#include <fdm/utils/fdm_Units.h>
+
 #include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,6 +129,8 @@ void Manager::timerEvent( QTimerEvent *event )
 
     hid::Manager::instance()->update( _timeStep );
 
+    _nav->setCourse( fdm::Units::deg2rad( _win->getCourse() ) );
+    _nav->setFreqNAV( 1000 * _win->getFreqNav() );
     _nav->update();
 
     // controls
@@ -149,7 +153,7 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.nws = _win->getNWS();
     Data::get()->controls.abs = _win->getABS();
 
-    if ( _win->isActiveAP() && _win->isActiveFD() )
+    if ( _win->isActiveAP() && _win->isActiveFD() && !hid::Manager::instance()->getCWS() )
     {
         Data::get()->controls.roll  -= _win->getAutoRoll();
         Data::get()->controls.pitch -= _win->getAutoPitch();
@@ -202,8 +206,8 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->cgi.hud.g_force    = dataOut.flight.g_force_z;
 
     Data::get()->cgi.hud.ils_visible      = Data::get()->navigation.ils_visible;
-    Data::get()->cgi.hud.ils_gs_deviation = Data::get()->navigation.ils_gs_deviation;
-    Data::get()->cgi.hud.ils_lc_deviation = Data::get()->navigation.ils_lc_deviation;
+    Data::get()->cgi.hud.ils_gs_deviation = Data::get()->navigation.ils_gs_norm;
+    Data::get()->cgi.hud.ils_lc_deviation = Data::get()->navigation.ils_lc_norm;
 
     Data::get()->cgi.hud.stall = dataOut.flight.stall;
 

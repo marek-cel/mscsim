@@ -5,10 +5,10 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   width="300"
-   height="300"
+   version="1.1"
    id="svg2"
-   version="1.1">
+   height="300"
+   width="300">
   <defs
      id="defs4" />
   <metadata
@@ -23,13 +23,8 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     style="stroke:#ff00ff;stroke-opacity:1;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
-     id="layer1"
-     transform="translate(0,-752.36218)">
-    <path
-       style="fill:#ff00ff;fill-opacity:1;stroke:#ff00ff;stroke-opacity:1;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 140,787.36218 0,1 0,9 1,0 18,0 1,0 0,-1 0,-8 0,-1 -1,0 -18,0 -1,0 z m 1,1 8.5,0 0,8 -8.5,0 0,-8 z m 9.5,0 8.5,0 0,8 -8.5,0 0,-8 z"
-       id="rect7941" />
-  </g>
+  <path
+     id="rect971"
+     d="M 140 36 L 140 37 L 140 46 L 141 46 L 149.5 46 L 150.5 46 L 159 46 L 160 46 L 160 45 L 160 37 L 160 36 L 159 36 L 150.5 36 L 149.5 36 L 140 36 z M 141 37 L 149.5 37 L 149.5 45 L 141 45 L 141 37 z M 150.5 37 L 159 37 L 159 45 L 150.5 45 L 150.5 37 z "
+     style="opacity:1;fill:#ff00ff;fill-opacity:1;stroke:none;stroke-width:2.2060833;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
 </svg>

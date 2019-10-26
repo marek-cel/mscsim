@@ -40,15 +40,16 @@ namespace fdm
 /**
  * @brief Autopilot class.
  *
- * @see McLean D. - Automatic Flight Control Systems, 1990
- * @see Roskam J. - Airplane Flight Dynamics and Automatic Flight Controls, 2001
+ * @see McLean D.: Automatic Flight Control Systems, 1990
+ * @see Roskam J.: Airplane Flight Dynamics and Automatic Flight Controls, 2001
+ * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999, p.213. [in Polish]
  */
 class FDMEXPORT Autopilot
 {
 public:
 
     /** Constructor. */
-    Autopilot();
+    Autopilot( FlightDirector *fd );
 
     /** Destructor. */
     virtual ~Autopilot();
@@ -58,9 +59,9 @@ public:
 
     /**
      * Reads data.
-     * @param dataFile XML data file path
+     * @param dataNode XML node
      */
-    virtual void readData( const std::string &dataFile );
+    virtual void readData( XmlNode &dataNode );
 
     /**
      * @brief Updates autopilot.
@@ -68,22 +69,27 @@ public:
      * @param roll [rad]
      * @param pitch [rad]
      * @param heading [rad]
-     * @param airspeed [m/s]
      * @param altitude [m]
-     * @param climbRate [m/s]
-     * @param yawRate [rad/s]
+     * @param airspeed [m/s]
      * @param turnRate [rad/s]
-     * @param deviation_hor [-1.0;1.0]
-     * @param deviation_ver [-1.0;1.0]
-     * @param buttonDN
-     * @param buttonUP
+     * @param yawRate [rad/s]
+     * @param climbRate [m/s]
+     * @param distance [m]
+     * @param lat_deviation [rad]
+     * @param lat_active
+     * @param ver_deviation [rad]
+     * @param ver_active
      */
     virtual void update( double timeStep,
                          double roll, double pitch, double heading,
                          double altitude, double airspeed,
-                         double climbRate, double yawRate, double turnRate,
-                         double deviation_hor, double deviation_ver,
-                         bool buttonDN, bool buttonUP );
+                         double turnRate, double yawRate, double climbRate,
+                         double distance,
+                         double lat_deviation, bool lat_active,
+                         double ver_deviation, bool ver_active );
+
+    inline void disengage() { _engaged = false; }
+    inline void engage()    { _engaged = true;  }
 
     inline double getMinAltitude()  const { return _min_alt;  }
     inline double getMaxAltitude()  const { return _max_alt;  }
@@ -104,21 +110,9 @@ public:
     inline double getCtrlYaw()   const { return _ctrl_yaw;   }
 
     inline bool isActiveAP() const { return _engaged; }
-    inline bool isActiveFD() const { return _fd->isEngaged(); }
     inline bool isActiveYD() const { return _yawDamper; }
 
-    inline bool isActiveALT() const { return _fd->getVerMode() == FlightDirector::VM_ALT; }
-    inline bool isActiveIAS() const { return _fd->getVerMode() == FlightDirector::VM_IAS; }
-    inline bool isActiveVS()  const { return _fd->getVerMode() == FlightDirector::VM_VS;  }
-    inline bool isActiveARM() const { return _fd->getVerMode() == FlightDirector::VM_ARM; }
-    inline bool isActiveGS()  const { return _fd->getVerMode() == FlightDirector::VM_GS;  }
-    inline bool isActiveHDG() const { return _fd->getHorMode() == FlightDirector::HM_HDG; }
-    inline bool isActiveNAV() const { return _fd->getHorMode() == FlightDirector::HM_NAV; }
-    inline bool isActiveAPR() const { return _fd->getHorMode() == FlightDirector::HM_APR; }
-    inline bool isActiveBC()  const { return _fd->getHorMode() == FlightDirector::HM_BC;  }
-
-    inline bool isActiveSoftRide() const { return _softRide; }
-    inline bool isActiveHalfBank() const { return _halfBank; }
+    inline bool isActiveFD() const { return _fd->isEngaged(); }
 
     void setAltitude( double altitude );
     void setAirspeed( double airspeed );
@@ -151,21 +145,11 @@ protected:
     double _min_vs;         ///< [m/s] min climb rate
     double _max_vs;         ///< [m/s] max climb rate
 
-    double _rate_pitch;     ///< [deg/s] pitch rate of change
-    double _rate_alt;       ///< [m/s] altitude rate of change
-    double _rate_ias;       ///< [(m/s)/s] airspeed rate of change
-    double _rate_vs;        ///< [(m/s)/s] vertical speed rate of change
-
-    double _softRideCoef;   ///< [-] soft ride coefficient
-
     double _ctrl_roll;      ///< roll control command
     double _ctrl_pitch;     ///< pitch control command
     double _ctrl_yaw;       ///< yaw control command
 
     bool _yawDamper;        ///< specify if yaw damper is engaged
-
-    bool _softRide;         ///< specify if soft ride is engaged
-    bool _halfBank;         ///< specify if half bank is engaged
 
     bool _testing;          ///< specify if test is active
     bool _engaged;          ///< specify if autopilot is engaged

@@ -167,6 +167,8 @@ void GraphicsEADI::init()
     _scaleX = (float)width()  / (float)_originalWidth;
     _scaleY = (float)height() / (float)_originalHeight;
 
+    reset();
+
     _adi->init( _scaleX, _scaleY );
     _alt->init( _scaleX, _scaleY );
     _asi->init( _scaleX, _scaleY );

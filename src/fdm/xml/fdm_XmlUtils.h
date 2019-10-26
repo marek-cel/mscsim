@@ -94,7 +94,7 @@ public:
      * </tag_name>
      * @endcode
      *
-     * @see fdm::Units::getFactorSI()
+     * @see fdm::Units::getConverter(const char *)
      */
     static int read( const XmlNode &node, Matrix3x3 &data );
 
@@ -110,7 +110,7 @@ public:
      * </tag_name>
      * @endcode
      *
-     * @see fdm::Units::getFactorSI()
+     * @see fdm::Units::getConverter(const char *)
      */
     static int read( const XmlNode &node, Vector3 &data );
 
@@ -127,7 +127,7 @@ public:
      * </tag_name>
      * @endcode
      *
-     * @see fdm::Units::getFactorSI()
+     * @see fdm::Units::getConverter(const char *)
      */
     static int read( const XmlNode &node, Table &data );
 
@@ -145,7 +145,7 @@ public:
      * </tag_name>
      * @endcode
      *
-     * @see fdm::Units::getFactorSI()
+     * @see fdm::Units::getConverter(const char *)
      */
     static int read( const XmlNode &node, Table2D &data );
 

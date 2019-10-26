@@ -4,6 +4,7 @@ add_library( fdm_c172 STATIC
     c172_Autopilot.cpp
     c172_Controls.cpp
     c172_Engine.cpp
+    c172_FlightDirector.cpp
     c172_LandingGear.cpp
     c172_Mass.cpp
     c172_Propeller.cpp

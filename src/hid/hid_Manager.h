@@ -108,6 +108,11 @@ public:
     double getMixture   ( int num ) const { return _mixture   [ num ]; }
     double getPropeller ( int num ) const { return _propeller [ num ]; }
 
+    bool getTrigger() const { return _trigger; }
+    bool getAP_Disc() const { return _ap_disc; }
+    bool getCWS() const { return _cws; }
+
+
     bool isLgHandleDown() const { return _stateLandingGear; }
 
     /** */
@@ -126,7 +131,9 @@ private:
 
     double _timeStep;                           ///< [s] simulation time step
 
-    short _trigger;                             ///< trigger
+    bool _trigger;                              ///< trigger
+    bool _ap_disc;                              ///< autopilot disconnect
+    bool _cws;                                  ///< cws
 
     double _ctrlRoll;                           ///< [-1.0,1.0]
     double _ctrlPitch;                          ///< [-1.0,1.0]

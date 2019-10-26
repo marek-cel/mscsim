@@ -56,14 +56,20 @@ private:
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 
-    osg::ref_ptr<osg::Switch> _switchLightsHELI;
-    osg::ref_ptr<osg::Switch> _switchLightsRALS;
+    osg::ref_ptr<osg::Switch> _switchLightsRALS_L;
+    osg::ref_ptr<osg::Switch> _switchLightsTDZL_L;
+    osg::ref_ptr<osg::Switch> _switchLightsVGSI_L;
+
+    osg::ref_ptr<osg::Switch> _switchLightsRALS_H;
+    osg::ref_ptr<osg::Switch> _switchLightsTDZL_H;
+    osg::ref_ptr<osg::Switch> _switchLightsVGSI_H;
+
     osg::ref_ptr<osg::Switch> _switchLightsRCLS;
     osg::ref_ptr<osg::Switch> _switchLightsRELS;
-    osg::ref_ptr<osg::Switch> _switchLightsTDZL;
+
+    osg::ref_ptr<osg::Switch> _switchLightsHELI;
     osg::ref_ptr<osg::Switch> _switchLightsTELS;
     osg::ref_ptr<osg::Switch> _switchLightsTWRL;
-    osg::ref_ptr<osg::Switch> _switchLightsVGSI;
 
     osg::ref_ptr<osg::Switch> _switchGatesRwy18;
     osg::ref_ptr<osg::Switch> _switchGatesRwy36;

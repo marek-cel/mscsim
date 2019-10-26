@@ -129,7 +129,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMap->setObjectName( "DockMap" );
     _dockProp->setObjectName( "DockProp" );
 
-    addDockWidget( Qt::BottomDockWidgetArea , _dockAuto );
+    addDockWidget( Qt::TopDockWidgetArea    , _dockAuto );
     addDockWidget( Qt::BottomDockWidgetArea , _dockCtrl );
     addDockWidget( Qt::RightDockWidgetArea  , _dockData );
     addDockWidget( Qt::BottomDockWidgetArea , _dockEFIS );
@@ -770,8 +770,8 @@ void MainWindow::updateDockEFIS()
         _dockEFIS->setSlipSkid( Data::get()->ownship.slipSkidAngle / fdm::Units::deg2rad( 9.0 ) );
         _dockEFIS->setTurnRate( Data::get()->ownship.turnRate      / fdm::Units::deg2rad( 6.0 ) );
 
-        _dockEFIS->setDots( Data::get()->navigation.ils_lc_deviation,
-                            Data::get()->navigation.ils_gs_deviation,
+        _dockEFIS->setDots( Data::get()->navigation.ils_lc_norm,
+                            Data::get()->navigation.ils_gs_norm,
                             Data::get()->navigation.ils_lc_visible,
                             Data::get()->navigation.ils_gs_visible );
 
@@ -792,12 +792,16 @@ void MainWindow::updateDockEFIS()
 
         _dockEFIS->setCourse( _dockAuto->getCourse() );
 
+        GraphicsEHSI::CDI cdi = GraphicsEHSI::NONE;
+
+        if ( Data::get()->navigation.nav_cdi == Data::Navigation::TO   ) cdi = GraphicsEHSI::TO;
+        if ( Data::get()->navigation.nav_cdi == Data::Navigation::FROM ) cdi = GraphicsEHSI::FROM;
+
         _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
-                                Data::get()->navigation.nav_visible );
-        _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.adf_bearing ),
-                               Data::get()->navigation.adf_visible );
-        _dockEFIS->setDeviation( Data::get()->navigation.nav_deviation,
-                                 Data::get()->navigation.nav_visible );
+                                Data::get()->navigation.nav_cdi != Data::Navigation::NONE );
+        _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.nav_bearing ),
+                               cdi != GraphicsEHSI::NONE );
+        _dockEFIS->setDeviation( Data::get()->navigation.nav_norm, cdi );
 
         GraphicsEADI::FlightMode flightMode = GraphicsEADI::FM_OFF;
         if ( _dockAuto->isActiveFD() )

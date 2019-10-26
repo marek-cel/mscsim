@@ -40,6 +40,9 @@ class GraphicsEHSI : public QGraphicsView
 
 public:
 
+    /** CDI indicator. */
+    enum CDI { NONE = 0, TO, FROM };
+
     /** Constructor. */
     explicit GraphicsEHSI( QWidget *parent = NULLPTR );
 
@@ -59,7 +62,7 @@ public:
     void setBearing( float bearing, bool visible = false );
 
     /** @param deviation [-] */
-    void setDeviation( float deviation, bool visible = false );
+    void setDeviation( float deviation, CDI cdi = NONE );
 
     /** @param distance [nm] */
     void setDistance( float distance, bool visible = false );
@@ -91,6 +94,8 @@ private:
     QGraphicsSvgItem *_itemDevScale;    ///<
     QGraphicsSvgItem *_itemHdgBug;      ///<
     QGraphicsSvgItem *_itemHdgScale;    ///<
+    QGraphicsSvgItem *_itemCdiTo;       ///<
+    QGraphicsSvgItem *_itemCdiFrom;     ///<
 
     QGraphicsTextItem *_itemCrsText;    ///<
     QGraphicsTextItem *_itemHdgText;    ///<
@@ -104,8 +109,9 @@ private:
 
     float _heading_set;                 ///< [deg]
 
+    CDI _cdi;                           ///<
+
     bool _bearingVisible;               ///<
-    bool _deviationVisible;             ///<
     bool _distanceVisible;              ///<
 
     float _devBarDeltaX_new;            ///<

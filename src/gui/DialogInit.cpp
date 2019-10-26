@@ -389,7 +389,7 @@ void DialogInit::on_spinInitPsi_valueChanged( double /*arg1*/ )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DialogInit::on_comboDistance_currentIndexChanged( int index )
+void DialogInit::on_comboDistance_currentIndexChanged( int )
 {
     float value = _ui->comboDistance->invertPrev( _ui->spinDistance->value() );
 

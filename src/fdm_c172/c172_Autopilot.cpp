@@ -24,27 +24,144 @@
 
 #include <fdm/fdm_Path.h>
 
+#include <fdm/xml/fdm_XmlDoc.h>
+#include <fdm/xml/fdm_XmlUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Autopilot::C172_Autopilot() {}
+C172_Autopilot::C172_Autopilot() :
+    Autopilot ( _fd = new C172_FlightDirector() ),
+
+    _rate_pitch ( 0.0 ),
+    _rate_alt   ( 0.0 ),
+    _rate_ias   ( 0.0 ),
+    _rate_vs    ( 0.0 ),
+
+    _softRideCoef ( 0.0 ),
+
+    _softRide ( false ),
+    _halfBank ( false )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Autopilot::~C172_Autopilot() {}
+C172_Autopilot::~C172_Autopilot()
+{
+    FDM_DELPTR( _fd );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::init()
 {
-    readData( Path::get( "data/fdm/c172/c172_ap.xml" ) );
+    std::string dataFile = Path::get( "data/fdm/c172/c172_ap.xml" );
+    fdm::XmlDoc doc( dataFile );
+
+    if ( doc.isOpen() )
+    {
+        fdm::XmlNode rootNode = doc.getRootNode();
+
+        if ( rootNode.isValid() )
+        {
+            readData( rootNode );
+        }
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "Reading file \"" + dataFile + "\" failed." );
+
+        FDM_THROW( e );
+    }
 
     //////////////////
     Autopilot::init();
     //////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Autopilot::readData( XmlNode &dataNode )
+{
+    ////////////////////////////////
+    Autopilot::readData( dataNode );
+    ////////////////////////////////
+
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_pitch , "rate_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_alt   , "rate_alt"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_ias   , "rate_ias"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_vs    , "rate_vs"    );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _softRideCoef, "soft_ride_coef" );
+
+        if ( result != FDM_SUCCESS )
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Autopilot::update( double timeStep,
+                             double roll, double pitch, double heading,
+                             double altitude, double airspeed,
+                             double turnRate, double yawRate, double climbRate,
+                             double distance,
+                             double lat_deviation, bool lat_active,
+                             double ver_deviation, bool ver_active,
+                             bool button_dn, bool button_up )
+{
+    if ( button_dn || button_up )
+    {
+        double coef = button_up ? 1.0 : -1.0;
+
+        switch ( _fd->getVerMode() )
+        {
+        case C172_FlightDirector::VM_FD:
+            setPitch( getPitch() + coef * timeStep * _rate_pitch );
+            break;
+
+        case C172_FlightDirector::VM_ALT:
+            setAltitude( getAltitude() + coef * timeStep * _rate_alt );
+            break;
+
+        case C172_FlightDirector::VM_IAS:
+            setAirspeed( getAirspeed() + coef * timeStep * _rate_ias );
+            break;
+
+        case C172_FlightDirector::VM_VS:
+            setClimbRate( getClimbRate() + coef * timeStep * _rate_vs );
+            break;
+
+        case C172_FlightDirector::VM_ARM:
+        default:
+            // do nothing
+            break;
+        }
+    }
+
+    Autopilot::update( timeStep,
+                       roll, pitch, heading,
+                       altitude, airspeed,
+                       turnRate, yawRate, climbRate,
+                       distance,
+                       lat_deviation, lat_active,
+                       ver_deviation, ver_active );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,8 +183,8 @@ void C172_Autopilot::onPressedFD()
 
         if ( !_engaged )
         {
-            _fd->setHorMode( FlightDirector::HM_FD );
-            _fd->setVerMode( FlightDirector::VM_FD );
+            _fd->setLatMode( C172_FlightDirector::LM_FD );
+            _fd->setVerMode( C172_FlightDirector::VM_FD );
         }
 
     }
@@ -81,28 +198,28 @@ void C172_Autopilot::onPressedFD()
 
 void C172_Autopilot::onPressedALT()
 {
-    _fd->toggleVerMode( FlightDirector::VM_ALT );
+    _fd->toggleVerMode( C172_FlightDirector::VM_ALT );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedIAS()
 {
-    _fd->toggleVerMode( FlightDirector::VM_IAS );
+    _fd->toggleVerMode( C172_FlightDirector::VM_IAS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedENG()
 {
-    _fd->setVerMode( FlightDirector::VM_VS ); // or toggle ??
+    _fd->setVerMode( C172_FlightDirector::VM_VS ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedARM()
 {
-    _fd->setVerMode( FlightDirector::VM_ARM ); // or toggle ??
+    _fd->setVerMode( C172_FlightDirector::VM_ARM ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,7 +227,7 @@ void C172_Autopilot::onPressedARM()
 void C172_Autopilot::onPressedHDG()
 {
     _fd->engage();
-    _fd->toggleHorMode( FlightDirector::HM_HDG );
+    _fd->toggleLatMode( C172_FlightDirector::LM_HDG );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +235,11 @@ void C172_Autopilot::onPressedHDG()
 void C172_Autopilot::onPressedNAV()
 {
     _fd->engage();
-    _fd->toggleHorMode( FlightDirector::HM_NAV );
+
+    if ( isActiveNAV() )
+        _fd->toggleLatMode( C172_FlightDirector::LM_NAV );
+    else
+        _fd->setArmMode( C172_FlightDirector::ARM_NAV );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,13 +250,13 @@ void C172_Autopilot::onPressedAPR()
 
     if ( isActiveAPR() )
     {
-        _fd->setHorMode( FlightDirector::HM_FD );
+        _fd->setLatMode( C172_FlightDirector::LM_FD );
 
         if ( isActiveGS() )
-            _fd->setVerMode( FlightDirector::VM_FD );
+            _fd->setVerMode( C172_FlightDirector::VM_FD );
     }
     else
-        _fd->setHorMode( FlightDirector::HM_APR );
+        _fd->setArmMode( C172_FlightDirector::ARM_APR );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,13 +267,13 @@ void C172_Autopilot::onPressedBC()
 
     if ( isActiveBC() )
     {
-        _fd->setHorMode( FlightDirector::HM_FD );
+        _fd->setLatMode( C172_FlightDirector::LM_FD );
 
         if ( isActiveGS() )
-            _fd->setVerMode( FlightDirector::VM_FD );
+            _fd->setVerMode( C172_FlightDirector::VM_FD );
     }
     else
-        _fd->setHorMode( FlightDirector::HM_BC );
+        _fd->setArmMode( C172_FlightDirector::ARM_BC );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

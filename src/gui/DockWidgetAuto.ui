@@ -155,7 +155,7 @@
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
              <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
+              <enum>QAbstractSpinBox::UpDownArrows</enum>
              </property>
              <property name="minimum">
               <double>108.000000000000000</double>
@@ -375,7 +375,7 @@ QLabel:disabled
               <string notr="true">QLabel
 {
 	background-color: #000;
-	color: #0f0;
+	color: #fff;
 }
 
 QLabel:disabled 
@@ -439,7 +439,7 @@ QLabel:disabled
               <string notr="true">QLabel
 {
 	background-color: #000;
-	color: #0f0;
+	color: #fff;
 }
 
 QLabel:disabled 
@@ -1286,6 +1286,12 @@ QLabel:disabled
             <height>0</height>
            </size>
           </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+  padding: 4px 16px;
+}</string>
+          </property>
           <property name="frameShape">
            <enum>QFrame::Box</enum>
           </property>
@@ -1305,8 +1311,20 @@ QLabel:disabled
            <property name="bottomMargin">
             <number>9</number>
            </property>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="pushButton_HDG">
+             <property name="font">
+              <font>
+               <pointsize>8</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>HDG</string>
+             </property>
+            </widget>
+           </item>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_CRS">
+            <widget class="QPushButton" name="pushButton_CRS">
              <property name="font">
               <font>
                <pointsize>8</pointsize>
@@ -1314,12 +1332,6 @@ QLabel:disabled
              </property>
              <property name="text">
               <string>CRS</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>spinBox_CRS</cstring>
              </property>
             </widget>
            </item>
@@ -1336,24 +1348,6 @@ QLabel:disabled
              </property>
              <property name="maximum">
               <double>360.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_HDG">
-             <property name="font">
-              <font>
-               <pointsize>8</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string>HDG</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>spinBox_HDG</cstring>
              </property>
             </widget>
            </item>

@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/c172_Autopilot.h \
     $$PWD/c172_Controls.h \
     $$PWD/c172_Engine.h \
+    $$PWD/c172_FlightDirector.h \
     $$PWD/c172_LandingGear.h \
     $$PWD/c172_Mass.h \
     $$PWD/c172_Propeller.h \
@@ -18,6 +19,7 @@ SOURCES += \
     $$PWD/c172_Autopilot.cpp \
     $$PWD/c172_Controls.cpp \
     $$PWD/c172_Engine.cpp \
+    $$PWD/c172_FlightDirector.cpp \
     $$PWD/c172_LandingGear.cpp \
     $$PWD/c172_Mass.cpp \
     $$PWD/c172_Propeller.cpp \

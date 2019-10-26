@@ -192,11 +192,11 @@ public:
     /**
      * setDeviation
      * @param deviation [-]
-     * @param visible
+     * @param cdi
      */
-    inline void setDeviation( float deviation, bool visible )
+    inline void setDeviation( float deviation, GraphicsEHSI::CDI cdi )
     {
-        _graphicsEHSI->setDeviation( deviation, visible );
+        _graphicsEHSI->setDeviation( deviation, cdi );
     }
 
     /** @param airspeed (dimensionless numeric value) */

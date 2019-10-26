@@ -53,14 +53,21 @@ Airport::Airport( const std::string &file, double lat, double lon, double alt,
         _pat->setPosition( wgs.getPosition() );
         _pat->setAttitude( wgs.getAttitude() );
 
-        _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "HELI" ) );
-        _switchLightsRALS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RALS" ) );
+        _switchLightsRALS_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RALS_L" ) );
+        _switchLightsTDZL_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TDZL_L" ) );
+        _switchLightsVGSI_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "VGSI_L" ) );
+
+        _switchLightsRALS_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RALS_H" ) );
+        _switchLightsTDZL_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TDZL_H" ) );
+        _switchLightsVGSI_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "VGSI_H" ) );
+
         _switchLightsRCLS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RCLS" ) );
         _switchLightsRELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RELS" ) );
-        _switchLightsTDZL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TDZL" ) );
+
+        _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "HELI" ) );
         _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TELS" ) );
         _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TWRL" ) );
-        _switchLightsVGSI = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "VGSI" ) );
+
         _switchGatesRwy18 = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGates18" ) );
         _switchGatesRwy36 = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGates36" ) );
     }
@@ -78,20 +85,60 @@ void Airport::update()
     Module::update();
     /////////////////
 
+    if ( _switchLightsRALS_L.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsRALS )
+            _switchLightsRALS_L->setAllChildrenOn();
+        else
+            _switchLightsRALS_L->setAllChildrenOff();
+    }
+
+    if ( _switchLightsRALS_H.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsRALS )
+            _switchLightsRALS_H->setAllChildrenOn();
+        else
+            _switchLightsRALS_H->setAllChildrenOff();
+    }
+
+    if ( _switchLightsTDZL_L.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsTDZL )
+            _switchLightsTDZL_L->setAllChildrenOn();
+        else
+            _switchLightsTDZL_L->setAllChildrenOff();
+    }
+
+    if ( _switchLightsTDZL_H.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsTDZL )
+            _switchLightsTDZL_H->setAllChildrenOn();
+        else
+            _switchLightsTDZL_H->setAllChildrenOff();
+    }
+
+    if ( _switchLightsVGSI_L.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsVGSI )
+            _switchLightsVGSI_L->setAllChildrenOn();
+        else
+            _switchLightsVGSI_L->setAllChildrenOff();
+    }
+
+    if ( _switchLightsVGSI_H.valid() )
+    {
+        if ( Data::get()->cgi.airport.lightsVGSI )
+            _switchLightsVGSI_H->setAllChildrenOn();
+        else
+            _switchLightsVGSI_H->setAllChildrenOff();
+    }
+
     if ( _switchLightsHELI.valid() )
     {
         if ( Data::get()->cgi.airport.lightsHELI )
             _switchLightsHELI->setAllChildrenOn();
         else
             _switchLightsHELI->setAllChildrenOff();
-    }
-
-    if ( _switchLightsRALS.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsRALS )
-            _switchLightsRALS->setAllChildrenOn();
-        else
-            _switchLightsRALS->setAllChildrenOff();
     }
 
     if ( _switchLightsRCLS.valid() )
@@ -110,14 +157,6 @@ void Airport::update()
             _switchLightsRELS->setAllChildrenOff();
     }
 
-    if ( _switchLightsTDZL.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsTDZL )
-            _switchLightsTDZL->setAllChildrenOn();
-        else
-            _switchLightsTDZL->setAllChildrenOff();
-    }
-
     if ( _switchLightsTELS.valid() )
     {
         if ( Data::get()->cgi.airport.lightsTELS )
@@ -132,14 +171,6 @@ void Airport::update()
             _switchLightsTWRL->setAllChildrenOn();
         else
             _switchLightsTWRL->setAllChildrenOff();
-    }
-
-    if ( _switchLightsVGSI.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsVGSI )
-            _switchLightsVGSI->setAllChildrenOn();
-        else
-            _switchLightsVGSI->setAllChildrenOff();
     }
 
     if ( _switchGatesRwy18.valid() )

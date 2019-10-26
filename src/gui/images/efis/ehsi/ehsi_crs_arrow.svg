@@ -24,11 +24,28 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(0,-752.36218)"
-     id="layer1">
-    <path
-       id="path3180-4"
-       d="m 150,798.36217 -8.03125,30 7.03125,0 0,21.5 2,0 0,-21.5 7.03125,0 -8.03125,-30 z m 0,7.71875 5.4375,20.28125 -10.875,0 L 150,806.08092 z m -1,148.78125 0,51.50003 2,0 0,-51.50003 -2,0 z"
-       style="fill:#00ff00;fill-opacity:1;stroke:none" />
+     transform="translate(-4.5e-5,-0.00617837)"
+     id="g976">
+    <rect
+       y="202.51234"
+       x="149"
+       height="51.499992"
+       width="2"
+       id="rect966"
+       style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.9337185;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       id="g970">
+      <rect
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.72654384;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect966-3"
+         width="2"
+         height="31.181633"
+         x="149"
+         y="66.318382" />
+      <path
+         style="opacity:1;fill:#00ff00;fill-opacity:1;stroke:none;stroke-width:0.58187187;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 150,46.00002 -11.73042,20.318359 h 23.46093 z m 0,3.998047 8.26758,14.320312 h -16.53711 z"
+         id="rect966-3-6" />
+    </g>
   </g>
 </svg>

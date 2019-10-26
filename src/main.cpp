@@ -65,10 +65,10 @@ int main( int argc, char *argv[] )
 
     QApplication *app = new QApplication( argc, argv );
 
-    app->setApplicationName( SIM_APP_NAME );
-    app->setApplicationVersion( SIM_APP_VER );
-    app->setOrganizationDomain( SIM_ORG_DOMAIN );
-    app->setOrganizationName( SIM_ORG_NAME );
+    app->setApplicationName    ( SIM_APP_NAME   );
+    app->setApplicationVersion ( SIM_APP_VER    );
+    app->setOrganizationDomain ( SIM_ORG_DOMAIN );
+    app->setOrganizationName   ( SIM_ORG_NAME   );
 
     Manager *mgr = new Manager();
 

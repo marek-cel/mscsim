@@ -51,6 +51,8 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     _itemDevScale ( NULLPTR ),
     _itemHdgBug   ( NULLPTR ),
     _itemHdgScale ( NULLPTR ),
+    _itemCdiTo    ( NULLPTR ),
+    _itemCdiFrom  ( NULLPTR ),
 
     _itemCrsText ( NULLPTR ),
     _itemHdgText ( NULLPTR ),
@@ -64,8 +66,9 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
 
     _heading_set ( 0.0f ),
 
+    _cdi ( NONE ),
+
     _bearingVisible   ( true ),
-    _deviationVisible ( true ),
     _distanceVisible  ( true ),
 
     _devBarDeltaX_new ( 0.0f ),
@@ -174,10 +177,10 @@ void GraphicsEHSI::setBearing( float bearing, bool visible )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setDeviation( float deviation, bool visible )
+void GraphicsEHSI::setDeviation( float deviation, CDI cdi )
 {
-    _deviation        = deviation;
-    _deviationVisible = visible;
+    _deviation = deviation;
+    _cdi = cdi;
 
     if ( _deviation < -1.0f ) _deviation = -1.0f;
     if ( _deviation >  1.0f ) _deviation =  1.0f;
@@ -235,6 +238,8 @@ void GraphicsEHSI::init()
 {
     _scaleX = (float)width()  / (float)_originalWidth;
     _scaleY = (float)height() / (float)_originalHeight;
+
+    reset();
 
     _itemBack = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_back.svg" );
     _itemBack->setCacheMode( QGraphicsItem::NoCache );
@@ -296,6 +301,20 @@ void GraphicsEHSI::init()
     _itemHdgScale->setTransformOriginPoint( _originalNavCtr );
     _scene->addItem( _itemHdgScale );
 
+    _itemCdiTo = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_cdi_to.svg" );
+    _itemCdiTo->setCacheMode( QGraphicsItem::NoCache );
+    _itemCdiTo->setZValue( _crsArrowZ );
+    _itemCdiTo->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemCdiTo->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemCdiTo );
+
+    _itemCdiFrom = new QGraphicsSvgItem( ":/gui/images/efis/ehsi/ehsi_cdi_from.svg" );
+    _itemCdiFrom->setCacheMode( QGraphicsItem::NoCache );
+    _itemCdiFrom->setZValue( _crsArrowZ );
+    _itemCdiFrom->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemCdiFrom->setTransformOriginPoint( _originalNavCtr );
+    _scene->addItem( _itemCdiFrom );
+
     _itemCrsText = 0;
 
     _itemCrsText = new QGraphicsTextItem( QString( "CRS 999" ) );
@@ -341,6 +360,8 @@ void GraphicsEHSI::reset()
     _itemDevScale = NULLPTR;
     _itemHdgBug   = NULLPTR;
     _itemHdgScale = NULLPTR;
+    _itemCdiTo    = NULLPTR;
+    _itemCdiFrom  = NULLPTR;
 
     _itemCrsText = 0;
     _itemHdgText = 0;
@@ -354,9 +375,10 @@ void GraphicsEHSI::reset()
 
     _heading_set = 0.0f;
 
-    _bearingVisible   = true;
-    _deviationVisible = true;
-    _distanceVisible  = true;
+    _cdi = NONE;
+
+    _bearingVisible  = true;
+    _distanceVisible = true;
 
     _devBarDeltaX_new = 0.0f;
     _devBarDeltaX_old = 0.0f;
@@ -385,7 +407,7 @@ void GraphicsEHSI::updateView()
         _itemBrgArrow->setVisible( false );
     }
 
-    if ( _deviationVisible )
+    if ( _cdi != NONE )
     {
         _itemDevBar->setVisible( true );
         _itemDevScale->setVisible( true );
@@ -401,20 +423,45 @@ void GraphicsEHSI::updateView()
         float sinAngle = sin( angle_rad );
         float cosAngle = cos( angle_rad );
 
-        _itemDevBar->setRotation( angle_deg );
-        _itemDevScale->setRotation( angle_deg );
+        _itemDevBar   ->setRotation( angle_deg );
+        _itemDevScale ->setRotation( angle_deg );
+        _itemCdiTo    ->setRotation( angle_deg );
+        _itemCdiFrom  ->setRotation( angle_deg );
+
+        if ( _cdi == TO )
+        {
+            _itemCdiTo   ->setVisible( true  );
+            _itemCdiFrom ->setVisible( false );
+        }
+        else if ( _cdi == FROM )
+        {
+            _itemCdiTo   ->setVisible( false );
+            _itemCdiFrom ->setVisible( true  );
+        }
+        else
+        {
+            _itemCdiTo   ->setVisible( false );
+            _itemCdiFrom ->setVisible( false );
+        }
 
         float delta  = _originalPixPerDev * _deviation;
 
         _devBarDeltaX_new = _scaleX * delta * cosAngle;
         _devBarDeltaY_new = _scaleY * delta * sinAngle;
 
-        _itemDevBar->moveBy( _devBarDeltaX_new - _devBarDeltaX_old, _devBarDeltaY_new - _devBarDeltaY_old );
+        double x = _devBarDeltaX_new - _devBarDeltaX_old;
+        double y = _devBarDeltaY_new - _devBarDeltaY_old;
+
+        _itemDevBar  ->moveBy( x, y );
+        _itemCdiTo   ->moveBy( x, y );
+        _itemCdiFrom ->moveBy( x, y );
     }
     else
     {
-        _itemDevBar->setVisible( false );
-        _itemDevScale->setVisible( false );
+        _itemDevBar   ->setVisible( false );
+        _itemDevScale ->setVisible( false );
+        _itemCdiTo    ->setVisible( false );
+        _itemCdiFrom  ->setVisible( false );
 
         _devBarDeltaX_new = _devBarDeltaX_old;
         _devBarDeltaY_new = _devBarDeltaY_old;

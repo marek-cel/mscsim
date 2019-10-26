@@ -40,6 +40,8 @@ Manager* Manager::_instance = NULLPTR;
 
 const std::string Manager::_actionNames[] = {
     "Trigger",
+    "A/P Disc",
+    "CWS",
     "Roll (Axis)",
     "Roll: Bank Left",
     "Roll: Bank Right",
@@ -93,7 +95,7 @@ const std::string Manager::_actionNames[] = {
     "Propeller: Decrease"
 };
 
-#if ( HID_MAX_ACTIONS != 52 )
+#if ( HID_MAX_ACTIONS != 54 )
 #   error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #endif
 
@@ -190,7 +192,7 @@ bool Manager::isAxis( Assignment::Action action )
           || action == Assignment::PropellerAxis3
           || action == Assignment::PropellerAxis4 );
 
-#   if ( HID_MAX_ACTIONS != 52 )
+#   if ( HID_MAX_ACTIONS != 54 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
 #   endif
 }
@@ -228,7 +230,9 @@ void Manager::reset( bool onGround )
 {
     _timeStep = 0.0;
 
-    _trigger = 0;
+    _trigger = false;
+    _ap_disc = false;
+    _cws = false;
 
     _ctrlRoll  = 0.0;
     _ctrlPitch = 0.0;
@@ -621,6 +625,8 @@ void Manager::updateAxisActions()
 void Manager::updateMiscActions()
 {
     _trigger = getButtState( _assignments[ Assignment::Trigger ] );
+    _ap_disc = getButtState( _assignments[ Assignment::AP_Disc ] );
+    _cws     = getButtState( _assignments[ Assignment::CWS ] );
 
     // parking brake
     getRealValue( Assignment::ParkingBrakeToggle,
