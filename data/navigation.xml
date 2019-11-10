@@ -1,8 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <navigation>
   
+  <!-- ILS - PHNL - 04R -->
+  <ils>
+    <ident>I-IUM</ident>
+    <freq> 110.50 </freq>
+    <glide_slope> 3.0 </glide_slope>
+    <heading> 53.0 </heading>
+    
+    <position_gs>
+      <lat>21.314997</lat>
+      <lon>-157.924139</lon>
+      <alt>3.0</alt>
+    </position_gs>
+    
+    <position_loc>
+      <lat>21.330506</lat>
+      <lon>-157.903625</lon>
+      <alt>3.0</alt>
+    </position_loc>
+    
+    <position_dme>
+      <lat>21.329953</lat>
+      <lon>-157.903358</lon>
+      <alt>3.0</alt>
+    </position_dme>
+    
+    <position_mm>
+      <lat>21.309167</lat>
+      <lon>-157.933250</lon>
+      <alt>3.0</alt>
+    </position_mm>
+  </ils>
+  
+  <!-- ILS - PHNL - 08L -->
+  <ils>
+    <ident>I-HNL</ident>
+    <freq> 111.70 </freq>
+    <glide_slope> 3.0 </glide_slope>
+    <heading> 90.0 </heading>
+    
+    <position_gs>
+      <lat>21.324078</lat>
+      <lon>-157.939608</lon>
+      <alt>3.0</alt>
+    </position_gs>
+    
+    <position_loc>
+      <lat>21.325244</lat>
+      <lon>-157.904558</lon>
+      <alt>3.0</alt>
+    </position_loc>
+    
+    <position_mm>
+      <lat>21.325278</lat>
+      <lon>-157.952861</lon>
+      <alt>3.0</alt>
+    </position_mm>
+    
+    <position_om>
+      <lat>21.324897</lat>
+      <lon>-158.048867</lon>
+      <alt>3.0</alt>
+    </position_om>
+  </ils>
+  
+  <!-- ILS - PHNL - 26L -->
+  <ils>
+    <ident>I-EPC</ident>
+    <freq> 109.10 </freq>
+    <glide_slope> 3.0 </glide_slope>
+    <heading> 313.6 </heading>
+    
+    <position_loc>
+      <lat>21.326378</lat>
+      <lon>-157.907828</lon>
+      <alt>3.0</alt>
+    </position_loc>
+  </ils>
+  
   <!-- ILS - XGEN - 36 -->
   <ils>
+    <ident>I-XGN</ident>
     <freq> 108.10 </freq>
     <glide_slope> 3.0 </glide_slope>
     <heading> 0.0 </heading>
@@ -36,18 +115,9 @@
     </position>
   </ndb>
   
-  <!-- VOR - XGEN -->
-  <vor>
-    <freq> 108.00 </freq>
-    <position>
-      <lat>0.0</lat>
-      <lon>0.0009</lon>
-      <alt>30.0</alt>
-    </position>
-  </vor>
-  
   <!-- VOR - HONOLULU -->
   <vor>
+    <ident>HNL</ident>
     <freq> 114.80 </freq>
     <position>
       <lat>21.308308</lat>
@@ -58,11 +128,23 @@
   
   <!-- VOR - KOKO HEAD -->
   <vor>
+    <ident>CKH</ident>
     <freq> 113.90 </freq>
     <position>
       <lat>21.265167</lat>
       <lon>-157.703000</lon>
       <alt>195.1</alt>
+    </position>
+  </vor>
+  
+  <!-- VOR - XGEN -->
+  <vor>
+    <ident>XGN</ident>
+    <freq> 108.00 </freq>
+    <position>
+      <lat>0.0</lat>
+      <lon>0.0009</lon>
+      <alt>30.0</alt>
     </position>
   </vor>
   

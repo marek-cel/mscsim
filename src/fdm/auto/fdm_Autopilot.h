@@ -118,6 +118,7 @@ public:
     void setAirspeed( double airspeed );
     void setClimbRate( double climbRate );
     void setHeading( double heading );
+    void setCourse( double course );
     void setPitch( double pitch );
 
 protected:

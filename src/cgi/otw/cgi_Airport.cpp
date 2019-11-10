@@ -68,8 +68,8 @@ Airport::Airport( const std::string &file, double lat, double lon, double alt,
         _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TELS" ) );
         _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TWRL" ) );
 
-        _switchGatesRwy18 = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGates18" ) );
-        _switchGatesRwy36 = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGates36" ) );
+        _switchGatesRwyL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGatesL" ) );
+        _switchGatesRwyH = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGatesH" ) );
     }
 }
 
@@ -173,19 +173,19 @@ void Airport::update()
             _switchLightsTWRL->setAllChildrenOff();
     }
 
-    if ( _switchGatesRwy18.valid() )
-    {
-        if ( Data::get()->cgi.airport.gatesRwy18 )
-            _switchGatesRwy18->setAllChildrenOn();
-        else
-            _switchGatesRwy18->setAllChildrenOff();
-    }
-
-    if ( _switchGatesRwy36.valid() )
+    if ( _switchGatesRwyL.valid() )
     {
         if ( Data::get()->cgi.airport.gatesRwy36 )
-            _switchGatesRwy36->setAllChildrenOn();
+            _switchGatesRwyL->setAllChildrenOn();
         else
-            _switchGatesRwy36->setAllChildrenOff();
+            _switchGatesRwyL->setAllChildrenOff();
+    }
+
+    if ( _switchGatesRwyH.valid() )
+    {
+        if ( Data::get()->cgi.airport.gatesRwy18 )
+            _switchGatesRwyH->setAllChildrenOn();
+        else
+            _switchGatesRwyH->setAllChildrenOff();
     }
 }

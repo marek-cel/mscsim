@@ -232,6 +232,7 @@ public:
         double ils_lc_norm;                 ///< [-1.0;1.0]
 
         NAV_CDI nav_cdi;                    ///<
+        bool nav_dme;                       ///<
         double nav_bearing;                 ///< [rad]
         double nav_deviation;               ///< [rad]
         double nav_distance;                ///< [m]

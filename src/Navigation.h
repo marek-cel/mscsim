@@ -44,11 +44,15 @@ public:
 
     struct ILS
     {
+        std::string ident;              ///< navaid identifier
+
         int freq;                       ///< [kHz] ILS frequency
 
         fdm::Vector3 pos_wgs_gs;        ///< [m] ILS GS position expressed in WGS
         fdm::Vector3 pos_wgs_loc;       ///< [m] ILS LOC position expressed in WGS
         fdm::Vector3 pos_wgs_dme;       ///< [m] ILS DME position expressed in WGS
+
+        bool dme;                       ///< DME
 
         double glide_slope;             ///< [rad] glide slope
         double heading;                 ///< [rad] runway heading
@@ -62,8 +66,10 @@ public:
 
     struct VOR
     {
+        std::string ident;              ///< navaid identifier
         int freq;                       ///< [kHz] VOR frequency
         fdm::Vector3 pos_wgs;           ///< [m] VOR position expressed in WGS
+        bool dme;                       ///< DME
     };
 
     typedef QList< ILS > ListILS;
@@ -121,6 +127,7 @@ private:
     double _ils_lc_norm;        ///< [-1.0;1.0]
 
     NAV_CDI _nav_cdi;           ///<
+    bool _nav_dme;              ///<
     double _nav_bearing;        ///< [rad]
     double _nav_deviation;      ///< [rad]
     double _nav_distance;       ///< [m]

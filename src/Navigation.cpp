@@ -22,6 +22,8 @@
 
 #include <Navigation.h>
 
+#include <iostream>
+
 #include <QFile>
 
 #include <fdm/fdm_Path.h>
@@ -64,6 +66,7 @@ Navigation::Navigation() :
     _ils_lc_norm ( 0.0 ),
 
     _nav_cdi ( Data::Navigation::NONE ),
+    _nav_dme ( false ),
     _nav_bearing   ( 0.0 ),
     _nav_deviation ( 0.0 ),
     _nav_distance  ( 0.0 ),
@@ -123,6 +126,7 @@ void Navigation::update()
     Data::get()->navigation.ils_lc_norm = _ils_lc_norm;
 
     Data::get()->navigation.nav_cdi = _nav_cdi;
+    Data::get()->navigation.nav_dme = _nav_dme;
     Data::get()->navigation.nav_bearing   = _nav_bearing;
     Data::get()->navigation.nav_deviation = _nav_deviation;
     Data::get()->navigation.nav_distance  = _nav_distance;
@@ -134,7 +138,13 @@ void Navigation::update()
 double Navigation::getAzimuth( const fdm::Vector3 &pos_wgs )
 {
     fdm::Vector3 pos_ned = _aircraft_wgs.getWGS2NED() * ( pos_wgs - _aircraft_wgs.getPos_WGS() );
-    return atan2(  pos_ned.y(), pos_ned.x() );
+
+    double azim = atan2(  pos_ned.y(), pos_ned.x() );
+
+    if      ( azim < 0.0        ) azim += 2.0 * M_PI;
+    else if ( azim > 2.0 * M_PI ) azim -= 2.0 * M_PI;
+
+    return azim;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +173,7 @@ void Navigation::parseILS( const QDomElement &node )
 {
     if ( !node.isNull() )
     {
+        QDomElement nodeIdentifier = node.firstChildElement( "ident" );
         QDomElement nodeFrequncy   = node.firstChildElement( "freq" );
         QDomElement nodeGlideSlope = node.firstChildElement( "glide_slope" );
         QDomElement nodeHeading    = node.firstChildElement( "heading" );
@@ -171,22 +182,25 @@ void Navigation::parseILS( const QDomElement &node )
         QDomElement nodePositionLOC = node.firstChildElement( "position_loc" );
         QDomElement nodePositionDME = node.firstChildElement( "position_dme" );
 
-        if ( !nodeFrequncy.isNull()
+        if ( !nodeIdentifier.isNull()
+          && !nodeFrequncy.isNull()
           && !nodeGlideSlope.isNull()
           && !nodeHeading.isNull()
-          && !nodePositionGS.isNull()
-          && !nodePositionLOC.isNull()
-          && !nodePositionDME.isNull() )
+          && !nodePositionLOC.isNull() )
         {
             ILS ils;
 
+            ils.ident       = nodeIdentifier.text().toStdString();
             ils.freq        = 1000 * nodeFrequncy.text().toDouble();
             ils.glide_slope = fdm::Units::deg2rad( nodeGlideSlope.text().toDouble() );
             ils.heading     = fdm::Units::deg2rad( nodeHeading.text().toDouble() );
 
-            ils.pos_wgs_gs  = readPosition( nodePositionGS );
             ils.pos_wgs_loc = readPosition( nodePositionLOC );
-            ils.pos_wgs_dme = readPosition( nodePositionDME );
+
+            if ( !nodePositionGS  .isNull() ) ils.pos_wgs_gs  = readPosition( nodePositionGS  );
+            if ( !nodePositionDME .isNull() ) ils.pos_wgs_dme = readPosition( nodePositionDME );
+
+            ils.dme = !nodePositionDME.isNull();
 
             _listILS.append( ils );
         }
@@ -218,14 +232,26 @@ void Navigation::parseVOR( const QDomElement &node )
 {
     if ( !node.isNull() )
     {
-        VOR vor;
+        QDomElement nodeIdentifier = node.firstChildElement( "ident" );
+        QDomElement nodeFrequncy   = node.firstChildElement( "freq" );
 
-        vor.freq = 1000 * node.firstChildElement( "freq" ).text().toFloat();
+        QDomElement nodePosition = node.firstChildElement( "position" );
 
-        QDomElement positionNode = node.firstChildElement( "position" );
-        vor.pos_wgs = readPosition( positionNode );
+        if ( !nodeIdentifier.isNull()
+          && !nodeFrequncy.isNull()
+          && !nodePosition.isNull() )
+        {
+            VOR vor;
 
-        _listVOR.append( vor );
+            vor.ident = nodeIdentifier.text().toStdString();
+            vor.freq  = 1000 * nodeFrequncy.text().toFloat();
+
+            vor.pos_wgs = readPosition( nodePosition );
+
+            vor.dme = true; // TODO
+
+            _listVOR.append( vor );
+        }
     }
 }
 
@@ -267,8 +293,10 @@ void Navigation::updateNavaids()
     _ils_lc_deviation = 0.0;
 
     _nav_cdi = Data::Navigation::NONE;
+    _nav_dme = false;
     _nav_bearing   = 0.0;
     _nav_deviation = 0.0;
+    _nav_distance  = 0.0;
 
     updateNavaidsActive();
 
@@ -363,7 +391,8 @@ void Navigation::updateILS()
 
         if ( fabs( azim - _ils->heading ) < fdm::Units::deg2rad( 10.0 ) )
         {
-            _nav_distance = pos_ned_dme.getLength();
+            _nav_dme = _ils->dme;
+            _nav_distance = _nav_dme ? pos_ned_dme.getLength() : 0.0;
 
             updateNAV( azim, _course, _ils_lc_max );
 
@@ -392,6 +421,7 @@ void Navigation::updateNAV()
 {
     if ( _vor )
     {
+        _nav_dme = true; // TODO
         _nav_distance = getDistance( _vor->pos_wgs );
 
         double azim = getAzimuth( _vor->pos_wgs );

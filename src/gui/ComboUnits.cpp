@@ -29,7 +29,7 @@
 ComboUnits::ComboUnits( QWidget *parent ) :
     QComboBox ( parent ),
 
-    _factor ( 1.0f ),
+    _factor ( 1.0 ),
 
     _index      ( currentIndex() ),
     _index_prev ( _index )
@@ -46,42 +46,42 @@ ComboUnits::~ComboUnits() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::convert( float value ) const
+double ComboUnits::convert( double value ) const
 {
     return value * _factor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::convertPrev( float value ) const
+double ComboUnits::convertPrev( double value ) const
 {
     return value * _factor_prev;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::invert( float value ) const
+double ComboUnits::invert( double value ) const
 {
     return value / _factor;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::invertPrev( float value ) const
+double ComboUnits::invertPrev( double value ) const
 {
     return value / _factor_prev;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-float ComboUnits::getCoef( int index ) const
+double ComboUnits::getCoef( int index ) const
 {
     if ( index >= 0 && index < (int)_coefs.size() )
     {
         return _coefs[ index ];
     }
 
-    return std::numeric_limits< float >::quiet_NaN();
+    return std::numeric_limits< double >::quiet_NaN();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

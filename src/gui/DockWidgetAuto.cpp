@@ -134,7 +134,7 @@ double DockWidgetAuto::getAltitude() const
 
 double DockWidgetAuto::getCourse() const
 {
-    return _ui->spinBox_CRS->value();
+    return _ui->spinBoxCRS->value();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -363,6 +363,18 @@ bool DockWidgetAuto::isWorking()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double DockWidgetAuto::normalizeHeading( double heading )
+{
+    if      ( heading < 0.0 )
+        heading += 360.0;
+    else if ( heading >= 360.0 )
+        heading -= 360.0;
+
+    return heading;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetAuto::settingsRead()
 {
     QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );
@@ -422,8 +434,8 @@ void DockWidgetAuto::updateIdle()
     _altitude = fdm::Units::ft2m( 100.0 );
     _climbRate = 0.0;
 
-    _ui->spinBox_CRS->setValue( 0.0 );
-    _ui->spinBox_HDG->setValue( 0.0 );
+    _ui->spinBoxCRS->setValue( 0.0 );
+    _ui->spinBoxHDG->setValue( 0.0 );
 
     _ui->pushButtonShowALT->setChecked( true );
     _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _altitude ) );
@@ -619,7 +631,7 @@ void DockWidgetAuto::on_pushButtonHDG_clicked()
     {
         if ( _autopilot_c172 )
         {
-            _autopilot_c172->setHeading( fdm::Units::deg2rad( _ui->spinBox_HDG->value() ) );
+            _autopilot_c172->setHeading( fdm::Units::deg2rad( _ui->spinBoxHDG->value() ) );
             _autopilot_c172->onPressedHDG();
         }
     }
@@ -631,7 +643,11 @@ void DockWidgetAuto::on_pushButtonNAV_clicked()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedNAV();
+        if ( _autopilot_c172 )
+        {
+            _autopilot_c172->setCourse( fdm::Units::deg2rad( _ui->spinBoxCRS->value() ) );
+            _autopilot_c172->onPressedNAV();
+        }
     }
 }
 
@@ -707,10 +723,8 @@ void DockWidgetAuto::on_pushButtonTest_released()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetAuto::on_pushButton_CRS_clicked()
+void DockWidgetAuto::on_pushButtonSetCRS_clicked()
 {
-
-
     if ( Data::get()->navigation.nav_cdi != Data::Navigation::NONE )
     {
         double bearing = Data::get()->navigation.nav_bearing;
@@ -727,58 +741,44 @@ void DockWidgetAuto::on_pushButton_CRS_clicked()
         while ( bearing_deg <   0.0 ) bearing_deg += 360.0;
         while ( bearing_deg > 360.0 ) bearing_deg -= 360.0;
 
-        _ui->spinBox_CRS->setValue( bearing_deg );
+        _ui->spinBoxCRS->setValue( bearing_deg );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetAuto::on_pushButton_HDG_clicked()
+void DockWidgetAuto::on_pushButtonSetHDG_clicked()
 {
     double heading = floor( fdm::Units::rad2deg( Data::get()->ownship.heading ) + 0.5 );
-    _ui->spinBox_HDG->setValue( heading );
+    _ui->spinBoxHDG->setValue( heading );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetAuto::on_spinBox_CRS_valueChanged( double arg1 )
+void DockWidgetAuto::on_spinBoxCRS_valueChanged( double arg1 )
 {
-    double psi = arg1;
-
-    if ( psi < 0.0 || psi >= 360.0 )
+    if ( arg1 < 0.0 || arg1 >= 360.0 )
     {
-        if ( psi < 0.0 )
-            psi += 360.0;
-        else
-            psi -= 360.0;
-
-        _ui->spinBox_CRS->setValue( psi );
+        _ui->spinBoxCRS->setValue( normalizeHeading( arg1 ) );
     }
     else
     {
-        //if ( _autopilot ) _autopilot->setCourse( fdm::Units::deg2rad( psi ) );
+        if ( _autopilot ) _autopilot->setCourse( fdm::Units::deg2rad( arg1 ) );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetAuto::on_spinBox_HDG_valueChanged( double arg1 )
+void DockWidgetAuto::on_spinBoxHDG_valueChanged( double arg1 )
 {
-    double psi = arg1;
-
-    if ( psi < 0.0 || psi >= 360.0 )
+    if ( arg1 < 0.0 || arg1 >= 360.0 )
     {
-        if ( psi < 0.0 )
-            psi += 360.0;
-        else
-            psi -= 360.0;
-
-        _ui->spinBox_HDG->setValue( psi );
+        _ui->spinBoxHDG->setValue( normalizeHeading( arg1 ) );
     }
     else
     {
-        if ( _autopilot ) _autopilot->setHeading( fdm::Units::deg2rad( psi ) );
+        if ( _autopilot ) _autopilot->setHeading( fdm::Units::deg2rad( arg1 ) );
     }
 }
 

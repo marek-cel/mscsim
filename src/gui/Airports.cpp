@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <gui/Locations.h>
+#include <gui/Airports.h>
 
 #include <QFile>
 
@@ -31,13 +31,22 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Locations* Locations::_instance = NULLPTR;
+Airports* Airports::_instance = NULLPTR;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Locations::Locations()
+Airports::Airports()
 {
-    QFile file( fdm::Path::get( "data/gui/locations.xml" ).c_str() );
+    _default.name   = "";
+    _default.lat    = 0.0;
+    _default.lon    = 0.0;
+    _default.alt    = 0.0;
+    _default.hdg    = 0.0;
+    _default.elev   = 0.0;
+    _default.slope  = 0.0;
+    _default.runway = false;
+
+    QFile file( fdm::Path::get( "data/gui/airports.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -47,14 +56,14 @@ Locations::Locations()
 
         QDomElement rootNode = doc.documentElement();
 
-        if ( rootNode.tagName() == "locations" )
+        if ( rootNode.tagName() == "airports" )
         {
-            QDomElement locationNode = rootNode.firstChildElement( "location" );
+            QDomElement airportNode = rootNode.firstChildElement( "airport" );
 
-            while ( !locationNode.isNull() )
+            while ( !airportNode.isNull() )
             {
-                parseLocation( locationNode );
-                locationNode = locationNode.nextSiblingElement( "location" );
+                parseAirport( airportNode );
+                airportNode = airportNode.nextSiblingElement( "airport" );
             }
         }
     }
@@ -62,11 +71,35 @@ Locations::Locations()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Locations::~Locations() {}
+Airports::~Airports() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Locations::parseLocation( QDomElement &node )
+void Airports::parseAirport( QDomElement &node )
+{
+    QDomElement nameNode = node.firstChildElement( "name" );
+
+    if ( !nameNode.isNull() )
+    {
+        Airport airport;
+
+        airport.name = nameNode.text();
+
+        QDomElement locationNode = node.firstChildElement( "location" );
+
+        while ( !locationNode.isNull() )
+        {
+            parseLocation( locationNode, airport );
+            locationNode = locationNode.nextSiblingElement( "location" );
+        }
+
+        _airports.push_back( airport );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Airports::parseLocation( QDomElement &node, Airport &airport )
 {
     QDomElement nameNode = node.firstChildElement( "name" );
 
@@ -85,16 +118,21 @@ void Locations::parseLocation( QDomElement &node )
 
         location.name = nameNode.text();
 
-        location.lat = fdm::Units::deg2rad( latNode.text().toFloat() );
-        location.lon = fdm::Units::deg2rad( lonNode.text().toFloat() );
-        location.alt = altNode.text().toFloat();
-        location.hdg = fdm::Units::deg2rad( hdgNode.text().toFloat() );
+        location.lat = fdm::Units::deg2rad( latNode.text().toDouble() );
+        location.lon = fdm::Units::deg2rad( lonNode.text().toDouble() );
+        location.alt = altNode.text().toDouble();
+        location.hdg = fdm::Units::deg2rad( hdgNode.text().toDouble() );
 
-        location.elev  = node.attributeNode( "elevation" ).value().toFloat();
-        location.slope = fdm::Units::deg2rad( node.attributeNode( "slope" ).value().toFloat() );
+        location.elev  = node.attributeNode( "elevation" ).value().toDouble();
+        location.slope = fdm::Units::deg2rad( node.attributeNode( "slope" ).value().toDouble() );
 
         location.runway = node.attributeNode( "runway" ).value().toInt() != 0;
 
-        _locations.push_back( location );
+        if (  node.attributeNode( "default" ).value().toInt() != 0 )
+        {
+            _default = location;
+        }
+
+        airport.locations.push_back( location );
     }
 }

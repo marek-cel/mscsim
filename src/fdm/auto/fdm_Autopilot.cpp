@@ -214,6 +214,13 @@ void Autopilot::setHeading( double heading )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Autopilot::setCourse( double course )
+{
+    _fd->setCourse( course );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Autopilot::setPitch( double pitch )
 {
     _fd->setPitch( Misc::satur( _min_pitch, _max_pitch, pitch ) );

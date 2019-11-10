@@ -124,9 +124,9 @@ Table::Table( const Table &table ) :
 
 Table::~Table()
 {
-    FDM_DELETE_TAB( _keyValues );
-    FDM_DELETE_TAB( _tableData );
-    FDM_DELETE_TAB( _interpolData );
+    FDM_DELTAB( _keyValues );
+    FDM_DELTAB( _tableData );
+    FDM_DELTAB( _interpolData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -365,9 +365,9 @@ std::string Table::toString()
 
 const Table& Table::operator= ( const Table &table )
 {
-    FDM_DELETE_TAB( _keyValues );
-    FDM_DELETE_TAB( _tableData );
-    FDM_DELETE_TAB( _interpolData );
+    FDM_DELTAB( _keyValues );
+    FDM_DELTAB( _tableData );
+    FDM_DELTAB( _interpolData );
 
     _size = table._size;
 

@@ -100,6 +100,7 @@ private:
 
 private slots:
 
+    void on_comboAirports_currentIndexChanged( int index );
     void on_comboLocations_currentIndexChanged( int index );
 
     void on_checkBoxOnFinal_toggled( bool checked );

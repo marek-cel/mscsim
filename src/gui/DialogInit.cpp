@@ -29,7 +29,7 @@
 #include <fdm/utils/fdm_WGS84.h>
 
 #include <gui/Aircrafts.h>
-#include <gui/Locations.h>
+#include <gui/Airports.h>
 
 #include <gui/DialogTime.h>
 
@@ -58,10 +58,12 @@ DialogInit::DialogInit( QWidget *parent ) :
         _ui->comboAircrafts->addItem( QIcon(), Aircrafts::instance()->getAircraft( i ).name );
     }
 
-    for ( int i = 0; i < Locations::instance()->getCount(); i++ )
+    for ( int i = 0; i < Airports::instance()->getCount(); i++ )
     {
-        _ui->comboLocations->addItem( QIcon(), Locations::instance()->getLocation( i ).name );
+        _ui->comboAirports->addItem( QIcon(), Airports::instance()->getAirport( i ).name );
     }
+
+    _ui->comboAirports->setCurrentIndex( -1 );
 
     settingsRead();
 }
@@ -80,6 +82,7 @@ DialogInit::~DialogInit()
 void DialogInit::readData()
 {
     _ui->comboAircrafts->setCurrentIndex( _typeIndex );
+    _ui->comboAirports->setCurrentIndex( -1 );
     _ui->comboLocations->setCurrentIndex( -1 );
 
     _ui->checkBoxOnFinal->setEnabled( false );
@@ -109,9 +112,17 @@ void DialogInit::saveData()
 
     if ( _ui->checkBoxOnFinal->isChecked() && _ui->spinDistance->value() != 0.0 )
     {
-        int index = _ui->comboLocations->currentIndex();
+        int indexApt = _ui->comboAirports->currentIndex();
+        int indexLoc = _ui->comboLocations->currentIndex();
 
-        if ( index >= 0 && index < Locations::instance()->getCount() )
+        Airports::Airport airport;
+
+        if ( indexApt >= 0 && indexApt < Airports::instance()->getCount() )
+        {
+            airport = Airports::instance()->getAirport( indexApt );
+        }
+
+        if ( indexLoc >= 0 && indexLoc < airport.locations.count() )
         {
             double dist = _ui->comboDistance->invert( _ui->spinDistance->value() );
 
@@ -136,11 +147,11 @@ void DialogInit::saveData()
             _lat = wgs.getPos_Geo().lat;
             _lon = wgs.getPos_Geo().lon;
 
-            double slope = Locations::instance()->getLocation( index ).slope;
+            double slope = airport.locations.at( indexLoc ).slope;
 
             if ( dist < 0.0 ) slope = 0.0;
 
-            _alt = Locations::instance()->getLocation( index ).elev + dist * tan( slope );
+            _alt = airport.locations.at( indexLoc ).elev + dist * tan( slope );
         }
     }
     else
@@ -188,27 +199,20 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
 
     _typeIndex = settings.value( "type_index", 0 ).toInt();
 
-    if ( Locations::instance()->getCount() > 0 )
-    {
-        _lat = settings.value( "lat", Locations::instance()->getLocation( 0 ).lat ).toFloat();
-        _lon = settings.value( "lon", Locations::instance()->getLocation( 0 ).lon ).toFloat();
-        _alt = settings.value( "alt", Locations::instance()->getLocation( 0 ).alt ).toFloat();
-        _psi = settings.value( "psi", Locations::instance()->getLocation( 0 ).hdg ).toFloat();
-        _ias = settings.value( "ias", 0.0 ).toFloat();
-    }
-    else
-    {
-        _lat = settings.value( "lat", 0.0 ).toFloat();
-        _lon = settings.value( "lon", 0.0 ).toFloat();
-        _alt = settings.value( "alt", 0.0 ).toFloat();
-        _psi = settings.value( "psi", 0.0 ).toFloat();
-        _ias = settings.value( "ias", 0.0 ).toFloat();
-    }
+    Airports::Location location = Airports::instance()->getDefault();
+
+    _lat = settings.value( "lat", location.lat ).toFloat();
+    _lon = settings.value( "lon", location.lon ).toFloat();
+    _alt = settings.value( "alt", location.alt ).toFloat();
+    _psi = settings.value( "psi", location.hdg ).toFloat();
+    _ias = settings.value( "ias", 0.0 ).toFloat();
+
+    short noon = 12 + floor( 12.0 * _lon / M_PI );
 
     short date_y = settings.value( "date_y", 2000 ).toInt();
     short date_m = settings.value( "date_m",    1 ).toInt();
     short date_d = settings.value( "date_d",    1 ).toInt();
-    short time_h = settings.value( "time_h",   12 ).toInt();
+    short time_h = settings.value( "time_h", noon ).toInt();
     short time_m = settings.value( "time_m",    0 ).toInt();
 
     QDate date;
@@ -315,21 +319,49 @@ void DialogInit::settingsSave_UnitCombos( QSettings &settings )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DialogInit::on_comboAirports_currentIndexChanged( int index )
+{
+    _ui->comboLocations->clear();
+
+    if ( index >= 0 && index < Airports::instance()->getCount() )
+    {
+        Airports::Airport airport = Airports::instance()->getAirport( index );
+
+        for ( int i = 0; i < airport.locations.count(); i++ )
+        {
+            _ui->comboLocations->addItem( QIcon(), airport.locations.at( i ).name );
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DialogInit::on_comboLocations_currentIndexChanged( int index )
 {
-    if ( index > -1 )
+    int indexApt = _ui->comboAirports->currentIndex();
+
+    Airports::Airport airport;
+
+    if ( indexApt >= 0 && indexApt < Airports::instance()->getCount() )
     {
-        float lat = Locations::instance()->getLocation( index ).lat;
-        float lon = Locations::instance()->getLocation( index ).lon;
-        float alt = Locations::instance()->getLocation( index ).alt;
-        float hdg = Locations::instance()->getLocation( index ).hdg;
+        airport = Airports::instance()->getAirport( indexApt );
+    }
+
+    if ( index >= 0 && index < airport.locations.count() )
+    {
+        Airports::Location location = airport.locations.at( index );
+
+        double lat = location.lat;
+        double lon = location.lon;
+        double alt = location.alt;
+        double hdg = location.hdg;
 
         _ui->spinInitLat->setValue( _ui->comboInitLat->convert( lat ) );
         _ui->spinInitLon->setValue( _ui->comboInitLon->convert( lon ) );
         _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( ( alt > 1.0e-6 ) ? alt : 0.0f ) );
         _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( hdg ) );
 
-        if ( Locations::instance()->getLocation( index ).runway )
+        if ( location.runway )
         {
             _ui->checkBoxOnFinal->setEnabled( true );
         }
@@ -470,13 +502,13 @@ void DialogInit::on_comboInitPsi_currentIndexChanged( int index )
     if ( index == 0 )
     {
         // rad
-        _ui->spinInitPsi->setDecimals( 2 );
+        _ui->spinInitPsi->setDecimals( 3 );
         _ui->spinInitPsi->setMaximum( 2.0 * M_PI );
     }
     else
     {
         // deg
-        _ui->spinInitPsi->setDecimals( 0 );
+        _ui->spinInitPsi->setDecimals( 1 );
         _ui->spinInitPsi->setMaximum( 360.0 );
     }
 

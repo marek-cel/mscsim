@@ -1,5 +1,6 @@
 HEADERS += \
     $$PWD/Aircrafts.h \
+    $$PWD/Airports.h \
     $$PWD/Colors.h \
     $$PWD/ComboUnits.h \
     $$PWD/ComboUnitsAngle.h \
@@ -33,7 +34,6 @@ HEADERS += \
     $$PWD/KeyHandler.h \
     $$PWD/Keys.h \
     $$PWD/LayoutSquare.h \
-    $$PWD/Locations.h \
     $$PWD/MainWindow.h \
     $$PWD/PageControls.h \
     $$PWD/PageGeneral.h \
@@ -45,6 +45,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/Aircrafts.cpp \
+    $$PWD/Airports.cpp \
     $$PWD/Colors.cpp \
     $$PWD/ComboUnits.cpp \
     $$PWD/ComboUnitsAngle.cpp \
@@ -77,7 +78,6 @@ SOURCES += \
     $$PWD/KeyHandler.cpp \
     $$PWD/Keys.cpp \
     $$PWD/LayoutSquare.cpp \
-    $$PWD/Locations.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/PageControls.cpp \
     $$PWD/PageGeneral.cpp \

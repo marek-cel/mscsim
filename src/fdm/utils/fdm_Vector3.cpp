@@ -30,9 +30,9 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const Vector3 Vector3::_ux = Vector3( 1.0, 0.0, 0.0 );
-const Vector3 Vector3::_uy = Vector3( 0.0, 1.0, 0.0 );
-const Vector3 Vector3::_uz = Vector3( 0.0, 0.0, 1.0 );
+const Vector3 Vector3::_ex = Vector3( 1.0, 0.0, 0.0 );
+const Vector3 Vector3::_ey = Vector3( 0.0, 1.0, 0.0 );
+const Vector3 Vector3::_ez = Vector3( 0.0, 0.0, 1.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 

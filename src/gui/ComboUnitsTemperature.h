@@ -43,11 +43,11 @@ public:
     /** Destructor. */
     virtual ~ComboUnitsTemperature();
 
-    float convert( float value ) const;
-    float convertPrev( float value ) const;
+    double convert( double value ) const;
+    double convertPrev( double value ) const;
 
-    float invert( float value ) const;
-    float invertPrev( float value ) const;
+    double invert( double value ) const;
+    double invertPrev( double value ) const;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

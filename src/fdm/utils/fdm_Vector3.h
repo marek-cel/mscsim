@@ -39,9 +39,17 @@ class FDMEXPORT Vector3 : public Vector< 3 >
 {
 public:
 
-    static const Vector3 _ux;
-    static const Vector3 _uy;
-    static const Vector3 _uz;
+    static const Vector3 _ex;   ///< standard basis x-axis unit vector
+    static const Vector3 _ey;   ///< standard basis y-axis unit vector
+    static const Vector3 _ez;   ///< standard basis z-axis unit vector
+
+    inline static const Vector3& ex() { return _ex; }
+    inline static const Vector3& ey() { return _ey; }
+    inline static const Vector3& ez() { return _ez; }
+
+    inline static const Vector3& i() { return _ex; }
+    inline static const Vector3& j() { return _ey; }
+    inline static const Vector3& k() { return _ez; }
 
     /** Constructor. */
     Vector3();
@@ -112,9 +120,9 @@ public:
 
 private:
 
-    double &_x;     ///<
-    double &_y;     ///<
-    double &_z;     ///<
+    double &_x;     ///< x element
+    double &_y;     ///< y element
+    double &_z;     ///< z element
 };
 
 } // end of fdm namespace

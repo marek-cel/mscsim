@@ -47,20 +47,20 @@ public:
     /** Destructor. */
     virtual ~ComboUnits();
 
-    virtual float convert( float value ) const;
-    virtual float convertPrev( float value ) const;
+    virtual double convert( double value ) const;
+    virtual double convertPrev( double value ) const;
 
-    virtual float invert( float value ) const;
-    virtual float invertPrev( float value ) const;
+    virtual double invert( double value ) const;
+    virtual double invertPrev( double value ) const;
 
-    virtual float getCoef( int index ) const;
+    virtual double getCoef( int index ) const;
 
-    inline float getFactor() const { return _factor; }
+    inline double getFactor() const { return _factor; }
 
 protected:
 
-    float _factor;          ///< [-]
-    float _factor_prev;     ///< [-]
+    double _factor;         ///< [-]
+    double _factor_prev;    ///< [-]
 
     int _index;             ///<
     int _index_prev;        ///<

@@ -59,6 +59,8 @@ Manager::Manager() :
 
     _timeSteps ( 0 ),
 
+    _timeStepMax ( 0.0 ),
+
     _verbose ( true )
 {
     memset( &_dataInp, 0, sizeof(DataInp) );
@@ -165,6 +167,12 @@ void Manager::initInFlight()
 
         // TODO
         _stateOut = DataOut::Ready;
+
+        if ( _verbose )
+        {
+            Log::i() << "In-flight initialization finished in " << _initStep << " steps" << std::endl;
+            printState();
+        }
 
         _aircraft->setStateVector( stateVector );
     }
@@ -465,6 +473,8 @@ void Manager::updateStateInp()
 
 void Manager::updateStateIdle()
 {
+    _timeStepMax = 0.0;
+
     updateInitialPositionAndAttitude();
 
     Angles angles_wgs = _init_att_wgs.getAngles();
@@ -623,7 +633,12 @@ void Manager::updateStateInit()
                     if ( _dataInp.recording.mode == DataInp::Recording::Replay )
                     {
                         _stateOut = DataOut::Ready;
-                        printState();
+
+                        if ( _verbose )
+                        {
+                            Log::i() << "Flight replaying started." << std::endl;
+                            printState();
+                        }
                     }
                 }
             }
@@ -657,6 +672,8 @@ void Manager::updateStateInit()
 
 void Manager::updateStateWork()
 {
+    if ( _timeStep > _timeStepMax ) _timeStepMax = _timeStep;
+
     if ( _aircraft != 0 )
     {
         try
@@ -713,7 +730,7 @@ void Manager::updateStateWork()
                         break;
                     }
 
-                    printState();
+                    printFlightEndInfo();
                 }
             }
         }
@@ -740,6 +757,8 @@ void Manager::updateStateWork()
 
 void Manager::updateStateFreeze()
 {
+    if ( _timeStep > _timeStepMax ) _timeStepMax = _timeStep;
+
     if ( _aircraft != 0 )
     {
         try
@@ -783,15 +802,9 @@ void Manager::updateStatePause()
 
 void Manager::updateStateStop()
 {
-    if ( _verbose )
+    if ( _verbose && _timeSteps > 0 && _stateOut != DataOut::Stopped )
     {
-        if ( _timeSteps > 0 && _stateOut != DataOut::Stopped )
-        {
-            double meanStep = _realTime / (double)_timeSteps;
-            double meanFreq = 1.0 / meanStep;
-            Log::i() << "Mean time step: " << meanStep << " s"  << std::endl;
-            Log::i() << "Mean frequency: " << meanFreq << " Hz" << std::endl;
-        }
+        printFlightEndInfo();
     }
 
     _realTime = 0.0;
@@ -805,15 +818,37 @@ void Manager::updateStateStop()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Manager::printFlightEndInfo()
+{
+    Log::i() << "Flight finished." << std::endl;
+    printState();
+
+    double meanStep = _realTime / (double)_timeSteps;
+    double meanFreq = 1.0 / meanStep;
+    Log::i() << "Mean time step: " << meanStep << " s"  << std::endl;
+    Log::i() << "Mean frequency: " << meanFreq << " Hz" << std::endl;
+
+    Log::i() << "Max time step: " << _timeStepMax << " s" << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Manager::printState()
 {
     if ( _aircraft )
     {
-        Log::out() << "        x-wgs [m] : " << _aircraft->getPos_WGS().x() << std::endl;
-        Log::out() << "        y-wgs [m] : " << _aircraft->getPos_WGS().y() << std::endl;
-        Log::out() << "        z-wgs [m] : " << _aircraft->getPos_WGS().z() << std::endl;
-        Log::out() << "   latitude [deg] : " << Units::rad2deg( _aircraft->getWGS().getPos_Geo().lat ) << std::endl;
-        Log::out() << "  longitude [deg] : " << Units::rad2deg( _aircraft->getWGS().getPos_Geo().lon ) << std::endl;
+        Log::out().setf( std::ios_base::showpoint );
+        Log::out().setf( std::ios_base::fixed );
+
+        Log::out() << "        x-wgs [m] : " << std::setprecision( 3 ) << _aircraft->getPos_WGS().x() << std::endl;
+        Log::out() << "        y-wgs [m] : " << std::setprecision( 3 ) << _aircraft->getPos_WGS().y() << std::endl;
+        Log::out() << "        z-wgs [m] : " << std::setprecision( 3 ) << _aircraft->getPos_WGS().z() << std::endl;
+        Log::out() << "   latitude [deg] : " << std::setprecision( 6 ) << Units::rad2deg( _aircraft->getWGS().getPos_Geo().lat ) << std::endl;
+        Log::out() << "  longitude [deg] : " << std::setprecision( 6 ) << Units::rad2deg( _aircraft->getWGS().getPos_Geo().lon ) << std::endl;
+
+        Log::out().unsetf( std::ios_base::showpoint );
+        Log::out().unsetf( std::ios_base::fixed );
+
         Log::out() << " altitude ASL [m] : " << _aircraft->getAltitude_ASL() << std::endl;
         Log::out() << " altitude AGL [m] : " << _aircraft->getAltitude_AGL() << std::endl;
         Log::out() << "       roll [deg] : " << Units::rad2deg( _aircraft->getAngles_NED().phi() ) << std::endl;

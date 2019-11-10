@@ -29,13 +29,13 @@
 ComboUnitsPressure::ComboUnitsPressure( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    _coefs.push_back( 1.0f );
+    _coefs.push_back( 1.0 );
     _names.push_back( QString( "Pa" ) );
 
-    _coefs.push_back( 0.01f );
+    _coefs.push_back( 0.01 );
     _names.push_back( QString( "hPa" ) );
 
-    _coefs.push_back( 0.00001f );
+    _coefs.push_back( 0.00001 );
     _names.push_back( QString( "bar" ) );
 
     _coefs.push_back( fdm::Units::pa2psi() );

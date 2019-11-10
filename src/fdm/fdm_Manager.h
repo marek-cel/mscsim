@@ -93,6 +93,8 @@ private:
 
     unsigned int _timeSteps;        ///< number of time steps
 
+    double _timeStepMax;            ///< [s] simulation maximum time step
+
     bool _verbose;                  ///< specify if extra information should be printed
 
     /**
@@ -134,6 +136,7 @@ private:
     void updateStatePause();
     void updateStateStop();
 
+    void printFlightEndInfo();
     void printState();
 };
 

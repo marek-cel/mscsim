@@ -118,8 +118,10 @@ protected:
     PID _pid_vs;            ///< VS mode PID controller
     PID _pid_arm;           ///< ARM mode PID controller
     PID _pid_gs;            ///< GS quasi mode PID controller
-    PID _pid_nav;           ///< NAV mode PID controller
-    PID _pid_apr;           ///< APR mode PID controller
+    PID _pid_nav_ang;       ///< NAV mode PID controller (angular)
+    PID _pid_nav_lin;       ///< NAV mode PID controller (linear)
+    PID _pid_apr_ang;       ///< APR mode PID controller (angular)
+    PID _pid_apr_lin;       ///< APR mode PID controller (linear)
     PID _pid_hdg;           ///< HDG mode PID controller
     PID _pid_trn;           ///< TRN quasi mode PID controller
 

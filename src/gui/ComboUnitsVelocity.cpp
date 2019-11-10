@@ -29,22 +29,22 @@
 ComboUnitsVelocity::ComboUnitsVelocity( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    _coefs.push_back( 1.0f );
+    _coefs.push_back( 1.0 );
     _names.push_back( QString( "m/s" ) );
 
-    _coefs.push_back( (float)fdm::Units::mps2fpm() );
+    _coefs.push_back( fdm::Units::mps2fpm() );
     _names.push_back( QString( "ft/min" ) );
 
-    _coefs.push_back( (float)fdm::Units::mps2fps() );
+    _coefs.push_back( fdm::Units::mps2fps() );
     _names.push_back( QString( "ft/s" ) );
 
-    _coefs.push_back( (float)fdm::Units::mps2kmh() );
+    _coefs.push_back( fdm::Units::mps2kmh() );
     _names.push_back( QString( "km/h" ) );
 
-    _coefs.push_back( (float)fdm::Units::mps2kts() );
+    _coefs.push_back( fdm::Units::mps2kts() );
     _names.push_back( QString( "kts" ) );
 
-    _coefs.push_back( (float)fdm::Units::mps2mph() );
+    _coefs.push_back( fdm::Units::mps2mph() );
     _names.push_back( QString( "mph" ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );

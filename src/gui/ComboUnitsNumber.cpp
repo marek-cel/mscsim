@@ -27,10 +27,10 @@
 ComboUnitsNumber::ComboUnitsNumber( QWidget *parent ) :
     ComboUnits ( parent )
 {
-    _coefs.push_back( 1.0f );
+    _coefs.push_back( 1.0 );
     _names.push_back( QString( "-" ) );
 
-    _coefs.push_back( 100.0f );
+    _coefs.push_back( 100.0 );
     _names.push_back( QString( "%" ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );

@@ -240,8 +240,8 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         double for_norm = wheel.k * deflection_norm - wheel.c * v_norm;
 
         // longitudal and lateral directions
-        Vector3 dir_lon_bas = ( _aircraft->getNormal_BAS() ^ Vector3::_uy ).getNormalized();
-        Vector3 dir_lat_bas = ( Vector3::_ux ^ _aircraft->getNormal_BAS() ).getNormalized();
+        Vector3 dir_lon_bas = ( _aircraft->getNormal_BAS() ^ Vector3::ey() ).getNormalized();
+        Vector3 dir_lat_bas = ( Vector3::ex() ^ _aircraft->getNormal_BAS() ).getNormalized();
 
         // longitudal and lateral velocity components
         double vel_lon = v_tang_bas * dir_lon_bas;

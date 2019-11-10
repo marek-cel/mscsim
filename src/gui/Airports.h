@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef LOCATIONS_H
-#define LOCATIONS_H
+#ifndef AIRPORTS_H
+#define AIRPORTS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30,67 +30,79 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief Locations class.
+ * @brief Airports class.
  */
-class Locations
+class Airports
 {
 public:
 
     /** */
     struct Location
     {
-        QString name;   ///< name
+        QString name;                   ///< name
 
-        float lat;      ///< [rad]
-        float lon;      ///< [rad]
-        float alt;      ///< [m]
-        float hdg;      ///< [rad]
+        double lat;                     ///< [rad]
+        double lon;                     ///< [rad]
+        double alt;                     ///< [m]
+        double hdg;                     ///< [rad]
 
-        float elev;     ///< [m]
-        float slope;    ///< [rad]
+        double elev;                    ///< [m]
+        double slope;                   ///< [rad]
 
-        bool runway;    ///<
+        bool runway;                    ///<
     };
 
     /** */
-    static inline Locations* instance()
+    struct Airport
+    {
+        QString name;                   ///< name
+        QVector< Location > locations;  ///< locations
+    };
+
+    /** */
+    static inline Airports* instance()
     {
         if ( !_instance )
         {
-            _instance = new Locations();
+            _instance = new Airports();
         }
 
         return _instance;
     }
 
     /** Destructor. */
-    virtual ~Locations();
+    virtual ~Airports();
 
-    inline Location getLocation( int index ) const
+    inline Airport getAirport( int index ) const
     {
-        return _locations.at( index );
+        return _airports.at( index );
     }
 
-    inline int getCount() const { return _locations.size(); }
+    inline int getCount() const { return _airports.size(); }
+
+    inline Location getDefault() const { return _default; }
 
 private:
 
-    static Locations *_instance;        ///< instance of Locations singleton class
+    static Airports *_instance;         ///< instance of Locations singleton class
 
-    QVector< Location > _locations;     ///<
+    QVector< Airport > _airports;       ///< airports
+
+    Location _default;                  ///< default location
 
     /**
      * You should use static function instance() due to get refernce
-     * to Locations class instance.
+     * to Airports class instance.
      */
-    Locations();
+    Airports();
 
     /** Using this constructor is forbidden. */
-    Locations( const Locations & ) {}
+    Airports( const Airports & ) {}
 
-    void parseLocation( QDomElement &node );
+    void parseAirport( QDomElement &node );
+    void parseLocation( QDomElement &node, Airport &airport );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // LOCATIONS_H
+#endif // AIRPORTS_H

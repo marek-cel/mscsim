@@ -33,6 +33,8 @@ namespace fdm
 
 /**
  * @brief Band-stop filter (BSF) class.
+ *
+ * @todo TODO
  */
 class FDMEXPORT BSF
 {

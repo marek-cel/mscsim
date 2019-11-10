@@ -130,10 +130,10 @@ Table2D::Table2D( const Table2D &table ) :
 
 Table2D::~Table2D()
 {
-    FDM_DELETE_TAB( _rowValues );
-    FDM_DELETE_TAB( _colValues );
-    FDM_DELETE_TAB( _tableData );
-    FDM_DELETE_TAB( _interpolData );
+    FDM_DELTAB( _rowValues );
+    FDM_DELTAB( _colValues );
+    FDM_DELTAB( _tableData );
+    FDM_DELTAB( _interpolData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -290,10 +290,10 @@ std::string Table2D::toString()
 
 const Table2D& Table2D::operator= ( const Table2D &table )
 {
-    FDM_DELETE_TAB( _rowValues );
-    FDM_DELETE_TAB( _colValues );
-    FDM_DELETE_TAB( _tableData );
-    FDM_DELETE_TAB( _interpolData );
+    FDM_DELTAB( _rowValues );
+    FDM_DELTAB( _colValues );
+    FDM_DELTAB( _tableData );
+    FDM_DELTAB( _interpolData );
 
     _rows = table._rows;
     _cols = table._cols;

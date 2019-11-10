@@ -798,7 +798,7 @@ void MainWindow::updateDockEFIS()
         if ( Data::get()->navigation.nav_cdi == Data::Navigation::FROM ) cdi = GraphicsEHSI::FROM;
 
         _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
-                                Data::get()->navigation.nav_cdi != Data::Navigation::NONE );
+                                Data::get()->navigation.nav_dme );
         _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.nav_bearing ),
                                cdi != GraphicsEHSI::NONE );
         _dockEFIS->setDeviation( Data::get()->navigation.nav_norm, cdi );

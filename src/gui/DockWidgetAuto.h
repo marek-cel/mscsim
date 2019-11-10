@@ -114,6 +114,8 @@ private:
 
     bool isWorking();
 
+    double normalizeHeading( double heading );
+
     void settingsRead();
     void settingsSave();
 
@@ -143,11 +145,11 @@ private slots:
     void on_pushButtonTest_pressed();
     void on_pushButtonTest_released();
 
-    void on_pushButton_CRS_clicked();
-    void on_pushButton_HDG_clicked();
+    void on_pushButtonSetCRS_clicked();
+    void on_pushButtonSetHDG_clicked();
 
-    void on_spinBox_CRS_valueChanged( double arg1 );
-    void on_spinBox_HDG_valueChanged( double arg1 );
+    void on_spinBoxCRS_valueChanged( double arg1 );
+    void on_spinBoxHDG_valueChanged( double arg1 );
 
     void on_spinBoxALT_VS_editingFinished();
 

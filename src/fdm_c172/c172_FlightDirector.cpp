@@ -40,15 +40,17 @@ C172_FlightDirector::C172_FlightDirector() :
 
     _arm_mode ( ARM_NONE ),
 
-    _pid_alt ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_ias ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_vs  ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_arm ( 0.0, 0.0, 0.0, -DBL_MAX , DBL_MAX ),
-    _pid_gs  ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_nav ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_apr ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_hdg ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
-    _pid_trn ( 0.0, 0.0, 0.0, -DBL_MAX , DBL_MAX ),
+    _pid_alt     ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_ias     ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_vs      ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_arm     ( 0.0, 0.0, 0.0, -DBL_MAX , DBL_MAX ),
+    _pid_gs      ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_nav_ang ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_nav_lin ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_apr_ang ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_apr_lin ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_hdg     ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
+    _pid_trn     ( 0.0, 0.0, 0.0, -DBL_MAX , DBL_MAX ),
 
     _max_roll  ( 0.0 ),
     _min_pitch ( 0.0 ),
@@ -75,15 +77,17 @@ C172_FlightDirector::C172_FlightDirector() :
 
     _turnRateMode ( false )
 {
-    _pid_alt .setAntiWindup( PID::Calculation );
-    _pid_ias .setAntiWindup( PID::Calculation );
-    _pid_vs  .setAntiWindup( PID::Calculation );
-    _pid_arm .setAntiWindup( PID::Calculation );
-    _pid_gs  .setAntiWindup( PID::Calculation );
-    _pid_nav .setAntiWindup( PID::Calculation );
-    _pid_apr .setAntiWindup( PID::Calculation );
-    _pid_hdg .setAntiWindup( PID::Calculation );
-    _pid_trn .setAntiWindup( PID::Calculation );
+    _pid_alt     .setAntiWindup( PID::Calculation );
+    _pid_ias     .setAntiWindup( PID::Calculation );
+    _pid_vs      .setAntiWindup( PID::Calculation );
+    _pid_arm     .setAntiWindup( PID::Calculation );
+    _pid_gs      .setAntiWindup( PID::Calculation );
+    _pid_nav_ang .setAntiWindup( PID::Calculation );
+    _pid_nav_lin .setAntiWindup( PID::Calculation );
+    _pid_apr_ang .setAntiWindup( PID::Calculation );
+    _pid_apr_lin .setAntiWindup( PID::Calculation );
+    _pid_hdg     .setAntiWindup( PID::Calculation );
+    _pid_trn     .setAntiWindup( PID::Calculation );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,8 +126,10 @@ void C172_FlightDirector::readData( XmlNode &dataNode )
         XmlNode nodeARM = dataNode.getFirstChildElement( "mode_arm" );
         XmlNode nodeGS  = dataNode.getFirstChildElement( "mode_gs"  );
 
-        XmlNode nodeNAV = dataNode.getFirstChildElement( "mode_nav" );
-        XmlNode nodeAPR = dataNode.getFirstChildElement( "mode_apr" );
+        XmlNode nodeNAV_ANG = dataNode.getFirstChildElement( "mode_nav_ang" );
+        XmlNode nodeNAV_LIN = dataNode.getFirstChildElement( "mode_nav_lin" );
+        XmlNode nodeAPR_ANG = dataNode.getFirstChildElement( "mode_apr_ang" );
+        XmlNode nodeAPR_LIN = dataNode.getFirstChildElement( "mode_apr_lin" );
         XmlNode nodeHDG = dataNode.getFirstChildElement( "mode_hdg" );
         XmlNode nodeTRN = dataNode.getFirstChildElement( "mode_trn" );
 
@@ -133,8 +139,10 @@ void C172_FlightDirector::readData( XmlNode &dataNode )
         readMode( nodeARM , _pid_arm , -DBL_MAX   , DBL_MAX    );
         readMode( nodeGS  , _pid_gs  , _min_pitch , _max_pitch );
 
-        readMode( nodeNAV , _pid_nav , -_max_yaw  , _max_yaw  );
-        readMode( nodeAPR , _pid_apr , -_max_yaw  , _max_yaw  );
+        readMode( nodeNAV_ANG, _pid_nav_ang, -_max_yaw, _max_yaw );
+        readMode( nodeNAV_LIN, _pid_nav_lin, -_max_yaw, _max_yaw );
+        readMode( nodeAPR_ANG, _pid_apr_ang, -_max_yaw, _max_yaw );
+        readMode( nodeAPR_LIN, _pid_apr_lin, -_max_yaw, _max_yaw );
         readMode( nodeHDG , _pid_hdg , -DBL_MAX   , DBL_MAX   );
         readMode( nodeTRN , _pid_trn , -_max_roll , _max_roll );
 
@@ -318,11 +326,21 @@ void C172_FlightDirector::updateArmMode( double distance, double lat_deviation, 
     }
     else if ( _arm_mode == ARM_NONE && _lat_mode == LM_NAV && fabs( lat_deviation ) > _nav_dev_max )
     {
-        double lin_dev_max = _pid_nav.getMax() / _pid_nav.getKp();
-        double lin_deviation = distance * sin( lat_deviation );
+        if ( distance > 1.0e-9 )
+        {
+            double lin_dev_max = _pid_nav_lin.getMax() / _pid_nav_lin.getKp();
+            double lin_deviation = distance * sin( lat_deviation );
 
-        if ( fabs( lin_deviation ) > lin_dev_max )
-            _arm_mode = ARM_NAV;
+            if ( fabs( lin_deviation ) > lin_dev_max )
+                _arm_mode = ARM_NAV;
+        }
+        else
+        {
+            double ang_dev_max = _pid_nav_ang.getMax() / _pid_nav_ang.getKp();
+
+            if ( fabs( lat_deviation ) > ang_dev_max )
+                _arm_mode = ARM_NAV;
+        }
     }
 
     if ( _arm_mode == ARM_APR )
@@ -361,9 +379,17 @@ void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, do
         }
         else
         {
-            double lin_deviation = dme_distance * sin( hor_deviation );
-            _pid_nav.update( timeStep, lin_deviation );
-            _heading_act = _course + _pid_nav.getValue();
+            if ( dme_distance > 1.0e-9 )
+            {
+                double lin_deviation = dme_distance * sin( hor_deviation );
+                _pid_nav_lin.update( timeStep, lin_deviation );
+                _heading_act = _course + _pid_nav_lin.getValue();
+            }
+            else
+            {
+                _pid_nav_ang.update( timeStep, hor_deviation );
+                _heading_act = _course + _pid_nav_ang.getValue();
+            }
         }
     }
 }
@@ -380,9 +406,17 @@ void C172_FlightDirector::updateLatAPR( double timeStep, double dme_distance, do
         }
         else
         {
-            double lin_deviation = dme_distance * sin( hor_deviation );
-            _pid_apr.update( timeStep, lin_deviation );
-            _heading_act = _course + _pid_apr.getValue();
+            if ( dme_distance > 1.0e-9 )
+            {
+                double lin_deviation = dme_distance * sin( hor_deviation );
+                _pid_apr_lin.update( timeStep, lin_deviation );
+                _heading_act = _course + _pid_apr_lin.getValue();
+            }
+            else
+            {
+                _pid_apr_ang.update( timeStep, hor_deviation );
+                _heading_act = _course + _pid_apr_ang.getValue();
+            }
         }
     }
 }
