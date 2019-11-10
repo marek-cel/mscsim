@@ -1,4 +1,0 @@
-# Ignore everything in this directory
-*.osgb
-# Except this file
-!.gitignore
