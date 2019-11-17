@@ -22,7 +22,7 @@
 
 #include <fdm/utils/fdm_Quaternion.h>
 
-#include <math.h>
+#include <cmath>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Misc.h>

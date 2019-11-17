@@ -22,7 +22,7 @@
 
 #include <fdm/main/fdm_Aircraft.h>
 
-#include <memory.h>
+#include <cstring>
 
 #include <fdm/utils/fdm_GaussJordan.h>
 

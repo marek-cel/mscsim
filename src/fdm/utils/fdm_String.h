@@ -26,6 +26,7 @@
 
 #include <limits>
 #include <string>
+#include <vector>
 
 #include <fdm/fdm_Defines.h>
 
@@ -55,6 +56,14 @@ public:
      * @return integer result of the comparison (returns 0 if strings are equal)
      */
     static int icompare( const std::string &str_1, const std::string &str_2 );
+
+    /**
+     * Splits string with the given delimeter.
+     * @param str string to be splitted
+     * @param sep string separator
+     * @return vector of strings
+     */
+    static std::vector< std::string > split( const std::string &str, const std::string &sep );
 
     /**
      * Returns string with leading white spaces removed.

@@ -44,7 +44,7 @@ public:
         osg::ref_ptr<osg::Group> speedLeader;
     };
 
-    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Aerodromes;
+    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > PATs;
 
     /** Constructor. */
     Icons( const Module *parent = NULLPTR );
@@ -61,18 +61,32 @@ public:
 private:
 
     Ownship _ownship;
-    Aerodromes _aerodromes;
 
-    osg::ref_ptr<osg::Geode> _symbolAerodrome;
+    PATs _aerodromes;
+    PATs _navaids;
+    PATs _localizers;
+    PATs _runways;
+
+    osg::ref_ptr<osg::Node> _symbolAerodrome;
+    osg::ref_ptr<osg::Node> _symbolNavaidVOR;
+    osg::ref_ptr<osg::Node> _symbolNavaidVORTAC;
+    osg::ref_ptr<osg::Node> _symbolNavaidVORDME;
+    osg::ref_ptr<osg::Node> _symbolNavaidILSLOC;
 
     void createIcon( osg::Group *parent, float z,
                      const std::string &textureFile );
 
     void createOwnship();
 
-    void createSymbolAerodrome();
+    osg::Node* createRunway( double length, double width );
+    osg::Node* createSymbolILS();
+
+    osg::Node* getNavaidSymbol( int type );
 
     void initAerodromes();
+    void initLocalizers();
+    void initNavaids();
+    void initRunways();
 
     void updateOwnship();
 };

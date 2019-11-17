@@ -24,8 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
 
 #ifdef _MSC_VER
 #   include <float.h>
@@ -77,7 +76,7 @@ public:
 #       ifdef _MSC_VER
         return !( _finite( val ) );
 #       else
-        return isinf( val );
+        return std::isinf( val );
 #       endif
     }
 

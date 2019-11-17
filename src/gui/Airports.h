@@ -84,7 +84,7 @@ public:
 
 private:
 
-    static Airports *_instance;         ///< instance of Locations singleton class
+    static Airports *_instance;         ///< instance of Airports singleton class
 
     QVector< Airport > _airports;       ///< airports
 

@@ -25,7 +25,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 
 #ifdef _LINUX_
 #   include <sys/time.h>

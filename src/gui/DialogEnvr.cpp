@@ -23,7 +23,7 @@
 #include <gui/DialogEnvr.h>
 #include <ui_DialogEnvr.h>
 
-#include <math.h>
+#include <cmath>
 
 #include <cgi/cgi_Defines.h>
 #include <gui/gui_Defines.h>

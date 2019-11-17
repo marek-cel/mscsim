@@ -26,8 +26,8 @@
 #   include <float.h>
 #endif
 
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 
 ////////////////////////////////////////////////////////////////////////////////
 

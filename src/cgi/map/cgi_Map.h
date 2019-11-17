@@ -74,6 +74,7 @@ public:
     static const double _zBorders;
 
     static const double _zAerodromes;
+    static const double _zNavaids;
     static const double _zTraces;
     static const double _zSpeedLeader;
     static const double _zOwnship;

@@ -143,14 +143,12 @@ HEADERS += \
     DataNet.h \
     Defines.h \
     Manager.h \
-    Navigation.h \
     Networking.h \
     Simulation.h
 
 SOURCES += \
     main.cpp \
     Manager.cpp \
-    Navigation.cpp \
     Networking.cpp \
     Simulation.cpp
 
@@ -168,3 +166,4 @@ include(fdm_p51/fdm_p51.pri)
 include(fdm_uh60/fdm_uh60.pri)
 include(gui/gui.pri)
 include(hid/hid.pri)
+include(nav/nav.pri)

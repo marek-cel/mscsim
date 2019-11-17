@@ -50,7 +50,7 @@ Manager::Manager() :
     _timerId ( 0 ),
     _timeStep ( 0.0 )
 {
-    _nav = new Navigation();
+    _nav = new nav::Manager();
     _sim = new Simulation();
     _win = new MainWindow();
 

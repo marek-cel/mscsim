@@ -61,6 +61,9 @@ public:
 
     void registerScaleChangeCallback( void(*fun)(double) );
 
+    void setCenterX( double x );
+    void setCenterY( double y );
+
     void setMapHeight( double map_height );
 
     void setMapMinX( double min );

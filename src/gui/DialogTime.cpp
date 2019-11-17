@@ -23,7 +23,7 @@
 #include <gui/DialogTime.h>
 #include <ui_DialogTime.h>
 
-#include <math.h>
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
 

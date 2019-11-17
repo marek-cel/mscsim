@@ -23,7 +23,7 @@
 #include <gui/DialogInit.h>
 #include <ui_DialogInit.h>
 
-#include <math.h>
+#include <cmath>
 
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/utils/fdm_WGS84.h>

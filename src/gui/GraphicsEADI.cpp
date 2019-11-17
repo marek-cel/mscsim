@@ -26,7 +26,7 @@
 #   include <float.h>
 #endif
 
-#include <math.h>
+#include <cmath>
 
 #include <gui/Colors.h>
 #include <gui/Fonts.h>

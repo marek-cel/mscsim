@@ -130,6 +130,7 @@ const double Map::_zAirports    = -12.0;
 const double Map::_zBorders     = -11.0;
 
 const double Map::_zAerodromes  = -3.0;
+const double Map::_zNavaids     = -3.0;
 const double Map::_zTraces      = -2.0;
 const double Map::_zSpeedLeader = -2.0;
 const double Map::_zOwnship     = -1.0;

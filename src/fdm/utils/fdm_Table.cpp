@@ -22,7 +22,7 @@
 
 #include <fdm/utils/fdm_Table.h>
 
-#include <math.h>
+#include <cmath>
 #include <limits>
 #include <sstream>
 

@@ -23,7 +23,7 @@
 #include <gui/DockWidgetData.h>
 #include <ui_DockWidgetData.h>
 
-#include <math.h>
+#include <cmath>
 
 #include <gui/gui_Defines.h>
 

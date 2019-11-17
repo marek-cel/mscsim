@@ -29,9 +29,12 @@
 
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_Mercator.h>
+#include <cgi/cgi_Models.h>
 #include <cgi/cgi_Textures.h>
 
 #include <cgi/map/cgi_Map.h>
+
+#include <nav/nav_DataBase.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,11 +45,29 @@ using namespace cgi;
 Icons::Icons( const Module *parent ) :
     Module( parent )
 {
-    createSymbolAerodrome();
+    _symbolAerodrome    = Models::get( "data/map/icons/aerodrome.stl" );
+    _symbolNavaidVOR    = Models::get( "data/map/icons/vor.stl" );
+    _symbolNavaidVORTAC = Models::get( "data/map/icons/vortac.stl" );
+    _symbolNavaidVORDME = Models::get( "data/map/icons/vor_dme.stl" );
+    _symbolNavaidILSLOC = createSymbolILS();
+
+    osg::ref_ptr<osg::Material> material = new osg::Material();
+
+    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+    material->setAmbient( osg::Material::FRONT, osg::Vec4( Map::_colorAeroData, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT, osg::Vec4( Map::_colorAeroData, 1.0f ) );
+
+    _symbolAerodrome    ->getOrCreateStateSet()->setAttribute( material.get() );
+    _symbolNavaidVOR    ->getOrCreateStateSet()->setAttribute( material.get() );
+    _symbolNavaidVORTAC ->getOrCreateStateSet()->setAttribute( material.get() );
+    _symbolNavaidVORDME ->getOrCreateStateSet()->setAttribute( material.get() );
 
     createOwnship();
 
     initAerodromes();
+    initLocalizers();
+    initNavaids();
+    initRunways();
 
     setScale( 1.0 );
 }
@@ -71,7 +92,12 @@ void Icons::setScale( double scale )
 
     _ownship.pat->setScale( sv );
 
-    for ( Aerodromes::iterator it = _aerodromes.begin(); it != _aerodromes.end(); it++ )
+    for ( PATs::iterator it = _aerodromes.begin(); it != _aerodromes.end(); it++ )
+    {
+        (*it)->setScale( sv );
+    }
+
+    for ( PATs::iterator it = _navaids.begin(); it != _navaids.end(); it++ )
     {
         (*it)->setScale( sv );
     }
@@ -135,16 +161,41 @@ void Icons::createOwnship()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Icons::createSymbolAerodrome()
+osg::Node* Icons::createRunway( double length, double width )
 {
-    const float ri = 0.2;
-    const float ro = 0.25;
-    const float rm = 0.5 * ( ri + ro );
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 
-    const float w_2 = 12.0 * ro / 72.0;
-    const float h = 2.0 * 12.0 * ro / 72.0;
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
 
-    _symbolAerodrome = new osg::Geode();
+    c->push_back( osg::Vec4( Map::_colorAirports, 1.0f ) );
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+
+    geode->addDrawable( geom.get() );
+
+    v->push_back( osg::Vec3( -width / 2.0, -length / 2.0, 0.0 ) );
+    v->push_back( osg::Vec3(  width / 2.0, -length / 2.0, 0.0 ) );
+    v->push_back( osg::Vec3(  width / 2.0,  length / 2.0, 0.0 ) );
+    v->push_back( osg::Vec3( -width / 2.0,  length / 2.0, 0.0 ) );
+
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geom->setColorArray( c.get() );
+    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    return geode.release();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Node* Icons::createSymbolILS()
+{
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
@@ -153,56 +204,127 @@ void Icons::createSymbolAerodrome()
     c->push_back( osg::Vec4( Map::_colorAeroData, 1.0f ) );
     n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
 
-    osg::ref_ptr<osg::Geometry> geom1 = new osg::Geometry();
-    osg::ref_ptr<osg::Geometry> geom2 = new osg::Geometry();
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
 
-    _symbolAerodrome->addDrawable( geom1.get() );
-    _symbolAerodrome->addDrawable( geom2.get() );
+    geode->addDrawable( geom.get() );
 
-    Geometry::createRing( geom1.get(), 0.2, 0.25 );
+    v->push_back( osg::Vec3(    0.0f,      0.0f, 0.0f ) );
+    v->push_back( osg::Vec3(    0.0f, -10500.0f, 0.0f ) );
+    v->push_back( osg::Vec3(  600.0f, -11000.0f, 0.0f ) );
+    v->push_back( osg::Vec3(    0.0f,      0.0f, 0.0f ) );
+    v->push_back( osg::Vec3( -600.0f, -11000.0f, 0.0f ) );
+    v->push_back( osg::Vec3(    0.0f, -10500.0f, 0.0f ) );
 
-    geom1->setColorArray( c.get() );
-    geom1->setColorBinding( osg::Geometry::BIND_OVERALL );
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, v->size() ) );
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geom->setColorArray( c.get() );
+    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-    v->push_back( osg::Vec3( -w_2,  rm     , 0.0f ) );
-    v->push_back( osg::Vec3(  w_2,  rm     , 0.0f ) );
-    v->push_back( osg::Vec3(  w_2,  rm + h , 0.0f ) );
-    v->push_back( osg::Vec3( -w_2,  rm + h , 0.0f ) );
+    return geode.release();
+}
 
-    v->push_back( osg::Vec3( -w_2, -rm - h , 0.0f ) );
-    v->push_back( osg::Vec3(  w_2, -rm - h , 0.0f ) );
-    v->push_back( osg::Vec3(  w_2, -rm     , 0.0f ) );
-    v->push_back( osg::Vec3( -w_2, -rm     , 0.0f ) );
+////////////////////////////////////////////////////////////////////////////////
 
-    v->push_back( osg::Vec3(  rm     , -w_2, 0.0f ) );
-    v->push_back( osg::Vec3(  rm + h , -w_2, 0.0f ) );
-    v->push_back( osg::Vec3(  rm + h ,  w_2, 0.0f ) );
-    v->push_back( osg::Vec3(  rm     ,  w_2, 0.0f ) );
+osg::Node* Icons::getNavaidSymbol( int type )
+{
+    switch ( type )
+    {
+        case nav::DataBase::NAV::VOR:     return _symbolNavaidVOR.get();
+        case nav::DataBase::NAV::VORTAC:  return _symbolNavaidVORTAC.get();
+//        case nav::DataBase::NAV::TACAN:   return _symbolNavaidTACAN.get();
+        case nav::DataBase::NAV::VOR_DME: return _symbolNavaidVORDME.get();
+//        case nav::DataBase::NAV::NDB:     return _symbolNavaidNDB.get();
+//        case nav::DataBase::NAV::NDB_DME: return _symbolNavaidNDB_DME.get();
+//        case nav::DataBase::NAV::LOCATOR: return _symbolNavaidLOCATOR.get();
+//        case nav::DataBase::NAV::DME:     return _symbolNavaidDME.get();
+    }
 
-    v->push_back( osg::Vec3( -rm - h , -w_2, 0.0f ) );
-    v->push_back( osg::Vec3( -rm     , -w_2, 0.0f ) );
-    v->push_back( osg::Vec3( -rm     ,  w_2, 0.0f ) );
-    v->push_back( osg::Vec3( -rm - h ,  w_2, 0.0f ) );
-
-    geom2->setVertexArray( v.get() );
-    geom2->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUADS, 0, v->size() ) );
-    geom2->setNormalArray( n.get() );
-    geom2->setNormalBinding( osg::Geometry::BIND_OVERALL );
-    geom2->setColorArray( c.get() );
-    geom2->setColorBinding( osg::Geometry::BIND_OVERALL );
+    return _symbolNavaidVOR.get();;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Icons::initAerodromes()
 {
-    // TODO
-    osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-    _root->addChild( pat.get() );
-    pat->addChild( _symbolAerodrome.get() );
-    pat->setPosition( osg::Vec3d( 0.0, 0.0, Map::_zAerodromes ) );
-    _aerodromes.push_back( pat.get() );
-    // TODO
+    nav::DataBase::ListAPT list = nav::DataBase::instance()->getListAPT();
+
+    for ( nav::DataBase::ListAPT::iterator it = list.begin(); it != list.end(); it++ )
+    {
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+        _root->addChild( pat.get() );
+        pat->addChild( _symbolAerodrome.get() );
+        pat->setPosition( osg::Vec3d(  Mercator::x( (*it).lon ),
+                                       Mercator::y( (*it).lat ),
+                                       Map::_zAerodromes ) );
+        _aerodromes.push_back( pat.get() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::initLocalizers()
+{
+    nav::DataBase::ListILS listILS = nav::DataBase::instance()->getListILS();
+
+    for ( nav::DataBase::ListILS::iterator it = listILS.begin(); it != listILS.end(); it++ )
+    {
+        if ( (*it).type == nav::DataBase::ILS::LOC )
+        {
+            osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+            _root->addChild( pat.get() );
+            pat->addChild( _symbolNavaidILSLOC.get() );
+            pat->setPosition( osg::Vec3d(  Mercator::x( (*it).lon ),
+                                           Mercator::y( (*it).lat ),
+                                           Map::_zNavaids ) );
+            pat->setAttitude( osg::Quat( -(*it).true_bearing, osg::Z_AXIS ) );
+            _localizers.push_back( pat.get() );
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::initNavaids()
+{
+    nav::DataBase::ListNAV listNAV = nav::DataBase::instance()->getListNAV();
+
+    for ( nav::DataBase::ListNAV::iterator it = listNAV.begin(); it != listNAV.end(); it++ )
+    {
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+        _root->addChild( pat.get() );
+        pat->addChild( getNavaidSymbol( (*it).type ) );
+        pat->setPosition( osg::Vec3d(  Mercator::x( (*it).lon ),
+                                       Mercator::y( (*it).lat ),
+                                       Map::_zNavaids ) );
+        _navaids.push_back( pat.get() );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Icons::initRunways()
+{
+    nav::DataBase::ListRWY listRWY = nav::DataBase::instance()->getListRWY();
+
+    for ( nav::DataBase::ListRWY::iterator it = listRWY.begin(); it != listRWY.end(); it++ )
+    {
+        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
+        _root->addChild( pat.get() );
+        pat->addChild( createRunway( (*it).length, (*it).width ) );
+
+        double he_x = Mercator::x( (*it).he_lon );
+        double he_y = Mercator::y( (*it).he_lat );
+        double le_x = Mercator::x( (*it).le_lon );
+        double le_y = Mercator::y( (*it).le_lat );
+
+        pat->setPosition( osg::Vec3d( 0.5 * ( he_x + le_x ),
+                                      0.5 * ( he_y + le_y ),
+                                      Map::_zAirports ) );
+        pat->setAttitude( osg::Quat( -(*it).true_hdg, osg::Z_AXIS ) );
+        _runways.push_back( pat.get() );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -22,9 +22,9 @@
 
 #include <fdm/utils/fdm_String.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
-#include <string.h>
+#include <cstring>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -53,16 +53,36 @@ int String::icompare( const std::string &str_1, const std::string &str_2 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+std::vector< std::string > String::split( const std::string &str, const std::string &sep )
+{
+    std::vector< std::string > result;
+
+    std::string temp = str;
+
+    size_t pos = 0;
+    std::string token;
+
+    while ( ( pos = temp.find( sep ) ) != std::string::npos )
+    {
+        token = temp.substr( 0, pos );
+        result.push_back( token );
+        temp.erase( 0, pos + 1 );
+    }
+
+    result.push_back( temp );
+
+    return result;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 std::string String::stripLeadingSpaces( const std::string &str )
 {
-    char *temp = new char [ str.length() + 1 ];
-    strcpy( temp, str.c_str() );
-
     unsigned int offset = 0;
 
     for ( unsigned int i = 0; i < str.size(); i++ )
     {
-        if ( !isspace( temp[ i ] ) )
+        if ( !isspace( str.c_str()[ i ] ) )
         {
             break;
         }
@@ -70,9 +90,7 @@ std::string String::stripLeadingSpaces( const std::string &str )
         offset++;
     }
 
-    std::string result = &( temp[ offset ] );
-
-    FDM_DELTAB( temp );
+    std::string result = &( str.c_str()[ offset ] );
 
     return result;
 }

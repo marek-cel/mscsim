@@ -63,6 +63,11 @@ int main( int argc, char *argv[] )
     std::cerr.rdbuf( out.rdbuf() );
 #   endif
 
+    Log::out() << SIM_APP_NAME << " ";
+    Log::out() << SIM_APP_VER  << " ";
+    Log::out() << __DATE__     << " ";
+    Log::out() << __TIME__     << std::endl;
+
     QApplication *app = new QApplication( argc, argv );
 
     app->setApplicationName    ( SIM_APP_NAME   );

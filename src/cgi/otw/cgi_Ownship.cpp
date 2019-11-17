@@ -23,7 +23,6 @@
 #include <cgi/otw/cgi_Ownship.h>
 
 #include <sstream>
-#include <stdio.h>
 
 #include <osg/Geode>
 #include <osg/Geometry>

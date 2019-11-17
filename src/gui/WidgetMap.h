@@ -123,6 +123,8 @@ private slots:
     void actionViewTraces_toggled    ( bool checked );
 
     void actionTracesReset_triggered();
+
+    void actionCenterView_triggered();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
