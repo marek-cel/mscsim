@@ -19,40 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFINES_H
-#define DEFINES_H
+#ifndef NAV_FREQUENCY_H
+#define NAV_FREQUENCY_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define SIM_APP_NAME    "MScSim"
-#define SIM_APP_VER     "0.1.2"
-#define SIM_ORG_NAME    "Marek_Cel"
-#define SIM_ORG_DOMAIN  "marekcel.pl"
+namespace nav
+{
+
+/**
+ * @brief Navigation frequency class.
+ */
+class Frequency
+{
+public:
+
+    static int getFreqDME( const char *chan );
+    static int getFreqDME( int freq_ils );
+    static int getFreqGS( int freq_ils );
+};
+
+} // end of nav namepsace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if __cplusplus >= 201103L
-#   define NULLPTR nullptr
-#else
-#   define NULLPTR 0
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DEFINES_H
+#endif // NAV_FREQUENCY_H

@@ -61,9 +61,10 @@ public:
                          double heading,
                          double altitude, double airspeed,
                          double turnRate, double climbRate,
-                         double distance,
-                         double lat_deviation, bool lat_active,
-                         double ver_deviation, bool ver_active ) = 0;
+                         double dme_distance,
+                         double nav_deviation, bool nav_active,
+                         double loc_deviation, bool loc_active,
+                         double gs_deviation,  bool gs_active ) = 0;
 
     inline void disengage() { _engaged = false; }
     inline void engage()    { _engaged = true;  }

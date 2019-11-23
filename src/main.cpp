@@ -21,13 +21,14 @@
  ******************************************************************************/
 
 #include <fstream>
+#include <iostream>
 
 #include <QApplication>
 
 #ifndef SIM_CONSOLE_OUTPUT
 #   ifdef WIN32
-#		include <QDir>
-#	endif
+#       include <QDir>
+#   endif
 #endif
 
 #include <Common.h>
@@ -65,8 +66,8 @@ int main( int argc, char *argv[] )
 
     Log::out() << SIM_APP_NAME << " ";
     Log::out() << SIM_APP_VER  << " ";
-    Log::out() << __DATE__     << " ";
-    Log::out() << __TIME__     << std::endl;
+    Log::out() << __DATE__ << " ";
+    Log::out() << __TIME__ << std::endl;
 
     QApplication *app = new QApplication( argc, argv );
 

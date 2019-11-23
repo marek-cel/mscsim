@@ -128,17 +128,19 @@ void Autopilot::update( double timeStep,
                         double roll, double pitch, double heading,
                         double altitude, double airspeed,
                         double turnRate, double yawRate, double climbRate,
-                        double distance,
-                        double lat_deviation, bool lat_active,
-                        double ver_deviation, bool ver_active )
+                        double dme_distance,
+                        double nav_deviation, bool nav_active,
+                        double loc_deviation, bool loc_active,
+                        double gs_deviation,  bool gs_active )
 {
     _fd->update( timeStep,
                  heading,
                  altitude, airspeed,
                  turnRate, climbRate,
-                 distance,
-                 lat_deviation, lat_active,
-                 ver_deviation, ver_active );
+                 dme_distance,
+                 nav_deviation, nav_active,
+                 loc_deviation, loc_active,
+                 gs_deviation, gs_active );
 
     if ( _engaged && _fd->isEngaged() )
     {

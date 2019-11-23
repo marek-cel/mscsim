@@ -40,6 +40,8 @@ C172_FlightDirector::C172_FlightDirector() :
 
     _arm_mode ( ARM_NONE ),
 
+    _lat_mode_arm ( LM_FD ),
+
     _pid_alt     ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
     _pid_ias     ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
     _pid_vs      ( 0.0, 0.0, 0.0, -M_PI_2  , M_PI_2  ),
@@ -62,6 +64,7 @@ C172_FlightDirector::C172_FlightDirector() :
     _max_rate_tr    ( 0.0 ),
 
     _heading_act ( 0.0 ),
+    _heading_ils ( 0.0 ),
 
     _climbRate_act ( 0.0 ),
     _climbRate_tc  ( 0.0 ),
@@ -73,7 +76,7 @@ C172_FlightDirector::C172_FlightDirector() :
     _nav_dev_max ( 0.0 ),
     _apr_dev_max ( 0.0 ),
 
-    _ver_dev_prev ( 0.0 ),
+    _gs_dev_prev ( 0.0 ),
 
     _turnRateMode ( false )
 {
@@ -160,13 +163,16 @@ void C172_FlightDirector::update( double timeStep,
                                   double heading,
                                   double altitude, double airspeed,
                                   double turnRate, double climbRate,
-                                  double distance,
-                                  double lat_deviation, bool lat_active,
-                                  double ver_deviation, bool ver_active )
+                                  double dme_distance,
+                                  double nav_deviation, bool nav_active,
+                                  double loc_deviation, bool loc_active,
+                                  double gs_deviation,  bool gs_active )
 {
     _turnRateMode = false;
 
-    updateArmMode( distance, lat_deviation, lat_active );
+    updateArmMode( dme_distance,
+                   nav_deviation, nav_active,
+                   loc_deviation, loc_active );
 
     if ( _engaged )
     {
@@ -175,25 +181,25 @@ void C172_FlightDirector::update( double timeStep,
             _heading_act = _heading;
         }
 
-        updateLatFD( timeStep );
-        updateLatNAV( timeStep, distance, lat_deviation );
-        updateLatAPR( timeStep, distance, lat_deviation );
-        updateLatBC();
+        updateLatFD  ( timeStep );
+        updateLatNAV ( timeStep, dme_distance, nav_deviation );
+        updateLatAPR ( timeStep, dme_distance, loc_deviation );
+        updateLatBC  ( timeStep, dme_distance, loc_deviation );
 
         updateLatHDG( timeStep, heading, turnRate );
         updateLatTRN( timeStep, turnRate, airspeed );
 
-        updateVerFD( timeStep );
-        updateVerALT( timeStep, altitude );
-        updateVerIAS( timeStep, airspeed );
-        updateVerVS( timeStep, climbRate );
-        updateVerARM( timeStep, altitude, climbRate );
-        updateVerGS( timeStep, ver_deviation, ver_active );
+        updateVerFD  ( timeStep );
+        updateVerALT ( timeStep, altitude );
+        updateVerIAS ( timeStep, airspeed );
+        updateVerVS  ( timeStep, climbRate );
+        updateVerARM ( timeStep, altitude, climbRate );
+        updateVerGS  ( timeStep, gs_deviation, gs_active );
 
         _cmd_roll  = Misc::satur( -_max_roll  , _max_roll  , _cmd_roll  );
         _cmd_pitch = Misc::satur(  _min_pitch , _max_pitch , _cmd_pitch );
 
-        _ver_dev_prev = ver_deviation;
+        _gs_dev_prev = gs_deviation;
     }
     else
     {
@@ -209,7 +215,7 @@ void C172_FlightDirector::update( double timeStep,
         _climbRate_act = climbRate;
         _turnRate = turnRate;
 
-        _ver_dev_prev = 0.0;
+        _gs_dev_prev = 0.0;
     }
 }
 
@@ -234,12 +240,21 @@ void C172_FlightDirector::enableHalfBank()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void C172_FlightDirector::setHeadingILS( double heading_ils )
+{
+    _heading_ils = heading_ils;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void C172_FlightDirector::toggleLatMode( LatMode lat_mode )
 {
     if ( _lat_mode == lat_mode )
         _lat_mode = LM_FD;
     else
         _lat_mode = lat_mode;
+
+    _arm_mode = ARM_NONE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -314,22 +329,31 @@ void C172_FlightDirector::readPID( const fdm::XmlNode &dataNode, PID &pid, doubl
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateArmMode( double distance, double lat_deviation, bool lat_active )
+void C172_FlightDirector::updateArmMode( double dme_distance,
+                                         double nav_deviation, bool nav_active,
+                                         double loc_deviation, bool loc_active )
 {
+    // NAV
     if ( _arm_mode == ARM_NAV )
     {
-        if ( lat_active && fabs( lat_deviation ) < _nav_dev_max )
+        if ( nav_active && fabs( nav_deviation ) < _nav_dev_max )
         {
             _arm_mode = ARM_NONE;
+            _lat_mode_arm = _lat_mode;
             _lat_mode = LM_NAV;
         }
     }
-    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_NAV && fabs( lat_deviation ) > _nav_dev_max )
+    else if (  _arm_mode == ARM_NONE && _lat_mode == LM_NAV && !nav_active )
     {
-        if ( distance > 1.0e-9 )
+        _arm_mode = ARM_NAV;
+        _lat_mode = _lat_mode_arm;
+    }
+    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_NAV && fabs( nav_deviation ) > _nav_dev_max )
+    {
+        if ( dme_distance > 1.0e-9 )
         {
             double lin_dev_max = _pid_nav_lin.getMax() / _pid_nav_lin.getKp();
-            double lin_deviation = distance * sin( lat_deviation );
+            double lin_deviation = dme_distance * sin( nav_deviation );
 
             if ( fabs( lin_deviation ) > lin_dev_max )
                 _arm_mode = ARM_NAV;
@@ -338,22 +362,49 @@ void C172_FlightDirector::updateArmMode( double distance, double lat_deviation, 
         {
             double ang_dev_max = _pid_nav_ang.getMax() / _pid_nav_ang.getKp();
 
-            if ( fabs( lat_deviation ) > ang_dev_max )
+            if ( fabs( nav_deviation ) > ang_dev_max )
                 _arm_mode = ARM_NAV;
         }
     }
 
+    // APR
     if ( _arm_mode == ARM_APR )
     {
-        if ( lat_active && fabs( lat_deviation ) < _apr_dev_max )
+        if ( loc_active && fabs( loc_deviation ) < _apr_dev_max )
         {
             _arm_mode = ARM_NONE;
+            _lat_mode_arm = _lat_mode;
             _lat_mode = LM_APR;
         }
     }
-    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_APR && fabs( lat_deviation ) > _apr_dev_max )
+    else if (  _arm_mode == ARM_NONE && _lat_mode == LM_APR && !loc_active )
     {
         _arm_mode = ARM_APR;
+        _lat_mode = _lat_mode_arm;
+    }
+    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_APR && fabs( loc_deviation ) > _apr_dev_max )
+    {
+        _arm_mode = ARM_APR;
+    }
+
+    // BC
+    if ( _arm_mode == ARM_BC )
+    {
+        if ( loc_active && fabs( loc_deviation ) < _apr_dev_max )
+        {
+            _arm_mode = ARM_NONE;
+            _lat_mode_arm = _lat_mode;
+            _lat_mode = LM_BC;
+        }
+    }
+    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_BC && !loc_active )
+    {
+        _arm_mode = ARM_BC;
+        _lat_mode = _lat_mode_arm;
+    }
+    else if ( _arm_mode == ARM_NONE && _lat_mode == LM_BC && fabs( loc_deviation ) > _apr_dev_max )
+    {
+        _arm_mode = ARM_BC;
     }
 }
 
@@ -369,25 +420,25 @@ void C172_FlightDirector::updateLatFD( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, double hor_deviation )
+void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, double nav_deviation )
 {
     if ( _lat_mode == LM_NAV )
     {
         if ( _arm_mode == ARM_NAV )
         {
-            _heading_act = hor_deviation > 0.0 ? _course + _max_yaw : _course - _max_yaw;
+            _heading_act = nav_deviation > 0.0 ? _course + _max_yaw : _course - _max_yaw;
         }
         else
         {
             if ( dme_distance > 1.0e-9 )
             {
-                double lin_deviation = dme_distance * sin( hor_deviation );
+                double lin_deviation = dme_distance * sin( nav_deviation );
                 _pid_nav_lin.update( timeStep, lin_deviation );
                 _heading_act = _course + _pid_nav_lin.getValue();
             }
             else
             {
-                _pid_nav_ang.update( timeStep, hor_deviation );
+                _pid_nav_ang.update( timeStep, nav_deviation );
                 _heading_act = _course + _pid_nav_ang.getValue();
             }
         }
@@ -396,34 +447,48 @@ void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, do
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatAPR( double timeStep, double dme_distance, double hor_deviation )
+void C172_FlightDirector::updateLatAPR( double timeStep, double dme_distance, double loc_deviation )
 {
     if ( _lat_mode == LM_APR )
     {
-        if ( _arm_mode == ARM_APR )
-        {
-            _heading_act = hor_deviation > 0.0 ? _course + _max_yaw : _course - _max_yaw;
-        }
-        else
-        {
-            if ( dme_distance > 1.0e-9 )
-            {
-                double lin_deviation = dme_distance * sin( hor_deviation );
-                _pid_apr_lin.update( timeStep, lin_deviation );
-                _heading_act = _course + _pid_apr_lin.getValue();
-            }
-            else
-            {
-                _pid_apr_ang.update( timeStep, hor_deviation );
-                _heading_act = _course + _pid_apr_ang.getValue();
-            }
-        }
+        updateLatABC( timeStep, dme_distance,  loc_deviation, _heading_ils );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatBC() {}
+void C172_FlightDirector::updateLatBC( double timeStep, double dme_distance, double loc_deviation )
+{
+    if ( _lat_mode == LM_BC )
+    {
+        updateLatABC( timeStep, dme_distance, -loc_deviation, _heading_ils - M_PI );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_FlightDirector::updateLatABC( double timeStep, double dme_distance, double loc_deviation, double heading )
+{
+    if ( ( _lat_mode == LM_APR && _arm_mode == ARM_APR )
+      || ( _lat_mode == LM_BC  && _arm_mode == ARM_BC ) )
+    {
+        _heading_act = loc_deviation > 0.0 ? heading + _max_yaw : heading - _max_yaw;
+    }
+    else
+    {
+        if ( dme_distance > 1.0e-9 )
+        {
+            double lin_deviation = dme_distance * sin( loc_deviation );
+            _pid_apr_lin.update( timeStep, lin_deviation );
+            _heading_act = heading + _pid_apr_lin.getValue();
+        }
+        else
+        {
+            _pid_apr_ang.update( timeStep, loc_deviation );
+            _heading_act = heading + _pid_apr_ang.getValue();
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -548,17 +613,17 @@ void C172_FlightDirector::updateVerARM( double timeStep, double altitude, double
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerGS( double timeStep, double ver_deviation, bool ver_active )
+void C172_FlightDirector::updateVerGS( double timeStep, double gs_deviation, bool gs_active )
 {
-    if ( ver_active && _lat_mode == LM_APR && _ver_mode != VM_GS
-      && ( Misc::sign( _ver_dev_prev ) != Misc::sign( ver_deviation ) ) )
+    if ( gs_active && _lat_mode == LM_APR && _ver_mode != VM_GS
+      && ( Misc::sign( _gs_dev_prev ) != Misc::sign( gs_deviation ) ) )
     {
         _ver_mode = VM_GS;
     }
 
     if ( _ver_mode == VM_GS )
     {
-        _pid_gs.update( timeStep, ver_deviation );
+        _pid_gs.update( timeStep, gs_deviation );
         _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_gs.getValue() );
     }
     else

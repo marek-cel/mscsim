@@ -451,6 +451,7 @@ void DockWidgetAuto::updateWork()
 
         if ( _autopilot_c172 )
         {
+            _autopilot_c172->setHeadingILS( Data::get()->navigation.ils_heading );
             _autopilot_c172->update( GUI_TIME_STEP,
                                      Data::get()->ownship.roll,
                                      Data::get()->ownship.pitch,
@@ -460,9 +461,11 @@ void DockWidgetAuto::updateWork()
                                      Data::get()->ownship.turnRate,
                                      Data::get()->ownship.yawRate,
                                      Data::get()->ownship.climbRate,
-                                     Data::get()->navigation.nav_distance,
+                                     Data::get()->navigation.dme_distance,
                                      Data::get()->navigation.nav_deviation,
                                      Data::get()->navigation.nav_cdi != Data::Navigation::NONE,
+                                     Data::get()->navigation.ils_lc_deviation,
+                                     Data::get()->navigation.ils_lc_visible,
                                      Data::get()->navigation.ils_gs_deviation,
                                      Data::get()->navigation.ils_gs_visible,
                                      _ui->pushButtonDN->isDown(),

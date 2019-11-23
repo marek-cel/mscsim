@@ -68,11 +68,13 @@ public:
      * @param turnRate
      * @param yawRate
      * @param climbRate
-     * @param distance
-     * @param lat_deviation
-     * @param lat_active
-     * @param ver_deviation
-     * @param ver_active
+     * @param dme_distance
+     * @param nav_deviation
+     * @param nav_active
+     * @param loc_deviation
+     * @param loc_active
+     * @param gs_deviation
+     * @param gs_active
      * @param button_dn
      * @param button_up
      */
@@ -80,9 +82,10 @@ public:
                  double roll, double pitch, double heading,
                  double altitude, double airspeed,
                  double turnRate, double yawRate, double climbRate,
-                 double distance,
-                 double lat_deviation, bool lat_active,
-                 double ver_deviation, bool ver_active,
+                 double dme_distance,
+                 double nav_deviation, bool nav_active,
+                 double loc_deviation, bool loc_active,
+                 double gs_deviation,  bool gs_active,
                  bool button_dn, bool button_up );
 
     void onPressedAP();
@@ -115,11 +118,11 @@ public:
     inline bool getLampGS()  const { return _testing || isActiveGS();  }
     inline bool getLampHDG() const { return _testing || isActiveHDG(); }
     inline bool getLampNAV() const { return _testing || isActiveNAV() || isArmedNAV(); }
-    inline bool getLampAPR() const { return _testing || isActiveAPR() || isArmedAPR() || isActiveBC(); }
-    inline bool getLampBC()  const { return _testing || isActiveBC();  }
+    inline bool getLampAPR() const { return _testing || isActiveOrArmedAPR() || isActiveOrArmedBC(); }
+    inline bool getLampBC()  const { return _testing || isActiveOrArmedBC(); }
 
     inline bool getLampNAV_ARM() const { return _testing || isArmedNAV(); }
-    inline bool getLampAPR_ARM() const { return _testing || isArmedAPR(); }
+    inline bool getLampAPR_ARM() const { return _testing || isArmedAPR() || isArmedBC(); }
 
     inline bool getLampSR() const { return _testing || isActiveSoftRide(); }
     inline bool getLampHB() const { return _testing || isActiveHalfBank(); }
@@ -128,7 +131,6 @@ public:
 
     inline bool getLampVS()  const { return isActiveVS();  }
     inline bool getLampARM() const { return isActiveARM(); }
-
 
     inline bool isActiveALT() const { return _fd->getVerMode() == C172_FlightDirector::VM_ALT; }
     inline bool isActiveIAS() const { return _fd->getVerMode() == C172_FlightDirector::VM_IAS; }
@@ -144,8 +146,13 @@ public:
     inline bool isActiveHalfBank() const { return _halfBank; }
 
     inline bool isArmedNAV() const { return _fd->getArmMode() == C172_FlightDirector::ARM_NAV; }
-    inline bool isArmedAPR() const { return _fd->getArmMode() == C172_FlightDirector::ARM_APR
-                                         || _fd->getArmMode() == C172_FlightDirector::ARM_BC; }
+    inline bool isArmedAPR() const { return _fd->getArmMode() == C172_FlightDirector::ARM_APR; }
+    inline bool isArmedBC()  const { return _fd->getArmMode() == C172_FlightDirector::ARM_BC;  }
+
+    inline bool isActiveOrArmedAPR() const { return isActiveAPR() || isArmedAPR(); }
+    inline bool isActiveOrArmedBC()  const { return isActiveBC()  || isArmedBC();  }
+
+    void setHeadingILS( double heading_ils );
 
 private:
 

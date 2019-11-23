@@ -223,7 +223,7 @@ public:
     inline double operator() ( unsigned int index ) const
     {
 #       ifdef _DEBUG
-        if ( index >= m_size )
+        if ( index >= _size )
         {
             Exception e;
 
@@ -245,7 +245,7 @@ public:
     inline double& operator() ( unsigned int index )
     {
 #       ifdef _DEBUG
-        if ( index >= m_size )
+        if ( index >= _size )
         {
             Exception e;
 

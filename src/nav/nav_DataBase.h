@@ -115,9 +115,11 @@ public:
     {
         double he_lat;          ///< [rad] latitude
         double he_lon;          ///< [rad] longitude
+        double he_elev;         ///< [m] elevation
 
         double le_lat;          ///< [rad] latitude
         double le_lon;          ///< [rad] longitude
+        double le_elev;         ///< [m] elevation
 
         double true_hdg;        ///< [rad] true heading
 
@@ -141,14 +143,10 @@ public:
         return _instance;
     }
 
-    static int getFreqDME( const char *chan );
-    static int getFreqDME( int freq_ils );
-    static int getFreqGS( int freq_ils );
+    static double getTrueBearing( const std::string &str_bear, const std::string &str_magvar );
 
     /** Destructor. */
     virtual ~DataBase();
-
-    void init();
 
     const ListAPT& getListAPT() const { return _list_apt; }
     const ListILS& getListILS() const { return _list_ils; }
@@ -172,8 +170,6 @@ private:
 
     /** Using this constructor is forbidden. */
     DataBase( const DataBase & ) {}
-
-    double getTrueBearing( const std::string &str_bear, const std::string &str_magvar );
 
     void parseAPT( const char *path );
     void parseILS( const char *path );

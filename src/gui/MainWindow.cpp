@@ -40,6 +40,7 @@
 #include <gui/gui_Defines.h>
 
 #include <gui/Keys.h>
+#include <gui/ScreenSaver.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -360,6 +361,8 @@ void MainWindow::setStateInit()
     _stateInp = fdm::DataInp::Init;
     _dockMain->setStateInp( _stateInp );
     _dockAuto->init();
+
+    ScreenSaver::disable();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -393,6 +396,8 @@ void MainWindow::setStateStop()
     _stateInp = fdm::DataInp::Stop;
     _dockMain->setStateInp( _stateInp );
     _dockAuto->stop();
+
+    ScreenSaver::enable();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -797,10 +802,10 @@ void MainWindow::updateDockEFIS()
         if ( Data::get()->navigation.nav_cdi == Data::Navigation::TO   ) cdi = GraphicsEHSI::TO;
         if ( Data::get()->navigation.nav_cdi == Data::Navigation::FROM ) cdi = GraphicsEHSI::FROM;
 
-        _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.nav_distance ),
-                                Data::get()->navigation.nav_dme );
-        _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.nav_bearing ),
-                               cdi != GraphicsEHSI::NONE );
+        _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.dme_distance ),
+                                Data::get()->navigation.dme_visible );
+        _dockEFIS->setBearing( fdm::Units::rad2deg( Data::get()->navigation.adf_bearing ),
+                               Data::get()->navigation.adf_visible );
         _dockEFIS->setDeviation( Data::get()->navigation.nav_norm, cdi );
 
         GraphicsEADI::FlightMode flightMode = GraphicsEADI::FM_OFF;

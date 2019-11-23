@@ -74,6 +74,7 @@ private:
     const DataBase::ILS *_ils_gs;   ///<
 
     const DataBase::NAV *_vor;      ///<
+    const DataBase::NAV *_ndb;      ///<
 
     fdm::WGS84 _aircraft_wgs;       ///<
 
@@ -85,18 +86,22 @@ private:
     bool _adf_visible;              ///<
     double _adf_bearing;            ///< [rad]
 
+    bool _dme_visible;              ///<
+    double _dme_distance;           ///< [m]
+
     bool _ils_gs_visible;           ///<
     bool _ils_lc_visible;           ///<
+    double _ils_heading;            ///< [rad]
     double _ils_gs_deviation;       ///< [rad]
     double _ils_lc_deviation;       ///< [rad]
     double _ils_gs_norm;            ///< [-1.0;1.0]
     double _ils_lc_norm;            ///< [-1.0;1.0]
 
     NAV_CDI _nav_cdi;               ///<
-    bool _nav_dme;                  ///<
+    bool _nav_visible;              ///<
     double _nav_bearing;            ///< [rad]
     double _nav_deviation;          ///< [rad]
-    double _nav_distance;           ///< [m]
+
     double _nav_norm;               ///< [-1.0;1.0]
 
     double getAzimuth( const fdm::Vector3 &pos_wgs );

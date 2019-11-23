@@ -37,6 +37,7 @@ HEADERS += \
     $$PWD/MainWindow.h \
     $$PWD/PageControls.h \
     $$PWD/PageGeneral.h \
+    $$PWD/ScreenSaver.h \
     $$PWD/SpinBoxHighlight.h \
     $$PWD/WidgetCGI.h \
     $$PWD/WidgetMap.h \
@@ -81,6 +82,7 @@ SOURCES += \
     $$PWD/MainWindow.cpp \
     $$PWD/PageControls.cpp \
     $$PWD/PageGeneral.cpp \
+    $$PWD/ScreenSaver.cpp \
     $$PWD/SpinBoxHighlight.cpp \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetMap.cpp \

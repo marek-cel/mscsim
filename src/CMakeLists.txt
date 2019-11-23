@@ -82,9 +82,11 @@ add_subdirectory( fdm )
 add_subdirectory( fdm_c130 )
 add_subdirectory( fdm_c172 )
 add_subdirectory( fdm_f16 )
+add_subdirectory( fdm_p51 )
 add_subdirectory( fdm_uh60 )
 add_subdirectory( gui )
 add_subdirectory( hid )
+add_subdirectory( nav )
 
 ################################################################################
 
@@ -102,7 +104,6 @@ qt4_add_resources( RES_SOURCES
 add_executable( ${PROJECT_NAME}
     main.cpp
     Manager.cpp
-    Navigation.cpp
     Networking.cpp
     Simulation.cpp
 
@@ -113,20 +114,20 @@ add_executable( ${PROJECT_NAME}
 ################################################################################
 
 if( WIN32 )
-	set( LIBS
-		${QT_LIBRARIES}
-		${OPENSCENEGRAPH_LIBRARIES}
-		${LIBXML2_LIBRARIES}
-		winmm
-	)
+    set( LIBS
+        ${QT_LIBRARIES}
+        ${OPENSCENEGRAPH_LIBRARIES}
+        ${LIBXML2_LIBRARIES}
+        winmm
+    )
 endif()
 
 if( UNIX )
-	set( LIBS
-		${QT_LIBRARIES}
-		${OPENSCENEGRAPH_LIBRARIES}
-		${LIBXML2_LIBRARIES}
-	)
+    set( LIBS
+        ${QT_LIBRARIES}
+        ${OPENSCENEGRAPH_LIBRARIES}
+        ${LIBXML2_LIBRARIES}
+    )
 endif()
 
 ################################################################################
@@ -140,9 +141,11 @@ target_link_libraries( ${PROJECT_NAME}
     fdm_c130
     fdm_c172
     fdm_f16
+    fdm_p51
     fdm_uh60
     gui
     hid
+    nav
 
     ${LIBS}
 

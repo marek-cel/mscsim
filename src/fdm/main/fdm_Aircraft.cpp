@@ -370,7 +370,7 @@ void Aircraft::postIntegration()
 
     if ( _stateVect.isValid() )
     {
-        if ( _timeStep > 0.0 )
+        if ( _timeStep > 1.0e-9 )
         {
             _derivVect = ( _stateVect - _statePrev   ) / _timeStep;
             _turnRate  = ( _heading   - _headingPrev ) / _timeStep;

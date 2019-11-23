@@ -19,40 +19,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFINES_H
-#define DEFINES_H
+#ifndef SCREENSAVER_H
+#define SCREENSAVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define SIM_APP_NAME    "MScSim"
-#define SIM_APP_VER     "0.1.2"
-#define SIM_ORG_NAME    "Marek_Cel"
-#define SIM_ORG_DOMAIN  "marekcel.pl"
+/** */
+class ScreenSaver
+{
+public:
+
+    static void disable();
+
+    static void enable();
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if __cplusplus >= 201103L
-#   define NULLPTR nullptr
-#else
-#   define NULLPTR 0
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DEFINES_H
+#endif // SCREENSAVER_H

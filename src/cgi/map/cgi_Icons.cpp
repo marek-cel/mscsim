@@ -34,6 +34,8 @@
 
 #include <cgi/map/cgi_Map.h>
 
+#include <fdm/utils/fdm_WGS84.h>
+
 #include <nav/nav_DataBase.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -319,10 +321,33 @@ void Icons::initRunways()
         double le_x = Mercator::x( (*it).le_lon );
         double le_y = Mercator::y( (*it).le_lat );
 
+        fdm::WGS84::Geo he_pos_geo;
+        fdm::WGS84::Geo le_pos_geo;
+
+        he_pos_geo.lat = (*it).he_lat;
+        he_pos_geo.lon = (*it).he_lon;
+        he_pos_geo.alt = (*it).he_elev;
+
+        le_pos_geo.lat = (*it).le_lat;
+        le_pos_geo.lon = (*it).le_lon;
+        le_pos_geo.alt = (*it).le_elev;
+
+        fdm::Vector3 he_pos_wgs = fdm::WGS84::geo2wgs( he_pos_geo );
+        fdm::Vector3 le_pos_wgs = fdm::WGS84::geo2wgs( le_pos_geo );
+
+        fdm::WGS84 av_pos_wgs( 0.5 * ( he_pos_wgs + le_pos_wgs ) );
+
+        fdm::Vector3 he_pos_ned = av_pos_wgs.getWGS2NED() * ( he_pos_wgs - av_pos_wgs.getPos_WGS() );
+        fdm::Vector3 le_pos_ned = av_pos_wgs.getWGS2NED() * ( le_pos_wgs - av_pos_wgs.getPos_WGS() );
+
+        fdm::Vector3 v_delta_ned = he_pos_ned - le_pos_ned;
+
+        double heading = atan2( v_delta_ned.y(), v_delta_ned.x() );
+
         pat->setPosition( osg::Vec3d( 0.5 * ( he_x + le_x ),
                                       0.5 * ( he_y + le_y ),
                                       Map::_zAirports ) );
-        pat->setAttitude( osg::Quat( -(*it).true_hdg, osg::Z_AXIS ) );
+        pat->setAttitude( osg::Quat( -heading, osg::Z_AXIS ) );
         _runways.push_back( pat.get() );
     }
 }

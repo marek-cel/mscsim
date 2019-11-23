@@ -121,9 +121,10 @@ void C172_Autopilot::update( double timeStep,
                              double roll, double pitch, double heading,
                              double altitude, double airspeed,
                              double turnRate, double yawRate, double climbRate,
-                             double distance,
-                             double lat_deviation, bool lat_active,
-                             double ver_deviation, bool ver_active,
+                             double dme_distance,
+                             double nav_deviation, bool nav_active,
+                             double loc_deviation, bool loc_active,
+                             double gs_deviation,  bool gs_active,
                              bool button_dn, bool button_up )
 {
     if ( button_dn || button_up )
@@ -159,9 +160,10 @@ void C172_Autopilot::update( double timeStep,
                        roll, pitch, heading,
                        altitude, airspeed,
                        turnRate, yawRate, climbRate,
-                       distance,
-                       lat_deviation, lat_active,
-                       ver_deviation, ver_active );
+                       dme_distance,
+                       nav_deviation, nav_active,
+                       loc_deviation, loc_active,
+                       gs_deviation, gs_active );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,28 +200,32 @@ void C172_Autopilot::onPressedFD()
 
 void C172_Autopilot::onPressedALT()
 {
-    _fd->toggleVerMode( C172_FlightDirector::VM_ALT );
+    if ( !isActiveGS() )
+        _fd->toggleVerMode( C172_FlightDirector::VM_ALT );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedIAS()
 {
-    _fd->toggleVerMode( C172_FlightDirector::VM_IAS );
+    if ( !isActiveGS() )
+        _fd->toggleVerMode( C172_FlightDirector::VM_IAS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedENG()
 {
-    _fd->setVerMode( C172_FlightDirector::VM_VS ); // or toggle ??
+    if ( !isActiveGS() )
+        _fd->setVerMode( C172_FlightDirector::VM_VS ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_Autopilot::onPressedARM()
 {
-    _fd->setVerMode( C172_FlightDirector::VM_ARM ); // or toggle ??
+    if ( !isActiveGS() )
+        _fd->setVerMode( C172_FlightDirector::VM_ARM ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -236,7 +242,7 @@ void C172_Autopilot::onPressedNAV()
 {
     _fd->engage();
 
-    if ( isActiveNAV() )
+    if ( isActiveNAV() && !isArmedNAV() )
         _fd->toggleLatMode( C172_FlightDirector::LM_NAV );
     else
         _fd->setArmMode( C172_FlightDirector::ARM_NAV );
@@ -248,7 +254,7 @@ void C172_Autopilot::onPressedAPR()
 {
     _fd->engage();
 
-    if ( isActiveAPR() )
+    if ( isActiveAPR() && !isArmedAPR() )
     {
         _fd->setLatMode( C172_FlightDirector::LM_FD );
 
@@ -265,7 +271,7 @@ void C172_Autopilot::onPressedBC()
 {
     _fd->engage();
 
-    if ( isActiveBC() )
+    if ( isActiveBC() && !isArmedBC() )
     {
         _fd->setLatMode( C172_FlightDirector::LM_FD );
 
@@ -314,4 +320,11 @@ void C172_Autopilot::onPressedTest()
 void C172_Autopilot::onReleasedTest()
 {
     _testing = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Autopilot::setHeadingILS( double heading_ils )
+{
+    _fd->setHeadingILS( heading_ils );
 }

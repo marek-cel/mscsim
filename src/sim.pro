@@ -11,10 +11,10 @@ TARGET = mscsim
 
 ################################################################################
 
-CONFIG += c++11
+#CONFIG += c++11
 
 #CONFIG += marble_maps
-CONFIG += networking
+#CONFIG += networking
 
 ################################################################################
 
@@ -124,6 +124,8 @@ unix: LIBS += \
     -losgUtil \
     -losgViewer \
     -losgWidget
+
+#unix: LIBS += -lXss
 
 marble_maps: unix: {
     greaterThan(QT_MAJOR_VERSION, 4): {

@@ -38,17 +38,17 @@ void Fonts::init()
 
 #   ifdef WIN32
     _xsmall.setFamily( "Courier" );
-    _xsmall.setPointSizeF( 5.0f );
+    _xsmall.setPointSizeF( 11.0f );
     _xsmall.setStretch( QFont::Condensed );
     _xsmall.setWeight( QFont::Bold );
 
     _small.setFamily( "Courier" );
-    _small.setPointSizeF( 7.0f );
+    _small.setPointSizeF( 12.0f );
     _small.setStretch( QFont::Condensed );
     _small.setWeight( QFont::Bold );
 
     _medium.setFamily( "Courier" );
-    _medium.setPointSizeF( 9.0f );
+    _medium.setPointSizeF( 16.0f );
     _medium.setStretch( QFont::Condensed );
     _medium.setWeight( QFont::Bold );
 #   else

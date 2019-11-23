@@ -61,7 +61,7 @@ std::ostream& Log::timeTag()
     std::tm *tm = std::localtime( &tp.tv_sec );
 
     year = 1900 + tm->tm_year;
-    mon  = tm->tm_mon;
+    mon  = tm->tm_mon + 1;
     day  = tm->tm_mday;
     hour = tm->tm_hour;
     min  = tm->tm_min;

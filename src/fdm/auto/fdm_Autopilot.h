@@ -74,19 +74,22 @@ public:
      * @param turnRate [rad/s]
      * @param yawRate [rad/s]
      * @param climbRate [m/s]
-     * @param distance [m]
-     * @param lat_deviation [rad]
-     * @param lat_active
-     * @param ver_deviation [rad]
-     * @param ver_active
+     * @param dme_distance [m]
+     * @param nav_deviation
+     * @param nav_active
+     * @param loc_deviation
+     * @param loc_active
+     * @param gs_deviation
+     * @param gs_active
      */
     virtual void update( double timeStep,
                          double roll, double pitch, double heading,
                          double altitude, double airspeed,
                          double turnRate, double yawRate, double climbRate,
-                         double distance,
-                         double lat_deviation, bool lat_active,
-                         double ver_deviation, bool ver_active );
+                         double dme_distance,
+                         double nav_deviation, bool nav_active,
+                         double loc_deviation, bool loc_active,
+                         double gs_deviation,  bool gs_active );
 
     inline void disengage() { _engaged = false; }
     inline void engage()    { _engaged = true;  }

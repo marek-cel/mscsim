@@ -19,40 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFINES_H
-#define DEFINES_H
 
-////////////////////////////////////////////////////////////////////////////////
+#include <gui/ScreenSaver.h>
 
-#define SIM_APP_NAME    "MScSim"
-#define SIM_APP_VER     "0.1.2"
-#define SIM_ORG_NAME    "Marek_Cel"
-#define SIM_ORG_DOMAIN  "marekcel.pl"
-
-////////////////////////////////////////////////////////////////////////////////
-
-#if __cplusplus >= 201103L
-#   define NULLPTR nullptr
-#else
-#   define NULLPTR 0
+#ifdef _LINUX_
+//#   include <QX11Info>
+//#   include <X11/extensions/scrnsaver.h>
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+void ScreenSaver::disable()
+{
+#   ifdef _MSC_VER
+//    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE,FALSE,NULL,TRUE);
+#   endif
+
+#   ifdef _LINUX_
+//    ScreenSaverSuspend( QX11Info::display(), True );
+//    system( "xset s off" );
+//    system( "xset -dpms" );
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+void ScreenSaver::enable()
+{
+#   ifdef _LINUX_
+//    XScreenSaverSuspend( QX11Info::display(), False );
+#   endif
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // DEFINES_H

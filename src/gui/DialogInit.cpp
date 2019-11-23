@@ -85,9 +85,7 @@ void DialogInit::readData()
     _ui->comboAirports->setCurrentIndex( -1 );
     _ui->comboLocations->setCurrentIndex( -1 );
 
-    _ui->checkBoxOnFinal->setEnabled( false );
-    _ui->checkBoxOnFinal->setChecked( false );
-
+    _ui->spinDistance->setEnabled( false );
     _ui->spinDistance->setValue( 0.0 );
 
     _ui->spinInitLat->setValue( _ui->comboInitLat->convert( _lat ) );
@@ -110,7 +108,7 @@ void DialogInit::saveData()
 
     _typeIndex = _ui->comboAircrafts->currentIndex();
 
-    if ( _ui->checkBoxOnFinal->isChecked() && _ui->spinDistance->value() != 0.0 )
+    if ( _ui->spinDistance->value() > 0.0 )
     {
         int indexApt = _ui->comboAirports->currentIndex();
         int indexLoc = _ui->comboLocations->currentIndex();
@@ -358,65 +356,76 @@ void DialogInit::on_comboLocations_currentIndexChanged( int index )
 
         _ui->spinInitLat->setValue( _ui->comboInitLat->convert( lat ) );
         _ui->spinInitLon->setValue( _ui->comboInitLon->convert( lon ) );
-        _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( ( alt > 1.0e-6 ) ? alt : 0.0f ) );
+        _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( ( alt > 1.0e-3 ) ? alt : 0.0f ) );
         _ui->spinInitPsi->setValue( _ui->comboInitPsi->convert( hdg ) );
 
         if ( location.runway )
         {
-            _ui->checkBoxOnFinal->setEnabled( true );
+            _ui->labelDistance ->setEnabled( true );
+            _ui->spinDistance  ->setEnabled( true );
+            _ui->comboDistance ->setEnabled( true );
         }
         else
         {
-            _ui->checkBoxOnFinal->setEnabled( false );
-            _ui->checkBoxOnFinal->setChecked( false );
+            _ui->labelDistance ->setEnabled( false );
+            _ui->spinDistance  ->setEnabled( false );
+            _ui->comboDistance ->setEnabled( false );
+
+            _ui->spinDistance->setValue( 0.0 );
         }
     }
     else
     {
-        _ui->checkBoxOnFinal->setEnabled( false );
-        _ui->checkBoxOnFinal->setChecked( false );
+        _ui->labelDistance ->setEnabled( false );
+        _ui->spinDistance  ->setEnabled( false );
+        _ui->comboDistance ->setEnabled( false );
+
+        _ui->spinDistance->setValue( 0.0 );
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DialogInit::on_checkBoxOnFinal_toggled( bool checked )
-{
-    _ui->labelDistance->setEnabled( checked );
-    _ui->spinDistance->setEnabled( checked );
-    _ui->comboDistance->setEnabled( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_spinInitLat_valueChanged( double /*arg1*/ )
 {
-    _ui->checkBoxOnFinal->setEnabled( false );
-    _ui->checkBoxOnFinal->setChecked( false );
+    _ui->labelDistance ->setEnabled( false );
+    _ui->spinDistance  ->setEnabled( false );
+    _ui->comboDistance ->setEnabled( false );
+
+    _ui->spinDistance->setValue( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_spinInitLon_valueChanged( double /*arg1*/ )
 {
-    _ui->checkBoxOnFinal->setEnabled( false );
-    _ui->checkBoxOnFinal->setChecked( false );
+    _ui->labelDistance ->setEnabled( false );
+    _ui->spinDistance  ->setEnabled( false );
+    _ui->comboDistance ->setEnabled( false );
+
+    _ui->spinDistance->setValue( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_spinInitAlt_valueChanged( double /*arg1*/ )
 {
-    _ui->checkBoxOnFinal->setEnabled( false );
-    _ui->checkBoxOnFinal->setChecked( false );
+    _ui->labelDistance ->setEnabled( false );
+    _ui->spinDistance  ->setEnabled( false );
+    _ui->comboDistance ->setEnabled( false );
+
+    _ui->spinDistance->setValue( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogInit::on_spinInitPsi_valueChanged( double /*arg1*/ )
 {
-    _ui->checkBoxOnFinal->setEnabled( false );
-    _ui->checkBoxOnFinal->setChecked( false );
+    _ui->labelDistance ->setEnabled( false );
+    _ui->spinDistance  ->setEnabled( false );
+    _ui->comboDistance ->setEnabled( false );
+
+    _ui->spinDistance->setValue( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

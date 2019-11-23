@@ -61,6 +61,8 @@ qt4_wrap_ui( UI_HEADERS
 
 add_library( gui STATIC
     Aircrafts.cpp
+    Airports.cpp
+    Colors.cpp
     ComboUnits.cpp
     ComboUnitsAngle.cpp
     ComboUnitsFlowRate.cpp
@@ -84,6 +86,7 @@ add_library( gui STATIC
     DockWidgetMain.cpp
     DockWidgetMap.cpp
     DockWidgetProp.cpp
+    Fonts.cpp
     GraphicsEADI.cpp
     GraphicsEHSI.cpp
     GraphicsPedals.cpp
@@ -91,10 +94,10 @@ add_library( gui STATIC
     KeyHandler.cpp
     Keys.cpp
     LayoutSquare.cpp
-    Locations.cpp
     MainWindow.cpp
     PageControls.cpp
     PageGeneral.cpp
+    ScreenSaver.cpp
     SpinBoxHighlight.cpp
     WidgetCGI.cpp
     WidgetMap.cpp

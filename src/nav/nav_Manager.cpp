@@ -27,6 +27,11 @@
 #include <Common.h>
 #include <Data.h>
 
+#include <nav/nav_Frequency.h>
+
+
+#include <iostream>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace nav;
@@ -49,6 +54,7 @@ Manager::Manager() :
     _ils_dme ( NULLPTR ),
     _ils_gs  ( NULLPTR ),
     _vor     ( NULLPTR ),
+    _ndb     ( NULLPTR ),
 
     _course  ( 0.0 ),
 
@@ -58,18 +64,20 @@ Manager::Manager() :
     _adf_visible ( false ),
     _adf_bearing ( 0.0 ),
 
+    _dme_visible ( false ),
+    _dme_distance ( 0.0 ),
+
     _ils_gs_visible ( false ),
     _ils_lc_visible ( false ),
+    _ils_heading ( 0.0 ),
     _ils_gs_deviation ( 0.0 ),
     _ils_lc_deviation ( 0.0 ),
     _ils_gs_norm ( 0.0 ),
     _ils_lc_norm ( 0.0 ),
 
     _nav_cdi ( Data::Navigation::NONE ),
-    _nav_dme ( false ),
     _nav_bearing   ( 0.0 ),
     _nav_deviation ( 0.0 ),
-    _nav_distance  ( 0.0 ),
     _nav_norm ( 0.0 )
 {}
 
@@ -95,20 +103,22 @@ void Manager::update()
     Data::get()->navigation.adf_visible = _adf_visible;
     Data::get()->navigation.adf_bearing = _adf_bearing;
 
+    Data::get()->navigation.dme_visible  = _dme_visible;
+    Data::get()->navigation.dme_distance = _dme_distance;
+
     Data::get()->navigation.ils_visible      = _ils_gs_visible && _ils_lc_visible;
     Data::get()->navigation.ils_gs_visible   = _ils_gs_visible;
     Data::get()->navigation.ils_lc_visible   = _ils_lc_visible;
+    Data::get()->navigation.ils_heading      = _ils_heading;
     Data::get()->navigation.ils_gs_deviation = _ils_gs_deviation;
     Data::get()->navigation.ils_lc_deviation = _ils_lc_deviation;
-    Data::get()->navigation.ils_gs_norm = _ils_gs_norm;
-    Data::get()->navigation.ils_lc_norm = _ils_lc_norm;
+    Data::get()->navigation.ils_gs_norm      = _ils_gs_norm;
+    Data::get()->navigation.ils_lc_norm      = _ils_lc_norm;
 
-    Data::get()->navigation.nav_cdi = _nav_cdi;
-    Data::get()->navigation.nav_dme = _nav_dme;
+    Data::get()->navigation.nav_cdi       = _nav_cdi;
     Data::get()->navigation.nav_bearing   = _nav_bearing;
     Data::get()->navigation.nav_deviation = _nav_deviation;
-    Data::get()->navigation.nav_distance  = _nav_distance;
-    Data::get()->navigation.nav_norm = _nav_norm;
+    Data::get()->navigation.nav_norm      = _nav_norm;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,17 +150,21 @@ void Manager::updateNavaids()
     _adf_visible = false;
     _adf_bearing = 0.0;
 
+    _dme_visible = false;
+    _dme_distance  = 0.0;
+
     _ils_gs_visible = false;
     _ils_lc_visible = false;
-
+    _ils_heading = 0.0;
     _ils_gs_deviation = 0.0;
     _ils_lc_deviation = 0.0;
+    _ils_gs_norm = 0.0;
+    _ils_lc_norm = 0.0;
 
     _nav_cdi = Data::Navigation::NONE;
-    _nav_dme = false;
     _nav_bearing   = 0.0;
     _nav_deviation = 0.0;
-    _nav_distance  = 0.0;
+    _nav_norm      = 0.0;
 
     updateNavaidsActive();
 
@@ -171,13 +185,13 @@ void Manager::updateNavaidsActive()
 
     if ( _ils_dme )
     {
-        if ( _ils_dme->freq != DataBase::getFreqDME( _nav_freq ) || getDistance( _ils_dme->pos_wgs ) > _range_ils )
+        if ( _ils_dme->freq != Frequency::getFreqDME( _nav_freq ) || getDistance( _ils_dme->pos_wgs ) > _range_ils )
             _ils_dme = NULLPTR;
     }
 
     if ( _ils_gs )
     {
-        if ( _ils_gs->freq != DataBase::getFreqGS( _nav_freq ) || getDistance( _ils_gs->pos_wgs ) > _range_ils )
+        if ( _ils_gs->freq != Frequency::getFreqGS( _nav_freq ) || getDistance( _ils_gs->pos_wgs ) > _range_ils )
             _ils_gs = NULLPTR;
     }
 
@@ -185,6 +199,12 @@ void Manager::updateNavaidsActive()
     {
         if ( _vor->freq != _nav_freq || getDistance( _vor->pos_wgs ) > _range_vor )
             _vor = NULLPTR;
+    }
+
+    if ( _ndb )
+    {
+        if ( _ndb->freq != _adf_freq || getDistance( _ndb->pos_wgs ) > _range_ndb )
+            _ndb = NULLPTR;
     }
 
     if ( !_ils_loc )
@@ -210,7 +230,7 @@ void Manager::updateNavaidsActive()
               it++ )
         {
             if ( (*it).type == DataBase::ILS::DME
-              && (*it).freq == DataBase::getFreqDME( _nav_freq )
+              && (*it).freq == Frequency::getFreqDME( _nav_freq )
               && getDistance( (*it).pos_wgs ) < _range_ils )
             {
                 _ils_dme = &(*it);
@@ -226,7 +246,7 @@ void Manager::updateNavaidsActive()
               it++ )
         {
             if ( (*it).type == DataBase::ILS::GS
-              && (*it).freq == DataBase::getFreqGS( _nav_freq )
+              && (*it).freq == Frequency::getFreqGS( _nav_freq )
               && getDistance( (*it).pos_wgs ) < _range_ils )
             {
                 _ils_gs = &(*it);
@@ -250,17 +270,33 @@ void Manager::updateNavaidsActive()
             }
         }
     }
+
+    if ( !_ndb )
+    {
+        for ( DataBase::ListNAV::const_iterator it = DataBase::instance()->getListNAV().begin();
+              it != DataBase::instance()->getListNAV().end();
+              it++ )
+        {
+            if ( ( (*it).type == DataBase::NAV::NDB || (*it).type == DataBase::NAV::NDB_DME )
+              && (*it).freq == _adf_freq
+              && getDistance( (*it).pos_wgs ) < _range_ndb )
+            {
+                _ndb = &(*it);
+                break;
+            }
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateADF()
 {
-//    if ( _ndb )
-//    {
-//        _adf_visible = true;
-//        _adf_bearing = getAzimuth( _ndb->pos_wgs );
-//    }
+    if ( _ndb )
+    {
+        _adf_visible = true;
+        _adf_bearing = getAzimuth( _ndb->pos_wgs );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -274,21 +310,23 @@ void Manager::updateILS()
         if      ( azim < -M_PI ) azim += 2.0 * M_PI;
         else if ( azim >  M_PI ) azim -= 2.0 * M_PI;
 
-        if ( fabs( azim - _ils_loc->true_bearing ) < fdm::Units::deg2rad( 10.0 ) )
+        if ( fabs( azim - _ils_loc->true_bearing ) < fdm::Units::deg2rad(  30.0 )
+          || fabs( azim - _ils_loc->true_bearing ) > fdm::Units::deg2rad( 150.0 ) )
         {
-            updateNAV( azim, _course, _ils_lc_max );
+            _ils_lc_visible = true;
 
-            _ils_lc_visible = _nav_cdi != Data::Navigation::NONE;
+            updateNAV( azim, _ils_loc->true_bearing, _ils_lc_max );
+
+            _nav_cdi = Data::Navigation::TO;
+
+            _ils_heading = _ils_loc->true_bearing;
             _ils_lc_deviation = _nav_deviation;
             _ils_lc_norm = _nav_norm;
 
-
             if ( _ils_dme )
             {
-                fdm::Vector3 pos_ned_dme = _aircraft_wgs.getWGS2NED() * ( _ils_dme->pos_wgs - _aircraft_wgs.getPos_WGS() );
-
-                _nav_dme = true;
-                _nav_distance = pos_ned_dme.getLength();
+                _dme_visible = true;
+                _dme_distance = getDistance( _ils_dme->pos_wgs );
             }
 
             if ( _ils_gs )
@@ -320,8 +358,7 @@ void Manager::updateNAV()
 {
     if ( _vor )
     {
-        _nav_dme = true; // TODO
-        _nav_distance = getDistance( _vor->pos_wgs );
+        _nav_visible = true;
 
         double azim = getAzimuth( _vor->pos_wgs );
 
@@ -329,6 +366,15 @@ void Manager::updateNAV()
         else if ( azim >  M_PI ) azim -= 2.0 * M_PI;
 
         updateNAV( azim, _course, _vor_max );
+
+        _adf_visible = true;
+        _adf_bearing = _nav_bearing;
+
+        if ( _vor->type == DataBase::NAV::VOR_DME )
+        {
+            _dme_visible = true;
+            _dme_distance = getDistance( _vor->pos_wgs );
+        }
     }
 }
 

@@ -89,9 +89,10 @@ public:
                  double heading,
                  double altitude, double airspeed,
                  double turnRate, double climbRate,
-                 double distance,
-                 double lat_deviation, bool lat_active,
-                 double ver_deviation, bool ver_active );
+                 double dme_distance,
+                 double nav_deviation, bool nav_active,
+                 double loc_deviation, bool loc_active,
+                 double gs_deviation,  bool gs_active );
 
     void disableHalfBank();
     void enableHalfBank();
@@ -104,6 +105,8 @@ public:
     inline void setVerMode( VerMode ver_mode ) { _ver_mode = ver_mode; }
     inline void setArmMode( ArmMode arm_mode ) { _arm_mode = arm_mode; }
 
+    void setHeadingILS( double heading_ils );
+
     void toggleLatMode( LatMode lat_mode );
     void toggleVerMode( VerMode ver_mode );
 
@@ -112,6 +115,8 @@ protected:
     LatMode _lat_mode;      ///< lateral mode
     VerMode _ver_mode;      ///< vertical mode
     ArmMode _arm_mode;      ///< horizontal arm mode
+
+    LatMode _lat_mode_arm;  ///< lateral mode (before armed)
 
     PID _pid_alt;           ///< ALT mode PID controller
     PID _pid_ias;           ///< IAS mode PID controller
@@ -135,6 +140,7 @@ protected:
     double _max_rate_tr;    ///< [rad/s^2] turn rate max rate
 
     double _heading_act;    ///< [rad] acting desired heading
+    double _heading_ils;    ///< [rad] ILS heading
 
     double _climbRate_act;  ///< [m/s] acting desired climb rate
     double _climbRate_tc;   ///< [s] acting desired climb rate time constant
@@ -146,28 +152,31 @@ protected:
     double _nav_dev_max;    ///< [rad]
     double _apr_dev_max;    ///< [rad]
 
-    double _ver_dev_prev;   ///< [rad]
+    double _gs_dev_prev;    ///< [rad]
 
     bool _turnRateMode;     ///<
 
     virtual void readMode( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
     virtual void readPID( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
 
-    virtual void updateArmMode( double distance, double lat_deviation, bool lat_active );
+    virtual void updateArmMode( double dme_distance,
+                                double nav_deviation, bool nav_active,
+                                double loc_deviation, bool loc_active );
 
-    virtual void updateLatFD( double timeStep );
-    virtual void updateLatNAV( double timeStep, double distance, double lat_deviation );
-    virtual void updateLatAPR( double timeStep, double distance, double lat_deviation );
-    virtual void updateLatBC();
-    virtual void updateLatHDG( double timeStep, double heading, double turnRate );
-    virtual void updateLatTRN( double timeStep, double turnRate, double airspeed );
+    virtual void updateLatFD  ( double timeStep );
+    virtual void updateLatNAV ( double timeStep, double dme_distance, double nav_deviation );
+    virtual void updateLatAPR ( double timeStep, double dme_distance, double loc_deviation );
+    virtual void updateLatBC  ( double timeStep, double dme_distance, double loc_deviation );
+    virtual void updateLatABC ( double timeStep, double dme_distance, double loc_deviation, double heading );
+    virtual void updateLatHDG ( double timeStep, double heading, double turnRate );
+    virtual void updateLatTRN ( double timeStep, double turnRate, double airspeed );
 
-    virtual void updateVerFD( double timeStep );
-    virtual void updateVerALT( double timeStep, double altitude );
-    virtual void updateVerIAS( double timeStep, double airspeed );
-    virtual void updateVerVS( double timeStep, double climbRate );
-    virtual void updateVerARM( double timeStep, double altitude, double climbRate );
-    virtual void updateVerGS( double timeStep, double ver_deviation, bool ver_active );
+    virtual void updateVerFD  ( double timeStep );
+    virtual void updateVerALT ( double timeStep, double altitude );
+    virtual void updateVerIAS ( double timeStep, double airspeed );
+    virtual void updateVerVS  ( double timeStep, double climbRate );
+    virtual void updateVerARM ( double timeStep, double altitude, double climbRate );
+    virtual void updateVerGS  ( double timeStep, double gs_deviation, bool gs_active );
 };
 
 } // end of fdm namespace

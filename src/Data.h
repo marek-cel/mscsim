@@ -223,19 +223,22 @@ public:
         bool adf_visible;                   ///<
         double adf_bearing;                 ///< [rad]
 
+        bool dme_visible;                   ///<
+        double dme_distance;                ///< [m]
+
         bool ils_visible;                   ///<
         bool ils_gs_visible;                ///<
         bool ils_lc_visible;                ///<
+        double ils_heading;                 ///< [rad]
         double ils_gs_deviation;            ///< [rad] horizontal deviation
         double ils_lc_deviation;            ///< [rad] vertical deviation
         double ils_gs_norm;                 ///< [-1.0;1.0]
         double ils_lc_norm;                 ///< [-1.0;1.0]
 
         NAV_CDI nav_cdi;                    ///<
-        bool nav_dme;                       ///<
+        bool nav_visible;                   ///<
         double nav_bearing;                 ///< [rad]
         double nav_deviation;               ///< [rad]
-        double nav_distance;                ///< [m]
         double nav_norm;                    ///< [-1.0;1.0]
     };
 
