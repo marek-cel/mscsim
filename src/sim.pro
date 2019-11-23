@@ -36,13 +36,13 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 ################################################################################
 
 DEFINES += \
-    SIM_CONSOLE_OUTPUT \
+#    SIM_CONSOLE_OUTPUT \
 #    SIM_OSG_DEBUG_INFO \
     SIM_INTERSECTIONS \
     SIM_LOCAL_DATA_DIR \
     SIM_SKYDOME_SCALING \
-    SIM_USE_THREADS
-#    SIM_VERTICALSYNC
+    SIM_USE_THREADS \
+    SIM_VERTICALSYNC
 
 marble_maps: DEFINES += SIM_MARBLE_MAPS
 networking:  DEFINES += SIM_NETWORKING

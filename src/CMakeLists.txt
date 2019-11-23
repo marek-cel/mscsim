@@ -14,10 +14,12 @@ set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
 ################################################################################
 
+# add_definitions( -DSIM_CONSOLE_OUTPUT )
 # add_definitions( -DSIM_OSGDEBUGINFO )
 add_definitions( -DSIM_INTERSECTIONS )
 add_definitions( -DSIM_SKYDOMESCALING )
 add_definitions( -DSIM_USETHREADS )
+add_definitions( -DSIM_VERTICALSYNC )
 
 if( UNIX )
     add_definitions( -D_LINUX_ )
