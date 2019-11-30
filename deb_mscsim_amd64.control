@@ -1,0 +1,8 @@
+Package: mscsim
+Version: 0.2
+Architecture: amd64
+Maintainer: Marek M. Cel <marekcel@marekcel.pl>
+Depends: mscsim-data, libopenscenegraph100v5, libopenthreads20, libqt4-opengl, libqt4-svg, libqt4-xml, libqtcore4, libqtgui4
+Installed-Size: 2462
+Homepage: http://marekcel.pl
+Description: Simple flight simulator focused on realistic flight dynamics and flight controls simulation.
