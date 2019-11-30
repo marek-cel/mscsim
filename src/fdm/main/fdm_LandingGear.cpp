@@ -110,7 +110,7 @@ void LandingGear::readData( XmlNode &dataNode )
         {
             Wheel wheel;
 
-            wheel.input = 0;
+            wheel.input = FDM_NULLPTR;
 
             std::string name = wheelNode.getAttribute( "name" );
 

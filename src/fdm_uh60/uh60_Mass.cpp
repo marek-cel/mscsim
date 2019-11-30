@@ -46,10 +46,7 @@ void UH60_Mass::init()
     VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
     VarMass *cabin     = getVariableMassByName( "cabin" );
 
-    if ( 0 != pilot_l
-      && 0 != pilot_r
-      && 0 != fuel_tank
-      && 0 != cabin )
+    if ( pilot_l && pilot_r && fuel_tank && cabin )
     {
         pilot_l->input   = &_aircraft->getDataInp()->masses.pilot_1;
         pilot_r->input   = &_aircraft->getDataInp()->masses.pilot_2;

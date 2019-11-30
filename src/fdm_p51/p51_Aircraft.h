@@ -40,8 +40,7 @@ namespace fdm
 /**
  * @brief P-51 aircraft class.
  *
- * @see Skyhawk Model 172S Specification & Description. Cessna Aircraft Company, 2012
- * @see Information Manual Skyhawk SP. Cessna Aircraft Company, 172SPHBUS-00, 2007
+ * @see Erection and Maintenance Instructions for Army Models P-51 (...). North American Aviation, AN 01-60JE-2, 1944
  */
 class P51_Aircraft : public Aircraft
 {

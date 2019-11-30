@@ -103,6 +103,10 @@ public:
         float distance_def;     ///< [m] minimum distance
         float distance_min;     ///< [m] minimum distance
 
+        float offset_x;         ///< [m] camera position x-offset expressed in BAS
+        float offset_y;         ///< [m] camera position y-offset expressed in BAS
+        float offset_z;         ///< [m] camera position z-offset expressed in BAS
+
         float vne;              ///< [m/s] never exceed speed
 
         Controls   controls;    ///< controls data

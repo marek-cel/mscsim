@@ -19,58 +19,71 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_c172/c172_Mass.h>
-#include <fdm_c172/c172_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef C130_PROPULSION_H
+#define C130_PROPULSION_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/main/fdm_Propulsion.h>
+
+#include <fdm_c130/c130_Engine.h>
+#include <fdm_c130/c130_Propeller.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::~C172_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *cabin       = getVariableMassByName( "cabin" );
-    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
 
-    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin && trunk )
-    {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+class C130_Aircraft;    ///< aircraft class forward declaration
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+/**
+ * @brief C-130 propulsion class.
+ */
+class C130_Propulsion : public Propulsion
+{
+public:
 
-        cabin->input = &_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &_aircraft->getDataInp()->masses.trunk;
-    }
-    else
-    {
-        Exception e;
+    /** Constructor. */
+    C130_Propulsion( const C130_Aircraft *aircraft );
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    /** Destructor. */
+    ~C130_Propulsion();
 
-        FDM_THROW( e );
-    }
+    /**
+     * Initializes propulsion.
+     * @param engineOn specifies if engine is working at start
+     */
+    void init( bool engineOn );
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates propulsion. */
+    void update();
+
+    inline int getEnginesCount() const { return _enginesCount; }
+
+    inline const C130_Engine* getEngine( int i ) const { return _engine[ i ]; }
+    inline const C130_Propeller* getPropeller( int i ) const { return _propeller[ i ]; }
+
+private:
+
+    const C130_Aircraft *_aircraft;     ///< aircraft model main object
+
+    const int _enginesCount;            ///< engines count
+
+    C130_Engine    *_engine    [ 4 ];   ///< engine model
+    C130_Propeller *_propeller [ 4 ];   ///< propeller model
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // C130_PROPULSION_H

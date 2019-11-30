@@ -184,7 +184,6 @@ struct DataOut
     Rotor  rotor;                       ///< rotor data
     Crash crash;                        ///< crash cause
     StateOut stateOut;                  ///< output state
-    double landing_gear;                ///< [0.0,1.0] landing gear
 };
 
 } // end of fdm namespace

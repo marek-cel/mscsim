@@ -103,9 +103,15 @@ void Camera::update()
         }
         else if ( _viewType == Data::CGI::ViewPilot )
         {
+            osg::Vec3d r_camera_bas( Data::get()->cgi.camera.offset_x,
+                                     Data::get()->cgi.camera.offset_y,
+                                     Data::get()->cgi.camera.offset_z );
+
+            osg::Vec3d r_camera_wgs = r_wgs + q_wgs * r_camera_bas;
+
             osg::Matrixd matrix( osg::Matrixd::rotate( q_tmp )
                                * osg::Matrixd::rotate( q_wgs )
-                               * osg::Matrixd::translate( r_wgs ) );
+                               * osg::Matrixd::translate( r_camera_wgs ) );
 
             _manipulatorShift->setByMatrix( matrix );
         }

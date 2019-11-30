@@ -19,58 +19,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_c172/c172_Mass.h>
-#include <fdm_c172/c172_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef C130_PROPELLER_H
+#define C130_PROPELLER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/models/fdm_Propeller.h>
+
+#include <fdm_c130/c130_Governor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::~C172_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *cabin       = getVariableMassByName( "cabin" );
-    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
 
-    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin && trunk )
-    {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+/**
+ * @brief C-130 propeller class.
+ */
+class C130_Propeller : public Propeller
+{
+public:
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+    /** Constructor. */
+    C130_Propeller();
 
-        cabin->input = &_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &_aircraft->getDataInp()->masses.trunk;
-    }
-    else
-    {
-        Exception e;
+    /** Destructor. */
+    virtual ~C130_Propeller();
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
 
-        FDM_THROW( e );
-    }
+    /**
+     * Updates propeller.
+     * @param normPitch [0.0,1.0] normalized propeller lever position
+     * @param engineTorque [N] engine torque
+     * @param airspeed [m/s] airspeed
+     * @param airDensity [kg/m^3] air density
+     */
+    void update( double propellerLever, double engineTorque,
+                 double airspeed, double airDensity );
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+private:
+
+    C130_Governor *_governor;       ///< propeller governor model
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // C130_PROPELLER_H

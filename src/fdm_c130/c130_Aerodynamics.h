@@ -19,58 +19,69 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_c172/c172_Mass.h>
-#include <fdm_c172/c172_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef C130_AERODYNAMICS_H
+#define C130_AERODYNAMICS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/main/fdm_Aerodynamics.h>
+
+#include <fdm_c130/c130_TailOff.h>
+#include <fdm_c130/c130_StabilizerHor.h>
+#include <fdm_c130/c130_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::~C172_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *cabin       = getVariableMassByName( "cabin" );
-    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
 
-    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin && trunk )
-    {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+class C130_Aircraft;    ///< aircraft class forward declaration
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+/**
+ * @brief C-130 aerodynamics class.
+ */
+class C130_Aerodynamics : public Aerodynamics
+{
+public:
 
-        cabin->input = &_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &_aircraft->getDataInp()->masses.trunk;
-    }
-    else
-    {
-        Exception e;
+    /** Constructor. */
+    C130_Aerodynamics( const C130_Aircraft *aircraft );
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    /** Destructor. */
+    ~C130_Aerodynamics();
 
-        FDM_THROW( e );
-    }
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates aerodynamics. */
+    void update();
+
+    /**
+     * Returns true if aircraft is stalling, otherwise returns false.
+     * @return true if aircraft is stalling, false otherwise
+     */
+    inline bool getStall() const { return _tailOff->getStall(); }
+
+private:
+
+    const C130_Aircraft *_aircraft;     ///< aircraft model main object
+
+    C130_TailOff       *_tailOff;       ///< wing model
+    C130_StabilizerHor *_stabHor;       ///< horizontal stabilizer model
+    C130_StabilizerVer *_stabVer;       ///< vertical stabilizer model
+
+    Table _drag_ground_effect;          ///< [-] drag factor due to ground effect vs [m] altitude AGL
+    Table _lift_ground_effect;          ///< [-] lift factor due to ground effect vs [m] altitude AGL
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // C130_AERODYNAMICS_H

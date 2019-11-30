@@ -103,12 +103,17 @@ void CloudsLayer::create()
     osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
     _root->addChild( pat.get() );
 
-    WGS84 wgs( 0.0, 0.0, 0.0 );
+    WGS84 wgs( Data::get()->cgi.camera.latitude,
+               Data::get()->cgi.camera.longitude,
+               0.0 );
 
     pat->setAttitude( wgs.getAttitude() );
     pat->setPosition( wgs.getPosition() );
 
-    createLayer( pat.get(), 0.0, 0.0, _base_asl );
+    createLayer( pat.get(),
+                 Data::get()->cgi.camera.latitude,
+                 Data::get()->cgi.camera.longitude,
+                 _base_asl );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

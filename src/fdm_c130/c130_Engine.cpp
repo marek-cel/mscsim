@@ -20,8 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16/f16_LandingGear.h>
-#include <fdm_f16/f16_Aircraft.h>
+#include <fdm_c130/c130_Engine.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,57 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    _aircraft ( aircraft )
-{}
+C130_Engine::C130_Engine() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::~F16_LandingGear() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16_LandingGear::init()
-{
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
-
-    if ( wheel_n && wheel_l && wheel_r )
-    {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
-
-        FDM_THROW( e );
-    }
-
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16_LandingGear::update()
-{
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
-
-    _brake_l = _aircraft->getCtrl()->getBrakeL();
-    _brake_r = _aircraft->getCtrl()->getBrakeR();
-
-    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
-
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = _aircraft->getDataInp()->controls.nws;
-}
+C130_Engine::~C130_Engine() {}

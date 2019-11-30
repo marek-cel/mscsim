@@ -26,6 +26,12 @@
 
 #include <fdm/main/fdm_Aircraft.h>
 
+#include <fdm_c130/c130_Aerodynamics.h>
+#include <fdm_c130/c130_Controls.h>
+#include <fdm_c130/c130_LandingGear.h>
+#include <fdm_c130/c130_Mass.h>
+#include <fdm_c130/c130_Propulsion.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -33,6 +39,9 @@ namespace fdm
 
 /**
  * @brief C-130 aircraft class.
+ *
+ * @see NATOPS Flight Manual Navy Model C-130T Aircraft. Department of the Navy, 01‑75GAL‑1, 2006
+ * @see Flight Manual C-130 USCG Series Aircraft. Lockheed Martin, T.O. 1C-130H-1, 2001
  */
 class C130_Aircraft : public Aircraft
 {
@@ -49,6 +58,26 @@ public:
 
     /** Updates output data. */
     void updateOutputData();
+
+    inline C130_Aerodynamics* getAero() { return _aero; }
+    inline C130_Controls*     getCtrl() { return _ctrl; }
+    inline C130_LandingGear*  getGear() { return _gear; }
+    inline C130_Mass*         getMass() { return _mass; }
+    inline C130_Propulsion*   getProp() { return _prop; }
+
+    inline const C130_Aerodynamics* getAero() const { return _aero; }
+    inline const C130_Controls*     getCtrl() const { return _ctrl; }
+    inline const C130_LandingGear*  getGear() const { return _gear; }
+    inline const C130_Mass*         getMass() const { return _mass; }
+    inline const C130_Propulsion*   getProp() const { return _prop; }
+
+private:
+
+    C130_Aerodynamics *_aero;   ///< aerodynamics model
+    C130_Controls     *_ctrl;   ///< controls model
+    C130_LandingGear  *_gear;   ///< landing gear model
+    C130_Mass         *_mass;   ///< mass and inertia model
+    C130_Propulsion   *_prop;   ///< propulsion model
 };
 
 } // end of fdm namespace

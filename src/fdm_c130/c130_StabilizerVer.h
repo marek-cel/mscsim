@@ -19,75 +19,73 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH60_AERODYNAMICS_H
-#define UH60_AERODYNAMICS_H
+#ifndef C130_STABILIZERVER_H
+#define C130_STABILIZERVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
-
-
 #include <fdm/models/fdm_Stabilizer.h>
-
-#include <fdm_uh60/uh60_MainRotor.h>
-#include <fdm_uh60/uh60_TailRotor.h>
-#include <fdm_uh60/uh60_Fuselage.h>
-#include <fdm_uh60/uh60_StabilizerHor.h>
-#include <fdm_uh60/uh60_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class UH60_Aircraft;    ///< aircraft class forward declaration
-
 /**
- * @brief UH-60 aerodynamics class.
- *
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
- * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
+ * @brief C-130 vertical stabilizer class.
  */
-class UH60_Aerodynamics : public Aerodynamics
+class C130_StabilizerVer : public Stabilizer
 {
 public:
 
     /** Constructor. */
-    UH60_Aerodynamics( const UH60_Aircraft *aircraft );
+    C130_StabilizerVer();
 
     /** Destructor. */
-    ~UH60_Aerodynamics();
-
-    /** Initializes aerodynamics. */
-    void init();
+    ~C130_StabilizerVer();
 
     /**
      * Reads data.
      * @param dataNode XML node
      */
-    void readData( XmlNode &dataNode );
+    virtual void readData( XmlNode &dataNode );
 
-    /** Computes force and moment. */
-    void computeForceAndMoment();
-
-    /** Updates model. */
-    void update();
-
-    inline const MainRotor* getMainRotor() const { return _mainRotor; }
+    /**
+     * Computes force and moment.
+     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
+     * @param airDensity [kg/m^3] air density
+     * @param rudder [rad] rudder deflection
+     */
+    void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                const Vector3 &omg_air_bas,
+                                double airDensity,
+                                double rudder );
 
 private:
 
-    const UH60_Aircraft *_aircraft;     ///< aircraft model main object
+    double _dcx_drudder;            ///< [1/rad] drag coefficient due to rudder deflection
+    double _dcy_drudder;            ///< [1/rad] sideforce coefficient due to rudder deflection
 
-    UH60_MainRotor     *_mainRotor;     ///<
-    UH60_TailRotor     *_tailRotor;     ///<
-    UH60_Fuselage      *_fuselage;      ///<
-    UH60_StabilizerHor *_stabHor;       ///<
-    UH60_StabilizerVer *_stabVer;       ///<
+    double _rudder;                 ///< [rad] rudder deflection
+
+    /**
+     * Computes drag coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] drag coefficient
+     */
+    virtual double getCx( double angle ) const;
+
+    /**
+     * Computes sideforce coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] sideforce coefficient
+     */
+    virtual double getCy( double angle ) const;
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH60_AERODYNAMICS_H
+#endif // C130_STABILIZERVER_H

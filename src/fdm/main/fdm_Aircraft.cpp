@@ -211,9 +211,6 @@ void Aircraft::updateOutputData()
 
     // crash
     _dataOut->crash = _crash;
-
-    // landing gear
-    _dataOut->landing_gear = _dataInp->controls.landing_gear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16/f16_LandingGear.h>
-#include <fdm_f16/f16_Aircraft.h>
+#include <fdm_c130/c130_LandingGear.h>
+#include <fdm_c130/c130_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,28 +29,32 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
+C130_LandingGear::C130_LandingGear( const C130_Aircraft *aircraft ) :
     LandingGear( aircraft ),
     _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::~F16_LandingGear() {}
+C130_LandingGear::~C130_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::init()
+void C130_LandingGear::init()
 {
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
+    Wheel *wheel_n  = getWheelByName( "wheel_n"  );
+    Wheel *wheel_lf = getWheelByName( "wheel_lf" );
+    Wheel *wheel_lr = getWheelByName( "wheel_lr" );
+    Wheel *wheel_rf = getWheelByName( "wheel_rf" );
+    Wheel *wheel_rr = getWheelByName( "wheel_rr" );
 
-    if ( wheel_n && wheel_l && wheel_r )
+    if ( wheel_n && wheel_lf && wheel_lr && wheel_rf && wheel_rr )
     {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_n  ->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_lf ->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_lr ->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_rf ->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_rr ->input = &_aircraft->getDataInp()->controls.landing_gear;
     }
     else
     {
@@ -69,7 +73,7 @@ void F16_LandingGear::init()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::update()
+void C130_LandingGear::update()
 {
     //////////////////////
     LandingGear::update();
@@ -78,7 +82,7 @@ void F16_LandingGear::update()
     _brake_l = _aircraft->getCtrl()->getBrakeL();
     _brake_r = _aircraft->getCtrl()->getBrakeR();
 
-    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
+    _ctrlAngle = 0.0;
 
     _antiskid = _aircraft->getDataInp()->controls.abs;
     _steering = _aircraft->getDataInp()->controls.nws;

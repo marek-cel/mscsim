@@ -263,7 +263,9 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.flaperons   = dataOut.controls.flaperons;
     Data::get()->ownship.lef         = dataOut.controls.lef;
     Data::get()->ownship.airbrake    = dataOut.controls.airbrake;
-    Data::get()->ownship.landingGear = dataOut.landing_gear;
+
+    Data::get()->ownship.norm_flaps       = hid::Manager::instance()->getFlaps();
+    Data::get()->ownship.norm_landingGear = hid::Manager::instance()->getLandingGear();
 
     if ( dataOut.stateOut == fdm::DataOut::Working
       || dataOut.stateOut == fdm::DataOut::Frozen )

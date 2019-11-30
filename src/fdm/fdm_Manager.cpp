@@ -603,9 +603,6 @@ void Manager::updateStateIdle()
     // crash
     _dataOut.crash = DataOut::NoCrash;
 
-    // landing gear
-    _dataOut.landing_gear = 0.0;
-
     _stateOut = DataOut::Idle;
 }
 

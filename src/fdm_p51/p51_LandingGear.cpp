@@ -46,9 +46,7 @@ void P51_LandingGear::init()
     Wheel *wheel_r = getWheelByName( "wheel_r" );
     Wheel *wheel_t = getWheelByName( "wheel_t" );
 
-    if ( 0 != wheel_l
-      && 0 != wheel_r
-      && 0 != wheel_t )
+    if ( wheel_l && wheel_r && wheel_t )
     {
         wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
         wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;

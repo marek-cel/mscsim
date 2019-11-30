@@ -20,8 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16/f16_LandingGear.h>
-#include <fdm_f16/f16_Aircraft.h>
+#include <fdm_c130/c130_Propeller.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,57 +30,48 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    _aircraft ( aircraft )
-{}
+C130_Propeller::C130_Propeller() :
+    Propeller(),
 
-////////////////////////////////////////////////////////////////////////////////
-
-F16_LandingGear::~F16_LandingGear() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16_LandingGear::init()
+    _governor ( 0 )
 {
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
-
-    if ( wheel_n && wheel_l && wheel_r )
-    {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
-
-        FDM_THROW( e );
-    }
-
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
+    _governor = new C130_Governor();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::update()
+C130_Propeller::~C130_Propeller()
 {
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
+    FDM_DELPTR( _governor );
+}
 
-    _brake_l = _aircraft->getCtrl()->getBrakeL();
-    _brake_r = _aircraft->getCtrl()->getBrakeR();
+////////////////////////////////////////////////////////////////////////////////
 
-    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
+void C130_Propeller::readData( XmlNode &dataNode )
+{
+    ////////////////////////////////
+    Propeller::readData( dataNode );
+    ////////////////////////////////
 
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = _aircraft->getDataInp()->controls.nws;
+    if ( dataNode.isValid() )
+    {
+        XmlNode nodeGovernor = dataNode.getFirstChildElement( "governor" );
+        _governor->readData( nodeGovernor );
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C130_Propeller::update( double propellerLever, double engineTorque,
+                            double airspeed, double airDensity )
+{
+    _governor->update( propellerLever, _speed_rpm );
+
+    ///////////////////////////////////////////////////////////////////////////////
+    Propeller::update( _governor->getPitch(), engineTorque, airspeed, airDensity );
+    ///////////////////////////////////////////////////////////////////////////////
 }

@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16/f16_LandingGear.h>
-#include <fdm_f16/f16_Aircraft.h>
+#include <fdm_c130/c130_Mass.h>
+#include <fdm_c130/c130_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,57 +29,46 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
+C130_Mass::C130_Mass( const C130_Aircraft *aircraft ) :
+    Mass( aircraft ),
     _aircraft ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::~F16_LandingGear() {}
+C130_Mass::~C130_Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::init()
+void C130_Mass::init()
 {
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
+    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
+    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
+    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
+    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
+    VarMass *cabin       = getVariableMassByName( "cabin" );
 
-    if ( wheel_n && wheel_l && wheel_r )
+    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin )
     {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+
+        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+
+        cabin->input = &_aircraft->getDataInp()->masses.cabin;
     }
     else
     {
         Exception e;
 
         e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
+        e.setInfo( "Obtaining variable masses failed." );
 
         FDM_THROW( e );
     }
 
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16_LandingGear::update()
-{
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
-
-    _brake_l = _aircraft->getCtrl()->getBrakeL();
-    _brake_r = _aircraft->getCtrl()->getBrakeR();
-
-    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
-
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = _aircraft->getDataInp()->controls.nws;
+    /////////////
+    Mass::init();
+    /////////////
 }

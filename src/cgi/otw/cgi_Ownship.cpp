@@ -106,22 +106,23 @@ void Ownship::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Ownship::getAngle( double input, LandingGearElementData::AxisData *axisData )
+void Ownship::updateAxis( double input, ElementData::AxisData *axisData )
 {
-    double angle = axisData->angle_max;
+    axisData->angle = axisData->angle_max;
+    axisData->shift = axisData->shift_max;
 
-    if (  axisData->input_min < input && input < axisData->input_max )
+    if (  axisData->input_min <= input && input < axisData->input_max )
     {
         double coef = ( input - axisData->input_min ) / ( axisData->input_max - axisData->input_min );
 
-        angle = axisData->angle_min + coef * ( axisData->angle_max - axisData->angle_min );
+        axisData->angle = axisData->angle_min + coef * ( axisData->angle_max - axisData->angle_min );
+        axisData->shift = axisData->shift_min + coef * ( axisData->shift_max - axisData->shift_min );
     }
     else if ( input < axisData->input_min  )
     {
-        angle = axisData->angle_min;
+        axisData->angle = axisData->angle_min;
+        axisData->shift = axisData->shift_min;
     }
-
-    return angle;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,12 +194,31 @@ void Ownship::loadModel( const std::string &modelFile )
             std::stringstream ss;
             ss << "LandingGear" << ( i + 1 );
 
-            osg::ref_ptr<osg::PositionAttitudeTransform> landingGearElement =
+            osg::ref_ptr<osg::PositionAttitudeTransform> gearElement =
                     dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str() ) );
 
-            if ( landingGearElement.valid() )
+            if ( gearElement.valid() )
             {
-                _landingGearElements.push_back( landingGearElement.get() );
+                _gearElements.push_back( gearElement.get() );
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        // flaps
+        for ( unsigned int i = 0; i < CGI_MAX_FLAPS_ELEMENTS; i++ )
+        {
+            std::stringstream ss;
+            ss << "Flap" << ( i + 1 );
+
+            osg::ref_ptr<osg::PositionAttitudeTransform> flapElement =
+                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str() ) );
+
+            if ( flapElement.valid() )
+            {
+                _flapElements.push_back( flapElement.get() );
             }
             else
             {
@@ -236,7 +256,7 @@ void Ownship::loadModel( const std::string &modelFile )
 
             if ( blade.valid() )
             {
-                _mainRotorBlades.push_back( blade.get() );
+                _rotorBlades.push_back( blade.get() );
             }
             else
             {
@@ -248,31 +268,30 @@ void Ownship::loadModel( const std::string &modelFile )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ownship::readLandingGearElementsData( const fdm::XmlNode &rootNode,
-                                           LandingGearElementsData *landingGearElementsData )
+void Ownship::readElementsData( const fdm::XmlNode &rootNode, ElementsData *elementsData )
 {
     for ( unsigned int i = 0; i < CGI_MAX_LANDING_GEAR_ELEMENTS; i++ )
     {
         std::stringstream ss;
-        ss << "landing_gear_" << ( i + 1 );
+        ss << "element_" << ( i + 1 );
 
         fdm::XmlNode landingGearNode = rootNode.getFirstChildElement( ss.str() );
 
         if ( landingGearNode.isValid() )
         {
-            LandingGearElementData data;
+            ElementData data;
 
-            memset( &data, 0, sizeof(LandingGearElementData) );
+            memset( &data, 0, sizeof(ElementData) );
 
             fdm::XmlNode xAxixNode = landingGearNode.getFirstChildElement( "x" );
             fdm::XmlNode yAxixNode = landingGearNode.getFirstChildElement( "y" );
             fdm::XmlNode zAxixNode = landingGearNode.getFirstChildElement( "z" );
 
-            if ( xAxixNode.isValid() ) readLandingGearElementAxisData( xAxixNode, &(data.x) );
-            if ( yAxixNode.isValid() ) readLandingGearElementAxisData( yAxixNode, &(data.y) );
-            if ( zAxixNode.isValid() ) readLandingGearElementAxisData( zAxixNode, &(data.z) );
+            if ( xAxixNode.isValid() ) readElementAxisData( xAxixNode, &(data.x) );
+            if ( yAxixNode.isValid() ) readElementAxisData( yAxixNode, &(data.y) );
+            if ( zAxixNode.isValid() ) readElementAxisData( zAxixNode, &(data.z) );
 
-            landingGearElementsData->push_back( data );
+            elementsData->push_back( data );
         }
         else
         {
@@ -283,8 +302,7 @@ void Ownship::readLandingGearElementsData( const fdm::XmlNode &rootNode,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ownship::readLandingGearElementAxisData( const fdm::XmlNode &node,
-                                              LandingGearElementData::AxisData *axisData )
+void Ownship::readElementAxisData( const fdm::XmlNode &node, ElementData::AxisData *axisData )
 {
     int result = FDM_SUCCESS;
 
@@ -292,19 +310,28 @@ void Ownship::readLandingGearElementAxisData( const fdm::XmlNode &node,
     double input_max = 0.0;
     double angle_min = 0.0;
     double angle_max = 0.0;
+    double shift_min = 0.0;
+    double shift_max = 0.0;
 
     if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, input_min, "input_min" );
     if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, input_max, "input_max" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_min, "angle_min" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_max, "angle_max" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_min, "angle_min", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_max, "angle_max", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, shift_min, "shift_min", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, shift_max, "shift_max", true );
 
     if ( result == FDM_SUCCESS )
     {
         axisData->input_min = input_min;
         axisData->input_max = input_max;
 
+        axisData->angle = 0.0;
         axisData->angle_min = fdm::Units::deg2rad( angle_min );
         axisData->angle_max = fdm::Units::deg2rad( angle_max );
+
+        axisData->shift = 0.0;
+        axisData->shift_min = shift_min;
+        axisData->shift_max = shift_max;
     }
 }
 
@@ -356,9 +383,13 @@ void Ownship::reload()
             if ( wingTipNodeL.isValid() ) readWingTipData( wingTipNodeL, &_wing_tip_l );
             if ( wingTipNodeR.isValid() ) readWingTipData( wingTipNodeR, &_wing_tip_r );
 
-            _double_trace = ( _wing_tip_l.length() + _wing_tip_r.length() ) > 0.0;
+            _double_trace = ( _wing_tip_l.length() + _wing_tip_r.length() ) > 1.0e-9;
 
-            readLandingGearElementsData( rootNode, &_landingGearElementsData );
+            fdm::XmlNode nodeFlaps = rootNode.getFirstChildElement( "flaps" );
+            if ( nodeFlaps.isValid() ) readElementsData( nodeFlaps, &_flapData );
+
+            fdm::XmlNode nodeLandingGear = rootNode.getFirstChildElement( "landing_gear" );
+            if ( nodeLandingGear.isValid() ) readElementsData( nodeLandingGear, &_gearData );
 
             if ( result == FDM_SUCCESS )
             {
@@ -405,10 +436,12 @@ void Ownship::reset()
     _mainRotor = NULLPTR;
     _tailRotor = NULLPTR;
 
-    _landingGearElements.clear();
-    _mainRotorBlades.clear();
+    _gearElements.clear();
+    _flapElements.clear();
+    _rotorBlades.clear();
 
-    _landingGearElementsData.clear();
+    _gearData.clear();
+    _flapData.clear();
 
     _pos_0_wgs = osg::Vec3d( 0.0, 0.0, 0.0 );
 
@@ -481,6 +514,22 @@ void Ownship::updateModel()
         _flapR->setAttitude( osg::Quat( Data::get()->ownship.flaps, osg::Y_AXIS ) );
     }
 
+    // flaps
+    for ( unsigned int i = 0; i < _flapElements.size() && i < _flapData.size(); i++ )
+    {
+        updateAxis( Data::get()->ownship.norm_flaps, &(_flapData[ i ].x) );
+        updateAxis( Data::get()->ownship.norm_flaps, &(_flapData[ i ].y) );
+        updateAxis( Data::get()->ownship.norm_flaps, &(_flapData[ i ].z) );
+
+        _flapElements[ i ]->setAttitude( osg::Quat( _flapData[ i ].x.angle, osg::X_AXIS,
+                                                    _flapData[ i ].y.angle, osg::Y_AXIS,
+                                                    _flapData[ i ].z.angle, osg::Z_AXIS ) );
+
+        _flapElements[ i ]->setPosition( osg::Vec3( _flapData[ i ].x.shift,
+                                                    _flapData[ i ].y.shift,
+                                                    _flapData[ i ].z.shift ) );
+    }
+
     // lefs
     if ( _lefL.valid() && _lefR.valid() )
     {
@@ -502,20 +551,24 @@ void Ownship::updateModel()
     // landing gear
     if ( _landingGear.valid() )
     {
-        if ( Data::get()->ownship.landingGear > 0.0 )
+        if ( Data::get()->ownship.norm_landingGear > 0.0 )
         {
             _landingGear->setValue( 0, false );
             _landingGear->setValue( 1, true  );
 
-            for ( unsigned int i = 0; i < _landingGearElements.size() && i < _landingGearElementsData.size(); i++ )
+            for ( unsigned int i = 0; i < _gearElements.size() && i < _gearData.size(); i++ )
             {
-                double angle_x = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].x) );
-                double angle_y = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].y) );
-                double angle_z = getAngle( Data::get()->ownship.landingGear, &(_landingGearElementsData[ i ].z) );
+                updateAxis( Data::get()->ownship.norm_landingGear, &(_gearData[ i ].x) );
+                updateAxis( Data::get()->ownship.norm_landingGear, &(_gearData[ i ].y) );
+                updateAxis( Data::get()->ownship.norm_landingGear, &(_gearData[ i ].z) );
 
-                _landingGearElements[ i ]->setAttitude( osg::Quat( angle_x, osg::X_AXIS,
-                                                                   angle_y, osg::Y_AXIS,
-                                                                   angle_z, osg::Z_AXIS ) );
+                _gearElements[ i ]->setAttitude( osg::Quat( _gearData[ i ].x.angle, osg::X_AXIS,
+                                                            _gearData[ i ].y.angle, osg::Y_AXIS,
+                                                            _gearData[ i ].z.angle, osg::Z_AXIS ) );
+
+                _gearElements[ i ]->setPosition( osg::Vec3( _gearData[ i ].x.shift,
+                                                            _gearData[ i ].y.shift,
+                                                            _gearData[ i ].z.shift ) );
             }
         }
         else
@@ -561,7 +614,7 @@ void Ownship::updateModel()
     }
 
     // main rotor blades
-    unsigned int bladesCount = _mainRotorBlades.size();
+    unsigned int bladesCount = _rotorBlades.size();
     double psiStep = 2.0*M_PI / (float)bladesCount;
 
     for ( unsigned int i = 0; i < bladesCount; i++ )
@@ -581,9 +634,9 @@ void Ownship::updateModel()
                         + Data::get()->ownship.mainRotor_diskPitch * cosPsi
                         - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
 
-        _mainRotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
-                                                       flapping, osg::Y_AXIS,
-                                                            0.0, osg::Z_AXIS ) );
+        _rotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
+                                                   flapping, osg::Y_AXIS,
+                                                        0.0, osg::Z_AXIS ) );
     }
 }
 

@@ -39,6 +39,11 @@ namespace fdm
 
 /**
  * @brief UH-60 aircraft class.
+ *
+ * @see Operator's Manual for UH-60A, UH-60L and EH-60A Helicopters. Department of the Army, TM 1-1520-237-10, 1996
+ * @see Aviation Unit and Intermediate Maintenance for Army Models UH-60 Helicopters, Department of the Army, TM 1-1520-237-23-1, 2006
+ * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
+ * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
  */
 class UH60_Aircraft : public Aircraft
 {

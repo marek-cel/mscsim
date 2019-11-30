@@ -20,8 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_f16/f16_LandingGear.h>
-#include <fdm_f16/f16_Aircraft.h>
+#include <fdm_c130/c130_StabilizerVer.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,57 +30,64 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::F16_LandingGear( const F16_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    _aircraft ( aircraft )
+C130_StabilizerVer::C130_StabilizerVer() :
+    _dcx_drudder ( 0.0 ),
+    _dcy_drudder ( 0.0 ),
+    _rudder ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_LandingGear::~F16_LandingGear() {}
+C130_StabilizerVer::~C130_StabilizerVer() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::init()
+void C130_StabilizerVer::readData( XmlNode &dataNode )
 {
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
+    /////////////////////////////////
+    Stabilizer::readData( dataNode );
+    /////////////////////////////////
 
-    if ( wheel_n && wheel_l && wheel_r )
+    if ( dataNode.isValid() )
     {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+        int result = FDM_SUCCESS;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_drudder, "dcx_drudder" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcy_drudder, "dcy_drudder" );
+
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
-
-        FDM_THROW( e );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
-
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_LandingGear::update()
+void C130_StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                                const Vector3 &omg_air_bas,
+                                                double airDensity,
+                                                double rudder )
 {
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
+    _rudder = rudder;
 
-    _brake_l = _aircraft->getCtrl()->getBrakeL();
-    _brake_r = _aircraft->getCtrl()->getBrakeR();
+    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                       airDensity );
+}
 
-    _ctrlAngle = _aircraft->getCtrl()->getNoseWheel();
+////////////////////////////////////////////////////////////////////////////////
 
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = _aircraft->getDataInp()->controls.nws;
+double C130_StabilizerVer::getCx( double angle ) const
+{
+    return Stabilizer::getCx( angle )
+            + _dcx_drudder * _rudder;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double C130_StabilizerVer::getCy( double angle ) const
+{
+    return Stabilizer::getCy( angle )
+            + _dcy_drudder * _rudder;
 }

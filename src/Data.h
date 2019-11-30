@@ -62,6 +62,10 @@ public:
             double longitude;               ///< [rad] camera longitude
             double altitude_agl;            ///< [m] camera altitude above ground level
             double altitude_asl;            ///< [m] camera altitude above sea level
+
+            double offset_x;                ///< [m] camera position x-offset expressed in BAS
+            double offset_y;                ///< [m] camera position y-offset expressed in BAS
+            double offset_z;                ///< [m] camera position z-offset expressed in BAS
         };
 
         /** Environment data. */
@@ -298,7 +302,9 @@ public:
         double flaperons;                   ///< [rad] flaperons differtial deflection
         double lef;                         ///< [rad] leading edge flaps deflection
         double airbrake;                    ///< [rad] airbrake deflection
-        double landingGear;                 ///< [0.0,1.0] landing gear normalized deflection
+
+        double norm_flaps;                  ///< [0.0,1.0] flaps normalized position
+        double norm_landingGear;            ///< [0.0,1.0] landing gear normalized position
 
         double propeller[ FDM_MAX_ENGINES ];///< [rad] propeller angle
 

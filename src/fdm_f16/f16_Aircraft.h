@@ -39,6 +39,14 @@ namespace fdm
 
 /**
  * @brief F-16 aircraft class.
+ *
+ * @see Flight Manual HAF Series Aircraft F-16C/D Blocks 50 and 52+. Lockheed Martin Corporation, T.O. GR1F-16CJ-1, 2003
+ * @see Suplemental Flight Manual HAF Series Aircraft F-16C/D Blocks 50 and 52+. Lockheed Martin Corporation, T.O. GR1F-16CJ-1-1, 2003
+ * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538, 1979
+ * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176, 1976
+ * @see Marchand M.: Pitch Rate Flight Control for the F-16 Aircraft to improve Air-to-Air Combat, AD-A055-417, 1977
+ * @see Droste T., Walker J.: The General Dynamics Case Study on the F-16 Fly-by-Wire Flight Control System
+ * @see Dameron G.: A Real-Time Simulator for Man-In-The-Loop Testing of Aircraft Control Systems, AD-A202-599, 1988
  */
 class F16_Aircraft : public Aircraft
 {

@@ -46,9 +46,7 @@ void P51_Mass::init()
     VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
     VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
 
-    if ( 0 != pilot
-      && 0 != fuel_tank_l
-      && 0 != fuel_tank_r )
+    if ( pilot && fuel_tank_l && fuel_tank_r )
     {
         pilot->input = &_aircraft->getDataInp()->masses.pilot_1;
 

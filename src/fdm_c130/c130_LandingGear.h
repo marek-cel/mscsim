@@ -19,58 +19,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_c172/c172_Mass.h>
-#include <fdm_c172/c172_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef C130_LANDINGGEAR_H
+#define C130_LANDINGGEAR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/main/fdm_LandingGear.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::~C172_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *cabin       = getVariableMassByName( "cabin" );
-    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
 
-    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin && trunk )
-    {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+class C130_Aircraft;    ///< aircraft class forward declaration
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+/**
+ * @brief C-130 landing gear class.
+ */
+class C130_LandingGear : public LandingGear
+{
+public:
 
-        cabin->input = &_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &_aircraft->getDataInp()->masses.trunk;
-    }
-    else
-    {
-        Exception e;
+    /** Constructor. */
+    C130_LandingGear( const C130_Aircraft *aircraft );
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    /** Destructor. */
+    ~C130_LandingGear();
 
-        FDM_THROW( e );
-    }
+    void init();
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+    /** Updates landing gear. */
+    void update();
+
+private:
+
+    const C130_Aircraft *_aircraft;     ///< aircraft model main object
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // C130_LANDINGGEAR_H

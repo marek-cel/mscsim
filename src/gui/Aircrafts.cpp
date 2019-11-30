@@ -75,6 +75,8 @@ void Aircrafts::parseAircraft(const QDomElement &node )
     QDomElement nodeDistDef = node.firstChildElement( "distance_def" );
     QDomElement nodeDistMin = node.firstChildElement( "distance_min" );
 
+    QDomElement nodeCameraOffset = node.firstChildElement( "camera_offset" );
+
     QDomElement nodeVne = node.firstChildElement( "vne" );
 
     if ( !nodeName.isNull() && !nodeType.isNull() && !nodeFile.isNull() && !nodeVne.isNull() )
@@ -87,6 +89,21 @@ void Aircrafts::parseAircraft(const QDomElement &node )
 
         aircraft.distance_def = nodeDistDef.isNull() ? 5.0 : nodeDistDef.text().toFloat();
         aircraft.distance_min = nodeDistMin.isNull() ? 5.0 : nodeDistMin.text().toFloat();
+
+        aircraft.offset_x = 0.0;
+        aircraft.offset_y = 0.0;
+        aircraft.offset_z = 0.0;
+
+        if ( !nodeCameraOffset.isNull() )
+        {
+            QDomElement nodeOffsetX = nodeCameraOffset.firstChildElement( "x" );
+            QDomElement nodeOffsetY = nodeCameraOffset.firstChildElement( "y" );
+            QDomElement nodeOffsetZ = nodeCameraOffset.firstChildElement( "z" );
+
+            aircraft.offset_x = nodeOffsetX.isNull() ? 0.0 : nodeOffsetX.text().toFloat();
+            aircraft.offset_y = nodeOffsetY.isNull() ? 0.0 : nodeOffsetY.text().toFloat();
+            aircraft.offset_z = nodeOffsetZ.isNull() ? 0.0 : nodeOffsetZ.text().toFloat();
+        }
 
         aircraft.vne = nodeVne.text().toFloat();
 

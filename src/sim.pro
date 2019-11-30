@@ -1,3 +1,4 @@
+
 QT += core gui opengl svg xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -36,7 +37,7 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 ################################################################################
 
 DEFINES += \
-#    SIM_CONSOLE_OUTPUT \
+    SIM_CONSOLE_OUTPUT \
 #    SIM_OSG_DEBUG_INFO \
     SIM_INTERSECTIONS \
     SIM_LOCAL_DATA_DIR \

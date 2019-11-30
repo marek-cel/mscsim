@@ -44,14 +44,20 @@ class Ownship : public Module
 {
 public:
 
-    struct LandingGearElementData
+    struct ElementData
     {
         struct AxisData
         {
-            double input_min;
-            double input_max;
+            double input_min;   ///< [-]
+            double input_max;   ///< [-]
+
+            double angle;       ///< [rad]
             double angle_min;   ///< [rad]
             double angle_max;   ///< [rad]
+
+            double shift;       ///< [m]
+            double shift_min;   ///< [m]
+            double shift_max;   ///< [m]
         };
 
         AxisData x;
@@ -59,9 +65,8 @@ public:
         AxisData z;
     };
 
-    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
-    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > LandingGearElements;
-    typedef std::vector< LandingGearElementData > LandingGearElementsData;
+    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Elements;
+    typedef std::vector< ElementData > ElementsData;
 
     /** Constructor. */
     Ownship( const Module *parent = NULLPTR );
@@ -100,10 +105,6 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeP;    ///< positive airbrake
     osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeN;    ///< negative airbrake
 
-    osg::ref_ptr<osg::Switch> _landingGear;                     ///<
-
-    LandingGearElements _landingGearElements;                   ///<
-
     osg::ref_ptr<osg::PositionAttitudeTransform> _propeller1;   ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> _propeller2;   ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> _propeller3;   ///<
@@ -112,11 +113,16 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;    ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> _tailRotor;    ///<
 
-    Blades _mainRotorBlades;                                    ///< main rotor blades
+    osg::ref_ptr<osg::Switch> _landingGear;                     ///<
+
+    Elements _gearElements;                                     ///<
+    Elements _flapElements;                                     ///<
+    Elements _rotorBlades;                                      ///< main rotor blades
+
+    ElementsData _gearData;                                     ///< landing gear elements data
+    ElementsData _flapData;                                     ///< flap elements data
 
     std::string _aircraftFile;                                  ///< aircraft file
-
-    LandingGearElementsData _landingGearElementsData;           ///< landing gear elements
 
     osg::Vec3d _pos_0_wgs;                                      ///< [m] initial position
 
@@ -128,14 +134,12 @@ private:
 
     bool _double_trace;                                         ///<
 
-    double getAngle( double input, LandingGearElementData::AxisData *axisData );
+    void updateAxis( double input, ElementData::AxisData *axisData );
 
     void loadModel( const std::string &modelFile );
 
-    void readLandingGearElementsData( const fdm::XmlNode &rootNode,
-                                      LandingGearElementsData *landingGearElementsData );
-    void readLandingGearElementAxisData( const fdm::XmlNode &node,
-                                         LandingGearElementData::AxisData *axisData );
+    void readElementsData( const fdm::XmlNode &rootNode, ElementsData *elementsData );
+    void readElementAxisData( const fdm::XmlNode &node, ElementData::AxisData *axisData );
 
     void readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip );
 

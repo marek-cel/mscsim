@@ -19,58 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_c172/c172_Mass.h>
-#include <fdm_c172/c172_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef C130_ENGINE_H
+#define C130_ENGINE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::C172_Mass( const C172_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/models/fdm_PistonEngine.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Mass::~C172_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *cabin       = getVariableMassByName( "cabin" );
-    VarMass *trunk       = getVariableMassByName( "cargo_trunk" );
 
-    if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin && trunk )
-    {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+/**
+ * @brief C-130 engine class.
+ */
+class C130_Engine : public PistonEngine
+{
+public:
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+    /** Constructor. */
+    C130_Engine();
 
-        cabin->input = &_aircraft->getDataInp()->masses.cabin;
-        trunk->input = &_aircraft->getDataInp()->masses.trunk;
-    }
-    else
-    {
-        Exception e;
+    /** Destructor. */
+    virtual ~C130_Engine();
+};
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+} // end of fdm namespace
 
-        FDM_THROW( e );
-    }
+////////////////////////////////////////////////////////////////////////////////
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+#endif // C130_ENGINE_H

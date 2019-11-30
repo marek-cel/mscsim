@@ -126,23 +126,23 @@ private:
     DockWidgetMap  *_dockMap;           ///<
     DockWidgetProp *_dockProp;          ///<
 
-    QShortcut *_scCycleViews;           ///<
-    QShortcut *_scToggleHud;            ///<
-    QShortcut *_scFullScreen;           ///<
-    QShortcut *_scTimeFaster;           ///<
-    QShortcut *_scTimeSlower;           ///<
+    QShortcut *_scCycleViews;           ///< key shortcut
+    QShortcut *_scToggleHud;            ///< key shortcut
+    QShortcut *_scFullScreen;           ///< key shortcut
+    QShortcut *_scTimeFaster;           ///< key shortcut
+    QShortcut *_scTimeSlower;           ///< key shortcut
 
     QString _rec_file;                  ///<
 
-    ViewType _viewType;                 ///<
-    bool _showHUD;                      ///<
+    ViewType _viewType;                 ///< specify if HUD is visible
+    bool _showHUD;                      ///< specify if traces are visible
     bool _showTraces;
 
-    double _timeCoef;                   ///<
+    double _timeCoef;                   ///< [-] time compression coefficient
 
     int _timerId;                       ///< timer ID
 
-    int _typeIndex;                     ///<
+    int _typeIndex;                     ///< aircraft type index
 
     fdm::DataInp::StateInp _stateInp;   ///< simulation input state
     fdm::DataOut::StateOut _stateOut;   ///< simulation output state
