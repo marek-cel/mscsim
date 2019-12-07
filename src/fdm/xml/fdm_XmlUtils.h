@@ -76,7 +76,7 @@ public:
      * <tag_name [factor="{ value }"] [unit="{ unit string }"]> { value } </tag_name>
      * @endcode
      *
-     * @see fdm::Units::getFactorSI()
+     * @see fdm::Units::getConverter(const char *)
      */
     static int read( const XmlNode &node, double &data );
 

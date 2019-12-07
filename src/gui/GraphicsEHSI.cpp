@@ -64,7 +64,7 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     _deviation ( 0.0f ),
     _distance  ( 0.0f ),
 
-    _heading_set ( 0.0f ),
+    _heading_sel ( 0.0f ),
 
     _cdi ( NONE ),
 
@@ -83,8 +83,8 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
 
     _originalNavCtr ( 150.0f, 150.0f ),
 
-    _originalCrsTextCtr (  50.0f,  25.0f ),
-    _originalHdgTextCtr ( 250.0f,  25.0f ),
+    _originalCrsTextCtr ( 250.0f,  25.0f ),
+    _originalHdgTextCtr (  50.0f,  25.0f ),
     _originalDmeTextCtr ( 250.0f, 275.0f ),
 
     _originalHeight ( 300 ),
@@ -196,12 +196,12 @@ void GraphicsEHSI::setDistance( float distance, bool visible )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setHeadingSet( float heading )
+void GraphicsEHSI::setHeadingSel( float heading )
 {
-    _heading_set = heading;
+    _heading_sel = heading;
 
-    while ( _heading_set <   0.0f ) _heading_set += 360.0f;
-    while ( _heading_set > 360.0f ) _heading_set -= 360.0f;
+    while ( _heading_sel <   0.0f ) _heading_sel += 360.0f;
+    while ( _heading_sel > 360.0f ) _heading_sel -= 360.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -373,7 +373,7 @@ void GraphicsEHSI::reset()
     _deviation = 0.0f;
     _distance  = 0.0f;
 
-    _heading_set = 0.0f;
+    _heading_sel = 0.0f;
 
     _cdi = NONE;
 
@@ -394,7 +394,7 @@ void GraphicsEHSI::updateView()
     _scaleY = (float)height() / (float)_originalHeight;
 
     _itemCrsArrow->setRotation( -_heading + _course );
-    _itemHdgBug->setRotation( -_heading + _heading_set );
+    _itemHdgBug->setRotation( -_heading + _heading_sel );
     _itemHdgScale->setRotation( -_heading );
 
     if ( _bearingVisible )
@@ -468,7 +468,7 @@ void GraphicsEHSI::updateView()
     }
 
     _itemCrsText->setPlainText( QString("CRS %1").arg( _course      , 3, 'f', 0, QChar('0') ) );
-    _itemHdgText->setPlainText( QString("HDG %1").arg( _heading_set , 3, 'f', 0, QChar('0') ) );
+    _itemHdgText->setPlainText( QString("HDG %1").arg( _heading_sel , 3, 'f', 0, QChar('0') ) );
 
     if ( _distanceVisible )
     {

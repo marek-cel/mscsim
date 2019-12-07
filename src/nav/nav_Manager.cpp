@@ -98,8 +98,6 @@ void Manager::update()
 
     updateNavaids();
 
-    Data::get()->navigation.course = _course;
-
     Data::get()->navigation.adf_visible = _adf_visible;
     Data::get()->navigation.adf_bearing = _adf_bearing;
 

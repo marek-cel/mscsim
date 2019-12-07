@@ -130,6 +130,14 @@ void DockWidgetData::setAirspeed( double airspeed )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DockWidgetData::setIAS( double ias )
+{
+    _ias = ias;
+    _ui->spinIAS->setValue( _ui->comboIAS->convert( _ias ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetData::setClimbRate( double climbRate )
 {
     _climbRate = climbRate;
@@ -297,6 +305,7 @@ void DockWidgetData::settingsRead_Highlight( QSettings &settings )
     _ui->spinAltitudeASL   ->setHighlighted( settings.value( "altitude_asl"    , 0 ).toBool() );
     _ui->spinAltitudeAGL   ->setHighlighted( settings.value( "altitude_agl"    , 0 ).toBool() );
     _ui->spinAirspeed      ->setHighlighted( settings.value( "airspeed"        , 0 ).toBool() );
+    _ui->spinIAS           ->setHighlighted( settings.value( "ias"             , 0 ).toBool() );
     _ui->spinClimbRate     ->setHighlighted( settings.value( "climb_rate"      , 0 ).toBool() );
     _ui->spinMachNumber    ->setHighlighted( settings.value( "mach_number"     , 0 ).toBool() );
     _ui->spinRollAngle     ->setHighlighted( settings.value( "roll_angle"      , 0 ).toBool() );
@@ -327,6 +336,7 @@ void DockWidgetData::settingsRead_UnitCombos( QSettings &settings )
     _ui->comboAltitudeASL   ->setCurrentIndex( settings.value( "altitude_asl"    , 0 ).toInt() );
     _ui->comboAltitudeAGL   ->setCurrentIndex( settings.value( "altitude_agl"    , 0 ).toInt() );
     _ui->comboAirspeed      ->setCurrentIndex( settings.value( "airspeed"        , 0 ).toInt() );
+    _ui->comboIAS           ->setCurrentIndex( settings.value( "ias"             , 0 ).toInt() );
     _ui->comboClimbRate     ->setCurrentIndex( settings.value( "climb_rate"      , 0 ).toInt() );
     _ui->comboMachNumber    ->setCurrentIndex( settings.value( "mach_number"     , 0 ).toInt() );
     _ui->comboRollAngle     ->setCurrentIndex( settings.value( "roll_angle"      , 1 ).toInt() );
@@ -371,6 +381,7 @@ void DockWidgetData::settingsSave_Highlight( QSettings &settings )
     settings.setValue( "altitude_asl"    , _ui->spinAltitudeASL   ->isHighlighted() ? 1 : 0 );
     settings.setValue( "altitude_agl"    , _ui->spinAltitudeAGL   ->isHighlighted() ? 1 : 0 );
     settings.setValue( "airspeed"        , _ui->spinAirspeed      ->isHighlighted() ? 1 : 0 );
+    settings.setValue( "ias"             , _ui->spinIAS           ->isHighlighted() ? 1 : 0 );
     settings.setValue( "climb_rate"      , _ui->spinClimbRate     ->isHighlighted() ? 1 : 0 );
     settings.setValue( "mach_number"     , _ui->spinMachNumber    ->isHighlighted() ? 1 : 0 );
     settings.setValue( "roll_angle"      , _ui->spinRollAngle     ->isHighlighted() ? 1 : 0 );
@@ -401,6 +412,7 @@ void DockWidgetData::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "altitude_asl"    , _ui->comboAltitudeASL   ->currentIndex() );
     settings.setValue( "altitude_agl"    , _ui->comboAltitudeAGL   ->currentIndex() );
     settings.setValue( "airspeed"        , _ui->comboAirspeed      ->currentIndex() );
+    settings.setValue( "ias"             , _ui->comboIAS           ->currentIndex() );
     settings.setValue( "climb_rate"      , _ui->comboClimbRate     ->currentIndex() );
     settings.setValue( "mach_number"     , _ui->comboMachNumber    ->currentIndex() );
     settings.setValue( "roll_angle"      , _ui->comboRollAngle     ->currentIndex() );
@@ -441,6 +453,13 @@ void DockWidgetData::on_comboAltitudeAGL_currentIndexChanged( int /*index*/ )
 void DockWidgetData::on_comboAirspeed_currentIndexChanged( int /*index*/ )
 {
     setAirspeed( _airspeed );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::on_comboIAS_currentIndexChanged( int /*index*/ )
+{
+    setIAS( _ias );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

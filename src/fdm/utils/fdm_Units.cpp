@@ -71,6 +71,8 @@ Units::fptr Units::getConverter( const char *name )
         return &Units::psi2pa;
     else if ( 0 == String::icompare( name, "inHg" ) )
         return &Units::inhg2pa;
+    else if ( 0 == String::icompare( name, "mb" ) )
+        return &Units::mb2pa;
 
     else if ( 0 == String::icompare( name, "PS" ) )
         return &Units::ps2w;
@@ -90,5 +92,5 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "g_kNs" ) )
         return &Units::g_kNs_2_kg_Ns;
 
-    return &Units::dummy;
+    return FDM_NULLPTR;
 }

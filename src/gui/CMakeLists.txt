@@ -62,6 +62,7 @@ qt4_wrap_ui( UI_HEADERS
 add_library( gui STATIC
     Aircrafts.cpp
     Airports.cpp
+    Autopilot.cpp
     Colors.cpp
     ComboUnits.cpp
     ComboUnitsAngle.cpp

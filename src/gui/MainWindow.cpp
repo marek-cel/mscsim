@@ -735,6 +735,7 @@ void MainWindow::updateDockData()
             _dockData->setAltitudeAGL( Data::get()->ownship.altitude_agl );
 
             _dockData->setAirspeed( Data::get()->ownship.airspeed );
+            _dockData->setIAS( Data::get()->ownship.ias );
             _dockData->setClimbRate( Data::get()->ownship.climbRate );
             _dockData->setMachNumber( Data::get()->ownship.machNumber );
 
@@ -787,7 +788,7 @@ void MainWindow::updateDockEFIS()
         _dockEFIS->setStall( Data::get()->ownship.stall );
 
         _dockEFIS->setAltitude( coef_alt * Data::get()->ownship.altitude_asl );
-        _dockEFIS->setAirspeed( coef_ias * Data::get()->ownship.airspeed );
+        _dockEFIS->setAirspeed( coef_ias * Data::get()->ownship.ias );
 
         _dockEFIS->setMachNo( Data::get()->ownship.machNumber );
 
@@ -832,10 +833,11 @@ void MainWindow::updateDockEFIS()
         else if ( _dockAuto->isActiveGS()  ) vnav = GraphicsEADI::VNAV_GS;
         _dockEFIS->setVNAV( vnav );
 
-        _dockEFIS->setAirspeedSet( coef_ias * _dockAuto->getAirspeed() );
-        _dockEFIS->setAltitudeSet( coef_alt * _dockAuto->getAltitude() );
-        _dockEFIS->setHeadingSet( fdm::Units::rad2deg( _dockAuto->getHeading() ) );
+        _dockEFIS->setAirspeedSel( coef_ias * _dockAuto->getAirspeed() );
+        _dockEFIS->setAltitudeSel( coef_alt * _dockAuto->getAltitude() );
+        _dockEFIS->setHeadingSel( fdm::Units::rad2deg( _dockAuto->getHeading() ) );
 
+        _dockEFIS->setVfe( coef_ias * Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() ).vfe );
         _dockEFIS->setVne( coef_ias * Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() ).vne );
     }
 }

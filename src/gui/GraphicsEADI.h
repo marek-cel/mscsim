@@ -162,21 +162,27 @@ public:
     }
 
     /** @param airspeed (dimensionless numeric value) */
-    inline void setAirspeedSet( double airspeed )
+    inline void setAirspeedSel( double airspeed )
     {
-        _asi->setAirspeedSet( airspeed );
+        _asi->setAirspeedSel( airspeed );
     }
 
     /** @param altitude (dimensionless numeric value) */
-    inline void setAltitudeSet( double altitude )
+    inline void setAltitudeSel( double altitude )
     {
-        _alt->setAltitudeSet( altitude );
+        _alt->setAltitudeSel( altitude );
     }
 
     /** @param heading [deg] */
-    inline void setHeadingSet( float heading )
+    inline void setHeadingSel( float heading )
     {
-        _hdg->setHeadingSet( heading );
+        _hdg->setHeadingSel( heading );
+    }
+
+    /** @param vfe (dimensionless numeric value) */
+    inline void setVfe( double vfe )
+    {
+        _asi->setVfe( vfe );
     }
 
     /** @param vne (dimensionless numeric value) */
@@ -382,7 +388,7 @@ private:
         void update( float scaleX, float scaleY );
 
         void setAltitude( float altitude );
-        void setAltitudeSet( double altitude );
+        void setAltitudeSel( double altitude );
 
     private:
 
@@ -402,7 +408,7 @@ private:
         QGraphicsTextItem *_itemSetpoint;   ///<
 
         float _altitude;                    ///<
-        float _altitude_set;                ///<
+        float _altitude_sel;                ///<
 
         float _scale1DeltaY_new;            ///<
         float _scale1DeltaY_old;            ///<
@@ -461,7 +467,8 @@ private:
 
         void setAirspeed( float airspeed );
         void setMachNo( float machNo );
-        void setAirspeedSet( double airspeed );
+        void setAirspeedSel( double airspeed );
+        void setVfe( double vfe );
         void setVne( double vne );
 
     private:
@@ -480,14 +487,19 @@ private:
         QGraphicsTextItem *_itemLabel7;     ///<
         QGraphicsSvgItem  *_itemBugIAS;     ///<
         QGraphicsSvgItem  *_itemFrame;      ///<
+        QGraphicsRectItem *_itemVfe;        ///<
         QGraphicsSvgItem  *_itemVne;        ///<
         QGraphicsTextItem *_itemAirspeed;   ///<
         QGraphicsTextItem *_itemMachNo;     ///<
         QGraphicsTextItem *_itemSetpoint;   ///<
 
+        QBrush _vfeBrush;                   ///<
+        QPen _vfePen;                       ///<
+
         float _airspeed;                    ///<
         float _machNo;                      ///<
-        float _airspeed_set;                ///<
+        float _airspeed_sel;                ///<
+        float _vfe;                         ///<
         float _vne;                         ///<
 
         float _scale1DeltaY_new;            ///<
@@ -514,6 +526,7 @@ private:
         const float _originalLabel5Y;       ///< [px]
         const float _originalLabel6Y;       ///< [px]
         const float _originalLabel7Y;       ///< [px]
+        const float _originalVfeWidth;
 
         QPointF _originalBackPos;           ///<
         QPointF _originalScale1Pos;         ///<
@@ -522,11 +535,13 @@ private:
         QPointF _originalAirspeedCtr;       ///<
         QPointF _originalMachNoCtr;         ///<
         QPointF _originalAirspeedSet;       ///<
+        QPointF _originalVfePos;            ///<
 
         const int _backZ;                   ///<
         const int _scaleZ;                  ///<
         const int _labelsZ;                 ///<
         const int _iasBugZ;                 ///<
+        const int _iasVfeZ;                 ///<
         const int _iasVneZ;                 ///<
         const int _frameZ;                  ///<
         const int _frameTextZ;              ///<
@@ -537,6 +552,7 @@ private:
         void updateAirspeedBug();
         void updateScale();
         void updateScaleLabels();
+        void updateVfe();
         void updateVne();
     };
 
@@ -550,7 +566,7 @@ private:
         void update( float scaleX, float scaleY );
 
         void setHeading( float heading );
-        void setHeadingSet( float heading );
+        void setHeadingSel( float heading );
 
     private:
 
@@ -563,8 +579,7 @@ private:
         QGraphicsTextItem *_itemFrameText;  ///<
 
         float _heading;                     ///< [deg]
-
-        float _heading_set;                 ///< [deg]
+        float _heading_sel;                 ///< [deg]
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -610,7 +625,7 @@ private:
         float _scaleX;                      ///<
         float _scaleY;                      ///<
 
-        const float _originalMarkeWidth;
+        const float _originalMarkerWidth;
         const float _originalPixPerSpd1;    ///< [px/vertical speed unit] up to 100 vsu
         const float _originalPixPerSpd2;    ///< [px/vertical speed unit] from 100 to 200 vsu
         const float _originalPixPerSpd4;    ///< [px/vertical speed unit] from 200 to 400 vsu

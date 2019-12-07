@@ -107,7 +107,6 @@ int XmlUtils::read( const XmlNode &node, double &data )
         XmlNode textNode = node.getFirstChild();
 
         double factor = String::toDouble( node.getAttribute( "factor" ), 1.0 );
-        Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
 
         if ( textNode.isValid() && textNode.isText() )
         {
@@ -117,7 +116,17 @@ int XmlUtils::read( const XmlNode &node, double &data )
 
             if ( Misc::isValid( data_temp ) )
             {
-                data = (*converter)( data_temp ) * factor;
+                if ( node.hasAttribute( "unit" ) )
+                {
+                    Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
+
+                    if ( converter )
+                        data_temp = (*converter)( data_temp );
+                    else
+                        return FDM_FAILURE;
+                }
+
+                data = data_temp * factor;
                 return FDM_SUCCESS;
             }
         }
@@ -198,6 +207,22 @@ int XmlUtils::read( const XmlNode &node, Vector3 &data )
 
             if ( valRead == 3 )
             {
+                if ( node.hasAttribute( "unit" ) )
+                {
+                    Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
+
+                    if ( converter )
+                    {
+                        x = (*converter)( x );
+                        y = (*converter)( y );
+                        z = (*converter)( z );
+                    }
+                    else
+                    {
+                        return FDM_FAILURE;
+                    }
+                }
+
                 data.x() = x;
                 data.y() = y;
                 data.z() = z;
@@ -222,9 +247,11 @@ int XmlUtils::read( const XmlNode &node, Table &data )
         XmlNode textNode = node.getFirstChild();
 
         double factor = String::toDouble( node.getAttribute( "factor" ), 1.0 );
+        bool has_unit = node.hasAttribute( "unit" );
         Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
 
         double factor_keys = String::toDouble( node.getAttribute( "keys_factor" ), 1.0 );
+        bool has_keys_unit = node.hasAttribute( "keys_unit" );
         Units::fptr converter_keys = Units::getConverter( node.getAttribute( "keys_unit" ).c_str() );
 
         if ( textNode.isValid() && textNode.isText() )
@@ -248,8 +275,24 @@ int XmlUtils::read( const XmlNode &node, Table &data )
 
                 if ( result == 2 )
                 {
-                    keyValues.push_back( (*converter_keys)( key ) * factor_keys );
-                    tableData.push_back( (*converter)( val ) * factor );
+                    if ( has_unit )
+                    {
+                        if ( converter )
+                            val = (*converter)( val );
+                        else
+                            return FDM_FAILURE;
+                    }
+
+                    if ( has_keys_unit )
+                    {
+                        if ( converter_keys )
+                            key = (*converter_keys)( key );
+                        else
+                            return FDM_FAILURE;
+                    }
+
+                    keyValues.push_back( key * factor_keys );
+                    tableData.push_back( val * factor );
                 }
             }
             while ( result == 2 );
@@ -279,12 +322,15 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
         XmlNode textNode = node.getFirstChild();
 
         double factor = String::toDouble( node.getAttribute( "factor" ), 1.0 );
+        bool has_unit = node.hasAttribute( "unit" );
         Units::fptr converter = Units::getConverter( node.getAttribute( "unit" ).c_str() );
 
         double factor_cols_keys = String::toDouble( node.getAttribute( "cols_keys_factor" ), 1.0 );
+        bool has_cols_unit = node.hasAttribute( "cols_unit" );
         Units::fptr converter_cols = Units::getConverter( node.getAttribute( "cols_unit" ).c_str() );
 
         double factor_rows_keys = String::toDouble( node.getAttribute( "rows_keys_factor" ), 1.0 );
+        bool has_rows_unit = node.hasAttribute( "rows_unit" );
         Units::fptr converter_rows = Units::getConverter( node.getAttribute( "rows_unit" ).c_str() );
 
         if ( textNode.isValid() && textNode.isText() )
@@ -310,7 +356,15 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
                 if ( result == 1 )
                 {
-                    colValues.push_back( (*converter_cols)( key ) * factor_cols_keys );
+                    if ( has_cols_unit )
+                    {
+                        if ( converter_cols )
+                            key = (*converter_cols)( key );
+                        else
+                            return FDM_FAILURE;
+                    }
+
+                    colValues.push_back( key * factor_cols_keys );
                 }
             }
             while ( result == 1 );
@@ -329,7 +383,15 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
                 if ( result == 1 )
                 {
-                    rowValues.push_back( (*converter_rows)( key ) * factor_rows_keys );
+                    if ( has_rows_unit )
+                    {
+                        if ( converter_rows )
+                            key = (*converter_rows)( key );
+                        else
+                            return FDM_FAILURE;
+                    }
+
+                    rowValues.push_back( key * factor_rows_keys );
 
                     // table data
                     for ( unsigned int i = 0; i < colValues.size(); i++ )
@@ -351,7 +413,15 @@ int XmlUtils::read( const XmlNode &node, Table2D &data )
 
                         if ( result == 1 )
                         {
-                            tableData.push_back( (*converter)( val ) * factor );
+                            if ( has_unit )
+                            {
+                                if ( converter )
+                                    val = (*converter)( val );
+                                else
+                                    return FDM_FAILURE;
+                            }
+
+                            tableData.push_back( val * factor );
                         }
                     }
                 }

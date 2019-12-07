@@ -14,13 +14,6 @@ TARGET = mscsim
 
 CONFIG += c++11
 
-#CONFIG += marble_maps
-#CONFIG += networking
-
-################################################################################
-
-networking: QT += network
-
 ################################################################################
 
 win32: RC_FILE = sim.rc
@@ -44,9 +37,6 @@ DEFINES += \
     SIM_SKYDOME_SCALING \
     SIM_USE_THREADS \
     SIM_VERTICALSYNC
-
-marble_maps: DEFINES += SIM_MARBLE_MAPS
-networking:  DEFINES += SIM_NETWORKING
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -126,33 +116,18 @@ unix: LIBS += \
     -losgViewer \
     -losgWidget
 
-#unix: LIBS += -lXss
-
-marble_maps: unix: {
-    greaterThan(QT_MAJOR_VERSION, 4): {
-        unix: LIBS += -lmarblewidget-qt5
-    } else: {
-        unix: LIBS += \
-            -L/usr/local/lib \
-            -lmarblewidget
-    }
-}
-
 ################################################################################
 
 HEADERS += \
     Common.h \
     Data.h \
-    DataNet.h \
     Defines.h \
     Manager.h \
-    Networking.h \
     Simulation.h
 
 SOURCES += \
     main.cpp \
     Manager.cpp \
-    Networking.cpp \
     Simulation.cpp
 
 RESOURCES += \

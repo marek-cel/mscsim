@@ -71,6 +71,7 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _trackAngle    ( 0.0 ),
     _slipSkidAngle ( 0.0 ),
     _airspeed      ( 0.0 ),
+    _ias           ( 0.0 ),
     _dynPress      ( 0.0 ),
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
@@ -158,6 +159,7 @@ void Aircraft::updateOutputData()
     _dataOut->flight.slipSkidAngle = _slipSkidAngle;
 
     _dataOut->flight.airspeed   = _airspeed;
+    _dataOut->flight.ias        = _ias;
     _dataOut->flight.machNumber = _machNumber;
     _dataOut->flight.climbRate  = _climbRate;
 
@@ -411,7 +413,7 @@ void Aircraft::detectCrash()
     // detect overspeed
     if ( _crash == DataOut::NoCrash )
     {
-        if ( _airspeed > _airspeed_max )
+        if ( _ias > _airspeed_max )
         {
             _crash = DataOut::Overspeed;
         }
@@ -619,6 +621,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _airspeed   = _vel_air_bas.getLength();
     _dynPress   = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
+    _ias        = sqrt( 2.0 * _dynPress / fdm::Atmosphere::_std_sl_rho );
     _machNumber = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate  = -_vel_ned.z();
 }

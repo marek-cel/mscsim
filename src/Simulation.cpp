@@ -27,12 +27,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Simulation::Simulation() :
-    QThread ( 0 ),
+    QThread ( NULLPTR ),
 
     _timeoutTimer ( NULLPTR ),
     _elapsedTimer ( NULLPTR ),
 
-    _fdm ( 0 ),
+    _fdm ( NULLPTR ),
 
     _timeStep ( 0.0 ),
     _timeCoef ( 1.0 ),

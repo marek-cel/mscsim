@@ -26,10 +26,8 @@
 
 #include <QDockWidget>
 
+#include "Autopilot.h"
 #include "gui_Defines.h"
-
-#include <fdm/auto/fdm_Autopilot.h>
-#include <fdm_c172/c172_Autopilot.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -57,35 +55,35 @@ public:
     /** Destructor. */
     virtual ~DockWidgetAuto();
 
-    void init();
-    void stop();
+    inline void init() { _autopilot->init(); }
+    inline void stop() { _autopilot->stop(); }
 
-    double getAirspeed() const;
-    double getAltitude() const;
     double getCourse() const;
-    double getHeading() const;
-    double getFreqNav()  const;
+    double getFreqNav() const;
 
-    double getCmdRoll() const;
-    double getCmdPitch() const;
+    inline double getAirspeed()  const { return _autopilot->getAirspeed();  }
+    inline double getAltitude()  const { return _autopilot->getAltitude();  }
+    inline double getClimbRate() const { return _autopilot->getClimbRate(); }
+    inline double getHeading()   const { return _autopilot->getHeading();   }
+    inline double getCmdRoll()   const { return _autopilot->getCmdRoll();   }
+    inline double getCmdPitch()  const { return _autopilot->getCmdPitch();  }
+    inline double getCtrlRoll()  const { return _autopilot->getCtrlRoll();  }
+    inline double getCtrlPitch() const { return _autopilot->getCtrlPitch(); }
+    inline double getCtrlYaw()   const { return _autopilot->getCtrlYaw();   }
 
-    double getCtrlRoll() const;
-    double getCtrlPitch() const;
-    double getCtrlYaw() const;
+    inline bool isActiveAP() const { return _autopilot->isActiveAP(); }
+    inline bool isActiveFD() const { return _autopilot->isActiveFD(); }
+    inline bool isActiveYD() const { return _autopilot->isActiveYD(); }
 
-    bool isActiveAP() const;
-    bool isActiveFD() const;
-    bool isActiveYD() const;
-
-    bool isActiveALT() const;
-    bool isActiveIAS() const;
-    bool isActiveVS()  const;
-    bool isActiveARM() const;
-    bool isActiveGS()  const;
-    bool isActiveHDG() const;
-    bool isActiveNAV() const;
-    bool isActiveAPR() const;
-    bool isActiveBC()  const;
+    inline bool isActiveALT() const { return _autopilot->isActiveALT(); }
+    inline bool isActiveIAS() const { return _autopilot->isActiveIAS(); }
+    inline bool isActiveVS()  const { return _autopilot->isActiveVS();  }
+    inline bool isActiveARM() const { return _autopilot->isActiveARM(); }
+    inline bool isActiveGS()  const { return _autopilot->isActiveGS();  }
+    inline bool isActiveHDG() const { return _autopilot->isActiveHDG(); }
+    inline bool isActiveNAV() const { return _autopilot->isActiveNAV(); }
+    inline bool isActiveAPR() const { return _autopilot->isActiveAPR(); }
+    inline bool isActiveBC()  const { return _autopilot->isActiveBC();  }
 
 signals:
 
@@ -100,19 +98,11 @@ protected:
 
 private:
 
-    typedef fdm::C172_Autopilot C172_Autopilot;
-
     Ui::DockWidgetAuto *_ui;            ///<
 
-    fdm::Autopilot *_autopilot;         ///<
-    C172_Autopilot *_autopilot_c172;    ///<
-
-    double _altitude;                   ///< [m]   desired altitude
-    double _climbRate;                  ///< [m/s] desired climb rate
+    Autopilot *_autopilot;              ///<
 
     int _timerId;                       ///< timer ID
-
-    bool isWorking();
 
     double normalizeHeading( double heading );
 

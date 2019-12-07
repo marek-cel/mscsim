@@ -174,7 +174,7 @@ protected:
     virtual void updateVerFD  ( double timeStep );
     virtual void updateVerALT ( double timeStep, double altitude );
     virtual void updateVerIAS ( double timeStep, double airspeed );
-    virtual void updateVerVS  ( double timeStep, double climbRate );
+    virtual void updateVerVS  ( double timeStep, double altitude, double climbRate );
     virtual void updateVerARM ( double timeStep, double altitude, double climbRate );
     virtual void updateVerGS  ( double timeStep, double gs_deviation, bool gs_active );
 };

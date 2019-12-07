@@ -89,8 +89,8 @@ public:
 
 protected:
 
-    double _cmd_roll;       ///< roll command
-    double _cmd_pitch;      ///< pitch command
+    double _cmd_roll;       ///< [rad] roll command
+    double _cmd_pitch;      ///< [rad] pitch command
 
     double _altitude;       ///< [m]   desired altitude
     double _airspeed;       ///< [m/s] desired airspeed

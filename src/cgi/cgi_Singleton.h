@@ -42,24 +42,24 @@ public:
     /** */
     static TYPE* instance()
     {
-        if ( !m_instance )
+        if ( !_instance )
         {
-            m_instance = new TYPE();
+            _instance = new TYPE();
         }
 
-        return m_instance;
+        return _instance;
     }
 
 private:
 
-    static TYPE *m_instance;    ///<
+    static TYPE *_instance;     ///<
 };
 
 } // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template < class TYPE > TYPE* cgi::Singleton< TYPE >::m_instance = NULLPTR;
+template < class TYPE > TYPE* cgi::Singleton< TYPE >::_instance = NULLPTR;
 
 ////////////////////////////////////////////////////////////////////////////////
 

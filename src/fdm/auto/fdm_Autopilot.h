@@ -94,10 +94,10 @@ public:
     inline void disengage() { _engaged = false; }
     inline void engage()    { _engaged = true;  }
 
-    inline double getMinAltitude()  const { return _min_alt;  }
-    inline double getMaxAltitude()  const { return _max_alt;  }
-    inline double getMinClimbRate() const { return _min_vs; }
-    inline double getMaxClimbRate() const { return _max_vs; }
+    inline double getMinAltitude()  const { return _min_alt; }
+    inline double getMaxAltitude()  const { return _max_alt; }
+    inline double getMinClimbRate() const { return _min_vs;  }
+    inline double getMaxClimbRate() const { return _max_vs;  }
 
     inline double getAltitude()  const { return _fd->getAltitude();  }
     inline double getAirspeed()  const { return _fd->getAirspeed();  }

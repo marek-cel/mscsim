@@ -1,6 +1,7 @@
 HEADERS += \
     $$PWD/Aircrafts.h \
     $$PWD/Airports.h \
+    $$PWD/Autopilot.h \
     $$PWD/Colors.h \
     $$PWD/ComboUnits.h \
     $$PWD/ComboUnitsAngle.h \
@@ -41,12 +42,12 @@ HEADERS += \
     $$PWD/SpinBoxHighlight.h \
     $$PWD/WidgetCGI.h \
     $$PWD/WidgetMap.h \
-    $$PWD/WidgetMarble.h \
     $$PWD/WidgetSquare.h
 
 SOURCES += \
     $$PWD/Aircrafts.cpp \
     $$PWD/Airports.cpp \
+    $$PWD/Autopilot.cpp \
     $$PWD/Colors.cpp \
     $$PWD/ComboUnits.cpp \
     $$PWD/ComboUnitsAngle.cpp \
@@ -86,7 +87,6 @@ SOURCES += \
     $$PWD/SpinBoxHighlight.cpp \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetMap.cpp \
-    $$PWD/WidgetMarble.cpp \
     $$PWD/WidgetSquare.cpp
 
 FORMS += \

@@ -77,8 +77,6 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/fdm_Recorder.h>
-
 #include <fdm/main/fdm_Environment.h>
 #include <fdm/main/fdm_Intersections.h>
 
@@ -243,6 +241,7 @@ public:
     inline double getTrackAngle()    const { return _trackAngle;    }
     inline double getSlipSkidAngle() const { return _slipSkidAngle; }
     inline double getAirspeed()      const { return _airspeed;      }
+    inline double getIAS()           const { return _ias;           }
     inline double getDynPress()      const { return _dynPress;      }
     inline double getMachNumber()    const { return _machNumber;    }
     inline double getClimbRate()     const { return _climbRate;     }
@@ -294,7 +293,7 @@ protected:
 
     CollisionPoints _cp;        ///< [m] collision points expressed in BAS
 
-    double _airspeed_max;       ///< [m/s] maximum airspeed (exceeding this value causes crash)
+    double _airspeed_max;       ///< [m/s] maximum indicated airspeed (exceeding this value causes crash)
     double _load_aero_min;      ///< [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash)
     double _load_aero_max;      ///< [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash)
     double _load_gear_max;      ///< [-] maximum absolute load factor due to landing gear (exceeding this value causes crash)
@@ -361,6 +360,7 @@ protected:
     double _slipSkidAngle;      ///< [rad] slip/skid angle
     double _airspeed;           ///< [m/s] true airspeed
     double _dynPress;           ///< [Pa] dynamic pressure
+    double _ias;                ///< [m/s] indicated airspeed
     double _machNumber;         ///< [-] Mach number
     double _climbRate;          ///< [m/s] climb rate
     double _turnRate;           ///< [rad/s] turn rate

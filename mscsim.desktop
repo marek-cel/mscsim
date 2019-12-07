@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.2
+Name=MScSim
+GenericName=Flight Simulator
+Exec=mscsim
+Terminal=false
+Categories=Game;Simulation
+Comment=open-source flight simulator
+Keywords=
+Icon=mscsim

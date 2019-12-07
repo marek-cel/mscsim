@@ -105,12 +105,33 @@ void Aircrafts::parseAircraft(const QDomElement &node )
             aircraft.offset_z = nodeOffsetZ.isNull() ? 0.0 : nodeOffsetZ.text().toFloat();
         }
 
+        aircraft.vfe = 0.0;
+
+        QDomElement nodeVfe = node.firstChildElement( "vfe" );
+
+        if ( !nodeVfe.isNull() )
+        {
+            aircraft.vfe = nodeVfe.text().toFloat();
+
+            if ( nodeVfe.hasAttribute( "unit" ) )
+            {
+                std::string unit_name = nodeVfe.attributeNode( "unit" ).value().toStdString();
+                fdm::Units::fptr converter = fdm::Units::getConverter( unit_name.c_str() );
+
+                if ( converter )
+                    aircraft.vfe = ( *converter )( aircraft.vfe );
+            }
+        }
+
         aircraft.vne = nodeVne.text().toFloat();
 
         if ( nodeVne.hasAttribute( "unit" ) )
         {
             std::string unit_name = nodeVne.attributeNode( "unit" ).value().toStdString();
-            aircraft.vne = fdm::Units::getConverter( unit_name.c_str() )( aircraft.vne );
+            fdm::Units::fptr converter = fdm::Units::getConverter( unit_name.c_str() );
+
+            if ( converter )
+                aircraft.vne = ( *converter )( aircraft.vne );
         }
 
         parseAircraftControls( node, aircraft.controls );

@@ -42,10 +42,6 @@ Manager::Manager() :
     _sim ( NULLPTR ),
     _win ( NULLPTR ),
 
-#   ifdef SIM_NETWORKING
-    _net ( NULLPTR ),
-#   endif
-
     _timer ( 0 ),
     _timerId ( 0 ),
     _timeStep ( 0.0 )
@@ -53,10 +49,6 @@ Manager::Manager() :
     _nav = new nav::Manager();
     _sim = new Simulation();
     _win = new MainWindow();
-
-#   ifdef SIM_NETWORKING
-    _net = new Networking();
-#   endif
 
     _timer = new QElapsedTimer();
 }
@@ -80,10 +72,6 @@ Manager::~Manager()
     DELPTR( _nav );
     DELPTR( _sim );
     DELPTR( _win );
-
-#   ifdef SIM_NETWORKING
-    DELPTR( _net );
-#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,10 +164,6 @@ void Manager::timerEvent( QTimerEvent *event )
         Data::get()->propulsion.engine[ i ].propeller = hid::Manager::instance()->getPropeller( i );
     }
 
-#   ifdef SIM_NETWORKING
-    _net->update();
-#   endif
-
     ///////////////////////////////////
     emit dataInpUpdated( Data::get() );
     ///////////////////////////////////
@@ -201,7 +185,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->cgi.hud.climbRate = dataOut.flight.climbRate;
     Data::get()->cgi.hud.radioAlt  = dataOut.flight.altitude_agl;
 
-    Data::get()->cgi.hud.airspeed   = dataOut.flight.airspeed;
+    Data::get()->cgi.hud.airspeed   = dataOut.flight.ias;
     Data::get()->cgi.hud.machNumber = dataOut.flight.machNumber;
     Data::get()->cgi.hud.g_force    = dataOut.flight.g_force_z;
 
@@ -231,6 +215,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.slipSkidAngle = dataOut.flight.slipSkidAngle;
 
     Data::get()->ownship.airspeed   = dataOut.flight.airspeed;
+    Data::get()->ownship.ias        = dataOut.flight.ias;
     Data::get()->ownship.machNumber = dataOut.flight.machNumber;
     Data::get()->ownship.climbRate  = dataOut.flight.climbRate;
 

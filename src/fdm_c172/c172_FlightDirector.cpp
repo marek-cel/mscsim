@@ -192,7 +192,7 @@ void C172_FlightDirector::update( double timeStep,
         updateVerFD  ( timeStep );
         updateVerALT ( timeStep, altitude );
         updateVerIAS ( timeStep, airspeed );
-        updateVerVS  ( timeStep, climbRate );
+        updateVerVS  ( timeStep, altitude, climbRate );
         updateVerARM ( timeStep, altitude, climbRate );
         updateVerGS  ( timeStep, gs_deviation, gs_active );
 
@@ -572,13 +572,30 @@ void C172_FlightDirector::updateVerIAS( double timeStep, double airspeed )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerVS( double timeStep, double climbRate )
+void C172_FlightDirector::updateVerVS( double timeStep, double altitude, double climbRate )
 {
     if ( _ver_mode == VM_VS || _ver_mode == VM_ARM )
     {
         _climbRate_act = Misc::inertia( _climbRate, _climbRate_act, timeStep, _climbRate_tc );
         _pid_vs.update( timeStep, _climbRate_act - climbRate );
         _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_vs.getValue() );
+
+        if ( _ver_mode == VM_ARM )
+        {
+            _pid_alt.setValue( 0.0 );
+            _pid_alt.update( timeStep, _altitude - altitude );
+
+            double delta_tht = _pid_vs.getValue() - _pid_alt.getValue();
+            double delta_alt = _altitude - altitude;
+
+            _pid_alt.setValue( _cmd_pitch );
+
+            if ( ( delta_alt < 0.0 && delta_tht < 0.0 )
+              || ( delta_alt > 0.0 && delta_tht > 0.0 ) )
+            {
+                _ver_mode = VM_ALT;
+            }
+        }
     }
     else
     {

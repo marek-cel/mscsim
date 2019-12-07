@@ -1,3 +1,17 @@
+2019-12-08 Marek M. Cel <marekcel@marekcel.pl>
+  
+    * pressure units
+
+    * EADI maximum flap extension speed
+
+    * indicated airspeed
+    
+    * autopilot - ARM/ALT mode switch condition
+    
+    * deb package scripts
+
+
+
 2019-11-30 Marek M. Cel <marekcel@marekcel.pl>
   
     * layer clouds

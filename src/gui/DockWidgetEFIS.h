@@ -200,22 +200,28 @@ public:
     }
 
     /** @param airspeed (dimensionless numeric value) */
-    inline void setAirspeedSet( double airspeed )
+    inline void setAirspeedSel( double airspeed )
     {
-        _graphicsEADI->setAirspeedSet( airspeed );
+        _graphicsEADI->setAirspeedSel( airspeed );
     }
 
     /** @param altitude (dimensionless numeric value) */
-    inline void setAltitudeSet( double altitude )
+    inline void setAltitudeSel( double altitude )
     {
-        _graphicsEADI->setAltitudeSet( altitude );
+        _graphicsEADI->setAltitudeSel( altitude );
     }
 
     /** @param heading [deg] */
-    inline void setHeadingSet( float heading )
+    inline void setHeadingSel( float heading )
     {
-        _graphicsEADI->setHeadingSet( heading );
-        _graphicsEHSI->setHeadingSet( heading );
+        _graphicsEADI->setHeadingSel( heading );
+        _graphicsEHSI->setHeadingSel( heading );
+    }
+
+    /** @param vfe (dimensionless numeric value) */
+    inline void setVfe( double vfe )
+    {
+        _graphicsEADI->setVfe( vfe );
     }
 
     /** @param vne (dimensionless numeric value) */

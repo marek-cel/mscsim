@@ -75,7 +75,7 @@ public:
      * <li>Angular Velocity: deg_s (degrees per second), rpm (revolutions per minute)</li>
      * <li>Mass: lb (pound)</li>
      * <li>Force: lbf (pound of force)</li>
-     * <li>Pressure: psi (pound per square inch), inHg (inch of mercury)</li>
+     * <li>Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)</li>
      * <li>Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)</li>
      * <li>Temperature: degC (degree Celsius), degF (degree Fahrenheit)</li>
      * <li>Specific fuel consumption: g_kWh (grams per kilowatt-hour)</li>
@@ -83,14 +83,6 @@ public:
      * </ul>
      */
     static fptr getConverter( const char *name );
-
-    /**
-     * Dummy function.
-     */
-    FDM_CONSTEXPR static inline double dummy( double val = 1.0 )
-    {
-        return val;
-    }
 
     /**
      * Converts given angle from degrees to radians.
@@ -687,9 +679,9 @@ public:
      * @param press pressure expressed in pascals
      * @return pressure expressed in psi
      */
-    FDM_CONSTEXPR static inline double pa2psi( double press = 1.0 )
+    static inline double pa2psi( double press = 1.0 )
     {
-        return press * 145.04e-6;
+        return press * 0.000145037738;
     }
 
     /**
@@ -697,9 +689,19 @@ public:
      * @param press pressure expressed in pascals
      * @return pressure expressed in inches Hg
      */
-    FDM_CONSTEXPR static inline double pa2inhg( double press = 1.0 )
+    static inline double pa2inhg( double press = 1.0 )
     {
         return press * 0.000295333727;
+    }
+
+    /**
+     * Converts given pressure from pascals to millibars.
+     * @param press pressure expressed in pascals
+     * @return pressure expressed in millibars
+     */
+    static inline double pa2mb( double press = 1.0 )
+    {
+        return press * 0.01;
     }
 
     /**
@@ -707,7 +709,7 @@ public:
      * @param press pressure expressed in psi
      * @return pressure expressed in pascals
      */
-    FDM_CONSTEXPR static inline double psi2pa( double press = 1.0 )
+    static inline double psi2pa( double press = 1.0 )
     {
         return press * 6894.75729;
     }
@@ -717,9 +719,19 @@ public:
      * @param press pressure expressed in psi
      * @return pressure expressed in inches Hg
      */
-    FDM_CONSTEXPR static inline double psi2inhg( double press = 1.0 )
+    static inline double psi2inhg( double press = 1.0 )
     {
         return press * 2.03625437;
+    }
+
+    /**
+     * Converts given pressure from psi to millibars.
+     * @param press pressure expressed in psi
+     * @return pressure expressed in millibars
+     */
+    static inline double psi2mb( double press = 1.0 )
+    {
+        return press * 68.9475729;
     }
 
     /**
@@ -727,7 +739,7 @@ public:
      * @param press pressure expressed in inches Hg
      * @return pressure expressed in pascals
      */
-    FDM_CONSTEXPR static inline double inhg2pa( double press = 1.0 )
+    static inline double inhg2pa( double press = 1.0 )
     {
         return press * 3386.0;
     }
@@ -737,9 +749,49 @@ public:
      * @param press pressure expressed in inches Hg
      * @return pressure expressed in psi
      */
-    FDM_CONSTEXPR static inline double inhg2psi( double press = 1.0 )
+    static inline double inhg2psi( double press = 1.0 )
     {
         return press * 0.49109778;
+    }
+
+    /**
+     * Converts given pressure from inches Hg to millibars.
+     * @param press pressure expressed in inches Hg
+     * @return pressure expressed in millibars
+     */
+    static inline double inhg2mb( double press = 1.0 )
+    {
+        return press * 33.86;
+    }
+
+    /**
+     * Converts given pressure from millibars to pascals.
+     * @param press pressure expressed in millibars
+     * @return pressure expressed in pascals
+     */
+    static inline double mb2pa( double press = 1.0 )
+    {
+        return press * 100.0;
+    }
+
+    /**
+     * Converts given pressure from millibars to psi.
+     * @param press pressure expressed in millibars
+     * @return pressure expressed in psi
+     */
+    static inline double mb2psi( double press = 1.0 )
+    {
+        return press * 0.0145037738;
+    }
+
+    /**
+     * Converts given pressure from millibars to inches Hg.
+     * @param press pressure expressed in millibars
+     * @return pressure expressed in inches Hg
+     */
+    static inline double mb2inhg( double press = 1.0 )
+    {
+        return press * 0.0295333727;
     }
 
     /**

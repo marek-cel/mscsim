@@ -60,6 +60,7 @@ public:
     void setAltitudeAGL( double altitude_agl );
 
     void setAirspeed( double airspeed );
+    void setIAS( double ias );
     void setClimbRate( double climbRate );
     void setMachNumber( double machNumber );
 
@@ -97,6 +98,7 @@ private:
     double _altitude_agl;           ///< [m] altitude above ground level
 
     double _airspeed;               ///< [m/s] airspeed
+    double _ias;                    ///< [m/s] indicated airspeed
     double _climbRate;              ///< [m/s] climb rate
     double _machNumber;             ///< [-] Mach number
 
@@ -135,6 +137,7 @@ private slots:
     void on_comboAltitudeASL_currentIndexChanged( int /*index*/ );
     void on_comboAltitudeAGL_currentIndexChanged( int /*index*/ );
     void on_comboAirspeed_currentIndexChanged( int /*index*/ );
+    void on_comboIAS_currentIndexChanged( int /*index*/ );
     void on_comboClimbRate_currentIndexChanged( int /*index*/ );
     void on_comboMachNumber_currentIndexChanged( int /*index*/ );
     void on_comboRollAngle_currentIndexChanged( int /*index*/ );

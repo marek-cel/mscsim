@@ -107,6 +107,7 @@ public:
         float offset_y;         ///< [m] camera position y-offset expressed in BAS
         float offset_z;         ///< [m] camera position z-offset expressed in BAS
 
+        float vfe;              ///< [m/s] maximum flap extension speed
         float vne;              ///< [m/s] never exceed speed
 
         Controls   controls;    ///< controls data
