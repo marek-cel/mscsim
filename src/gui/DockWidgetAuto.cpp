@@ -38,16 +38,12 @@
 DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
     QDockWidget ( parent ),
     _ui ( new Ui::DockWidgetAuto ),
-
-    _autopilot ( NULLPTR ),
-
+    _ap ( NULLPTR ),
     _timerId ( 0 )
 {
     _ui->setupUi( this );
 
     settingsRead();
-
-    _autopilot = new Autopilot();
 
     _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
@@ -59,8 +55,6 @@ DockWidgetAuto::~DockWidgetAuto()
     if ( _timerId ) killTimer( _timerId );
 
     settingsSave();
-
-    DELPTR( _autopilot );
 
     DELPTR( _ui );
 }
@@ -102,7 +96,7 @@ void DockWidgetAuto::timerEvent( QTimerEvent *event )
     {
         updateIdle();
     }
-    else if ( _autopilot->isWorking() )
+    else if ( _ap->isWorking() )
     {
         updateWork();
     }
@@ -178,58 +172,58 @@ void DockWidgetAuto::updateIdle()
     _ui->labelVS->setEnabled( false );
     _ui->labelARM->setEnabled( false );
 
-    _autopilot->setAltitude( fdm::Units::ft2m( 100.0 ) );
-    _autopilot->setClimbRate( 0.0 );
+    _ap->setAltitude( fdm::Units::ft2m( 100.0 ) );
+    _ap->setClimbRate( 0.0 );
 
     _ui->spinBoxCRS->setValue( 0.0 );
     _ui->spinBoxHDG->setValue( 0.0 );
 
     _ui->pushButtonShowALT->setChecked( true );
-    _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _autopilot->getAltitude() ) );
+    _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _ap->getAltitude() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::updateWork()
 {
-    _autopilot->update( _ui->pushButtonDN->isDown(), _ui->pushButtonUP->isDown() );
+    _ap->update( GUI_TIME_STEP, _ui->pushButtonDN->isDown(), _ui->pushButtonUP->isDown() );
 
-    _ui->spinBoxALT_VS->setReadOnly( _autopilot->isInited() );
+    _ui->spinBoxALT_VS->setReadOnly( _ap->isInited() );
 
-    _ui->labelAP->setEnabled( _autopilot->getLampAP() );
-    _ui->labelFD->setEnabled( _autopilot->getLampFD() );
-    _ui->labelYD->setEnabled( _autopilot->getLampYD() );
+    _ui->labelAP->setEnabled( _ap->getLampAP() );
+    _ui->labelFD->setEnabled( _ap->getLampFD() );
+    _ui->labelYD->setEnabled( _ap->getLampYD() );
 
-    _ui->labelALT->setEnabled( _autopilot->getLampALT() );
-    _ui->labelIAS->setEnabled( _autopilot->getLampIAS() );
+    _ui->labelALT->setEnabled( _ap->getLampALT() );
+    _ui->labelIAS->setEnabled( _ap->getLampIAS() );
 
-    _ui->labelHDG->setEnabled( _autopilot->getLampHDG() );
-    _ui->labelNAV->setEnabled( _autopilot->getLampNAV() );
-    _ui->labelAPR->setEnabled( _autopilot->getLampAPR() );
-    _ui->labelBC ->setEnabled( _autopilot->getLampBC() );
+    _ui->labelHDG->setEnabled( _ap->getLampHDG() );
+    _ui->labelNAV->setEnabled( _ap->getLampNAV() );
+    _ui->labelAPR->setEnabled( _ap->getLampAPR() );
+    _ui->labelBC ->setEnabled( _ap->getLampBC() );
 
-    _ui->labelNAV_ARM->setEnabled( _autopilot->getLampNAV_ARM() );
-    _ui->labelAPR_ARM->setEnabled( _autopilot->getLampAPR_ARM() );
+    _ui->labelNAV_ARM->setEnabled( _ap->getLampNAV_ARM() );
+    _ui->labelAPR_ARM->setEnabled( _ap->getLampAPR_ARM() );
 
-    _ui->labelSR->setEnabled( _autopilot->getLampSR() );
-    _ui->labelHB->setEnabled( _autopilot->getLampHB() );
+    _ui->labelSR->setEnabled( _ap->getLampSR() );
+    _ui->labelHB->setEnabled( _ap->getLampHB() );
 
-    _ui->labelTRIM->setEnabled( _autopilot->getLampTRIM() );
+    _ui->labelTRIM->setEnabled( _ap->getLampTRIM() );
 
-    _ui->labelVS ->setEnabled( _autopilot->getLampVS() );
-    _ui->labelARM->setEnabled( _autopilot->getLampARM() );
+    _ui->labelVS ->setEnabled( _ap->getLampVS() );
+    _ui->labelARM->setEnabled( _ap->getLampARM() );
 
     if ( _ui->pushButtonShowALT->isChecked() )
-        _ui->spinBoxALT_VS->setReadOnly( _autopilot->isActiveALT() );
+        _ui->spinBoxALT_VS->setReadOnly( _ap->isActiveALT() );
     else
         _ui->spinBoxALT_VS->setReadOnly( false );
 
     if ( _ui->pushButtonDN->isDown() || _ui->pushButtonUP->isDown() )
     {
         if ( _ui->pushButtonShowVS->isChecked() )
-            _ui->spinBoxALT_VS->setValue( fdm::Units::mps2fpm( _autopilot->getClimbRate() ) );
+            _ui->spinBoxALT_VS->setValue( fdm::Units::mps2fpm( _ap->getClimbRate() ) );
         else
-            _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _autopilot->getAltitude() ) );
+            _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _ap->getAltitude() ) );
     }
 }
 
@@ -237,114 +231,114 @@ void DockWidgetAuto::updateWork()
 
 void DockWidgetAuto::on_pushButtonAP_clicked()
 {
-    _autopilot->onPressedAP();
+    _ap->onPressedAP();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonFD_clicked()
 {
-    _autopilot->onPressedFD();
+    _ap->onPressedFD();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonALT_clicked()
 {
-    _autopilot->onPressedALT();
+    _ap->onPressedALT();
 
     if ( _ui->pushButtonShowALT->isChecked() )
-        _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _autopilot->getAltitude() ) );
+        _ui->spinBoxALT_VS->setValue( fdm::Units::m2ft( _ap->getAltitude() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonIAS_clicked()
 {
-    _autopilot->onPressedIAS();
+    _ap->onPressedIAS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonENG_clicked()
 {
-    _autopilot->onPressedENG();
+    _ap->onPressedENG();
 
     if ( _ui->pushButtonShowVS->isChecked() )
-        _autopilot->setClimbRate( fdm::Units::fpm2mps( _ui->spinBoxALT_VS->value() ) );
+        _ap->setClimbRate( fdm::Units::fpm2mps( _ui->spinBoxALT_VS->value() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonARM_clicked()
 {
-    _autopilot->onPressedARM();
+    _ap->onPressedARM();
 
     if ( _ui->pushButtonShowALT->isChecked() )
-        _autopilot->setAltitude( fdm::Units::ft2m( _ui->spinBoxALT_VS->value() ) );
+        _ap->setAltitude( fdm::Units::ft2m( _ui->spinBoxALT_VS->value() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonHDG_clicked()
 {
-    _autopilot->onPressedHDG( fdm::Units::deg2rad( _ui->spinBoxHDG->value() ) );
+    _ap->onPressedHDG( fdm::Units::deg2rad( _ui->spinBoxHDG->value() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonNAV_clicked()
 {
-    _autopilot->onPressedNAV( fdm::Units::deg2rad( _ui->spinBoxCRS->value() ) );
+    _ap->onPressedNAV( fdm::Units::deg2rad( _ui->spinBoxCRS->value() ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonAPR_clicked()
 {
-    _autopilot->onPressedAPR();
+    _ap->onPressedAPR();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonBC_clicked()
 {
-    _autopilot->onPressedBC();
+    _ap->onPressedBC();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonYD_clicked()
 {
-    _autopilot->onPressedYD();
+    _ap->onPressedYD();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonSoftRide_clicked()
 {
-    _autopilot->onPressedSoftRide();
+    _ap->onPressedSoftRide();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonHalfBank_clicked()
 {
-    _autopilot->onPressedHalfBank();
+    _ap->onPressedHalfBank();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonTest_pressed()
 {
-    _autopilot->onPressedTest();
+    _ap->onPressedTest();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DockWidgetAuto::on_pushButtonTest_released()
 {
-    _autopilot->onReleasedTest();
+    _ap->onReleasedTest();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -390,7 +384,7 @@ void DockWidgetAuto::on_spinBoxCRS_valueChanged( double arg1 )
     }
     else
     {
-        _autopilot->setCourse( fdm::Units::deg2rad( arg1 ) );
+        _ap->setCourse( fdm::Units::deg2rad( arg1 ) );
     }
 }
 
@@ -404,7 +398,7 @@ void DockWidgetAuto::on_spinBoxHDG_valueChanged( double arg1 )
     }
     else
     {
-        _autopilot->setHeading( fdm::Units::deg2rad( arg1 ) );
+        _ap->setHeading( fdm::Units::deg2rad( arg1 ) );
     }
 }
 
@@ -416,11 +410,11 @@ void DockWidgetAuto::on_spinBoxALT_VS_editingFinished()
 
     if ( _ui->pushButtonShowVS->isChecked() )
     {
-        _autopilot->setClimbRate( fdm::Units::fpm2mps( val ) );
+        _ap->setClimbRate( fdm::Units::fpm2mps( val ) );
     }
     else if ( _ui->pushButtonShowALT->isChecked() )
     {
-        _autopilot->setAltitude( fdm::Units::ft2m( val ) );
+        _ap->setAltitude( fdm::Units::ft2m( val ) );
     }
 }
 
@@ -430,10 +424,10 @@ void DockWidgetAuto::on_pushButtonShowVS_clicked( bool checked )
 {
     if ( checked )
     {
-        double climbRate = fdm::Units::mps2fpm( _autopilot->getClimbRate() );
+        double climbRate = fdm::Units::mps2fpm( _ap->getClimbRate() );
 
-        _ui->spinBoxALT_VS->setMinimum( fdm::Units::mps2fpm( _autopilot->getMinClimbRate() ) );
-        _ui->spinBoxALT_VS->setMaximum( fdm::Units::mps2fpm( _autopilot->getMaxClimbRate() ) );
+        _ui->spinBoxALT_VS->setMinimum( fdm::Units::mps2fpm( _ap->getMinClimbRate() ) );
+        _ui->spinBoxALT_VS->setMaximum( fdm::Units::mps2fpm( _ap->getMaxClimbRate() ) );
 
         _ui->spinBoxALT_VS->setSingleStep( 100.0 );
         _ui->spinBoxALT_VS->setValue( climbRate );
@@ -446,10 +440,10 @@ void DockWidgetAuto::on_pushButtonShowALT_clicked( bool checked )
 {
     if ( checked )
     {
-        double altitude = fdm::Units::m2ft( _autopilot->getAltitude() );
+        double altitude = fdm::Units::m2ft( _ap->getAltitude() );
 
-        _ui->spinBoxALT_VS->setMinimum( fdm::Units::m2ft( _autopilot->getMinAltitude() ) );
-        _ui->spinBoxALT_VS->setMaximum( fdm::Units::m2ft( _autopilot->getMaxAltitude() ) );
+        _ui->spinBoxALT_VS->setMinimum( fdm::Units::m2ft( _ap->getMinAltitude() ) );
+        _ui->spinBoxALT_VS->setMaximum( fdm::Units::m2ft( _ap->getMaxAltitude() ) );
 
         _ui->spinBoxALT_VS->setSingleStep( 100.0 );
         _ui->spinBoxALT_VS->setValue( altitude );

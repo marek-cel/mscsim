@@ -38,6 +38,7 @@ Data::DataBuf Data::_data;
 Manager::Manager() :
     QObject( NULLPTR ),
 
+    _ap  ( NULLPTR ),
     _nav ( NULLPTR ),
     _sim ( NULLPTR ),
     _win ( NULLPTR ),
@@ -46,6 +47,7 @@ Manager::Manager() :
     _timerId ( 0 ),
     _timeStep ( 0.0 )
 {
+    _ap  = new Autopilot();
     _nav = new nav::Manager();
     _sim = new Simulation();
     _win = new MainWindow();
@@ -69,6 +71,7 @@ Manager::~Manager()
         }
     }
 
+    DELPTR( _ap  );
     DELPTR( _nav );
     DELPTR( _sim );
     DELPTR( _win );
@@ -88,6 +91,7 @@ void Manager::init()
 
     _sim->init();
 
+    _win->setAutopilot( _ap );
     _win->show();
     _win->init();
 
@@ -117,6 +121,8 @@ void Manager::timerEvent( QTimerEvent *event )
 
     hid::Manager::instance()->update( _timeStep );
 
+    _ap->update( _timeStep );
+
     _nav->setCourse( fdm::Units::deg2rad( _win->getCourse() ) );
     _nav->setFreqNAV( 1000 * _win->getFreqNav() );
     _nav->update();
@@ -141,18 +147,18 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.nws = _win->getNWS();
     Data::get()->controls.abs = _win->getABS();
 
-    if ( _win->isActiveAP() && _win->isActiveFD() && !hid::Manager::instance()->getCWS() )
+    if ( _ap->isActiveAP() && _ap->isActiveFD() && !hid::Manager::instance()->getCWS() )
     {
-        Data::get()->controls.roll  -= _win->getAutoRoll();
-        Data::get()->controls.pitch -= _win->getAutoPitch();
+        Data::get()->controls.roll  -= _ap->getCtrlRoll();
+        Data::get()->controls.pitch -= _ap->getCtrlPitch();
 
         Data::get()->controls.roll  = std::max( -1.0, std::min( 1.0, Data::get()->controls.roll  ) );
         Data::get()->controls.pitch = std::max( -1.0, std::min( 1.0, Data::get()->controls.pitch ) );
     }
 
-    if ( _win->isActiveYD() )
+    if ( _ap->isActiveYD() )
     {
-        Data::get()->controls.yaw -= _win->getAutoYaw();
+        Data::get()->controls.yaw -= _ap->getCtrlYaw();
         Data::get()->controls.yaw = std::max( -1.0, std::min( 1.0, Data::get()->controls.yaw ) );
     }
 

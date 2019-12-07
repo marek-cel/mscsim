@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <gui/Autopilot.h>
+#include <Autopilot.h>
 
 #include <Common.h>
 #include <Data.h>
@@ -33,31 +33,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Autopilot::Autopilot() :
-    QObject ( NULLPTR ),
-
-    _timer ( NULLPTR ),
-
     _autopilot      ( NULLPTR ),
     _autopilot_c172 ( NULLPTR ),
 
     _altitude  ( 100.0 ),
-    _climbRate (   0.0 ),
-
-    _timerId ( 0 )
-{
-    _timer = new QElapsedTimer();
-    _timer->start();
-
-    _timerId = startTimer( 1000.0 * FDM_TIME_STEP );
-}
+    _climbRate (   0.0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Autopilot::~Autopilot()
 {
-    if ( _timerId ) killTimer( _timerId );
-
-    DELPTR( _timer );
     DELPTR( _autopilot );
 }
 
@@ -105,35 +91,46 @@ void Autopilot::stop()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Autopilot::update( bool btn_dn, bool btn_up )
+void Autopilot::update( double timeStep )
 {
-    double timeStep = Data::get()->timeCoef * (double)_timer->restart() / 1000.0;
-
-    if ( _autopilot_c172 )
+    if ( _autopilot )
     {
-        _autopilot_c172->setHeadingILS( Data::get()->navigation.ils_heading );
-        _autopilot_c172->update( timeStep,
-                                 Data::get()->ownship.roll,
-                                 Data::get()->ownship.pitch,
-                                 Data::get()->ownship.heading,
-                                 Data::get()->ownship.altitude_asl,
-                                 Data::get()->ownship.ias,
-                                 Data::get()->ownship.turnRate,
-                                 Data::get()->ownship.yawRate,
-                                 Data::get()->ownship.climbRate,
-                                 Data::get()->navigation.dme_distance,
-                                 Data::get()->navigation.nav_deviation,
-                                 Data::get()->navigation.nav_cdi != Data::Navigation::NONE,
-                                 Data::get()->navigation.ils_lc_deviation,
-                                 Data::get()->navigation.ils_lc_visible,
-                                 Data::get()->navigation.ils_gs_deviation,
-                                 Data::get()->navigation.ils_gs_visible,
-                                 btn_dn, btn_up );
+        if ( _autopilot_c172 )
+        {
+            _autopilot_c172->setHeadingILS( Data::get()->navigation.ils_heading );
+        }
+
+        _autopilot->update( timeStep,
+                            Data::get()->ownship.roll,
+                            Data::get()->ownship.pitch,
+                            Data::get()->ownship.heading,
+                            Data::get()->ownship.altitude_asl,
+                            Data::get()->ownship.ias,
+                            Data::get()->ownship.turnRate,
+                            Data::get()->ownship.yawRate,
+                            Data::get()->ownship.climbRate,
+                            Data::get()->navigation.dme_distance,
+                            Data::get()->navigation.nav_deviation,
+                            Data::get()->navigation.nav_cdi != Data::Navigation::NONE,
+                            Data::get()->navigation.ils_lc_deviation,
+                            Data::get()->navigation.ils_lc_visible,
+                            Data::get()->navigation.ils_gs_deviation,
+                            Data::get()->navigation.ils_gs_visible );
 
         if ( hid::Manager::instance()->getAP_Disc() )
         {
-            _autopilot_c172->disengage();
+            _autopilot->disengage();
         }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Autopilot::update( double timeStep, bool btn_dn, bool btn_up )
+{
+    if ( _autopilot_c172 )
+    {
+        _autopilot_c172->update( timeStep, btn_dn, btn_up );
     }
 }
 
@@ -773,13 +770,4 @@ void Autopilot::setCourse( double course )
 void Autopilot::setHeading( double heading )
 {
     if ( _autopilot ) _autopilot->setHeading( heading );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Autopilot::timerEvent( QTimerEvent *event )
-{
-    /////////////////////////////
-    QObject::timerEvent( event );
-    /////////////////////////////
 }

@@ -1,7 +1,6 @@
 HEADERS += \
     $$PWD/Aircrafts.h \
     $$PWD/Airports.h \
-    $$PWD/Autopilot.h \
     $$PWD/Colors.h \
     $$PWD/ComboUnits.h \
     $$PWD/ComboUnitsAngle.h \
@@ -47,7 +46,6 @@ HEADERS += \
 SOURCES += \
     $$PWD/Aircrafts.cpp \
     $$PWD/Airports.cpp \
-    $$PWD/Autopilot.cpp \
     $$PWD/Colors.cpp \
     $$PWD/ComboUnits.cpp \
     $$PWD/ComboUnitsAngle.cpp \

@@ -117,15 +117,7 @@ void C172_Autopilot::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::update( double timeStep,
-                             double roll, double pitch, double heading,
-                             double altitude, double airspeed,
-                             double turnRate, double yawRate, double climbRate,
-                             double dme_distance,
-                             double nav_deviation, bool nav_active,
-                             double loc_deviation, bool loc_active,
-                             double gs_deviation,  bool gs_active,
-                             bool button_dn, bool button_up )
+void C172_Autopilot::update( double timeStep, bool button_dn, bool button_up )
 {
     if ( button_dn || button_up )
     {
@@ -155,15 +147,6 @@ void C172_Autopilot::update( double timeStep,
             break;
         }
     }
-
-    Autopilot::update( timeStep,
-                       roll, pitch, heading,
-                       altitude, airspeed,
-                       turnRate, yawRate, climbRate,
-                       dme_distance,
-                       nav_deviation, nav_active,
-                       loc_deviation, loc_active,
-                       gs_deviation, gs_active );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -119,6 +119,7 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
+    Autopilot.h \
     Common.h \
     Data.h \
     Defines.h \
@@ -127,6 +128,7 @@ HEADERS += \
 
 SOURCES += \
     main.cpp \
+    Autopilot.cpp \
     Manager.cpp \
     Simulation.cpp
 

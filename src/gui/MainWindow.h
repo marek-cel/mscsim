@@ -32,6 +32,8 @@
 
 #include <Data.h>
 
+#include <Autopilot.h>
+
 #include "DialogConf.h"
 #include "DialogEnvr.h"
 #include "DialogInit.h"
@@ -74,21 +76,14 @@ public:
     /** */
     void init();
 
-    inline double getAutoRoll()  const { return _dockAuto->getCtrlRoll();  }
-    inline double getAutoPitch() const { return _dockAuto->getCtrlPitch(); }
-    inline double getAutoYaw()   const { return _dockAuto->getCtrlYaw();   }
-
     inline bool getABS() const { return _dockCtrl->getABS(); }
     inline bool getNWS() const { return _dockCtrl->getNWS(); }
 
     inline double getCourse()  const { return _dockAuto->getCourse();  }
-    inline double getHeading() const { return _dockAuto->getHeading(); }
+    inline double getFreqNav() const { return _dockAuto->getFreqNav(); }
 
-    inline double getFreqNav()  const { return _dockAuto->getFreqNav();  }
-
-    inline bool isActiveAP() const { return _dockAuto->isActiveAP(); }
-    inline bool isActiveFD() const { return _dockAuto->isActiveFD(); }
-    inline bool isActiveYD() const { return _dockAuto->isActiveYD(); }
+    /** */
+    inline void setAutopilot( Autopilot *ap ) { _dockAuto->setAutopilot( _ap = ap ); }
 
 protected:
 
@@ -109,6 +104,8 @@ private:
     typedef Data::CGI::ViewType ViewType;
 
     Ui::MainWindow *_ui;                ///<
+
+    Autopilot *_ap;                     ///< autopilot object
 
     QDateTime _dateTime;                ///< current date and time (initial date and time incremented every step)
     QTime _flightTime;                  ///< flight time

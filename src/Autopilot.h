@@ -24,9 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QElapsedTimer>
-#include <QObject>
-
 #include <fdm/auto/fdm_Autopilot.h>
 #include <fdm_c172/c172_Autopilot.h>
 
@@ -35,10 +32,8 @@
 /**
  * @brief Autopilot class.
  */
-class Autopilot: public QObject
+class Autopilot
 {
-    Q_OBJECT
-
 public:
 
     Autopilot();
@@ -48,7 +43,8 @@ public:
     void init();
     void stop();
 
-    void update( bool btn_dn, bool btn_up );
+    void update( double timeStep );
+    void update( double timeStep, bool btn_dn, bool btn_up );
 
     void onPressedAP();
     void onPressedFD();
@@ -128,24 +124,15 @@ public:
     void setCourse( double course );
     void setHeading( double heading );
 
-protected:
-
-    /** */
-    void timerEvent( QTimerEvent *event );
-
 private:
 
     typedef fdm::C172_Autopilot C172_Autopilot;
-
-    QElapsedTimer *_timer;              ///<
 
     fdm::Autopilot *_autopilot;         ///<
     C172_Autopilot *_autopilot_c172;    ///<
 
     double _altitude;                   ///< [m]   desired altitude
     double _climbRate;                  ///< [m/s] desired climb rate
-
-    int _timerId;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

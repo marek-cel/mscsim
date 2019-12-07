@@ -55,35 +55,10 @@ public:
     /** Destructor. */
     virtual ~DockWidgetAuto();
 
-    inline void init() { _autopilot->init(); }
-    inline void stop() { _autopilot->stop(); }
-
     double getCourse() const;
     double getFreqNav() const;
 
-    inline double getAirspeed()  const { return _autopilot->getAirspeed();  }
-    inline double getAltitude()  const { return _autopilot->getAltitude();  }
-    inline double getClimbRate() const { return _autopilot->getClimbRate(); }
-    inline double getHeading()   const { return _autopilot->getHeading();   }
-    inline double getCmdRoll()   const { return _autopilot->getCmdRoll();   }
-    inline double getCmdPitch()  const { return _autopilot->getCmdPitch();  }
-    inline double getCtrlRoll()  const { return _autopilot->getCtrlRoll();  }
-    inline double getCtrlPitch() const { return _autopilot->getCtrlPitch(); }
-    inline double getCtrlYaw()   const { return _autopilot->getCtrlYaw();   }
-
-    inline bool isActiveAP() const { return _autopilot->isActiveAP(); }
-    inline bool isActiveFD() const { return _autopilot->isActiveFD(); }
-    inline bool isActiveYD() const { return _autopilot->isActiveYD(); }
-
-    inline bool isActiveALT() const { return _autopilot->isActiveALT(); }
-    inline bool isActiveIAS() const { return _autopilot->isActiveIAS(); }
-    inline bool isActiveVS()  const { return _autopilot->isActiveVS();  }
-    inline bool isActiveARM() const { return _autopilot->isActiveARM(); }
-    inline bool isActiveGS()  const { return _autopilot->isActiveGS();  }
-    inline bool isActiveHDG() const { return _autopilot->isActiveHDG(); }
-    inline bool isActiveNAV() const { return _autopilot->isActiveNAV(); }
-    inline bool isActiveAPR() const { return _autopilot->isActiveAPR(); }
-    inline bool isActiveBC()  const { return _autopilot->isActiveBC();  }
+    inline void setAutopilot( Autopilot *ap ) { _ap = ap; }
 
 signals:
 
@@ -98,11 +73,11 @@ protected:
 
 private:
 
-    Ui::DockWidgetAuto *_ui;            ///<
+    Ui::DockWidgetAuto *_ui;    ///<
 
-    Autopilot *_autopilot;              ///<
+    Autopilot *_ap;             ///< autopilot object
 
-    int _timerId;                       ///< timer ID
+    int _timerId;               ///< timer ID
 
     double normalizeHeading( double heading );
 

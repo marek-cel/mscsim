@@ -59,34 +59,11 @@ public:
 
     /**
      * @brief Updates autopilot.
-     * @param timeStep
-     * @param roll
-     * @param pitch
-     * @param heading
-     * @param altitude
-     * @param airspeed
-     * @param turnRate
-     * @param yawRate
-     * @param climbRate
-     * @param dme_distance
-     * @param nav_deviation
-     * @param nav_active
-     * @param loc_deviation
-     * @param loc_active
-     * @param gs_deviation
-     * @param gs_active
+     * @param timeStep [s]
      * @param button_dn
      * @param button_up
      */
-    void update( double timeStep,
-                 double roll, double pitch, double heading,
-                 double altitude, double airspeed,
-                 double turnRate, double yawRate, double climbRate,
-                 double dme_distance,
-                 double nav_deviation, bool nav_active,
-                 double loc_deviation, bool loc_active,
-                 double gs_deviation,  bool gs_active,
-                 bool button_dn, bool button_up );
+    void update( double timeStep, bool button_dn, bool button_up );
 
     void onPressedAP();
     void onPressedFD();

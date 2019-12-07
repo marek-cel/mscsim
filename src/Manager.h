@@ -29,6 +29,7 @@
 #include <gui/MainWindow.h>
 #include <nav/nav_Manager.h>
 
+#include <Autopilot.h>
 #include <Simulation.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +59,7 @@ protected:
 
 private:
 
+    Autopilot    *_ap;          ///< autopilot
     nav::Manager *_nav;         ///< navigation
     Simulation   *_sim;         ///< simulation
     MainWindow   *_win;         ///< GUI

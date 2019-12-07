@@ -71,6 +71,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow ( parent ),
     _ui ( new Ui::MainWindow ),
 
+    _ap ( NULLPTR ),
+
     _dateTime( QDateTime::currentDateTimeUtc() ),
     
     _dialogConf ( NULLPTR ),
@@ -360,7 +362,7 @@ void MainWindow::setStateInit()
 {
     _stateInp = fdm::DataInp::Init;
     _dockMain->setStateInp( _stateInp );
-    _dockAuto->init();
+    _ap->init();
 
     ScreenSaver::disable();
 }
@@ -395,7 +397,7 @@ void MainWindow::setStateStop()
 {
     _stateInp = fdm::DataInp::Stop;
     _dockMain->setStateInp( _stateInp );
-    _dockAuto->stop();
+    _ap->stop();
 
     ScreenSaver::enable();
 }
@@ -781,9 +783,9 @@ void MainWindow::updateDockEFIS()
                             Data::get()->navigation.ils_lc_visible,
                             Data::get()->navigation.ils_gs_visible );
 
-        _dockEFIS->setFD( fdm::Units::rad2deg( _dockAuto->getCmdRoll() ),
-                          fdm::Units::rad2deg( _dockAuto->getCmdPitch() ),
-                          _dockAuto->isActiveFD() );
+        _dockEFIS->setFD( fdm::Units::rad2deg( _ap->getCmdRoll() ),
+                          fdm::Units::rad2deg( _ap->getCmdPitch() ),
+                          _ap->isActiveFD() );
 
         _dockEFIS->setStall( Data::get()->ownship.stall );
 
@@ -810,32 +812,32 @@ void MainWindow::updateDockEFIS()
         _dockEFIS->setDeviation( Data::get()->navigation.nav_norm, cdi );
 
         GraphicsEADI::FlightMode flightMode = GraphicsEADI::FM_OFF;
-        if ( _dockAuto->isActiveFD() )
+        if ( _ap->isActiveFD() )
         {
             flightMode = GraphicsEADI::FM_FD;
 
-            if ( _dockAuto->isActiveAP() ) flightMode = GraphicsEADI::FM_CMD;
+            if ( _ap->isActiveAP() ) flightMode = GraphicsEADI::FM_CMD;
         }
         _dockEFIS->setFlightMode( flightMode );
 
         GraphicsEADI::LNAV lnav = GraphicsEADI::LNAV_OFF;
-        if      ( _dockAuto->isActiveHDG() ) lnav = GraphicsEADI::LNAV_HDG;
-        else if ( _dockAuto->isActiveNAV() ) lnav = GraphicsEADI::LNAV_NAV;
-        else if ( _dockAuto->isActiveAPR() ) lnav = GraphicsEADI::LNAV_APR;
-        else if ( _dockAuto->isActiveBC()  ) lnav = GraphicsEADI::LNAV_BC;
+        if      ( _ap->isActiveHDG() ) lnav = GraphicsEADI::LNAV_HDG;
+        else if ( _ap->isActiveNAV() ) lnav = GraphicsEADI::LNAV_NAV;
+        else if ( _ap->isActiveAPR() ) lnav = GraphicsEADI::LNAV_APR;
+        else if ( _ap->isActiveBC()  ) lnav = GraphicsEADI::LNAV_BC;
         _dockEFIS->setLNAV( lnav );
 
         GraphicsEADI::VNAV vnav = GraphicsEADI::VNAV_OFF;
-        if      ( _dockAuto->isActiveALT() ) vnav = GraphicsEADI::VNAV_ALT;
-        else if ( _dockAuto->isActiveIAS() ) vnav = GraphicsEADI::VNAV_IAS;
-        else if ( _dockAuto->isActiveVS()  ) vnav = GraphicsEADI::VNAV_VS;
-        else if ( _dockAuto->isActiveARM() ) vnav = GraphicsEADI::VNAV_ALT_SEL;
-        else if ( _dockAuto->isActiveGS()  ) vnav = GraphicsEADI::VNAV_GS;
+        if      ( _ap->isActiveALT() ) vnav = GraphicsEADI::VNAV_ALT;
+        else if ( _ap->isActiveIAS() ) vnav = GraphicsEADI::VNAV_IAS;
+        else if ( _ap->isActiveVS()  ) vnav = GraphicsEADI::VNAV_VS;
+        else if ( _ap->isActiveARM() ) vnav = GraphicsEADI::VNAV_ALT_SEL;
+        else if ( _ap->isActiveGS()  ) vnav = GraphicsEADI::VNAV_GS;
         _dockEFIS->setVNAV( vnav );
 
-        _dockEFIS->setAirspeedSel( coef_ias * _dockAuto->getAirspeed() );
-        _dockEFIS->setAltitudeSel( coef_alt * _dockAuto->getAltitude() );
-        _dockEFIS->setHeadingSel( fdm::Units::rad2deg( _dockAuto->getHeading() ) );
+        _dockEFIS->setAirspeedSel( coef_ias * _ap->getAirspeed() );
+        _dockEFIS->setAltitudeSel( coef_alt * _ap->getAltitude() );
+        _dockEFIS->setHeadingSel( fdm::Units::rad2deg( _ap->getHeading() ) );
 
         _dockEFIS->setVfe( coef_ias * Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() ).vfe );
         _dockEFIS->setVne( coef_ias * Aircrafts::instance()->getAircraft( _dialogInit->getTypeIndex() ).vne );
