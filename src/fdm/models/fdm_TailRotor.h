@@ -36,7 +36,7 @@ namespace fdm
 {
 
 /**
- * @brief Helicopter tail rotor base class.
+ * @brief Helicopter tail rotor actuator disc model class.
  *
  * <h3>XML configuration file format:</h3>
  * @code

@@ -193,12 +193,12 @@ public:
     struct DateTime
     {
         unsigned short year;                ///< year
-        unsigned short month;               ///< 1...12 month
-        unsigned short day;                 ///< 1...31 day
+        unsigned short month;               ///< [1..12] month
+        unsigned short day;                 ///< [1..31] day
 
-        unsigned short hour;                ///< 0...23 hour
-        unsigned short minute;              ///< 0...59 minute
-        unsigned short second;              ///< 0...59 second
+        unsigned short hour;                ///< [0..23] hour
+        unsigned short minute;              ///< [0..59] minute
+        unsigned short second;              ///< [0..59] second
     };
 
     /** Environment data. */
@@ -234,14 +234,14 @@ public:
         double ils_heading;                 ///< [rad]
         double ils_gs_deviation;            ///< [rad] horizontal deviation
         double ils_lc_deviation;            ///< [rad] vertical deviation
-        double ils_gs_norm;                 ///< [-1.0;1.0]
-        double ils_lc_norm;                 ///< [-1.0;1.0]
+        double ils_gs_norm;                 ///< [-1.0,1.0]
+        double ils_lc_norm;                 ///< [-1.0,1.0]
 
         NAV_CDI nav_cdi;                    ///<
         bool nav_visible;                   ///<
         double nav_bearing;                 ///< [rad]
         double nav_deviation;               ///< [rad]
-        double nav_norm;                    ///< [-1.0;1.0]
+        double nav_norm;                    ///< [-1.0,1.0]
     };
 
     /** Ownship data. */
