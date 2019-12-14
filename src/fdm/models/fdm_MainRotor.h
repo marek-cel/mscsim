@@ -36,7 +36,9 @@ namespace fdm
 {
 
 /**
- * @brief Helicopter main rotor actuator disc model class.
+ * @brief Helicopter main rotor model class.
+ *
+ * This model is based on actuator disc theory.
  *
  * <h3>Coordinate Systems Used for Rotor Calculations</h3>
  *

@@ -26,15 +26,21 @@
 
 #include <fdm/fdm_Defines.h>
 
+#include <fdm/utils/fdm_Table.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
 /**
- * @brief Rotor blade class for Blade Element Theory (BET) model.
+ * @brief Rotor blade model class.
  *
+ * This model is based on blade element theory.
+ *
+ * @see Bramwell A.: Bramwells Helicopter Dynamics, 2001
  * @see Stepniewski W.: Rotary-Wing Aerodynamics. Volume I: Basic Theories of Rotor Aerodynamics, 1984
+ * @see Johnson W.: Helicopter Theory, 1980
  */
 class FDMEXPORT Blade
 {
@@ -45,6 +51,23 @@ public:
 
     /** Destructor. */
     virtual ~Blade();
+
+protected:
+
+    double _radius;     ///< [m] rotor radius
+    double _chord;      ///< [m] blade chord
+    double _offset;     ///< [m] flapping hinge offset
+    double _twist;      ///< [rad/m] blade twist angle
+    double _mass;       ///< [kg] blage mass
+
+    Table _cd;          ///< [-] blade section drag coefficient vs angle of attack
+    Table _cl;          ///< [-] blade section lift coefficient vs angle of attack
+
+    double _area;       ///< [m^2] rotor area
+    double _span;       ///< [m] blade span
+    double _inertia;    ///< [kg*m^2] blade inertia around flapping hinge
+    double _moment;     ///< [kg*m] blade first mass moment
+
 };
 
 } // end of fdm namespace

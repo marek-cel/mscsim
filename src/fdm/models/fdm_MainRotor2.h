@@ -31,7 +31,11 @@
 namespace fdm
 {
 
-/** */
+/**
+ * @brief Helicopter main rotor model class.
+ *
+ * This model is based on blade element theory.
+ */
 class FDMEXPORT MainRotor2 : public Base
 {
 public:
