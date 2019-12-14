@@ -52,6 +52,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/models/fdm_Atmosphere.h \
+    $$PWD/models/fdm_Blade.h \
     $$PWD/models/fdm_Engine.h \
     $$PWD/models/fdm_Fuselage.h \
     $$PWD/models/fdm_Governor.h \
@@ -60,7 +61,6 @@ HEADERS += \
     $$PWD/models/fdm_MainRotor2.h \
     $$PWD/models/fdm_PistonEngine.h \
     $$PWD/models/fdm_Propeller.h \
-    $$PWD/models/fdm_RotorBlade.h \
     $$PWD/models/fdm_Schrenk.h \
     $$PWD/models/fdm_Stabilizer.h \
     $$PWD/models/fdm_TailOff.h \
@@ -70,6 +70,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/models/fdm_Atmosphere.cpp \
+    $$PWD/models/fdm_Blade.cpp \
     $$PWD/models/fdm_Fuselage.cpp \
     $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \
@@ -77,7 +78,6 @@ SOURCES += \
     $$PWD/models/fdm_MainRotor2.cpp \
     $$PWD/models/fdm_PistonEngine.cpp \
     $$PWD/models/fdm_Propeller.cpp \
-    $$PWD/models/fdm_RotorBlade.cpp \
     $$PWD/models/fdm_Schrenk.cpp \
     $$PWD/models/fdm_Stabilizer.cpp \
     $$PWD/models/fdm_TailOff.cpp \
