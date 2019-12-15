@@ -73,7 +73,7 @@ public:
     /** Updates model. */
     void update();
 
-    inline const MainRotor* getMainRotor() const { return _mainRotor; }
+    inline const MainRotor2* getMainRotor() const { return _mainRotor; }
 
 private:
 

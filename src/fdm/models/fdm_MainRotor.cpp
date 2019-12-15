@@ -132,7 +132,7 @@ void MainRotor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, blade_mass, "blade_mass" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r, "rotor_radius" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blades_chord" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blade_chord"  );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _e, "hinge_offset" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _a, "lift_slope" );
@@ -164,7 +164,7 @@ void MainRotor::readData( XmlNode &dataNode )
             _s = ( (double)_nb ) * _c * _r / _ad;
 
             _s_b = blade_mass * _r / 2.0;
-            _i_b = blade_mass * _r * _r / 3.0;
+            _i_b = blade_mass * _r2 / 3.0;
 
             _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
             _ras2bas = _bas2ras.getTransposed();

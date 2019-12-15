@@ -22,6 +22,8 @@
 
 #include <fdm/models/fdm_MainRotor2.h>
 
+#include <fdm/xml/fdm_XmlUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -32,4 +34,61 @@ MainRotor2::MainRotor2() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-MainRotor2::~MainRotor2() {}
+MainRotor2::~MainRotor2()
+{
+    Blades::iterator it = _blades.begin();
+
+    while ( it != _blades.end() )
+    {
+        FDM_DELPTR( (*it) );
+        it = _blades.erase( it );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainRotor2::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
+
+        double inclination = 0.0;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination, "inclination" );
+
+        if ( result == FDM_SUCCESS )
+        {
+            _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
+            _ras2bas = _bas2ras.getTransposed();
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainRotor2::update( double omega,
+                         const Vector3 &vel_air_bas,
+                         const Vector3 &omg_air_bas,
+                         double collective,
+                         double cyclicLat,
+                         double cyclicLon )
+{
+    // velocity transformations
+    Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas ^ _r_hub_bas ) );
+
+    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+    {
+        (*it)->update( omega );
+    }
+}

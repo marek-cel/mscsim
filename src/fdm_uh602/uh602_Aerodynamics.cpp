@@ -98,28 +98,28 @@ void UH602_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-    _mainRotor->computeForceAndMoment( _aircraft->getVel_BAS(),
-                                       _aircraft->getOmg_BAS(),
-                                       _aircraft->getAcc_BAS(),
-                                       _aircraft->getEps_BAS(),
-                                       _aircraft->getGrav_BAS(),
-                                       _aircraft->getVel_air_BAS(),
-                                       _aircraft->getOmg_air_BAS(),
-                                       _aircraft->getEnvir()->getDensity(),
-                                       _aircraft->getCtrl()->getCollective(),
-                                       _aircraft->getCtrl()->getCyclicLat(),
-                                       _aircraft->getCtrl()->getCyclicLon() );
+//    _mainRotor->computeForceAndMoment( _aircraft->getVel_BAS(),
+//                                       _aircraft->getOmg_BAS(),
+//                                       _aircraft->getAcc_BAS(),
+//                                       _aircraft->getEps_BAS(),
+//                                       _aircraft->getGrav_BAS(),
+//                                       _aircraft->getVel_air_BAS(),
+//                                       _aircraft->getOmg_air_BAS(),
+//                                       _aircraft->getEnvir()->getDensity(),
+//                                       _aircraft->getCtrl()->getCollective(),
+//                                       _aircraft->getCtrl()->getCyclicLat(),
+//                                       _aircraft->getCtrl()->getCyclicLon() );
 
-    _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
-                                       _aircraft->getOmg_air_BAS(),
-                                       _aircraft->getEnvir()->getDensity(),
-                                       _aircraft->getCtrl()->getTailPitch() );
+//    _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),// - _mainRotor->getVel_i_BAS(),
+//                                       _aircraft->getOmg_air_BAS(),
+//                                       _aircraft->getEnvir()->getDensity(),
+//                                       _aircraft->getCtrl()->getTailPitch() );
 
-    _fuselage->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
+    _fuselage->computeForceAndMoment( _aircraft->getVel_air_BAS(),// - _mainRotor->getVel_i_BAS(),
                                       _aircraft->getOmg_air_BAS(),
                                       _aircraft->getEnvir()->getDensity() );
 
-    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
+    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),// - _mainRotor->getVel_i_BAS(),
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getElevator() );
@@ -185,6 +185,6 @@ void UH602_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    _mainRotor->update( _aircraft->getProp()->getMainRotorOmega() );
+    //_mainRotor->update( _aircraft->getProp()->getMainRotorOmega() );
     _tailRotor->update( _aircraft->getProp()->getTailRotorOmega() );
 }

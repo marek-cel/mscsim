@@ -92,7 +92,7 @@ void TailRotor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, blade_mass, "blade_mass" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r, "rotor_radius" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blades_chord" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blade_chord"  );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _a, "lift_slope" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _b, "tip_losses" );
