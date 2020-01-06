@@ -3,12 +3,12 @@
   xmlns="http://schemas.microsoft.com/wix/2006/wi"
   xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product
-    Id="{d74b09d7-f321-43c4-92cf-5ea7fa595ae6}" 
+    Id="{b3e39794-6324-4e30-88f9-02a84e6b7268}" 
     Name="MScSim"
     Language="1033"
-    Version="0.1"
+    Version="0.2"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{7d804395-e40a-4b7f-93b5-346065617d41}">
+    UpgradeCode="{9fac2790-93e6-4557-8a6e-a01d335e2e2d}">
         
     <Package
       Description="MScSim Windows Installer Package"
@@ -30,7 +30,7 @@
         <Directory Id="dir_mscsim" Name="MScSim">
           
           <!-- sim.exe -->
-          <Component Id="dir_mscsim_mscsim" Guid="{bc24fd67-96d0-4cd0-84bd-6ae2197ca69e}">
+          <Component Id="dir_mscsim_mscsim" Guid="{f54f2559-574a-4fb0-bbad-9618c252d327}">
             <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
           </Component>
           
@@ -40,12 +40,12 @@
       <!-- start menu shortcuts -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="MscSim">
-          <Component Id="menu_shortcuts" Guid="{ff1c553d-9bda-429c-be7d-c7f6db2da635}">
+          <Component Id="menu_shortcuts" Guid="{a051bb6c-b5c5-40ee-bbd5-54ed35ffa9f1}">
             <Shortcut
               Id="menu_sim" 
               Name="MscSim" 
               Icon="sim.ico"
-              Description="Flight Simulation"
+              Description="Flight Simulator"
               Target="[dir_mscsim]\mscsim.exe"
               WorkingDirectory="dir_mscsim" />
             <Shortcut
@@ -68,7 +68,7 @@
       <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
       <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->
       
-      <ComponentRef Id="dir_mscsim_mscsim" />      <!-- sim.exe -->
+      <ComponentRef Id="dir_mscsim_mscsim" />   <!-- mscsim.exe -->
 
       <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
     </Feature>

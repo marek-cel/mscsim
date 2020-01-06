@@ -19,31 +19,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef COMBOUNITSFLOWRATE_H
-#define COMBOUNITSFLOWRATE_H
+
+#include <fdm/models/fdm_SimpleRotor.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "ComboUnits.h"
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Flow rate unit selection combo box.
- */
-class ComboUnitsFlowRate : public ComboUnits
+SimpleRotor::SimpleRotor()
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SimpleRotor::~SimpleRotor() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SimpleRotor::readData( XmlNode &dataNode )
 {
-    Q_OBJECT
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
 
-public:
-
-    /** Constructor. */
-    explicit ComboUnitsFlowRate( QWidget *parent = NULLPTR );
-    
-    /** Destructor. */
-    virtual ~ComboUnitsFlowRate();
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // COMBOUNITSFLOWRATE_H
+        // TODO
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}

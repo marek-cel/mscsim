@@ -29,6 +29,8 @@ win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 
 ################################################################################
 
+DEFINES += QT_DEPRECATED_WARNINGS
+
 DEFINES += \
     SIM_CONSOLE_OUTPUT \
 #    SIM_OSG_DEBUG_INFO \

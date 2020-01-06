@@ -26,6 +26,7 @@ add_library( fdm STATIC
     models/fdm_Propeller.cpp
     models/fdm_RotorBlade.cpp
     models/fdm_Schrenk.cpp
+    models/fdm_SimpleRotor.cpp
     models/fdm_Stabilizer.cpp
     models/fdm_TailOff.cpp
     models/fdm_TailRotor.cpp

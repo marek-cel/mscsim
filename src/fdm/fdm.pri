@@ -62,6 +62,7 @@ HEADERS += \
     $$PWD/models/fdm_PistonEngine.h \
     $$PWD/models/fdm_Propeller.h \
     $$PWD/models/fdm_Schrenk.h \
+    $$PWD/models/fdm_SimpleRotor.h \
     $$PWD/models/fdm_Stabilizer.h \
     $$PWD/models/fdm_TailOff.h \
     $$PWD/models/fdm_TailRotor.h \
@@ -79,6 +80,7 @@ SOURCES += \
     $$PWD/models/fdm_PistonEngine.cpp \
     $$PWD/models/fdm_Propeller.cpp \
     $$PWD/models/fdm_Schrenk.cpp \
+    $$PWD/models/fdm_SimpleRotor.cpp \
     $$PWD/models/fdm_Stabilizer.cpp \
     $$PWD/models/fdm_TailOff.cpp \
     $$PWD/models/fdm_TailRotor.cpp \

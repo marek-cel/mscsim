@@ -1,5 +1,5 @@
 /****************************************************************************//*
- * Copyright (C) 2019 Marek M. Cel
+ * Copyright (C) 2020 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,7 @@ Random* Random::_instance = 0;
 
 Random::Random()
 {
-    srand( (unsigned int)time( NULL ) );
+    srand( (unsigned int)time( FDM_NULLPTR ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,4 +63,13 @@ float Random::getRandom( float min, float max )
     int random = getRandom( 0, RAND_MAX );
 
     return min + ( max - min ) * ( (float)random / (float)RAND_MAX );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Random::getRandom( double min, double max )
+{
+    int random = getRandom( 0, RAND_MAX );
+
+    return min + ( max - min ) * ( (double)random / (double)RAND_MAX );
 }

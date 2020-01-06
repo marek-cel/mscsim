@@ -1,2 +1,2 @@
 #!/bin/bash
-cppcheck --enable=performance  ./src &> cppcheck.log
+cppcheck --enable=performance  ./src 2> cppcheck.log

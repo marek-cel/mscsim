@@ -19,31 +19,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef COMBOUNITSFLOWRATE_H
-#define COMBOUNITSFLOWRATE_H
+#ifndef FDM_SIMPLEROTOR_H
+#define FDM_SIMPLEROTOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "ComboUnits.h"
+#include <fdm/fdm_Base.h>
+
+#include <fdm/utils/fdm_Matrix3x3.h>
+
+#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
 
 /**
- * @brief Flow rate unit selection combo box.
+ * @brief Helicopter main rotor simplified model class.
  */
-class ComboUnitsFlowRate : public ComboUnits
+class FDMEXPORT SimpleRotor : public Base
 {
-    Q_OBJECT
-
 public:
 
     /** Constructor. */
-    explicit ComboUnitsFlowRate( QWidget *parent = NULLPTR );
-    
+    SimpleRotor();
+
     /** Destructor. */
-    virtual ~ComboUnitsFlowRate();
+    virtual ~SimpleRotor();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    virtual void readData( XmlNode &dataNode );
+
+    inline const Vector3& getFor_BAS() const { return _for_bas; }
+    inline const Vector3& getMom_BAS() const { return _mom_bas; }
+
+protected:
+
+    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
+    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 };
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // COMBOUNITSFLOWRATE_H
+#endif // FDM_SIMPLEROTOR_H
