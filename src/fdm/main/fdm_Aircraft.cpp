@@ -59,6 +59,8 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
     _crash ( DataOut::NoCrash ),
 
+    _initPropState ( Stopped ),
+
     _elevation     ( 0.0 ),
     _altitude_asl  ( 0.0 ),
     _altitude_agl  ( 0.0 ),
@@ -71,14 +73,12 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _trackAngle    ( 0.0 ),
     _slipSkidAngle ( 0.0 ),
     _airspeed      ( 0.0 ),
-    _ias           ( 0.0 ),
     _dynPress      ( 0.0 ),
+    _ias           ( 0.0 ),
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
     _turnRate      ( 0.0 ),
-    _headingPrev   ( 0.0 ),
-
-    _integration ( true )
+    _headingPrev   ( 0.0 )
 {
     memset( _dataOut, 0, sizeof(DataOut) );
 
@@ -102,11 +102,13 @@ Aircraft::~Aircraft()
 
 void Aircraft::init( bool engineOn )
 {
+    _initPropState = engineOn ? Running : Stopped;
+
     _aero->init();
     _ctrl->init();
     _gear->init();
     _mass->init();
-    _prop->init( engineOn );
+    _prop->init();
 
     updateVariables( _stateVect, _derivVect );
 }
@@ -120,7 +122,40 @@ void Aircraft::step( double timeStep )
     try
     {
         anteIntegration();
-        integrate();
+
+        ////////////////////////////////////////////////
+        _integrator->integrate( _timeStep, _stateVect );
+        ////////////////////////////////////////////////
+
+        postIntegration();
+    }
+    catch ( Exception &catched )
+    {
+        Exception e;
+
+        e.setType( Exception::ExceptionCatched );
+        e.setInfo( "Exception catched." );
+        e.setCause( catched );
+
+        FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircraft::stepFrozen( double timeStep )
+{
+    _timeStep = timeStep;
+
+    try
+    {
+        anteIntegration();
+
+        _aero->computeForceAndMoment();
+        _gear->computeForceAndMoment();
+        _mass->computeForceAndMoment();
+        _prop->computeForceAndMoment();
+
         postIntegration();
     }
     catch ( Exception &catched )
@@ -213,20 +248,6 @@ void Aircraft::updateOutputData()
 
     // crash
     _dataOut->crash = _crash;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::disableIntegration()
-{
-    _integration = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::enableIntegration()
-{
-    _integration = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -335,25 +356,6 @@ void Aircraft::anteIntegration()
     _gear->update();
     _mass->update();
     _prop->update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::integrate()
-{
-    if ( _integration )
-    {
-        ////////////////////////////////////////////////
-        _integrator->integrate( _timeStep, _stateVect );
-        ////////////////////////////////////////////////
-    }
-    else
-    {
-        _aero->computeForceAndMoment();
-        _gear->computeForceAndMoment();
-        _mass->computeForceAndMoment();
-        _prop->computeForceAndMoment();
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -480,14 +482,14 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     Vector3 st_bas = _mass->getFirstMomentOfMass();
 
     // momentum and angular momentum
-    Vector3 p_bas = mass * _vel_bas + ( _omg_bas ^ st_bas );
-    Vector3 h_bas = it_bas * _omg_bas + ( st_bas ^ _vel_bas );
+    Vector3 p_bas = mass * _vel_bas + ( _omg_bas % st_bas );
+    Vector3 h_bas = it_bas * _omg_bas + ( st_bas % _vel_bas );
 
     // right-hand-sideforce vector
-    Vector3 for_rhs = for_bas - ( _omg_bas ^ p_bas );
+    Vector3 for_rhs = for_bas - ( _omg_bas % p_bas );
 
     // right-hand-side moment vector
-    Vector3 mom_rhs = mom_bas - ( _vel_bas ^ p_bas ) - ( _omg_bas ^ h_bas );
+    Vector3 mom_rhs = mom_bas - ( _vel_bas % p_bas ) - ( _omg_bas % h_bas );
 
     // right-hand-side combined vector
     Vector6 vec_rhs;
@@ -508,7 +510,7 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     GaussJordan< 6 >::solve( mi_bas, vec_rhs, acc_bas );
 
     // Coriolis effect due to Earth rotation
-    Vector3 acc_coriolis_bas = -2.0 * ( _wgs2bas * ( WGS84::getOmega_WGS() ^ _vel_bas ) );
+    Vector3 acc_coriolis_bas = -2.0 * ( _wgs2bas * ( WGS84::getOmega_WGS() % _vel_bas ) );
 
     acc_bas( 0 ) += acc_coriolis_bas.x();
     acc_bas( 1 ) += acc_coriolis_bas.y();
@@ -573,10 +575,10 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _grav_wgs = _wgs.getGrav_WGS();
     _grav_bas = _wgs2bas * _grav_wgs;
 
-    Vector3 acc_gforce_bas = _acc_bas + ( _omg_bas ^ _vel_bas );
+    Vector3 acc_gforce_bas = _acc_bas + ( _omg_bas % _vel_bas );
     Vector3 acc_gpilot_bas = acc_gforce_bas
-                           + ( _omg_bas ^ ( _omg_bas ^ _pos_pilot_bas ) )
-                           + ( _eps_bas ^ _pos_pilot_bas );
+                           + ( _omg_bas % ( _omg_bas % _pos_pilot_bas ) )
+                           + ( _eps_bas % _pos_pilot_bas );
 
     _g_force = -( acc_gforce_bas - _grav_bas ) / WGS84::_g;
     _g_pilot = -( acc_gpilot_bas - _grav_bas ) / WGS84::_g;

@@ -34,13 +34,24 @@ namespace fdm
 {
 
 /**
- * @brief Bryant angles class.
+ * @brief Tait-Bryant angles class.
+ *
+ * This class represents three angles of rotation about three axes in ZYX
+ * convention.
  *
  * @see https://en.wikipedia.org/wiki/Euler_angles
  */
 class FDMEXPORT Angles
 {
 public:
+
+    /**
+     * Normalizes angle within [min,min+2*pi] range.
+     * @param val angle to be normalized
+     * @param min minimum value
+     * @return normalized angle
+     */
+    static double normalize( double val, double min = 0.0 );
 
     /** Constructor. */
     Angles();
@@ -50,16 +61,19 @@ public:
 
     /**
      * Constructor.
-     * @param [rad] angle of rotation along x-axis
-     * @param [rad] angle of rotation along y-axis
-     * @param [rad] angle of rotation along z-axis
+     * @param [rad] angle of rotation about x-axis
+     * @param [rad] angle of rotation about y-axis
+     * @param [rad] angle of rotation about z-axis
      */
     Angles( double phi, double tht, double psi );
 
     /** @return 1 if all items are valid */
     bool isValid() const;
 
-    /** Normalizes angles. */
+    /**
+     * @brief Normalizes angles.
+     * Limits phi to [-pi,pi] theta to [-pi/2,pi/2] and psi to [0,2*pi].
+     */
     void normalize();
 
     inline double   phi() const { return _phi; }

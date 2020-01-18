@@ -234,6 +234,18 @@ public:
 
         return 0.0;
     }
+
+    /**
+     * Sigmoid (logistic) function.
+     * @see https://en.wikipedia.org/wiki/Sigmoid_function
+     * @see https://en.wikipedia.org/wiki/Logistic_function
+     * @param val input value
+     * @return sigmoid function value
+     */
+    inline static double sigmoid( const double &val )
+    {
+        return 1.0 / ( 1.0 + exp( -val ) );
+    }
 };
 
 } // end of fdm namespace

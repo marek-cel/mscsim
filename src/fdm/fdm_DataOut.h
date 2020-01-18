@@ -151,17 +151,17 @@ struct DataOut
         bool state;                     ///< specifies if engine is working
         bool afterburner;               ///< afterburner
 
-        double rpm;                     ///< [rpm]
-        double prop;                    ///< [rpm]
-        double ng;                      ///< [%]
-        double n1;                      ///< [%]
-        double n2;                      ///< [%]
-        double trq;                     ///< [%]
-        double epr;                     ///< [-]
-        double map;                     ///< [Pa]
-        double egt;                     ///< [deg C]
-        double itt;                     ///< [deg C]
-        double tit;                     ///< [deg C]
+        double rpm;                     ///< [rpm] engine rotational speed
+        double prop;                    ///< [rpm] propeller rotational speed
+        double ng;                      ///< [%] gas generator rotational speed
+        double n1;                      ///< [%] low pressure spool rotational speed
+        double n2;                      ///< [%] high pressure spool rotational speed
+        double trq;                     ///< [%] torque
+        double epr;                     ///< [-] engine pressure ratio
+        double map;                     ///< [Pa] manifold absolute pressure
+        double egt;                     ///< [deg C] exhaust gas temperature
+        double itt;                     ///< [deg C] interstage turbine temperature
+        double tit;                     ///< [deg C] turbine inlet temperature
 
         double fuelFlow;                ///< [kg/s] fuel flow
     };
@@ -177,6 +177,7 @@ struct DataOut
         double mainRotor_cyclicLon;     ///< [rad] main rotor longitudinal cyclic pitch angle
         double mainRotor_cyclicLat;     ///< [rad] main rotor lateral cyclic pitch angle
         double tailRotor_azimuth;       ///< [rad] tail rotor rotation angle
+        double beta[ FDM_MAX_BLADES ];  ///< [rad] blades flapping angle
     };
 
     Flight flight;                      ///< flight data

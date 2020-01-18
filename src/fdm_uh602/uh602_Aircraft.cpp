@@ -79,9 +79,9 @@ void UH602_Aircraft::updateOutputData()
 
     // rotor
     _dataOut->rotor.mainRotor_azimuth     = _prop->getMainRotorPsi();
-//    _dataOut->rotor.mainRotor_coningAngle = _aero->getMainRotor()->getConingAngle();
-//    _dataOut->rotor.mainRotor_diskRoll    = _aero->getMainRotor()->getDiskRoll();
-//    _dataOut->rotor.mainRotor_diskPitch   = _aero->getMainRotor()->getDiskPitch();
+    _dataOut->rotor.mainRotor_coningAngle = _aero->getMainRotor()->getConingAngle();
+    _dataOut->rotor.mainRotor_diskRoll    = _aero->getMainRotor()->getDiskRoll();
+    _dataOut->rotor.mainRotor_diskPitch   = _aero->getMainRotor()->getDiskPitch();
     _dataOut->rotor.mainRotor_collective  = _ctrl->getCollective();
     _dataOut->rotor.mainRotor_cyclicLon   = _ctrl->getCyclicLon();
     _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();

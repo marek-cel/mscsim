@@ -47,11 +47,13 @@ UH602_Propulsion::~UH602_Propulsion() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Propulsion::init( bool engineOn )
+void UH602_Propulsion::init()
 {
-    /////////////////////////////
-    Propulsion::init( engineOn );
-    /////////////////////////////
+    ///////////////////
+    Propulsion::init();
+    ///////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
     // TODO
 

@@ -1,4 +1,3 @@
-
 QT += core gui opengl svg xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -121,32 +120,32 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    Autopilot.h \
-    Common.h \
-    Data.h \
-    Defines.h \
-    Manager.h \
-    Simulation.h
+    $$PWD/Autopilot.h \
+    $$PWD/Common.h \
+    $$PWD/Data.h \
+    $$PWD/Defines.h \
+    $$PWD/Manager.h \
+    $$PWD/Simulation.h
 
 SOURCES += \
-    main.cpp \
-    Autopilot.cpp \
-    Manager.cpp \
-    Simulation.cpp
+    $$PWD/main.cpp \
+    $$PWD/Autopilot.cpp \
+    $$PWD/Manager.cpp \
+    $$PWD/Simulation.cpp
 
 RESOURCES += \
-    sim.qrc
+    $$PWD/sim.qrc
 
 ################################################################################
 
-include(cgi/cgi.pri)
-include(fdm/fdm.pri)
-include(fdm_c130/fdm_c130.pri)
-include(fdm_c172/fdm_c172.pri)
-include(fdm_f16/fdm_f16.pri)
-include(fdm_p51/fdm_p51.pri)
-include(fdm_uh60/fdm_uh60.pri)
-include(fdm_uh602/fdm_uh602.pri)
-include(gui/gui.pri)
-include(hid/hid.pri)
-include(nav/nav.pri)
+include($$PWD/cgi/cgi.pri)
+include($$PWD/fdm/fdm.pri)
+include($$PWD/fdm_c130/fdm_c130.pri)
+include($$PWD/fdm_c172/fdm_c172.pri)
+include($$PWD/fdm_f16/fdm_f16.pri)
+include($$PWD/fdm_p51/fdm_p51.pri)
+include($$PWD/fdm_uh60/fdm_uh60.pri)
+include($$PWD/fdm_uh602/fdm_uh602.pri)
+include($$PWD/gui/gui.pri)
+include($$PWD/hid/hid.pri)
+include($$PWD/nav/nav.pri)

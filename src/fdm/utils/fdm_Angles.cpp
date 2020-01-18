@@ -32,6 +32,19 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double Angles::normalize( double val, double min )
+{
+    double tmp = val;
+    double max = min + 2.0 * M_PI;
+
+    while ( tmp < min ) tmp += 2.0 * M_PI;
+    while ( tmp > max ) tmp -= 2.0 * M_PI;
+
+    return tmp;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Angles::Angles()
 {
     _phi = 0.0;

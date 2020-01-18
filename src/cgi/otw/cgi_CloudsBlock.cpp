@@ -108,7 +108,7 @@ void CloudsBlock::update()
 
                 if ( ( wgs_cam.getPosition() - pos_wgs ).length2() > radius2 )
                 {
-                    azim = fdm::Random::get( 0.0f, 2.0f * M_PI );
+                    azim = fdm::Random::get( 0.0, 2.0 * M_PI );
                     dist = 0.95f * CGI_SKYDOME_RADIUS;
 
                     osg::Vec3 pos_ned( dist * cos( azim ), dist * sin( azim ), 0.0f );

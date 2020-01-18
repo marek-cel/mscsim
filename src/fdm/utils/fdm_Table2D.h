@@ -75,7 +75,10 @@ public:
      */
     double getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const;
 
-    /** */
+    /**
+     * Checks if table is valid.
+     * @return returns true if size is greater than 0 and all data is valid
+     */
     bool isValid() const;
 
     /**

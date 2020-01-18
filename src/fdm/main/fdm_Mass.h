@@ -26,20 +26,16 @@
 
 #include <vector>
 
-#include <fdm/fdm_Base.h>
+#include <fdm/main/fdm_Module.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Matrix6x6.h>
 #include <fdm/utils/fdm_Vector3.h>
 
-#include <fdm/xml/fdm_XmlNode.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
-
-class Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief Mass, inertia, balance and gravity class.
@@ -70,7 +66,7 @@ class Aircraft; ///< aircraft class forward declaration
  * @see Narkiewicz J,: Tiltrotor Modelling for Simulation in Various Flight Conditions, 2006
  * @see https://en.wikipedia.org/wiki/Parallel_axis_theorem
  */
-class FDMEXPORT Mass : public Base
+class FDMEXPORT Mass : public Module
 {
 public:
 
@@ -109,7 +105,7 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getCenterOfMass() const { return _cm_t_bas; }
+    inline const Vector3& getCenterOfMass() const { return _r_cm_t_bas; }
 
     /**
      * Returns total mass.
@@ -127,17 +123,15 @@ public:
      * Returns inertia tensor for total mass.
      * @return [kg*m^2] inertia tensor
      */
-    inline Matrix3x3 getInertiaTensor() const { return _it_t_bas; }
+    inline Matrix3x3 getInertiaTensor() const { return _i_t_bas; }
 
     /**
      * Returns first moment of mass (total).
      * @return [kg*m] first moment of mass
      */
-    Vector3 inline getFirstMomentOfMass() const { return _st_t_bas; }
+    Vector3 inline getFirstMomentOfMass() const { return _s_t_bas; }
 
 protected:
-
-    const Aircraft *_aircraft;  ///< aircraft model main object
 
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
@@ -147,13 +141,13 @@ protected:
     double _mass_e;             ///< [kg] empty aircraft mass
     double _mass_t;             ///< [kg] total aircraft mass
 
-    Vector3 _cm_e_bas;          ///< [m] center of mass (empty) expressed in BAS
-    Vector3 _cm_t_bas;          ///< [m] center of mass (total) expressed in BAS
+    Vector3 _r_cm_e_bas;        ///< [m] center of mass (empty) expressed in BAS
+    Vector3 _r_cm_t_bas;        ///< [m] center of mass (total) expressed in BAS
 
-    Vector3 _st_t_bas;          ///< [kg*m] first mass moment (total) vector expressed in BAS
+    Vector3 _s_t_bas;           ///< [kg*m] first mass moment (total) vector expressed in BAS
 
-    Matrix3x3 _it_e_bas;        ///< [kg*m^2] inertia tensor (empty)
-    Matrix3x3 _it_t_bas;        ///< [kg*m^2] inertia tensor (total)
+    Matrix3x3 _i_e_bas;         ///< [kg*m^2] inertia tensor (empty)
+    Matrix3x3 _i_t_bas;         ///< [kg*m^2] inertia tensor (total)
 
     /**
      * Adds variable mass to the total aircraft mass.
@@ -171,7 +165,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Mass( const Mass & ) {}
+    Mass( const Mass & ) : Module( FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

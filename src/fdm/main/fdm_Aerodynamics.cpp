@@ -31,13 +31,20 @@ using namespace fdm;
 
 double Aerodynamics::getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
 {
-    double angleOfAttack = 0.0;
-
     double uv = sqrt( vel_bas( _iu )*vel_bas( _iu ) + vel_bas( _iv )*vel_bas( _iv ) );
 
-    if ( fabs( uv ) > vel_min || fabs( vel_bas( _iw ) ) > vel_min )
+    return getAngleOfAttack( uv, vel_bas( _iw ), vel_min );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double Aerodynamics::getAngleOfAttack( double uv, double w, double vel_min )
+{
+    double angleOfAttack = 0.0;
+
+    if ( fabs( uv ) > vel_min || fabs( w ) > vel_min )
     {
-        angleOfAttack = atan2( vel_bas( _iw ), uv );
+        angleOfAttack = atan2( w, uv );
     }
 
     return angleOfAttack;
@@ -99,21 +106,21 @@ Matrix3x3 Aerodynamics::getAero2BAS( double alpha, double beta )
 Matrix3x3 Aerodynamics::getAero2BAS( double sinAlpha , double cosAlpha,
                                      double sinBeta  , double cosBeta )
 {
-    Matrix3x3 T_aero2bas;
+    Matrix3x3 aero2bas;
 
-    T_aero2bas(0,0) = -cosAlpha * cosBeta;
-    T_aero2bas(0,1) = -cosAlpha * sinBeta;
-    T_aero2bas(0,2) =  sinAlpha;
+    aero2bas(0,0) = -cosAlpha * cosBeta;
+    aero2bas(0,1) = -cosAlpha * sinBeta;
+    aero2bas(0,2) =  sinAlpha;
 
-    T_aero2bas(1,0) = -sinBeta;
-    T_aero2bas(1,1) =  cosBeta;
-    T_aero2bas(1,2) =  0.0;
+    aero2bas(1,0) = -sinBeta;
+    aero2bas(1,1) =  cosBeta;
+    aero2bas(1,2) =  0.0;
 
-    T_aero2bas(2,0) = -sinAlpha * cosBeta;
-    T_aero2bas(2,1) = -sinAlpha * sinBeta;
-    T_aero2bas(2,2) = -cosAlpha;
+    aero2bas(2,0) = -sinAlpha * cosBeta;
+    aero2bas(2,1) = -sinAlpha * sinBeta;
+    aero2bas(2,2) = -cosAlpha;
 
-    return T_aero2bas;
+    return aero2bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,27 +134,27 @@ Matrix3x3 Aerodynamics::getStab2BAS( double alpha )
 
 Matrix3x3 Aerodynamics::getStab2BAS( double sinAlpha, double cosAlpha )
 {
-    Matrix3x3 T_stab2bas;
+    Matrix3x3 stab2bas;
 
-    T_stab2bas(0,0) = -cosAlpha;
-    T_stab2bas(0,1) =  0.0;
-    T_stab2bas(0,2) =  sinAlpha;
+    stab2bas(0,0) = -cosAlpha;
+    stab2bas(0,1) =  0.0;
+    stab2bas(0,2) =  sinAlpha;
 
-    T_stab2bas(1,0) = 0.0;
-    T_stab2bas(1,1) = 1.0;
-    T_stab2bas(1,2) = 0.0;
+    stab2bas(1,0) = 0.0;
+    stab2bas(1,1) = 1.0;
+    stab2bas(1,2) = 0.0;
 
-    T_stab2bas(2,0) = -sinAlpha;
-    T_stab2bas(2,1) =  0.0;
-    T_stab2bas(2,2) = -cosAlpha;
+    stab2bas(2,0) = -sinAlpha;
+    stab2bas(2,1) =  0.0;
+    stab2bas(2,2) = -cosAlpha;
 
-    return T_stab2bas;
+    return stab2bas;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Aerodynamics::Aerodynamics( const Aircraft* aircraft ) :
-    _aircraft ( aircraft )
+    Module ( aircraft )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -192,7 +192,7 @@ double Vector3::operator* ( const Vector3 &vect ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3 Vector3::operator^ ( const Vector3 &vect ) const
+Vector3 Vector3::operator% ( const Vector3 &vect ) const
 {
     Vector3 result;
     
@@ -249,9 +249,9 @@ Vector3& Vector3::operator/= ( double val )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3& Vector3::operator^= ( const Vector3 &vect )
+Vector3& Vector3::operator%= ( const Vector3 &vect )
 {
-    (*this) = (*this) ^ vect;
+    (*this) = (*this) % vect;
     
     return (*this);
 }

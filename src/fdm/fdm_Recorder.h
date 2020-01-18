@@ -37,7 +37,11 @@ namespace fdm
 {
 
 /**
- * Flight recorder class
+ * @brief Flight recording and replaying class.
+ *
+ * This class uses CSV file format.
+ *
+ * @see Shafranovich Y.: Common Format and MIME Type for Comma-Separated Values (CSV) Files, RFC 4180, 2005
  */
 class FDMEXPORT Recorder : public Base
 {

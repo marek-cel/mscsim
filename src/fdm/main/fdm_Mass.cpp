@@ -33,7 +33,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Mass::Mass( const Aircraft* aircraft ) :
-    _aircraft ( aircraft ),
+    Module ( aircraft ),
 
     _mass_e ( 0.0 ),
     _mass_t ( 0.0 )
@@ -58,9 +58,9 @@ void Mass::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mass_e   , "empty_mass"     );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _it_e_bas , "inertia_tensor" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_e_bas , "center_of_mass" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mass_e     , "empty_mass"     );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _i_e_bas    , "inertia_tensor" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_cm_e_bas , "center_of_mass" );
 
         XmlNode varMassNode = dataNode.getFirstChildElement( "variable_mass" );
 
@@ -104,7 +104,7 @@ void Mass::readData( XmlNode &dataNode )
 void Mass::computeForceAndMoment()
 {   
     _for_bas = _mass_t * _aircraft->getGrav_BAS();
-    _mom_bas = _cm_t_bas ^ _for_bas;
+    _mom_bas = _r_cm_t_bas % _for_bas;
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
@@ -122,8 +122,8 @@ void Mass::computeForceAndMoment()
 void Mass::update()
 {
     _mass_t   = _mass_e;
-    _st_t_bas = _mass_e * _cm_e_bas;
-    _it_t_bas = _it_e_bas;
+    _s_t_bas = _mass_e * _r_cm_e_bas;
+    _i_t_bas = _i_e_bas;
 
     for ( Masses::iterator it = _masses.begin(); it != _masses.end(); it++ )
     {
@@ -137,7 +137,7 @@ void Mass::update()
         addVariableMass( vm );
     }
 
-    _cm_t_bas = _st_t_bas / _mass_t;
+    _r_cm_t_bas = _s_t_bas / _mass_t;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,43 +150,43 @@ Matrix6x6 Mass::getInertiaMatrix() const
     mi_bas(0,1) =  0.0;
     mi_bas(0,2) =  0.0;
     mi_bas(0,3) =  0.0;
-    mi_bas(0,4) =  _st_t_bas.z();
-    mi_bas(0,5) = -_st_t_bas.y();
+    mi_bas(0,4) =  _s_t_bas.z();
+    mi_bas(0,5) = -_s_t_bas.y();
 
     mi_bas(1,0) =  0.0;
     mi_bas(1,1) =  _mass_t;
     mi_bas(1,2) =  0.0;
-    mi_bas(1,3) = -_st_t_bas.z();
+    mi_bas(1,3) = -_s_t_bas.z();
     mi_bas(1,4) =  0.0;
-    mi_bas(1,5) =  _st_t_bas.x();
+    mi_bas(1,5) =  _s_t_bas.x();
 
     mi_bas(2,0) =  0.0;
     mi_bas(2,1) =  0.0;
     mi_bas(2,2) =  _mass_t;
-    mi_bas(2,3) =  _st_t_bas.y();
-    mi_bas(2,4) = -_st_t_bas.x();
+    mi_bas(2,3) =  _s_t_bas.y();
+    mi_bas(2,4) = -_s_t_bas.x();
     mi_bas(2,5) =  0.0;
 
     mi_bas(3,0) =  0.0;
-    mi_bas(3,1) = -_st_t_bas.z();
-    mi_bas(3,2) =  _st_t_bas.y();
-    mi_bas(3,3) =  _it_t_bas(_ix,_ix);
-    mi_bas(3,4) =  _it_t_bas(_ix,_iy);
-    mi_bas(3,5) =  _it_t_bas(_ix,_iz);
+    mi_bas(3,1) = -_s_t_bas.z();
+    mi_bas(3,2) =  _s_t_bas.y();
+    mi_bas(3,3) =  _i_t_bas(_ix,_ix);
+    mi_bas(3,4) =  _i_t_bas(_ix,_iy);
+    mi_bas(3,5) =  _i_t_bas(_ix,_iz);
 
-    mi_bas(4,0) =  _st_t_bas.z();
+    mi_bas(4,0) =  _s_t_bas.z();
     mi_bas(4,1) =  0.0;
-    mi_bas(4,2) = -_st_t_bas.x();
-    mi_bas(4,3) =  _it_t_bas(_iy,_ix);
-    mi_bas(4,4) =  _it_t_bas(_iy,_iy);
-    mi_bas(4,5) =  _it_t_bas(_iy,_iz);
+    mi_bas(4,2) = -_s_t_bas.x();
+    mi_bas(4,3) =  _i_t_bas(_iy,_ix);
+    mi_bas(4,4) =  _i_t_bas(_iy,_iy);
+    mi_bas(4,5) =  _i_t_bas(_iy,_iz);
 
-    mi_bas(5,0) = -_st_t_bas.y();
-    mi_bas(5,1) =  _st_t_bas.x();
+    mi_bas(5,0) = -_s_t_bas.y();
+    mi_bas(5,1) =  _s_t_bas.x();
     mi_bas(5,2) =  0.0;
-    mi_bas(5,3) =  _it_t_bas(_iz,_ix);
-    mi_bas(5,4) =  _it_t_bas(_iz,_iy);
-    mi_bas(5,5) =  _it_t_bas(_iz,_iz);
+    mi_bas(5,3) =  _i_t_bas(_iz,_ix);
+    mi_bas(5,4) =  _i_t_bas(_iz,_iy);
+    mi_bas(5,5) =  _i_t_bas(_iz,_iz);
 
     return mi_bas;
 }
@@ -196,8 +196,8 @@ Matrix6x6 Mass::getInertiaMatrix() const
 void Mass::addVariableMass( const VarMass &varMass )
 {
     // Taylor J.: Classical Mechanics, p.411
-    _mass_t   += varMass.mass;
-    _st_t_bas += varMass.mass * varMass.r_bas;
+    _mass_t  += varMass.mass;
+    _s_t_bas += varMass.mass * varMass.r_bas;
 
     double r_x2 = varMass.r_bas.x() * varMass.r_bas.x();
     double r_y2 = varMass.r_bas.y() * varMass.r_bas.y();
@@ -207,17 +207,17 @@ void Mass::addVariableMass( const VarMass &varMass )
     double d_it_xz = varMass.mass * varMass.r_bas.x() * varMass.r_bas.z();
     double d_it_yz = varMass.mass * varMass.r_bas.y() * varMass.r_bas.z();
 
-    _it_t_bas(_ix,_ix) += varMass.mass * ( r_y2 + r_z2 );
-    _it_t_bas(_ix,_iy) -= d_it_xy;
-    _it_t_bas(_ix,_iz) -= d_it_xz;
+    _i_t_bas(_ix,_ix) += varMass.mass * ( r_y2 + r_z2 );
+    _i_t_bas(_ix,_iy) -= d_it_xy;
+    _i_t_bas(_ix,_iz) -= d_it_xz;
 
-    _it_t_bas(_iy,_ix) -= d_it_xy;
-    _it_t_bas(_iy,_iy) += varMass.mass * ( r_x2 + r_z2 );
-    _it_t_bas(_iy,_iz) -= d_it_yz;
+    _i_t_bas(_iy,_ix) -= d_it_xy;
+    _i_t_bas(_iy,_iy) += varMass.mass * ( r_x2 + r_z2 );
+    _i_t_bas(_iy,_iz) -= d_it_yz;
 
-    _it_t_bas(_iz,_ix) -= d_it_xz;
-    _it_t_bas(_iz,_iy) -= d_it_yz;
-    _it_t_bas(_iz,_iz) += varMass.mass * ( r_x2 + r_y2 );
+    _i_t_bas(_iz,_ix) -= d_it_xz;
+    _i_t_bas(_iz,_iy) -= d_it_yz;
+    _i_t_bas(_iz,_iz) += varMass.mass * ( r_x2 + r_y2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

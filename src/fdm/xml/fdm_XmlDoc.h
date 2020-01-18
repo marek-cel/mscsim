@@ -48,13 +48,19 @@ public:
     /** Destrcutor. */
     virtual ~XmlDoc();
 
-    /** */
+    /**
+     * @brief Gets XML document root node.
+     * @return XML document root node
+     */
     inline XmlNode getRootNode()
     {
         return XmlNode( *_root );
     }
 
-    /** */
+    /**
+     * @brief Checks if XML document is open.
+     * @return returns true if XML document is open
+     */
     inline bool isOpen() const
     {
         return _open;
@@ -65,9 +71,9 @@ public:
 
 private:
 
-    xmlDocPtr _doc;
-    bool _open;
-    XmlNode *_root;
+    xmlDocPtr _doc;     ///< XML document pointer
+    bool _open;         ///< specifies if document is open
+    XmlNode *_root;     ///< XML document root node
 };
 
 } // end of fdm namespace

@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_MainRotor.h>
+#include <fdm/models/fdm_MainRotorAD.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief UH-60 main rotor base class.
  */
-class UH60_MainRotor : public MainRotor
+class UH60_MainRotor : public MainRotorAD
 {
 public:
 

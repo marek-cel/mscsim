@@ -146,7 +146,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     double theta_0 = collective;
 
     // velocity transformations
-    Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas ^ _r_hub_bas ) );
+    Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
 
     // angle of attack
     double alpha = Aerodynamics::getAngleOfAttack( vel_air_ras );
@@ -213,7 +213,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
     _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * cq;
 
     _for_bas = _ras2bas * Vector3( 0.0, 0.0, -_thrust );
-    _mom_bas = _r_hub_bas ^ _for_bas;
+    _mom_bas = _r_hub_bas % _for_bas;
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {

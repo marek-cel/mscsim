@@ -37,6 +37,8 @@ namespace fdm
 /**
  * @brief 3 by 3 matrix class.
  *
+ * Notice that rotations are considered to be passive (alias) rotations.
+ *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.120
  * @see Zipfel P.: Modeling and Simulation of Aerospace Vehicle Dynamics, 2007, p.373
  * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999, p.23. [in Polish]

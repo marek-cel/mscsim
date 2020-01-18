@@ -679,14 +679,13 @@ void Manager::updateStateWork()
         {
             _recorder->step( _timeStep );
 
-            if ( _recorder->isReplaying() )
-                _aircraft->disableIntegration();
-            else
-                _aircraft->enableIntegration();
-
             if ( _dataInp.recording.mode != DataInp::Recording::Replay || _recorder->isReplaying() )
             {
-                _aircraft->step( _timeStep );
+                if ( _recorder->isReplaying() )
+                    _aircraft->stepFrozen( _timeStep );
+                else
+                    _aircraft->step( _timeStep );
+
                 _aircraft->updateOutputData();
             }
 
@@ -762,8 +761,7 @@ void Manager::updateStateFreeze()
     {
         try
         {
-            _aircraft->disableIntegration();
-            _aircraft->step( _timeStep );
+            _aircraft->stepFrozen( _timeStep );
             _aircraft->updateOutputData();
 
             _realTime += _timeStep;

@@ -24,19 +24,15 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
+#include <fdm/main/fdm_Module.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Vector3.h>
-
-#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
-
-class Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief Aerodynamics model base class.
@@ -46,7 +42,7 @@ class Aircraft; ///< aircraft class forward declaration
  *
  * @see Stevens B., Lewis F.: Aircraft Control and Simulation, 1992
  */
-class FDMEXPORT Aerodynamics : public Base
+class FDMEXPORT Aerodynamics : public Module
 {
 public:
 
@@ -57,6 +53,15 @@ public:
      * @return [rad] angle of attack
      */
     static double getAngleOfAttack( const Vector3 &vel_bas, double vel_min = 1.0e-2 );
+
+    /**
+     * Returns angle of attack.
+     * @param uv [m/s] airspeed on aircraft xy-plane
+     * @param w  [m/s] airspeed along aircraft z-axis
+     * @param vel_min [m/s] minimum airspeed of calculations
+     * @return [rad] angle of attack
+     */
+    static double getAngleOfAttack( double uv, double w, double vel_min = 1.0e-2 );
 
     /**
      * Returns sideslip angle.
@@ -147,8 +152,6 @@ public:
 
 protected:
 
-    const Aircraft *_aircraft;  ///< aircraft model main object
-
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
@@ -168,7 +171,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Aerodynamics( const Aerodynamics & ) {}
+    Aerodynamics( const Aerodynamics & ) : Module( FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

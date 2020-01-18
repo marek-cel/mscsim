@@ -75,7 +75,7 @@ double LandingGear::getPacejkaCoef( double kappa,
 ////////////////////////////////////////////////////////////////////////////////
 
 LandingGear::LandingGear( const Aircraft* aircraft ) :
-    _aircraft ( aircraft ),
+    Module ( aircraft ),
 
     _ctrlAngle ( 0.0 ),
 
@@ -184,7 +184,7 @@ void LandingGear::computeForceAndMoment()
             Vector3 for_bas = getWheelForce( wheel, r_i_bas );
 
             _for_bas += for_bas;
-            _mom_bas += r_i_bas ^ for_bas;
+            _mom_bas += r_i_bas % for_bas;
         }
     }
 
@@ -230,7 +230,7 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
     if ( deflection_norm > 1.0e-6 )
     {
         // intersection velocities components
-        Vector3 v_i_bas = _aircraft->getVel_BAS() + ( _aircraft->getOmg_BAS() ^ r_i_bas );
+        Vector3 v_i_bas = _aircraft->getVel_BAS() + ( _aircraft->getOmg_BAS() % r_i_bas );
         double v_norm = _aircraft->getNormal_BAS() * v_i_bas;
         Vector3 v_norm_bas = v_norm * _aircraft->getNormal_BAS();
         Vector3 v_tang_bas = v_i_bas - v_norm_bas;
@@ -240,8 +240,8 @@ Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
         double for_norm = wheel.k * deflection_norm - wheel.c * v_norm;
 
         // longitudal and lateral directions
-        Vector3 dir_lon_bas = ( _aircraft->getNormal_BAS() ^ Vector3::ey() ).getNormalized();
-        Vector3 dir_lat_bas = ( Vector3::ex() ^ _aircraft->getNormal_BAS() ).getNormalized();
+        Vector3 dir_lon_bas = ( _aircraft->getNormal_BAS() % Vector3::ey() ).getNormalized();
+        Vector3 dir_lat_bas = ( Vector3::ex() % _aircraft->getNormal_BAS() ).getNormalized();
 
         // longitudal and lateral velocity components
         double vel_lon = v_tang_bas * dir_lon_bas;

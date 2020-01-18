@@ -78,25 +78,25 @@ public:
         removeCause();
     }
 
-    /** */
+    /** Checks if exception was triggered by another exception. */
     inline bool hasCause() const
     {
         return ( _cause ) ? true : false;
     }
 
-    /** */
+    /** Gets triggering exception. */
     inline const Exception& getCause() const
     {
         return (*_cause);
     }
 
-    /** */
+    /** Gets file name. */
     inline std::string getFile() const
     {
         return _file;
     }
 
-    /** */
+    /** Gets file name and line number. */
     inline std::string getFileAndLine() const
     {
         std::stringstream ss;
@@ -104,31 +104,31 @@ public:
         return ss.str();
     }
 
-    /** */
+    /** Gets extra information. */
     inline std::string getInfo() const
     {
         return _info;
     }
 
-    /** */
+    /** Gets line number. */
     inline int getLine() const
     {
         return _line;
     }
 
-    /** */
+    /** Gets exception type. */
     inline Type getType() const
     {
         return _type;
     }
 
-    /** */
+    /** Remove triggering exception. */
     inline void removeCause()
     {
         FDM_DELPTR( _cause );
     }
 
-    /** */
+    /** Sets triggering exception. */
     inline void setCause( Exception &cause )
     {
         removeCause();
@@ -136,7 +136,7 @@ public:
         _cause = new Exception( cause );
     }
 
-    /** */
+    /** Sets file name. */
     inline void setFile( const char *file )
     {
         if ( file != 0 )
@@ -145,31 +145,31 @@ public:
         }
     }
 
-    /** */
+    /** Sets extra information. */
     inline void setInfo( const char *info )
     {
         _info = info;
     }
 
-    /** */
+    /** Sets extra information. */
     inline void setInfo( std::string info )
     {
         _info = info;
     }
 
-    /** */
+    /** Sets line number. */
     inline void setLine( int line )
     {
         _line = line;
     }
 
-    /** */
+    /** Sets exception type. */
     inline void setType( Type type )
     {
         _type = type;
     }
 
-    /** */
+    /** Returns string representation of the exception. */
     inline std::string toString() const
     {
         std::stringstream ss;

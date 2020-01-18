@@ -50,11 +50,13 @@ F16_Propulsion::~F16_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_Propulsion::init( bool engineOn )
+void F16_Propulsion::init()
 {
-    /////////////////////////////
-    Propulsion::init( engineOn );
-    /////////////////////////////
+    ///////////////////
+    Propulsion::init();
+    ///////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
     _engine->initialize( engineOn );
 }
@@ -84,7 +86,7 @@ void F16_Propulsion::computeForceAndMoment()
 
     // thrust and moment due to thrust
     Vector3 for_bas( _engine->getThrust(), 0.0, 0.0 );
-    Vector3 mom_bas = _engine->getPos_BAS() ^ for_bas;
+    Vector3 mom_bas = _engine->getPos_BAS() % for_bas;
 
     _for_bas = for_bas;
     _mom_bas = mom_bas;

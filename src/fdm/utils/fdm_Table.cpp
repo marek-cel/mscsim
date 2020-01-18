@@ -186,10 +186,10 @@ double Table::getValue( double keyValue ) const
     if ( _size > 0 )
     {
         if ( keyValue < _keyValues[ 0 ] )
-            return getValueFirst();
+            return getFirstValue();
 
         if ( keyValue > _keyValues[ _size - 1 ] )
-            return getValueLast();
+            return getLastValue();
 
         unsigned int key_1 = 0;
         unsigned int key_2 = 0;
@@ -246,48 +246,6 @@ double Table::getFirstValue() const
 double Table::getLastValue() const
 {
     return getValueByIndex( _size - 1 );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Table::getValueFirst() const
-{
-    if ( _size > 0 )
-    {
-        return _tableData[ 0 ];
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Invalid size of table." );
-
-        FDM_THROW( e );
-    }
-
-    return std::numeric_limits< double >::quiet_NaN();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Table::getValueLast() const
-{
-    if ( _size > 0 )
-    {
-        return _tableData[ _size - 1 ];
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Invalid size of table." );
-
-        FDM_THROW( e );
-    }
-
-    return std::numeric_limits< double >::quiet_NaN();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

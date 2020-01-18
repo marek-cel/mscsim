@@ -121,8 +121,8 @@ void TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 void TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas )
 {
-    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_l_bas );
-    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_r_bas );
+    Vector3 vel_l_bas = vel_air_bas + ( omg_air_bas % _r_ac_l_bas );
+    Vector3 vel_r_bas = vel_air_bas + ( omg_air_bas % _r_ac_r_bas );
 
     _aoa_l = Aerodynamics::getAngleOfAttack( vel_l_bas );
     _aoa_r = Aerodynamics::getAngleOfAttack( vel_r_bas );
@@ -141,7 +141,7 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
                                  double airDensity )
 {
     // wing velocity
-    Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas ^ r_ac_bas );
+    Vector3 vel_wing_bas = vel_air_bas + ( omg_air_bas % r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
     double angleOfAttack = Aerodynamics::getAngleOfAttack( vel_wing_bas );
@@ -166,7 +166,7 @@ void TailOff::addForceAndMoment( const Vector3 &r_ac_bas,
 
     Vector3 for_bas = Aerodynamics::getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
-            + ( r_ac_bas ^ for_bas );
+            + ( r_ac_bas % for_bas );
 
     _for_bas += for_bas;
     _mom_bas += mom_bas;

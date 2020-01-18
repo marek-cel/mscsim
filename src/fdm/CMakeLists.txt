@@ -21,7 +21,8 @@ add_library( fdm STATIC
     models/fdm_Governor.cpp
     models/fdm_HingeMoment.cpp
     models/fdm_MainRotor.cpp
-    models/fdm_MainRotor2.cpp
+    models/fdm_MainRotorAD.cpp
+    models/fdm_MainRotorBE.cpp
     models/fdm_PistonEngine.cpp
     models/fdm_Propeller.cpp
     models/fdm_RotorBlade.cpp

@@ -21,7 +21,7 @@
  * <p>Rotations angles are expressed as Bryant angles (Euler angles in z-y-z
  * convention).</p>
  * <p>All rotations and rotation related operations are considered to be
- * a passive (alias) rotations.</p>
+ * passive (alias) rotations.</p>
  * <p>
  * @see https://en.wikipedia.org/wiki/Active_and_passive_transformation
  * </p>
@@ -142,6 +142,13 @@ public:
 
     typedef std::vector< Vector3 > CollisionPoints; ///< collision points
 
+    /** Propuslion state enum. */
+    enum PropState
+    {
+        Stopped  = 0,   ///< stopped
+        Running  = 1    ///< running
+    };
+
     /** Constructor. */
     Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
@@ -157,14 +164,14 @@ public:
      */
     virtual void step( double timeStep );
 
+    /**
+     * Updates aircraft due to simulation time step.
+     * @param timeStep simulation time step [s]
+     */
+    virtual void stepFrozen( double timeStep );
+
     /** Updates output data. */
     virtual void updateOutputData();
-
-    /** Disables time integration. */
-    virtual void disableIntegration();
-
-    /** Enables time integration. */
-    virtual void enableIntegration();
 
     inline const DataInp* getDataInp() const { return _dataInp; }
     inline const DataOut* getDataOut() const { return _dataOut; }
@@ -246,6 +253,8 @@ public:
     inline double getMachNumber()    const { return _machNumber;    }
     inline double getClimbRate()     const { return _climbRate;     }
     inline double getTurnRate()      const { return _turnRate;      }
+
+    inline PropState getInitPropState() const { return _initPropState; }
 
     /**
      * Sets aircraft state vector.
@@ -347,6 +356,8 @@ protected:
 
     DataOut::Crash _crash;      ///< crash cause
 
+    PropState _initPropState;   ///< initial propulsion state
+
     double _elevation;          ///< [m] ground elevation above mean sea level
     double _altitude_asl;       ///< [m] altitude above sea level
     double _altitude_agl;       ///< [m] altitude above ground level
@@ -366,8 +377,6 @@ protected:
     double _turnRate;           ///< [rad/s] turn rate
     double _headingPrev;        ///< [rad] previous heading
 
-    bool _integration;          ///< specifies if integration is enabled
-
     /**
      * Reads data.
      * @param dataFile XML data file path
@@ -376,9 +385,6 @@ protected:
 
     /** This function is called just before time integration step. */
     virtual void anteIntegration();
-
-    /** This function integrates aircraft flight dynamics model. */
-    virtual void integrate();
 
     /** This function is called just after time integration step. */
     virtual void postIntegration();

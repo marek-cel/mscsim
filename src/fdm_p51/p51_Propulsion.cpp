@@ -52,11 +52,13 @@ P51_Propulsion::~P51_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Propulsion::init( bool engineOn )
+void P51_Propulsion::init()
 {
-    /////////////////////////////
-    Propulsion::init( engineOn );
-    /////////////////////////////
+    ///////////////////
+    Propulsion::init();
+    ///////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
     _propeller->setRPM( engineOn ? 3000.0 : 0.0 );
     _engine->setRPM( _propeller->getEngineRPM() );
@@ -89,7 +91,7 @@ void P51_Propulsion::computeForceAndMoment()
 
     // thrust and moment due to thrust
     Vector3 for_bas( _propeller->getThrust(), 0.0, 0.0 );
-    Vector3 mom_bas = _propeller->getPos_BAS() ^ for_bas;
+    Vector3 mom_bas = _propeller->getPos_BAS() % for_bas;
 
     // gyro effect
     Vector3 omega_bas;
@@ -103,7 +105,7 @@ void P51_Propulsion::computeForceAndMoment()
         omega_bas.x() = -_propeller->getOmega();
     }
 
-    mom_bas += ( _propeller->getInertia() + _engine->getInertia() ) * ( omega_bas ^ _aircraft->getOmg_BAS() );
+    mom_bas += ( _propeller->getInertia() + _engine->getInertia() ) * ( omega_bas % _aircraft->getOmg_BAS() );
 
     _for_bas = for_bas;
     _mom_bas = mom_bas;

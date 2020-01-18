@@ -36,6 +36,8 @@ class Vector3;  ///< forward declaration
 /**
  * @brief Quaternion class.
  *
+ * Notice that rotations are considered to be passive (alias) rotations.
+ *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.122
  * @see Zipfel P.: Modeling and Simulation of Aerospace Vehicle Dynamics, 2007, p.372
  * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004, p.33. [in Polish]

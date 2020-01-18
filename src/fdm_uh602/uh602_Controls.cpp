@@ -112,7 +112,7 @@ void UH602_Controls::update()
     Controls::update();
     ///////////////////
 
-    _cyclic_lat = _channelCyclicLat->output - 0.2 * _channelCollective->output;
+    _cyclic_lat = _channelCyclicLat->output;// - 0.2 * _channelCollective->output;
     _cyclic_lon = _channelCyclicLon->output;
     _collective = _channelCollective->output;
     _tail_pitch = _channelTailPitch->output;

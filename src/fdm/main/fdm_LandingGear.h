@@ -26,17 +26,14 @@
 
 #include <vector>
 
-#include <fdm/fdm_Base.h>
+#include <fdm/main/fdm_Module.h>
 
 #include <fdm/utils/fdm_Vector3.h>
-#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
-
-class Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief Landing gear base class.
@@ -58,7 +55,7 @@ class Aircraft; ///< aircraft class forward declaration
  * </landing_gear>
  * @endcode
  */
-class FDMEXPORT LandingGear : public Base
+class FDMEXPORT LandingGear : public Module
 {
 public:
 
@@ -151,8 +148,6 @@ public:
 
 protected:
 
-    const Aircraft *_aircraft;  ///< aircraft model main object
-
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
@@ -195,7 +190,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    LandingGear( const LandingGear & ) {}
+    LandingGear( const LandingGear & ) : Module( FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

@@ -100,7 +100,7 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
                                       double airDensity )
 {
     // fuselage velocity
-    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_bas );
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
     _angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
@@ -125,7 +125,7 @@ void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
 
     Vector3 for_bas = Aerodynamics::getAero2BAS( sinAlpha, cosAlpha, sinBeta, cosBeta ) * for_aero;
     Vector3 mom_bas = Aerodynamics::getStab2BAS( sinAlpha, cosAlpha ) * mom_stab
-            + ( _r_ac_bas ^ for_bas );
+            + ( _r_ac_bas % for_bas );
 
     _for_bas = for_bas;
     _mom_bas = mom_bas;

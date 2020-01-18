@@ -48,11 +48,8 @@ public:
     /** Destructor. */
     ~F16_Propulsion();
 
-    /**
-     * Initializes propulsion.
-     * @param engineOn specifies if engine is working at start
-     */
-    void init( bool engineOn );
+    /** Initializes propulsion. */
+    void init();
 
     /**
      * Reads data.

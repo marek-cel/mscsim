@@ -87,7 +87,7 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
                                         double wingAngleOfAttack )
 {
     // stabilizer velocity
-    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas ^ _r_ac_bas );
+    Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
 
     // stabilizer angle of attack and sideslip angle
     double angleOfAttack = getAngleOfAttack( vel_stab_bas, wingAngleOfAttack );
@@ -103,7 +103,7 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
                       dynPress * getCz( angle ) * _area );
 
     _for_bas = Aerodynamics::getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
-    _mom_bas = _r_ac_bas ^ _for_bas;
+    _mom_bas = _r_ac_bas % _for_bas;
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {

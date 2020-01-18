@@ -38,7 +38,10 @@ class FDMEXPORT Random
 {
 public:
 
-    /** */
+    /**
+     * @brief Gets Random class instance.
+     * @return Random class instance
+     */
     static inline Random* instance()
     {
         if ( !_instance )
@@ -49,14 +52,35 @@ public:
         return _instance;
     }
 
-    /** */
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
     inline static int get( int min, int max )
     {
         return Random::instance()->getRandom( min, max );
     }
 
-    /** */
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
     inline static float get( float min, float max )
+    {
+        return Random::instance()->getRandom( min, max );
+    }
+
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
+    inline static float get( double min, double max )
     {
         return Random::instance()->getRandom( min, max );
     }
@@ -64,18 +88,33 @@ public:
     /** Destructor. */
     virtual ~Random();
 
-    /** */
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
     int getRandom( int min, int max );
 
-    /** */
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
     float getRandom( float min, float max );
 
-    /** */
+    /**
+     * @brief Gets random number from the given range.
+     * @param min minimum random number value
+     * @param max maximum random number value
+     * @return random value
+     */
     double getRandom( double min, double max );
 
 private:
 
-    static Random *_instance;   ///<
+    static Random *_instance;   ///< class instance
 
     /**
      * You should use static function instance() due to get refernce

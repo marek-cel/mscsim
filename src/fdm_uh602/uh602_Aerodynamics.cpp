@@ -98,14 +98,8 @@ void UH602_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-//    _mainRotor->computeForceAndMoment( _aircraft->getVel_BAS(),
-//                                       _aircraft->getOmg_BAS(),
-//                                       _aircraft->getAcc_BAS(),
-//                                       _aircraft->getEps_BAS(),
-//                                       _aircraft->getGrav_BAS(),
-//                                       _aircraft->getVel_air_BAS(),
+//    _mainRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
 //                                       _aircraft->getOmg_air_BAS(),
-//                                       _aircraft->getEnvir()->getDensity(),
 //                                       _aircraft->getCtrl()->getCollective(),
 //                                       _aircraft->getCtrl()->getCyclicLat(),
 //                                       _aircraft->getCtrl()->getCyclicLon() );
@@ -185,6 +179,22 @@ void UH602_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    //_mainRotor->update( _aircraft->getProp()->getMainRotorOmega() );
+    _mainRotor->integrate( _aircraft->getTimeStep(),
+                           _aircraft->getVel_BAS(),
+                           _aircraft->getOmg_BAS(),
+                           _aircraft->getAcc_BAS(),
+                           _aircraft->getEps_BAS(),
+                           _aircraft->getGrav_BAS(),
+                           _aircraft->getVel_air_BAS(),
+                           _aircraft->getOmg_air_BAS(),
+                           _aircraft->getEnvir()->getDensity() );
+
+    _mainRotor->update( _aircraft->getProp()->getMainRotorOmega(),
+                        _aircraft->getProp()->getMainRotorPsi(),
+                        _aircraft->getCtrl()->getCollective(),
+                        _aircraft->getCtrl()->getCyclicLat(),
+                        _aircraft->getCtrl()->getCyclicLon() );
+
+
     _tailRotor->update( _aircraft->getProp()->getTailRotorOmega() );
 }

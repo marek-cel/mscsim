@@ -36,6 +36,7 @@ HEADERS += \
     $$PWD/main/fdm_Intersections.h \
     $$PWD/main/fdm_LandingGear.h \
     $$PWD/main/fdm_Mass.h \
+    $$PWD/main/fdm_Module.h \
     $$PWD/main/fdm_Propulsion.h
 
 SOURCES += \
@@ -58,7 +59,8 @@ HEADERS += \
     $$PWD/models/fdm_Governor.h \
     $$PWD/models/fdm_HingeMoment.h \
     $$PWD/models/fdm_MainRotor.h \
-    $$PWD/models/fdm_MainRotor2.h \
+    $$PWD/models/fdm_MainRotorAD.h \
+    $$PWD/models/fdm_MainRotorBE.h \
     $$PWD/models/fdm_PistonEngine.h \
     $$PWD/models/fdm_Propeller.h \
     $$PWD/models/fdm_Schrenk.h \
@@ -76,7 +78,8 @@ SOURCES += \
     $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \
     $$PWD/models/fdm_MainRotor.cpp \
-    $$PWD/models/fdm_MainRotor2.cpp \
+    $$PWD/models/fdm_MainRotorAD.cpp \
+    $$PWD/models/fdm_MainRotorBE.cpp \
     $$PWD/models/fdm_PistonEngine.cpp \
     $$PWD/models/fdm_Propeller.cpp \
     $$PWD/models/fdm_Schrenk.cpp \

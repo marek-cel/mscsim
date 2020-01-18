@@ -43,7 +43,7 @@ public:
 
     /**
      * @brief Creates table with only one record.
-     * @param val value
+     * @param val record value
      */
     static Table createOneRecordTable( double val = 0.0 );
 
@@ -109,12 +109,6 @@ public:
      */
     double getLastValue() const;
 
-    /** */
-    double getValueFirst() const;
-
-    /** */
-    double getValueLast() const;
-
     /**
      * Returns minimum table value.
      * @return minimum table value
@@ -127,7 +121,10 @@ public:
      */
     double getValueMax() const;
 
-    /** */
+    /**
+     * Checks if table is valid.
+     * @return returns true if size is greater than 0 and all data is valid
+     */
     bool isValid() const;
 
     /**

@@ -24,17 +24,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
+#include <fdm/main/fdm_Module.h>
 
 #include <fdm/utils/fdm_Table.h>
-#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
-
-class Aircraft; ///< aircraft class forward declaration
 
 /**
  * @brief Controls model base class.
@@ -56,7 +53,7 @@ class Aircraft; ///< aircraft class forward declaration
  * @see ISO 1151-4:1994
  * @see ISO 1151-6:1982
  */
-class FDMEXPORT Controls : public Base
+class FDMEXPORT Controls : public Module
 {
 public:
 
@@ -90,7 +87,6 @@ public:
 
 protected:
 
-    const Aircraft *_aircraft;  ///< aircraft model main object
     Channels _channels;         ///< control channels
 
     /**
@@ -103,7 +99,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Controls( const Controls & ) {}
+    Controls( const Controls & ) : Module( FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

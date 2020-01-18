@@ -185,6 +185,8 @@ void UH60_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    _mainRotor->update( _aircraft->getProp()->getMainRotorOmega() );
+    _mainRotor->update( _aircraft->getProp()->getMainRotorOmega(),
+                        _aircraft->getProp()->getMainRotorPsi() );
+
     _tailRotor->update( _aircraft->getProp()->getTailRotorOmega() );
 }
