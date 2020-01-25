@@ -37,7 +37,7 @@ namespace fdm
 /**
  * @brief Propeller governor base class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <governor>
  * TODO

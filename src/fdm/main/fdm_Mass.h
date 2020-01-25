@@ -40,10 +40,10 @@ namespace fdm
 /**
  * @brief Mass, inertia, balance and gravity class.
  *
- * <p>Input data reference is created for each variable mass component. Name of
- * this data reference is "input/mass/variable_mass_component_name".</p>
+ * Input data reference is created for each variable mass component. Name of
+ * this data reference is "input/mass/variable_mass_component_name".
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <mass>
  *   <empty_mass> { [kg] empty aircraft mass } </empty_mass>

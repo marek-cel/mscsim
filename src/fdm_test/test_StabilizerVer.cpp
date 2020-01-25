@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_StabilizerVer.h>
+#include <fdm_test/test_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,10 +28,10 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_StabilizerVer::UH602_StabilizerVer() :
+TEST_StabilizerVer::TEST_StabilizerVer() :
     Stabilizer()
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_StabilizerVer::~UH602_StabilizerVer() {}
+TEST_StabilizerVer::~TEST_StabilizerVer() {}

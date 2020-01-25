@@ -38,18 +38,16 @@ namespace fdm
  *
  * This model is based on blade element theory.
  *
- * <h3>Coordinate Systems Used for Rotor Calculations</h3>
+ * Flapping angle is positive upwards.
  *
- * <h4>Rotor Axes System</h4>
- * <p>Abbreviated as RAS.</p>
- * <p>Origin of the Rotor Axes System is coincident with the rotor hub center,
+ * Coordinate Systems Used for Rotor Calculations:
+ *
+ * Rotor Axes System (RAS)
+ * Origin of the Rotor Axes System is coincident with the rotor hub center,
  * the x-axis is positive forwards, the y-axis is positive right and z-axis
- * is positive downwards and coincident with the rotor shaft axis.</p>
+ * is positive downwards and coincident with the rotor shaft axis.
  *
- * <h4>Individual Blade Coordinates</h4>
- * <p>Abbreviated as IBC.</p>
- *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <main_rotor>
  *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
@@ -80,40 +78,46 @@ public:
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Integrates model.
-     * @param timeStep [s] time step
-     * @param vel_bas [m/s] aircraft linear velocity vector expressed in BAS
-     * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
-     * @param acc_bas [m/s^2] aircraft linear acceleration vector expressed in BAS
-     * @param eps_bas [rad/s^2] aircraft angular acceleration vector expressed in BAS
-     * @param grav_bas [m/s^2] gravity acceleration vector expressed in BAS
-     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
-     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
+     * Computes force and moment.
+     * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
+     * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
+     * @param eps_bas     [rad/s^2] aircraft angular acceleration vector expressed in BAS
+     * @param vel_air_bas [m/s]     aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param airDensity  [kg/m^3]  air density
+     */
+    virtual void computeForceAndMoment( const Vector3 &vel_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &acc_bas,
+                                        const Vector3 &eps_bas,
+                                        const Vector3 &vel_air_bas,
+                                        const Vector3 &omg_air_bas,
+                                        const Vector3 &grav_bas,
+                                        double airDensity );
+
+    /**
+     * Integrates rotor.
+     * @param timeStep    [s]       time step
+     * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
+     * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
+     * @param eps_bas     [rad/s^2] aircraft angular acceleration vector expressed in BAS
+     * @param vel_air_bas [m/s]     aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param airDensity  [kg/m^3]  air density
      */
     virtual void integrate( double timeStep,
                             const Vector3 &vel_bas,
                             const Vector3 &omg_bas,
                             const Vector3 &acc_bas,
                             const Vector3 &eps_bas,
-                            const Vector3 &grav_bas,
                             const Vector3 &vel_air_bas,
                             const Vector3 &omg_air_bas,
+                            const Vector3 &grav_bas,
                             double airDensity );
-
-    /**
-     * @brief Updates main rotor model.
-     * @param omega [rad/s] rotor revolution speed
-     * * @param azimuth [rad]
-     * @param collective [rad] collective pitch angle
-     * @param cyclicLat [rad] cyclic lateral pitch angle
-     * @param cyclicLon [rad] cyclic longitudinal pitch angle
-     */
-    virtual void update( double omega,
-                         double azimuth,
-                         double collective,
-                         double cyclicLat,
-                         double cyclicLon );
 
     /**
      * Returns rotor total inartia about shaft axis.
@@ -121,17 +125,47 @@ public:
      */
     inline double getInertia() const { return _ir; }
 
+    inline const Blade* getBlade( int index ) const { return _blades[ index ]; }
+
 protected:
 
     Blades _blades;             ///< main rotor blades
 
     double _ir;                 ///< [kg*m^2] rotor inartia about shaft axis
 
-    double _delta_psi;          ///< [rad]
+    double _azimuth_prev;       ///< [rad] azimuth (previous value)
 
-    double _theta_0;            ///< [rad] collective feathering angle
-    double _theta_1c;           ///< [rad]
-    double _theta_1s;           ///< [rad]
+    /**
+     * @brief Converts parameters to Rotor Axis System.
+     * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
+     * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
+     * @param eps_bas     [rad/s^2] aircraft angular acceleration vector expressed in BAS
+     * @param vel_air_bas [m/s]     aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param vel_ras     [m/s]     rotor hub linear velocity vector expressed in RAS
+     * @param omg_ras     [rad/s]   rotor hub angular velocity expressed in RAS
+     * @param acc_ras     [m/s^2]   rotor hub linear acceleration vector expressed in RAS
+     * @param eps_ras     [rad/s^2] rotor hub angular acceleration vector expressed in RAS
+     * @param vel_air_ras [m/s]     rotor hub linear velocity relative to the air expressed in RAS
+     * @param omg_air_ras [rad/s]   rotor hub angular velocity relative to the air expressed in RAS
+     * @param grav_ras    [m/s^2]   gravity acceleration vector expressed in RAS
+     */
+    virtual void convertToHubRAS( const Vector3 &vel_bas,
+                                  const Vector3 &omg_bas,
+                                  const Vector3 &acc_bas,
+                                  const Vector3 &eps_bas,
+                                  const Vector3 &vel_air_bas,
+                                  const Vector3 &omg_air_bas,
+                                  const Vector3 &grav_bas,
+                                  Vector3 *vel_ras,
+                                  Vector3 *omg_ras,
+                                  Vector3 *acc_ras,
+                                  Vector3 *eps_ras,
+                                  Vector3 *vel_air_ras,
+                                  Vector3 *omg_air_ras,
+                                  Vector3 *grav_ras );
 };
 
 } // end of fdm namespace

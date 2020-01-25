@@ -39,7 +39,7 @@ namespace fdm
 /**
  * @brief Fuselage class.
  *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <fuselage>
  *   <aero_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center>
@@ -73,7 +73,7 @@ namespace fdm
  * </fuselage>
  * @endcode
  *
- * <p>Optional elements: "cy", "cz", "cl", "cm", "cn"</p>
+ * Optional elements: "cy", "cz", "cl", "cm", "cn"
  */
 class FDMEXPORT Fuselage : public Base
 {

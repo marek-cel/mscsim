@@ -37,8 +37,8 @@ namespace fdm
 /**
  * @brief Aerodynamics model base class.
  *
- * <p>Aerodynamic Axes System (abbreviated as aero).</p>
- * <p>Stability Axes System (abbreviated as stab).</p>
+ * Aerodynamic Axes System (abbreviated as aero).
+ * Stability Axes System (abbreviated as stab).
  *
  * @see Stevens B., Lewis F.: Aircraft Control and Simulation, 1992
  */
@@ -163,9 +163,7 @@ protected:
     Matrix3x3 _bas2aero;        ///< rotation matrix from BAS to Aerodynamic Axes System
     Matrix3x3 _bas2stab;        ///< rotation matrix from BAS to Stability Axes System
 
-    /**
-     * Updates rotation matrices.
-     */
+    /** Updates rotation matrices. */
     virtual void updateMatrices();
 
 private:

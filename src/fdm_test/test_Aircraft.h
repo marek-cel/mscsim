@@ -19,18 +19,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_AIRCRAFT_H
-#define UH602_AIRCRAFT_H
+#ifndef TEST_AIRCRAFT_H
+#define TEST_AIRCRAFT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/main/fdm_Aircraft.h>
 
-#include <fdm_uh602/uh602_Aerodynamics.h>
-#include <fdm_uh602/uh602_Controls.h>
-#include <fdm_uh602/uh602_LandingGear.h>
-#include <fdm_uh602/uh602_Mass.h>
-#include <fdm_uh602/uh602_Propulsion.h>
+#include <fdm_test/test_Aerodynamics.h>
+#include <fdm_test/test_Controls.h>
+#include <fdm_test/test_LandingGear.h>
+#include <fdm_test/test_Mass.h>
+#include <fdm_test/test_Propulsion.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,15 +45,15 @@ namespace fdm
  * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
  * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
  */
-class UH602_Aircraft : public Aircraft
+class TEST_Aircraft : public Aircraft
 {
 public:
 
     /** Constructor. */
-    UH602_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    TEST_Aircraft( const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
-    ~UH602_Aircraft();
+    ~TEST_Aircraft();
 
     /** Initializes aircraft. */
     void init( bool engineOn = false );
@@ -61,29 +61,29 @@ public:
     /** Updates output data. */
     void updateOutputData();
 
-    inline UH602_Aerodynamics* getAero() { return _aero; }
-    inline UH602_Controls*     getCtrl() { return _ctrl; }
-    inline UH602_LandingGear*  getGear() { return _gear; }
-    inline UH602_Mass*         getMass() { return _mass; }
-    inline UH602_Propulsion*   getProp() { return _prop; }
+    inline TEST_Aerodynamics* getAero() { return _aero; }
+    inline TEST_Controls*     getCtrl() { return _ctrl; }
+    inline TEST_LandingGear*  getGear() { return _gear; }
+    inline TEST_Mass*         getMass() { return _mass; }
+    inline TEST_Propulsion*   getProp() { return _prop; }
 
-    inline const UH602_Aerodynamics* getAero() const { return _aero; }
-    inline const UH602_Controls*     getCtrl() const { return _ctrl; }
-    inline const UH602_LandingGear*  getGear() const { return _gear; }
-    inline const UH602_Mass*         getMass() const { return _mass; }
-    inline const UH602_Propulsion*   getProp() const { return _prop; }
+    inline const TEST_Aerodynamics* getAero() const { return _aero; }
+    inline const TEST_Controls*     getCtrl() const { return _ctrl; }
+    inline const TEST_LandingGear*  getGear() const { return _gear; }
+    inline const TEST_Mass*         getMass() const { return _mass; }
+    inline const TEST_Propulsion*   getProp() const { return _prop; }
 
 private:
 
-    UH602_Aerodynamics *_aero;   ///< aerodynamics model
-    UH602_Controls     *_ctrl;   ///< controls model
-    UH602_LandingGear  *_gear;   ///< landing gear model
-    UH602_Mass         *_mass;   ///< mass and inertia model
-    UH602_Propulsion   *_prop;   ///< propulsion model
+    TEST_Aerodynamics *_aero;   ///< aerodynamics model
+    TEST_Controls     *_ctrl;   ///< controls model
+    TEST_LandingGear  *_gear;   ///< landing gear model
+    TEST_Mass         *_mass;   ///< mass and inertia model
+    TEST_Propulsion   *_prop;   ///< propulsion model
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_AIRCRAFT_H
+#endif // TEST_AIRCRAFT_H

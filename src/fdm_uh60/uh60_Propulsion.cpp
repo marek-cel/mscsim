@@ -106,8 +106,8 @@ void UH60_Propulsion::update()
     _mainRotorPsi += _aircraft->getTimeStep() * _mainRotorOmega;
     _tailRotorPsi += _aircraft->getTimeStep() * _tailRotorOmega;
 
-    while ( _mainRotorPsi > 2.0 * M_PI ) _mainRotorPsi -= 2.0 * M_PI;
-    while ( _tailRotorPsi > 2.0 * M_PI ) _tailRotorPsi -= 2.0 * M_PI;
+    _mainRotorPsi = Angles::normalize( _mainRotorPsi );
+    _tailRotorPsi = Angles::normalize( _tailRotorPsi );
 
     // TODO
     _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;

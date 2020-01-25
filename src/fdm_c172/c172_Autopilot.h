@@ -142,8 +142,8 @@ private:
 
     double _softRideCoef;       ///< [-] soft ride coefficient
 
-    bool _softRide;             ///< specify if soft ride is engaged
-    bool _halfBank;             ///< specify if half bank is engaged
+    bool _softRide;             ///< specifies if soft ride is engaged
+    bool _halfBank;             ///< specifies if half bank is engaged
 };
 
 } // end of fdm namespace

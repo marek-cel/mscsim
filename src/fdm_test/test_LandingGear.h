@@ -19,74 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_CONTROLS_H
-#define UH602_CONTROLS_H
+#ifndef TEST_LANDINGGEAR_H
+#define TEST_LANDINGGEAR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Controls.h>
-
-#include <fdm_uh602/uh602_AFCS.h>
+#include <fdm/main/fdm_LandingGear.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class UH602_Aircraft;    ///< aircraft class forward declaration
+class TEST_Aircraft;    ///< aircraft class forward declaration
 
 /**
- * @brief UH-60 controls class.
+ * @brief UH-60 landing gear class.
  */
-class UH602_Controls : public Controls
+class TEST_LandingGear : public LandingGear
 {
 public:
 
     /** Constructor. */
-    UH602_Controls( const UH602_Aircraft *aircraft );
+    TEST_LandingGear( const TEST_Aircraft *aircraft );
 
     /** Destructor. */
-    ~UH602_Controls();
-
-    /** Initializes controls. */
-    void init();
+    ~TEST_LandingGear();
 
     /** Updates model. */
     void update();
 
-    inline double getCyclicLat()  const { return _cyclic_lat; }
-    inline double getCyclicLon()  const { return _cyclic_lon; }
-    inline double getCollective() const { return _collective; }
-    inline double getTailPitch()  const { return _tail_pitch; }
-    inline double getElevator()   const { return _elevator;   }
-    inline double getBrakeL()     const { return _brake_l;    }
-    inline double getBrakeR()     const { return _brake_r;    }
-
 private:
 
-    const UH602_Aircraft *_aircraft;     ///< aircraft model main object
-
-    Channel *_channelCyclicLat;         ///<
-    Channel *_channelCyclicLon;         ///<
-    Channel *_channelCollective;        ///<
-    Channel *_channelTailPitch;         ///<
-    Channel *_channelElevator;          ///<
-    Channel *_channelBrakeL;            ///<
-    Channel *_channelBrakeR;            ///<
-
-    UH602_AFCS *_afcs;                   ///< Automatic Flight Control System
-
-    double _cyclic_lat;                 ///< [rad]
-    double _cyclic_lon;                 ///< [rad]
-    double _collective;                 ///< [rad]
-    double _tail_pitch;                 ///< [rad]
-    double _elevator;                   ///< [rad]
-    double _brake_l;                    ///< [-]
-    double _brake_r;                    ///< [-]
+    const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_CONTROLS_H
+#endif // TEST_LANDINGGEAR_H

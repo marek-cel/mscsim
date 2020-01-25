@@ -98,7 +98,7 @@ private:
 
     UInt32 _count;          ///< periods count
 
-    bool _even;             ///< specify is pass through average vale is even
+    bool _even;             ///< specifies is pass through average vale is even
 };
 
 } // end of fdm namespace

@@ -153,10 +153,10 @@ protected:
     double _ctrl_pitch;     ///< pitch control command
     double _ctrl_yaw;       ///< yaw control command
 
-    bool _yawDamper;        ///< specify if yaw damper is engaged
+    bool _yawDamper;        ///< specifies if yaw damper is engaged
 
-    bool _testing;          ///< specify if test is active
-    bool _engaged;          ///< specify if autopilot is engaged
+    bool _testing;          ///< specifies if test is active
+    bool _engaged;          ///< specifies if autopilot is engaged
 
     virtual void readChannel( const fdm::XmlNode &dataNode, double &max_rate,
                               PID &pid, Table &gain_ias );

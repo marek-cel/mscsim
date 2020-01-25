@@ -51,36 +51,32 @@ public:
      * @param name name of the unit
      * @return conversion function pointer
      *
-     * <h5>SI units of certain values types</h5>
-     * <ul>
-     * <li>Angle: radian [rad]</li>
-     * <li>Length: meter [m]</li>
-     * <li>Velocity: meter per second [m/s]</li>
-     * <li>Angular Velocity: radian per second [rad/s]</li>
-     * <li>Mass: kilogram [kg]</li>
-     * <li>Force: newton [N]</li>
-     * <li>Pressure: pascal [Pa]</li>
-     * <li>Power: watt [W]</li>
-     * <li>Temperature: kelvin [K]</li>
-     * <li>Specific fuel consumption: kilograms per watt-second [kg/(W*s)]</li>
-     * <li>Thrust Specific fuel consumption: kilograms per newton-second [kg/(N*s)]</li>
-     * </ul>
+     * SI units of certain values types:
+     * - Angle: radian [rad]
+     * - Length: meter [m]
+     * - Velocity: meter per second [m/s]
+     * - Angular Velocity: radian per second [rad/s]
+     * - Mass: kilogram [kg]
+     * - Force: newton [N]
+     * - Pressure: pascal [Pa]
+     * - Power: watt [W]
+     * - Temperature: kelvin [K]
+     * - Specific fuel consumption: kilograms per watt-second [kg/(W*s)]
+     * - Thrust Specific fuel consumption: kilograms per newton-second [kg/(N*s)]
      *
-     * <h5>Unit names of certain values types</h5>
-     * <ul>
-     * <li>Angle: deg (degree)</li>
-     * <li>Length: ft (feet), km (kilometer), nmi (nautical mile)</li>
-     * <li>Volume: cuin (cubic inches), l (litres)
-     * <li>Velocity: fpm (feet per minute), fps (feet per second), kmh (kilemeter per hour), kts (knots)</li>
-     * <li>Angular Velocity: deg_s (degrees per second), rpm (revolutions per minute)</li>
-     * <li>Mass: lb (pound)</li>
-     * <li>Force: lbf (pound of force)</li>
-     * <li>Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)</li>
-     * <li>Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)</li>
-     * <li>Temperature: degC (degree Celsius), degF (degree Fahrenheit)</li>
-     * <li>Specific fuel consumption: g_kWh (grams per kilowatt-hour)</li>
-     * <li>Thrust Specific fuel consumption: g_kNs (grams per kilonewton-socond)</li>
-     * </ul>
+     * Unit names of certain values types:
+     * - Angle: deg (degree)
+     * - Length: ft (feet), km (kilometer), nmi (nautical mile)
+     * - Volume: cuin (cubic inches), l (litres)
+     * - Velocity: fpm (feet per minute), fps (feet per second), kmh (kilemeter per hour), kts (knots)
+     * - Angular Velocity: deg_s (degrees per second), rpm (revolutions per minute)
+     * - Mass: lb (pound)
+     * - Force: lbf (pound of force)
+     * - Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)
+     * - Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)
+     * - Temperature: degC (degree Celsius), degF (degree Fahrenheit)
+     * - Specific fuel consumption: g_kWh (grams per kilowatt-hour)
+     * - Thrust Specific fuel consumption: g_kNs (grams per kilonewton-socond)
      */
     static fptr getConverter( const char *name );
 

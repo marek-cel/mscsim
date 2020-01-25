@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,19 +28,19 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Aircraft::UH602_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
+TEST_Aircraft::TEST_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new UH602_Aerodynamics( this );
-    Aircraft::_ctrl = _ctrl = new UH602_Controls( this );
-    Aircraft::_gear = _gear = new UH602_LandingGear( this );
-    Aircraft::_mass = _mass = new UH602_Mass( this );
-    Aircraft::_prop = _prop = new UH602_Propulsion( this );
+    Aircraft::_aero = _aero = new TEST_Aerodynamics( this );
+    Aircraft::_ctrl = _ctrl = new TEST_Controls( this );
+    Aircraft::_gear = _gear = new TEST_LandingGear( this );
+    Aircraft::_mass = _mass = new TEST_Mass( this );
+    Aircraft::_prop = _prop = new TEST_Propulsion( this );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Aircraft::~UH602_Aircraft()
+TEST_Aircraft::~TEST_Aircraft()
 {
     FDM_DELPTR( _aero );
     FDM_DELPTR( _ctrl );
@@ -51,9 +51,9 @@ UH602_Aircraft::~UH602_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aircraft::init( bool engineOn )
+void TEST_Aircraft::init( bool engineOn )
 {
-    readData( Path::get( "data/fdm/uh602/uh602_fdm.xml" ) );
+    readData( Path::get( "data/fdm/test/test_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );
@@ -62,7 +62,7 @@ void UH602_Aircraft::init( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aircraft::updateOutputData()
+void TEST_Aircraft::updateOutputData()
 {
     /////////////////////////////
     Aircraft::updateOutputData();
@@ -86,4 +86,11 @@ void UH602_Aircraft::updateOutputData()
     _dataOut->rotor.mainRotor_cyclicLon   = _ctrl->getCyclicLon();
     _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();
     _dataOut->rotor.tailRotor_azimuth     = _prop->getTailRotorPsi();
+
+    // blades
+    for ( int i = 0; i < _aero->getMainRotor()->getNumberOfBlades(); i++ )
+    {
+        _dataOut->blade[ i ].beta  = _aero->getMainRotor()->getBlade( i )->getBeta();
+        _dataOut->blade[ i ].theta = _aero->getMainRotor()->getBlade( i )->getTheta();
+    }
 }

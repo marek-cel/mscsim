@@ -19,34 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_STABILIZERVER_H
-#define UH602_STABILIZERVER_H
+
+#include <fdm_test/test_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+TEST_LandingGear::TEST_LandingGear( const TEST_Aircraft *aircraft ) :
+    LandingGear( aircraft ),
+    _aircraft ( aircraft )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_LandingGear::~TEST_LandingGear() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TEST_LandingGear::update()
 {
+    //////////////////////
+    LandingGear::update();
+    //////////////////////
 
-/**
- * @brief UH-60 vertical stabilizer class.
- */
-class UH602_StabilizerVer : public Stabilizer
-{
-public:
+    _brake_l = _aircraft->getCtrl()->getBrakeL();
+    _brake_r = _aircraft->getCtrl()->getBrakeR();
 
-    /** Constructor. */
-    UH602_StabilizerVer();
+    _ctrlAngle = 0.0;
 
-    /** Destructor. */
-    ~UH602_StabilizerVer();
-};
-
-} // end of fdm namespace
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // UH602_STABILIZERVER_H
+    _antiskid = _aircraft->getDataInp()->controls.abs;
+    _steering = false;
+}

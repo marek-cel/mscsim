@@ -131,8 +131,8 @@ private:
 
     QString _rec_file;                  ///<
 
-    ViewType _viewType;                 ///< specify if HUD is visible
-    bool _showHUD;                      ///< specify if traces are visible
+    ViewType _viewType;                 ///< specifies if HUD is visible
+    bool _showHUD;                      ///< specifies if traces are visible
     bool _showTraces;
 
     double _timeCoef;                   ///< [-] time compression coefficient

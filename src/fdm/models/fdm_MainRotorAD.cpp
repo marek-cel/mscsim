@@ -58,23 +58,15 @@ MainRotorAD::MainRotorAD() :
     _ad ( 0.0 ),
     _s  ( 0.0 ),
     _sb ( 0.0 ),
-    _ib ( 0.0 ),
-
-    _beta_0      ( 0.0 ),
-    _beta_1c_ras ( 0.0 ),
-    _beta_1s_ras ( 0.0 )
+    _ib ( 0.0 )
 {
-    _ras2cas = Matrix3x3::createIdentityMatrix();
-    _cas2ras = Matrix3x3::createIdentityMatrix();
-
-    _bas2cas = Matrix3x3::createIdentityMatrix();
-
+    _ras2cas  = Matrix3x3::createIdentityMatrix();
+    _cas2ras  = Matrix3x3::createIdentityMatrix();
+    _bas2cas  = Matrix3x3::createIdentityMatrix();
     _ras2rwas = Matrix3x3::createIdentityMatrix();
     _rwas2ras = Matrix3x3::createIdentityMatrix();
-
     _cas2cwas = Matrix3x3::createIdentityMatrix();
     _cwas2cas = Matrix3x3::createIdentityMatrix();
-
     _bas2cwas = Matrix3x3::createIdentityMatrix();
 }
 
@@ -154,13 +146,10 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
                                          const Vector3 &omg_bas,
                                          const Vector3 &acc_bas,
                                          const Vector3 &eps_bas,
-                                         const Vector3 &grav_bas,
                                          const Vector3 &vel_air_bas,
                                          const Vector3 &omg_air_bas,
-                                         double airDensity,
-                                         double collective,
-                                         double cyclicLat,
-                                         double cyclicLon )
+                                         const Vector3 &grav_bas,
+                                         double airDensity )
 {
     double omega2 = _omega * _omega;
     double omegaR = _omega * _r;
@@ -168,13 +157,8 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     // Lock number
     double gamma = airDensity * _a * _c * _r4 / _ib;
 
-    // controls
-    double theta_0      = collective;
-    double theta_1c_ras = _direction == CW ? cyclicLat : -cyclicLat;
-    double theta_1s_ras = cyclicLon; // ????????????????????????????????????????????????????
-
     // RAS <-> CAS
-    _ras2cas = Matrix3x3( Angles( theta_1c_ras, theta_1s_ras, 0.0 ) );
+    _ras2cas = Matrix3x3( Angles( _theta_1c, _theta_1s, 0.0 ) );
 
     _cas2ras = _ras2cas.getTransposed();
 
@@ -206,7 +190,7 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     Vector3 omg_air_cwas = _bas2cwas * omg_air_bas;
 
     // acceleration
-    Vector3 acc_hub_bas = acc_bas + ( omg_bas % vel_bas )
+    Vector3 acc_hub_bas = acc_bas
                         + ( omg_bas % ( omg_bas % _r_hub_bas ) )
                         + ( eps_bas % _r_hub_bas )
                         - grav_bas;
@@ -252,10 +236,10 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
         // flapping coefficients
         if ( _direction == CW )
         {
-            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * theta_0 / 4.0 + _b2 * theta_0 * mu2 / 4.0 )
+            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
                     - a_z * _sb / ( _ib * omega2 );
 
-            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
                     - ( _b4 * p / _omega + 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
 
             beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
@@ -263,10 +247,10 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
         }
         else
         {
-            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _b3 * p * mu / ( 6.0 * _omega ) + _b4 * theta_0 / 4.0 + _b2 * theta_0 * mu2 / 4.0 )
+            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
                     - a_z * _sb / ( _ib * omega2 );
 
-            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
                     + ( _b4 * p / _omega - 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
 
             beta_1s_cwas = - 4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
@@ -280,7 +264,7 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
 
         // thrust coefficient
         ct = 0.5 * _a * _s * _b * ( lambda * _b / 2.0
-                                  + theta_0 * ( _b2 + 1.5 * mu2 ) / 3.0
+                                  + _theta_0 * ( _b2 + 1.5 * mu2 ) / 3.0
                                   + _b * mu * beta_1c_cwas / 4.0 );
         if ( ct > _ct_max ) ct = _ct_max;
 
@@ -320,12 +304,12 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     double beta_1s_cas = beta_1s_cwas * cosBeta + beta_1c_cwas * sinBeta * ( _direction == CW ? 1.0 : -1.0 );
 
     // flapping coefficients
-    _beta_1c_ras = Misc::satur( -_beta_max, _beta_max, beta_1c_cas - theta_1s_ras );
-    _beta_1s_ras = Misc::satur( -_beta_max, _beta_max, beta_1s_cas + theta_1c_ras );
+    _beta_1c = Misc::satur( -_beta_max, _beta_max, beta_1c_cas - _theta_1s );
+    _beta_1s = Misc::satur( -_beta_max, _beta_max, beta_1s_cas + _theta_1c );
 
-    _coningAngle = _beta_0;
-    _diskRoll    = _direction == CW ? _beta_1s_ras : -_beta_1s_ras;
-    _diskPitch   = -_beta_1c_ras;
+    _coningAngle =  _beta_0;
+    _diskRoll    =  _direction == CW ? _beta_1s : -_beta_1s;
+    _diskPitch   = -_beta_1c;
 
     // DAS <-> BAS
     _das2bas = Matrix3x3( Angles( _diskRoll, _diskPitch, 0.0 ) ).getTransposed() * _ras2bas;

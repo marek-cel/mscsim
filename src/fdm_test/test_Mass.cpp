@@ -19,43 +19,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_MASS_H
-#define UH602_MASS_H
+
+#include <fdm_test/test_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Mass.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+TEST_Mass::TEST_Mass( const TEST_Aircraft *aircraft ) :
+    Mass( aircraft ),
+    _aircraft ( aircraft )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_Mass::~TEST_Mass() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TEST_Mass::init()
 {
+    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
+    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
+    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
+    VarMass *cabin     = getVariableMassByName( "cabin" );
 
-class UH602_Aircraft;    ///< aircraft class forward declaration
+    if ( pilot_l && pilot_r && fuel_tank && cabin )
+    {
+        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot_1;
+        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot_2;
+        fuel_tank->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        cabin->input     = &_aircraft->getDataInp()->masses.cabin;
+    }
+    else
+    {
+        Exception e;
 
-/**
- * @brief UH-60 mass class.
- */
-class UH602_Mass : public Mass
-{
-public:
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining variable masses failed." );
 
-    /** Constructor. */
-    UH602_Mass( const UH602_Aircraft *aircraft );
+        FDM_THROW( e );
+    }
 
-    /** Destructor. */
-    ~UH602_Mass();
-
-    /** Initializes mass. */
-    void init();
-
-private:
-
-    const UH602_Aircraft *_aircraft;     ///< aircraft model main object
-};
-
-} // end of fdm namespace
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // UH602_MASS_H
+    /////////////
+    Mass::init();
+    /////////////
+}

@@ -132,7 +132,7 @@ protected:
     double _value;          ///< output value
     double _delta;          ///< difference between raw and saturated output values
 
-    bool _saturation;       ///< specify if saturation is enabled
+    bool _saturation;       ///< specifies if saturation is enabled
 };
 
 } // end of fdm namespace

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_Fuselage.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -30,52 +30,34 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Propulsion::UH602_Propulsion( const UH602_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
-    _aircraft ( aircraft ),
-
-    _mainRotorPsi ( 0.0 ),
-    _tailRotorPsi ( 0.0 ),
-
-    _mainRotorOmega ( 0.0 ),
-    _tailRotorOmega ( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-UH602_Propulsion::~UH602_Propulsion() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH602_Propulsion::init()
+TEST_Fuselage::TEST_Fuselage()
 {
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    // TODO
-
-    if ( engineOn )
-    {
-        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
-    }
-    else
-    {
-        _mainRotorOmega = 0.0;
-        _tailRotorOmega = 0.0;
-    }
+    _cx_beta = Table::createOneRecordTable( 0.0 );
+    _cz_beta = Table::createOneRecordTable( 0.0 );
+    _cm_beta = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Propulsion::readData( XmlNode &dataNode )
+TEST_Fuselage::~TEST_Fuselage() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TEST_Fuselage::readData( XmlNode &dataNode )
 {
+    ///////////////////////////////
+    Fuselage::readData( dataNode );
+    ///////////////////////////////
+
     if ( dataNode.isValid() )
     {
-        // TODO
+        int result = FDM_SUCCESS;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
+
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
@@ -85,31 +67,21 @@ void UH602_Propulsion::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Propulsion::computeForceAndMoment()
+double TEST_Fuselage::getCx( double angleOfAttack ) const
 {
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        Exception e;
-
-        e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the propulsion model." );
-
-        FDM_THROW( e );
-    }
+    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Propulsion::update()
+double TEST_Fuselage::getCz( double angleOfAttack ) const
 {
-    // TODO
-    _mainRotorPsi += _aircraft->getTimeStep() * _mainRotorOmega;
-    _tailRotorPsi += _aircraft->getTimeStep() * _tailRotorOmega;
+    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
+}
 
-    while ( _mainRotorPsi > 2.0 * M_PI ) _mainRotorPsi -= 2.0 * M_PI;
-    while ( _tailRotorPsi > 2.0 * M_PI ) _tailRotorPsi -= 2.0 * M_PI;
+////////////////////////////////////////////////////////////////////////////////
 
-    // TODO
-    _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-    _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
+double TEST_Fuselage::getCm( double angleOfAttack ) const
+{
+    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
 }

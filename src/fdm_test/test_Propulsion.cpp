@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Fuselage.h>
+#include <fdm_test/test_Aircraft.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -30,34 +30,52 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Fuselage::UH602_Fuselage()
+TEST_Propulsion::TEST_Propulsion( const TEST_Aircraft *aircraft ) :
+    Propulsion( aircraft ),
+    _aircraft ( aircraft ),
+
+    _mainRotorPsi ( 0.0 ),
+    _tailRotorPsi ( 0.0 ),
+
+    _mainRotorOmega ( 0.0 ),
+    _tailRotorOmega ( 0.0 )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_Propulsion::~TEST_Propulsion() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TEST_Propulsion::init()
 {
-    _cx_beta = Table::createOneRecordTable( 0.0 );
-    _cz_beta = Table::createOneRecordTable( 0.0 );
-    _cm_beta = Table::createOneRecordTable( 0.0 );
+    ///////////////////
+    Propulsion::init();
+    ///////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
+
+    // TODO
+
+    if ( engineOn )
+    {
+        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
+        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
+    }
+    else
+    {
+        _mainRotorOmega = 0.0;
+        _tailRotorOmega = 0.0;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Fuselage::~UH602_Fuselage() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH602_Fuselage::readData( XmlNode &dataNode )
+void TEST_Propulsion::readData( XmlNode &dataNode )
 {
-    ///////////////////////////////
-    Fuselage::readData( dataNode );
-    ///////////////////////////////
-
     if ( dataNode.isValid() )
     {
-        int result = FDM_SUCCESS;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
-
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        // TODO
     }
     else
     {
@@ -67,21 +85,42 @@ void UH602_Fuselage::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double UH602_Fuselage::getCx( double angleOfAttack ) const
+void TEST_Propulsion::computeForceAndMoment()
 {
-    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnexpectedNaN );
+        e.setInfo( "NaN detected in the propulsion model." );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double UH602_Fuselage::getCz( double angleOfAttack ) const
+void TEST_Propulsion::update()
 {
-    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
-}
+    // TODO
+    _mainRotorPsi += _aircraft->getTimeStep() * _mainRotorOmega;
+    _tailRotorPsi += _aircraft->getTimeStep() * _tailRotorOmega;
 
-////////////////////////////////////////////////////////////////////////////////
+    _mainRotorPsi = Angles::normalize( _mainRotorPsi );
+    _tailRotorPsi = Angles::normalize( _tailRotorPsi );
 
-double UH602_Fuselage::getCm( double angleOfAttack ) const
-{
-    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
+    // TODO
+    if ( _mainRotorOmega > 0.0 )
+    {
+        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
+        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
+
+//        _mainRotorOmega *= _aircraft->getDataInp()->controls.collective + 1.0e-9;
+//        _tailRotorOmega *= _aircraft->getDataInp()->controls.collective + 1.0e-9;
+    }
+    else
+    {
+        _mainRotorOmega = 0.0;
+        _tailRotorOmega = 0.0;
+    }
 }

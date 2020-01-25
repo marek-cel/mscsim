@@ -36,10 +36,10 @@ namespace fdm
 /**
  * @brief Controls model base class.
  *
- * <p>Input data reference is created for each control channel. Name of
- * this data reference is "input/controls/channel_name".</p>
+ * Input data reference is created for each control channel. Name of
+ * this data reference is "input/controls/channel_name".
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <controls>
  *   <control_channel input="{ channel input }">

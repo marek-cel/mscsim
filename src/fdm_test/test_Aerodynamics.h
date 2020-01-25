@@ -19,54 +19,75 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_STABILIZERHOR_H
-#define UH602_STABILIZERHOR_H
+#ifndef TEST_AERODYNAMICS_H
+#define TEST_AERODYNAMICS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <fdm/main/fdm_Aerodynamics.h>
+
+
 #include <fdm/models/fdm_Stabilizer.h>
+
+#include <fdm_test/test_MainRotor.h>
+#include <fdm_test/test_TailRotor.h>
+#include <fdm_test/test_Fuselage.h>
+#include <fdm_test/test_StabilizerHor.h>
+#include <fdm_test/test_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
+class TEST_Aircraft;    ///< aircraft class forward declaration
+
 /**
- * @brief UH-60 horizontal stabilizer class.
+ * @brief UH-60 aerodynamics class.
+ *
+ * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
+ * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
  */
-class UH602_StabilizerHor : public Stabilizer
+class TEST_Aerodynamics : public Aerodynamics
 {
 public:
 
     /** Constructor. */
-    UH602_StabilizerHor();
+    TEST_Aerodynamics( const TEST_Aircraft *aircraft );
 
     /** Destructor. */
-    ~UH602_StabilizerHor();
+    ~TEST_Aerodynamics();
+
+    /** Initializes aerodynamics. */
+    void init();
 
     /**
-     * Computes force and moment.
-     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
-     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
-     * @param angleOfAttackWing [rad] wing angle of attack
-     * @param elevator [rad] elevator deflection
-     * @param elevatorTrim [rad] elevator trim deflection
+     * Reads data.
+     * @param dataNode XML node
      */
-    void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                const Vector3 &omg_air_bas,
-                                double airDensity,
-                                double elevator );
+    void readData( XmlNode &dataNode );
+
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates model. */
+    void update();
+
+    inline const TEST_MainRotor* getMainRotor() const { return _mainRotor; }
 
 private:
 
-    double _elevator;               ///< [rad] elevator deflection
+    const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 
-    double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
+    TEST_MainRotor     *_mainRotor;     ///<
+    TEST_TailRotor     *_tailRotor;     ///<
+    TEST_Fuselage      *_fuselage;      ///<
+    TEST_StabilizerHor *_stabHor;       ///<
+    TEST_StabilizerVer *_stabVer;       ///<
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_STABILIZERHOR_H
+#endif // TEST_AERODYNAMICS_H

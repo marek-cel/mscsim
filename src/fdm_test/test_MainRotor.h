@@ -19,69 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_FUSELAGE_H
-#define UH602_FUSELAGE_H
+#ifndef TEST_MAINROTOR_H
+#define TEST_MAINROTOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Fuselage.h>
+#include <fdm/models/fdm_MainRotorBE.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class UH602_Aircraft;    ///< aircraft class forward declaration
-
 /**
- * @brief UH-60 fuselage class.
+ * @brief UH-60 main rotor base class.
  */
-class UH602_Fuselage : public Fuselage
+class TEST_MainRotor : public MainRotorBE
 {
 public:
 
     /** Constructor. */
-    UH602_Fuselage();
+    TEST_MainRotor();
 
     /** Destructor. */
-    ~UH602_Fuselage();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-private:
-
-    Table _cx_beta;             ///< [-] incremental drag coefficient vs [rad] angle of sideslip
-    Table _cz_beta;             ///< [-] incremental lift coefficient vs [rad] angle of sideslip
-    Table _cm_beta;             ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
-
-    /**
-     * Computes drag coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] drag coefficient
-     */
-    double getCx( double angleOfAttack ) const;
-
-    /**
-     * Computes lift coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] lift coefficient
-     */
-    double getCz( double angleOfAttack ) const;
-
-    /**
-     * Computes pitching moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] pitching moment coefficient
-     */
-    double getCm( double angleOfAttack ) const;
+    ~TEST_MainRotor();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_FUSELAGE_H
+#endif // TEST_MAINROTOR_H

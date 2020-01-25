@@ -36,44 +36,41 @@ namespace fdm
  *
  * This model is based on actuator disc theory.
  *
- * <h3>Coordinate Systems Used for Rotor Calculations</h3>
+ * Flapping angle is positive upwards.
  *
- * <h4>Rotor Axes System</h4>
- * <p>Abbreviated as RAS.</p>
- * <p>Origin of the Rotor Axes System is coincident with the rotor hub center,
+ * Coordinate Systems Used for Rotor Calculations
+ *
+ * Rotor Axes System (RAS)
+ * Origin of the Rotor Axes System is coincident with the rotor hub center,
  * the x-axis is positive forwards, the y-axis is positive right and z-axis
- * is positive downwards and coincident with the rotor shaft axis.</p>
+ * is positive downwards and coincident with the rotor shaft axis.
  *
- * <h4>Rotor-Wind Axes System</h4>
- * <p>Abbreviated as RWAS.</p>
- * <p>Rotor-Wind Axes System is very much like Rotor Axes System, the only
+ * Rotor-Wind Axes System (RWAS)
+ * Rotor-Wind Axes System is very much like Rotor Axes System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
- * component.</p>
+ * component.
  *
- * <h4>Control Axes System</h4>
- * <p>Abbreviated as CAS.</p>
- * <p>For most purposes, using the Rotor Axes System causes unnecessary
+ * Control Axes System (CAS)
+ * For most purposes, using the Rotor Axes System causes unnecessary
  * complications. It is convenient to use no cyclic feathering axes system.
  * Origin of the Control Axes System is coincident with the origin of the Rotor
  * Axes System, but it is rotated by angles of the swashplate roll and pitch so
- * there is no cyclic feathering in this coordinate system.</p>
+ * there is no cyclic feathering in this coordinate system.
  *
- * <h4>Disc Axes System</h4>
- * <p>Abbreviated as DAS.</p>
- * <p>Origin of the Disc Axes System is coincident with the origin of the Rotor
+ * Disc Axes System (DAS)
+ * Origin of the Disc Axes System is coincident with the origin of the Rotor
  * Axes System, but it is rotated by angles of the rotor cone roll and pitch
  * in such a manner that z?axis is perpendicular to the tip path plane so there
- * is no cyclic flapping in this coordinate system.</p>
+ * is no cyclic flapping in this coordinate system.
  *
- * <h4>Control-Wind Axes System</h4>
- * <p>Abbreviated as CWAS.</p>
- * <p>Control-Wind Axes System is very much like Control Axes System, the only
+ * Control-Wind Axes System (CWAS)
+ * Control-Wind Axes System is very much like Control Axes System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
- * component.</p>
+ * component.
  *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <main_rotor>
  *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
@@ -96,7 +93,7 @@ namespace fdm
  * </main_rotor>
  * @endcode
  *
- * <p>Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"</p>
+ * Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"
  *
  * @see Mil M.: Helicopters: Calculation and Design. Volume 1: Aerodynamics, NASA, TM-X-74335, 1967
  * @see Gessow A., Myers G.: Aerodynamics of the Helicopter, 1985
@@ -123,29 +120,23 @@ public:
 
     /**
      * Computes force and moment.
-     * @param vel_bas [m/s] aircraft linear velocity vector expressed in BAS
-     * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
-     * @param acc_bas [m/s^2] aircraft linear acceleration vector expressed in BAS
-     * @param eps_bas [rad/s^2] aircraft angular acceleration vector expressed in BAS
-     * @param grav_bas [m/s^2] gravity acceleration vector expressed in BAS
-     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
-     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
-     * @param collective [rad] collective pitch angle
-     * @param cyclicLat [rad] cyclic lateral pitch angle
-     * @param cyclicLon [rad] cyclic longitudinal pitch angle
+     * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
+     * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
+     * @param eps_bas     [rad/s^2] aircraft angular acceleration vector expressed in BAS
+     * @param vel_air_bas [m/s]     aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s]   aircraft angular velocity relative to the air expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param airDensity  [kg/m^3]  air density
      */
     virtual void computeForceAndMoment( const Vector3 &vel_bas,
                                         const Vector3 &omg_bas,
                                         const Vector3 &acc_bas,
                                         const Vector3 &eps_bas,
-                                        const Vector3 &grav_bas,
                                         const Vector3 &vel_air_bas,
                                         const Vector3 &omg_air_bas,
-                                        double airDensity,
-                                        double collective,
-                                        double cyclicLat,
-                                        double cyclicLon );
+                                        const Vector3 &grav_bas,
+                                        double airDensity );
 
     /**
      * Returns rotor total inartia about shaft axis.
@@ -200,10 +191,6 @@ protected:
 
     double _sb;                 ///< [kg*m] single rotor blade first moment of mass about flapping hinge
     double _ib;                 ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
-
-    double _beta_0;             ///< [rad] rotor coning angle
-    double _beta_1c_ras;        ///< [rad] longitudinal flapping angle expressed in RAS
-    double _beta_1s_ras;        ///< [rad] lateral flapping angle expressed in RAS
 };
 
 } // end of fdm namespace

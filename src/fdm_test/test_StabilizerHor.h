@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_TAILROTOR_H
-#define UH602_TAILROTOR_H
+#ifndef TEST_STABILIZERHOR_H
+#define TEST_STABILIZERHOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_TailRotor.h>
+#include <fdm/models/fdm_Stabilizer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,21 +32,41 @@ namespace fdm
 {
 
 /**
- * @brief UH-60 tail rotor base class.
+ * @brief UH-60 horizontal stabilizer class.
  */
-class UH602_TailRotor : public TailRotor
+class TEST_StabilizerHor : public Stabilizer
 {
 public:
 
     /** Constructor. */
-    UH602_TailRotor();
+    TEST_StabilizerHor();
 
     /** Destructor. */
-    ~UH602_TailRotor();
+    ~TEST_StabilizerHor();
+
+    /**
+     * Computes force and moment.
+     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
+     * @param airDensity [kg/m^3] air density
+     * @param angleOfAttackWing [rad] wing angle of attack
+     * @param elevator [rad] elevator deflection
+     * @param elevatorTrim [rad] elevator trim deflection
+     */
+    void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                const Vector3 &omg_air_bas,
+                                double airDensity,
+                                double elevator );
+
+private:
+
+    double _elevator;               ///< [rad] elevator deflection
+
+    double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_TAILROTOR_H
+#endif // TEST_STABILIZERHOR_H

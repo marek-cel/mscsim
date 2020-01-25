@@ -130,8 +130,10 @@ void Propeller::integrate( double timeStep, double engineInertia )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Propeller::update( double propellerLever, double engineTorque,
-                        double airspeed, double airDensity )
+void Propeller::update( double propellerLever,
+                        double engineTorque,
+                        double airspeed,
+                        double airDensity )
 {
     _pitch = getPropellerPitch( propellerLever );
 

@@ -19,51 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh602/uh602_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef TEST_TAILROTOR_H
+#define TEST_TAILROTOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Mass::UH602_Mass( const UH602_Aircraft *aircraft ) :
-    Mass( aircraft ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/models/fdm_TailRotor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Mass::~UH602_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH602_Mass::init()
+namespace fdm
 {
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
 
-    if ( pilot_l && pilot_r && fuel_tank && cabin )
-    {
-        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        cabin->input     = &_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
+/**
+ * @brief UH-60 tail rotor base class.
+ */
+class TEST_TailRotor : public TailRotor
+{
+public:
 
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
+    /** Constructor. */
+    TEST_TailRotor();
 
-        FDM_THROW( e );
-    }
+    /** Destructor. */
+    ~TEST_TailRotor();
+};
 
-    /////////////
-    Mass::init();
-    /////////////
-}
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // TEST_TAILROTOR_H

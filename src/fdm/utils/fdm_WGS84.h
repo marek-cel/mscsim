@@ -37,11 +37,11 @@ namespace fdm
 /**
  * @brief US Department of Defense World Geodetic System 1984 (WGS) class.
  *
- * <p>This class is used to store and calculate location expressed in World
+ * This class is used to store and calculate location expressed in World
  * Geodetic System 1984 (WGS). It also provides functions to calculate
  * rotation matricies between WGS and local North-East-Down (NED) as well as
  * between WGS and local East-North-Up (ENU) axis systems and function
- * calculating local normal to ellipsoid vector and gravity acceleration.</p>
+ * calculating local normal to ellipsoid vector and gravity acceleration.
  *
  * @see Department of Defence World Geodetic System 1984, NIMA, TR-8350.2, 2000
  * @see Bowring B.: Transformation from spatial to geocentric coordinates, 1976

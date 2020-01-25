@@ -45,6 +45,14 @@ class FDMEXPORT Angles
 {
 public:
 
+    /** Degree-Minute-Second subdivision data struct. */
+    struct DegMinSec
+    {
+        int    deg;     ///< degree part
+        int    min;     ///< minute part
+        double sec;     ///< second part
+    };
+
     /**
      * Normalizes angle within [min,min+2*pi] range.
      * @param val angle to be normalized
@@ -52,6 +60,13 @@ public:
      * @return normalized angle
      */
     static double normalize( double val, double min = 0.0 );
+
+    /**
+     * @brief Returns angle represented as Degree-Minute-Second.
+     * @param val [rad] given angle
+     * @return Degree-Minute-Second representation
+     */
+    static DegMinSec toDegMinSec( double val );
 
     /** Constructor. */
     Angles();

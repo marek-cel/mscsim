@@ -84,16 +84,22 @@ void PistonEngine::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PistonEngine::update( double throttleLever, double mixtureLever, double rpm,
-                           double airPressure, double airDensity, double densityAltitude,
-                           bool fuel, bool starter,
-                           bool magneto_l, bool magneto_r )
+void PistonEngine::update( double throttleLever,
+                           double mixtureLever,
+                           double rpm,
+                           double airPressure,
+                           double airDensity,
+                           double densityAlt,
+                           bool fuel,
+                           bool starter,
+                           bool magneto_l,
+                           bool magneto_r )
 {
     double omega = M_PI * rpm / 30.0;
 
     _rpm = rpm;
     _map = getManifoldAbsolutePressure( throttleLever, _rpm, airPressure );
-    _power = getNetPower( throttleLever, mixtureLever, _rpm, airDensity, densityAltitude,
+    _power = getNetPower( throttleLever, mixtureLever, _rpm, airDensity, densityAlt,
                           fuel, magneto_l, magneto_r );
 
     _airFlow = 0.5 * _displacement * airDensity * ( _rpm / 60.0 );

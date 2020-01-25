@@ -4,45 +4,40 @@
  *
  * @mainpage
  *
- * <h1>Conventions and Units</h1>
+ * Conventions and Units
  *
- * <h2>Units</h2>
- * <p>Flight Dynamics Model uses International System of Units (SI) for all
- * internal computations.</p>
- * <p>Other units can be used in XML data files.</p>
- * <p><strong>Make sure to use "unit", "keys_unit", "cols_unit" or "rows_unit"
- * attribute when using non SI units in XML data file.</strong></p>
- * <p>
+ * Units:
+ * Flight Dynamics Model uses International System of Units (SI) for all
+ * internal computations.
+ * Other units can be used in XML data files.
+ * Make sure to use "unit", "keys_unit", "cols_unit" or "rows_unit"
+ * attribute when using non SI units in XML data file.
+ *
  * @see fdm::Units::getConverter()
  * @see fdm::XmlUtils
- * </p>
  *
- * <h2>Rotations</h2>
- * <p>Rotations angles are expressed as Bryant angles (Euler angles in z-y-z
- * convention).</p>
- * <p>All rotations and rotation related operations are considered to be
- * passive (alias) rotations.</p>
- * <p>
+ * Rotations:
+ * Rotations angles are expressed as Bryant angles (Euler angles in z-y-x
+ * convention).
+ * All rotations and rotation related operations are considered to be
+ * passive (alias) rotations.
+ *
  * @see https://en.wikipedia.org/wiki/Active_and_passive_transformation
- * </p>
  *
- * <h1>Coordinate Systems</h1>
+ * Coordinate Systems:
  *
- * <h2>Body Axes System</h2>
- * <p>Abbreviated as BAS.</p>
- * <p>Body Axes System is the body-fixed coordinate system, with the x-axis
+ * Body Axes System (BAS)
+ * Body Axes System is the body-fixed coordinate system, with the x-axis
  * positive forwards, the y-axis positive right and z-axis positive
- * downwards.</p>
+ * downwards.
  *
- * <h2>North-East-Down</h2>
- * <p>Abbreviated as NED.</p>
- * <p>Local ground axes system with x-axis positive North, y-axis positive East
- * and z-axis positive Down.</p>
+ * North-East-Down (NED)
+ * Local ground axes system with x-axis positive North, y-axis positive East
+ * and z-axis positive Down.
  *
- * <h2>World Geodetic System 1984</h2>
- * <p>Abbreviated as WGS.</p>
- * <p>World Geodetic System as described in [Department of Defense World
- * Geodetic System 1984. NIMA, Technical Report No. 8350.2, 2000].</p>
+ * World Geodetic System 1984 (WGS)
+ * World Geodetic System as described in [Department of Defense World
+ * Geodetic System 1984. NIMA, Technical Report No. 8350.2, 2000].
  *
  * @section LICENSE
  *
@@ -97,7 +92,7 @@ namespace fdm
 /**
  * @brief Aircraft model base class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <fdm>
  *   <collision_points>
@@ -258,8 +253,8 @@ public:
 
     /**
      * Sets aircraft state vector.
-     * <p>This function is meant to set initial conditions at the beginning,
-     * as well as to reposition aircraft during flight.</p>
+     * This function is meant to set initial conditions at the beginning,
+     * as well as to reposition aircraft during flight.
      * @param state state vector
      */
     virtual void setStateVector( const StateVector &stateVector );
@@ -268,15 +263,15 @@ protected:
 
     /**
      * @brief Integrator wrapping class.
-     * <p>fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
-     * is right-hand-side function for integration procedure.</p>
-     * <p>Because fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
+     * fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
+     * is right-hand-side function for integration procedure.
+     * Because fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
      * is private fdm::Aircraft::Integrator is declared friend class for the
-     * fdm::Aircraft class.</p>
-     * <p>fdm::Aircraft::Integrator is declared private due to friendship with
-     * the fdm::Aircraft to avoid possible access issues.</p>
-     * <p>Because it is used entirely inside fdm::Aircraft, there is no need
-     * to make it public.</p>
+     * fdm::Aircraft class.
+     * fdm::Aircraft::Integrator is declared private due to friendship with
+     * the fdm::Aircraft to avoid possible access issues.
+     * Because it is used entirely inside fdm::Aircraft, there is no need
+     * to make it public.
      */
     class Integrator : public RungeKutta4< FDM_STATE_DIMENSION, Aircraft >
     {

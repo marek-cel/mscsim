@@ -38,7 +38,7 @@ namespace fdm
 /**
  * @brief Helicopter main rotormodel base  class.
  *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <main_rotor>
  *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
@@ -72,10 +72,17 @@ public:
 
     /**
      * @brief Updates main rotor model.
-     * @param omega [rad/s] rotor revolution speed
-     * @param azimuth [rad] rotor azimuth
+     * @param omega      [rad/s] rotor revolution speed
+     * @param azimuth    [rad]   rotor azimuth
+     * @param collective [rad]   collective pitch angle
+     * @param cyclicLat  [rad]   cyclic lateral pitch angle
+     * @param cyclicLon  [rad]   cyclic longitudinal pitch angle
      */
-    virtual void update( double omega, double azimuth );
+    virtual void update( double omega,
+                         double azimuth,
+                         double collective,
+                         double cyclicLat,
+                         double cyclicLon );
 
     /**
      * Returns rotor total inartia about shaft axis.
@@ -86,11 +93,21 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
+    inline const Vector3& getVel_i_BAS() const { return _vel_i_bas; }
+
+    inline int getNumberOfBlades() const { return _nb; }
+
+    inline double getBeta0()  const { return _beta_0;  }
+    inline double getBeta1c() const { return _beta_1c; }
+    inline double getBeta1s() const { return _beta_1s; }
+
+    inline double getTheta0()  const { return _theta_0;  }
+    inline double getTheta1c() const { return _theta_1c; }
+    inline double getTheta1s() const { return _theta_1s; }
+
     inline double getConingAngle() const { return _coningAngle; }
     inline double getDiskRoll()    const { return _diskRoll;    }
     inline double getDiskPitch()   const { return _diskPitch;   }
-
-    inline const Vector3& getVel_i_BAS() const { return _vel_i_bas; }
 
     inline double getThrust() const { return _thrust; }
     inline double getTorque() const { return _torque; }
@@ -111,8 +128,18 @@ protected:
 
     int _nb;                    ///< number of rotor blades
 
+    double _delta_psi;          ///< [rad] azimuth difference between adjacent blades
+
     double _omega;              ///< [rad/s] rotor revolution speed
     double _azimuth;            ///< [rad] rotor azimuth
+
+    double _beta_0;             ///< [rad] rotor coning angle
+    double _beta_1c;            ///< [rad] longitudinal flapping angle
+    double _beta_1s;            ///< [rad] lateral flapping angle
+
+    double _theta_0;            ///< [rad] collective feathering angle
+    double _theta_1c;           ///< [rad]
+    double _theta_1s;           ///< [rad]
 
     double _coningAngle;        ///< [rad] rotor coning angle
     double _diskRoll;           ///< [rad] rotor disk roll angle

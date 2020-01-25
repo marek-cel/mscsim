@@ -177,14 +177,21 @@ struct DataOut
         double mainRotor_cyclicLon;     ///< [rad] main rotor longitudinal cyclic pitch angle
         double mainRotor_cyclicLat;     ///< [rad] main rotor lateral cyclic pitch angle
         double tailRotor_azimuth;       ///< [rad] tail rotor rotation angle
-        double beta[ FDM_MAX_BLADES ];  ///< [rad] blades flapping angle
     };
 
-    Flight flight;                      ///< flight data
+    /** Blade data. */
+    struct Blade
+    {
+        double beta;                    ///< [rad] flapping angle
+        double theta;                   ///< [rad] feathering angle
+    };
+
+    Flight   flight;                    ///< flight data
     Controls controls;                  ///< controls data
-    Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
-    Rotor  rotor;                       ///< rotor data
-    Crash crash;                        ///< crash cause
+    Engine   engine[ FDM_MAX_ENGINES ]; ///< engines data
+    Rotor    rotor;                     ///< rotor data
+    Blade    blade[ FDM_MAX_BLADES ];   ///< blades data
+    Crash    crash;                     ///< crash cause
     StateOut stateOut;                  ///< output state
 };
 

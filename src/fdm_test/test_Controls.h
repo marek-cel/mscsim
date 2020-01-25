@@ -19,75 +19,74 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_AERODYNAMICS_H
-#define UH602_AERODYNAMICS_H
+#ifndef TEST_CONTROLS_H
+#define TEST_CONTROLS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/main/fdm_Controls.h>
 
-
-#include <fdm/models/fdm_Stabilizer.h>
-
-#include <fdm_uh602/uh602_MainRotor.h>
-#include <fdm_uh602/uh602_TailRotor.h>
-#include <fdm_uh602/uh602_Fuselage.h>
-#include <fdm_uh602/uh602_StabilizerHor.h>
-#include <fdm_uh602/uh602_StabilizerVer.h>
+#include <fdm_test/test_AFCS.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class UH602_Aircraft;    ///< aircraft class forward declaration
+class TEST_Aircraft;    ///< aircraft class forward declaration
 
 /**
- * @brief UH-60 aerodynamics class.
- *
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
- * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
+ * @brief UH-60 controls class.
  */
-class UH602_Aerodynamics : public Aerodynamics
+class TEST_Controls : public Controls
 {
 public:
 
     /** Constructor. */
-    UH602_Aerodynamics( const UH602_Aircraft *aircraft );
+    TEST_Controls( const TEST_Aircraft *aircraft );
 
     /** Destructor. */
-    ~UH602_Aerodynamics();
+    ~TEST_Controls();
 
-    /** Initializes aerodynamics. */
+    /** Initializes controls. */
     void init();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-    /** Computes force and moment. */
-    void computeForceAndMoment();
 
     /** Updates model. */
     void update();
 
-    inline const UH602_MainRotor* getMainRotor() const { return _mainRotor; }
+    inline double getCyclicLat()  const { return _cyclic_lat; }
+    inline double getCyclicLon()  const { return _cyclic_lon; }
+    inline double getCollective() const { return _collective; }
+    inline double getTailPitch()  const { return _tail_pitch; }
+    inline double getElevator()   const { return _elevator;   }
+    inline double getBrakeL()     const { return _brake_l;    }
+    inline double getBrakeR()     const { return _brake_r;    }
 
 private:
 
-    const UH602_Aircraft *_aircraft;     ///< aircraft model main object
+    const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 
-    UH602_MainRotor     *_mainRotor;     ///<
-    UH602_TailRotor     *_tailRotor;     ///<
-    UH602_Fuselage      *_fuselage;      ///<
-    UH602_StabilizerHor *_stabHor;       ///<
-    UH602_StabilizerVer *_stabVer;       ///<
+    Channel *_channelCyclicLat;         ///<
+    Channel *_channelCyclicLon;         ///<
+    Channel *_channelCollective;        ///<
+    Channel *_channelTailPitch;         ///<
+    Channel *_channelElevator;          ///<
+    Channel *_channelBrakeL;            ///<
+    Channel *_channelBrakeR;            ///<
+
+    TEST_AFCS *_afcs;                   ///< Automatic Flight Control System
+
+    double _cyclic_lat;                 ///< [rad]
+    double _cyclic_lon;                 ///< [rad]
+    double _collective;                 ///< [rad]
+    double _tail_pitch;                 ///< [rad]
+    double _elevator;                   ///< [rad]
+    double _brake_l;                    ///< [-]
+    double _brake_r;                    ///< [-]
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_AERODYNAMICS_H
+#endif // TEST_CONTROLS_H

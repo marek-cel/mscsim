@@ -39,12 +39,12 @@ namespace fdm
 /**
  * @brief Tail-off aircraft aerodynamics class.
  *
- * <p>Forces and moments are calculated, considering different airflow
+ * Forces and moments are calculated, considering different airflow
  * conditions, separately for left and right half wings. Half wing aerodynamic
  * center is considered datum point for computing airflow conditions (airspeed,
- * angle of attack, etc.).</p>
+ * angle of attack, etc.).
  *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <tail_off>
  *   <aero_center_l> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aero_center_l>
@@ -78,7 +78,7 @@ namespace fdm
  * </tail_off>
  * @endcode
  *
- * <p>Optional elements: "cy", "cl", "cn"</p>
+ * Optional elements: "cy", "cl", "cn"
  */
 class FDMEXPORT TailOff : public Base
 {

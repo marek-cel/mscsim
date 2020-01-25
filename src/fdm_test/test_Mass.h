@@ -19,34 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_AFCS_H
-#define UH602_AFCS_H
+#ifndef TEST_MASS_H
+#define TEST_MASS_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdm/main/fdm_Mass.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
+class TEST_Aircraft;    ///< aircraft class forward declaration
+
 /**
- * @brief UH-60 Automatic Flight Control System (AFCS) class.
- *
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume 1: Mathematical Model, NASA-CR-166309, 1981
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume II - Background Report, NASA-CR-166310, 1981
- * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter, NASA-TM-85890, 1984
+ * @brief UH-60 mass class.
  */
-class UH602_AFCS
+class TEST_Mass : public Mass
 {
 public:
 
     /** Constructor. */
-    UH602_AFCS();
+    TEST_Mass( const TEST_Aircraft *aircraft );
 
     /** Destructor. */
-    ~UH602_AFCS();
+    ~TEST_Mass();
+
+    /** Initializes mass. */
+    void init();
+
+private:
+
+    const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_AFCS_H
+#endif // TEST_MASS_H

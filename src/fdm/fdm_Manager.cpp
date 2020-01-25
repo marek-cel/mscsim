@@ -34,7 +34,7 @@
 #include <fdm_f16/f16_Aircraft.h>
 #include <fdm_p51/p51_Aircraft.h>
 #include <fdm_uh60/uh60_Aircraft.h>
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -135,8 +135,11 @@ Aircraft* Manager::createAircraft( AircraftType aircraftType )
         break;
 
     case DataInp::UH60:
-        //aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
-        aircraft = new UH602_Aircraft( &_dataInp, &_dataOut );
+        aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::TEST:
+        aircraft = new TEST_Aircraft( &_dataInp, &_dataOut );
         break;
     }
 

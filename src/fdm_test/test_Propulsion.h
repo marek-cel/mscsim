@@ -19,41 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh602/uh602_StabilizerHor.h>
-
-#include <fdm/xml/fdm_XmlUtils.h>
+#ifndef TEST_PROPULSION_H
+#define TEST_PROPULSION_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace fdm;
+#include <fdm/main/fdm_Propulsion.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_StabilizerHor::UH602_StabilizerHor() :
-    _elevator ( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-UH602_StabilizerHor::~UH602_StabilizerHor() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH602_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                                const Vector3 &omg_air_bas,
-                                                double airDensity,
-                                                double elevator )
+namespace fdm
 {
-    _elevator = elevator;
 
-    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
-}
+class TEST_Aircraft;    ///< aircraft class forward declaration
+
+/**
+ * @brief UH-60 propulsion class.
+ */
+class TEST_Propulsion : public Propulsion
+{
+public:
+
+    /** Constructor. */
+    TEST_Propulsion( const TEST_Aircraft *aircraft );
+
+    /** Destructor. */
+    ~TEST_Propulsion();
+
+    /** Initializes propulsion. */
+    void init();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates model. */
+    void update();
+
+    inline double getMainRotorPsi() const { return _mainRotorPsi; }
+    inline double getTailRotorPsi() const { return _tailRotorPsi; }
+
+    inline double getMainRotorOmega() const { return _mainRotorOmega; }
+    inline double getTailRotorOmega() const { return _tailRotorOmega; }
+
+private:
+
+    const TEST_Aircraft *_aircraft;     ///< aircraft model main object
+
+    double _mainRotorPsi;               ///< [rad]
+    double _tailRotorPsi;               ///< [rad]
+
+    double _mainRotorOmega;             ///< [rad/s]
+    double _tailRotorOmega;             ///< [rad/s]
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double UH602_StabilizerHor::getAngleOfAttack( const Vector3 &vel_air_bas,
-                                             double wingAngleOfAttack )
-{
-    return Stabilizer::getAngleOfAttack( vel_air_bas, wingAngleOfAttack ) + _elevator;
-}
+#endif // TEST_PROPULSION_H

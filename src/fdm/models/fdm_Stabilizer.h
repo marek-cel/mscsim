@@ -38,14 +38,14 @@ namespace fdm
 /**
  * @brief Generic stabilizer base class.
  *
- * <p>This is generalized stabilizator class intended to represent both
+ * This is generalized stabilizator class intended to represent both
  * horizontal and vertical stabilizers. For verical stabilizer angle of attack
- * becomes angle of sideslip.</p>
+ * becomes angle of sideslip.
  *
- * <p>Type of stabilizer is determined by XML tag name "horizontal_stabilizer"
- * or "vertical_stabilizer".</p>
+ * Type of stabilizer is determined by XML tag name "horizontal_stabilizer"
+ * or "vertical_stabilizer".
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <stabilizer type="[horizontal|vertical]">
  *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
@@ -67,10 +67,10 @@ namespace fdm
  * </stabilizer>
  * @endcode
  *
- * <p>Specify "cy" for vertical and "cz" for horizontal stabilizer.</p>
+ * Specify "cy" for vertical and "cz" for horizontal stabilizer.
  *
- * <p>Optional elements: "incidence", "downwash", "cy" for horizontal stabilizer,
- * "cz" for vertical stabilizer</p>
+ * Optional elements: "incidence", "downwash", "cy" for horizontal stabilizer,
+ * "cz" for vertical stabilizer
  */
 class FDMEXPORT Stabilizer : public Base
 {
@@ -137,7 +137,8 @@ protected:
      * @param wingAngleOfAttack [rad] wing angle of attack
      * @return [rad] stabilizer angle of attack
      */
-    virtual double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
+    virtual double getAngleOfAttack( const Vector3 &vel_air_bas,
+                                     double wingAngleOfAttack );
 
     /**
      * Computes drag coefficient.

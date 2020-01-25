@@ -40,7 +40,7 @@ namespace fdm
 /**
  * @brief Propeller class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <propeller>
  *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>
@@ -108,13 +108,15 @@ public:
 
     /**
      * Updates propeller.
-     * @param normPitch [0.0,1.0] normalized propeller lever position
-     * @param engineTorque [N] engine torque
-     * @param airspeed [m/s] airspeed
-     * @param airDensity [kg/m^3] air density
+     * @param normPitch    [0.0,1.0] normalized propeller lever position
+     * @param engineTorque [N]       engine torque
+     * @param airspeed     [m/s]     airspeed
+     * @param airDensity   [kg/m^3]  air density
      */
-    virtual void update( double propellerLever, double engineTorque,
-                         double airspeed, double airDensity );
+    virtual void update( double propellerLever,
+                         double engineTorque,
+                         double airspeed,
+                         double airDensity );
 
     /**
      * Returns propeller direction.

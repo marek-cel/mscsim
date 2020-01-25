@@ -22,6 +22,7 @@
 
 #include <fdm/models/fdm_MainRotorBE.h>
 
+#include <fdm/utils/fdm_GaussJordan.h>
 #include <fdm/utils/fdm_String.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
@@ -34,12 +35,7 @@ using namespace fdm;
 
 MainRotorBE::MainRotorBE() :
     _ir ( 0.0 ),
-
-    _delta_psi ( 0.0 ),
-
-    _theta_0  ( 0.0 ),
-    _theta_1c ( 0.0 ),
-    _theta_1s ( 0.0 )
+    _azimuth_prev ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,8 +61,6 @@ void MainRotorBE::readData( XmlNode &dataNode )
 
     if ( dataNode.isValid() )
     {
-        _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
-
         XmlNode nodeBlade = dataNode.getFirstChildElement( "blade" );
 
         for ( int i = 0; i < _nb; i++ )
@@ -87,73 +81,181 @@ void MainRotorBE::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainRotorBE::computeForceAndMoment( const Vector3 &vel_bas,
+                                         const Vector3 &omg_bas,
+                                         const Vector3 &acc_bas,
+                                         const Vector3 &eps_bas,
+                                         const Vector3 &vel_air_bas,
+                                         const Vector3 &omg_air_bas,
+                                         const Vector3 &grav_bas,
+                                         double airDensity )
+{
+    Vector3 vel_ras;
+    Vector3 omg_ras;
+    Vector3 acc_ras;
+    Vector3 eps_ras;
+    Vector3 vel_air_ras;
+    Vector3 omg_air_ras;
+    Vector3 grav_ras;
+
+    convertToHubRAS( vel_bas, omg_bas, acc_bas, eps_bas,
+                     vel_air_bas, omg_air_bas, grav_bas,
+                     &vel_ras, &omg_ras, &acc_ras, &eps_ras,
+                     &vel_air_ras, &omg_air_ras, &grav_ras );
+
+    double thrust = 0.0;
+    double hforce = 0.0;
+    double yforce = 0.0;
+    double torque = 0.0;
+
+    // rotor blades integration
+    for ( int i = 0; i < _nb; i++ )
+    {
+        _blades[ i ]->computeForceAndMoment( vel_air_ras,
+                                             omg_air_ras,
+                                             omg_ras,
+                                             acc_ras,
+                                             eps_ras,
+                                             grav_ras,
+                                             _omega,
+                                             _azimuth + i * _delta_psi,
+                                             airDensity,
+                                             _theta_0,
+                                             _theta_1c,
+                                             _theta_1s );
+
+        thrust += _blades[ i ]->getThrust();
+        hforce += _blades[ i ]->getHForce();
+        yforce += _blades[ i ]->getYForce();
+        torque += _blades[ i ]->getTorque();
+    }
+
+    _thrust = thrust;
+    _torque = torque;
+
+    Vector3 for_ras( hforce, yforce, thrust );
+
+    //std::cout << thrust << std::endl;
+
+//    _for_bas = _ras2bas * Vector3( 0.0, 0.0, -thrust );
+//    _mom_bas = ( _r_hub_bas % _for_bas );
+             //+ _ras2bas * Vector3( 0.0, 0.0, _direction == CW ? -torque : torque );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 #include <iostream>
 void MainRotorBE::integrate( double timeStep,
                              const Vector3 &vel_bas,
                              const Vector3 &omg_bas,
                              const Vector3 &acc_bas,
                              const Vector3 &eps_bas,
-                             const Vector3 &grav_bas,
                              const Vector3 &vel_air_bas,
                              const Vector3 &omg_air_bas,
+                             const Vector3 &grav_bas,
                              double airDensity )
 {
-    // velocity transformations
-    Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
-    Vector3 omg_air_ras = _bas2ras * omg_air_bas;
+    Vector3 vel_ras;
+    Vector3 omg_ras;
+    Vector3 acc_ras;
+    Vector3 eps_ras;
+    Vector3 vel_air_ras;
+    Vector3 omg_air_ras;
+    Vector3 grav_ras;
 
-    // azimuth integration
-    _azimuth += _omega * timeStep;
-    _azimuth = Angles::normalize( _azimuth );
+    convertToHubRAS( vel_bas, omg_bas, acc_bas, eps_bas,
+                     vel_air_bas, omg_air_bas, grav_bas,
+                     &vel_ras, &omg_ras, &acc_ras, &eps_ras,
+                     &vel_air_ras, &omg_air_ras, &grav_ras );
 
-    double thrust = 0.0;
-    double hforce = 0.0;
-    double torque = 0.0;
+    const unsigned int steps = ceil( timeStep / 0.001 );
+    const double timeStepInt = timeStep / ( (double)steps );
 
-    // rotor blades integration
-    for ( int i = 0; i < _nb; i++ )
+    for ( unsigned int i = 0; i < steps; i++ )
     {
-        _blades[ i ]->integrate( timeStep,
-                                 vel_bas,
-                                 omg_bas,
-                                 acc_bas,
-                                 eps_bas,
-                                 grav_bas,
-                                 vel_air_ras,
-                                 omg_air_ras,
-                                 airDensity,
-                                 _azimuth + i * _delta_psi,
-                                 _omega,
-                                 _theta_0,
-                                 _theta_1c,
-                                 _theta_1s );
+        const double coef = ( (double)( i + 1 ) ) / ( (double)steps );
+        double azimuth = _azimuth_prev + coef * ( _azimuth - _azimuth_prev );
 
-        thrust += _blades[ i ]->getThrust();
-        hforce += _blades[ i ]->getHForce();
-        torque += _blades[ i ]->getTorque();
+        // rotor blades integration
+        for ( int i = 0; i < _nb; i++ )
+        {
+            _blades[ i ]->integrate( timeStepInt,
+                                     vel_air_ras,
+                                     omg_air_ras,
+                                     omg_ras,
+                                     acc_ras,
+                                     eps_ras,
+                                     grav_ras,
+                                     _omega,
+                                     azimuth + i * _delta_psi,
+                                     airDensity,
+                                     _theta_0,
+                                     _theta_1c,
+                                     _theta_1s );
+        }
     }
 
-    //std::cout << thrust << std::endl;
+    _azimuth_prev = _azimuth;
 
-    _for_bas = _ras2bas * Vector3( 0.0, 0.0, -thrust );
-    _mom_bas = ( _r_hub_bas % _for_bas );
-             //+ _ras2bas * Vector3( 0.0, 0.0, _direction == CW ? -torque : torque );
+    // disc coning, roll and pitch
+    if ( _nb >= 3 )
+    {
+        Matrix3x3 mtr;
+        Vector3 rhs;
+        Vector3 result;
+
+        for ( int i = 0; i < 3; i++ )
+        {
+            double psi = _azimuth + i * _delta_psi;
+
+            mtr( i, 0 ) = 1.0;
+            mtr( i, 1 ) = cos( psi );
+            mtr( i, 2 ) = sin( psi );
+
+            rhs( i ) = _blades[ i ]->getBeta();
+        }
+
+        GaussJordan< 3 >::solve( mtr, rhs, result );
+
+        _beta_0  = result( 0 );
+        _beta_1c = result( 1 );
+        _beta_1s = result( 2 );
+
+        _coningAngle =  _beta_0;
+        _diskRoll    =  _direction == CW ? _beta_1s : -_beta_1s;
+        _diskPitch   = -_beta_1c;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotorBE::update( double omega,
-                          double azimuth,
-                          double collective,
-                          double cyclicLat,
-                          double cyclicLon )
+void MainRotorBE::convertToHubRAS( const Vector3 &vel_bas,
+                                   const Vector3 &omg_bas,
+                                   const Vector3 &acc_bas,
+                                   const Vector3 &eps_bas,
+                                   const Vector3 &vel_air_bas,
+                                   const Vector3 &omg_air_bas,
+                                   const Vector3 &grav_bas,
+                                   Vector3 *vel_ras,
+                                   Vector3 *omg_ras,
+                                   Vector3 *acc_ras,
+                                   Vector3 *eps_ras,
+                                   Vector3 *vel_air_ras,
+                                   Vector3 *omg_air_ras,
+                                   Vector3 *grav_ras )
 {
-    ////////////////////////////////////
-    MainRotor::update( omega, azimuth );
-    ////////////////////////////////////
+    (*vel_ras) = _bas2ras * ( vel_bas + ( omg_bas % _r_hub_bas ) );
+    (*omg_ras) = _bas2ras * omg_bas;
 
-    // controls
-    _theta_0  = collective;
-    _theta_1c = _direction == CW ? cyclicLat : -cyclicLat;
-    _theta_1s = cyclicLon;
+    (*acc_ras) = _bas2ras * (
+                    acc_bas
+                    + ( omg_bas % ( omg_bas % _r_hub_bas ) )    // centrifugal acceleration
+                    + ( eps_bas % _r_hub_bas )                  // Euler acceleration
+               );
+    (*eps_ras) = _bas2ras * eps_bas;
+
+    (*grav_ras) = _bas2ras * grav_bas;
+
+    (*vel_air_ras) = _bas2ras * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
+    (*omg_air_ras) = _bas2ras * omg_air_bas;
 }

@@ -43,7 +43,8 @@ struct DataInp
         C172 = 1,                       ///< Cessna 172
         F16  = 2,                       ///< F-16
         P51  = 3,                       ///< P-51
-        UH60 = 4                        ///< UH-60
+        UH60 = 4,                       ///< UH-60
+        TEST = 5                        ///< TEST
 
     };
 

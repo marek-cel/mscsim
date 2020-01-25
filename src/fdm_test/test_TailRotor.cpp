@@ -19,67 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_PROPULSION_H
-#define UH602_PROPULSION_H
+
+#include <fdm_test/test_TailRotor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
-{
-
-class UH602_Aircraft;    ///< aircraft class forward declaration
-
-/**
- * @brief UH-60 propulsion class.
- */
-class UH602_Propulsion : public Propulsion
-{
-public:
-
-    /** Constructor. */
-    UH602_Propulsion( const UH602_Aircraft *aircraft );
-
-    /** Destructor. */
-    ~UH602_Propulsion();
-
-    /** Initializes propulsion. */
-    void init();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-    /** Computes force and moment. */
-    void computeForceAndMoment();
-
-    /** Updates model. */
-    void update();
-
-    inline double getMainRotorPsi() const { return _mainRotorPsi; }
-    inline double getTailRotorPsi() const { return _tailRotorPsi; }
-
-    inline double getMainRotorOmega() const { return _mainRotorOmega; }
-    inline double getTailRotorOmega() const { return _tailRotorOmega; }
-
-private:
-
-    const UH602_Aircraft *_aircraft;     ///< aircraft model main object
-
-    double _mainRotorPsi;               ///< [rad]
-    double _tailRotorPsi;               ///< [rad]
-
-    double _mainRotorOmega;             ///< [rad/s]
-    double _tailRotorOmega;             ///< [rad/s]
-};
-
-} // end of fdm namespace
+TEST_TailRotor::TEST_TailRotor() :
+    TailRotor()
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_PROPULSION_H
+TEST_TailRotor::~TEST_TailRotor() {}

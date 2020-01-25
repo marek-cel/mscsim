@@ -99,7 +99,7 @@ protected:
     double _climbRate;      ///< [m/s] desired climb rate
     double _pitch;          ///< [rad] desired pitch
 
-    bool _engaged;          ///< specify if flight director is engaged
+    bool _engaged;          ///< specifies if flight director is engaged
 };
 
 } // end of fdm namespace

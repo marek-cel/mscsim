@@ -57,6 +57,8 @@ TailRotor::TailRotor() :
 
     _omega ( 0.0 ),
 
+    _theta ( 0.0 ),
+
     _thrust ( 0.0 ),
     _torque ( 0.0 )
 {
@@ -136,14 +138,10 @@ void TailRotor::readData( XmlNode &dataNode )
 
 void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
                                        const Vector3 &omg_air_bas,
-                                       double airDensity,
-                                       double collective )
+                                       double airDensity )
 {
     double omega2 = _omega * _omega;
     double omegaR = _omega * _r;
-
-    // controls
-    double theta_0 = collective;
 
     // velocity transformations
     Vector3 vel_air_ras = _bas2ras * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
@@ -175,7 +173,7 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
         lambda = mu_z - lambda_i;
 
         // thrust coefficient
-        ct = 0.5 * _a * _s  * _b * ( lambda * _b / 2.0 + theta_0 * ( _b + 1.5 * mu2 ) / 3.0 );
+        ct = 0.5 * _a * _s  * _b * ( lambda * _b / 2.0 + _theta * ( _b + 1.5 * mu2 ) / 3.0 );
         if ( ct > _ct_max ) ct = _ct_max;
 
         // zero function (Padfield p.124)
@@ -228,7 +226,8 @@ void TailRotor::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TailRotor::update( double omega )
+void TailRotor::update( double omega, double theta )
 {
     _omega = omega;
+    _theta = theta;
 }

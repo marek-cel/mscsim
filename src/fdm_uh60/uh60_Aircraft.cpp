@@ -86,4 +86,25 @@ void UH60_Aircraft::updateOutputData()
     _dataOut->rotor.mainRotor_cyclicLon   = _ctrl->getCyclicLon();
     _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();
     _dataOut->rotor.tailRotor_azimuth     = _prop->getTailRotorPsi();
+
+    // blades
+    double delta_psi = 2.0 * M_PI / (double)( _aero->getMainRotor()->getNumberOfBlades() );
+    for ( int i = 0; i < _aero->getMainRotor()->getNumberOfBlades(); i++ )
+    {
+        double psi = _prop->getMainRotorPsi() + i * delta_psi;
+
+        double sinPsi = sin( psi );
+        double cosPsi = cos( psi );
+
+        double beta  = _aero->getMainRotor()->getBeta0()
+                     + _aero->getMainRotor()->getBeta1c() * cosPsi
+                     + _aero->getMainRotor()->getBeta1s() * sinPsi;
+
+        double theta = _aero->getMainRotor()->getTheta0()
+                     + _aero->getMainRotor()->getTheta1c() * cosPsi
+                     + _aero->getMainRotor()->getTheta1s() * sinPsi;
+
+        _dataOut->blade[ i ].beta  = beta;
+        _dataOut->blade[ i ].theta = theta;
+    }
 }

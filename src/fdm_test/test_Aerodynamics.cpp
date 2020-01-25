@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Aerodynamics.h>
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_Aerodynamics.h>
+#include <fdm_test/test_Aircraft.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Aerodynamics::UH602_Aerodynamics( const UH602_Aircraft *aircraft ) :
+TEST_Aerodynamics::TEST_Aerodynamics( const TEST_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
@@ -41,16 +41,16 @@ UH602_Aerodynamics::UH602_Aerodynamics( const UH602_Aircraft *aircraft ) :
     _stabHor   ( 0 ),
     _stabVer   ( 0 )
 {
-    _mainRotor = new UH602_MainRotor();
-    _tailRotor = new UH602_TailRotor();
-    _fuselage  = new UH602_Fuselage();
-    _stabHor   = new UH602_StabilizerHor();
-    _stabVer   = new UH602_StabilizerVer();
+    _mainRotor = new TEST_MainRotor();
+    _tailRotor = new TEST_TailRotor();
+    _fuselage  = new TEST_Fuselage();
+    _stabHor   = new TEST_StabilizerHor();
+    _stabVer   = new TEST_StabilizerVer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Aerodynamics::~UH602_Aerodynamics()
+TEST_Aerodynamics::~TEST_Aerodynamics()
 {
     FDM_DELPTR( _mainRotor );
     FDM_DELPTR( _tailRotor );
@@ -61,7 +61,7 @@ UH602_Aerodynamics::~UH602_Aerodynamics()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aerodynamics::init()
+void TEST_Aerodynamics::init()
 {
     /////////////////////
     Aerodynamics::init();
@@ -70,7 +70,7 @@ void UH602_Aerodynamics::init()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aerodynamics::readData( XmlNode &dataNode )
+void TEST_Aerodynamics::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -94,12 +94,18 @@ void UH602_Aerodynamics::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aerodynamics::computeForceAndMoment()
+void TEST_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-//    _mainRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+//    _mainRotor->computeForceAndMoment( _aircraft->getVel_BAS(),
+//                                       _aircraft->getOmg_BAS(),
+//                                       _aircraft->getAcc_BAS(),
+//                                       _aircraft->getEps_BAS(),
+//                                       _aircraft->getVel_air_BAS(),
 //                                       _aircraft->getOmg_air_BAS(),
+//                                       _aircraft->getGrav_BAS(),
+//                                       _aircraft->getEnvir()->getDensity(),
 //                                       _aircraft->getCtrl()->getCollective(),
 //                                       _aircraft->getCtrl()->getCyclicLat(),
 //                                       _aircraft->getCtrl()->getCyclicLon() );
@@ -173,7 +179,7 @@ void UH602_Aerodynamics::computeForceAndMoment()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Aerodynamics::update()
+void TEST_Aerodynamics::update()
 {
     ///////////////////////
     Aerodynamics::update();
@@ -184,9 +190,9 @@ void UH602_Aerodynamics::update()
                            _aircraft->getOmg_BAS(),
                            _aircraft->getAcc_BAS(),
                            _aircraft->getEps_BAS(),
-                           _aircraft->getGrav_BAS(),
                            _aircraft->getVel_air_BAS(),
                            _aircraft->getOmg_air_BAS(),
+                           _aircraft->getGrav_BAS(),
                            _aircraft->getEnvir()->getDensity() );
 
     _mainRotor->update( _aircraft->getProp()->getMainRotorOmega(),
@@ -195,6 +201,6 @@ void UH602_Aerodynamics::update()
                         _aircraft->getCtrl()->getCyclicLat(),
                         _aircraft->getCtrl()->getCyclicLon() );
 
-
-    _tailRotor->update( _aircraft->getProp()->getTailRotorOmega() );
+    _tailRotor->update( _aircraft->getProp()->getTailRotorOmega(),
+                        _aircraft->getCtrl()->getTailPitch() );
 }

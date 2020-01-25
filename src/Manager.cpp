@@ -202,6 +202,12 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->cgi.hud.stall = dataOut.flight.stall;
 
     // ownship
+    for ( int i = 0; i < FDM_MAX_BLADES; i++ )
+    {
+        Data::get()->ownship.blade[ i ].beta  = dataOut.blade[ i ].beta;
+        Data::get()->ownship.blade[ i ].theta = dataOut.blade[ i ].theta;
+    }
+
     Data::get()->ownship.latitude  = dataOut.flight.latitude;
     Data::get()->ownship.longitude = dataOut.flight.longitude;
 

@@ -19,43 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_LANDINGGEAR_H
-#define UH602_LANDINGGEAR_H
+#ifndef TEST_FUSELAGE_H
+#define TEST_FUSELAGE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_LandingGear.h>
+#include <fdm/models/fdm_Fuselage.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class UH602_Aircraft;    ///< aircraft class forward declaration
-
 /**
- * @brief UH-60 landing gear class.
+ * @brief UH-60 fuselage class.
  */
-class UH602_LandingGear : public LandingGear
+class TEST_Fuselage : public Fuselage
 {
 public:
 
     /** Constructor. */
-    UH602_LandingGear( const UH602_Aircraft *aircraft );
+    TEST_Fuselage();
 
     /** Destructor. */
-    ~UH602_LandingGear();
+    ~TEST_Fuselage();
 
-    /** Updates model. */
-    void update();
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
 
 private:
 
-    const UH602_Aircraft *_aircraft;     ///< aircraft model main object
+    Table _cx_beta;             ///< [-] incremental drag coefficient vs [rad] angle of sideslip
+    Table _cz_beta;             ///< [-] incremental lift coefficient vs [rad] angle of sideslip
+    Table _cm_beta;             ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
+
+    /**
+     * Computes drag coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] drag coefficient
+     */
+    double getCx( double angleOfAttack ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] lift coefficient
+     */
+    double getCz( double angleOfAttack ) const;
+
+    /**
+     * Computes pitching moment coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] pitching moment coefficient
+     */
+    double getCm( double angleOfAttack ) const;
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_LANDINGGEAR_H
+#endif // TEST_FUSELAGE_H

@@ -20,7 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_StabilizerHor.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,28 +30,30 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_LandingGear::UH602_LandingGear( const UH602_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
-    _aircraft ( aircraft )
+TEST_StabilizerHor::TEST_StabilizerHor() :
+    _elevator ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_LandingGear::~UH602_LandingGear() {}
+TEST_StabilizerHor::~TEST_StabilizerHor() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_LandingGear::update()
+void TEST_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                                const Vector3 &omg_air_bas,
+                                                double airDensity,
+                                                double elevator )
 {
-    //////////////////////
-    LandingGear::update();
-    //////////////////////
+    _elevator = elevator;
 
-    _brake_l = _aircraft->getCtrl()->getBrakeL();
-    _brake_r = _aircraft->getCtrl()->getBrakeR();
+    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
+}
 
-    _ctrlAngle = 0.0;
+////////////////////////////////////////////////////////////////////////////////
 
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = false;
+double TEST_StabilizerHor::getAngleOfAttack( const Vector3 &vel_air_bas,
+                                             double wingAngleOfAttack )
+{
+    return Stabilizer::getAngleOfAttack( vel_air_bas, wingAngleOfAttack ) + _elevator;
 }

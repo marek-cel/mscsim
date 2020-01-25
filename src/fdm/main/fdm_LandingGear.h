@@ -38,7 +38,7 @@ namespace fdm
 /**
  * @brief Landing gear base class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <landing_gear>
  *   <wheel [steerable="{ 0|1 }"] [caster="{ 0|1 }"] [brake_group="{ 0|1|2 }]">

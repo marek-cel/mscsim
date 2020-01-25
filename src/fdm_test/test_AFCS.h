@@ -19,19 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_uh602/uh602_TailRotor.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef TEST_AFCS_H
+#define TEST_AFCS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_TailRotor::UH602_TailRotor() :
-    TailRotor()
-{}
+namespace fdm
+{
+
+/**
+ * @brief UH-60 Automatic Flight Control System (AFCS) class.
+ *
+ * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume 1: Mathematical Model, NASA-CR-166309, 1981
+ * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume II - Background Report, NASA-CR-166310, 1981
+ * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter, NASA-TM-85890, 1984
+ */
+class TEST_AFCS
+{
+public:
+
+    /** Constructor. */
+    TEST_AFCS();
+
+    /** Destructor. */
+    ~TEST_AFCS();
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_TailRotor::~UH602_TailRotor() {}
+#endif // TEST_AFCS_H

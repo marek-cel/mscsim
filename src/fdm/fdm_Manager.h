@@ -95,7 +95,7 @@ private:
 
     double _timeStepMax;            ///< [s] simulation maximum time step
 
-    bool _verbose;                  ///< specify if extra information should be printed
+    bool _verbose;                  ///< specifies if extra information should be printed
 
     /**
      * Creates aircraft object.

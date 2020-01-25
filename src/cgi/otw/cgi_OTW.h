@@ -35,7 +35,7 @@ namespace cgi
 
 /**
  * @brief Out-the-Window view class.
- * <p>This is parent module for all world sub-modules.</p>
+ * This is parent module for all world sub-modules.
  */
 class OTW : public Module
 {

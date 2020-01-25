@@ -25,6 +25,7 @@
 #include <sstream>
 
 #include <fdm/utils/fdm_Misc.h>
+#include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +42,23 @@ double Angles::normalize( double val, double min )
     while ( tmp > max ) tmp -= 2.0 * M_PI;
 
     return tmp;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Angles::DegMinSec Angles::toDegMinSec( double val )
+{
+    DegMinSec result;
+
+    double deg_abs = fabs( Units::rad2deg( val ) );
+
+    result.deg = floor( deg_abs );
+    result.min = floor( ( deg_abs - result.deg ) * 60 );
+    result.sec = ( deg_abs - result.deg - result.min / 60.0 ) * 3600.0;
+
+    if ( val < 0.0 ) result.deg *= -1;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

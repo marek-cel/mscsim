@@ -43,7 +43,7 @@ namespace fdm
  * @see Nguyen L., et al.: Simulator Study of Stall/Post-Stall Characteristics of a Fighter Airplane With Relaxed Longitudinal Static Stability, NASA-TP-1538
  * @see Gilbert W., et al.: Simulator Study of the Effectiveness of an Automatic Control System Designed to Improve the High-Angle-of-Attack Characteristics of a Fighter Airplane, NASA-TN-D-8176
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <turbofan_ab>
  *   <position> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </position>

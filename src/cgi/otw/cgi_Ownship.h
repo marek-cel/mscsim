@@ -87,6 +87,7 @@ private:
 
     osg::ref_ptr<osg::Switch> _switch;                          ///<
     osg::ref_ptr<osg::Switch> _switchRibbons;                   ///<
+    osg::ref_ptr<osg::Switch> _switchRotor;                     ///<
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronL;     ///< left aileron deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronR;     ///< right aileron deflection
@@ -129,10 +130,17 @@ private:
     osg::Vec3 _wing_tip_l;                                      ///< [m] coordinates of left wing tip
     osg::Vec3 _wing_tip_r;                                      ///< [m] coordinates of right wing tip
 
+    osg::Vec3 _rotor_center;                                    ///< [m] rotor hub center
+
     osg::ref_ptr<osg::Vec3Array> _trace_1;                      ///<
     osg::ref_ptr<osg::Vec3Array> _trace_2;                      ///<
 
+    double _hinge_offset;                                       ///< [m] flapping hinge offset from rotor shaft
+    double _rotor_radius;                                       ///< [m] rotor radius
+    double _inclination;                                        ///< [rad] rotor inclination angle
+
     bool _double_trace;                                         ///<
+    bool _helicopter;                                           ///< specifies if current aircraft is a helicopter
 
     void updateAxis( double input, ElementData::AxisData *axisData );
 
@@ -141,12 +149,14 @@ private:
     void readElementsData( const fdm::XmlNode &rootNode, ElementsData *elementsData );
     void readElementAxisData( const fdm::XmlNode &node, ElementData::AxisData *axisData );
 
-    void readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip );
+    void readVec3( const fdm::XmlNode &node, osg::Vec3 *vec );
 
     void reload();
     void reset();
 
     void updateModel();
+
+    void updateRotor();
 
     void updateTraces();
     void updateTrace( osg::Group *parent, osg::Vec3Array *positions,

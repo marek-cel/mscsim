@@ -40,7 +40,7 @@ namespace fdm
  *
  * This model is based on actuator disc theory.
  *
- * <h3>XML configuration file format:</h3>
+ * XML configuration file format:
  * @code
  * <tail_rotor>
  *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
@@ -61,7 +61,7 @@ namespace fdm
  * </tail_rotor>
  * @endcode
  *
- * <p>Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"</p>
+ * Optional elements: "thrust_factor", "torque_factor", "vel_i_factor"
  *
  * @see Gessow A., Myers G.: Aerodynamics of the Helicopter, 1985
  * @see Bramwell A.: Bramwells Helicopter Dynamics, 2001
@@ -84,16 +84,22 @@ public:
      */
     virtual void readData( XmlNode &dataNode );
 
+    /**
+     * Computes force and moment.
+     * @param vel_air_bas [m/s]    aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s]  aircraft angular velocity relative to the air expressed in BAS
+     * @param airDensity  [kg/m^3] air density
+     */
     virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
                                         const Vector3 &omg_air_bas,
-                                        double airDensity,
-                                        double collective );
+                                        double airDensity );
 
     /**
-     * @brief update
-     * @param omega [rad/s]
+     * @brief Updates rotor model.
+     * @param omega      [rad/s] rotor revolution speed
+     * @param collective [rad]   collective pitch angle
      */
-    virtual void update( double omega );
+    virtual void update( double omega, double collective );
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
@@ -143,6 +149,8 @@ protected:
     double _i_b;                ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
 
     double _omega;              ///< [rad/s] rotor revolution speed
+
+    double _theta;              ///< [rad] feathering angle
 
     double _thrust;             ///< [N] rotor thrust
     double _torque;             ///< [N*m] rotor torque

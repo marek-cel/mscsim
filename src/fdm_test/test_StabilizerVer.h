@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH602_MAINROTOR_H
-#define UH602_MAINROTOR_H
+#ifndef TEST_STABILIZERVER_H
+#define TEST_STABILIZERVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_MainRotorBE.h>
+#include <fdm/models/fdm_Stabilizer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,21 +32,21 @@ namespace fdm
 {
 
 /**
- * @brief UH-60 main rotor base class.
+ * @brief UH-60 vertical stabilizer class.
  */
-class UH602_MainRotor : public MainRotorBE
+class TEST_StabilizerVer : public Stabilizer
 {
 public:
 
     /** Constructor. */
-    UH602_MainRotor();
+    TEST_StabilizerVer();
 
     /** Destructor. */
-    ~UH602_MainRotor();
+    ~TEST_StabilizerVer();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH602_MAINROTOR_H
+#endif // TEST_STABILIZERVER_H

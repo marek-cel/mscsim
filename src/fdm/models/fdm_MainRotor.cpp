@@ -36,8 +36,18 @@ MainRotor::MainRotor() :
 
     _nb ( 0 ),
 
+    _delta_psi ( 0.0 ),
+
     _omega   ( 0.0 ),
     _azimuth ( 0.0 ),
+
+    _beta_0  ( 0.0 ),
+    _beta_1c ( 0.0 ),
+    _beta_1s ( 0.0 ),
+
+    _theta_0  ( 0.0 ),
+    _theta_1c ( 0.0 ),
+    _theta_1s ( 0.0 ),
 
     _coningAngle ( 0.0 ),
     _diskRoll    ( 0.0 ),
@@ -81,6 +91,8 @@ void MainRotor::readData( XmlNode &dataNode )
         {
             _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
             _ras2bas = _bas2ras.getTransposed();
+
+            _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
         }
         else
         {
@@ -95,8 +107,16 @@ void MainRotor::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainRotor::update( double omega, double azimuth )
+void MainRotor::update( double omega,
+                        double azimuth,
+                        double collective,
+                        double cyclicLat,
+                        double cyclicLon )
 {
     _omega   = omega;
     _azimuth = azimuth;
+
+    _theta_0  = collective;
+    _theta_1c = _direction == CW ? cyclicLat : -cyclicLat;
+    _theta_1s = cyclicLon;
 }

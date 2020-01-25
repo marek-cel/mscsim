@@ -62,6 +62,9 @@ Ownship::Ownship( const Module *parent ) :
     _switchRibbons = new osg::Switch();
     _patRibbons->addChild( _switchRibbons.get() );
 
+    _switchRotor = new osg::Switch();
+    _pat->addChild( _switchRotor.get() );
+
     _trace_1 = new osg::Vec3Array();
     _trace_2 = new osg::Vec3Array();
 }
@@ -101,6 +104,7 @@ void Ownship::update()
     _pat->setPosition( _pos_wgs );
 
     updateModel();
+    updateRotor();
     updateTraces();
 }
 
@@ -337,7 +341,7 @@ void Ownship::readElementAxisData( const fdm::XmlNode &node, ElementData::AxisDa
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ownship::readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip )
+void Ownship::readVec3( const fdm::XmlNode &node, osg::Vec3 *vec )
 {
     double x = 0.0;
     double y = 0.0;
@@ -351,7 +355,7 @@ void Ownship::readWingTipData( const fdm::XmlNode &node, osg::Vec3 *wing_tip )
 
     if ( result == FDM_SUCCESS )
     {
-        wing_tip->set( x, y, z );
+        vec->set( x, y, z );
     }
 }
 
@@ -380,10 +384,28 @@ void Ownship::reload()
             fdm::XmlNode wingTipNodeL = rootNode.getFirstChildElement( "wing_tip_l" );
             fdm::XmlNode wingTipNodeR = rootNode.getFirstChildElement( "wing_tip_r" );
 
-            if ( wingTipNodeL.isValid() ) readWingTipData( wingTipNodeL, &_wing_tip_l );
-            if ( wingTipNodeR.isValid() ) readWingTipData( wingTipNodeR, &_wing_tip_r );
+            if ( wingTipNodeL.isValid() ) readVec3( wingTipNodeL, &_wing_tip_l );
+            if ( wingTipNodeR.isValid() ) readVec3( wingTipNodeR, &_wing_tip_r );
 
             _double_trace = ( _wing_tip_l.length() + _wing_tip_r.length() ) > 1.0e-9;
+
+            fdm::XmlNode rotorNode = rootNode.getFirstChildElement( "rotor" );
+
+            if ( rotorNode.isValid() )
+            {
+                _helicopter = true;
+
+                fdm::XmlNode rotorCenterNode = rotorNode.getFirstChildElement( "rotor_center" );
+
+                readVec3( rotorCenterNode, &_rotor_center );
+
+                fdm::XmlUtils::read( rotorNode, _hinge_offset, "hinge_offset" );
+                fdm::XmlUtils::read( rotorNode, _rotor_radius, "rotor_radius" );
+
+                double inclination_deg = 0.0;
+                fdm::XmlUtils::read( rotorNode, inclination_deg, "inclination" );
+                _inclination = fdm::Units::deg2rad( inclination_deg );
+            }
 
             fdm::XmlNode nodeFlaps = rootNode.getFirstChildElement( "flaps" );
             if ( nodeFlaps.isValid() ) readElementsData( nodeFlaps, &_flapData );
@@ -448,10 +470,17 @@ void Ownship::reset()
     _wing_tip_l = osg::Vec3( 0.0, 0.0, 0.0 );
     _wing_tip_r = osg::Vec3( 0.0, 0.0, 0.0 );
 
+    _rotor_center = osg::Vec3( 0.0, 0.0, 0.0 );
+
     _trace_1->clear();
     _trace_2->clear();
 
+    _hinge_offset = 0.0;
+    _rotor_radius = 0.0;
+    _inclination  = 0.0;
+
     _double_trace = false;
+    _helicopter = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -614,29 +643,89 @@ void Ownship::updateModel()
     }
 
     // main rotor blades
-    unsigned int bladesCount = _rotorBlades.size();
-    double psiStep = 2.0*M_PI / (float)bladesCount;
-
-    for ( unsigned int i = 0; i < bladesCount; i++ )
+    for ( unsigned int i = 0; i < _rotorBlades.size() && i < FDM_MAX_BLADES; i++ )
     {
-        double psi = Data::get()->ownship.mainRotor_azimuth
-                   + (double)(i*psiStep) * Data::get()->ownship.mainRotor_coef;
-
-        double sinPsi = sin( psi );
-        double cosPsi = cos( psi );
-
-        // pitching
-        double pitching = Data::get()->ownship.mainRotor_collective
-                        - Data::get()->ownship.mainRotor_cyclicLon * cosPsi * Data::get()->ownship.mainRotor_coef
-                        + Data::get()->ownship.mainRotor_cyclicLat * sinPsi;
-
-        double flapping = Data::get()->ownship.mainRotor_coningAngle
-                        + Data::get()->ownship.mainRotor_diskPitch * cosPsi
-                        - Data::get()->ownship.mainRotor_diskRoll  * sinPsi * Data::get()->ownship.mainRotor_coef;
+        double pitching = Data::get()->ownship.blade[ i ].theta;
+        double flapping = Data::get()->ownship.blade[ i ].beta;
 
         _rotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
                                                    flapping, osg::Y_AXIS,
                                                         0.0, osg::Z_AXIS ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Ownship::updateRotor()
+{
+    if ( _switchRotor->getNumChildren() > 0 )
+    {
+        _switchRotor->removeChildren( 0, _switchRotor->getNumChildren() );
+    }
+
+    if ( _helicopter )
+    {
+        osg::ref_ptr<osg::PositionAttitudeTransform> patRotor = new osg::PositionAttitudeTransform();
+        _switchRotor->addChild( patRotor.get() );
+
+        patRotor->setPosition( _rotor_center );
+        patRotor->setAttitude( osg::Quat( -_inclination, osg::Y_AXIS ) );
+
+        osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+        patRotor->addChild( geode.get() );
+
+        osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+        geode->addDrawable( geometry.get() );
+
+        osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+        osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+
+        const double span = _rotor_radius - _hinge_offset;
+
+        for ( int i = 0; i <= 36; i++ )
+        {
+            double psi = fdm::Units::deg2rad( 10.0 * i );
+
+            double cosPsi = cos( psi );
+            double sinPsi = sin( psi );
+
+            double beta = Data::get()->ownship.mainRotor_coningAngle
+                        + cosPsi * Data::get()->ownship.mainRotor_diskPitch
+                        - sinPsi * Data::get()->ownship.mainRotor_diskRoll;
+
+            double cosBeta = cos( beta );
+            double sinBeta = sin( beta );
+
+            double span_real = cosBeta * span;
+
+            double xi = cosPsi * _hinge_offset;
+            double xo = cosPsi * ( _hinge_offset + span_real );
+
+            double yi = sinPsi * _hinge_offset;
+            double yo = sinPsi * ( _hinge_offset + span_real );
+
+            double zo = sinBeta * span;
+
+            v->push_back( osg::Vec3( xi, yi, 0.0 ) );
+            v->push_back( osg::Vec3( xo, yo, -zo ) );
+        }
+
+        n->push_back( osg::Vec3( 0.0f, 0.0f, -1.0f ) );
+        c->push_back( osg::Vec4( 0.0f, 0.0f, 0.0f, 0.2f ) );
+
+        geometry->setVertexArray( v );
+        geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUAD_STRIP, 0, v->size() ) );
+        geometry->setNormalArray( n.get() );
+        geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        geometry->setColorArray( c.get() );
+        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+        osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+        stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
+        stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::OFF|osg::StateAttribute::OVERRIDE );
+        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+        stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_WORLD + 11, "RenderBin" );
     }
 }
 

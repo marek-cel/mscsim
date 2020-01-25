@@ -79,9 +79,12 @@ public:
      * @param fuel specifies if fuel is provided
      * @param starter specifies if starter is enabled
      */
-    virtual void update( double throttle, double temperature,
-                         double machNumber, double densityAltitude,
-                         bool fuel, bool starter );
+    virtual void update( double throttle,
+                         double temperature,
+                         double machNumber,
+                         double densityAltitude,
+                         bool fuel,
+                         bool starter );
 
     /**
      * Returns propeller position expressed in BAS.

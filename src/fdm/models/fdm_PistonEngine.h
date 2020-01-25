@@ -37,7 +37,7 @@ namespace fdm
 /**
  * @brief Piston engine class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <engine>
  *   <rpm_min> { [rpm] minimum rpm } </rpm_min>
@@ -98,20 +98,26 @@ public:
     /**
      * Updates engine.
      * @param throttleLever [0.0,1.0] throttle lever position
-     * @param mixtureLever [0.0,1.0] mixture lever position
-     * @param rpm [rpm] engine rpm
-     * @param airPressure [Pa] air pressure
-     * @param airDensity [kg/m^3] air density
-     * @param densityAltitude [m] air density altitude
-     * @param fuel specifies if fuel is provided
-     * @param starter specifies if starter is enabled
-     * @param magneto_l specifies if left magneto is enabled
-     * @param magneto_r specifies if right magneto is enabled
+     * @param mixtureLever  [0.0,1.0] mixture lever position
+     * @param rpm           [rpm]     engine rpm
+     * @param airPressure   [Pa]      air pressure
+     * @param airDensity    [kg/m^3]  air density
+     * @param densityAlt    [m]       air density altitude
+     * @param fuel          specifies if fuel is provided
+     * @param starter       specifies if starter is enabled
+     * @param magneto_l     specifies if left magneto is enabled
+     * @param magneto_r     specifies if right magneto is enabled
      */
-    virtual void update( double throttleLever, double mixtureLever, double rpm,
-                         double airPressure, double airDensity, double densityAltitude,
-                         bool fuel, bool starter,
-                         bool magneto_l = true, bool magneto_r = true );
+    virtual void update( double throttleLever,
+                         double mixtureLever,
+                         double rpm,
+                         double airPressure,
+                         double airDensity,
+                         double densityAlt,
+                         bool fuel,
+                         bool starter,
+                         bool magneto_l = true,
+                         bool magneto_r = true );
 
     /**
      * Returns engine air flow.

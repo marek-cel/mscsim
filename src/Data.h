@@ -186,7 +186,7 @@ public:
 
         ViewType viewType;                  ///< view type
 
-        bool traces;                        ///< specify if traces are visible
+        bool traces;                        ///< specifies if traces are visible
     };
 
     /** Date and Time. */
@@ -247,6 +247,15 @@ public:
     /** Ownship data. */
     struct Ownship
     {
+        /** Blade data. */
+        struct Blade
+        {
+            double beta;                    ///< [rad] flapping angle
+            double theta;                   ///< [rad] feathering angle
+        };
+
+        Blade blade[ FDM_MAX_BLADES ];      ///< blades data
+
         char aircraftFile[ 1024 ];          ///< ownship model file path
 
         double latitude;                    ///< [rad] geodetic latitude

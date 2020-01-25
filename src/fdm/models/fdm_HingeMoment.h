@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief Flight control hinge moment class.
  *
- * <h5>XML configuration file format:</h5>
+ * XML configuration file format:
  * @code
  * <hinge_moment>
  *   <area> { [m^2] control surface area } </area>
@@ -66,12 +66,12 @@ public:
 
     /**
      * Computes hinge moment.
-     * @param dynamicPressure [Pa] dynamic pressure
+     * @param dynamicPress [Pa] dynamic pressure
      * @param alpha   [rad] angle of attack
      * @param delta   [rad] control surface deflection
      * @param delta_t [rad] control surface trim deflection
      */
-    virtual double getHingeMoment( double dynamicPressure,
+    virtual double getHingeMoment( double dynamicPress,
                                    double alpha,
                                    double delta,
                                    double delta_t = 0.0 ) const;

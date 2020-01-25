@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_uh602/uh602_Controls.h>
-#include <fdm_uh602/uh602_Aircraft.h>
+#include <fdm_test/test_Controls.h>
+#include <fdm_test/test_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Controls::UH602_Controls( const UH602_Aircraft *aircraft ) :
+TEST_Controls::TEST_Controls( const TEST_Aircraft *aircraft ) :
     Controls( aircraft ),
     _aircraft ( aircraft ),
 
@@ -51,19 +51,19 @@ UH602_Controls::UH602_Controls( const UH602_Aircraft *aircraft ) :
     _brake_l    ( 0.0 ),
     _brake_r    ( 0.0 )
 {
-    _afcs = new UH602_AFCS();
+    _afcs = new TEST_AFCS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH602_Controls::~UH602_Controls()
+TEST_Controls::~TEST_Controls()
 {
     FDM_DELPTR( _afcs );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Controls::init()
+void TEST_Controls::init()
 {
     _channelCyclicLat  = getChannelByName( "cyclic_lat" );
     _channelCyclicLon  = getChannelByName( "cyclic_lon" );
@@ -106,7 +106,7 @@ void UH602_Controls::init()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH602_Controls::update()
+void TEST_Controls::update()
 {
     ///////////////////
     Controls::update();

@@ -102,18 +102,14 @@ void UH60_Aerodynamics::computeForceAndMoment()
                                        _aircraft->getOmg_BAS(),
                                        _aircraft->getAcc_BAS(),
                                        _aircraft->getEps_BAS(),
-                                       _aircraft->getGrav_BAS(),
                                        _aircraft->getVel_air_BAS(),
                                        _aircraft->getOmg_air_BAS(),
-                                       _aircraft->getEnvir()->getDensity(),
-                                       _aircraft->getCtrl()->getCollective(),
-                                       _aircraft->getCtrl()->getCyclicLat(),
-                                       _aircraft->getCtrl()->getCyclicLon() );
+                                       _aircraft->getGrav_BAS(),
+                                       _aircraft->getEnvir()->getDensity() );
 
     _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
                                        _aircraft->getOmg_air_BAS(),
-                                       _aircraft->getEnvir()->getDensity(),
-                                       _aircraft->getCtrl()->getTailPitch() );
+                                       _aircraft->getEnvir()->getDensity() );
 
     _fuselage->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
                                       _aircraft->getOmg_air_BAS(),
@@ -186,7 +182,11 @@ void UH60_Aerodynamics::update()
     ///////////////////////
 
     _mainRotor->update( _aircraft->getProp()->getMainRotorOmega(),
-                        _aircraft->getProp()->getMainRotorPsi() );
+                        _aircraft->getProp()->getMainRotorPsi(),
+                        _aircraft->getCtrl()->getCollective(),
+                        _aircraft->getCtrl()->getCyclicLat(),
+                        _aircraft->getCtrl()->getCyclicLon() );
 
-    _tailRotor->update( _aircraft->getProp()->getTailRotorOmega() );
+    _tailRotor->update( _aircraft->getProp()->getTailRotorOmega(),
+                        _aircraft->getCtrl()->getTailPitch() );
 }
