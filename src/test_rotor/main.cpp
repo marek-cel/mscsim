@@ -22,6 +22,8 @@
 #include <QApplication>
 #include "MainWindow.h"
 
+#include <test_rotor/defs.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /** This is application main function. */
@@ -34,7 +36,12 @@ int main( int argc, char *argv[] )
 #   endif
 
     QApplication *app = new QApplication( argc, argv );
-    MainWindow   *win = new MainWindow();
+    MainWindow *win = new MainWindow();
+
+    app->setApplicationName( TEST_APP_NAME   );
+    app->setApplicationVersion( TEST_APP_VER    );
+    app->setOrganizationDomain( TEST_ORG_DOMAIN );
+    app->setOrganizationName( TEST_ORG_NAME   );
 
     win->show();
 

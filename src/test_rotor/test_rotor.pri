@@ -1,13 +1,14 @@
 HEADERS += \
-    test_rotor/MainWindow.h \
-    test_rotor/SceneRoot.h \
-    test_rotor/WidgetCGI.h
+    $$PWD/defs.h \
+    $$PWD/MainWindow.h \
+    $$PWD/SceneRoot.h \
+    $$PWD/WidgetCGI.h
 
 SOURCES += \
-    test_rotor/main.cpp \
-    test_rotor/MainWindow.cpp \
-    test_rotor/SceneRoot.cpp \
-    test_rotor/WidgetCGI.cpp
+    $$PWD/main.cpp \
+    $$PWD/MainWindow.cpp \
+    $$PWD/SceneRoot.cpp \
+    $$PWD/WidgetCGI.cpp
 
 FORMS += \
-    test_rotor/MainWindow.ui
+    $$PWD/MainWindow.ui

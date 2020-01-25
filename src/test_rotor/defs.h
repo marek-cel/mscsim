@@ -19,36 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <QApplication>
-
-#include <test_efis/defs.h>
-#include <test_efis/MainWindow.h>
+#ifndef DEFS_H
+#define DEFS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int main( int argc, char *argv[] )
-{
-    setlocale( LC_ALL, "C" );
+#define TEST_APP_NAME    "mscsim-test-rotor"
+#define TEST_APP_VER     "1.0"
+#define TEST_ORG_NAME    "Marek_Cel"
+#define TEST_ORG_DOMAIN  "marekcel.pl"
 
-#   ifdef _LINUX_
-    setenv( "LC_NUMERIC", "en_US", 1 );
-#   endif
+////////////////////////////////////////////////////////////////////////////////
 
-    QApplication *app = new QApplication( argc, argv );
-    MainWindow *win = new MainWindow();
-
-    app->setApplicationName( TEST_APP_NAME   );
-    app->setApplicationVersion( TEST_APP_VER    );
-    app->setOrganizationDomain( TEST_ORG_DOMAIN );
-    app->setOrganizationName( TEST_ORG_NAME   );
-
-    win->show();
-
-    int result = app->exec();
-
-    delete win; win = 0;
-    delete app; app = 0;
-
-    return result;
-}
+#endif // DEFS_H
