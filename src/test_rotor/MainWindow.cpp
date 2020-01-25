@@ -19,16 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define TEST_APP_NAME    "mscsim-test-efis"
-#define TEST_APP_VER     "1.0"
-#define TEST_ORG_NAME    "Marek_Cel"
-#define TEST_ORG_DOMAIN  "marekcel.pl"
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    _ui(new Ui::MainWindow),
+    _timerId ( 0 )
+{
+    _ui->setupUi(this);
+
+    _timerId = startTimer( 16 );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H
+MainWindow::~MainWindow()
+{
+    killTimer( _timerId );
+
+    if ( _ui ) delete _ui;
+    _ui = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::timerEvent( QTimerEvent *event )
+{
+    /////////////////////////////////
+    QMainWindow::timerEvent( event );
+    /////////////////////////////////
+
+    _ui->widgetCGI->update();
+}

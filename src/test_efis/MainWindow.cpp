@@ -1,5 +1,5 @@
 /****************************************************************************//*
- * Copyright (C) 2019 Marek M. Cel
+ * Copyright (C) 2020 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the "Software"),
@@ -140,7 +140,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     _dockEFIS->setDistance( dme, true );
     _dockEFIS->setBearing( adf, true );
-    _dockEFIS->setDeviation( devH, true );
+    _dockEFIS->setDeviation( devH, GraphicsEHSI::FROM );
 
     _dockEFIS->update();
 

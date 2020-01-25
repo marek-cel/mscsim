@@ -19,16 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define TEST_APP_NAME    "mscsim-test-efis"
-#define TEST_APP_VER     "1.0"
-#define TEST_ORG_NAME    "Marek_Cel"
-#define TEST_ORG_DOMAIN  "marekcel.pl"
+#include <QMainWindow>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H
+namespace Ui
+{
+    class MainWindow;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+
+    explicit MainWindow(QWidget *parent = 0);
+
+    ~MainWindow();
+
+protected:
+
+    /** */
+    void timerEvent( QTimerEvent *event );
+
+private slots:
+
+private:
+
+    Ui::MainWindow *_ui;
+
+    int _timerId;               ///<
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MAINWINDOW_H

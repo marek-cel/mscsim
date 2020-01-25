@@ -19,16 +19,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFS_H
-#define DEFS_H
+#ifndef SCENEROOT_H
+#define SCENEROOT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define TEST_APP_NAME    "mscsim-test-efis"
-#define TEST_APP_VER     "1.0"
-#define TEST_ORG_NAME    "Marek_Cel"
-#define TEST_ORG_DOMAIN  "marekcel.pl"
+#include <osg/Group>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFS_H
+/** */
+class SceneRoot
+{
+public:
+
+    /** */
+    SceneRoot();
+
+    /** */
+    virtual ~SceneRoot();
+
+    void update();
+
+    /** Returns root node. */
+    inline osg::ref_ptr<osg::Group> getRoot() { return _root; }
+
+private:
+
+    osg::ref_ptr<osg::Group> _root;
+
+    void createHelicopter();
+    void createSceneLight();
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // SCENEROOT_H
