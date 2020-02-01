@@ -86,6 +86,7 @@ add_subdirectory( fdm_c130 )
 add_subdirectory( fdm_c172 )
 add_subdirectory( fdm_f16 )
 add_subdirectory( fdm_p51 )
+add_subdirectory( fdm_test )
 add_subdirectory( fdm_uh60 )
 add_subdirectory( gui )
 add_subdirectory( hid )
@@ -106,9 +107,9 @@ qt4_add_resources( RES_SOURCES
 ################################################################################
 
 add_executable( ${PROJECT_NAME}
+    Autopilot.cpp
     main.cpp
     Manager.cpp
-    Networking.cpp
     Simulation.cpp
 
     ${MOC_SRCS}
@@ -146,6 +147,7 @@ target_link_libraries( ${PROJECT_NAME}
     fdm_c172
     fdm_f16
     fdm_p51
+    fdm_test
     fdm_uh60
     gui
     hid

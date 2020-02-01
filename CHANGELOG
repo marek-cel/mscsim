@@ -3,6 +3,8 @@
     * unit tests reorganisation
     
     * FDM manager moved to separate module
+    
+    * CMake fix
 
 
 
