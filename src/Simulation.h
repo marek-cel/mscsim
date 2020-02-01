@@ -28,7 +28,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-#include <fdm/fdm_Manager.h>
+#include <sim_fdm/fdm_Manager.h>
 
 #include <Data.h>
 

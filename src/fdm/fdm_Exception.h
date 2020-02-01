@@ -54,23 +54,21 @@ public:
 
     /** Constructor. */
     Exception() :
-        _cause ( FDM_NULLPTR )
-    {
-        _type = UnknownException;
-        _line = 0;
-        _file = "";
-        _info = "";
-    }
+        _cause ( FDM_NULLPTR ),
+        _type ( UnknownException ),
+        _line ( 0 ),
+        _file ( "" ),
+        _info ( "" )
+    {}
 
     /** Copy constructor. */
     Exception( const Exception &e ) :
-        _cause ( ( e._cause ) ? new Exception( *e._cause ) : 0 )
-    {
-        _type = e._type;
-        _line = e._line;
-        _file = e._file;
-        _info = e._info;
-    }
+        _cause ( ( e._cause ) ? new Exception( *e._cause ) : 0 ),
+        _type ( e._type ),
+        _line ( e._line ),
+        _file ( e._file ),
+        _info ( e._info )
+    {}
 
     /** Destructor. */
     virtual ~Exception()

@@ -53,25 +53,6 @@ HEADERS += \
 ################################################################################
 
 HEADERS += \
-    test_efis/defs.h \
-    test_efis/DockWidgetTest.h \
-    test_efis/MainWindow.h
-
-SOURCES += \
-    test_efis/DockWidgetTest.cpp \
-    test_efis/main.cpp \
-    test_efis/MainWindow.cpp
-
-FORMS += \
-    test_efis/DockWidgetTest.ui \
-    test_efis/MainWindow.ui
-
-RESOURCES += \
-    sim.qrc
-
-################################################################################
-
-HEADERS += \
     gui/Colors.h \
     gui/DockWidgetEFIS.h \
     gui/Fonts.h \
@@ -91,3 +72,10 @@ SOURCES += \
 
 FORMS += \
     gui/DockWidgetEFIS.ui
+
+RESOURCES += \
+    sim.qrc
+
+################################################################################
+
+include(test_efis/test_efis.pri)

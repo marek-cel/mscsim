@@ -1,3 +1,11 @@
+2020-02-01 Marek M. Cel <marekcel@marekcel.pl>
+
+    * unit tests reorganisation
+    
+    * FDM manager moved to separate module
+
+
+
 2020-01-25 Marek M. Cel <marekcel@marekcel.pl>
 
     * blade element method

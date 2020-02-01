@@ -1,7 +1,6 @@
 add_library( fdm STATIC
     fdm_Base.cpp
     fdm_Log.cpp
-    fdm_Manager.cpp
     fdm_Recorder.cpp
 
     auto/fdm_Autopilot.cpp

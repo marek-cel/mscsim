@@ -90,6 +90,7 @@ add_subdirectory( fdm_uh60 )
 add_subdirectory( gui )
 add_subdirectory( hid )
 add_subdirectory( nav )
+add_subdirectory( sim_fdm )
 
 ################################################################################
 
@@ -149,6 +150,7 @@ target_link_libraries( ${PROJECT_NAME}
     gui
     hid
     nav
+    sim_fdm
 
     ${LIBS}
 

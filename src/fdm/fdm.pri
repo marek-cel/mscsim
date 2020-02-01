@@ -5,7 +5,6 @@ HEADERS += \
     $$PWD/fdm_Defines.h \
     $$PWD/fdm_Exception.h \
     $$PWD/fdm_Log.h \
-    $$PWD/fdm_Manager.h \
     $$PWD/fdm_Path.h \
     $$PWD/fdm_Recorder.h \
     $$PWD/fdm_Types.h
@@ -13,7 +12,6 @@ HEADERS += \
 SOURCES += \
     $$PWD/fdm_Base.cpp \
     $$PWD/fdm_Log.cpp \
-    $$PWD/fdm_Manager.cpp \
     $$PWD/fdm_Recorder.cpp
 
 ################################################################################
