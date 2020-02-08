@@ -155,4 +155,50 @@ void Blade::readData( XmlNode &dataNode )
 void Blade::TEST_INIT()
 {
     Log::i() << "REMOVE ME" << std::endl;
+
+    _beta_0 = _beta_max;
+
+    Log::out() << _beta_0 << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Blade::update( double timeStep )
+{
+    double beta_0_prev = _beta_0;
+    double beta_1_prev = _beta_1;
+
+    const int steps = 10;
+
+    double dx = _b / (double)(steps);
+    double dm = _m / (double)(steps);
+
+    // moment about flapping hinge
+    double mom_fh = 0.0;
+
+    for ( int i = 0; i < steps; i++ )
+    {
+        double x = ( i + 0.5 ) * dx;
+
+        mom_fh += -9.81 * x * dm;
+    }
+
+    // flaping angle time 2nd derivative
+    _beta_2 = mom_fh / _ib;
+
+    // flapping angle and flaping angle time derivative Euler integration
+    _beta_1 += _beta_2 * timeStep;
+    _beta_0 += _beta_1 * timeStep;
+
+    // limiting flapping angle
+    _beta_0 = Misc::satur( _beta_min, _beta_max, _beta_0 );
+
+    //std::cout << "beta= " << Units::rad2deg( _beta_0 ) << std::endl;
+
+    // back calculating flaping angle time derivatives
+    if ( timeStep >= FDM_TIME_STEP_MIN )
+    {
+        _beta_1 = ( _beta_0 - beta_0_prev ) / timeStep;
+        _beta_2 = ( _beta_1 - beta_1_prev ) / timeStep;
+    }
 }

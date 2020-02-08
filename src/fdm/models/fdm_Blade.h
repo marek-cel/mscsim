@@ -78,6 +78,12 @@ public:
 
     void TEST_INIT();
 
+    /**
+     * @brief Updates blade model.
+     * @param timeStep [s] time step
+     */
+    virtual void update( double timeStep );
+
     inline double getInertia() const { return _ib; }
 
     inline double getThrust() const { return  _thrust; }

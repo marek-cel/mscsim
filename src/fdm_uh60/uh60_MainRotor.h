@@ -26,6 +26,8 @@
 
 #include <fdm/models/fdm_MainRotorAD.h>
 
+#include <fdm/sys/fdm_Lag.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -57,6 +59,10 @@ public:
                  double collective,
                  double cyclicLat,
                  double cyclicLon );
+
+private:
+
+    Lag *_downwashLag;
 };
 
 } // end of fdm namespace
