@@ -5,7 +5,8 @@ add_library( fdm_test STATIC
     test_Controls.cpp
     test_Fuselage.cpp
     test_LandingGear.cpp
-    test_MainRotor.cpp
+    test_MainRotorAD.cpp
+    test_MainRotorBE.cpp
     test_Mass.cpp
     test_Propulsion.cpp
     test_StabilizerHor.cpp

@@ -31,9 +31,7 @@
 namespace fdm
 {
 
-/**
- * @brief UH-60 fuselage class.
- */
+/** */
 class TEST_Fuselage : public Fuselage
 {
 public:

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <sim_fdm/fdm_Manager.h>
+#include <fdm_Manager.h>
 
 #include <cstring>
 

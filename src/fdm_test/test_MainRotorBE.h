@@ -19,52 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef UH60_STABILIZERHOR_H
-#define UH60_STABILIZERHOR_H
+#ifndef TEST_MAINROTORBE_H
+#define TEST_MAINROTORBE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_MainRotorBE.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-/**
- * @brief UH-60 horizontal stabilizer class.
- */
-class UH60_StabilizerHor : public Stabilizer
+/** */
+class TEST_MainRotorBE : public MainRotorBE
 {
 public:
 
     /** Constructor. */
-    UH60_StabilizerHor();
+    TEST_MainRotorBE();
 
     /** Destructor. */
-    ~UH60_StabilizerHor();
-
-    /**
-     * Computes force and moment.
-     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
-     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
-     * @param airDensity [kg/m^3] air density
-     * @param elevator [rad] elevator deflection
-     */
-    void computeForceAndMoment( const Vector3 &vel_air_bas,
-                                const Vector3 &omg_air_bas,
-                                double airDensity,
-                                double elevator );
-
-private:
-
-    double _elevator;               ///< [rad] elevator deflection
-
-    double getAngleOfAttack( const Vector3 &vel_air_bas, double wingAngleOfAttack );
+    ~TEST_MainRotorBE();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // UH60_STABILIZERHOR_H
+#endif // TEST_MAINROTORBE_H

@@ -130,6 +130,7 @@ namespace fdm
  * @see Stevens B., Lewis F.: Aircraft Control and Simulation, 1992
  * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004 [in Polish]
  * @see Narkiewicz J.: Tiltrotor Modelling for Simulation in Various Flight Conditions, 2006
+ * @see Zlocka M.: Wyklady z dynamiki lotu, 2008 [in Polish]
  */
 class FDMEXPORT Aircraft : public Base
 {
@@ -177,11 +178,11 @@ public:
     inline const Environment*   getEnvir() const { return _envir; }
     inline const Intersections* getIsect() const { return _isect; }
 
-    inline const Aerodynamics* getAero() const { return _aero; }
-    inline const Controls*     getCtrl() const { return _ctrl; }
-    inline const LandingGear*  getGear() const { return _gear; }
-    inline const Mass*         getMass() const { return _mass; }
-    inline const Propulsion*   getProp() const { return _prop; }
+    virtual inline const Aerodynamics* getAero() const { return _aero; }
+    virtual inline const Controls*     getCtrl() const { return _ctrl; }
+    virtual inline const LandingGear*  getGear() const { return _gear; }
+    virtual inline const Mass*         getMass() const { return _mass; }
+    virtual inline const Propulsion*   getProp() const { return _prop; }
 
     inline const Vector3& getPosPilotBAS() const { return _pos_pilot_bas; }
 

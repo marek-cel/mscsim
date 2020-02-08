@@ -98,9 +98,11 @@ public:
 
         if ( length > 0.0 )
         {
+            double length_inv = 1.0 / length;
+
             for ( unsigned int i = 0; i < _size; i++ )
             {
-                _items[ i ] = _items[ i ] / length;
+                _items[ i ] *= length_inv;
             }
         }
     }

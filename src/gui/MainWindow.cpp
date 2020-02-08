@@ -1087,14 +1087,15 @@ void MainWindow::updateOutputData()
     }
 
     // masses
-    Data::get()->masses.pilot_1     = _dialogMass->getPilot1();
-    Data::get()->masses.pilot_2     = _dialogMass->getPilot2();
-    Data::get()->masses.fuel_tank_1 = _dialogMass->getFuelTank1();
-    Data::get()->masses.fuel_tank_2 = _dialogMass->getFuelTank2();
-    Data::get()->masses.fuel_tank_3 = _dialogMass->getFuelTank3();
-    Data::get()->masses.fuel_tank_4 = _dialogMass->getFuelTank4();
-    Data::get()->masses.cabin       = _dialogMass->getCabin();
-    Data::get()->masses.trunk       = _dialogMass->getTrunk();
+    Data::get()->masses.pilot[ 0 ] = _dialogMass->getPilot1();
+    Data::get()->masses.pilot[ 1 ] = _dialogMass->getPilot2();
+    Data::get()->masses.tank[ 0 ]  = _dialogMass->getFuelTank1();
+    Data::get()->masses.tank[ 1 ]  = _dialogMass->getFuelTank2();
+    Data::get()->masses.tank[ 2 ]  = _dialogMass->getFuelTank3();
+    Data::get()->masses.tank[ 3 ]  = _dialogMass->getFuelTank4();
+    Data::get()->masses.cabin      = _dialogMass->getCabin();
+    Data::get()->masses.trunk      = _dialogMass->getTrunk();
+    Data::get()->masses.slung      = 0.0;
 
     // recording
     if ( _rec_file.length() > 0 )

@@ -27,13 +27,7 @@
 namespace fdm
 {
 
-/**
- * @brief UH-60 Automatic Flight Control System (AFCS) class.
- *
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume 1: Mathematical Model, NASA-CR-166309, 1981
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. Volume II - Background Report, NASA-CR-166310, 1981
- * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter, NASA-TM-85890, 1984
- */
+/** */
 class TEST_AFCS
 {
 public:

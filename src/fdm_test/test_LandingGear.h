@@ -33,9 +33,7 @@ namespace fdm
 
 class TEST_Aircraft;    ///< aircraft class forward declaration
 
-/**
- * @brief UH-60 landing gear class.
- */
+/** */
 class TEST_LandingGear : public LandingGear
 {
 public:

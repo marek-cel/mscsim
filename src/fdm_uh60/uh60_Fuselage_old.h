@@ -19,19 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_test/test_MainRotor.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef UH60_FUSELAGE_H
+#define UH60_FUSELAGE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_MainRotor::TEST_MainRotor() :
-    MainRotorBE()
-{}
+#include <fdm/models/fdm_Fuselage.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_MainRotor::~TEST_MainRotor() {}
+namespace fdm
+{
+
+/**
+ * @brief UH-60 fuselage class.
+ */
+class UH60_Fuselage : public Fuselage
+{
+public:
+
+    /** Constructor. */
+    UH60_Fuselage();
+
+    /** Destructor. */
+    ~UH60_Fuselage();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+private:
+
+    Table _cx_beta;             ///< [-] incremental drag coefficient vs [rad] angle of sideslip
+    Table _cz_beta;             ///< [-] incremental lift coefficient vs [rad] angle of sideslip
+    Table _cm_beta;             ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
+
+    /**
+     * Computes drag coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] drag coefficient
+     */
+    double getCx( double angleOfAttack ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] lift coefficient
+     */
+    double getCz( double angleOfAttack ) const;
+
+    /**
+     * Computes pitching moment coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] pitching moment coefficient
+     */
+    double getCm( double angleOfAttack ) const;
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // UH60_FUSELAGE_H

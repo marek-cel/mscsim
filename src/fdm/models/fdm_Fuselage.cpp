@@ -97,12 +97,21 @@ void Fuselage::readData( XmlNode &dataNode )
 
 void Fuselage::computeForceAndMoment( const Vector3 &vel_air_bas,
                                       const Vector3 &omg_air_bas,
-                                      double airDensity )
+                                      double airDensity,
+                                      double inducedVelocity,
+                                      double wakeSkewAngle )
 {
-    // fuselage velocity
-    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
+    // rotor downwash on the fuselage, NASA-TM-84281, p.33
+    double dwi_dvi = 1.299 + 0.671 * wakeSkewAngle
+                   - 1.172 * Misc::pow2( wakeSkewAngle )
+                   + 0.351 * Misc::pow3( wakeSkewAngle );
+    double wi = dwi_dvi * inducedVelocity;
 
-    // stabilizer angle of attack and sideslip angle
+    // fuselage velocity
+    Vector3 vel_f_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas )
+                      - Vector3( 0.0, 0.0, -wi );
+
+    // angle of attack and sideslip angle
     _angleOfAttack = Aerodynamics::getAngleOfAttack( vel_f_bas );
     _sideslipAngle = Aerodynamics::getSideslipAngle( vel_f_bas );
 

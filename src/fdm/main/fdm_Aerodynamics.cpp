@@ -31,7 +31,7 @@ using namespace fdm;
 
 double Aerodynamics::getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
 {
-    double uv = sqrt( vel_bas( _iu )*vel_bas( _iu ) + vel_bas( _iv )*vel_bas( _iv ) );
+    double uv = vel_bas.getLengthXY();
 
     return getAngleOfAttack( uv, vel_bas( _iw ), vel_min );
 }

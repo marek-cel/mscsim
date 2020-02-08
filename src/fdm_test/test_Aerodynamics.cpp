@@ -35,13 +35,22 @@ TEST_Aerodynamics::TEST_Aerodynamics( const TEST_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
-    _mainRotor ( 0 ),
-    _tailRotor ( 0 ),
-    _fuselage  ( 0 ),
-    _stabHor   ( 0 ),
-    _stabVer   ( 0 )
+    _mainRotor   ( FDM_NULLPTR ),
+    _mainRotorAD ( FDM_NULLPTR ),
+    _mainRotorBE ( FDM_NULLPTR ),
+
+    _tailRotor ( FDM_NULLPTR ),
+    _fuselage  ( FDM_NULLPTR ),
+    _stabHor   ( FDM_NULLPTR ),
+    _stabVer   ( FDM_NULLPTR )
 {
-    _mainRotor = new TEST_MainRotor();
+#   ifdef FDM_TEST_ROTOR_BE
+    _mainRotor = _mainRotorBE = new TEST_MainRotorBE();
+#   else
+    _mainRotor = _mainRotorAD = new TEST_MainRotorAD();
+#   endif
+
+
     _tailRotor = new TEST_TailRotor();
     _fuselage  = new TEST_Fuselage();
     _stabHor   = new TEST_StabilizerHor();
@@ -52,7 +61,9 @@ TEST_Aerodynamics::TEST_Aerodynamics( const TEST_Aircraft *aircraft ) :
 
 TEST_Aerodynamics::~TEST_Aerodynamics()
 {
-    FDM_DELPTR( _mainRotor );
+    FDM_DELPTR( _mainRotorAD );
+    FDM_DELPTR( _mainRotorBE );
+
     FDM_DELPTR( _tailRotor );
     FDM_DELPTR( _fuselage );
     FDM_DELPTR( _stabHor );
@@ -74,17 +85,27 @@ void TEST_Aerodynamics::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor" );
         XmlNode nodeTailRotor = dataNode.getFirstChildElement( "tail_rotor" );
         XmlNode nodeFuselage  = dataNode.getFirstChildElement( "fuselage" );
         XmlNode nodeStabHor   = dataNode.getFirstChildElement( "stab_hor" );
         XmlNode nodeStabVer   = dataNode.getFirstChildElement( "stab_ver" );
 
-        _mainRotor->readData( nodeMainRotor );
         _tailRotor->readData( nodeTailRotor );
         _fuselage->readData( nodeFuselage );
         _stabHor->readData( nodeStabHor );
         _stabVer->readData( nodeStabVer );
+
+        if ( _mainRotorAD )
+        {
+            XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor_ad" );
+            _mainRotorAD->readData( nodeMainRotor );
+        }
+
+        if ( _mainRotorBE )
+        {
+            XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor_be" );
+            _mainRotorBE->readData( nodeMainRotor );
+        }
     }
     else
     {
@@ -185,15 +206,17 @@ void TEST_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-    _mainRotor->integrate( _aircraft->getTimeStep(),
-                           _aircraft->getVel_BAS(),
-                           _aircraft->getOmg_BAS(),
-                           _aircraft->getAcc_BAS(),
-                           _aircraft->getEps_BAS(),
-                           _aircraft->getVel_air_BAS(),
-                           _aircraft->getOmg_air_BAS(),
-                           _aircraft->getGrav_BAS(),
-                           _aircraft->getEnvir()->getDensity() );
+#   ifdef FDM_TEST_ROTOR_BE
+    _mainRotorBE->integrate( _aircraft->getTimeStep(),
+                             _aircraft->getVel_BAS(),
+                             _aircraft->getOmg_BAS(),
+                             _aircraft->getAcc_BAS(),
+                             _aircraft->getEps_BAS(),
+                             _aircraft->getVel_air_BAS(),
+                             _aircraft->getOmg_air_BAS(),
+                             _aircraft->getGrav_BAS(),
+                             _aircraft->getEnvir()->getDensity() );
+#   endif
 
     _mainRotor->update( _aircraft->getProp()->getMainRotorOmega(),
                         _aircraft->getProp()->getMainRotorPsi(),

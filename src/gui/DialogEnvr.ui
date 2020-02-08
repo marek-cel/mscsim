@@ -71,7 +71,7 @@
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
         <property name="buddy">
-         <cstring>sliderTurbulence</cstring>
+         <cstring>comboTurbulence</cstring>
         </property>
        </widget>
       </item>
@@ -98,49 +98,11 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSlider" name="sliderTurbulence">
-        <property name="maximum">
-         <number>100</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="2">
        <widget class="ComboUnitsAngle" name="comboWindDir"/>
       </item>
       <item row="1" column="2">
        <widget class="ComboUnitsVelocity" name="comboWindSpeed"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QSpinBox" name="spinBoxTurbulence">
-        <property name="font">
-         <font>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="suffix">
-         <string>%</string>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-       </widget>
       </item>
       <item row="3" column="1" colspan="2">
        <widget class="QComboBox" name="comboWindShear">
@@ -167,6 +129,35 @@
         <item>
          <property name="text">
           <string>Model 4</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QComboBox" name="comboTurbulence">
+        <item>
+         <property name="text">
+          <string>None</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mild</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Moderate</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Severe</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Extreme</string>
          </property>
         </item>
        </widget>
@@ -602,7 +593,7 @@
   <tabstop>comboWindDir</tabstop>
   <tabstop>spinBoxWindSpeed</tabstop>
   <tabstop>comboWindSpeed</tabstop>
-  <tabstop>sliderTurbulence</tabstop>
+  <tabstop>comboTurbulence</tabstop>
   <tabstop>comboWindShear</tabstop>
   <tabstop>sliderVisibility</tabstop>
   <tabstop>comboVisibility</tabstop>
@@ -613,6 +604,9 @@
   <tabstop>comboCloudsBlockBaseASL</tabstop>
   <tabstop>spinBoxCloudsBlockThickness</tabstop>
   <tabstop>comboCloudsBlockThickness</tabstop>
+  <tabstop>spinBoxCloudsLayerBaseASL</tabstop>
+  <tabstop>comboCloudsLayerBaseASL</tabstop>
+  <tabstop>comboCloudsLayerCover</tabstop>
  </tabstops>
  <resources/>
  <connections>

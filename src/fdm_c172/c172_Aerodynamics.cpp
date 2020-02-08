@@ -35,9 +35,9 @@ C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
-    _tailOff ( 0 ),
-    _stabHor ( 0 ),
-    _stabVer ( 0 ),
+    _tailOff ( FDM_NULLPTR ),
+    _stabHor ( FDM_NULLPTR ),
+    _stabVer ( FDM_NULLPTR ),
 
     _dl_dtorque ( 0.0 ),
     _dn_dtorque ( 0.0 )

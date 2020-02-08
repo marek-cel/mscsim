@@ -50,11 +50,11 @@ void C130_Mass::init()
 
     if ( pilot_l && pilot_r && fuel_tank_l && fuel_tank_r && cabin )
     {
-        pilot_l->input = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input = &_aircraft->getDataInp()->masses.pilot_2;
+        pilot_l->input = &_aircraft->getDataInp()->masses.pilot[ 0 ];
+        pilot_r->input = &_aircraft->getDataInp()->masses.pilot[ 1 ];
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+        fuel_tank_l->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
+        fuel_tank_r->input = &_aircraft->getDataInp()->masses.tank[ 1 ];
 
         cabin->input = &_aircraft->getDataInp()->masses.cabin;
     }

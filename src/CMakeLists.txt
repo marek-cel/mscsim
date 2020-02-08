@@ -91,7 +91,6 @@ add_subdirectory( fdm_uh60 )
 add_subdirectory( gui )
 add_subdirectory( hid )
 add_subdirectory( nav )
-add_subdirectory( sim_fdm )
 
 ################################################################################
 
@@ -108,6 +107,7 @@ qt4_add_resources( RES_SOURCES
 
 add_executable( ${PROJECT_NAME}
     Autopilot.cpp
+    fdm_Manager.cpp
     main.cpp
     Manager.cpp
     Simulation.cpp

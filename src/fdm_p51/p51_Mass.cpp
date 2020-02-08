@@ -48,10 +48,10 @@ void P51_Mass::init()
 
     if ( pilot && fuel_tank_l && fuel_tank_r )
     {
-        pilot->input = &_aircraft->getDataInp()->masses.pilot_1;
+        pilot->input = &_aircraft->getDataInp()->masses.pilot[ 0 ];
 
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.fuel_tank_2;
+        fuel_tank_l->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
+        fuel_tank_r->input = &_aircraft->getDataInp()->masses.tank[ 1 ];
     }
     else
     {

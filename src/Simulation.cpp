@@ -160,14 +160,19 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     }
 
     // masses
-    _dataInp.masses.pilot_1     = data->masses.pilot_1;
-    _dataInp.masses.pilot_2     = data->masses.pilot_2;
-    _dataInp.masses.fuel_tank_1 = data->masses.fuel_tank_1;
-    _dataInp.masses.fuel_tank_2 = data->masses.fuel_tank_2;
-    _dataInp.masses.fuel_tank_3 = data->masses.fuel_tank_3;
-    _dataInp.masses.fuel_tank_4 = data->masses.fuel_tank_4;
-    _dataInp.masses.cabin       = data->masses.cabin;
-    _dataInp.masses.trunk       = data->masses.trunk;
+    for ( unsigned int i = 0; i < FDM_MAX_PILOTS; i++ )
+    {
+        _dataInp.masses.pilot[ i ] = data->masses.pilot[ i ];
+    }
+
+    for ( unsigned int i = 0; i < FDM_MAX_TANKS; i++ )
+    {
+        _dataInp.masses.tank[ i ] = data->masses.tank[ i ];
+    }
+
+    _dataInp.masses.cabin = data->masses.cabin;
+    _dataInp.masses.trunk = data->masses.trunk;
+    _dataInp.masses.slung = data->masses.slung;
 
     // recording
     _dataInp.recording.mode = data->recording.mode;

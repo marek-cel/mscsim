@@ -49,7 +49,9 @@ class DialogEnvr : public QDialog
 
 public:
 
-    typedef fdm::DataInp::Environment::WindShear WindShear;
+    typedef fdm::DataInp::Environment::Turbulence Turbulence;
+    typedef fdm::DataInp::Environment::WindShear  WindShear;
+
     typedef Data::CGI::Environment::Clouds::Type CloudsType;
     typedef Data::CGI::Environment::Clouds::Data::Block BlockClouds;
     typedef Data::CGI::Environment::Clouds::Data::Layer LayerClouds;
@@ -66,9 +68,9 @@ public:
 
     inline double getWindDirection() const { return _windDirection; }
     inline double getWindSpeed()     const { return _windSpeed;     }
-    inline double getTurbulence()    const { return _turbulence;    }
 
-    inline WindShear getWindShear() const { return _windShear; }
+    inline Turbulence getTurbulence() const { return _turbulence; }
+    inline WindShear  getWindShear()  const { return _windShear;  }
 
     inline CloudsType getCloudsType() const { return _cloudsType; }
 
@@ -89,9 +91,9 @@ private:
 
     double _windDirection;          ///< [rad] wind direction
     double _windSpeed;              ///< [m/s] wind speed
-    double _turbulence;             ///< [-] turbulence intensity
 
-    WindShear _windShear;           ///< active wind shear model
+    Turbulence _turbulence;         ///< turbulence intensity
+    WindShear  _windShear;          ///< active wind shear model
 
     double _visibility;             ///< [m]
 
@@ -120,8 +122,6 @@ private slots:
     void on_comboWindSpeed_currentIndexChanged( int index );
 
     void on_comboVisibility_currentIndexChanged( int index );
-
-    void on_sliderTurbulence_valueChanged( int value );
 
     void on_sliderVisibility_valueChanged( int value );
 

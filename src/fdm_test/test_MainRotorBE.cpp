@@ -19,34 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef TEST_MAINROTOR_H
-#define TEST_MAINROTOR_H
+
+#include <fdm_test/test_MainRotorBE.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_MainRotorBE.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
-{
-
-/**
- * @brief UH-60 main rotor base class.
- */
-class TEST_MainRotor : public MainRotorBE
-{
-public:
-
-    /** Constructor. */
-    TEST_MainRotor();
-
-    /** Destructor. */
-    ~TEST_MainRotor();
-};
-
-} // end of fdm namespace
+TEST_MainRotorBE::TEST_MainRotorBE() :
+    MainRotorBE()
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TEST_MAINROTOR_H
+TEST_MainRotorBE::~TEST_MainRotorBE() {}

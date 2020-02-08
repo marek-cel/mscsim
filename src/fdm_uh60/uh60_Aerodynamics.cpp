@@ -35,11 +35,11 @@ UH60_Aerodynamics::UH60_Aerodynamics( const UH60_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
-    _mainRotor ( 0 ),
-    _tailRotor ( 0 ),
-    _fuselage  ( 0 ),
-    _stabHor   ( 0 ),
-    _stabVer   ( 0 )
+    _mainRotor ( FDM_NULLPTR ),
+    _tailRotor ( FDM_NULLPTR ),
+    _fuselage  ( FDM_NULLPTR ),
+    _stabHor   ( FDM_NULLPTR ),
+    _stabVer   ( FDM_NULLPTR )
 {
     _mainRotor = new UH60_MainRotor();
     _tailRotor = new UH60_TailRotor();
@@ -107,20 +107,25 @@ void UH60_Aerodynamics::computeForceAndMoment()
                                        _aircraft->getGrav_BAS(),
                                        _aircraft->getEnvir()->getDensity() );
 
-    _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
+    _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                        _aircraft->getOmg_air_BAS(),
                                        _aircraft->getEnvir()->getDensity() );
 
-    _fuselage->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
+    _fuselage->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                       _aircraft->getOmg_air_BAS(),
-                                      _aircraft->getEnvir()->getDensity() );
+                                      _aircraft->getEnvir()->getDensity(),
+                                      _mainRotor->getBeta1c(),
+                                      _mainRotor->getWakeSkew(),
+                                      0.0,
+                                      _aircraft->getProp()->getMainRotorOmega(),
+                                      _mainRotor->getRadius() );
 
-    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS() - _mainRotor->getVel_i_BAS(),
+    _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getElevator() );
 
-    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS() - _tailRotor->getVel_i_BAS(),
+    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity() );
 
@@ -131,31 +136,6 @@ void UH60_Aerodynamics::computeForceAndMoment()
     _mom_bas = _mainRotor->getMom_BAS() + _tailRotor->getMom_BAS()
              + _fuselage->getMom_BAS()
              + _stabHor->getMom_BAS() + _stabVer->getMom_BAS();
-
-//            // damping
-//            double R_2v = 0.0;
-
-//            if ( _aircraft->getAirspeed() > 0.1 )
-//            {
-//                R_2v = _mainRotor->getRadius() / ( 2.0 * _aircraft->getAirspeed() );
-//            }
-
-//            Vector3 omg_air_stab = _bas2stab * _aircraft->getOmg_air_BAS();
-
-//            double cl = -0.240 * omg_air_stab.x() * R_2v;
-//            double cm = -0.120 * omg_air_stab.y() * R_2v;
-//            double cn = -0.120 * omg_air_stab.z() * R_2v;
-
-//            // dynamic pressure
-//            double dynPress = _aircraft->getDynPress();
-
-//            double aR = _mainRotor->getDiskArea() * _mainRotor->getRadius();
-
-//            Vector3 mom_aero( dynPress * aR * cl,
-//                              dynPress * aR * cm,
-//                              dynPress * aR * cn );
-
-//            _mom_bas += _stab2bas * mom_aero;
 
     // computing forces expressed in Aerodynamic Axes System
     // computing moments expressed in Stability Axes System

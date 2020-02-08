@@ -20,6 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <fdm_uh60/uh60_Mass.h>
 #include <fdm_uh60/uh60_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,9 +49,9 @@ void UH60_Mass::init()
 
     if ( pilot_l && pilot_r && fuel_tank && cabin )
     {
-        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot_1;
-        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot_2;
-        fuel_tank->input = &_aircraft->getDataInp()->masses.fuel_tank_1;
+        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot[ 0 ];
+        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot[ 1 ];
+        fuel_tank->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
         cabin->input     = &_aircraft->getDataInp()->masses.cabin;
     }
     else

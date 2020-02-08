@@ -43,6 +43,20 @@ public:
 
     /** Destructor. */
     ~UH60_MainRotor();
+
+    /**
+     * @brief Updates main rotor model.
+     * @param omega      [rad/s] rotor revolution speed
+     * @param azimuth    [rad]   rotor azimuth
+     * @param collective [rad]   collective pitch angle
+     * @param cyclicLat  [rad]   cyclic lateral pitch angle
+     * @param cyclicLon  [rad]   cyclic longitudinal pitch angle
+     */
+    void update( double omega,
+                 double azimuth,
+                 double collective,
+                 double cyclicLat,
+                 double cyclicLon );
 };
 
 } // end of fdm namespace

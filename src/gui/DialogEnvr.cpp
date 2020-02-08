@@ -39,9 +39,9 @@ DialogEnvr::DialogEnvr( QWidget *parent ) :
 
     _windDirection ( 0.0 ),
     _windSpeed     ( 0.0 ),
-    _turbulence    ( 0.0 ),
 
-    _windShear ( fdm::DataInp::Environment::None ),
+    _turbulence ( fdm::DataInp::Environment::TurbulenceNone ),
+    _windShear  ( fdm::DataInp::Environment::WindShearNone  ),
 
     _visibility ( 0.0 ),
 
@@ -85,7 +85,6 @@ void DialogEnvr::readData()
 
     _ui->spinBoxWindDir->setValue( _ui->comboWindDir->convert( _windDirection ) );
     _ui->spinBoxWindSpeed->setValue( _ui->comboWindSpeed->convert( _windSpeed ) );
-    _ui->sliderTurbulence->setValue( 100.0f * _turbulence );
 
     _ui->sliderVisibility->setValue( _visibility / 100.0f );
 
@@ -117,7 +116,6 @@ void DialogEnvr::saveData()
 
     _windDirection = _ui->comboWindDir->invert( _ui->spinBoxWindDir->value() );
     _windSpeed     = _ui->comboWindSpeed->invert( _ui->spinBoxWindSpeed->value() );
-    _turbulence    = (double)_ui->sliderTurbulence->value() / 100.0;
 
     _visibility = 100.0f * _ui->sliderVisibility->value();
 
@@ -193,7 +191,6 @@ void DialogEnvr::settingsRead_EnvrData( QSettings &settings )
 
     _windDirection = settings.value( "wind_dir"   , 0.0 ).toFloat();
     _windSpeed     = settings.value( "wind_speed" , 0.0 ).toFloat();
-    _turbulence    = settings.value( "turbulence" , 0.0 ).toFloat();
 
     _visibility = settings.value( "visibility", CGI_SKYDOME_RADIUS ).toFloat();
 
@@ -389,13 +386,6 @@ void DialogEnvr::on_comboVisibility_currentIndexChanged( int index )
 
     _ui->spinBoxVisibility->setMaximum( _ui->comboVisibility->convert( CGI_SKYDOME_RADIUS ) );
     _ui->spinBoxVisibility->setValue( _ui->comboVisibility->convert( value ) );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DialogEnvr::on_sliderTurbulence_valueChanged( int value )
-{
-    _ui->spinBoxTurbulence->setValue( value );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

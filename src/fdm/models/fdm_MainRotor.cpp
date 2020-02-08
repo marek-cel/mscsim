@@ -22,9 +22,6 @@
 
 #include <fdm/models/fdm_MainRotor.h>
 
-#include <fdm/utils/fdm_String.h>
-#include <fdm/xml/fdm_XmlUtils.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -33,6 +30,8 @@ using namespace fdm;
 
 MainRotor::MainRotor() :
     _direction ( CW ),
+
+    _r ( 0.0 ),
 
     _nb ( 0 ),
 
@@ -53,8 +52,15 @@ MainRotor::MainRotor() :
     _diskRoll    ( 0.0 ),
     _diskPitch   ( 0.0 ),
 
+    _ct ( 0.0 ),
+    _cq ( 0.0 ),
+
     _thrust ( 0.0 ),
-    _torque ( 0.0 )
+    _torque ( 0.0 ),
+
+    _vel_i ( 0.0 ),
+
+    _wakeSkew ( 0.0 )
 {
     _bas2ras = Matrix3x3::createIdentityMatrix();
     _ras2bas = Matrix3x3::createIdentityMatrix();
@@ -63,47 +69,6 @@ MainRotor::MainRotor() :
 ////////////////////////////////////////////////////////////////////////////////
 
 MainRotor::~MainRotor() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainRotor::readData( XmlNode &dataNode )
-{
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        if ( String::toBool( dataNode.getAttribute( "counter-clockwise" ), false ) )
-        {
-            _direction = CCW;
-        }
-        else
-        {
-            _direction = CW;
-        }
-
-        double inclination = 0.0;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination, "inclination" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nb, "number_of_blades" );
-
-        if ( result == FDM_SUCCESS )
-        {
-            _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
-            _ras2bas = _bas2ras.getTransposed();
-
-            _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
-        }
-        else
-        {
-            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-        }
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 

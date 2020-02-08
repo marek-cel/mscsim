@@ -1,3 +1,13 @@
+2020-02-08 Marek M. Cel <marekcel@marekcel.pl>
+
+    * UH-60 model according to NASA-CR-166309
+    
+    * fuselage downwash according to NASA-TM-84281
+    
+    * minor changes
+
+
+
 2020-02-01 Marek M. Cel <marekcel@marekcel.pl>
 
     * unit tests reorganisation

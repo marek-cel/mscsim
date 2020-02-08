@@ -78,19 +78,29 @@ MainRotorAD::~MainRotorAD() {}
 
 void MainRotorAD::readData( XmlNode &dataNode )
 {
-    ////////////////////////////////
-    MainRotor::readData( dataNode );
-    ////////////////////////////////
-
     if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        double blade_mass = 0.0;
+        if ( String::toBool( dataNode.getAttribute( "counter-clockwise" ), false ) )
+        {
+            _direction = CCW;
+        }
+        else
+        {
+            _direction = CW;
+        }
+
+        double blade_mass  = 0.0;
+        double inclination = 0.0;
 
         _thrust_factor = 1.0;
         _torque_factor = 1.0;
         _vel_i_factor  = 1.0;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination, "inclination" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nb, "number_of_blades" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, blade_mass, "blade_mass" );
 
@@ -115,6 +125,11 @@ void MainRotorAD::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS )
         {
+            _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
+            _ras2bas = _bas2ras.getTransposed();
+
+            _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
+
             _r2 = _r * _r;
             _r3 = _r * _r2;
             _r4 = _r * _r3;
@@ -219,10 +234,10 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     const double a_z = -acc_hub_cwas.z();
 
     // thrust coefficient
-    double ct = 0.0;
+    _ct = 0.0;
 
     // rotor inflow
-    double lambda_i = _vel_i_bas.getLength() / omegaR;
+    double lambda_i = _vel_i / omegaR;
 
     if ( fabs( lambda_i ) < 10e-14 ) lambda_i = 10e-14;
 
@@ -263,21 +278,21 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
         beta_1s_cwas = Misc::satur( -_beta_max, _beta_max, beta_1s_cwas );
 
         // thrust coefficient
-        ct = 0.5 * _a * _s * _b * ( lambda * _b / 2.0
+        _ct = 0.5 * _a * _s * _b * ( lambda * _b / 2.0
                                   + _theta_0 * ( _b2 + 1.5 * mu2 ) / 3.0
                                   + _b * mu * beta_1c_cwas / 4.0 );
-        if ( ct > _ct_max ) ct = _ct_max;
+        if ( _ct > _ct_max ) _ct = _ct_max;
 
         // zero function (Padfield p.124)
         double lambda_d = mu2 + lambda * lambda;
-        double g_0 = lambda_i - ct / ( 2.0 * sqrt( lambda_d ) );
+        double g_0 = lambda_i - _ct / ( 2.0 * sqrt( lambda_d ) );
 
         // break condition
         if ( fabs( g_0 ) < 1.0e-6 ) break;
 
         // (Padfield p.124)
-        double h_j = -( 2.0 * lambda_i * sqrt( lambda_d ) - ct ) * lambda_d
-                / ( 2*pow( lambda_d, 2.0/3.0 ) + _a * _s * lambda_d / 4.0 - ct * lambda );
+        double h_j = -( 2.0 * lambda_i * sqrt( lambda_d ) - _ct ) * lambda_d
+                / ( 2*pow( lambda_d, 2.0/3.0 ) + _a * _s * lambda_d / 4.0 - _ct * lambda );
 
         // (Padfield p.124)
         double f_j = 1.0;
@@ -290,11 +305,11 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     }
 
     // drag coefficient
-    double cd = _delta_0 + _delta_2 * ct*ct;
+    double cd = _delta_0 + _delta_2 * _ct*_ct;
 
     // moment of resistance coefficient (Bramwell p.102)
-    double cq = cd * _s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * ct;
-    if ( cq > _cq_max ) cq = _cq_max;
+    _cq = cd * _s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * _ct;
+    if ( _cq > _cq_max ) _cq = _cq_max;
 
     // flapping in axes with sideslip
     double cosBeta = cos( beta_cas );
@@ -315,18 +330,18 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     _das2bas = Matrix3x3( Angles( _diskRoll, _diskPitch, 0.0 ) ).getTransposed() * _ras2bas;
     _bas2das = _das2bas.getTransposed();
 
-    Vector3 vel_air_das = _bas2das * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
-    double beta_das = Aerodynamics::getSideslipAngle( vel_air_das );
-    Matrix3x3 dwas2das = Matrix3x3( Angles( 0.0, 0.0, beta_das ) ).getTransposed();
+    //Vector3 vel_air_das = _bas2das * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
+    //double beta_das = Aerodynamics::getSideslipAngle( vel_air_das );
+    //Matrix3x3 dwas2das = Matrix3x3( Angles( 0.0, 0.0, beta_das ) ).getTransposed();
 
-    // induced velocity (Padfield p.121)
-    double chi = atan2( mu, lambda_i - mu_z );
-    double vel_i = _vel_i_factor * lambda_i * omegaR;
+    // induced velocity (Padfield p.117)
+    _vel_i = _vel_i_factor * lambda_i * omegaR;
 
-    _vel_i_bas = _das2bas * ( dwas2das * Vector3( -vel_i * sin( chi ), 0.0, vel_i * cos( chi ) ) );
+    // rotor wake skew angle (Padfield p.121)
+    _wakeSkew = atan2( mu, lambda_i - mu_z );
 
-    _thrust = _thrust_factor * airDensity * _ad * _r2 * omega2 * ct;
-    _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * cq;
+    _thrust = _thrust_factor * airDensity * _ad * _r2 * omega2 * _ct;
+    _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * _cq;
 
     _for_bas = _das2bas * Vector3( 0.0, 0.0, -_thrust );
     _mom_bas = ( _r_hub_bas % _for_bas )

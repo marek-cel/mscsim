@@ -89,6 +89,9 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
     // stabilizer velocity
     Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
 
+    // TODO: main rotor downwash according to:
+    // [NASA-TM-84281, p.26] and [NASA-MEMO-4-15-59L]
+
     // stabilizer angle of attack and sideslip angle
     double angleOfAttack = getAngleOfAttack( vel_stab_bas, wingAngleOfAttack );
     double sideslipAngle = Aerodynamics::getSideslipAngle( vel_stab_bas );

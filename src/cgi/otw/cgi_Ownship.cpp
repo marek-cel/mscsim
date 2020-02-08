@@ -104,7 +104,9 @@ void Ownship::update()
     _pat->setPosition( _pos_wgs );
 
     updateModel();
+#   ifdef SIM_ROTOR_BLUR
     updateRotor();
+#   endif
     updateTraces();
 }
 
@@ -645,12 +647,12 @@ void Ownship::updateModel()
     // main rotor blades
     for ( unsigned int i = 0; i < _rotorBlades.size() && i < FDM_MAX_BLADES; i++ )
     {
-        double pitching = Data::get()->ownship.blade[ i ].theta;
-        double flapping = Data::get()->ownship.blade[ i ].beta;
+        double feathering = Data::get()->ownship.blade[ i ].feathering;
+        double flapping   = Data::get()->ownship.blade[ i ].flapping;
 
-        _rotorBlades[ i ]->setAttitude( osg::Quat( pitching, osg::X_AXIS,
-                                                   flapping, osg::Y_AXIS,
-                                                        0.0, osg::Z_AXIS ) );
+        _rotorBlades[ i ]->setAttitude( osg::Quat( feathering, osg::X_AXIS,
+                                                     flapping, osg::Y_AXIS,
+                                                          0.0, osg::Z_AXIS ) );
     }
 }
 

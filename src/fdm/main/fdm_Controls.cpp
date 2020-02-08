@@ -61,7 +61,7 @@ void Controls::readData( XmlNode &dataNode )
         {
             Channel channel;
 
-            channel.input = 0;
+            channel.input = FDM_NULLPTR;
             channel.output = 0.0;
 
             std::string name = channelNode.getAttribute( "name" );

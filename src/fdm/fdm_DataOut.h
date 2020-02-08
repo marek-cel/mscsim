@@ -125,8 +125,8 @@ struct DataOut
         double g_force_z;               ///< [-] z component of G-Force vector expressed in BAS (aircraft)
 
         double g_pilot_x;               ///< [-] x component of G-Force vector expressed in BAS (pilot)
-        double g_pilot_y;               ///< [-] y component of G-Force vector expressed in BAS (aircraft)
-        double g_pilot_z;               ///< [-] z component of G-Force vector expressed in BAS (aircraft)
+        double g_pilot_y;               ///< [-] y component of G-Force vector expressed in BAS (pilot)
+        double g_pilot_z;               ///< [-] z component of G-Force vector expressed in BAS (pilot)
 
         bool onGround;                  ///< specifies if aircraft is on ground
         bool stall;                     ///< specifies if aircraft is stalling
@@ -182,8 +182,8 @@ struct DataOut
     /** Blade data. */
     struct Blade
     {
-        double beta;                    ///< [rad] flapping angle
-        double theta;                   ///< [rad] feathering angle
+        double flapping;                ///< [rad] flapping angle
+        double feathering;              ///< [rad] feathering angle
     };
 
     Flight   flight;                    ///< flight data

@@ -35,9 +35,7 @@ namespace fdm
 
 class TEST_Aircraft;    ///< aircraft class forward declaration
 
-/**
- * @brief UH-60 controls class.
- */
+/** */
 class TEST_Controls : public Controls
 {
 public:

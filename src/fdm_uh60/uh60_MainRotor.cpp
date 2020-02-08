@@ -35,3 +35,35 @@ UH60_MainRotor::UH60_MainRotor() :
 ////////////////////////////////////////////////////////////////////////////////
 
 UH60_MainRotor::~UH60_MainRotor() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_MainRotor::update( double omega,
+                             double azimuth,
+                             double collective,
+                             double cyclicLat,
+                             double cyclicLon )
+{
+    ////////////////////////////////////////////////////////////////////////
+    MainRotorAD::update( omega, azimuth, collective, cyclicLat, cyclicLon );
+    ////////////////////////////////////////////////////////////////////////
+
+    // NASA-CR-166309, p.5.1-49 (PDF p.69)
+    const double k_ct  = 1.0;
+    const double t_dwo = 0.01039;
+
+    double omegaR = omega * _r;
+
+    // s - shaft axis
+    double mu_xs = 0.0 / omegaR;
+    double mu_ys = 0.0 / omegaR;
+
+    double lambda_0t = _vel_i / omegaR;
+
+    // total velocity component at the rotor (UTOTMR)
+    // NASA-CR-166309, p.5.1-20 (PDF p.40)
+    double mu_tot = sqrt( mu_xs*mu_xs + mu_ys*mu_ys + lambda_0t*lambda_0t );
+
+    // NASA-CR-166309, p.5.1-21 (PDF p.41)
+    double d_wo = k_ct * _ct / ( 2.0 * mu_tot );
+}

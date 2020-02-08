@@ -33,15 +33,15 @@ TEST_Controls::TEST_Controls( const TEST_Aircraft *aircraft ) :
     Controls( aircraft ),
     _aircraft ( aircraft ),
 
-    _channelCyclicLat  ( 0 ),
-    _channelCyclicLon  ( 0 ),
-    _channelCollective ( 0 ),
-    _channelTailPitch  ( 0 ),
-    _channelElevator   ( 0 ),
-    _channelBrakeL     ( 0 ),
-    _channelBrakeR     ( 0 ),
+    _channelCyclicLat  ( FDM_NULLPTR ),
+    _channelCyclicLon  ( FDM_NULLPTR ),
+    _channelCollective ( FDM_NULLPTR ),
+    _channelTailPitch  ( FDM_NULLPTR ),
+    _channelElevator   ( FDM_NULLPTR ),
+    _channelBrakeL     ( FDM_NULLPTR ),
+    _channelBrakeR     ( FDM_NULLPTR ),
 
-    _afcs ( 0 ),
+    _afcs ( FDM_NULLPTR ),
 
     _cyclic_lat ( 0.0 ),
     _cyclic_lon ( 0.0 ),

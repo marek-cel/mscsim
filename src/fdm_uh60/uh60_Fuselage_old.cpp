@@ -20,8 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_test/test_Propulsion.h>
-#include <fdm_test/test_Aircraft.h>
+#include <fdm_uh60/uh60_Fuselage.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -31,52 +30,34 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_Propulsion::TEST_Propulsion( const TEST_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
-    _aircraft ( aircraft ),
-
-    _mainRotorPsi ( 0.0 ),
-    _tailRotorPsi ( 0.0 ),
-
-    _mainRotorOmega ( 0.0 ),
-    _tailRotorOmega ( 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-TEST_Propulsion::~TEST_Propulsion() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void TEST_Propulsion::init()
+UH60_Fuselage::UH60_Fuselage()
 {
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    // TODO
-
-    if ( engineOn )
-    {
-        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
-    }
-    else
-    {
-        _mainRotorOmega = 0.0;
-        _tailRotorOmega = 0.0;
-    }
+    _cx_beta = Table::createOneRecordTable( 0.0 );
+    _cz_beta = Table::createOneRecordTable( 0.0 );
+    _cm_beta = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Propulsion::readData( XmlNode &dataNode )
+UH60_Fuselage::~UH60_Fuselage() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Fuselage::readData( XmlNode &dataNode )
 {
+    ///////////////////////////////
+    Fuselage::readData( dataNode );
+    ///////////////////////////////
+
     if ( dataNode.isValid() )
     {
-        // TODO
+        int result = FDM_SUCCESS;
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
+
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
@@ -86,42 +67,21 @@ void TEST_Propulsion::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Propulsion::computeForceAndMoment()
+double UH60_Fuselage::getCx( double angleOfAttack ) const
 {
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        Exception e;
-
-        e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the propulsion model." );
-
-        FDM_THROW( e );
-    }
+    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Propulsion::update()
+double UH60_Fuselage::getCz( double angleOfAttack ) const
 {
-    // TODO
-    _mainRotorPsi += _aircraft->getTimeStep() * _mainRotorOmega;
-    _tailRotorPsi += _aircraft->getTimeStep() * _tailRotorOmega;
+    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
+}
 
-    _mainRotorPsi = Angles::normalize( _mainRotorPsi );
-    _tailRotorPsi = Angles::normalize( _tailRotorPsi );
+////////////////////////////////////////////////////////////////////////////////
 
-    // TODO
-    if ( _mainRotorOmega > 0.0 )
-    {
-        _mainRotorOmega = 2 * M_PI *  258.0 / 60.0;
-        _tailRotorOmega = 2 * M_PI * 1190.0 / 60.0;
-
-//        _mainRotorOmega *= _aircraft->getDataInp()->controls.collective + 1.0e-9;
-//        _tailRotorOmega *= _aircraft->getDataInp()->controls.collective + 1.0e-9;
-    }
-    else
-    {
-        _mainRotorOmega = 0.0;
-        _tailRotorOmega = 0.0;
-    }
+double UH60_Fuselage::getCm( double angleOfAttack ) const
+{
+    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
 }

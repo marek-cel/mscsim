@@ -31,9 +31,7 @@
 namespace fdm
 {
 
-/**
- * @brief UH-60 tail rotor base class.
- */
+/** */
 class TEST_TailRotor : public TailRotor
 {
 public:

@@ -74,6 +74,8 @@ namespace fdm
  * @endcode
  *
  * Optional elements: "cy", "cz", "cl", "cm", "cn"
+ *
+ * @see Talbot P., et al.: A Mathematical Model of a Single Main Rototr Helicopter for Piloted Simulation. NASA, TM-84281, 1982
  */
 class FDMEXPORT Fuselage : public Base
 {
@@ -96,10 +98,14 @@ public:
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
+     * @param inducedVelocity [m/s] rotor induced velocity
+     * @param wakeSkewAngle [rad] rotor wake skew angle
      */
     virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
                                         const Vector3 &omg_air_bas,
-                                        double airDensity );
+                                        double airDensity,
+                                        double inducedVelocity = 0.0,
+                                        double wakeSkewAngle = 0.0 );
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }

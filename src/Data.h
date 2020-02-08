@@ -204,16 +204,17 @@ public:
     /** Environment data. */
     struct Environment
     {
-        typedef fdm::DataInp::Environment::WindShear WindShear;
+        typedef fdm::DataInp::Environment::Turbulence Turbulence;
+        typedef fdm::DataInp::Environment::WindShear  WindShear;
 
         double temperature_0;               ///< [K] sea level air temperature
         double pressure_0;                  ///< [Pa] sea level air pressure
 
         double wind_direction;              ///< [rad] wind direction
         double wind_speed;                  ///< [m/s] wind speed
-        double turbulence;                  ///< [-] turbulence intensity
 
-        WindShear windShear;                ///< wind shear model type
+        Turbulence turbulence;              ///< turbulence intensity
+        WindShear  windShear;               ///< wind shear model type
     };
 
     /** Navigation data. */
@@ -250,8 +251,8 @@ public:
         /** Blade data. */
         struct Blade
         {
-            double beta;                    ///< [rad] flapping angle
-            double theta;                   ///< [rad] feathering angle
+            double flapping;                ///< [rad] flapping angle
+            double feathering;              ///< [rad] feathering angle
         };
 
         Blade blade[ FDM_MAX_BLADES ];      ///< blades data

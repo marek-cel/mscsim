@@ -29,7 +29,8 @@
 
 #include <fdm/models/fdm_Stabilizer.h>
 
-#include <fdm_test/test_MainRotor.h>
+#include <fdm_test/test_MainRotorAD.h>
+#include <fdm_test/test_MainRotorBE.h>
 #include <fdm_test/test_TailRotor.h>
 #include <fdm_test/test_Fuselage.h>
 #include <fdm_test/test_StabilizerHor.h>
@@ -42,12 +43,7 @@ namespace fdm
 
 class TEST_Aircraft;    ///< aircraft class forward declaration
 
-/**
- * @brief UH-60 aerodynamics class.
- *
- * @see Howlett J.: UH-60A Black Hawk Engineering Simulation Program. NASA, CR-166309, 1981
- * @see Hilbert K.: A Mathematical Model of the UH-60 Helicopter. NASA, TM-85890, 1984
- */
+/** */
 class TEST_Aerodynamics : public Aerodynamics
 {
 public:
@@ -73,13 +69,18 @@ public:
     /** Updates model. */
     void update();
 
-    inline const TEST_MainRotor* getMainRotor() const { return _mainRotor; }
+    inline const MainRotor* getMainRotor() const { return _mainRotor; }
+    inline const TEST_MainRotorAD* getMainRotorAD() const { return _mainRotorAD; }
+    inline const TEST_MainRotorBE* getMainRotorBE() const { return _mainRotorBE; }
 
 private:
 
     const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 
-    TEST_MainRotor     *_mainRotor;     ///<
+    MainRotor          *_mainRotor;
+    TEST_MainRotorAD   *_mainRotorAD;   ///<
+    TEST_MainRotorBE   *_mainRotorBE;   ///<
+
     TEST_TailRotor     *_tailRotor;     ///<
     TEST_Fuselage      *_fuselage;      ///<
     TEST_StabilizerHor *_stabHor;       ///<

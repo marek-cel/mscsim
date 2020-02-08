@@ -35,6 +35,7 @@ DEFINES += \
 #    SIM_OSG_DEBUG_INFO \
     SIM_INTERSECTIONS \
     SIM_LOCAL_DATA_DIR \
+    SIM_ROTOR_BLUR \
     SIM_SKYDOME_SCALING \
     SIM_USE_THREADS \
     SIM_VERTICALSYNC
@@ -124,12 +125,14 @@ HEADERS += \
     $$PWD/Common.h \
     $$PWD/Data.h \
     $$PWD/Defines.h \
+    $$PWD/fdm_Manager.h \
     $$PWD/Manager.h \
     $$PWD/Simulation.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/Autopilot.cpp \
+    $$PWD/fdm_Manager.cpp \
     $$PWD/Manager.cpp \
     $$PWD/Simulation.cpp
 
@@ -149,4 +152,3 @@ include($$PWD/fdm_test/fdm_test.pri)
 include($$PWD/gui/gui.pri)
 include($$PWD/hid/hid.pri)
 include($$PWD/nav/nav.pri)
-include($$PWD/sim_fdm/sim_fdm.pri)

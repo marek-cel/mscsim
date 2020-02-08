@@ -33,9 +33,7 @@ namespace fdm
 
 class TEST_Aircraft;    ///< aircraft class forward declaration
 
-/**
- * @brief UH-60 propulsion class.
- */
+/** */
 class TEST_Propulsion : public Propulsion
 {
 public:

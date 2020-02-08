@@ -5,7 +5,8 @@ HEADERS += \
     $$PWD/test_Controls.h \
     $$PWD/test_Fuselage.h \
     $$PWD/test_LandingGear.h \
-    $$PWD/test_MainRotor.h \
+    $$PWD/test_MainRotorAD.h \
+    $$PWD/test_MainRotorBE.h \
     $$PWD/test_Mass.h \
     $$PWD/test_Propulsion.h \
     $$PWD/test_StabilizerHor.h \
@@ -19,7 +20,8 @@ SOURCES += \
     $$PWD/test_Controls.cpp \
     $$PWD/test_Fuselage.cpp \
     $$PWD/test_LandingGear.cpp \
-    $$PWD/test_MainRotor.cpp \
+    $$PWD/test_MainRotorAD.cpp \
+    $$PWD/test_MainRotorBE.cpp \
     $$PWD/test_Mass.cpp \
     $$PWD/test_Propulsion.cpp \
     $$PWD/test_StabilizerHor.cpp \

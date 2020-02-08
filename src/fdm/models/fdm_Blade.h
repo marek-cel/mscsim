@@ -44,20 +44,15 @@ namespace fdm
  *
  * Flapping angle is positive upwards.
  *
- * Azimuth Axis System (AAS)
- * Each rotor blade has its own Azimuth Axis System. Origin of the Azimuth Axes
- * System is coincident with the rotor hub center and rotates together with the
- * rotor. The x-axis lies on XY plane of the Rotor Axis System and points
- * towards blade trailing edge, the y-axis lies on XY plane of the Rotor Axis
- * System and points outwards, the z-axis it is coincident with the rotor shaft
- * axis and points upwards.
+ * Shaft-Rotating Axis (SRA)
+ * Each rotor blade has its own Shaft-Rotating Axis system. Origin of the
+ * Shaft-Rotating Axis system is coincident with the rotor hub center and
+ * rotates together with the rotor. The x-axis lies on XY plane of the Rotor
+ * Axis System and points towards blade trailing edge, the y-axis lies on XY
+ * plane of the Rotor Axis System and points outwards, the z-axis it is
+ * coincident with the rotor shaft axis and points upwards.
  *
- * Blade Axis System (BAS)
- * Each rotor blade has its own Blade Axis System. Origin of the Blade Axis
- * System is coincident with the point of intersection of flapping and
- * feathering hinge axes. The x-axis lies on XY plane of the Rotor Axis System
- * and points towards blade's trailing edge, y-axis is coincident with the
- * feathering hinge axis and it is positive outwards, the z-axis points upwards.
+ * Blade-Span Axis (BSA)
  *
  * XML configuration file format:
  * @code
@@ -67,10 +62,7 @@ class FDMEXPORT Blade
 {
 public:
 
-    static Matrix3x3 getRAS2AAS( double psi );
-    static Matrix3x3 getAAS2BAS( double beta );
-
-    static Matrix3x3 getRAS2BAS( double psi, double beta );
+    static Matrix3x3 getRAS2SRA( double psi );
 
     /** Constructor. */
     Blade();
@@ -84,63 +76,7 @@ public:
      */
     virtual void readData( XmlNode &dataNode );
 
-    /**
-     * Computes force and moment acting on the blade.
-     * @param vel_air_ras [m/s]     rotor hub linear velocity relative to the air expressed in RAS
-     * @param omg_air_ras [rad/s]   rotor hub angular velocity relative to the air expressed in RAS
-     * @param omg_ras     [rad/s]   rotor hub angular velocity expressed in RAS
-     * @param acc_ras     [m/s^2]   rotor hub linear acceleration vector expressed in RAS
-     * @param eps_ras     [rad/s^2] rotor hub angular acceleration vector expressed in RAS
-     * @param grav_ras    [m/s^2]   gravity acceleration vector expressed in RAS
-     * @param omega       [rad/s]   rotor angular velocity due to rotation
-     * @param azimuth     [rad]     blade azimuth
-     * @param airDensity  [kg/m^3]  air density
-     * @param theta_0     [rad]     collective feathering angle
-     * @param theta_1c    [rad]
-     * @param theta_1s    [rad]
-     */
-    virtual void computeForceAndMoment( const Vector3 &vel_air_ras,
-                                        const Vector3 &omg_air_ras,
-                                        const Vector3 &omg_ras,
-                                        const Vector3 &acc_ras,
-                                        const Vector3 &eps_ras,
-                                        const Vector3 &grav_ras,
-                                        double omega,
-                                        double azimuth,
-                                        double airDensity,
-                                        double theta_0,
-                                        double theta_1c,
-                                        double theta_1s );
-
-    /**
-     * Integrates blade model.
-     * @param timeStep    [s]       time step
-     * @param vel_air_ras [m/s]     rotor hub linear velocity relative to the air expressed in RAS
-     * @param omg_air_ras [rad/s]   rotor hub angular velocity relative to the air expressed in RAS
-     * @param omg_ras     [rad/s]   rotor hub angular velocity expressed in RAS
-     * @param acc_ras     [m/s^2]   rotor hub linear acceleration vector expressed in RAS
-     * @param eps_ras     [rad/s^2] rotor hub angular acceleration vector expressed in RAS
-     * @param grav_ras    [m/s^2]   gravity acceleration vector expressed in RAS
-     * @param omega       [rad/s]   rotor angular velocity due to rotation
-     * @param azimuth     [rad]     blade azimuth
-     * @param airDensity  [kg/m^3]  air density
-     * @param theta_0     [rad]     collective feathering angle
-     * @param theta_1c    [rad]
-     * @param theta_1s    [rad]
-     */
-    virtual void integrate( double timeStep,
-                            const Vector3 &vel_air_ras,
-                            const Vector3 &omg_air_ras,
-                            const Vector3 &omg_ras,
-                            const Vector3 &acc_ras,
-                            const Vector3 &eps_ras,
-                            const Vector3 &grav_ras,
-                            double omega,
-                            double azimuth,
-                            double airDensity,
-                            double theta_0,
-                            double theta_1c,
-                            double theta_1s );
+    void TEST_INIT();
 
     inline double getInertia() const { return _ib; }
 
@@ -155,21 +91,15 @@ public:
 
 protected:
 
-    Matrix3x3 _ras2aas;         ///< matrix of rotation from RAS to AAS
-    Matrix3x3 _aas2ras;         ///< matrix of rotation from AAS to RAS
+    Matrix3x3 _ras2sra;         ///< matrix of rotation from RAS to SRA
+    Matrix3x3 _sra2ras;         ///< matrix of rotation from SRA to RAS
 
-    Matrix3x3 _aas2bas;        ///< matrix of rotation from AAS to BAS
-    Matrix3x3 _bas2aas;        ///< matrix of rotation from BAS to AAS
-
-    Matrix3x3 _ras2bas;         ///< matrix of rotation from RAS to BAS
-    Matrix3x3 _bas2ras;         ///< matrix of rotation from BAS to RAS
-
-    Vector3 _r_fh_aas;          ///< [m] flapping hinge coordinates expressed in AAS
+    Table _twist;               ///< [rad] spanwise blade twist
 
     Table _cd;                  ///< [-] blade section drag coefficient vs angle of attack
     Table _cl;                  ///< [-] blade section lift coefficient vs angle of attack
 
-    double _b;                  ///< [m] blade span
+    double _r;                  ///< [m] main rotor radius
     double _c;                  ///< [m] blade chord
     double _e;                  ///< [m] flapping hinge offset
     double _m;                  ///< [kg] blage mass
@@ -177,8 +107,7 @@ protected:
     double _beta_min;           ///< [rad] minimum flapping angle
     double _beta_max;           ///< [rad] maximum flapping angle
 
-    double _twist_0;            ///< [rad] blade twist at attachment
-    double _twist_rate;         ///< [rad/m] blade twist angle rate
+    double _b;                  ///< [m] blade length
 
     double _sb;                 ///< [kg*m] blade first moment of mass about flapping hinge
     double _ib;                 ///< [kg*m^2] blade inertia moment about flapping hinge
@@ -196,34 +125,6 @@ protected:
     double &_beta;              ///< _beta_0 alias
 
     double _theta;              ///< [rad] feathering angle
-
-    /**
-     * Updates blade model.
-     * @param vel_air_ras [m/s]     rotor hub linear velocity relative to the air expressed in RAS
-     * @param omg_air_ras [rad/s]   rotor hub angular velocity relative to the air expressed in RAS
-     * @param omg_ras     [rad/s]   rotor hub angular velocity expressed in RAS
-     * @param acc_ras     [m/s^2]   rotor hub linear acceleration vector expressed in RAS
-     * @param eps_ras     [rad/s^2] rotor hub angular acceleration vector expressed in RAS
-     * @param grav_ras    [m/s^2]   gravity acceleration vector expressed in RAS
-     * @param omega       [rad/s]   rotor angular velocity due to rotation
-     * @param azimuth     [rad]     blade azimuth
-     * @param airDensity  [kg/m^3]  air density
-     * @param theta_0     [rad]     collective feathering angle
-     * @param theta_1c    [rad]
-     * @param theta_1s    [rad]
-     */
-    virtual void update( const Vector3 &vel_air_ras,
-                         const Vector3 &omg_air_ras,
-                         const Vector3 &omg_ras,
-                         const Vector3 &acc_ras,
-                         const Vector3 &eps_ras,
-                         const Vector3 &grav_ras,
-                         double omega,
-                         double azimuth,
-                         double airDensity,
-                         double theta_0,
-                         double theta_1c,
-                         double theta_1s );
 };
 
 } // end of fdm namespace

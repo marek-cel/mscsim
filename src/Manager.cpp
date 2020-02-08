@@ -204,8 +204,8 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     // ownship
     for ( int i = 0; i < FDM_MAX_BLADES; i++ )
     {
-        Data::get()->ownship.blade[ i ].beta  = dataOut.blade[ i ].beta;
-        Data::get()->ownship.blade[ i ].theta = dataOut.blade[ i ].theta;
+        Data::get()->ownship.blade[ i ].flapping   = dataOut.blade[ i ].flapping;
+        Data::get()->ownship.blade[ i ].feathering = dataOut.blade[ i ].feathering;
     }
 
     Data::get()->ownship.latitude  = dataOut.flight.latitude;

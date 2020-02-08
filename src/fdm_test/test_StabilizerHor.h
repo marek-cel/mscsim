@@ -31,9 +31,7 @@
 namespace fdm
 {
 
-/**
- * @brief UH-60 horizontal stabilizer class.
- */
+/** */
 class TEST_StabilizerHor : public Stabilizer
 {
 public:

@@ -74,23 +74,33 @@ struct DataInp
     /** Environment data. */
     struct Environment
     {
+        /** Turbulence intensity. */
+        enum Turbulence
+        {
+            TurbulenceNone = 0,         ///< none
+            TurbulenceMild,             ///< mild
+            TurbulenceModerate,         ///< moderate
+            TurbulenceSevere,           ///< severe
+            TurbulenceExtreme           ///< extreme
+        };
+
         /** Wind shear types. */
         enum WindShear
         {
-            None = 0,                   ///< none
-            Model1,                     ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #1, p. 4.3-146
-            Model2,                     ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #2, p. 4.3-148
-            Model3,                     ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #3, p. 4.3-150
-            Model4                      ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #4, p. 4.3-152
+            WindShearNone = 0,          ///< none
+            WindShearModel1,            ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #1, p. 4.3-146
+            WindShearModel2,            ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #2, p. 4.3-148
+            WindShearModel3,            ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #3, p. 4.3-150
+            WindShearModel4             ///< FAA Windshear Training Aid Vol. 2, Reference Wind Model #4, p. 4.3-152
         };
 
         double temperature_0;           ///< [K] sea level air temperature
         double pressure_0;              ///< [Pa] sea level air pressure
         double wind_direction;          ///< [rad] wind direction
         double wind_speed;              ///< [m/s] wind speed
-        double turbulence;              ///< [-] turbulence intensity
 
-        WindShear windShear;            ///< active wind shear model
+        Turbulence turbulence;          ///< turbulence intensity
+        WindShear  windShear;           ///< active wind shear model
     };
 
     /** Ground data. */
@@ -154,14 +164,11 @@ struct DataInp
     /** Masses data. */
     struct Masses
     {
-        double pilot_1;                 ///< [kg] pilot 1
-        double pilot_2;                 ///< [kg] pilot 2
-        double fuel_tank_1;             ///< [kg] fuel tank 1
-        double fuel_tank_2;             ///< [kg] fuel tank 2
-        double fuel_tank_3;             ///< [kg] fuel tank 3
-        double fuel_tank_4;             ///< [kg] fuel tank 4
+        double pilot[ FDM_MAX_PILOTS ]; ///< [kg] pilots
+        double tank[ FDM_MAX_TANKS ];   ///< [kg] fuel tanks
         double cabin;                   ///< [kg] cabin
         double trunk;                   ///< [kg] cargo trunk
+        double slung;                   ///< [kg] slung load
     };
 
     /** Recording data. */

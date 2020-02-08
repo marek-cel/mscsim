@@ -37,15 +37,6 @@ namespace fdm
 
 /**
  * @brief Helicopter main rotormodel base  class.
- *
- * XML configuration file format:
- * @code
- * <main_rotor>
- *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
- *   <inclination> { [rad] rotor inclination angle (positive if forward) } </inclination>
- *   <number_of_blades> { number of blades } </number_of_blades>
- * </main_rotor>
- * @endcode
  */
 class FDMEXPORT MainRotor : public Base
 {
@@ -68,7 +59,7 @@ public:
      * Reads data.
      * @param dataNode XML node
      */
-    virtual void readData( XmlNode &dataNode );
+    virtual void readData( XmlNode &dataNode ) = 0;
 
     /**
      * @brief Updates main rotor model.
@@ -93,7 +84,7 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline const Vector3& getVel_i_BAS() const { return _vel_i_bas; }
+    inline double getRadius() const { return _r; }
 
     inline int getNumberOfBlades() const { return _nb; }
 
@@ -112,6 +103,10 @@ public:
     inline double getThrust() const { return _thrust; }
     inline double getTorque() const { return _torque; }
 
+    inline double getVel_i() const { return _vel_i; }
+
+    inline double getWakeSkew() const { return _wakeSkew; }
+
 protected:
 
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
@@ -124,14 +119,14 @@ protected:
     Matrix3x3 _bas2ras;         ///< matrix of rotation from BAS to RAS
     Matrix3x3 _ras2bas;         ///< matrix of rotation from RAS to BAS
 
-    Vector3 _vel_i_bas;         ///< [m/s] induced velocity expressed in BAS
+    double _r;                  ///< [m] rotor radius
 
     int _nb;                    ///< number of rotor blades
 
     double _delta_psi;          ///< [rad] azimuth difference between adjacent blades
 
     double _omega;              ///< [rad/s] rotor revolution speed
-    double _azimuth;            ///< [rad] rotor azimuth
+    double _azimuth;            ///< [rad] rotor azimuth position
 
     double _beta_0;             ///< [rad] rotor coning angle
     double _beta_1c;            ///< [rad] longitudinal flapping angle
@@ -145,8 +140,15 @@ protected:
     double _diskRoll;           ///< [rad] rotor disk roll angle
     double _diskPitch;          ///< [rad] rotor disk pitch angle
 
+    double _ct;                 ///< [-] thrust coefficient
+    double _cq;                 ///< [-] torque coefficient
+
     double _thrust;             ///< [N] rotor thrust
     double _torque;             ///< [N*m] rotor torque
+
+    double _vel_i;              ///< [m/s] rotor induced velocity
+
+    double _wakeSkew;           ///< [rad] rotor wake skew angle
 };
 
 } // end of fdm namespace

@@ -104,7 +104,7 @@ void UH60_Aircraft::updateOutputData()
                      + _aero->getMainRotor()->getTheta1c() * cosPsi
                      + _aero->getMainRotor()->getTheta1s() * sinPsi;
 
-        _dataOut->blade[ i ].beta  = beta;
-        _dataOut->blade[ i ].theta = theta;
+        _dataOut->blade[ i ].flapping   = beta;
+        _dataOut->blade[ i ].feathering = theta;
     }
 }

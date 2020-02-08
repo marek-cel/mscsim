@@ -63,6 +63,18 @@ public:
     /** Constructor. */
     Vector3( double x, double y, double z );
 
+    /** @return vector length squared */
+    inline double getLength2() const { return _x*_x + _y*_y + _z*_z; }
+
+    /** @return length of projection of vector on XY-plane */
+    inline double getLengthXY() const { return sqrt( _x*_x + _y*_y ); }
+
+    /** @return length of projection of vector on XZ-plane */
+    inline double getLengthXZ() const { return sqrt( _x*_x + _z*_z ); }
+
+    /** @return length of projection of vector on YZ-plane */
+    inline double getLengthYZ() const { return sqrt( _y*_y + _z*_z ); }
+
     /** @return normalized vector */
     Vector3 getNormalized() const;
 

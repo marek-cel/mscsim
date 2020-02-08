@@ -87,10 +87,12 @@ void TEST_Aircraft::updateOutputData()
     _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();
     _dataOut->rotor.tailRotor_azimuth     = _prop->getTailRotorPsi();
 
+#   ifdef FDM_TEST_ROTOR_BE
     // blades
-    for ( int i = 0; i < _aero->getMainRotor()->getNumberOfBlades(); i++ )
+    for ( int i = 0; i < _aero->getMainRotorBE()->getNumberOfBlades(); i++ )
     {
-        _dataOut->blade[ i ].beta  = _aero->getMainRotor()->getBlade( i )->getBeta();
-        _dataOut->blade[ i ].theta = _aero->getMainRotor()->getBlade( i )->getTheta();
+        _dataOut->blade[ i ].beta  = _aero->getMainRotorBE()->getBlade( i )->getBeta();
+        _dataOut->blade[ i ].theta = _aero->getMainRotorBE()->getBlade( i )->getTheta();
     }
+#   endif
 }

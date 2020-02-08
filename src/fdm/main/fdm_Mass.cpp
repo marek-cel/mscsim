@@ -68,7 +68,7 @@ void Mass::readData( XmlNode &dataNode )
         {
             VarMass varMass;
 
-            varMass.input = 0;
+            varMass.input = FDM_NULLPTR;
 
             std::string name = varMassNode.getAttribute( "name" );
 

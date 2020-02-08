@@ -35,9 +35,9 @@ C130_Aerodynamics::C130_Aerodynamics( const C130_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
-    _tailOff ( 0 ),
-    _stabHor ( 0 ),
-    _stabVer ( 0 )
+    _tailOff ( FDM_NULLPTR ),
+    _stabHor ( FDM_NULLPTR ),
+    _stabVer ( FDM_NULLPTR )
 {
     _tailOff = new C130_TailOff();
     _stabHor = new C130_StabilizerHor();
