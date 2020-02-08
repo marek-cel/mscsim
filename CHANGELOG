@@ -5,6 +5,8 @@
     * fuselage downwash according to NASA-TM-84281
     
     * minor changes
+    
+    * numerical integration unit tests
 
 
 
