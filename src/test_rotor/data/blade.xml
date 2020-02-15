@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+  
+  <blade>
+
+    <blade_mass> 116.5 </blade_mass>              <!-- [kg] single blade mass -->
+    <rotor_radius> 8.18 </rotor_radius>           <!-- [m] rotor radius -->
+    <blade_chord> 0.53 </blade_chord>             <!-- [m] blade chord -->
+    <hinge_offset> 0.38 </hinge_offset>           <!-- [m] flapping hinge offset -->
+    <beta_min unit="deg"> -5.0 </beta_min>        <!-- [rad] minimum flapping angle -->
+    <beta_max unit="deg"> 10.0 </beta_max>        <!-- [rad] maximum flapping angle -->
+    <twist_0 unit="deg"> 0.0 </twist_0>           <!-- [rad] blade twist at attachment -->
+    <twist_rate unit="deg"> 0.0 </twist_rate>     <!-- [rad/1] blade twist rate -->
+
+    <!-- [rad] blade twist vs [-] normalized span -->
+    <twist unit="deg">
+      0.0       0.0
+    </twist>
+    
+    <!-- [-] drag coefficient vs [rad] angle of attack -->
+    <cd keys_unit="deg">
+      -180.0     0.005
+      -135.0     1.000
+        -90.0     1.400
+        -45.0     1.000
+        -30.0     0.400
+        -15.0     0.100
+          0.0     0.002
+        15.0     0.100
+        30.0     0.400
+        45.0     1.000
+        90.0     1.400
+        135.0     1.000
+        180.0     0.005
+    </cd>
+
+    <!-- [-] lift coefficient vs [rad] angle of attack -->
+    <cl keys_unit="deg">
+      -180.0     0.0
+      -135.0     1.0
+        -90.0     0.0
+        -45.0    -1.0
+        -30.0    -0.8
+        -15.0    -1.2
+          0.0     0.0
+        15.0     1.2
+        30.0     0.8
+        45.0     1.0
+        90.0     0.0
+        135.0    -1.0
+        180.0     0.0
+    </cl>
+
+  </blade>
+      
+</test>
