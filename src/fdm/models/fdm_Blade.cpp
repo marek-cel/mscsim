@@ -36,9 +36,9 @@ using namespace fdm;
 
 Matrix3x3 Blade::getRAS2SRA( double psi, Direction direction )
 {
-    Matrix3x3 a;
-
     double ccw = ( direction == MainRotor::CCW ) ? 1.0 : -1.0;
+
+    Matrix3x3 a;
 
     a(0,0) =  0.0;
     a(0,1) = -ccw;
@@ -52,10 +52,10 @@ Matrix3x3 Blade::getRAS2SRA( double psi, Direction direction )
     a(2,1) =  0.0;
     a(2,2) = -1.0;
 
-    Matrix3x3 b;
-
     double cosPsi = cos( ccw * psi );
     double sinPsi = sin( ccw * psi );
+
+    Matrix3x3 b;
 
     b(0,0) =  cosPsi;
     b(0,1) = -sinPsi;
@@ -70,6 +70,32 @@ Matrix3x3 Blade::getRAS2SRA( double psi, Direction direction )
     b(2,2) =  1.0;
 
     return a * b;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Matrix3x3 Blade::getSRA2BSA( double beta, Direction direction )
+{
+    double ccw = ( direction == MainRotor::CCW ) ? 1.0 : -1.0;
+
+    double cosBeta = cos( ccw * beta );
+    double sinBeta = sin( ccw * beta );
+
+    Matrix3x3 result;
+
+    result(0,0) =  1.0;
+    result(0,1) =  0.0;
+    result(0,2) =  0.0;
+
+    result(1,0) =  0.0;
+    result(1,1) =  cosBeta;
+    result(1,2) =  sinBeta;
+
+    result(2,0) =  0.0;
+    result(2,1) = -sinBeta;
+    result(2,2) =  cosBeta;
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,10 +206,16 @@ void Blade::update( double timeStep,
                     double omega,
                     double azimuth )
 {
+    _ras2sra = getRAS2SRA( azimuth, _direction );
+    _sra2ras = _ras2sra.getTransposed();
+
+    _sra2bsa = getSRA2BSA( _beta, _direction );
+    _bsa2sra = _sra2bsa.getTransposed();
+
+    xxx( grav_ras, omega );
+
     double beta_0_prev = _beta_0;
     double beta_1_prev = _beta_1;
-
-    xxx( grav_ras, omega, azimuth );
 
     // flaping angle time 2nd derivative
     _beta_2 = _moment / _ib;
@@ -213,15 +245,8 @@ void Blade::update( double timeStep,
 ////////////////////////////////////////////////////////////////////////////////
 
 void Blade::xxx( const Vector3 &grav_ras,
-                 double omega,
-                 double azimuth )
+                 double omega )
 {
-    _ras2sra = getRAS2SRA( azimuth, _direction );
-    _sra2ras = _ras2sra.getTransposed();
-
-    _sra2bsa = Matrix3x3::createIdentityMatrix(); // TODO
-    _bsa2sra = Matrix3x3::createIdentityMatrix(); // TODO
-
     Vector3 omega_r_ras( 0.0, 0.0, -_dirFactor * omega );
     Vector3 omega_r_sra = _ras2sra * omega_r_ras;
 
@@ -229,7 +254,7 @@ void Blade::xxx( const Vector3 &grav_ras,
     Vector3 grav_bsa = _sra2bsa * grav_sra;
 
     //std::cout << _ras2sra.toString() << std::cout;
-    std::cout << grav_bsa.toString() << std::endl;
+    //std::cout << grav_bsa.toString() << std::endl;
 
     const int steps = 10;
 
@@ -248,6 +273,12 @@ void Blade::xxx( const Vector3 &grav_ras,
 
         // moment due to gravity
         Vector3 mom_gr_bsa = dm * ( pos_i_bsa % grav_bsa );
+
+        /////////////////////////////
+        vec_test_1_sra = _bsa2sra * pos_i_bsa;
+        vec_test_2_sra = _bsa2sra * grav_bsa;
+        vec_test_3_sra = _bsa2sra * mom_gr_bsa;
+        /////////////////////////////
 
         // moment due to centrifugal force
         Vector3 mom_cf_sra = dm * ( omega_r_sra % ( omega_r_sra % pos_i_sra ) );

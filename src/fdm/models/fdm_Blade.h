@@ -64,9 +64,15 @@ class FDMEXPORT Blade
 {
 public:
 
+    Vector3 vec_test_1_sra;
+    Vector3 vec_test_2_sra;
+    Vector3 vec_test_3_sra;
+
     typedef MainRotor::Direction Direction;
 
     static Matrix3x3 getRAS2SRA( double psi, Direction direction = MainRotor::CW );
+
+    static Matrix3x3 getSRA2BSA( double beta, Direction direction = MainRotor::CW );
 
     /** Constructor. */
     Blade( Direction direction = MainRotor::CW );
@@ -152,8 +158,7 @@ protected:
     double _theta;              ///< [rad] feathering angle
 
     void xxx( const Vector3 &grav_ras,
-              double omega,
-              double azimuth );
+              double omega );
 };
 
 } // end of fdm namespace
