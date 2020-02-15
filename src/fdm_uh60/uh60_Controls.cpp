@@ -116,7 +116,7 @@ void UH60_Controls::update()
     _cyclic_lon = _channelCyclicLon->output;
     _collective = _channelCollective->output;
     _tail_pitch = _channelTailPitch->output;
-    _elevator   = 0.0;//m_channelElevator->output; // TODO
+    _elevator   = 0.0;//_channelElevator->output; // TODO
 
     _brake_l = _channelBrakeL->output;
     _brake_r = _channelBrakeR->output;

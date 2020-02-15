@@ -34,6 +34,12 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 MainRotorAD::MainRotorAD() :
+    _nb ( 0 ),
+
+    _r ( 0.0 ),
+    _c ( 0.0 ),
+    _e ( 0.0 ),
+
     _a ( 0.0 ),
     _b ( 0.0 ),
 
@@ -128,7 +134,8 @@ void MainRotorAD::readData( XmlNode &dataNode )
             _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
             _ras2bas = _bas2ras.getTransposed();
 
-            _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
+            _blades_no = _nb;
+            _radius = _r;
 
             _r2 = _r * _r;
             _r3 = _r * _r2;

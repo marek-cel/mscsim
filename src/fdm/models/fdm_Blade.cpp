@@ -22,6 +22,8 @@
 
 #include <fdm/models/fdm_Blade.h>
 
+#include <iostream>
+
 #include <fdm/fdm_Log.h>
 #include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/xml/fdm_XmlUtils.h>
@@ -32,45 +34,51 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Blade::getRAS2SRA( double psi )
+Matrix3x3 Blade::getRAS2SRA( double psi, Direction direction )
 {
-    double tempPsi = -psi + M_PI / 2.0;
+    Matrix3x3 a;
 
-    Matrix3x3 result;
+    double ccw = ( direction == MainRotor::CCW ) ? 1.0 : -1.0;
 
-//    result(0,0) = -1.0;
-//    result(0,1) =  0.0;
-//    result(0,2) =  0.0;
+    a(0,0) =  0.0;
+    a(0,1) = -ccw;
+    a(0,2) =  0.0;
 
-//    result(1,0) =  0.0;
-//    result(1,1) =  1.0;
-//    result(1,2) =  0.0;
+    a(1,0) = -ccw;
+    a(1,1) =  0.0;
+    a(1,2) =  0.0;
 
-//    result(2,0) =  0.0;
-//    result(2,1) =  0.0;
-//    result(2,2) = -1.0;
+    a(2,0) =  0.0;
+    a(2,1) =  0.0;
+    a(2,2) = -1.0;
 
-    double cosPsi = cos( tempPsi );
-    double sinPsi = sin( tempPsi );
+    Matrix3x3 b;
 
-    result(0,0) = -cosPsi;
-    result(0,1) = -sinPsi;
-    result(0,2) =  0.0;
+    double cosPsi = cos( ccw * psi );
+    double sinPsi = sin( ccw * psi );
 
-    result(1,0) = -sinPsi;
-    result(1,1) =  cosPsi;
-    result(1,2) =  0.0;
+    b(0,0) =  cosPsi;
+    b(0,1) = -sinPsi;
+    b(0,2) =  0.0;
 
-    result(2,0) =  0.0;
-    result(2,1) =  0.0;
-    result(2,2) = -1.0;
+    b(1,0) =  sinPsi;
+    b(1,1) =  cosPsi;
+    b(1,2) =  0.0;
 
-    return result;
+    b(2,0) =  0.0;
+    b(2,1) =  0.0;
+    b(2,2) =  1.0;
+
+    return a * b;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Blade::Blade() :
+Blade::Blade( Direction direction ) :
+    _direction ( direction ),
+
+    _dirFactor ( _direction == MainRotor::CCW ? 1.0 : -1.0 ),
+
     _r ( 0.0 ),
     _c ( 0.0 ),
     _e ( 0.0 ),
@@ -105,6 +113,8 @@ Blade::Blade() :
 
     _ras2sra = Matrix3x3::createIdentityMatrix();
     _sra2ras = Matrix3x3::createIdentityMatrix();
+    _sra2bsa = Matrix3x3::createIdentityMatrix();
+    _bsa2sra = Matrix3x3::createIdentityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +144,8 @@ void Blade::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS )
         {
+            _pos_fh_sra = Vector3( 0.0, _dirFactor * _e, 0.0 );
+
             _b = _r - _e;
 
             _sb = _m * _b / 2.0;
@@ -163,42 +175,90 @@ void Blade::TEST_INIT()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Blade::update( double timeStep )
+void Blade::update( double timeStep,
+                    const Vector3 &grav_ras,
+                    double omega,
+                    double azimuth )
 {
     double beta_0_prev = _beta_0;
     double beta_1_prev = _beta_1;
 
-    const int steps = 10;
-
-    double dx = _b / (double)(steps);
-    double dm = _m / (double)(steps);
-
-    // moment about flapping hinge
-    double mom_fh = 0.0;
-
-    for ( int i = 0; i < steps; i++ )
-    {
-        double x = ( i + 0.5 ) * dx;
-
-        mom_fh += -9.81 * x * dm;
-    }
+    xxx( grav_ras, omega, azimuth );
 
     // flaping angle time 2nd derivative
-    _beta_2 = mom_fh / _ib;
+    _beta_2 = _moment / _ib;
 
     // flapping angle and flaping angle time derivative Euler integration
     _beta_1 += _beta_2 * timeStep;
     _beta_0 += _beta_1 * timeStep;
 
     // limiting flapping angle
-    _beta_0 = Misc::satur( _beta_min, _beta_max, _beta_0 );
-
-    //std::cout << "beta= " << Units::rad2deg( _beta_0 ) << std::endl;
-
-    // back calculating flaping angle time derivatives
-    if ( timeStep >= FDM_TIME_STEP_MIN )
+    if ( !Misc::inside( _beta_min, _beta_max, _beta_0 ) )
     {
-        _beta_1 = ( _beta_0 - beta_0_prev ) / timeStep;
-        _beta_2 = ( _beta_1 - beta_1_prev ) / timeStep;
+        //_beta_0 = Misc::satur( _beta_min, _beta_max, _beta_0 );
+
+        double beta_new = Misc::satur( _beta_min, _beta_max, _beta_0 );
+        double beta_tc = 0.01;
+        _beta_0 = Misc::inertia( beta_new, _beta_0, timeStep, beta_tc );
+
+        // back calculating flaping angle time derivatives
+        if ( timeStep >= FDM_TIME_STEP_MIN )
+        {
+            _beta_1 = ( _beta_0 - beta_0_prev ) / timeStep;
+            _beta_2 = ( _beta_1 - beta_1_prev ) / timeStep;
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Blade::xxx( const Vector3 &grav_ras,
+                 double omega,
+                 double azimuth )
+{
+    _ras2sra = getRAS2SRA( azimuth, _direction );
+    _sra2ras = _ras2sra.getTransposed();
+
+    _sra2bsa = Matrix3x3::createIdentityMatrix(); // TODO
+    _bsa2sra = Matrix3x3::createIdentityMatrix(); // TODO
+
+    Vector3 omega_r_ras( 0.0, 0.0, -_dirFactor * omega );
+    Vector3 omega_r_sra = _ras2sra * omega_r_ras;
+
+    Vector3 grav_sra = _ras2sra * grav_ras;
+    Vector3 grav_bsa = _sra2bsa * grav_sra;
+
+    //std::cout << _ras2sra.toString() << std::cout;
+    std::cout << grav_bsa.toString() << std::endl;
+
+    const int steps = 10;
+
+    double dy = _b / (double)(steps);
+    double dm = _m / (double)(steps);
+
+    // moment about flapping hinge
+    _moment = 0.0;
+
+    for ( int i = 0; i < steps; i++ )
+    {
+        double y = ( i + 0.5 ) * dy;
+
+        Vector3 pos_i_bsa( 0.0, _dirFactor * y, 0.0 );
+        Vector3 pos_i_sra = _pos_fh_sra = _bsa2sra * pos_i_bsa;
+
+        // moment due to gravity
+        Vector3 mom_gr_bsa = dm * ( pos_i_bsa % grav_bsa );
+
+        // moment due to centrifugal force
+        Vector3 mom_cf_sra = dm * ( omega_r_sra % ( omega_r_sra % pos_i_sra ) );
+        Vector3 mom_cf_bsa = _sra2bsa * mom_cf_sra;
+
+        // total moment
+        Vector3 mom_tot_bsa
+                = mom_gr_bsa
+                + mom_cf_bsa
+                ;
+
+        _moment += _dirFactor * mom_tot_bsa.x();
     }
 }

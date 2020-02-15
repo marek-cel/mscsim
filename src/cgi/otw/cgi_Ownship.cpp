@@ -645,9 +645,10 @@ void Ownship::updateModel()
     }
 
     // main rotor blades
+    double coef_f = -Data::get()->ownship.mainRotor_coef;
     for ( unsigned int i = 0; i < _rotorBlades.size() && i < FDM_MAX_BLADES; i++ )
     {
-        double feathering = Data::get()->ownship.blade[ i ].feathering;
+        double feathering = Data::get()->ownship.blade[ i ].feathering * coef_f;
         double flapping   = Data::get()->ownship.blade[ i ].flapping;
 
         _rotorBlades[ i ]->setAttitude( osg::Quat( feathering, osg::X_AXIS,

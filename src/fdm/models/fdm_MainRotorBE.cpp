@@ -35,6 +35,7 @@ using namespace fdm;
 
 MainRotorBE::MainRotorBE() :
     _inertia ( 0.0 ),
+    _delta_psi ( 0.0 ),
     _azimuth_prev ( 0.0 )
 {}
 
@@ -72,14 +73,16 @@ void MainRotorBE::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination, "inclination" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nb, "number_of_blades" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _blades_no, "number_of_blades" );
 
         if ( result == FDM_SUCCESS )
         {
             _bas2ras = Matrix3x3( Angles( 0.0, -inclination, 0.0 ) );
             _ras2bas = _bas2ras.getTransposed();
 
-            _delta_psi = ( 2.0 * M_PI ) / (double)( _nb );
+            _radius = 0.0; // TODO
+
+            _delta_psi = ( 2.0 * M_PI ) / (double)( _blades_no );
         }
         else
         {
@@ -89,7 +92,7 @@ void MainRotorBE::readData( XmlNode &dataNode )
         // blades
         XmlNode nodeBlade = dataNode.getFirstChildElement( "blade" );
 
-        for ( int i = 0; i < _nb; i++ )
+        for ( int i = 0; i < _blades_no; i++ )
         {
             Blade *blade = new Blade();
             blade->readData( nodeBlade );

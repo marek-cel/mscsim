@@ -31,6 +31,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 TEST_StabilizerHor::TEST_StabilizerHor() :
+    Stabilizer( Horizontal ),
+
     _elevator ( 0.0 )
 {}
 

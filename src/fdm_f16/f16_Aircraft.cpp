@@ -59,7 +59,7 @@ F16_Aircraft::~F16_Aircraft()
 
 void F16_Aircraft::init( bool engineOn )
 {
-    readData( Path::get( "data/fdm/f16/f16_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

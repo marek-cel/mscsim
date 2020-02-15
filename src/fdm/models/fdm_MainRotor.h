@@ -84,9 +84,9 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
-    inline double getRadius() const { return _r; }
+    inline int getNumberOfBlades() const { return _blades_no; }
 
-    inline int getNumberOfBlades() const { return _nb; }
+    inline double getRadius() const { return _radius; }
 
     inline double getBeta0()  const { return _beta_0;  }
     inline double getBeta1c() const { return _beta_1c; }
@@ -119,11 +119,9 @@ protected:
     Matrix3x3 _bas2ras;         ///< matrix of rotation from BAS to RAS
     Matrix3x3 _ras2bas;         ///< matrix of rotation from RAS to BAS
 
-    double _r;                  ///< [m] rotor radius
+    int _blades_no;             ///< number of rotor blades
 
-    int _nb;                    ///< number of rotor blades
-
-    double _delta_psi;          ///< [rad] azimuth difference between adjacent blades
+    double _radius;             ///< [m] rotor radius
 
     double _omega;              ///< [rad/s] rotor revolution speed
     double _azimuth;            ///< [rad] rotor azimuth position

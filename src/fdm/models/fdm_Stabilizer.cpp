@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Stabilizer::Stabilizer() :
-    _type ( Horizontal ),
+Stabilizer::Stabilizer( Type type ) :
+    _type ( type ),
     _area ( 0.0 ),
     _incidence ( 0.0 ),
     _downwash ( 0.0 )
@@ -54,11 +54,6 @@ void Stabilizer::readData( XmlNode &dataNode )
     if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
-
-        std::string type = dataNode.getAttribute( "type" );
-
-        if      ( 0 == String::icompare( type, "horizontal" ) ) _type = Horizontal;
-        else if ( 0 == String::icompare( type, "vertical"   ) ) _type = Vertical;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
 

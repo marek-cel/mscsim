@@ -263,7 +263,7 @@ void Aircraft::setStateVector( const StateVector &stateVector )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::readData( const std::string &dataFile )
+void Aircraft::readFile( const std::string &dataFile )
 {
     XmlDoc doc( dataFile );
 
@@ -273,53 +273,7 @@ void Aircraft::readData( const std::string &dataFile )
 
         if ( rootNode.isValid() )
         {
-            int result = FDM_SUCCESS;
-
-            // collision points
-            XmlNode nodeCollisionPoints = rootNode.getFirstChildElement( "collision_points"  );
-
-            if ( nodeCollisionPoints.isValid() )
-            {
-                XmlNode nodeCollisionPoint = nodeCollisionPoints.getFirstChildElement( "collision_point" );
-
-                while ( result == FDM_SUCCESS && nodeCollisionPoint.isValid() )
-                {
-                    Vector3 collision_point;
-
-                    result = XmlUtils::read( nodeCollisionPoint, collision_point );
-
-                    if ( result == FDM_SUCCESS )
-                    {
-                        _cp.push_back( collision_point );
-                        nodeCollisionPoint = nodeCollisionPoint.getNextSiblingElement( "collision_point" );
-                    }
-                }
-            }
-
-            // limitations
-            XmlNode nodeLimitations = rootNode.getFirstChildElement( "limitations" );
-
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _airspeed_max  , "airspeed_max"  );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_min , "load_aero_min" );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_max , "load_aero_max" );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_gear_max , "load_gear_max" );
-
-            // pilot position
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( rootNode, _pos_pilot_bas, "pilot_position" );
-
-            if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, rootNode );
-
-            XmlNode nodeAero = rootNode.getFirstChildElement( "aerodynamics" );
-            XmlNode nodeCtrl = rootNode.getFirstChildElement( "controls"     );
-            XmlNode nodeGear = rootNode.getFirstChildElement( "landing_gear" );
-            XmlNode nodeMass = rootNode.getFirstChildElement( "mass"         );
-            XmlNode nodeProp = rootNode.getFirstChildElement( "propulsion"   );
-
-            _aero->readData( nodeAero );
-            _ctrl->readData( nodeCtrl );
-            _gear->readData( nodeGear );
-            _mass->readData( nodeMass );
-            _prop->readData( nodeProp );
+            readData( rootNode );
         }
         else
         {
@@ -339,6 +293,71 @@ void Aircraft::readData( const std::string &dataFile )
         e.setInfo( "Reading file \"" + dataFile + "\" failed." );
 
         FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircraft::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
+
+        // collision points
+        XmlNode nodeCollisionPoints = dataNode.getFirstChildElement( "collision_points"  );
+
+        if ( nodeCollisionPoints.isValid() )
+        {
+            XmlNode nodeCollisionPoint = nodeCollisionPoints.getFirstChildElement( "collision_point" );
+
+            while ( result == FDM_SUCCESS && nodeCollisionPoint.isValid() )
+            {
+                Vector3 collision_point;
+
+                result = XmlUtils::read( nodeCollisionPoint, collision_point );
+
+                if ( result == FDM_SUCCESS )
+                {
+                    _cp.push_back( collision_point );
+                    nodeCollisionPoint = nodeCollisionPoint.getNextSiblingElement( "collision_point" );
+                }
+            }
+        }
+
+        // limitations
+        XmlNode nodeLimitations = dataNode.getFirstChildElement( "limitations" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _airspeed_max  , "airspeed_max"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_min , "load_aero_min" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_max , "load_aero_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_gear_max , "load_gear_max" );
+
+        // pilot position
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _pos_pilot_bas, "pilot_position" );
+
+        if ( result != FDM_SUCCESS )
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
+        else
+        {
+            XmlNode nodeAero = dataNode.getFirstChildElement( "aerodynamics" );
+            XmlNode nodeCtrl = dataNode.getFirstChildElement( "controls"     );
+            XmlNode nodeGear = dataNode.getFirstChildElement( "landing_gear" );
+            XmlNode nodeMass = dataNode.getFirstChildElement( "mass"         );
+            XmlNode nodeProp = dataNode.getFirstChildElement( "propulsion"   );
+
+            _aero->readData( nodeAero );
+            _ctrl->readData( nodeCtrl );
+            _gear->readData( nodeGear );
+            _mass->readData( nodeMass );
+            _prop->readData( nodeProp );
+        }
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -433,7 +452,7 @@ void Aircraft::detectCrash()
           || load_factor_aero < _load_aero_min
           || load_factor_gear > _load_gear_max )
         {
-            _crash = DataOut::Overstressed;
+            _crash = DataOut::Overstress;
         }
     }
 }

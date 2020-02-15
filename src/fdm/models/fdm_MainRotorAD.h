@@ -40,32 +40,32 @@ namespace fdm
  *
  * Coordinate Systems Used for Rotor Calculations
  *
- * Rotor Axes System (RAS)
- * Origin of the Rotor Axes System is coincident with the rotor hub center,
+ * Rotor Axis System (RAS)
+ * Origin of the Rotor Axis System is coincident with the rotor hub center,
  * the x-axis is positive forwards, the y-axis is positive right and z-axis
  * is positive downwards and coincident with the rotor shaft axis.
  *
- * Rotor-Wind Axes System (RWAS)
- * Rotor-Wind Axes System is very much like Rotor Axes System, the only
+ * Rotor-Wind Axis System (RWAS)
+ * Rotor-Wind Axis System is very much like Rotor Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
  * component.
  *
- * Control Axes System (CAS)
- * For most purposes, using the Rotor Axes System causes unnecessary
- * complications. It is convenient to use no cyclic feathering axes system.
- * Origin of the Control Axes System is coincident with the origin of the Rotor
- * Axes System, but it is rotated by angles of the swashplate roll and pitch so
+ * Control Axis System (CAS)
+ * For most purposes, using the Rotor Axis System causes unnecessary
+ * complications. It is convenient to use no cyclic feathering axis system.
+ * Origin of the Control Axis System is coincident with the origin of the Rotor
+ * Axis System, but it is rotated by angles of the swashplate roll and pitch so
  * there is no cyclic feathering in this coordinate system.
  *
- * Disc Axes System (DAS)
- * Origin of the Disc Axes System is coincident with the origin of the Rotor
- * Axes System, but it is rotated by angles of the rotor cone roll and pitch
+ * Disc Axis System (DAS)
+ * Origin of the Disc Axis System is coincident with the origin of the Rotor
+ * Axis System, but it is rotated by angles of the rotor cone roll and pitch
  * in such a manner that z?axis is perpendicular to the tip path plane so there
  * is no cyclic flapping in this coordinate system.
  *
- * Control-Wind Axes System (CWAS)
- * Control-Wind Axes System is very much like Control Axes System, the only
+ * Control-Wind Axis System (CWAS)
+ * Control-Wind Axis System is very much like Control Axis System, the only
  * difference is that it is rotated about z-axis in such a manner that x-axis
  * points directly into relative wind, so there is no lateral airspeed
  * component.
@@ -150,6 +150,7 @@ protected:
     Matrix3x3 _cas2ras;         ///< matrix of rotation from CAS to RAS
 
     Matrix3x3 _bas2cas;         ///< matrix of rotation from BAS to CAS
+
     Matrix3x3 _bas2das;         ///< matrix of rotation from BAS to DAS
     Matrix3x3 _das2bas;         ///< matrix of rotation from DAS to BAS
 
@@ -160,6 +161,8 @@ protected:
     Matrix3x3 _cwas2cas;        ///< matrix of rotation from CWAS to CAS
 
     Matrix3x3 _bas2cwas;        ///< matrix of rotation from BAS to CWAS
+
+    int _nb;                    ///< number of rotor blades
 
     double _r;                  ///< [m] rotor radius
     double _c;                  ///< [m] blades chord

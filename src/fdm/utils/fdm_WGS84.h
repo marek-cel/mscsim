@@ -83,6 +83,17 @@ public:
     static const Matrix3x3 _ned2enu;    ///< matrix of rotation from NED to ENU
 
     /**
+     * Calculates coordinates moved by the given offset.
+     * @param pos_geo geodetic coordinates
+     * @param heading [rad] heading
+     * @param offset_x [m] longitudinal offset
+     * @param offset_y [m] lateral offset
+     * @return resulting geodetic coordinates
+     */
+    static Geo getGeoOffset( const Geo &pos_geo, double heading,
+                             double offset_x, double offset_y );
+
+    /**
      * Returns Earth angular velocity vector expressed in WGS axis system.
      * @return [rad/s] Earth angular velocity vector expressed in WGS
      */

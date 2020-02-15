@@ -57,6 +57,24 @@ const Matrix3x3 WGS84::_ned2enu( 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0 );
 
 ////////////////////////////////////////////////////////////////////////////////
 
+WGS84::Geo WGS84::getGeoOffset( const Geo &pos_geo, double heading,
+                                double offset_x, double offset_y )
+{
+    Matrix3x3 ned2bas( Angles( 0.0, 0.0, heading ) );
+    Matrix3x3 bas2ned = ned2bas.getTransposed();
+
+    WGS84 wgs( pos_geo );
+
+    Vector3 r_bas( offset_x, offset_y, 0.0 );
+    Vector3 r_ned = bas2ned * r_bas;
+
+    Vector3 pos_wgs = wgs.getPos_WGS() + wgs.getNED2WGS() * r_ned;
+
+    return WGS84::wgs2geo( pos_wgs );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Vector3 WGS84::getOmega_WGS()
 {
     return Vector3( 0.0, 0.0, _omega );

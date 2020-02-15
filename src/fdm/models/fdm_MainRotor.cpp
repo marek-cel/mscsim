@@ -31,11 +31,9 @@ using namespace fdm;
 MainRotor::MainRotor() :
     _direction ( CW ),
 
-    _r ( 0.0 ),
+    _blades_no ( 0 ),
 
-    _nb ( 0 ),
-
-    _delta_psi ( 0.0 ),
+    _radius ( 0.0 ),
 
     _omega   ( 0.0 ),
     _azimuth ( 0.0 ),

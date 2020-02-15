@@ -59,7 +59,7 @@ P51_Aircraft::~P51_Aircraft()
 
 void P51_Aircraft::init( bool engineOn )
 {
-    readData( Path::get( "data/fdm/p51/p51_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/p51/p51_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

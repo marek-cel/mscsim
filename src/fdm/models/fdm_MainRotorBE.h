@@ -91,6 +91,8 @@ protected:
 
     double _inertia;            ///< [kg*m^2] rotor inartia about shaft axis
 
+    double _delta_psi;          ///< [rad] azimuth difference between adjacent blades
+
     double _azimuth_prev;       ///< [rad] rotor azimuth position (previous value)
 };
 

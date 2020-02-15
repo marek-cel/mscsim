@@ -53,7 +53,7 @@ TEST_Aircraft::~TEST_Aircraft()
 
 void TEST_Aircraft::init( bool engineOn )
 {
-    readData( Path::get( "data/fdm/test/test_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/test/test_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

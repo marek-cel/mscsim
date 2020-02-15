@@ -31,6 +31,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_StabilizerHor::P51_StabilizerHor() :
+    Stabilizer( Horizontal ),
+
     _dcx_delevator ( 0.0 ),
     _dcz_delevator ( 0.0 ),
     _dcz_delevator_trim ( 0.0 ),

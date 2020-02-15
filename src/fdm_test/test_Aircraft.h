@@ -48,7 +48,10 @@ public:
     /** Destructor. */
     ~TEST_Aircraft();
 
-    /** Initializes aircraft. */
+    /**
+     * Initializes aircraft.
+     * @param engineOn specifies if engine is running on startup
+     */
     void init( bool engineOn = false );
 
     /** Updates output data. */

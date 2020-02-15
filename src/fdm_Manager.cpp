@@ -373,6 +373,10 @@ void Manager::updateInitialPositionAndAttitude()
     pos_geo.lon = _dataInp.initial.longitude;
     pos_geo.alt = altitude_asl;
 
+    pos_geo = WGS84::getGeoOffset( pos_geo, _dataInp.initial.heading,
+                                   _dataInp.initial.offset_x,
+                                   _dataInp.initial.offset_y );
+
     Quaternion ned2bas( Angles( 0.0, 0.0, _dataInp.initial.heading ) );
 
     WGS84 wgs( pos_geo );
@@ -722,7 +726,7 @@ void Manager::updateStateWork()
                         Log::i() << "Crash: Airspeed too high. Airspeed= " << _aircraft->getAirspeed() << " [m/s]" << std::endl;
                         break;
 
-                    case fdm::DataOut::Overstressed:
+                    case fdm::DataOut::Overstress:
                         Log::i() << "Crash: Load factor too high. Gz= " << _aircraft->getGForce().z() << std::endl;
                         break;
 

@@ -26,9 +26,6 @@
 
 #include <fdm/main/fdm_Aerodynamics.h>
 
-
-#include <fdm/models/fdm_Stabilizer.h>
-
 #include <fdm_test/test_MainRotorAD.h>
 #include <fdm_test/test_MainRotorBE.h>
 #include <fdm_test/test_TailRotor.h>

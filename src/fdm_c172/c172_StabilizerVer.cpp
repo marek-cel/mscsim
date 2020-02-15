@@ -31,6 +31,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_StabilizerVer::C172_StabilizerVer() :
+    Stabilizer( Vertical ),
+
     _dcx_drudder ( 0.0 ),
     _dcy_drudder ( 0.0 ),
     _rudder ( 0.0 )

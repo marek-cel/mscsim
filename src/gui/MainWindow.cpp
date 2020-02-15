@@ -1068,6 +1068,8 @@ void MainWindow::updateOutputData()
     Data::get()->initial.latitude     = _dialogInit->getLat();
     Data::get()->initial.longitude    = _dialogInit->getLon();
     Data::get()->initial.altitude_agl = _dialogInit->getAlt();
+    Data::get()->initial.offset_x     = 0.0; // TODO
+    Data::get()->initial.offset_y     = 0.0; // TODO
     Data::get()->initial.heading      = _dialogInit->getPsi();
     Data::get()->initial.airspeed     = _dialogInit->getIAS();
     Data::get()->initial.engineOn     = _dialogInit->getEngine();

@@ -26,6 +26,8 @@
 
 #include <fdm/fdm_Defines.h>
 
+#include <fdm/models/fdm_MainRotor.h>
+
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Table.h>
 #include <fdm/utils/fdm_Vector3.h>
@@ -62,10 +64,12 @@ class FDMEXPORT Blade
 {
 public:
 
-    static Matrix3x3 getRAS2SRA( double psi );
+    typedef MainRotor::Direction Direction;
+
+    static Matrix3x3 getRAS2SRA( double psi, Direction direction = MainRotor::CW );
 
     /** Constructor. */
-    Blade();
+    Blade( Direction direction = MainRotor::CW );
 
     /** Destructor. */
     virtual ~Blade();
@@ -81,8 +85,14 @@ public:
     /**
      * @brief Updates blade model.
      * @param timeStep [s] time step
+     * @param grav_ras [m/s^2] gravity acceleration vector expressed in RAS
+     * @param omega [rad/s] rotor speed
+     * @param azimuth [rad] blade azimuth
      */
-    virtual void update( double timeStep );
+    virtual void update( double timeStep,
+                         const Vector3 &grav_ras,
+                         double omega,
+                         double azimuth );
 
     inline double getInertia() const { return _ib; }
 
@@ -97,8 +107,17 @@ public:
 
 protected:
 
+    const Direction _direction; ///< rotor direction
+
+    const double _dirFactor;    ///< factor due to direction
+
     Matrix3x3 _ras2sra;         ///< matrix of rotation from RAS to SRA
     Matrix3x3 _sra2ras;         ///< matrix of rotation from SRA to RAS
+
+    Matrix3x3 _sra2bsa;         ///< matrix of rotation from SRA to BSA
+    Matrix3x3 _bsa2sra;         ///< matrix of rotation from BSA to SRA
+
+    Vector3 _pos_fh_sra;        ///< [m] flapping hinge coordinates expressed SRA
 
     Table _twist;               ///< [rad] spanwise blade twist
 
@@ -131,6 +150,10 @@ protected:
     double &_beta;              ///< _beta_0 alias
 
     double _theta;              ///< [rad] feathering angle
+
+    void xxx( const Vector3 &grav_ras,
+              double omega,
+              double azimuth );
 };
 
 } // end of fdm namespace

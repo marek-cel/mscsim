@@ -115,6 +115,8 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.initial.latitude     = data->initial.latitude;
     _dataInp.initial.longitude    = data->initial.longitude;
     _dataInp.initial.altitude_agl = data->initial.altitude_agl;
+    _dataInp.initial.offset_x     = data->initial.offset_x;
+    _dataInp.initial.offset_y     = data->initial.offset_y;
     _dataInp.initial.heading      = data->initial.heading;
     _dataInp.initial.airspeed     = data->initial.airspeed;
     _dataInp.initial.engineOn     = data->initial.engineOn;

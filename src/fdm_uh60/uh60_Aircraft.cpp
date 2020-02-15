@@ -53,7 +53,7 @@ UH60_Aircraft::~UH60_Aircraft()
 
 void UH60_Aircraft::init( bool engineOn )
 {
-    readData( Path::get( "data/fdm/uh60/uh60_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ) );
 
     ///////////////////////////
     Aircraft::init( engineOn );

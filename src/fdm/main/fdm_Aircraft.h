@@ -2,43 +2,6 @@
  *
  * @author Marek M. Cel <marekcel@marekcel.pl>
  *
- * @mainpage
- *
- * Conventions and Units
- *
- * Units:
- * Flight Dynamics Model uses International System of Units (SI) for all
- * internal computations.
- * Other units can be used in XML data files.
- * Make sure to use "unit", "keys_unit", "cols_unit" or "rows_unit"
- * attribute when using non SI units in XML data file.
- *
- * @see fdm::Units::getConverter()
- * @see fdm::XmlUtils
- *
- * Rotations:
- * Rotations angles are expressed as Bryant angles (Euler angles in z-y-x
- * convention).
- * All rotations and rotation related operations are considered to be
- * passive (alias) rotations.
- *
- * @see https://en.wikipedia.org/wiki/Active_and_passive_transformation
- *
- * Coordinate Systems:
- *
- * Body Axes System (BAS)
- * Body Axes System is the body-fixed coordinate system, with the x-axis
- * positive forwards, the y-axis positive right and z-axis positive
- * downwards.
- *
- * North-East-Down (NED)
- * Local ground axes system with x-axis positive North, y-axis positive East
- * and z-axis positive Down.
- *
- * World Geodetic System 1984 (WGS)
- * World Geodetic System as described in [Department of Defense World
- * Geodetic System 1984. NIMA, Technical Report No. 8350.2, 2000].
- *
  * @section LICENSE
  *
  * Copyright (C) 2020 Marek M. Cel
@@ -92,6 +55,41 @@ namespace fdm
 /**
  * @brief Aircraft model base class.
  *
+ * Conventions and Units
+ *
+ * Units:
+ * Flight Dynamics Model uses International System of Units (SI) for all
+ * internal computations.
+ * Other units can be used in XML data files.
+ * Make sure to use "unit", "keys_unit", "cols_unit" or "rows_unit"
+ * attribute when using non SI units in XML data file.
+ *
+ * @see fdm::Units::getConverter()
+ * @see fdm::XmlUtils
+ *
+ * Rotations:
+ * Rotations angles are expressed as Bryant angles (Euler angles in z-y-x
+ * convention).
+ * All rotations and rotation related operations are considered to be
+ * passive (alias) rotations.
+ *
+ * @see https://en.wikipedia.org/wiki/Active_and_passive_transformation
+ *
+ * Coordinate Systems:
+ *
+ * Body Axis System (BAS)
+ * Body Axis System is the body-fixed coordinate system, with the x-axis
+ * positive forwards, the y-axis positive right and z-axis positive
+ * downwards.
+ *
+ * North-East-Down (NED)
+ * Local ground axis system with x-axis positive North, y-axis positive East
+ * and z-axis positive Down.
+ *
+ * World Geodetic System 1984 (WGS)
+ * World Geodetic System as described in [Department of Defense World
+ * Geodetic System 1984. NIMA, Technical Report No. 8350.2, 2000].
+ *
  * XML configuration file format:
  * @code
  * <fdm>
@@ -131,6 +129,8 @@ namespace fdm
  * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004 [in Polish]
  * @see Narkiewicz J.: Tiltrotor Modelling for Simulation in Various Flight Conditions, 2006
  * @see Zlocka M.: Wyklady z dynamiki lotu, 2008 [in Polish]
+ * @see https://en.wikipedia.org/wiki/Rotating_reference_frame
+ * @see https://en.wikipedia.org/wiki/Centrifugal_force#Derivation
  */
 class FDMEXPORT Aircraft : public Base
 {
@@ -151,7 +151,10 @@ public:
     /** Destructor. */
     virtual ~Aircraft();
 
-    /** Initializes aircraft. */
+    /**
+     * Initializes aircraft.
+     * @param engineOn specifies if engine is running on startup
+     */
     virtual void init( bool engineOn = false );
 
     /**
@@ -377,7 +380,13 @@ protected:
      * Reads data.
      * @param dataFile XML data file path
      */
-    virtual void readData( const std::string &dataFile );
+    virtual void readFile( const std::string &dataFile );
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    virtual void readData( XmlNode &dataNode );
 
     /** This function is called just before time integration step. */
     virtual void anteIntegration();

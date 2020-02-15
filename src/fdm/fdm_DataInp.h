@@ -65,6 +65,8 @@ struct DataInp
         double latitude;                ///< [rad] geodetic latitude (positive north)
         double longitude;               ///< [rad] geodetic longitude (positive east)
         double altitude_agl;            ///< [m] altitude above ground level
+        double offset_x;                ///< [m] initial position longitudinal offset
+        double offset_y;                ///< [m] initial position lateral offset
         double heading;                 ///< [rad] true heading
         double airspeed;                ///< [m/s] airspeed
 

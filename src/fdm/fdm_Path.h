@@ -49,7 +49,7 @@ public:
 #       if defined _LINUX_  && !defined SIM_LOCAL_DATA_DIR
         return "/usr/share/mscsim/" + path;
 #       else
-        return path;
+        return "../" + path;
 #       endif
     }
 };

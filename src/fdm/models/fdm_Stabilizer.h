@@ -83,8 +83,11 @@ public:
         Vertical   = 1      ///< vertical stabilizer
     };
 
-    /** Constructor. */
-    Stabilizer();
+    /**
+     * Constructor.
+     * @param type stabilizer type
+     */
+    Stabilizer( Type type = Horizontal );
 
     /** Destructor. */
     virtual ~Stabilizer();
@@ -112,10 +115,10 @@ public:
 
 protected:
 
+    const Type _type;           ///< stabilizer type
+
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
-
-    Type _type;                 ///< stabilizer type
 
     Vector3 _r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
 
