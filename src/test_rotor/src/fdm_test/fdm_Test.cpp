@@ -40,11 +40,17 @@ Test::Test( MainRotor::Direction direction ) :
     _direction ( direction ),
     _blade ( FDM_NULLPTR )
 {
-    _blade = new Blade( _direction );
+    for ( int i = 0; i < 4; i++ )
+    {
+        _blades.push_back( new Blade( _direction ) );
+    }
 
     readData( "../data/blade.xml" );
 
-    _blade->TEST_INIT();
+    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+    {
+        (*it)->TEST_INIT();
+    }
 
     _ned2enu(0,0) =  0.0;
     _ned2enu(0,1) =  1.0;
@@ -87,7 +93,11 @@ void Test::readData( const std::string &dataFile )
         if ( rootNode.isValid() )
         {
             XmlNode nodeBlade = rootNode.getFirstChildElement( "blade" );
-            _blade->readData( nodeBlade );
+
+            for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+            {
+                (*it)->readData( nodeBlade );
+            }
         }
         else
         {
@@ -109,6 +119,17 @@ void Test::update( double timeStep )
                                   Data::get()->state.ned_psi ) );
     _bas2ned = _ned2bas.getTransposed();
 
+    Vector3 vel_ras = Vector3( Data::get()->state.bas_u,
+                               Data::get()->state.bas_v,
+                               Data::get()->state.bas_w );
+
+    Vector3 omg_ras = Vector3( Data::get()->state.bas_p,
+                               Data::get()->state.bas_q,
+                               Data::get()->state.bas_r );
+
+    Vector3 vel_air_ras = vel_ras;
+    Vector3 omg_air_ras = omg_ras;
+
     Vector3 grav_ned( 0.0, 0.0, WGS84::_g );
     Vector3 grav_bas = _ned2bas * grav_ned;
     Vector3 grav_ras = _bas2ras * grav_bas;
@@ -117,16 +138,49 @@ void Test::update( double timeStep )
 
     double omega   = Data::get()->rotor.omega;
     double azimuth = Data::get()->rotor.azimuth;
+    double airDensity = 1.225;
 
-    _blade->update( timeStep, grav_ras, omega, azimuth );
+    double delta_psi = 2.0 * M_PI / 4.0;
+
+    double theta_0  = Data::get()->rotor.collective;
+    double theta_1c = ( _direction == MainRotor::CCW ? -1.0 : 1.0 ) * Data::get()->rotor.cyclicLat;
+    double theta_1s = Data::get()->rotor.cyclicLon;
+
+    int index = 0;
+
+    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+    {
+        (*it)->update( timeStep,
+                       vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       grav_ras,
+                       omega,
+                       azimuth + index * delta_psi,
+                       airDensity,
+                       theta_0,
+                       theta_1c,
+                       theta_1s
+                       );
+
+        index++;
+    }
 
     //////////////
 
     if ( 1 )
     {
-        updateDataVect( 0, azimuth, _blade->vec_test_1_sra, "pos_i_sra" );
-        updateDataVect( 1, azimuth, _blade->vec_test_2_sra, "omega_r_sra" );
-        updateDataVect( 2, azimuth, _blade->vec_test_3_sra, "for_cf_bsa" );
+        Data::get()->other.vect_0_x_enu = 0.0;
+        Data::get()->other.vect_0_y_enu = 0.0;
+        Data::get()->other.vect_0_z_enu = 0.0;
+
+        Data::get()->other.vect_0_x_enu = 0.0;
+        Data::get()->other.vect_0_y_enu = 0.0;
+        Data::get()->other.vect_0_z_enu = 0.0;
+
+        //updateDataVect( 0, azimuth, _blade->vec_test_1, "vec_test_1" );
+        //updateDataVect( 1, azimuth, _blade->vec_test_2, "xxx" );
+        //updateDataVect( 2, azimuth, _blade->vec_test_3, "xxx" );
     }
 }
 
@@ -134,8 +188,15 @@ void Test::update( double timeStep )
 
 void Test::updateData()
 {
-    Data::get()->blade[ 0 ].beta  = _blade->getBeta();
-    Data::get()->blade[ 0 ].theta = _blade->getTheta();
+    int index = 0;
+
+    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+    {
+        Data::get()->blade[ index ].beta  = (*it)->getBeta();
+        Data::get()->blade[ index ].theta = (*it)->getTheta();
+
+        index++;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

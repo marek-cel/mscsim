@@ -66,6 +66,14 @@ public:
     /** State data. */
     struct State
     {
+        double bas_u;               ///<
+        double bas_v;               ///<
+        double bas_w;               ///<
+
+        double bas_p;               ///<
+        double bas_q;               ///<
+        double bas_r;               ///<
+
         double ned_phi;             ///< [rad]
         double ned_tht;             ///< [rad]
         double ned_psi;             ///< [rad]
@@ -79,6 +87,10 @@ public:
         double vect_x_enu[ 3 ];     ///<
         double vect_y_enu[ 3 ];     ///<
         double vect_z_enu[ 3 ];     ///<
+
+        double vect_0_x_enu;        ///<
+        double vect_0_y_enu;        ///<
+        double vect_0_z_enu;        ///<
 
         char vect_label[ 3 ][ 64 ]; ///<
     };

@@ -73,6 +73,28 @@ void DockWidgetCtrl::update( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+double DockWidgetCtrl::getCollective()
+{
+    return fdm::Units::deg2rad( _ui->spinBoxCollective->value() );;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double DockWidgetCtrl::getCyclicLat()
+{
+    return fdm::Units::deg2rad( _ui->spinBoxCyclicLat->value() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double DockWidgetCtrl::getCyclicLon()
+{
+    return fdm::Units::deg2rad( _ui->spinBoxCyclicLon->value() );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
 double DockWidgetCtrl::getAzimuth()
 {
     return fdm::Units::deg2rad( _ui->spinBoxRotorPsi->value() );
@@ -114,4 +136,46 @@ void DockWidgetCtrl::settingsSave()
     settings.setValue( "psi", _ui->spinBoxRotorPsi->value() );
 
     settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::on_sliderCollective_sliderMoved(int position)
+{
+    const double min = -20.0;
+    const double max =  20.0;
+
+    double coef = 0.01 * (double)position;
+
+    double val = min + coef * ( max - min );
+
+    _ui->spinBoxCollective->setValue( val );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::on_sliderCyclicLon_sliderMoved(int position)
+{
+    const double min = -20.0;
+    const double max =  20.0;
+
+    double coef = 0.01 * (double)position;
+
+    double val = min + coef * ( max - min );
+
+    _ui->spinBoxCyclicLon->setValue( val );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::on_sliderCyclicLat_sliderMoved(int position)
+{
+    const double min = -20.0;
+    const double max =  20.0;
+
+    double coef = 0.01 * (double)position;
+
+    double val = min + coef * ( max - min );
+
+    _ui->spinBoxCyclicLat->setValue( val );
 }

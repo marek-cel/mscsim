@@ -26,6 +26,7 @@
 
 #include <fdm/fdm_Log.h>
 #include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -202,9 +203,16 @@ void Blade::TEST_INIT()
 ////////////////////////////////////////////////////////////////////////////////
 
 void Blade::update( double timeStep,
+                    const Vector3 &vel_air_ras,
+                    const Vector3 &omg_air_ras,
+                    const Vector3 &omg_ras,
                     const Vector3 &grav_ras,
                     double omega,
-                    double azimuth )
+                    double azimuth,
+                    double airDensity,
+                    double theta_0,
+                    double theta_1c,
+                    double theta_1s )
 {
     _ras2sra = getRAS2SRA( azimuth, _direction );
     _sra2ras = _ras2sra.getTransposed();
@@ -212,7 +220,18 @@ void Blade::update( double timeStep,
     _sra2bsa = getSRA2BSA( _beta, _direction );
     _bsa2sra = _sra2bsa.getTransposed();
 
-    xxx( grav_ras, omega );
+    // feathering angle
+    double cosPsi = cos( azimuth );
+    double sinPsi = sin( azimuth );
+
+    _theta = theta_0 + theta_1c * cosPsi + theta_1s * sinPsi;
+
+    xxx( vel_air_ras,
+         omg_air_ras,
+         omg_ras,
+         grav_ras,
+         omega,
+         airDensity );
 
     double beta_0_prev = _beta_0;
     double beta_1_prev = _beta_1;
@@ -244,17 +263,46 @@ void Blade::update( double timeStep,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Blade::xxx( const Vector3 &grav_ras,
-                 double omega )
+void Blade::xxx( const Vector3 &vel_air_ras,
+                 const Vector3 &omg_air_ras,
+                 const Vector3 &omg_ras,
+                 const Vector3 &grav_ras,
+                 double omega,
+                 double airDensity )
 {
+    // velocity relative to airflow
+    Vector3 vel_air_sra = _ras2sra * vel_air_ras;
+    Vector3 omg_air_sra = _ras2sra * omg_air_ras;
+
+    // angular velocity due to rotor rotation
     Vector3 omega_r_ras( 0.0, 0.0, -_dirFactor * omega );
     Vector3 omega_r_sra = _ras2sra * omega_r_ras;
 
+    // angular velocity due to blade flapping
+    Vector3 omega_f_bsa( _dirFactor * _beta_1, 0.0, 0.0 );
+    Vector3 omega_f_sra = _bsa2sra * omega_f_bsa;
+
+    // total angular velocity
+    Vector3 omg_tot_sra
+            = _ras2sra * omg_ras
+            + omega_r_sra
+            + omega_f_sra   // ????????
+            ;
+
+    // total angular velocity relative to airflow
+    Vector3 omg_air_tot_sra
+            = omg_air_sra
+            + omega_r_sra
+            + omega_f_sra
+            ;
+    Vector3 omg_air_tot_bsa = _sra2bsa * omg_air_tot_sra;
+
+    // linear velocity of flapping hinge relative to airflow
+    Vector3 vel_fh_air_bsa = _sra2bsa * ( vel_air_sra + omg_air_tot_sra % _pos_fh_sra );
+
+    // gravity acceleration
     Vector3 grav_sra = _ras2sra * grav_ras;
     Vector3 grav_bsa = _sra2bsa * grav_sra;
-
-    //std::cout << _ras2sra.toString() << std::cout;
-    //std::cout << grav_bsa.toString() << std::endl;
 
     const int steps = 10;
 
@@ -272,22 +320,61 @@ void Blade::xxx( const Vector3 &grav_ras,
         Vector3 pos_i_sra = _pos_fh_sra = _bsa2sra * pos_i_bsa;
 
         // moment due to gravity
-        Vector3 mom_gr_bsa = dm * ( pos_i_bsa % grav_bsa );
+        Vector3 mom_grav_bsa = dm * ( pos_i_bsa % grav_bsa );
 
         ///////////////////////////////////////
-        vec_test_1_sra = _bsa2sra * pos_i_bsa;
-        vec_test_2_sra = _bsa2sra * grav_bsa;
-        vec_test_3_sra = _bsa2sra * mom_gr_bsa;
+        //vec_test_1 = _bsa2sra * pos_i_bsa;
+        //vec_test_2 = _bsa2sra * grav_bsa;
+        //vec_test_3 = _bsa2sra * mom_gr_bsa;
         ///////////////////////////////////////
 
         // moment due to centrifugal force
-        Vector3 mom_cf_sra = dm * ( omega_r_sra % ( omega_r_sra % pos_i_sra ) );
-        Vector3 mom_cf_bsa = _sra2bsa * mom_cf_sra;
+        Vector3 for_cf_sra = -dm * ( omg_tot_sra % ( omg_tot_sra % pos_i_sra ) );
+        Vector3 for_cf_bsa = _sra2bsa * for_cf_sra;
+        Vector3 mom_cf_bsa = pos_i_bsa % for_cf_bsa;
+
+        ///////////////////////////////////////
+        //vec_test_1 = pos_i_sra;
+        //vec_test_2 = omega_r_sra;
+        //vec_test_3 = _bsa2sra * mom_cf_bsa;
+        ///////////////////////////////////////
+
+        // velocity (relative to airflow)
+        Vector3 vel_i_air_bsa = vel_fh_air_bsa + omg_air_tot_bsa % pos_i_bsa;
+
+        // section angle of attack
+        double uv = -vel_i_air_bsa.x();
+        double w  = -vel_i_air_bsa.z();
+        double angleOfAttack = Aerodynamics::getAngleOfAttack( uv, w ) + _theta;
+
+        //std::cout << fdm::Units::rad2deg( angleOfAttack ) << std::endl;
+
+        // dynamic pressure
+        double dynPress = 0.5 * airDensity * vel_i_air_bsa.getLength2();
+
+        // elementary forces
+        double dD = dynPress * _cd.getValue( angleOfAttack ) * _c;
+        double dL = dynPress * _cl.getValue( angleOfAttack ) * _c;
+
+        double sinAlpha = sin( angleOfAttack );
+        double cosAlpha = cos( angleOfAttack );
+
+        double dX = cosAlpha * dD - sinAlpha * dL;
+        double dZ = sinAlpha * dD + cosAlpha * dL;
+
+        Vector3 for_aero_bsa( dX, 0.0, dZ );
+        Vector3 for_aero_sra = _bsa2sra * for_aero_bsa;
+        Vector3 mom_aero_bsa = pos_i_bsa % for_aero_sra;
+
+        //////////////////////////
+        vec_test_1 = mom_aero_bsa;
+        //////////////////////////
 
         // total moment
         Vector3 mom_tot_bsa
-                = mom_gr_bsa
+                = mom_grav_bsa
                 + mom_cf_bsa
+                + mom_aero_bsa
                 ;
 
         _moment += _dirFactor * mom_tot_bsa.x();

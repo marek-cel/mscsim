@@ -35,8 +35,8 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Rotor::Rotor() :
-    //_bladesCount ( 4 ),
-    _bladesCount ( 1 ),
+    _bladesCount ( 4 ),
+    //_bladesCount ( 1 ),
     _bladesOffset ( 0.2 ),
 
     _direction ( Data::Rotor::CW ),

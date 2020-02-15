@@ -67,7 +67,10 @@ void Vector::drawLine( int index, const osg::Vec3 &color )
 {
     if ( Data::get()->other.vect[ index ] )
     {
-        osg::Vec3 b( 0.0f, 0.0f, 0.0f );
+        osg::Vec3 b( Data::get()->other.vect_0_x_enu,
+                     Data::get()->other.vect_0_y_enu,
+                     Data::get()->other.vect_0_z_enu );
+
         osg::Vec3 e( Data::get()->other.vect_x_enu[ index ],
                      Data::get()->other.vect_y_enu[ index ],
                      Data::get()->other.vect_z_enu[ index ] );

@@ -72,6 +72,8 @@ private:
     void settingsRead();
     void settingsSave();
 
+    void updateDataBlades();
+
 private slots:
 
 };

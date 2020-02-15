@@ -57,6 +57,13 @@ void DockWidgetTest::update( double /*timeStep*/ )
 
         Data::get()->rotor.direction = _ccw ? Data::Rotor::CCW : Data::Rotor::CW;
 
+        Data::get()->rotor.coningAngle = fdm::Units::deg2rad( _ui->spinBoxTestConing     ->value() );
+        Data::get()->rotor.diskPitch   = fdm::Units::deg2rad( _ui->spinBoxTestDiskPitch  ->value() );
+        Data::get()->rotor.diskRoll    = fdm::Units::deg2rad( _ui->spinBoxTestDiskRoll   ->value() );
+        Data::get()->rotor.collective  = fdm::Units::deg2rad( _ui->spinBoxTestCollective ->value() );
+        Data::get()->rotor.cyclicLon   = fdm::Units::deg2rad( _ui->spinBoxTestCyclicLon  ->value() );
+        Data::get()->rotor.cyclicLat   = fdm::Units::deg2rad( _ui->spinBoxTestCyclicLat  ->value() );
+
         double beta_0  =  Data::get()->rotor.coningAngle;
         double beta_1c = -Data::get()->rotor.diskPitch;
         double beta_1s = ( _ccw ? -1.0 : 1.0 ) * Data::get()->rotor.diskRoll;
@@ -94,7 +101,7 @@ void DockWidgetTest::setCCW( bool ccw )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderConing_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestConing_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -103,14 +110,12 @@ void DockWidgetTest::on_sliderConing_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.coningAngle = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxConing->setValue( val );
+    _ui->spinBoxTestConing->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderDiskPitch_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestDiskPitch_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -119,14 +124,12 @@ void DockWidgetTest::on_sliderDiskPitch_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.diskPitch = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxDiskPitch->setValue( val );
+    _ui->spinBoxTestDiskPitch->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderDiskRoll_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestDiskRoll_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -135,14 +138,12 @@ void DockWidgetTest::on_sliderDiskRoll_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.diskRoll = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxDiskRoll->setValue( val );
+    _ui->spinBoxTestDiskRoll->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderCollective_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestCollective_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -151,14 +152,12 @@ void DockWidgetTest::on_sliderCollective_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.collective = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxCollective->setValue( val );
+    _ui->spinBoxTestCollective->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderCyclicLon_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestCyclicLon_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -167,14 +166,12 @@ void DockWidgetTest::on_sliderCyclicLon_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.cyclicLon = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxCyclicLon->setValue( val );
+    _ui->spinBoxTestCyclicLon->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderCyclicLat_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestCyclicLat_sliderMoved(int position)
 {
     const double min = -20.0;
     const double max =  20.0;
@@ -183,14 +180,12 @@ void DockWidgetTest::on_sliderCyclicLat_sliderMoved(int position)
 
     double val = min + coef * ( max - min );
 
-    Data::get()->rotor.cyclicLat = fdm::Units::deg2rad( val );
-
-    _ui->spinBoxCyclicLat->setValue( val );
+    _ui->spinBoxTestCyclicLat->setValue( val );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetTest::on_sliderAzimuth_sliderMoved(int position)
+void DockWidgetTest::on_sliderTestAzimuth_sliderMoved(int position)
 {
     const double min =   0.0;
     const double max = 360.0;
@@ -201,5 +196,5 @@ void DockWidgetTest::on_sliderAzimuth_sliderMoved(int position)
 
     Data::get()->rotor.azimuth = fdm::Units::deg2rad( val );
 
-    _ui->spinBoxAzimuth->setValue( val );
+    _ui->spinBoxTestAzimuth->setValue( val );
 }

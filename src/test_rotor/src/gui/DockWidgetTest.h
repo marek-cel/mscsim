@@ -57,19 +57,19 @@ private:
 
 private slots:
 
-    void on_sliderConing_sliderMoved(int position);
+    void on_sliderTestConing_sliderMoved(int position);
 
-    void on_sliderDiskPitch_sliderMoved(int position);
+    void on_sliderTestDiskPitch_sliderMoved(int position);
 
-    void on_sliderDiskRoll_sliderMoved(int position);
+    void on_sliderTestDiskRoll_sliderMoved(int position);
 
-    void on_sliderCollective_sliderMoved(int position);
+    void on_sliderTestCollective_sliderMoved(int position);
 
-    void on_sliderCyclicLon_sliderMoved(int position);
+    void on_sliderTestCyclicLon_sliderMoved(int position);
 
-    void on_sliderCyclicLat_sliderMoved(int position);
+    void on_sliderTestCyclicLat_sliderMoved(int position);
 
-    void on_sliderAzimuth_sliderMoved(int position);
+    void on_sliderTestAzimuth_sliderMoved(int position);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

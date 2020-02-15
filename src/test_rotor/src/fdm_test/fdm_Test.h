@@ -39,6 +39,8 @@ class Test
 {
 public:
 
+    typedef std::vector< Blade* > Blades;
+
     Test( MainRotor::Direction direction );
 
     virtual ~Test();
@@ -54,6 +56,8 @@ private:
     const MainRotor::Direction _direction;
 
     Blade *_blade;
+
+    Blades _blades;
 
     Matrix3x3 _ned2enu;
     Matrix3x3 _enu2ned;

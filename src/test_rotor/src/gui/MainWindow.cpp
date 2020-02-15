@@ -23,6 +23,8 @@
 #include <gui/MainWindow.h>
 #include <ui_MainWindow.h>
 
+#include <iostream>
+
 #include <QSettings>
 
 #include <defs.h>
@@ -110,13 +112,14 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     _timeStep = (double)_timer->restart() / 1000.0;
 
+    updateDataBlades();
+
     _dockCtrl->update( _timeStep );
     //_dockData->update( _timeStep );
     _dockMain->update( _timeStep );
     _dockTest->update( _timeStep );
 
-    Data::get()->rotor.omega   = _dockCtrl->getOmega();
-    Data::get()->rotor.azimuth = _dockCtrl->getAzimuth();
+//    std::cout << Data::get()->rotor.collective << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -145,4 +148,39 @@ void MainWindow::settingsSave()
     settings.setValue( "geometry", saveGeometry() );
 
     settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updateDataBlades()
+{
+    Data::get()->rotor.omega      = _dockCtrl->getOmega();
+    Data::get()->rotor.azimuth    = _dockCtrl->getAzimuth();
+    Data::get()->rotor.collective = _dockCtrl->getCollective();
+    Data::get()->rotor.cyclicLon  = _dockCtrl->getCyclicLon();
+    Data::get()->rotor.cyclicLat  = _dockCtrl->getCyclicLat();
+
+    bool ccw = _dockMain->getCCW();
+
+    double beta_0  =  Data::get()->rotor.coningAngle;
+    double beta_1c = -Data::get()->rotor.diskPitch;
+    double beta_1s = ( ccw ? -1.0 : 1.0 ) * Data::get()->rotor.diskRoll;
+
+    double theta_0  = Data::get()->rotor.collective;
+    double theta_1c = ( ccw ? -1.0 : 1.0 ) * Data::get()->rotor.cyclicLat;
+    double theta_1s = Data::get()->rotor.cyclicLon;
+
+    unsigned int bladesCount = 4;
+    double psiStep = 2.0*M_PI / (float)bladesCount;
+
+    for ( unsigned int i = 0; i < bladesCount; i++ )
+    {
+        double psi = Data::get()->rotor.azimuth + (double)(i*psiStep);
+
+        double cosPsi = cos( psi );
+        double sinPsi = sin( psi );
+
+        Data::get()->blade[ i ].beta  =  beta_0 +  beta_1c * cosPsi +  beta_1s * sinPsi;
+        Data::get()->blade[ i ].theta = theta_0 + theta_1c * cosPsi + theta_1s * sinPsi;
+    }
 }

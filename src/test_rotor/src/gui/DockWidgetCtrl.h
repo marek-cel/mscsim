@@ -47,15 +47,26 @@ public:
 
     void update( double timeStep );
 
+    double getCollective();
+    double getCyclicLat();
+    double getCyclicLon();
+
     double getAzimuth();
     double getOmega();
-
 private:
 
     Ui::DockWidgetCtrl *_ui;        ///<
 
     void settingsRead();
     void settingsSave();
+
+private slots:
+
+    void on_sliderCollective_sliderMoved(int position);
+
+    void on_sliderCyclicLon_sliderMoved(int position);
+
+    void on_sliderCyclicLat_sliderMoved(int position);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -64,9 +64,9 @@ class FDMEXPORT Blade
 {
 public:
 
-    Vector3 vec_test_1_sra;
-    Vector3 vec_test_2_sra;
-    Vector3 vec_test_3_sra;
+    Vector3 vec_test_1;
+    Vector3 vec_test_2;
+    Vector3 vec_test_3;
 
     typedef MainRotor::Direction Direction;
 
@@ -96,9 +96,16 @@ public:
      * @param azimuth [rad] blade azimuth
      */
     virtual void update( double timeStep,
+                         const Vector3 &vel_air_ras,
+                         const Vector3 &omg_air_ras,
+                         const Vector3 &omg_ras,
                          const Vector3 &grav_ras,
                          double omega,
-                         double azimuth );
+                         double azimuth,
+                         double airDensity,
+                         double theta_0,
+                         double theta_1c,
+                         double theta_1s );
 
     inline double getInertia() const { return _ib; }
 
@@ -157,8 +164,12 @@ protected:
 
     double _theta;              ///< [rad] feathering angle
 
-    void xxx( const Vector3 &grav_ras,
-              double omega );
+    void xxx( const Vector3 &vel_air_ras,
+              const Vector3 &omg_air_ras,
+              const Vector3 &omg_ras,
+              const Vector3 &grav_ras,
+              double omega,
+              double airDensity );
 };
 
 } // end of fdm namespace

@@ -55,6 +55,8 @@ public:
 
     void setDockTest( DockWidgetTest *dockTest );
 
+    bool getCCW() const { return _ccw; }
+
 private:
 
     Ui::DockWidgetMain *_ui;        ///<

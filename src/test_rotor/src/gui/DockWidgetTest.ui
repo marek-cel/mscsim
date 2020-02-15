@@ -47,7 +47,7 @@
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>-131</x>
          <y>0</y>
          <width>600</width>
          <height>340</height>
@@ -88,7 +88,7 @@
          </widget>
         </item>
         <item row="8" column="1">
-         <widget class="QSlider" name="sliderAzimuth">
+         <widget class="QSlider" name="sliderTestAzimuth">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -101,7 +101,7 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxDiskRoll">
+         <widget class="QDoubleSpinBox" name="spinBoxTestDiskRoll">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -123,7 +123,7 @@
          </widget>
         </item>
         <item row="1" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxDiskPitch">
+         <widget class="QDoubleSpinBox" name="spinBoxTestDiskPitch">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -145,7 +145,7 @@
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QSlider" name="sliderCollective">
+         <widget class="QSlider" name="sliderTestCollective">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -158,7 +158,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QSlider" name="sliderDiskRoll">
+         <widget class="QSlider" name="sliderTestDiskRoll">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -171,7 +171,7 @@
          </widget>
         </item>
         <item row="6" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxCyclicLat">
+         <widget class="QDoubleSpinBox" name="spinBoxTestCyclicLat">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -193,7 +193,7 @@
          </widget>
         </item>
         <item row="8" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxAzimuth">
+         <widget class="QDoubleSpinBox" name="spinBoxTestAzimuth">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -245,7 +245,7 @@
          </widget>
         </item>
         <item row="5" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxCyclicLon">
+         <widget class="QDoubleSpinBox" name="spinBoxTestCyclicLon">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -267,7 +267,7 @@
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QSlider" name="sliderCyclicLat">
+         <widget class="QSlider" name="sliderTestCyclicLat">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -280,7 +280,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxConing">
+         <widget class="QDoubleSpinBox" name="spinBoxTestConing">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -302,7 +302,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QSlider" name="sliderDiskPitch">
+         <widget class="QSlider" name="sliderTestDiskPitch">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -325,7 +325,7 @@
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QSlider" name="sliderCyclicLon">
+         <widget class="QSlider" name="sliderTestCyclicLon">
           <property name="maximum">
            <number>100</number>
           </property>
@@ -338,7 +338,7 @@
          </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QDoubleSpinBox" name="spinBoxCollective">
+         <widget class="QDoubleSpinBox" name="spinBoxTestCollective">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -370,7 +370,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QSlider" name="sliderConing">
+         <widget class="QSlider" name="sliderTestConing">
           <property name="maximum">
            <number>100</number>
           </property>

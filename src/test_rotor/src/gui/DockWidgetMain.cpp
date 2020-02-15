@@ -79,6 +79,13 @@ void DockWidgetMain::update( double timeStep )
 
             _test->updateData();
         }
+        else
+        {
+            for ( int i = 0; i < 3; i++ )
+            {
+
+            }
+        }
     }
 }
 
