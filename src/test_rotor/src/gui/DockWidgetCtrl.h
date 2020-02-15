@@ -53,6 +53,9 @@ public:
 private:
 
     Ui::DockWidgetCtrl *_ui;        ///<
+
+    void settingsRead();
+    void settingsSave();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

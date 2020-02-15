@@ -87,6 +87,13 @@ void DockWidgetTest::update( double /*timeStep*/ )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DockWidgetTest::setCCW( bool ccw )
+{
+    _ccw = ccw;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetTest::on_sliderConing_sliderMoved(int position)
 {
     const double min = -20.0;
@@ -196,11 +203,3 @@ void DockWidgetTest::on_sliderAzimuth_sliderMoved(int position)
 
     _ui->spinBoxAzimuth->setValue( val );
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-void DockWidgetTest::on_radioButtonCCW_toggled(bool checked)
-{
-    _ccw = checked;
-}
-

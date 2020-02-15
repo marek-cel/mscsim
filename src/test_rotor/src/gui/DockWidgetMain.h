@@ -30,6 +30,8 @@
 
 #include <fdm_test/fdm_Test.h>
 
+#include <gui/DockWidgetTest.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -51,9 +53,13 @@ public:
 
     void update( double timeStep );
 
+    void setDockTest( DockWidgetTest *dockTest );
+
 private:
 
     Ui::DockWidgetMain *_ui;        ///<
+
+    DockWidgetTest *_dockTest;      ///<
 
     fdm::Test *_test;
     bool _ccw;

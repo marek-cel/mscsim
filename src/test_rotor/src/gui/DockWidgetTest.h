@@ -47,6 +47,8 @@ public:
 
     void update( double timeStep );
 
+    void setCCW( bool ccw );
+
 private:
 
     Ui::DockWidgetTest *_ui;        ///<
@@ -68,8 +70,6 @@ private slots:
     void on_sliderCyclicLat_sliderMoved(int position);
 
     void on_sliderAzimuth_sliderMoved(int position);
-
-    void on_radioButtonCCW_toggled(bool checked);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

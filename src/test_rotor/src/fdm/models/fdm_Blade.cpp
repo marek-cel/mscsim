@@ -247,9 +247,21 @@ void Blade::update( double timeStep,
 void Blade::xxx( const Vector3 &grav_ras,
                  double omega )
 {
+    // angular velocity due to rotor rotation
     Vector3 omega_r_ras( 0.0, 0.0, -_dirFactor * omega );
     Vector3 omega_r_sra = _ras2sra * omega_r_ras;
 
+    // angular velocity due to blade flapping
+    //Vector3 omega_f_bsa( _dirFactor * _beta_1, 0.0, 0.0 );
+    //Vector3 omega_f_sra = _bsa2sra * omega_f_bsa;
+
+    // total angular velocity
+    Vector3 omega_tot_sra
+            = omega_r_sra
+            //+ omega_f_sra   // ??????
+            ;
+
+    // gravity acceleration
     Vector3 grav_sra = _ras2sra * grav_ras;
     Vector3 grav_bsa = _sra2bsa * grav_sra;
 
@@ -275,14 +287,21 @@ void Blade::xxx( const Vector3 &grav_ras,
         Vector3 mom_gr_bsa = dm * ( pos_i_bsa % grav_bsa );
 
         ///////////////////////////////////////
-        vec_test_1_sra = _bsa2sra * pos_i_bsa;
-        vec_test_2_sra = _bsa2sra * grav_bsa;
-        vec_test_3_sra = _bsa2sra * mom_gr_bsa;
+        //vec_test_1_sra = _bsa2sra * pos_i_bsa;
+        //vec_test_2_sra = _bsa2sra * grav_bsa;
+        //vec_test_3_sra = _bsa2sra * mom_gr_bsa;
         ///////////////////////////////////////
 
         // moment due to centrifugal force
-        Vector3 mom_cf_sra = dm * ( omega_r_sra % ( omega_r_sra % pos_i_sra ) );
-        Vector3 mom_cf_bsa = _sra2bsa * mom_cf_sra;
+        Vector3 for_cf_sra = -dm * ( omega_tot_sra % ( omega_tot_sra % pos_i_sra ) );
+        Vector3 for_cf_bsa = _sra2bsa * for_cf_sra;
+        Vector3 mom_cf_bsa = pos_i_bsa % for_cf_bsa;
+
+        ///////////////////////////////////////
+        vec_test_1_sra = pos_i_sra;
+        vec_test_2_sra = omega_r_sra;
+        vec_test_3_sra = _bsa2sra * mom_cf_bsa;
+        ///////////////////////////////////////
 
         // total moment
         Vector3 mom_tot_bsa

@@ -36,6 +36,7 @@
 DockWidgetMain::DockWidgetMain( QWidget *parent ) :
     QDockWidget ( parent ),
     _ui ( new Ui::DockWidgetMain ),
+    _dockTest ( nullptr ),
     _test ( nullptr ),
     _ccw ( false )
 {
@@ -79,6 +80,13 @@ void DockWidgetMain::update( double timeStep )
             _test->updateData();
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetMain::setDockTest( DockWidgetTest *dockTest )
+{
+    _dockTest = dockTest;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -189,5 +197,10 @@ void DockWidgetMain::on_pushButtonStop_clicked()
 void DockWidgetMain::on_radioButtonCCW_toggled(bool checked)
 {
     _ccw = checked;
+
+    if ( _dockTest )
+    {
+        _dockTest->setCCW( _ccw );
+    }
 }
 

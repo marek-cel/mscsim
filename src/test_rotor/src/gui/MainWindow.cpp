@@ -55,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _dockMain = new DockWidgetMain( this );
     _dockTest = new DockWidgetTest( this );
 
+    _dockMain->setDockTest( _dockTest );
+
     addDockWidget( Qt::LeftDockWidgetArea  , _dockMain );
     addDockWidget( Qt::LeftDockWidgetArea  , _dockCtrl );
 
@@ -108,7 +110,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     _timeStep = (double)_timer->restart() / 1000.0;
 
-    //_dockCtrl->update( _timeStep );
+    _dockCtrl->update( _timeStep );
     //_dockData->update( _timeStep );
     _dockMain->update( _timeStep );
     _dockTest->update( _timeStep );

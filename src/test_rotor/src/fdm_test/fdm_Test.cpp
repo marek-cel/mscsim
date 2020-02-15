@@ -124,9 +124,9 @@ void Test::update( double timeStep )
 
     if ( 1 )
     {
-        updateDataVect( 0, azimuth, _blade->vec_test_1_sra, "pos_i_bsa" );
-        updateDataVect( 1, azimuth, _blade->vec_test_2_sra, "grav_bsa" );
-        updateDataVect( 2, azimuth, _blade->vec_test_3_sra, "mom_gr_bsa" );
+        updateDataVect( 0, azimuth, _blade->vec_test_1_sra, "pos_i_sra" );
+        updateDataVect( 1, azimuth, _blade->vec_test_2_sra, "omega_r_sra" );
+        updateDataVect( 2, azimuth, _blade->vec_test_3_sra, "for_cf_bsa" );
     }
 }
 

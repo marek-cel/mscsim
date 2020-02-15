@@ -23,7 +23,12 @@
 #include <gui/DockWidgetCtrl.h>
 #include <ui_DockWidgetCtrl.h>
 
+#include <QSettings>
+
 #include <fdm/utils/fdm_Units.h>
+
+#include <Data.h>
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,14 +37,38 @@ DockWidgetCtrl::DockWidgetCtrl( QWidget *parent ) :
     _ui ( new Ui::DockWidgetCtrl )
 {
     _ui->setupUi( this );
+
+    settingsRead();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DockWidgetCtrl::~DockWidgetCtrl()
 {
+    settingsSave();
+
     if ( _ui ) delete _ui;
     _ui = nullptr;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::update( double timeStep )
+{
+    if ( _ui->pushButtonIntegrate->isChecked() )
+    {
+        double psi = fdm::Units::deg2rad( _ui->spinBoxRotorPsi->value() );
+        double omega = 2.0 * M_PI * _ui->spinBoxRotorRpm->value() / 60.0;
+
+        psi += timeStep * omega;
+
+        while ( psi > 2.0 * M_PI )
+        {
+            psi -= 2.0 * M_PI;
+        }
+
+        _ui->spinBoxRotorPsi->setValue( fdm::Units::rad2deg( psi ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,4 +83,35 @@ double DockWidgetCtrl::getAzimuth()
 double DockWidgetCtrl::getOmega()
 {
     return 2.0 * M_PI * _ui->spinBoxRotorRpm->value() / 60.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::settingsRead()
+{
+    QSettings settings( TEST_ORG_NAME, TEST_APP_NAME );
+
+    settings.beginGroup( "dock_ctrl" );
+
+    double rpm = settings.value( "rpm", 0.0 ).toDouble();
+    double psi = settings.value( "psi", 0.0 ).toDouble();
+
+    _ui->spinBoxRotorRpm->setValue( rpm );
+    _ui->spinBoxRotorPsi->setValue( psi );
+
+    settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetCtrl::settingsSave()
+{
+    QSettings settings( TEST_ORG_NAME, TEST_APP_NAME );
+
+    settings.beginGroup( "dock_ctrl" );
+
+    settings.setValue( "rpm", _ui->spinBoxRotorRpm->value() );
+    settings.setValue( "psi", _ui->spinBoxRotorPsi->value() );
+
+    settings.endGroup();
 }
