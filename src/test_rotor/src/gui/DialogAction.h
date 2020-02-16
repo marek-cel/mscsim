@@ -19,74 +19,71 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+
+#ifndef DIALOGACTION_H
+#define DIALOGACTION_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
+#include <QDialog>
 
-#include <gui/DialogCtrl.h>
-
-#include <gui/DockWidgetCtrl.h>
-#include <gui/DockWidgetData.h>
-#include <gui/DockWidgetMain.h>
-#include <gui/DockWidgetTest.h>
+#include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
 {
-    class MainWindow;
+    class DialogAction;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class MainWindow : public QMainWindow
+/** */
+class DialogAction : public QDialog
 {
     Q_OBJECT
 
 public:
 
-    explicit MainWindow( QWidget *parent = nullptr );
+    static hid::Assignment getJoyAxisAssignment( QWidget *parent = 0, hid::Assignment assignment = hid::Assignment(), short joystickId = 0 );
+    static hid::Assignment getJoyButtAssignment( QWidget *parent = 0, hid::Assignment assignment = hid::Assignment(), short joystickId = 0 );
+    static hid::Assignment getKeyAssignment( QWidget *parent = 0, hid::Assignment assignment = hid::Assignment() );
 
-    ~MainWindow();
+    explicit DialogAction( QWidget *parent = 0, short joystickId = -1 );
+
+    ~DialogAction();
 
 protected:
 
-    /** */
     void timerEvent( QTimerEvent *event );
 
 private:
 
-    Ui::MainWindow *_ui;
-
-    DialogCtrl *_dialogCtrl;            ///<
-
-    DockWidgetCtrl *_dockCtrl;          ///<
-    DockWidgetData *_dockData;          ///<
-    DockWidgetMain *_dockMain;          ///<
-    DockWidgetTest *_dockTest;          ///<
-
-    QElapsedTimer *_timer;
-    double _timeStep;
+    Ui::DialogAction *_ui;
 
     int _timerId;
 
-    void settingsRead();
-    void settingsSave();
+    short _keyId;
 
-    void updateDataBlades();
+    short _axisCount;
+    short _buttCount;
+    short _povsCount;
+
+    short _joystickId;
+    short _axisId;
+    short _buttonId;
+    short _povId;
+    hid::Assignment::POVs _povDir;
+    bool  _inverted;
 
 private slots:
 
-    void on_actionControls_triggered();
-
-    void on_actionVectorsSpan_toggled(bool arg1);
-    void on_actionVectorsMain_toggled(bool arg1);
-    void on_actionBladesDatum_toggled(bool arg1);
+    void on_comboAxis_currentIndexChanged( int index );
+    void on_comboButt_currentIndexChanged( int index );
+    void on_comboKeys_currentIndexChanged( int index );
+    void on_checkAxisInverted_toggled( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // DIALOGACTION_H

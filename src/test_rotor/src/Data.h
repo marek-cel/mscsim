@@ -26,6 +26,9 @@
 
 #define MAX_BLADES 11
 
+#define VECT_MAIN 3
+#define VECT_SPAN 30
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -34,6 +37,14 @@
 class Data
 {
 public:
+
+    enum Phase
+    {
+        Init = 0,
+        Work,
+        Pause,
+        Stop
+    };
 
     /** Blade data. */
     struct Blade
@@ -77,22 +88,37 @@ public:
         double ned_phi;             ///< [rad]
         double ned_tht;             ///< [rad]
         double ned_psi;             ///< [rad]
+
+        double wind_vel;            ///< [m/s]
+        double wind_dir;            ///< [rad]
     };
 
     /** Other data. */
     struct Other
     {
-        bool vect[ 3 ];             ///<
+        struct Vector
+        {
+            bool visible;
 
-        double vect_x_enu[ 3 ];     ///<
-        double vect_y_enu[ 3 ];     ///<
-        double vect_z_enu[ 3 ];     ///<
+            double b_x_enu;         ///<
+            double b_y_enu;         ///<
+            double b_z_enu;         ///<
 
-        double vect_0_x_enu;        ///<
-        double vect_0_y_enu;        ///<
-        double vect_0_z_enu;        ///<
+            double v_x_enu;         ///<
+            double v_y_enu;         ///<
+            double v_z_enu;         ///<
 
-        char vect_label[ 3 ][ 64 ]; ///<
+            char label[ 64 ];       ///<
+
+
+        };
+
+        Vector main[ VECT_MAIN ];   ///<
+        Vector span[ VECT_SPAN ];   ///<
+
+        bool visible_vectors_main;  ///<
+        bool visible_vectors_span;  ///<
+        bool visible_blades_datum;  ///<
     };
 
     /** Data struct. */
@@ -101,7 +127,9 @@ public:
         Blade blade[ MAX_BLADES ];  ///<
         Rotor rotor;                ///<
         State state;                ///<
-        Other other;                ////<
+        Other other;                ///<
+
+        Phase phase;                ///<
 
         bool test;
     };

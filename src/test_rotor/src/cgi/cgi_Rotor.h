@@ -26,6 +26,7 @@
 
 #include <osg/Group>
 #include <osg/PositionAttitudeTransform>
+#include <osg/Switch>
 
 #include <Data.h>
 
@@ -40,6 +41,7 @@ class Rotor
 public:
 
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
+    typedef std::vector< osg::ref_ptr<osg::Switch> > Datums;
 
     /** */
     Rotor();
@@ -61,11 +63,9 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;
 
     Blades _blades;
+    Datums _datums;
 
     Data::Rotor::Direction _direction;
-
-    bool _datumLine;
-
 
     void createBlades();
     void reload();

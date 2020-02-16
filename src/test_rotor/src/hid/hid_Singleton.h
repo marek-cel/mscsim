@@ -19,74 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef HID_SINGLETON_H
+#define HID_SINGLETON_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
-
-#include <gui/DialogCtrl.h>
-
-#include <gui/DockWidgetCtrl.h>
-#include <gui/DockWidgetData.h>
-#include <gui/DockWidgetMain.h>
-#include <gui/DockWidgetTest.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-namespace Ui
+namespace hid
 {
-    class MainWindow;
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-class MainWindow : public QMainWindow
+/** Singleton template class. */
+template < class TYPE >
+class Singleton
 {
-    Q_OBJECT
+public:
+
+    /** Instace accessor. */
+    inline static TYPE* instance()
+    {
+        if ( !m_instance )
+        {
+            m_instance = new TYPE();
+        }
+
+        return m_instance;
+    }
 
 public:
 
-    explicit MainWindow( QWidget *parent = nullptr );
-
-    ~MainWindow();
+    /** Destructor. */
+    virtual ~Singleton() {}
 
 protected:
 
-    /** */
-    void timerEvent( QTimerEvent *event );
+    /** Constructor. */
+    Singleton() {}
+
+    /** Constructor. */
+    Singleton( const Singleton & ) {}
 
 private:
 
-    Ui::MainWindow *_ui;
-
-    DialogCtrl *_dialogCtrl;            ///<
-
-    DockWidgetCtrl *_dockCtrl;          ///<
-    DockWidgetData *_dockData;          ///<
-    DockWidgetMain *_dockMain;          ///<
-    DockWidgetTest *_dockTest;          ///<
-
-    QElapsedTimer *_timer;
-    double _timeStep;
-
-    int _timerId;
-
-    void settingsRead();
-    void settingsSave();
-
-    void updateDataBlades();
-
-private slots:
-
-    void on_actionControls_triggered();
-
-    void on_actionVectorsSpan_toggled(bool arg1);
-    void on_actionVectorsMain_toggled(bool arg1);
-    void on_actionBladesDatum_toggled(bool arg1);
+    static TYPE *m_instance;    ///< instance
 };
+
+} // end of hid namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+template < class TYPE > TYPE* hid::Singleton< TYPE >::m_instance = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // HID_SINGLETON_H

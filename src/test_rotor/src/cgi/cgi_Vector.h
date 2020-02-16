@@ -26,6 +26,8 @@
 
 #include <osg/Group>
 
+#include <Data.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace cgi
@@ -51,7 +53,7 @@ private:
 
     osg::ref_ptr<osg::Group> _root;
 
-    void drawLine( int index, const osg::Vec3 &color );
+    void drawLine( const Data::Other::Vector &vector, const osg::Vec3 &color );
 
     void drawLine( const osg::Vec3 &b,
                    const osg::Vec3 &e,

@@ -33,6 +33,7 @@
 #include <QWidget>
 
 #include <cgi/cgi_SceneRoot.h>
+#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +43,30 @@ class WidgetCGI : public QWidget, public osgViewer::Viewer
     Q_OBJECT
 
 public:
+
+    /** */
+    class KeyHandler : public osgGA::GUIEventHandler
+    {
+    public:
+
+        /** */
+        KeyHandler( WidgetCGI *widgetCGI );
+
+        /** */
+        inline const bool* getKeysState() const { return m_keysState; }
+
+        /** */
+        bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
+
+    private:
+
+        WidgetCGI *m_widgetCGI;
+
+        bool m_keysState[ HID_MAX_KEYS ];
+
+        bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
+        bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
+    };
 
     /** Constructor. */
     WidgetCGI( QWidget *parent = 0 );
@@ -65,6 +90,7 @@ private:
     osg::ref_ptr<osgGA::CameraManipulator> _manipulator;
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
+    osg::ref_ptr<KeyHandler> _keyHandler;
 
     /** */
     QWidget* addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg::Node *scene );

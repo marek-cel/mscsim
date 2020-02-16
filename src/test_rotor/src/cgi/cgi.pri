@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/cgi_Rotor.h \
     $$PWD/cgi_SceneRoot.h \
     $$PWD/cgi_Terrain.h \
-    $$PWD/cgi_Vector.h
+    $$PWD/cgi_Vector.h \
+    $$PWD/cgi_Windsock.h
 
 SOURCES += \
     $$PWD/cgi_Helicopter.cpp \
@@ -16,4 +17,5 @@ SOURCES += \
     $$PWD/cgi_Rotor.cpp \
     $$PWD/cgi_SceneRoot.cpp \
     $$PWD/cgi_Terrain.cpp \
-    $$PWD/cgi_Vector.cpp
+    $$PWD/cgi_Vector.cpp \
+    $$PWD/cgi_Windsock.cpp

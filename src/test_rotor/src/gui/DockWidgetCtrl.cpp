@@ -58,17 +58,41 @@ void DockWidgetCtrl::update( double timeStep )
     if ( _ui->pushButtonIntegrate->isChecked() )
     {
         double psi = fdm::Units::deg2rad( _ui->spinBoxRotorPsi->value() );
-        double omega = 2.0 * M_PI * _ui->spinBoxRotorRpm->value() / 60.0;
 
-        psi += timeStep * omega;
-
-        while ( psi > 2.0 * M_PI )
+        if ( Data::get()->phase == Data::Work )
         {
-            psi -= 2.0 * M_PI;
+            double omega = 2.0 * M_PI * _ui->spinBoxRotorRpm->value() / 60.0;
+
+            psi += timeStep * omega;
+
+            while ( psi > 2.0 * M_PI )
+            {
+                psi -= 2.0 * M_PI;
+            }
+        }
+        else if ( Data::get()->phase == Data::Stop )
+        {
+            psi = 0.0;
         }
 
         _ui->spinBoxRotorPsi->setValue( fdm::Units::rad2deg( psi ) );
     }
+
+    double collective = fdm::Units::rad2deg( Data::get()->rotor.collective );
+    double cyclicLon  = fdm::Units::rad2deg( Data::get()->rotor.cyclicLon  );
+    double cyclicLat  = fdm::Units::rad2deg( Data::get()->rotor.cyclicLat  );
+
+    _ui->spinBoxCollective ->setValue( collective );
+    _ui->spinBoxCyclicLon  ->setValue( cyclicLon  );
+    _ui->spinBoxCyclicLat  ->setValue( cyclicLat  );
+
+    double normCollective = collective / 20.0;
+    double normCyclicLon  = ( cyclicLon / 20.0 + 1.0 ) / 2.0;
+    double normCyclicLat  = ( cyclicLat / 20.0 + 1.0 ) / 2.0;
+
+    _ui->sliderCollective ->setValue( 100 * normCollective );
+    _ui->sliderCyclicLon  ->setValue( 100 * normCyclicLon  );
+    _ui->sliderCyclicLat  ->setValue( 100 * normCyclicLat  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,7 +115,6 @@ double DockWidgetCtrl::getCyclicLon()
 {
     return fdm::Units::deg2rad( _ui->spinBoxCyclicLon->value() );
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -142,7 +165,7 @@ void DockWidgetCtrl::settingsSave()
 
 void DockWidgetCtrl::on_sliderCollective_sliderMoved(int position)
 {
-    const double min = -20.0;
+    const double min =   0.0;
     const double max =  20.0;
 
     double coef = 0.01 * (double)position;

@@ -34,6 +34,10 @@
 
 #include <fdm/xml/fdm_XmlNode.h>
 
+#ifdef SIM_ROTOR_TEST
+#   include <Data.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -64,9 +68,20 @@ class FDMEXPORT Blade
 {
 public:
 
-    Vector3 vec_test_1;
-    Vector3 vec_test_2;
-    Vector3 vec_test_3;
+#   ifdef SIM_ROTOR_TEST
+    struct Vect
+    {
+        bool visible;
+
+        Vector3 b_sra;
+        Vector3 v_sra;
+
+        char label[ 64 ];
+    };
+
+    Vect main[ VECT_MAIN ];
+    Vect span[ VECT_SPAN ];
+#   endif
 
     typedef MainRotor::Direction Direction;
 

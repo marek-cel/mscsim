@@ -30,8 +30,6 @@
 
 #include <osgText/Text>
 
-#include <Data.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -56,26 +54,68 @@ void Vector::update()
         _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    drawLine( 0, osg::Vec3( 1.0f, 0.0f, 0.0f ) );
-    drawLine( 1, osg::Vec3( 0.0f, 1.0f, 0.0f ) );
-    drawLine( 2, osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+    if ( Data::get()->other.visible_vectors_main )
+    {
+        for ( int i = 0; i < VECT_MAIN; i++ )
+        {
+            osg::Vec3 color( 1.0f, 0.0f, 0.0f );
+
+            if ( i % 3 == 0 )
+            {
+                color = osg::Vec3( 0.0f, 0.0f, 1.0f );
+            }
+            else if ( i % 2 == 0 )
+            {
+                color = osg::Vec3( 0.0f, 1.0f, 0.0f );
+            }
+
+            drawLine( Data::get()->other.main[ i ], color );
+        }
+    }
+
+    if ( Data::get()->other.visible_vectors_span )
+    {
+        int no = 0;
+        for ( int i = 0; i < VECT_SPAN; i++ )
+        {
+            no++;
+
+            osg::Vec3 color;
+
+            if ( no == 3 )
+            {
+                color = osg::Vec3( 0.0f, 0.0f, 1.0f );
+                no = 0;
+            }
+            else if ( no == 2 )
+            {
+                color = osg::Vec3( 0.0f, 1.0f, 0.0f );
+            }
+            else
+            {
+                color = osg::Vec3( 1.0f, 0.0f, 0.0f );
+            }
+
+            drawLine( Data::get()->other.span[ i ], color );
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector::drawLine( int index, const osg::Vec3 &color )
+void Vector::drawLine( const Data::Other::Vector &vector, const osg::Vec3 &color )
 {
-    if ( Data::get()->other.vect[ index ] )
+    if ( vector.visible )
     {
-        osg::Vec3 b( Data::get()->other.vect_0_x_enu,
-                     Data::get()->other.vect_0_y_enu,
-                     Data::get()->other.vect_0_z_enu );
+        osg::Vec3 b( vector.b_x_enu,
+                     vector.b_y_enu,
+                     vector.b_z_enu );
 
-        osg::Vec3 e( Data::get()->other.vect_x_enu[ index ],
-                     Data::get()->other.vect_y_enu[ index ],
-                     Data::get()->other.vect_z_enu[ index ] );
+        osg::Vec3 e( vector.b_x_enu + vector.v_x_enu,
+                     vector.b_y_enu + vector.v_y_enu,
+                     vector.b_z_enu + vector.v_z_enu );
 
-        drawLine( b, e, color, Data::get()->other.vect_label[ index ] );
+        drawLine( b, e, color, vector.label );
     }
 }
 

@@ -62,6 +62,8 @@ DockWidgetMain::~DockWidgetMain()
 
 void DockWidgetMain::update( double timeStep )
 {
+    _ui->spinBoxTimeStep->setValue( timeStep );
+
     Data::get()->rotor.direction = _ccw ? Data::Rotor::CCW : Data::Rotor::CW;
 
     if ( !Data::get()->test )
@@ -69,6 +71,9 @@ void DockWidgetMain::update( double timeStep )
         Data::get()->state.ned_psi = fdm::Units::deg2rad( _ui->spinBoxAttPsi->value() );
         Data::get()->state.ned_tht = fdm::Units::deg2rad( _ui->spinBoxAttTht->value() );
         Data::get()->state.ned_phi = fdm::Units::deg2rad( _ui->spinBoxAttPhi->value() );
+
+        Data::get()->state.wind_vel = _ui->spinBoxWindVel->value();
+        Data::get()->state.wind_dir = fdm::Units::deg2rad( _ui->spinBoxWindDir->value() );
 
         if ( _test )
         {
@@ -87,6 +92,13 @@ void DockWidgetMain::update( double timeStep )
             }
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double DockWidgetMain::getTimeCoef()
+{
+    _ui->spinBoxTimeCoef->value();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -119,6 +131,12 @@ void DockWidgetMain::settingsRead()
     _ui->spinBoxAttTht->setValue( ned_tht );
     _ui->spinBoxAttPhi->setValue( ned_phi );
 
+    double wind_vel = settings.value( "wind_vel", 0.0 ).toDouble();
+    double wind_dir = settings.value( "wind_dir", 0.0 ).toDouble();
+
+    _ui->spinBoxWindVel->setValue( wind_vel );
+    _ui->spinBoxWindDir->setValue( wind_dir );
+
     settings.endGroup();
 }
 
@@ -136,6 +154,9 @@ void DockWidgetMain::settingsSave()
     settings.setValue( "ned_tht", _ui->spinBoxAttTht->value() );
     settings.setValue( "ned_phi", _ui->spinBoxAttPhi->value() );
 
+    settings.setValue( "wind_vel", _ui->spinBoxWindVel->value() );
+    settings.setValue( "wind_dir", _ui->spinBoxWindDir->value() );
+
     settings.endGroup();
 }
 
@@ -143,6 +164,8 @@ void DockWidgetMain::settingsSave()
 
 void DockWidgetMain::on_pushButtonInit_clicked()
 {
+    Data::get()->phase = Data::Init;
+
     _ui->pushButtonWork->setEnabled( true );
     _ui->pushButtonPause->setEnabled( true );
 
@@ -173,6 +196,8 @@ void DockWidgetMain::on_pushButtonInit_clicked()
 
 void DockWidgetMain::on_pushButtonWork_clicked()
 {
+    Data::get()->phase = Data::Work;
+
     _ui->pushButtonInit->setEnabled( false );
     _ui->pushButtonPause->setEnabled( true );
 }
@@ -181,6 +206,8 @@ void DockWidgetMain::on_pushButtonWork_clicked()
 
 void DockWidgetMain::on_pushButtonPause_clicked()
 {
+    Data::get()->phase = Data::Pause;
+
     _ui->pushButtonInit->setEnabled( false );
     _ui->pushButtonWork->setEnabled( true );
 }
@@ -189,6 +216,8 @@ void DockWidgetMain::on_pushButtonPause_clicked()
 
 void DockWidgetMain::on_pushButtonStop_clicked()
 {
+    Data::get()->phase = Data::Stop;
+
     _ui->pushButtonInit->setEnabled( true );
     _ui->pushButtonWork->setEnabled( false );
     _ui->pushButtonPause->setEnabled( false );

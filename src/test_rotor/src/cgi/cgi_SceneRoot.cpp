@@ -36,7 +36,8 @@ using namespace cgi;
 SceneRoot::SceneRoot() :
     _helicopter ( nullptr ),
     _terrain    ( nullptr ),
-    _vector     ( nullptr )
+    _vector     ( nullptr ),
+    _windsock   ( nullptr )
 {
     //std::cout << "SceneRoot::create()" << std::endl;
 
@@ -59,10 +60,12 @@ SceneRoot::SceneRoot() :
     _helicopter = new Helicopter();
     _terrain    = new Terrain();
     _vector     = new Vector();
+    _windsock   = new Windsock();
 
     _root->addChild( _helicopter ->getRoot() );
     _root->addChild( _terrain    ->getRoot() );
     _root->addChild( _vector     ->getRoot() );
+    _root->addChild( _windsock   ->getRoot() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +80,9 @@ SceneRoot::~SceneRoot()
 
     if ( _vector ) delete _vector;
     _vector = nullptr;
+
+    if ( _windsock ) delete _windsock;
+    _windsock = nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +92,7 @@ void SceneRoot::update()
     _helicopter ->update();
     _terrain    ->update();
     _vector     ->update();
+    _windsock   ->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

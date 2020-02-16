@@ -30,6 +30,8 @@
 #include <fdm/utils/fdm_Vector3.h>
 #include <fdm/utils/fdm_WGS84.h>
 
+#include <Data.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -53,6 +55,8 @@ public:
 
 private:
 
+    const int _bladesCount;
+
     const MainRotor::Direction _direction;
 
     Blade *_blade;
@@ -68,10 +72,9 @@ private:
     Matrix3x3 _bas2ras;
     Matrix3x3 _ras2bas;
 
-    void updateDataVect( int index,
-                         double azimuth,
-                         const Vector3 &vec_sra,
-                         const std::string &label );
+    void updateDataVect( Data::Other::Vector &vect,
+                         const Blade::Vect &out,
+                         double azimuth );
 };
 
 } // end of fdm namespace

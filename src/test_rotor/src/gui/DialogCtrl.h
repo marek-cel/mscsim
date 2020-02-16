@@ -19,74 +19,91 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+
+#ifndef DIALOGCTRL_H
+#define DIALOGCTRL_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
+#include <QDialog>
+#include <QSettings>
 
-#include <gui/DialogCtrl.h>
+#include <defs.h>
 
-#include <gui/DockWidgetCtrl.h>
-#include <gui/DockWidgetData.h>
-#include <gui/DockWidgetMain.h>
-#include <gui/DockWidgetTest.h>
+#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
 {
-    class MainWindow;
+    class DialogCtrl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class MainWindow : public QMainWindow
+/** This is 'Preferences' dialog class. */
+class DialogCtrl : public QDialog
 {
     Q_OBJECT
 
 public:
 
-    explicit MainWindow( QWidget *parent = nullptr );
-
-    ~MainWindow();
-
-protected:
+    /** Constructor. */
+    explicit DialogCtrl( QWidget *parent = 0 );
+    
+    /** Destructor. */
+    virtual ~DialogCtrl();
 
     /** */
-    void timerEvent( QTimerEvent *event );
+    void getAssignments( hid::Assignment assignments[] );
 
+    void readData();
+    void saveData();
+
+    void updateAssignments();
+    
 private:
 
-    Ui::MainWindow *_ui;
+    Ui::DialogCtrl *_ui;
 
-    DialogCtrl *_dialogCtrl;            ///<
+    bool _defaultAssignmentsInited;
 
-    DockWidgetCtrl *_dockCtrl;          ///<
-    DockWidgetData *_dockData;          ///<
-    DockWidgetMain *_dockMain;          ///<
-    DockWidgetTest *_dockTest;          ///<
+    bool _comboDeviceInited;
 
-    QElapsedTimer *_timer;
-    double _timeStep;
+    std::string     _actionNames[ HID_MAX_ACTIONS ];
+    hid::Assignment _assignments[ HID_MAX_ACTIONS ];
 
-    int _timerId;
+    bool isButtonAssignmentClearEnabled( int action );
+    bool isButtonAssignmentChangeEnabled( int action, int device );
+
+    void changeAssignment( int action );
+    void clearAssignment( int action );
+
+    void createTableControls();
+    void updateTableControls();
+
+    void setButtonsState( int action, int device );
 
     void settingsRead();
     void settingsSave();
 
-    void updateDataBlades();
+    void initDefaultAssignments();
+
+    void assignmentsRead( QSettings &settings );
+    void assignmentsSave( QSettings &settings );
+
+    void assignmentRead( QSettings &settings, hid::Assignment &assignment, hid::Assignment::Action action );
+    void assignmentSave( QSettings &settings, hid::Assignment &assignment, hid::Assignment::Action action );
 
 private slots:
 
-    void on_actionControls_triggered();
-
-    void on_actionVectorsSpan_toggled(bool arg1);
-    void on_actionVectorsMain_toggled(bool arg1);
-    void on_actionBladesDatum_toggled(bool arg1);
+    void on_buttonAssignmentClear_clicked();
+    void on_buttonAssignmentChange_clicked();
+    void on_comboDevice_currentIndexChanged( int index );
+    void on_tableControls_cellDoubleClicked( int row, int );
+    void on_tableControls_currentCellChanged( int row, int, int, int );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // DIALOGCTRL_H

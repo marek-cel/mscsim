@@ -19,74 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CGI_WINDSOCK_H
+#define CGI_WINDSOCK_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QMainWindow>
+#include <osg/Group>
 
-#include <gui/DialogCtrl.h>
-
-#include <gui/DockWidgetCtrl.h>
-#include <gui/DockWidgetData.h>
-#include <gui/DockWidgetMain.h>
-#include <gui/DockWidgetTest.h>
+#include <osg/PositionAttitudeTransform>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+namespace cgi
 {
-    class MainWindow;
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-class MainWindow : public QMainWindow
+/** */
+class Windsock
 {
-    Q_OBJECT
-
 public:
 
-    explicit MainWindow( QWidget *parent = nullptr );
-
-    ~MainWindow();
-
-protected:
+    /** */
+    Windsock();
 
     /** */
-    void timerEvent( QTimerEvent *event );
+    virtual ~Windsock();
+
+    void update();
+
+    /** Returns root node. */
+    inline osg::ref_ptr<osg::Group> getRoot() { return _root; }
 
 private:
 
-    Ui::MainWindow *_ui;
+    osg::ref_ptr<osg::Group> _root;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 
-    DialogCtrl *_dialogCtrl;            ///<
-
-    DockWidgetCtrl *_dockCtrl;          ///<
-    DockWidgetData *_dockData;          ///<
-    DockWidgetMain *_dockMain;          ///<
-    DockWidgetTest *_dockTest;          ///<
-
-    QElapsedTimer *_timer;
-    double _timeStep;
-
-    int _timerId;
-
-    void settingsRead();
-    void settingsSave();
-
-    void updateDataBlades();
-
-private slots:
-
-    void on_actionControls_triggered();
-
-    void on_actionVectorsSpan_toggled(bool arg1);
-    void on_actionVectorsMain_toggled(bool arg1);
-    void on_actionBladesDatum_toggled(bool arg1);
+    void createWindsock();
 };
+
+} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MAINWINDOW_H
+#endif // CGI_WINDSOCK_H

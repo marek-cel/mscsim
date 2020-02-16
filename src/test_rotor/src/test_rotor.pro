@@ -11,6 +11,9 @@ TARGET = mscsim-test-rotor
 
 ################################################################################
 
+DEFINES += \
+    SIM_ROTOR_TEST
+
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
 win32: DEFINES += \
@@ -101,4 +104,5 @@ SOURCES += \
 include(cgi/cgi.pri)
 include(fdm/fdm.pri)
 include(gui/gui.pri)
+include(hid/hid.pri)
 include(fdm_test/fdm_test.pri)

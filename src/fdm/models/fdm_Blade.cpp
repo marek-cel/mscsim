@@ -322,22 +322,10 @@ void Blade::xxx( const Vector3 &vel_air_ras,
         // moment due to gravity
         Vector3 mom_grav_bsa = dm * ( pos_i_bsa % grav_bsa );
 
-        ///////////////////////////////////////
-        //vec_test_1 = _bsa2sra * pos_i_bsa;
-        //vec_test_2 = _bsa2sra * grav_bsa;
-        //vec_test_3 = _bsa2sra * mom_gr_bsa;
-        ///////////////////////////////////////
-
         // moment due to centrifugal force
         Vector3 for_cf_sra = -dm * ( omg_tot_sra % ( omg_tot_sra % pos_i_sra ) );
         Vector3 for_cf_bsa = _sra2bsa * for_cf_sra;
         Vector3 mom_cf_bsa = pos_i_bsa % for_cf_bsa;
-
-        ///////////////////////////////////////
-        //vec_test_1 = pos_i_sra;
-        //vec_test_2 = omega_r_sra;
-        //vec_test_3 = _bsa2sra * mom_cf_bsa;
-        ///////////////////////////////////////
 
         // velocity (relative to airflow)
         Vector3 vel_i_air_bsa = vel_fh_air_bsa + omg_air_tot_bsa % pos_i_bsa;
@@ -345,16 +333,15 @@ void Blade::xxx( const Vector3 &vel_air_ras,
         // section angle of attack
         double uv = -vel_i_air_bsa.x();
         double w  = -vel_i_air_bsa.z();
-        double angleOfAttack = Aerodynamics::getAngleOfAttack( uv, w ) + _theta;
-
-        //std::cout << fdm::Units::rad2deg( angleOfAttack ) << std::endl;
+        double angleOfAttack = Aerodynamics::getAngleOfAttack( uv, w );
+        double angleOfAttackTheta = angleOfAttack + _theta;
 
         // dynamic pressure
         double dynPress = 0.5 * airDensity * vel_i_air_bsa.getLength2();
 
         // elementary forces
-        double dD = dynPress * _cd.getValue( angleOfAttack ) * _c;
-        double dL = dynPress * _cl.getValue( angleOfAttack ) * _c;
+        double dD = dynPress * _cd.getValue( angleOfAttackTheta ) * _c;
+        double dL = dynPress * _cl.getValue( angleOfAttackTheta ) * _c;
 
         double sinAlpha = sin( angleOfAttack );
         double cosAlpha = cos( angleOfAttack );
@@ -366,9 +353,23 @@ void Blade::xxx( const Vector3 &vel_air_ras,
         Vector3 for_aero_sra = _bsa2sra * for_aero_bsa;
         Vector3 mom_aero_bsa = pos_i_bsa % for_aero_sra;
 
-        //////////////////////////
-        vec_test_1 = mom_aero_bsa;
-        //////////////////////////
+#       ifdef SIM_ROTOR_TEST
+        int i1 = 3 * i;
+        int i2 = i1 + 1;
+        int i3 = i2 + 1;
+
+        span[ i1 ].visible = true;
+        span[ i2 ].visible = true;
+        span[ i3 ].visible = true;
+
+        span[ i1 ].b_sra = pos_i_sra;
+        span[ i2 ].b_sra = pos_i_sra;
+        span[ i3 ].b_sra = pos_i_sra;
+
+        span[ i1 ].v_sra = _bsa2sra * Vector3(  dX, 0.0, 0.0 );
+        span[ i2 ].v_sra = _bsa2sra * Vector3( 0.0, 0.0,  dZ );
+        span[ i3 ].v_sra = _bsa2sra * vel_i_air_bsa;
+#       endif
 
         // total moment
         Vector3 mom_tot_bsa

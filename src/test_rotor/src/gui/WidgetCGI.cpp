@@ -27,6 +27,7 @@
 #include <osgViewer/ViewerEventHandlers>
 
 #include <cgi/cgi_ManipulatorOrbit.h>
+#include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -64,6 +65,9 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
 
     _gridLayout->addWidget( widget, 0, 0 );
 
+    _keyHandler = new KeyHandler( this );
+    getEventHandlers().push_front( _keyHandler.get() );
+
     setLayout( _gridLayout );
 }
 
@@ -82,6 +86,8 @@ void WidgetCGI::update()
     //////////////////
     QWidget::update();
     //////////////////
+
+    hid::Manager::instance()->setKeysState( _keyHandler->getKeysState() );
 
     _sceneRoot->update();
 }

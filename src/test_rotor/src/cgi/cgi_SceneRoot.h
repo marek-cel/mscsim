@@ -29,6 +29,7 @@
 #include <cgi/cgi_Helicopter.h>
 #include <cgi/cgi_Terrain.h>
 #include <cgi/cgi_Vector.h>
+#include <cgi/cgi_Windsock.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +59,7 @@ private:
     Helicopter *_helicopter;
     Terrain    *_terrain;
     Vector     *_vector;
+    Windsock   *_windsock;
 
     void createSceneLight();
 };

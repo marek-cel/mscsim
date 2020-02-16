@@ -53,9 +53,11 @@ public:
 
     void update( double timeStep );
 
-    void setDockTest( DockWidgetTest *dockTest );
-
     bool getCCW() const { return _ccw; }
+
+    double getTimeCoef();
+
+    void setDockTest( DockWidgetTest *dockTest );
 
 private:
 

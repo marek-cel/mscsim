@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="locale">
-   <locale language="English" country="UnitedStates"/>
+   <locale language="Polish" country="Poland"/>
   </property>
   <property name="features">
    <set>QDockWidget::DockWidgetMovable</set>
@@ -47,7 +47,7 @@
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
         <rect>
-         <x>-131</x>
+         <x>0</x>
          <y>0</y>
          <width>600</width>
          <height>340</height>

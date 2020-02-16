@@ -27,6 +27,10 @@
 
 #include <QSettings>
 
+#include <hid/hid_Manager.h>
+
+#include <fdm/utils/fdm_Units.h>
+
 #include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +38,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _ui(new Ui::MainWindow),
+
+    _dialogCtrl ( nullptr ),
 
     _dockCtrl ( nullptr ),
     _dockData ( nullptr ),
@@ -52,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setCorner( Qt::TopRightCorner    , Qt::RightDockWidgetArea );
     setCorner( Qt::BottomRightCorner , Qt::RightDockWidgetArea );
 
+    _dialogCtrl = new DialogCtrl( this );
+
     _dockCtrl = new DockWidgetCtrl( this );
     _dockData = new DockWidgetData( this );
     _dockMain = new DockWidgetMain( this );
@@ -67,6 +75,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     settingsRead();
 
+    _dialogCtrl->readData();
+    _dialogCtrl->updateAssignments();
+
+    hid::Manager::instance()->init();
+
     _timer = new QElapsedTimer();
     _timer->start();
 
@@ -80,6 +93,9 @@ MainWindow::~MainWindow()
     killTimer( _timerId );
 
     settingsSave();
+
+    if ( _dialogCtrl ) delete _dialogCtrl;
+    _dialogCtrl = nullptr;
 
     if ( _dockCtrl ) delete _dockCtrl;
     _dockCtrl = nullptr;
@@ -110,7 +126,9 @@ void MainWindow::timerEvent( QTimerEvent *event )
 
     _ui->widgetCGI->update();
 
-    _timeStep = (double)_timer->restart() / 1000.0;
+    _timeStep = _dockMain->getTimeCoef() * (double)_timer->restart() / 1000.0;
+
+    hid::Manager::instance()->update( _timeStep );
 
     updateDataBlades();
 
@@ -133,6 +151,18 @@ void MainWindow::settingsRead()
     restoreState( settings.value( "state" ).toByteArray() );
     restoreGeometry( settings.value( "geometry" ).toByteArray() );
 
+    bool visible_vectors_main = settings.value( "visible_vectors_main", 0 ).toBool();
+    bool visible_vectors_span = settings.value( "visible_vectors_span", 0 ).toBool();
+    bool visible_blades_datum = settings.value( "visible_blades_datum", 0 ).toBool();
+
+    _ui->actionVectorsSpan->setChecked( visible_vectors_span );
+    _ui->actionVectorsMain->setChecked( visible_vectors_main );
+    _ui->actionBladesDatum->setChecked( visible_blades_datum );
+
+    Data::get()->other.visible_vectors_span = visible_vectors_span;
+    Data::get()->other.visible_vectors_main = visible_vectors_main;
+    Data::get()->other.visible_blades_datum = visible_blades_datum;
+
     settings.endGroup();
 }
 
@@ -147,6 +177,10 @@ void MainWindow::settingsSave()
     settings.setValue( "state", saveState() );
     settings.setValue( "geometry", saveGeometry() );
 
+    settings.setValue( "visible_vectors_span", _ui->actionVectorsSpan->isChecked() );
+    settings.setValue( "visible_vectors_main", _ui->actionVectorsMain->isChecked() );
+    settings.setValue( "visible_blades_datum", _ui->actionBladesDatum->isChecked() );
+
     settings.endGroup();
 }
 
@@ -156,9 +190,14 @@ void MainWindow::updateDataBlades()
 {
     Data::get()->rotor.omega      = _dockCtrl->getOmega();
     Data::get()->rotor.azimuth    = _dockCtrl->getAzimuth();
-    Data::get()->rotor.collective = _dockCtrl->getCollective();
-    Data::get()->rotor.cyclicLon  = _dockCtrl->getCyclicLon();
-    Data::get()->rotor.cyclicLat  = _dockCtrl->getCyclicLat();
+    //Data::get()->rotor.collective = _dockCtrl->getCollective();
+    //Data::get()->rotor.cyclicLon  = _dockCtrl->getCyclicLon();
+    //Data::get()->rotor.cyclicLat  = _dockCtrl->getCyclicLat();
+
+    const double ctrl_max = fdm::Units::deg2rad( 20.0 );
+    Data::get()->rotor.collective = ctrl_max * hid::Manager::instance()->getCollective();
+    Data::get()->rotor.cyclicLon  = ctrl_max * hid::Manager::instance()->getCtrlPitch();
+    Data::get()->rotor.cyclicLat  = ctrl_max * hid::Manager::instance()->getCtrlRoll();
 
     bool ccw = _dockMain->getCCW();
 
@@ -183,4 +222,32 @@ void MainWindow::updateDataBlades()
         Data::get()->blade[ i ].beta  =  beta_0 +  beta_1c * cosPsi +  beta_1s * sinPsi;
         Data::get()->blade[ i ].theta = theta_0 + theta_1c * cosPsi + theta_1s * sinPsi;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionControls_triggered()
+{
+    _dialogCtrl->show();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionVectorsSpan_toggled(bool arg1)
+{
+    Data::get()->other.visible_vectors_span = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionVectorsMain_toggled(bool arg1)
+{
+    Data::get()->other.visible_vectors_main = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionBladesDatum_toggled(bool arg1)
+{
+    Data::get()->other.visible_blades_datum = arg1;
 }

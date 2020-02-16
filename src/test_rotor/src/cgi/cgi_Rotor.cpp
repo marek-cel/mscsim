@@ -39,9 +39,7 @@ Rotor::Rotor() :
     //_bladesCount ( 1 ),
     _bladesOffset ( 0.2 ),
 
-    _direction ( Data::Rotor::CW ),
-
-    _datumLine ( false )
+    _direction ( Data::Rotor::CW )
 {
     _root = new osg::Group();
 
@@ -69,6 +67,14 @@ void Rotor::update()
     if ( _direction ==  Data::Rotor::CCW )
     {
         coef = -1.0;
+    }
+
+    for ( Datums::iterator it = _datums.begin(); it != _datums.end(); it++ )
+    {
+        if ( Data::get()->other.visible_blades_datum )
+            (*it)->setAllChildrenOn();
+        else
+            (*it)->setAllChildrenOff();
     }
 
     // main rotor
@@ -137,10 +143,14 @@ void Rotor::createBlades()
             _blades.push_back( patHinge.get() );
 
             // datum line
-            if ( _datumLine )
             {
+                osg::ref_ptr<osg::Switch> sw = new osg::Switch();
+                patBlade->addChild( sw.get() );
+
+                _datums.push_back( sw.get() );
+
                 osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-                patBlade->addChild( geode.get() );
+                sw->addChild( geode.get() );
 
                 osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
 
@@ -206,4 +216,5 @@ void Rotor::removeAllChildren()
     }
 
     _blades.clear();
+    _datums.clear();
 }
