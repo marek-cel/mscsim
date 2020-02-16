@@ -194,10 +194,11 @@ void MainWindow::updateDataBlades()
     //Data::get()->rotor.cyclicLon  = _dockCtrl->getCyclicLon();
     //Data::get()->rotor.cyclicLat  = _dockCtrl->getCyclicLat();
 
-    const double ctrl_max = fdm::Units::deg2rad( 20.0 );
-    Data::get()->rotor.collective = ctrl_max * hid::Manager::instance()->getCollective();
-    Data::get()->rotor.cyclicLon  = ctrl_max * hid::Manager::instance()->getCtrlPitch();
-    Data::get()->rotor.cyclicLat  = ctrl_max * hid::Manager::instance()->getCtrlRoll();
+    const double max_collective = fdm::Units::deg2rad( MAX_COLLECTIVE_DEG );
+    const double max_cyclic     = fdm::Units::deg2rad( MAX_CYCLIC_DEG );
+    Data::get()->rotor.collective = max_collective * hid::Manager::instance()->getCollective();
+    Data::get()->rotor.cyclicLon  = max_cyclic * hid::Manager::instance()->getCtrlPitch();
+    Data::get()->rotor.cyclicLat  = max_cyclic * hid::Manager::instance()->getCtrlRoll();
 
     bool ccw = _dockMain->getCCW();
 

@@ -195,7 +195,8 @@ void Blade::TEST_INIT()
 {
     Log::i() << "REMOVE ME" << std::endl;
 
-    _beta_0 = _beta_max;
+    //_beta_0 = _beta_max;
+    _beta_0 = _beta_min;
 
     Log::out() << _beta_0 << std::endl;
 }
@@ -333,7 +334,7 @@ void Blade::xxx( const Vector3 &vel_air_ras,
         // section angle of attack
         double uv = -vel_i_air_bsa.x();
         double w  = -vel_i_air_bsa.z();
-        double angleOfAttack = Aerodynamics::getAngleOfAttack( uv, w );
+        double angleOfAttack = ( fabs( uv ) > 1.0e-3 ) ? Aerodynamics::getAngleOfAttack( uv, w ) : 0.0;
         double angleOfAttackTheta = angleOfAttack + _theta;
 
         // dynamic pressure

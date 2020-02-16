@@ -86,9 +86,9 @@ void DockWidgetCtrl::update( double timeStep )
     _ui->spinBoxCyclicLon  ->setValue( cyclicLon  );
     _ui->spinBoxCyclicLat  ->setValue( cyclicLat  );
 
-    double normCollective = collective / 20.0;
-    double normCyclicLon  = ( cyclicLon / 20.0 + 1.0 ) / 2.0;
-    double normCyclicLat  = ( cyclicLat / 20.0 + 1.0 ) / 2.0;
+    double normCollective = collective / MAX_COLLECTIVE_DEG;
+    double normCyclicLon  = ( cyclicLon / MAX_CYCLIC_DEG + 1.0 ) / 2.0;
+    double normCyclicLat  = ( cyclicLat / MAX_CYCLIC_DEG + 1.0 ) / 2.0;
 
     _ui->sliderCollective ->setValue( 100 * normCollective );
     _ui->sliderCyclicLon  ->setValue( 100 * normCyclicLon  );

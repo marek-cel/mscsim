@@ -29,6 +29,9 @@
 #define TEST_ORG_NAME    "Marek_Cel"
 #define TEST_ORG_DOMAIN  "marekcel.pl"
 
+#define MAX_COLLECTIVE_DEG 10.0
+#define MAX_CYCLIC_DEG     10.0
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #endif // DEFS_H
