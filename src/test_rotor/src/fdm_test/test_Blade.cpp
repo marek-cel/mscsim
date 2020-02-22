@@ -57,7 +57,7 @@ test_Blade::test_Blade( MainRotor::Direction direction, int blades_count ) :
         //strcpy( _blade->span[ i ].label, "" );
     }
 
-    readData( "../data/blade.xml" );
+    readData( "../data/test.xml" );
 
     for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
     {
@@ -153,7 +153,7 @@ void test_Blade::readData( const std::string &dataFile )
             }
             else
             {
-                Log::e() << "Reading file \"" << dataFile << "\" failed" << std::endl;
+                Log::e() << "Reading file \"" << dataFile << "\" failed. Invalid \"main_rotor\" node." << std::endl;
             }
         }
         else

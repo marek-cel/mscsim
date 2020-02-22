@@ -75,7 +75,7 @@ void Test::initRotor( MainRotor::Direction direction, int blades_count )
     {
         try
         {
-            //_rotor = new test_Rotor( direction, blades_count );
+            _rotor = new test_Rotor( direction, blades_count );
         }
         catch ( fdm::Exception &e )
         {

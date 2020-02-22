@@ -31,11 +31,39 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-test_Rotor::test_Rotor() {}
+test_Rotor::test_Rotor( MainRotor::Direction direction, int blades_count ) :
+    _bladesCount ( blades_count ),
+    _direction ( direction ),
+    _rotor ( FDM_NULLPTR )
+{
+    _rotor = new MainRotorBE();
+
+    readData( "../data/test.xml" );
+
+    _ned2enu(0,0) =  0.0;
+    _ned2enu(0,1) =  1.0;
+    _ned2enu(0,2) =  0.0;
+
+    _ned2enu(1,0) =  1.0;
+    _ned2enu(1,1) =  0.0;
+    _ned2enu(1,2) =  0.0;
+
+    _ned2enu(2,0) =  0.0;
+    _ned2enu(2,1) =  0.0;
+    _ned2enu(2,2) = -1.0;
+
+    _enu2ned = _ned2enu.getTransposed();
+
+    _bas2ned = Matrix3x3::createIdentityMatrix();
+    _ned2bas = Matrix3x3::createIdentityMatrix();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-test_Rotor::~test_Rotor() {}
+test_Rotor::~test_Rotor()
+{
+    FDM_DELPTR( _rotor );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -51,14 +79,7 @@ void test_Rotor::readData( const std::string &dataFile )
         {
             XmlNode nodeRotor = rootNode.getFirstChildElement( "main_rotor" );
 
-            if ( nodeRotor.isValid() )
-            {
-                // TODO
-            }
-            else
-            {
-                Log::e() << "Reading file \"" << dataFile << "\" failed" << std::endl;
-            }
+            _rotor->readData( nodeRotor );
         }
         else
         {

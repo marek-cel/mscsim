@@ -35,7 +35,7 @@ class test_Rotor
 {
 public:
 
-    test_Rotor();
+    test_Rotor( MainRotor::Direction direction, int blades_count );
 
     virtual ~test_Rotor();
 
@@ -45,6 +45,19 @@ public:
 
     void updateData();
 
+private:
+
+    const int _bladesCount;
+
+    const MainRotor::Direction _direction;
+
+    MainRotorBE *_rotor;
+
+    Matrix3x3 _ned2enu;
+    Matrix3x3 _enu2ned;
+
+    Matrix3x3 _bas2ned;
+    Matrix3x3 _ned2bas;
 };
 
 } // end of fdm namespace
