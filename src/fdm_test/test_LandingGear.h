@@ -44,6 +44,9 @@ public:
     /** Destructor. */
     ~TEST_LandingGear();
 
+    /** Initializes landing gear. */
+    void init();
+
     /** Updates model. */
     void update();
 

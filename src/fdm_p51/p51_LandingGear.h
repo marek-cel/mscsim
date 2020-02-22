@@ -46,6 +46,7 @@ public:
     /** Destructor. */
     ~P51_LandingGear();
 
+    /** Initializes landing gear. */
     void init();
 
     /** Updates landing gear. */

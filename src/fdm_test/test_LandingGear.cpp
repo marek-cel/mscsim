@@ -40,6 +40,35 @@ TEST_LandingGear::~TEST_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void TEST_LandingGear::init()
+{
+    Wheel *wheel_n = getWheelByName( "wheel_n" );
+    Wheel *wheel_l = getWheelByName( "wheel_l" );
+    Wheel *wheel_r = getWheelByName( "wheel_r" );
+
+    if ( wheel_n && wheel_l && wheel_r )
+    {
+        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining wheels failed." );
+
+        FDM_THROW( e );
+    }
+
+    ////////////////////
+    LandingGear::init();
+    ////////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void TEST_LandingGear::update()
 {
     //////////////////////
