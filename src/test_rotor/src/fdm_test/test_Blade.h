@@ -26,10 +26,6 @@
 
 #include <fdm/models/fdm_Blade.h>
 
-#include <fdm/utils/fdm_Matrix3x3.h>
-#include <fdm/utils/fdm_Vector3.h>
-#include <fdm/utils/fdm_WGS84.h>
-
 #include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <test>
   
-  <main_rotor>
+  <main_rotor counter-clockwise="1">
+    
+    <hub_center> 0.0 0.0 -1.62 </hub_center>        <!-- [m] rotor hub coordinates -->
+    <inclination unit="deg"> 0.0 </inclination>     <!-- [rad] rotor inclination angle (positive if forward) -->
+    <number_of_blades> 4 </number_of_blades>        <!-- number of blades -->
+    <rotor_radius> 8.18 </rotor_radius>             <!-- [m] rotor radius -->
     
     <blade>
 

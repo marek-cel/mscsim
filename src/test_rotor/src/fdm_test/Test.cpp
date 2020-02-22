@@ -69,13 +69,13 @@ void Test::initBlade( MainRotor::Direction direction, int blades_count )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::initRotor( MainRotor::Direction direction, int blades_count )
+void Test::initRotor()
 {
     if ( _blade == nullptr && _rotor == nullptr )
     {
         try
         {
-            _rotor = new test_Rotor( direction, blades_count );
+            _rotor = new test_Rotor();
         }
         catch ( fdm::Exception &e )
         {

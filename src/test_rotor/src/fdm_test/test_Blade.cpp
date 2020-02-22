@@ -26,6 +26,7 @@
 #include <iostream>
 
 #include <fdm/fdm_Log.h>
+#include <fdm/utils/fdm_WGS84.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -181,13 +182,16 @@ void test_Blade::update( double timeStep )
     Vector3 vel_wind_bas = _ned2bas * vel_wind_ned;
     Vector3 vel_wind_ras = _bas2ras * vel_wind_bas;
 
-    Vector3 vel_ras = Vector3( Data::get()->state.bas_u,
+    Vector3 vel_bas = Vector3( Data::get()->state.bas_u,
                                Data::get()->state.bas_v,
                                Data::get()->state.bas_w );
 
-    Vector3 omg_ras = Vector3( Data::get()->state.bas_p,
+    Vector3 omg_bas = Vector3( Data::get()->state.bas_p,
                                Data::get()->state.bas_q,
                                Data::get()->state.bas_r );
+
+    Vector3 vel_ras = _bas2ras * vel_bas;
+    Vector3 omg_ras = _bas2ras * omg_bas;
 
     Vector3 vel_air_ras = vel_ras - vel_wind_ras;
     Vector3 omg_air_ras = omg_ras;

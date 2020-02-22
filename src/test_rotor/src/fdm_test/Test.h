@@ -41,8 +41,7 @@ public:
     virtual ~Test();
 
     void initBlade( MainRotor::Direction direction, int blades_count );
-
-    void initRotor( MainRotor::Direction direction, int blades_count );
+    void initRotor();
 
     void update( double timeStep );
 

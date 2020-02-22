@@ -23,6 +23,7 @@
 #include <fdm_test/test_Rotor.h>
 
 #include <fdm/fdm_Log.h>
+#include <fdm/utils/fdm_WGS84.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +32,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-test_Rotor::test_Rotor( MainRotor::Direction direction, int blades_count ) :
-    _bladesCount ( blades_count ),
-    _direction ( direction ),
+test_Rotor::test_Rotor() :
     _rotor ( FDM_NULLPTR )
 {
     _rotor = new MainRotorBE();
@@ -96,12 +95,60 @@ void test_Rotor::readData( const std::string &dataFile )
 
 void test_Rotor::update( double timeStep )
 {
+    _ned2bas = Matrix3x3( Angles( Data::get()->state.ned_phi,
+                                  Data::get()->state.ned_tht,
+                                  Data::get()->state.ned_psi ) );
+    _bas2ned = _ned2bas.getTransposed();
 
+    Vector3 vel_wind_ned = Matrix3x3( Angles( 0.0, 0.0, -Data::get()->state.wind_dir ) )
+             * Vector3( -Data::get()->state.wind_vel, 0.0, 0.0 );
+    Vector3 vel_wind_bas = _ned2bas * vel_wind_ned;
+
+    Vector3 vel_bas = Vector3( Data::get()->state.bas_u,
+                               Data::get()->state.bas_v,
+                               Data::get()->state.bas_w );
+
+    Vector3 omg_bas = Vector3( Data::get()->state.bas_p,
+                               Data::get()->state.bas_q,
+                               Data::get()->state.bas_r );
+
+    Vector3 vel_air_bas = vel_bas - vel_wind_bas;
+    Vector3 omg_air_bas = omg_bas;
+
+    Vector3 acc_bas( 0.0, 0.0, 0.0 );
+    Vector3 eps_bas( 0.0, 0.0, 0.0 );
+
+    Vector3 grav_ned( 0.0, 0.0, WGS84::_g );
+    Vector3 grav_bas = _ned2bas * grav_ned;
+
+    //std::cout << grav_ras.toString() << std::endl;
+
+    double omega   = Data::get()->rotor.omega;
+    double azimuth = Data::get()->rotor.azimuth;
+    double airDensity = 1.225;
+
+    _rotor->update( timeStep,
+                    vel_air_bas,
+                    omg_air_bas,
+                    omg_bas,
+                    acc_bas,
+                    eps_bas,
+                    grav_bas,
+                    omega,
+                    azimuth,
+                    airDensity,
+                    Data::get()->rotor.collective,
+                    Data::get()->rotor.cyclicLat,
+                    Data::get()->rotor.cyclicLon );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void test_Rotor::updateData()
 {
-
+    for ( int i = 0; i < _rotor->getNumberOfBlades(); i++ )
+    {
+        Data::get()->blade[ i ].beta  = _rotor->getBlade( i )->getBeta();
+        Data::get()->blade[ i ].theta = _rotor->getBlade( i )->getTheta();
+    }
 }

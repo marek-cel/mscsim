@@ -35,7 +35,7 @@ class test_Rotor
 {
 public:
 
-    test_Rotor( MainRotor::Direction direction, int blades_count );
+    test_Rotor();
 
     virtual ~test_Rotor();
 
@@ -46,10 +46,6 @@ public:
     void updateData();
 
 private:
-
-    const int _bladesCount;
-
-    const MainRotor::Direction _direction;
 
     MainRotorBE *_rotor;
 
