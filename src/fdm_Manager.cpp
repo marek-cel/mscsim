@@ -27,6 +27,7 @@
 #include <fdm/fdm_Log.h>
 
 #include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Time.h>
 #include <fdm/utils/fdm_Units.h>
 
 #include <fdm_c130/c130_Aircraft.h>
@@ -58,9 +59,12 @@ Manager::Manager() :
     _timeStep ( 0.0 ),
     _realTime ( 0.0 ),
 
-    _timeSteps ( 0 ),
+    _compTimeTot ( 0.0 ),
+    _compTimeMax ( 0.0 ),
 
     _timeStepMax ( 0.0 ),
+
+    _timeSteps ( 0 ),
 
     _verbose ( true )
 {
@@ -684,6 +688,8 @@ void Manager::updateStateWork()
     {
         try
         {
+            double compTime_0 = Time::get();
+
             _recorder->step( _timeStep );
 
             if ( _dataInp.recording.mode != DataInp::Recording::Replay || _recorder->isReplaying() )
@@ -738,6 +744,10 @@ void Manager::updateStateWork()
                     printFlightEndInfo();
                 }
             }
+
+            double compTime = Time::get() - compTime_0;
+            _compTimeTot += compTime;
+            _compTimeMax = Misc::max( _compTimeMax, compTime );
         }
         catch ( Exception &e )
         {
@@ -768,6 +778,8 @@ void Manager::updateStateFreeze()
     {
         try
         {
+            double compTime_0 = Time::get();
+
             _aircraft->stepFrozen( _timeStep );
             _aircraft->updateOutputData();
 
@@ -775,6 +787,10 @@ void Manager::updateStateFreeze()
             _timeSteps++;
 
             _stateOut = DataOut::Frozen;
+
+            double compTime = Time::get() - compTime_0;
+            _compTimeTot += compTime;
+            _compTimeMax = Misc::max( _compTimeMax, compTime );
         }
         catch ( Exception &e )
         {
@@ -812,6 +828,10 @@ void Manager::updateStateStop()
     }
 
     _realTime = 0.0;
+
+    _compTimeTot = 0.0;
+    _compTimeMax = 0.0;
+
     _timeSteps = 0;
 
     FDM_DELPTR( _aircraft );
@@ -825,14 +845,24 @@ void Manager::updateStateStop()
 void Manager::printFlightEndInfo()
 {
     Log::i() << "Flight finished." << std::endl;
+
     printState();
 
     double meanStep = _realTime / (double)_timeSteps;
     double meanFreq = 1.0 / meanStep;
-    Log::i() << "Mean time step: " << meanStep << " s"  << std::endl;
-    Log::i() << "Mean frequency: " << meanFreq << " Hz" << std::endl;
+    double meanComp = _compTimeTot / (double)_timeSteps;
 
-    Log::i() << "Max time step: " << _timeStepMax << " s" << std::endl;
+    Log::out().setf( std::ios_base::showpoint );
+    Log::out().setf( std::ios_base::fixed );
+
+    Log::out() << "        Mean frequency [Hz] : " << std::setprecision( 3 ) << meanFreq << std::endl;
+    Log::out() << "         Mean time step [s] : " << std::setprecision( 6 ) << meanStep << std::endl;
+    Log::out() << " Mean computations time [s] : " << std::setprecision( 6 ) << meanComp << std::endl;
+    Log::out() << "          Max time step [s] : " << std::setprecision( 6 ) << _timeStepMax << std::endl;
+    Log::out() << "  Max computations time [s] : " << std::setprecision( 6 ) << _compTimeMax << std::endl;
+
+    Log::out().unsetf( std::ios_base::showpoint );
+    Log::out().unsetf( std::ios_base::fixed );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

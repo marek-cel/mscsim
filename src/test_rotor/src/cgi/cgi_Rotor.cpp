@@ -28,6 +28,8 @@
 
 #include <cgi/cgi_Models.h>
 
+#include <defs.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -35,16 +37,27 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Rotor::Rotor() :
-    _bladesCount ( 4 ),
-    //_bladesCount ( 1 ),
     _bladesOffset ( 0.2 ),
 
-    _direction ( Data::Rotor::CW )
+    _rotorRadiusCW  ( 7.885 ),
+    _rotorRadiusCCW ( 8.14 ),
+
+    _direction ( Data::Rotor::CW ),
+
+    _bladesCount ( 0 )
 {
     _root = new osg::Group();
 
     _mainRotor = new osg::PositionAttitudeTransform();
     _root->addChild( _mainRotor.get() );
+
+    _switchTraces = new osg::Switch();
+    _root->addChild( _switchTraces.get() );
+
+    for ( int i = 0; i < MAX_BLADES; i++ )
+    {
+        _traces.push_back( new osg::Vec3Array() );
+    }
 
     reload();
 }
@@ -57,8 +70,12 @@ Rotor::~Rotor() {}
 
 void Rotor::update()
 {
-    if ( _direction != Data::get()->rotor.direction )
+    if ( _direction != Data::get()->rotor.direction
+      || _bladesCount != Data::get()->blades_count )
     {
+        _direction = Data::get()->rotor.direction;
+        _bladesCount = Data::get()->blades_count;
+
         reload();
     }
 
@@ -71,7 +88,7 @@ void Rotor::update()
 
     for ( Datums::iterator it = _datums.begin(); it != _datums.end(); it++ )
     {
-        if ( Data::get()->other.visible_blades_datum )
+        if ( Data::get()->other.show_blades_datum )
             (*it)->setAllChildrenOn();
         else
             (*it)->setAllChildrenOff();
@@ -95,7 +112,7 @@ void Rotor::update()
                                                    0.0, osg::Z_AXIS ) );
     }
 
-    _direction = Data::get()->rotor.direction;
+    updateTraces();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -116,9 +133,12 @@ void Rotor::createBlades()
     if ( bladeNode.valid() )
     {
         const double dirCoef = Data::get()->rotor.direction == Data::Rotor::CCW ? -1.0 : 1.0;
-        const double angleStep = dirCoef*2.0*M_PI/((double)_bladesCount);
+        const double angleStep = dirCoef*2.0*M_PI/((double)MAX_BLADES);
 
-        for ( unsigned int i = 0; i < _bladesCount; i++ )
+        double r = _direction == Data::Rotor::CW ? _rotorRadiusCW : _rotorRadiusCCW;
+        double b = r - _bladesOffset;
+
+        for ( int i = 0; i < Data::get()->blades_count; i++ )
         {
             double azimuth = i*angleStep + M_PI;
 
@@ -159,9 +179,9 @@ void Rotor::createBlades()
                 osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
 
                 v->push_back( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
-                v->push_back( osg::Vec3( -dirCoef * 8.0, 0.0, 0.0 ) );
+                v->push_back( osg::Vec3( b, 0.0, 0.0 ) );
                 n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
-                c->push_back( osg::Vec4( 0.0f, 1.0f, 0.0f, 1.0f ) );
+                c->push_back( osg::Vec4( 0.0f, 1.0f, 1.0f, 1.0f ) );
 
                 geometry->setVertexArray( v.get() );
                 geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, v->size() ) );
@@ -173,11 +193,100 @@ void Rotor::createBlades()
                 geode->addDrawable( geometry.get() );
 
                 osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
-                lineWidth->setWidth( 1.0f );
+                lineWidth->setWidth( 0.8f );
 
                 geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
             }
         }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Rotor::createDatums()
+{
+    const double r = _direction == Data::Rotor::CW ? _rotorRadiusCW : _rotorRadiusCCW;
+
+    // ring
+    {
+        osg::ref_ptr<osg::Switch> sw = new osg::Switch();
+        _root->addChild( sw.get() );
+
+        _datums.push_back( sw.get() );
+
+        osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+        sw->addChild( geode.get() );
+
+        osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+
+        osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // normals
+        osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
+        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
+        n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+        c->push_back( osg::Vec4( 1.0f, 0.0f, 1.0f, 1.0f ) );
+
+        for ( int i = 0; i < 36; i++ )
+        {
+            double a = osg::DegreesToRadians( 10.0 * i );
+            double x = r * sin( a );
+            double y = r * cos( a );
+
+            v->push_back( osg::Vec3( x, y, 0.0 ) );
+        }
+
+        geometry->setVertexArray( v.get() );
+        geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_LOOP, 0, v->size() ) );
+        geometry->setNormalArray( n.get() );
+        geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        geometry->setColorArray( c.get() );
+        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+        geode->addDrawable( geometry.get() );
+
+        osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+        lineWidth->setWidth( 2.0f );
+
+        geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
+    }
+
+    // lines
+    {
+        osg::ref_ptr<osg::Switch> sw = new osg::Switch();
+        _root->addChild( sw.get() );
+
+        _datums.push_back( sw.get() );
+
+        osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+        sw->addChild( geode.get() );
+
+        osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+
+        osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // normals
+        osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
+        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
+        n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+        c->push_back( osg::Vec4( 1.0f, 0.0f, 1.0f, 1.0f ) );
+
+        v->push_back( osg::Vec3( -r, 0.0, 0.0 ) );
+        v->push_back( osg::Vec3(  r, 0.0, 0.0 ) );
+        v->push_back( osg::Vec3( 0.0, -r, 0.0 ) );
+        v->push_back( osg::Vec3( 0.0,  r, 0.0 ) );
+
+        geometry->setVertexArray( v.get() );
+        geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINES, 0, v->size() ) );
+        geometry->setNormalArray( n.get() );
+        geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+        geometry->setColorArray( c.get() );
+        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+        geode->addDrawable( geometry.get() );
+
+        osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+        lineWidth->setWidth( 2.0f );
+
+        geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
     }
 }
 
@@ -188,6 +297,7 @@ void Rotor::reload()
     removeAllChildren();
 
     _root->addChild( _mainRotor.get() );
+    _root->addChild( _switchTraces.get() );
 
     osg::ref_ptr<osg::Node> nodeHub;
 
@@ -199,6 +309,7 @@ void Rotor::reload()
     if ( nodeHub.valid() ) _mainRotor->addChild( nodeHub.get() );
 
     createBlades();
+    createDatums();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,6 +321,11 @@ void Rotor::removeAllChildren()
         _mainRotor->removeChild( 0, _mainRotor->getNumChildren() );
     }
 
+    if ( _switchTraces.valid() )
+    {
+        _switchTraces->removeChild( 0, _switchTraces->getNumChildren() );
+    }
+
     if ( _root.valid() )
     {
         _root->removeChild( 0, _root->getNumChildren() );
@@ -217,4 +333,121 @@ void Rotor::removeAllChildren()
 
     _blades.clear();
     _datums.clear();
+
+    for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+    {
+        (*it)->clear();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Rotor::updateTraces()
+{
+    if ( _switchTraces->getNumChildren() > 0 )
+    {
+        _switchTraces->removeChildren( 0, _switchTraces->getNumChildren() );
+    }
+
+    if ( Data::get()->phase == Data::Phase::Stop )
+    {
+        for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+        {
+            (*it)->clear();
+        }
+
+        if ( _switchTraces->getNumChildren() > 0 )
+        {
+            _switchTraces->removeChildren( 0, _switchTraces->getNumChildren() );
+        }
+    }
+    else if ( Data::get()->phase == Data::Phase::Work )
+    {
+        double azimuth = Data::get()->rotor.azimuth;
+        double delta_psi = 2.0 * M_PI / (double)(MAX_BLADES);
+
+        // main rotor blades
+        for ( unsigned int i = 0; i < _traces.size() && i < MAX_BLADES; i++ )
+        {
+            double beta = -Data::get()->blade[ i ].beta;
+
+            double psi = azimuth + i * delta_psi;
+            double r = _rotorRadiusCW;
+
+            if ( _direction == Data::Rotor::CCW )
+            {
+                //beta = -beta;
+                psi = -psi;
+                r = _rotorRadiusCCW;
+            }
+
+            osg::Quat q_sra( psi, osg::Z_AXIS );
+            osg::Quat q_bsa( beta, osg::Y_AXIS );
+
+            osg::Vec3 r_fh_sra(     -_bladesOffset, 0.0, 0.0 );
+            osg::Vec3 r_tp_bsa( -r + _bladesOffset, 0.0, 0.0 );
+
+            osg::Vec3 r_tp_ras = q_sra * r_fh_sra
+                    + q_sra * ( q_bsa * r_tp_bsa );
+
+            _traces[ i ]->push_back( r_tp_ras );
+
+            double rot_time = ( 2.0 * M_PI ) / Data::get()->rotor.omega / Data::get()->time_coef;
+            double frames = rot_time / CGI_TIME_STEP / MAX_BLADES;
+
+            int max = ceil( frames );
+            int min = 36;
+            if ( max < min ) max = min;
+
+            while ( _traces[ i ]->size() > (unsigned int)max )
+            {
+                _traces[ i ]->erase( _traces[ i ]->begin(),
+                                     _traces[ i ]->begin() + 1 );
+            }
+        }
+    }
+
+    if ( Data::get()->other.show_blades_trace )
+    {
+        for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+        {
+            updateTrace( _switchTraces.get(), (*it).get() );
+        }
+
+        _switchTraces->setAllChildrenOn();
+    }
+    else
+    {
+        _switchTraces->setAllChildrenOff();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Rotor::updateTrace( osg::Group *parent, osg::Vec3Array *positions )
+{
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    parent->addChild( geode.get() );
+
+    osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
+
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+    c->push_back( osg::Vec4( 1.0f, 1.0f, 0.0f, 1.0f ) );
+
+    geometry->setVertexArray( positions );
+    geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, positions->size() ) );
+    geometry->setNormalArray( n.get() );
+    geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geometry->setColorArray( c.get() );
+    geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
+
+    geode->addDrawable( geometry.get() );
+
+    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+    lineWidth->setWidth( 2.0f );
+
+    geode->getOrCreateStateSet()->setAttributeAndModes( lineWidth, osg::StateAttribute::ON );
 }

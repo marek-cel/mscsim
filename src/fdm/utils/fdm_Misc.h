@@ -67,18 +67,6 @@ public:
     }
 
     /**
-     * Checks if value is within the given range.
-     * @param min minimum possible value
-     * @param max maximum possible value
-     * @param val variable to test
-     * @return true if val greater than min and less than max, false otherwise
-     */
-    inline static bool inside( const double &min, const double &max, const double &val )
-    {
-        return min < val && val < max;
-    }
-
-    /**
      * Checks if given varaible is Infinite.
      * @param val double precision value to test
      * @return function returns TRUE if tested value is Infinite
@@ -126,6 +114,30 @@ public:
         }
 
         return true;
+    }
+
+    /**
+     * Checks if value is within the given range.
+     * @param min minimum possible value
+     * @param max maximum possible value
+     * @param val variable to test
+     * @return true if val greater than min and less than max, false otherwise
+     */
+    inline static bool isInside( const double &min, const double &max, const double &val )
+    {
+        return min < val && val < max;
+    }
+
+    /**
+     * Checks if value is outside the given range.
+     * @param min minimum possible value
+     * @param max maximum possible value
+     * @param val variable to test
+     * @return true if val greater than min and less than max, false otherwise
+     */
+    inline static bool isOutside( const double &min, const double &max, const double &val )
+    {
+        return min > val || val > max;
     }
 
     /**

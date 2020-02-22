@@ -57,6 +57,8 @@ private:
 
     bool _keysState[ HID_MAX_KEYS ];
 
+    int getIndex( int key );
+
     bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
     bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
 };

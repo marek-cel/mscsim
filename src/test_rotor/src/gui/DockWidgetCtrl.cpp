@@ -132,6 +132,17 @@ double DockWidgetCtrl::getOmega()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DockWidgetCtrl::closeEvent( QCloseEvent *event )
+{
+    /////////////////////////////////
+    QDockWidget::closeEvent( event );
+    /////////////////////////////////
+
+    emit closed();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetCtrl::settingsRead()
 {
     QSettings settings( TEST_ORG_NAME, TEST_APP_NAME );
@@ -141,8 +152,12 @@ void DockWidgetCtrl::settingsRead()
     double rpm = settings.value( "rpm", 0.0 ).toDouble();
     double psi = settings.value( "psi", 0.0 ).toDouble();
 
+    bool integrate = settings.value( "intergrate_psi", 0 ).toBool();
+
     _ui->spinBoxRotorRpm->setValue( rpm );
     _ui->spinBoxRotorPsi->setValue( psi );
+
+    _ui->pushButtonIntegrate->setChecked( integrate );
 
     settings.endGroup();
 }
@@ -157,6 +172,8 @@ void DockWidgetCtrl::settingsSave()
 
     settings.setValue( "rpm", _ui->spinBoxRotorRpm->value() );
     settings.setValue( "psi", _ui->spinBoxRotorPsi->value() );
+
+    settings.setValue( "intergrate_psi", _ui->pushButtonIntegrate->isChecked() );
 
     settings.endGroup();
 }

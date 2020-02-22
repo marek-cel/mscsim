@@ -133,6 +133,7 @@ HEADERS += \
     $$PWD/utils/fdm_String.h \
     $$PWD/utils/fdm_Table.h \
     $$PWD/utils/fdm_Table2D.h \
+    $$PWD/utils/fdm_Time.h \
     $$PWD/utils/fdm_Units.h \
     $$PWD/utils/fdm_Vector.h \
     $$PWD/utils/fdm_Vector3.h \

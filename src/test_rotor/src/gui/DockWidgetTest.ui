@@ -20,7 +20,7 @@
    <locale language="Polish" country="Poland"/>
   </property>
   <property name="features">
-   <set>QDockWidget::DockWidgetMovable</set>
+   <set>QDockWidget::AllDockWidgetFeatures</set>
   </property>
   <property name="windowTitle">
    <string>Test</string>

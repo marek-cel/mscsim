@@ -627,7 +627,7 @@ public:
      */
     FDM_CONSTEXPR static inline double rpm2rad_s( double ang_vel = 1.0 )
     {
-        return 120.0 * M_PI * ang_vel;
+        return M_PI * ang_vel / 30.0;
     }
 
     /**

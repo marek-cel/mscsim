@@ -22,6 +22,7 @@
 
 #include <hid/hid_Manager.h>
 
+#include <iostream>
 #include <memory.h>
 
 #include <defs.h>
@@ -371,8 +372,10 @@ void Manager::updateAxisActions()
                       Assignment::CollectiveIncrease,
                       _collective, _speedControls, 0.0f, 1.0f );
     }
-
-    getAxisValue( _assignments[ Assignment::CollectiveAxis ], _collective, 1 );
+    else
+    {
+        getAxisValue( _assignments[ Assignment::CollectiveAxis ], _collective, 1 );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

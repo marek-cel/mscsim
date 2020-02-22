@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_BLADES 11
+#define MAX_BLADES 4
 
 #define VECT_MAIN 3
 #define VECT_SPAN 30
@@ -116,9 +116,13 @@ public:
         Vector main[ VECT_MAIN ];   ///<
         Vector span[ VECT_SPAN ];   ///<
 
-        bool visible_vectors_main;  ///<
-        bool visible_vectors_span;  ///<
-        bool visible_blades_datum;  ///<
+        double scale_main;          ///<
+        double scale_span;          ///<
+
+        bool show_vectors_main;     ///<
+        bool show_vectors_span;     ///<
+        bool show_blades_datum;     ///<
+        bool show_blades_trace;     ///<
     };
 
     /** Data struct. */
@@ -131,7 +135,12 @@ public:
 
         Phase phase;                ///<
 
-        bool test;
+        double time_step;           ///<
+        double time_coef;           ///<
+
+        int blades_count;           ///<
+
+        bool test;                  ///<
     };
 
 private:

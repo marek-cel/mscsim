@@ -25,9 +25,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
-    m_widgetCGI ( widgetCGI )
+    _widgetCGI ( widgetCGI )
 {
-    for ( int i = 0; i < HID_MAX_KEYS; i++ ) m_keysState[ i ] = false;
+    for ( int i = 0; i < HID_MAX_KEYS; i++ ) _keysState[ i ] = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,340 +55,312 @@ bool WidgetCGI::KeyHandler::handle( const osgGA::GUIEventAdapter &ea, osgGA::GUI
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
+void WidgetCGI::KeyHandler::keyDn( hid::Assignment::Key key )
 {
-    switch ( ea.getKey() )
+    _keysState[ key ] = true;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::KeyHandler::keyUp( hid::Assignment::Key key )
+{
+    _keysState[ key ] = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int WidgetCGI::KeyHandler::getKeyIndex( int key )
+{
+    switch ( key )
     {
     case osgGA::GUIEventAdapter::KEY_0:
     case osgGA::GUIEventAdapter::KEY_KP_0:
-        m_keysState[ hid::Assignment::Key0 ] = true;
-        return true;
+        return hid::Assignment::Key0;
         break;
 
     case osgGA::GUIEventAdapter::KEY_1:
     case osgGA::GUIEventAdapter::KEY_KP_1:
-        m_keysState[ hid::Assignment::Key1 ] = true;
-        return true;
+        return hid::Assignment::Key1;
         break;
 
     case osgGA::GUIEventAdapter::KEY_2:
     case osgGA::GUIEventAdapter::KEY_KP_2:
-        m_keysState[ hid::Assignment::Key2 ] = true;
-        return true;
+        return hid::Assignment::Key2;
         break;
 
     case osgGA::GUIEventAdapter::KEY_3:
     case osgGA::GUIEventAdapter::KEY_KP_3:
-        m_keysState[ hid::Assignment::Key3 ] = true;
-        return true;
+        return hid::Assignment::Key3;
         break;
 
     case osgGA::GUIEventAdapter::KEY_4:
     case osgGA::GUIEventAdapter::KEY_KP_4:
-        m_keysState[ hid::Assignment::Key4 ] = true;
-        return true;
+        return hid::Assignment::Key4;
         break;
 
     case osgGA::GUIEventAdapter::KEY_5:
     case osgGA::GUIEventAdapter::KEY_KP_5:
-        m_keysState[ hid::Assignment::Key5 ] = true;
-        return true;
+        return hid::Assignment::Key5;
         break;
 
     case osgGA::GUIEventAdapter::KEY_6:
     case osgGA::GUIEventAdapter::KEY_KP_6:
-        m_keysState[ hid::Assignment::Key6 ] = true;
-        return true;
+        return hid::Assignment::Key6;
         break;
 
     case osgGA::GUIEventAdapter::KEY_7:
     case osgGA::GUIEventAdapter::KEY_KP_7:
-        m_keysState[ hid::Assignment::Key7 ] = true;
-        return true;
+        return hid::Assignment::Key7;
         break;
 
     case osgGA::GUIEventAdapter::KEY_8:
     case osgGA::GUIEventAdapter::KEY_KP_8:
-        m_keysState[ hid::Assignment::Key8 ] = true;
-        return true;
+        return hid::Assignment::Key8;
         break;
 
     case osgGA::GUIEventAdapter::KEY_9:
     case osgGA::GUIEventAdapter::KEY_KP_9:
-        m_keysState[ hid::Assignment::Key9 ] = true;
-        return true;
+        return hid::Assignment::Key9;
         break;
 
     case osgGA::GUIEventAdapter::KEY_A:
     case 'A':
-        m_keysState[ hid::Assignment::KeyA ] = true;
-        return true;
+        return hid::Assignment::KeyA;
         break;
 
     case osgGA::GUIEventAdapter::KEY_B:
     case 'B':
-        m_keysState[ hid::Assignment::KeyB ] = true;
-        return true;
+        return hid::Assignment::KeyB;
         break;
 
     case osgGA::GUIEventAdapter::KEY_C:
     case 'C':
-        m_keysState[ hid::Assignment::KeyC ] = true;
-        return true;
+        return hid::Assignment::KeyC;
         break;
 
     case osgGA::GUIEventAdapter::KEY_D:
     case 'D':
-        m_keysState[ hid::Assignment::KeyD ] = true;
-        return true;
+        return hid::Assignment::KeyD;
         break;
 
     case osgGA::GUIEventAdapter::KEY_E:
     case 'E':
-        m_keysState[ hid::Assignment::KeyE ] = true;
-        return true;
+        return hid::Assignment::KeyE;
         break;
 
     case osgGA::GUIEventAdapter::KEY_F:
     case 'F':
-        m_keysState[ hid::Assignment::KeyF ] = true;
-        return true;
+        return hid::Assignment::KeyF;
         break;
 
     case osgGA::GUIEventAdapter::KEY_G:
     case 'G':
-        m_keysState[ hid::Assignment::KeyG ] = true;
-        return true;
+        return hid::Assignment::KeyG;
         break;
 
     case osgGA::GUIEventAdapter::KEY_H:
     case 'H':
-        m_keysState[ hid::Assignment::KeyH ] = true;
-        return true;
+        return hid::Assignment::KeyH;
         break;
 
     case osgGA::GUIEventAdapter::KEY_I:
     case 'I':
-        m_keysState[ hid::Assignment::KeyI ] = true;
-        return true;
+        return hid::Assignment::KeyI;
         break;
 
     case osgGA::GUIEventAdapter::KEY_J:
     case 'J':
-        m_keysState[ hid::Assignment::KeyJ ] = true;
-        return true;
+        return hid::Assignment::KeyJ;
         break;
 
     case osgGA::GUIEventAdapter::KEY_K:
     case 'K':
-        m_keysState[ hid::Assignment::KeyK ] = true;
-        return true;
+        return hid::Assignment::KeyK;
         break;
 
     case osgGA::GUIEventAdapter::KEY_L:
     case 'L':
-        m_keysState[ hid::Assignment::KeyL ] = true;
-        return true;
+        return hid::Assignment::KeyL;
         break;
 
     case osgGA::GUIEventAdapter::KEY_M:
     case 'M':
-        m_keysState[ hid::Assignment::KeyM ] = true;
-        return true;
+        return hid::Assignment::KeyM;
         break;
 
     case osgGA::GUIEventAdapter::KEY_N:
     case 'N':
-        m_keysState[ hid::Assignment::KeyN ] = true;
-        return true;
+        return hid::Assignment::KeyN;
         break;
 
     case osgGA::GUIEventAdapter::KEY_O:
     case 'O':
-        m_keysState[ hid::Assignment::KeyO ] = true;
-        return true;
+        return hid::Assignment::KeyO;
         break;
 
     case osgGA::GUIEventAdapter::KEY_P:
     case 'P':
-        m_keysState[ hid::Assignment::KeyP ] = true;
-        return true;
+        return hid::Assignment::KeyP;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Q:
     case 'Q':
-        m_keysState[ hid::Assignment::KeyQ ] = true;
-        return true;
+        return hid::Assignment::KeyQ;
         break;
 
     case osgGA::GUIEventAdapter::KEY_R:
     case 'R':
-        m_keysState[ hid::Assignment::KeyR ] = true;
-        return true;
+        return hid::Assignment::KeyR;
         break;
 
     case osgGA::GUIEventAdapter::KEY_S:
     case 'S':
-        m_keysState[ hid::Assignment::KeyS ] = true;
-        return true;
+        return hid::Assignment::KeyS;
         break;
 
     case osgGA::GUIEventAdapter::KEY_T:
     case 'T':
-        m_keysState[ hid::Assignment::KeyT ] = true;
-        return true;
+        return hid::Assignment::KeyT;
         break;
 
     case osgGA::GUIEventAdapter::KEY_U:
     case 'U':
-        m_keysState[ hid::Assignment::KeyU ] = true;
-        return true;
+        return hid::Assignment::KeyU;
         break;
 
     case osgGA::GUIEventAdapter::KEY_V:
     case 'V':
-        m_keysState[ hid::Assignment::KeyV ] = true;
-        return true;
+        return hid::Assignment::KeyV;
         break;
 
     case osgGA::GUIEventAdapter::KEY_W:
     case 'W':
-        m_keysState[ hid::Assignment::KeyW ] = true;
-        return true;
+        return hid::Assignment::KeyW;
         break;
 
     case osgGA::GUIEventAdapter::KEY_X:
     case 'X':
-        m_keysState[ hid::Assignment::KeyX ] = true;
-        return true;
+        return hid::Assignment::KeyX;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Y:
     case 'Y':
-        m_keysState[ hid::Assignment::KeyY ] = true;
-        return true;
+        return hid::Assignment::KeyY;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Z:
     case 'Z':
-        m_keysState[ hid::Assignment::KeyZ ] = true;
-        return true;
+        return hid::Assignment::KeyZ;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Backquote:
-        m_keysState[ hid::Assignment::KeyBackquote ] = true;
-        return true;
+        return hid::Assignment::KeyBackquote;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Minus:
-        m_keysState[ hid::Assignment::KeyMinus ] = true;
-        return true;
+        return hid::Assignment::KeyMinus;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Equals:
-        m_keysState[ hid::Assignment::KeyEquals ] = true;
-        return true;
+        return hid::Assignment::KeyEquals;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Leftbracket:
-        m_keysState[ hid::Assignment::KeyLeftBracket ] = true;
-        return true;
+        return hid::Assignment::KeyLeftBracket;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Rightbracket:
-        m_keysState[ hid::Assignment::KeyRightBracket ] = true;
-        return true;
+        return hid::Assignment::KeyRightBracket;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Semicolon:
-        m_keysState[ hid::Assignment::KeySemicolon ] = true;
-        return true;
+        return hid::Assignment::KeySemicolon;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Quote:
-        m_keysState[ hid::Assignment::KeyQuote ] = true;
-        return true;
+        return hid::Assignment::KeyQuote;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Comma:
-        m_keysState[ hid::Assignment::KeyComma ] = true;
-        return true;
+        return hid::Assignment::KeyComma;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Period:
-        m_keysState[ hid::Assignment::KeyPeriod ] = true;
-        return true;
+        return hid::Assignment::KeyPeriod;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Slash:
-        m_keysState[ hid::Assignment::KeySlash ] = true;
-        return true;
+        return hid::Assignment::KeySlash;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Space:
-        m_keysState[ hid::Assignment::KeySpace ] = true;
-        return true;
+        return hid::Assignment::KeySpace;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Left:
     case osgGA::GUIEventAdapter::KEY_KP_Left:
-        m_keysState[ hid::Assignment::KeyLeft ] = true;
-        return true;
+        return hid::Assignment::KeyLeft;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Right:
     case osgGA::GUIEventAdapter::KEY_KP_Right:
-        m_keysState[ hid::Assignment::KeyRight ] = true;
-        return true;
+        return hid::Assignment::KeyRight;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Up:
     case osgGA::GUIEventAdapter::KEY_KP_Up:
-        m_keysState[ hid::Assignment::KeyUp ] = true;
-        return true;
+        return hid::Assignment::KeyUp;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Down:
     case osgGA::GUIEventAdapter::KEY_KP_Down:
-        m_keysState[ hid::Assignment::KeyDown ] = true;
-        return true;
+        return hid::Assignment::KeyDown;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Insert:
     case osgGA::GUIEventAdapter::KEY_KP_Insert:
-        m_keysState[ hid::Assignment::KeyInsert ] = true;
-        return true;
+        return hid::Assignment::KeyInsert;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Delete:
     case osgGA::GUIEventAdapter::KEY_KP_Delete:
-        m_keysState[ hid::Assignment::KeyDelete ] = true;
-        return true;
+        return hid::Assignment::KeyDelete;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Home:
     case osgGA::GUIEventAdapter::KEY_KP_Home:
-        m_keysState[ hid::Assignment::KeyHome ] = true;
-        return true;
+        return hid::Assignment::KeyHome;
         break;
 
     case osgGA::GUIEventAdapter::KEY_End:
     case osgGA::GUIEventAdapter::KEY_KP_End:
-        m_keysState[ hid::Assignment::KeyEnd ] = true;
-        return true;
+        return hid::Assignment::KeyEnd;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Page_Up:
     case osgGA::GUIEventAdapter::KEY_KP_Page_Up:
-        m_keysState[ hid::Assignment::KeyPageUp ] = true;
-        return true;
+        return hid::Assignment::KeyPageUp;
         break;
 
     case osgGA::GUIEventAdapter::KEY_Page_Down:
     case osgGA::GUIEventAdapter::KEY_KP_Page_Down:
-        m_keysState[ hid::Assignment::KeyPageDown ] = true;
-        return true;
+        return hid::Assignment::KeyPageDown;
         break;
+    }
+
+    return -1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
+{
+    int index = getKeyIndex( ea.getKey() );
+
+    if ( index >= 0 )
+    {
+        _keysState[ index ] = true;
+        return true;
     }
 
     return false;
@@ -398,338 +370,12 @@ bool WidgetCGI::KeyHandler::handleKeyDn( const osgGA::GUIEventAdapter &ea )
 
 bool WidgetCGI::KeyHandler::handleKeyUp( const osgGA::GUIEventAdapter &ea )
 {
-    switch ( ea.getKey() )
+    int index = getKeyIndex( ea.getKey() );
+
+    if ( index >= 0 )
     {
-    case osgGA::GUIEventAdapter::KEY_0:
-    case osgGA::GUIEventAdapter::KEY_KP_0:
-        m_keysState[ hid::Assignment::Key0 ] = false;
+        _keysState[ index ] = false;
         return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_1:
-    case osgGA::GUIEventAdapter::KEY_KP_1:
-        m_keysState[ hid::Assignment::Key1 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_2:
-    case osgGA::GUIEventAdapter::KEY_KP_2:
-        m_keysState[ hid::Assignment::Key2 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_3:
-    case osgGA::GUIEventAdapter::KEY_KP_3:
-        m_keysState[ hid::Assignment::Key3 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_4:
-    case osgGA::GUIEventAdapter::KEY_KP_4:
-        m_keysState[ hid::Assignment::Key4 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_5:
-    case osgGA::GUIEventAdapter::KEY_KP_5:
-        m_keysState[ hid::Assignment::Key5 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_6:
-    case osgGA::GUIEventAdapter::KEY_KP_6:
-        m_keysState[ hid::Assignment::Key6 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_7:
-    case osgGA::GUIEventAdapter::KEY_KP_7:
-        m_keysState[ hid::Assignment::Key7 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_8:
-    case osgGA::GUIEventAdapter::KEY_KP_8:
-        m_keysState[ hid::Assignment::Key8 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_9:
-    case osgGA::GUIEventAdapter::KEY_KP_9:
-        m_keysState[ hid::Assignment::Key9 ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_A:
-    case 'A':
-        m_keysState[ hid::Assignment::KeyA ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_B:
-    case 'B':
-        m_keysState[ hid::Assignment::KeyB ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_C:
-    case 'C':
-        m_keysState[ hid::Assignment::KeyC ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_D:
-    case 'D':
-        m_keysState[ hid::Assignment::KeyD ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_E:
-    case 'E':
-        m_keysState[ hid::Assignment::KeyE ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_F:
-    case 'F':
-        m_keysState[ hid::Assignment::KeyF ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_G:
-    case 'G':
-        m_keysState[ hid::Assignment::KeyG ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_H:
-    case 'H':
-        m_keysState[ hid::Assignment::KeyH ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_I:
-    case 'I':
-        m_keysState[ hid::Assignment::KeyI ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_J:
-    case 'J':
-        m_keysState[ hid::Assignment::KeyJ ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_K:
-    case 'K':
-        m_keysState[ hid::Assignment::KeyK ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_L:
-    case 'L':
-        m_keysState[ hid::Assignment::KeyL ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_M:
-    case 'M':
-        m_keysState[ hid::Assignment::KeyM ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_N:
-    case 'N':
-        m_keysState[ hid::Assignment::KeyN ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_O:
-    case 'O':
-        m_keysState[ hid::Assignment::KeyO ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_P:
-    case 'P':
-        m_keysState[ hid::Assignment::KeyP ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Q:
-    case 'Q':
-        m_keysState[ hid::Assignment::KeyQ ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_R:
-    case 'R':
-        m_keysState[ hid::Assignment::KeyR ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_S:
-    case 'S':
-        m_keysState[ hid::Assignment::KeyS ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_T:
-    case 'T':
-        m_keysState[ hid::Assignment::KeyT ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_U:
-    case 'U':
-        m_keysState[ hid::Assignment::KeyU ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_V:
-    case 'V':
-        m_keysState[ hid::Assignment::KeyV ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_W:
-    case 'W':
-        m_keysState[ hid::Assignment::KeyW ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_X:
-    case 'X':
-        m_keysState[ hid::Assignment::KeyX ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Y:
-    case 'Y':
-        m_keysState[ hid::Assignment::KeyY ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Z:
-    case 'Z':
-        m_keysState[ hid::Assignment::KeyZ ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Backquote:
-        m_keysState[ hid::Assignment::KeyBackquote ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Minus:
-        m_keysState[ hid::Assignment::KeyMinus ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Equals:
-        m_keysState[ hid::Assignment::KeyEquals ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Leftbracket:
-        m_keysState[ hid::Assignment::KeyLeftBracket ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Rightbracket:
-        m_keysState[ hid::Assignment::KeyRightBracket ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Semicolon:
-        m_keysState[ hid::Assignment::KeySemicolon ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Quote:
-        m_keysState[ hid::Assignment::KeyQuote ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Comma:
-        m_keysState[ hid::Assignment::KeyComma ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Period:
-        m_keysState[ hid::Assignment::KeyPeriod ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Slash:
-        m_keysState[ hid::Assignment::KeySlash ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Space:
-        m_keysState[ hid::Assignment::KeySpace ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Left:
-    case osgGA::GUIEventAdapter::KEY_KP_Left:
-        m_keysState[ hid::Assignment::KeyLeft ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Right:
-    case osgGA::GUIEventAdapter::KEY_KP_Right:
-        m_keysState[ hid::Assignment::KeyRight ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Up:
-    case osgGA::GUIEventAdapter::KEY_KP_Up:
-        m_keysState[ hid::Assignment::KeyUp ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Down:
-    case osgGA::GUIEventAdapter::KEY_KP_Down:
-        m_keysState[ hid::Assignment::KeyDown ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Insert:
-    case osgGA::GUIEventAdapter::KEY_KP_Insert:
-        m_keysState[ hid::Assignment::KeyInsert ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Delete:
-    case osgGA::GUIEventAdapter::KEY_KP_Delete:
-        m_keysState[ hid::Assignment::KeyDelete ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Home:
-    case osgGA::GUIEventAdapter::KEY_KP_Home:
-        m_keysState[ hid::Assignment::KeyHome ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_End:
-    case osgGA::GUIEventAdapter::KEY_KP_End:
-        m_keysState[ hid::Assignment::KeyEnd ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Page_Up:
-    case osgGA::GUIEventAdapter::KEY_KP_Page_Up:
-        m_keysState[ hid::Assignment::KeyPageUp ] = false;
-        return true;
-        break;
-
-    case osgGA::GUIEventAdapter::KEY_Page_Down:
-    case osgGA::GUIEventAdapter::KEY_KP_Page_Down:
-        m_keysState[ hid::Assignment::KeyPageDown ] = false;
-        return true;
-        break;
     }
 
     return false;

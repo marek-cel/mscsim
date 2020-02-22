@@ -19,74 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_ROTOR_H
-#define CGI_ROTOR_H
+#ifndef TEST_BLADE_H
+#define TEST_BLADE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osg/Group>
-#include <osg/PositionAttitudeTransform>
-#include <osg/Switch>
+#include <fdm/models/fdm_Blade.h>
+
+#include <fdm/utils/fdm_Matrix3x3.h>
+#include <fdm/utils/fdm_Vector3.h>
+#include <fdm/utils/fdm_WGS84.h>
 
 #include <Data.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace cgi
+namespace fdm
 {
 
-/** */
-class Rotor
+class test_Blade
 {
 public:
 
-    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
-    typedef std::vector< osg::ref_ptr<osg::Switch> > Datums;
-    typedef std::vector< osg::ref_ptr<osg::Vec3Array> > Traces;
+    typedef std::vector< Blade* > Blades;
 
-    /** */
-    Rotor();
+    test_Blade( MainRotor::Direction direction, int blades_count );
 
-    /** */
-    virtual ~Rotor();
+    virtual ~test_Blade();
 
-    void update();
+    void readData( const std::string &dataFile );
 
-    /** Returns root node. */
-    inline osg::ref_ptr<osg::Group> getRoot() { return _root; }
+    void update( double timeStep );
+
+    void updateData();
 
 private:
 
-    const double _bladesOffset;
-    const double _rotorRadiusCW;
-    const double _rotorRadiusCCW;
+    const int _bladesCount;
 
-    osg::ref_ptr<osg::Group> _root;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;
-    osg::ref_ptr<osg::Switch> _switchTraces;
+    const MainRotor::Direction _direction;
+
+    Blade *_blade;
 
     Blades _blades;
-    Datums _datums;
 
-    Data::Rotor::Direction _direction;
+    Matrix3x3 _ned2enu;
+    Matrix3x3 _enu2ned;
 
-    Traces _traces;
+    Matrix3x3 _bas2ned;
+    Matrix3x3 _ned2bas;
 
-    int _bladesCount;
+    Matrix3x3 _bas2ras;
+    Matrix3x3 _ras2bas;
 
-    double _bladesSpan;
+    void updateDataVect( Data::Other::Vector &vect,
+                         const Blade::Vect &out,
+                         double azimuth );
 
-    void createBlades();
-    void createDatums();
-    void reload();
-    void removeAllChildren();
-
-    void updateTraces();
-    void updateTrace( osg::Group *parent, osg::Vec3Array *positions );
 };
 
-} // end of cgi namespace
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CGI_ROTOR_H
+#endif // TEST_BLADE_H

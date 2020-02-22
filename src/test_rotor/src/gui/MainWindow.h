@@ -55,6 +55,12 @@ public:
 protected:
 
     /** */
+    void keyPressEvent( QKeyEvent *event );
+
+    /** */
+    void keyReleaseEvent( QKeyEvent *event );
+
+    /** */
     void timerEvent( QTimerEvent *event );
 
 private:
@@ -82,9 +88,29 @@ private slots:
 
     void on_actionControls_triggered();
 
-    void on_actionVectorsSpan_toggled(bool arg1);
-    void on_actionVectorsMain_toggled(bool arg1);
-    void on_actionBladesDatum_toggled(bool arg1);
+    void on_actionDockCtrl_toggled( bool checked );
+    void on_actionDockData_toggled( bool checked );
+    void on_actionDockMain_toggled( bool checked );
+    void on_actionDockTest_toggled( bool checked );
+
+    void on_actionViewAft_triggered();
+    void on_actionViewFwd_triggered();
+    void on_actionViewLft_triggered();
+    void on_actionViewRgt_triggered();
+    void on_actionViewTop_triggered();
+
+    void on_actionRotationStart_triggered();
+    void on_actionRotationStop_triggered();
+
+    void on_actionShowVectorsSpan_toggled(bool arg1);
+    void on_actionShowVectorsMain_toggled(bool arg1);
+    void on_actionShowBladesDatum_toggled(bool arg1);
+    void on_actionShowBladesTrace_toggled(bool arg1);
+
+    void dockCtrl_closed();
+    void dockData_closed();
+    void dockMain_closed();
+    void dockTest_closed();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

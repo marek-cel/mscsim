@@ -49,6 +49,14 @@ public:
 
     void setCCW( bool ccw );
 
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetTest *_ui;        ///<

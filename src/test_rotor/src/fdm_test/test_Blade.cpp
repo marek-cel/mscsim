@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_test/fdm_Test.h>
+#include <fdm_test/test_Blade.h>
 
 #include <cstring>
 #include <iostream>
@@ -34,9 +34,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Test::Test( MainRotor::Direction direction ) :
-    //_bladesCount ( 1 ),
-    _bladesCount ( 4 ),
+test_Blade::test_Blade( MainRotor::Direction direction, int blades_count ) :
+    _bladesCount ( blades_count ),
     _direction ( direction ),
     _blade ( FDM_NULLPTR )
 {
@@ -52,16 +51,10 @@ Test::Test( MainRotor::Direction direction ) :
         _blades.push_back( blade );
     }
 
-    for ( int i = 0; i < VECT_MAIN; i++ )
-    {
-        _blade->main[ i ].visible = false;
-        strcpy( _blade->main[ i ].label, "" );
-    }
-
     for ( int i = 0; i < VECT_SPAN; i++ )
     {
         _blade->span[ i ].visible = false;
-        strcpy( _blade->span[ i ].label, "" );
+        //strcpy( _blade->span[ i ].label, "" );
     }
 
     readData( "../data/blade.xml" );
@@ -94,7 +87,7 @@ Test::Test( MainRotor::Direction direction ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Test::~Test()
+test_Blade::~test_Blade()
 {
     FDM_DELPTR( _blade );
 
@@ -137,7 +130,7 @@ Test::~Test()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::readData( const std::string &dataFile )
+void test_Blade::readData( const std::string &dataFile )
 {
     XmlDoc doc( dataFile );
 
@@ -167,7 +160,7 @@ void Test::readData( const std::string &dataFile )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::update( double timeStep )
+void test_Blade::update( double timeStep )
 {
     _ned2bas = Matrix3x3( Angles( Data::get()->state.ned_phi,
                                   Data::get()->state.ned_tht,
@@ -177,6 +170,7 @@ void Test::update( double timeStep )
     Vector3 vel_wind_ned = Matrix3x3( Angles( 0.0, 0.0, -Data::get()->state.wind_dir ) )
              * Vector3( -Data::get()->state.wind_vel, 0.0, 0.0 );
     Vector3 vel_wind_bas = _ned2bas * vel_wind_ned;
+    Vector3 vel_wind_ras = _bas2ras * vel_wind_bas;
 
     Vector3 vel_ras = Vector3( Data::get()->state.bas_u,
                                Data::get()->state.bas_v,
@@ -186,8 +180,11 @@ void Test::update( double timeStep )
                                Data::get()->state.bas_q,
                                Data::get()->state.bas_r );
 
-    Vector3 vel_air_ras = vel_ras - vel_wind_bas;
+    Vector3 vel_air_ras = vel_ras - vel_wind_ras;
     Vector3 omg_air_ras = omg_ras;
+
+    Vector3 acc_ras( 0.0, 0.0, 0.0 );
+    Vector3 eps_ras( 0.0, 0.0, 0.0 );
 
     Vector3 grav_ned( 0.0, 0.0, WGS84::_g );
     Vector3 grav_bas = _ned2bas * grav_ned;
@@ -207,60 +204,91 @@ void Test::update( double timeStep )
 
     int index = 0;
 
+    Vector3 for_ras;
+    Vector3 mom_ras;
+
     for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
     {
-        (*it)->update( timeStep,
-                       vel_air_ras,
-                       omg_air_ras,
-                       omg_ras,
-                       grav_ras,
-                       omega,
-                       azimuth + index * delta_psi,
-                       airDensity,
-                       theta_0,
-                       theta_1c,
-                       theta_1s
-                       );
+        (*it)->integrate( timeStep,
+                          vel_air_ras,
+                          omg_air_ras,
+                          omg_ras,
+                          acc_ras,
+                          eps_ras,
+                          grav_ras,
+                          omega,
+                          azimuth + index * delta_psi,
+                          airDensity,
+                          theta_0,
+                          theta_1c,
+                          theta_1s
+                          );
+
+        (*it)->computeForceAndMoment( vel_air_ras,
+                                      omg_air_ras,
+                                      omg_ras,
+                                      acc_ras,
+                                      eps_ras,
+                                      grav_ras,
+                                      omega,
+                                      azimuth + index * delta_psi,
+                                      airDensity,
+                                      theta_0,
+                                      theta_1c,
+                                      theta_1s
+                                      );
+
+        for_ras += (*it)->getFor_RAS();
+        mom_ras += (*it)->getMom_RAS();
+
+        if ( index == 0 )
+        {
+            for ( int i = 0; i < VECT_MAIN; i++ )
+            {
+                Data::get()->other.main[ i ].visible = true;
+
+                Data::get()->other.main[ i ].b_x_enu = 0.0;
+                Data::get()->other.main[ i ].b_y_enu = 0.0;
+                Data::get()->other.main[ i ].b_z_enu = 0.0;
+
+                Data::get()->other.main[ i ].v_x_enu = 0.0;
+                Data::get()->other.main[ i ].v_y_enu = 0.0;
+                Data::get()->other.main[ i ].v_z_enu = 0.0;
+
+                strcpy( Data::get()->other.main[ i ].label, "" );
+            }
+
+            double vect_coef = 1.0e-3;
+
+            Vector3 v_bas = Data::get()->other.scale_main * _ras2bas * for_ras;
+            Vector3 v_ned = _bas2ned * v_bas;
+            Vector3 v_enu = _ned2enu * v_ned;
+
+            Data::get()->other.main[ 0 ].v_x_enu = vect_coef * v_enu.x();
+            Data::get()->other.main[ 0 ].v_y_enu = vect_coef * 0.0;
+            Data::get()->other.main[ 0 ].v_z_enu = vect_coef * 0.0;
+
+            Data::get()->other.main[ 1 ].v_x_enu = vect_coef * 0.0;
+            Data::get()->other.main[ 1 ].v_y_enu = vect_coef * v_enu.y();
+            Data::get()->other.main[ 1 ].v_z_enu = vect_coef * 0.0;
+
+            Data::get()->other.main[ 2 ].v_x_enu = vect_coef * 0.0;
+            Data::get()->other.main[ 2 ].v_y_enu = vect_coef * 0.0;
+            Data::get()->other.main[ 2 ].v_z_enu = vect_coef * v_enu.z();
+
+            for ( int i = 0; i < VECT_SPAN; i++ )
+            {
+                updateDataVect( Data::get()->other.span[ i ], _blade->span[ i ], azimuth );
+            }
+        }
 
         index++;
-    }
-
-    //////////////
-
-    for ( int i = 0; i < VECT_MAIN; i++ )
-    {
-        updateDataVect( Data::get()->other.main[ i ], _blade->main[ i ], azimuth );
-    }
-
-    for ( int i = 0; i < VECT_SPAN; i++ )
-    {
-        updateDataVect( Data::get()->other.span[ i ], _blade->span[ i ], azimuth );
-    }
-
-    if ( 0 )
-    {
-        Vector3 v_ras =  vel_wind_bas;
-        Vector3 v_bas = _ras2bas * v_ras;
-        Vector3 v_ned = _bas2ned * v_bas;
-        Vector3 v_enu = _ned2enu * v_ned;
-
-        Data::get()->other.main[ 0 ].visible = true;
-
-        Data::get()->other.main[ 0 ].b_x_enu = 0.0;
-        Data::get()->other.main[ 0 ].b_y_enu = 0.0;
-        Data::get()->other.main[ 0 ].b_z_enu = 0.0;
-
-        Data::get()->other.main[ 0 ].v_x_enu = v_enu.x();
-        Data::get()->other.main[ 0 ].v_y_enu = v_enu.y();
-        Data::get()->other.main[ 0 ].v_z_enu = v_enu.z();
-
-        strcpy( Data::get()->other.main[ 0 ].label, "WIND" );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::updateData()
+void test_Blade::updateData()
 {
     int index = 0;
 
@@ -275,9 +303,9 @@ void Test::updateData()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::updateDataVect( Data::Other::Vector &vect,
-                           const Blade::Vect &out,
-                           double azimuth )
+void test_Blade::updateDataVect( Data::Other::Vector &vect,
+                                 const Blade::Vect &out,
+                                 double azimuth )
 {
     MainRotor::Direction direction = MainRotor::CW;
 
@@ -294,7 +322,7 @@ void Test::updateDataVect( Data::Other::Vector &vect,
     Vector3 b_ned = _bas2ned * b_bas;
     Vector3 b_enu = _ned2enu * b_ned;
 
-    Vector3 v_ras =  sra2ras * out.v_sra;
+    Vector3 v_ras =  Data::get()->other.scale_span * sra2ras * out.v_sra;
     Vector3 v_bas = _ras2bas * v_ras;
     Vector3 v_ned = _bas2ned * v_bas;
     Vector3 v_enu = _ned2enu * v_ned;
@@ -309,5 +337,5 @@ void Test::updateDataVect( Data::Other::Vector &vect,
     vect.v_y_enu = v_enu.y();
     vect.v_z_enu = v_enu.z();
 
-    strcpy( vect.label, out.label );
+    strcpy( vect.label, "" );
 }

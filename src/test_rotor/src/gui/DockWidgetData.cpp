@@ -39,3 +39,14 @@ DockWidgetData::~DockWidgetData()
     if ( _ui ) delete _ui;
     _ui = nullptr;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetData::closeEvent( QCloseEvent *event )
+{
+    /////////////////////////////////
+    QDockWidget::closeEvent( event );
+    /////////////////////////////////
+
+    emit closed();
+}

@@ -5,6 +5,7 @@ HEADERS += \
     $$PWD/DockWidgetData.h \
     $$PWD/DockWidgetMain.h \
     $$PWD/DockWidgetTest.h \
+    $$PWD/Keys.h \
     $$PWD/MainWindow.h \
     $$PWD/WidgetCGI.h
 
@@ -15,6 +16,7 @@ SOURCES += \
     $$PWD/DockWidgetData.cpp \
     $$PWD/DockWidgetMain.cpp \
     $$PWD/DockWidgetTest.cpp \
+    $$PWD/Keys.cpp \
     $$PWD/MainWindow.cpp \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetCGI_KeyHandler.cpp

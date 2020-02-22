@@ -26,8 +26,9 @@
 
 #include <osgViewer/ViewerEventHandlers>
 
-#include <cgi/cgi_ManipulatorOrbit.h>
 #include <hid/hid_Manager.h>
+
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +40,14 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget ( parent ),
 
     _sceneRoot  ( 0 ),
-    _gridLayout ( 0 )
+    _gridLayout ( 0 ),
+
+    _head_0 ( 0.0 ),
+    _elev_0 ( 0.0 ),
+
+    _rotation ( false ),
+
+    _timerId ( 0 )
 {
 #   ifdef SIM_OSGDEBUGINFO
     osg::setNotifyLevel( osg::DEBUG_INFO );
@@ -69,27 +77,108 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     getEventHandlers().push_front( _keyHandler.get() );
 
     setLayout( _gridLayout );
+
+    _manipulator->setDistance( 50.0 );
+
+    _timerId = startTimer( 1000.0 * CGI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::~WidgetCGI()
 {
+    killTimer( _timerId );
+
     if ( _sceneRoot ) delete _sceneRoot;
     _sceneRoot = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::update()
+void WidgetCGI::setViewAft()
 {
-    //////////////////
-    QWidget::update();
-    //////////////////
+    _manipulator->setHeading( 0.0 );
+    _manipulator->setElevation( 0.0 );
+    _manipulator->setDistance( 50.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::setViewFwd()
+{
+    _manipulator->setHeading( M_PI );
+    _manipulator->setElevation( 0.0 );
+    _manipulator->setDistance( 50.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::setViewLft()
+{
+    _manipulator->setHeading( -M_PI_2 );
+    _manipulator->setElevation( 0.0 );
+    _manipulator->setDistance( 50.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::setViewRgt()
+{
+    _manipulator->setHeading( M_PI_2 );
+    _manipulator->setElevation( 0.0 );
+    _manipulator->setDistance( 50.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::setViewTop()
+{
+    _manipulator->setHeading( 0.0 );
+    _manipulator->setElevation( M_PI_2 );
+    _manipulator->setDistance( 50.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::rotationStart()
+{
+    if ( !_rotation )
+    {
+        _rotation = true;
+
+        _head_0 = _manipulator->getHeading() - Data::get()->rotor.azimuth;
+        _elev_0 = _manipulator->getElevation();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::rotationStop()
+{
+    _rotation = false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetCGI::timerEvent( QTimerEvent *event )
+{
+    /////////////////////////////
+    QWidget::timerEvent( event );
+    /////////////////////////////
+
+    update();
 
     hid::Manager::instance()->setKeysState( _keyHandler->getKeysState() );
 
     _sceneRoot->update();
+
+    if ( _rotation )
+    {
+        double coef = Data::get()->rotor.direction == Data::Rotor::CW ? -1.0 : 1.0;
+        double head = _head_0 + coef * Data::get()->rotor.azimuth;
+
+        _manipulator->setHeading( head );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

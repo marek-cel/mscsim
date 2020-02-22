@@ -19,18 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_TEST_H
-#define FDM_TEST_H
+#ifndef TEST_H
+#define TEST_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Blade.h>
-
-#include <fdm/utils/fdm_Matrix3x3.h>
-#include <fdm/utils/fdm_Vector3.h>
-#include <fdm/utils/fdm_WGS84.h>
-
-#include <Data.h>
+#include <fdm_test/test_Blade.h>
+#include <fdm_test/test_Rotor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,44 +36,29 @@ class Test
 {
 public:
 
-    typedef std::vector< Blade* > Blades;
-
-    Test( MainRotor::Direction direction );
+    Test();
 
     virtual ~Test();
 
-    void readData( const std::string &dataFile );
+    void initBlades( MainRotor::Direction direction, int blades_count );
 
     void update( double timeStep );
 
     void updateData();
 
+    void stop();
+
+    bool isInited();
+
 private:
 
-    const int _bladesCount;
+    test_Blade *_blade;
+    test_Rotor *_rotor;
 
-    const MainRotor::Direction _direction;
-
-    Blade *_blade;
-
-    Blades _blades;
-
-    Matrix3x3 _ned2enu;
-    Matrix3x3 _enu2ned;
-
-    Matrix3x3 _bas2ned;
-    Matrix3x3 _ned2bas;
-
-    Matrix3x3 _bas2ras;
-    Matrix3x3 _ras2bas;
-
-    void updateDataVect( Data::Other::Vector &vect,
-                         const Blade::Vect &out,
-                         double azimuth );
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_TEST_H
+#endif // TEST_H

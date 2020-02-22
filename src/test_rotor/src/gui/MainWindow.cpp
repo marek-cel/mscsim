@@ -25,6 +25,7 @@
 
 #include <iostream>
 
+#include <QKeyEvent>
 #include <QSettings>
 
 #include <hid/hid_Manager.h>
@@ -32,6 +33,8 @@
 #include <fdm/utils/fdm_Units.h>
 
 #include <defs.h>
+
+#include <gui/Keys.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -66,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _dockTest = new DockWidgetTest( this );
 
     _dockMain->setDockTest( _dockTest );
+    _dockMain->setWidgetCGI( _ui->widgetCGI );
 
     addDockWidget( Qt::LeftDockWidgetArea  , _dockMain );
     addDockWidget( Qt::LeftDockWidgetArea  , _dockCtrl );
@@ -73,17 +77,22 @@ MainWindow::MainWindow(QWidget *parent) :
     addDockWidget( Qt::RightDockWidgetArea , _dockData );
     addDockWidget( Qt::RightDockWidgetArea , _dockTest );
 
+    connect( _dockCtrl, SIGNAL(closed()), this, SLOT(dockCtrl_closed()) );
+    connect( _dockData, SIGNAL(closed()), this, SLOT(dockData_closed()) );
+    connect( _dockMain, SIGNAL(closed()), this, SLOT(dockMain_closed()) );
+    connect( _dockTest, SIGNAL(closed()), this, SLOT(dockTest_closed()) );
+
     settingsRead();
+
+    hid::Manager::instance()->init();
 
     _dialogCtrl->readData();
     _dialogCtrl->updateAssignments();
 
-    hid::Manager::instance()->init();
-
     _timer = new QElapsedTimer();
     _timer->start();
 
-    _timerId = startTimer( 10 ); // 100 Hz
+    _timerId = startTimer( 1000.0 * SIM_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,17 +127,46 @@ MainWindow::~MainWindow()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::keyPressEvent( QKeyEvent *event )
+{
+    ////////////////////////////////////
+    QMainWindow::keyPressEvent( event );
+    ////////////////////////////////////
+
+    if ( !event->isAutoRepeat() )
+    {
+        _ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::keyReleaseEvent( QKeyEvent *event )
+{
+    //////////////////////////////////////
+    QMainWindow::keyReleaseEvent( event );
+    //////////////////////////////////////
+
+    if ( !event->isAutoRepeat() )
+    {
+        _ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::timerEvent( QTimerEvent *event )
 {
     /////////////////////////////////
     QMainWindow::timerEvent( event );
     /////////////////////////////////
 
-    _ui->widgetCGI->update();
+    double timeStep = (double)_timer->restart() / 1000.0;
+    double timeCoef = _dockMain->getTimeCoef();
 
-    _timeStep = _dockMain->getTimeCoef() * (double)_timer->restart() / 1000.0;
+    _timeStep = timeCoef * timeStep;
 
-    hid::Manager::instance()->update( _timeStep );
+    hid::Manager::instance()->update( timeStep );
 
     updateDataBlades();
 
@@ -136,6 +174,9 @@ void MainWindow::timerEvent( QTimerEvent *event )
     //_dockData->update( _timeStep );
     _dockMain->update( _timeStep );
     _dockTest->update( _timeStep );
+
+    Data::get()->time_step = timeStep;
+    Data::get()->time_coef = timeCoef;
 
 //    std::cout << Data::get()->rotor.collective << std::endl;
 }
@@ -151,17 +192,30 @@ void MainWindow::settingsRead()
     restoreState( settings.value( "state" ).toByteArray() );
     restoreGeometry( settings.value( "geometry" ).toByteArray() );
 
-    bool visible_vectors_main = settings.value( "visible_vectors_main", 0 ).toBool();
-    bool visible_vectors_span = settings.value( "visible_vectors_span", 0 ).toBool();
-    bool visible_blades_datum = settings.value( "visible_blades_datum", 0 ).toBool();
+    bool show_vectors_main = settings.value( "show_vectors_main", 0 ).toBool();
+    bool show_vectors_span = settings.value( "show_vectors_span", 0 ).toBool();
+    bool show_blades_datum = settings.value( "show_blades_datum", 0 ).toBool();
+    bool show_blades_trace = settings.value( "show_blades_trace", 0 ).toBool();
 
-    _ui->actionVectorsSpan->setChecked( visible_vectors_span );
-    _ui->actionVectorsMain->setChecked( visible_vectors_main );
-    _ui->actionBladesDatum->setChecked( visible_blades_datum );
+    _ui->actionShowVectorsSpan->setChecked( show_vectors_span );
+    _ui->actionShowVectorsMain->setChecked( show_vectors_main );
+    _ui->actionShowBladesDatum->setChecked( show_blades_datum );
+    _ui->actionShowBladesTrace->setChecked( show_blades_trace );
 
-    Data::get()->other.visible_vectors_span = visible_vectors_span;
-    Data::get()->other.visible_vectors_main = visible_vectors_main;
-    Data::get()->other.visible_blades_datum = visible_blades_datum;
+    Data::get()->other.show_vectors_span = show_vectors_span;
+    Data::get()->other.show_vectors_main = show_vectors_main;
+    Data::get()->other.show_blades_datum = show_blades_datum;
+    Data::get()->other.show_blades_trace = show_blades_trace;
+
+    bool visibleCtrl = settings.value( "dock_ctrl_visible", 1 ).toBool();
+    bool visibleData = settings.value( "dock_data_visible", 1 ).toBool();
+    bool visibleMain = settings.value( "dock_main_visible", 1 ).toBool();
+    bool visibleTest = settings.value( "dock_test_visible", 0 ).toBool();
+
+    _ui->actionDockCtrl->setChecked( visibleCtrl );
+    _ui->actionDockData->setChecked( visibleData );
+    _ui->actionDockMain->setChecked( visibleMain );
+    _ui->actionDockTest->setChecked( visibleTest );
 
     settings.endGroup();
 }
@@ -177,9 +231,15 @@ void MainWindow::settingsSave()
     settings.setValue( "state", saveState() );
     settings.setValue( "geometry", saveGeometry() );
 
-    settings.setValue( "visible_vectors_span", _ui->actionVectorsSpan->isChecked() );
-    settings.setValue( "visible_vectors_main", _ui->actionVectorsMain->isChecked() );
-    settings.setValue( "visible_blades_datum", _ui->actionBladesDatum->isChecked() );
+    settings.setValue( "show_vectors_span", _ui->actionShowVectorsSpan->isChecked() );
+    settings.setValue( "show_vectors_main", _ui->actionShowVectorsMain->isChecked() );
+    settings.setValue( "show_blades_datum", _ui->actionShowBladesDatum->isChecked() );
+    settings.setValue( "show_blades_trace", _ui->actionShowBladesTrace->isChecked() );
+
+    settings.setValue( "dock_ctrl_visible", _ui->actionDockCtrl->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_data_visible", _ui->actionDockData->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_main_visible", _ui->actionDockMain->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_test_visible", _ui->actionDockTest->isChecked() ? 1 : 0 );
 
     settings.endGroup();
 }
@@ -229,26 +289,148 @@ void MainWindow::updateDataBlades()
 
 void MainWindow::on_actionControls_triggered()
 {
-    _dialogCtrl->show();
+    _dialogCtrl->readData();
+
+    if ( _dialogCtrl->exec() == QDialog::Accepted )
+    {
+        _dialogCtrl->saveData();
+        _dialogCtrl->updateAssignments();
+    }
+    else
+    {
+        _dialogCtrl->readData();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionVectorsSpan_toggled(bool arg1)
+void MainWindow::on_actionDockCtrl_toggled( bool checked )
 {
-    Data::get()->other.visible_vectors_span = arg1;
+    _dockCtrl->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionVectorsMain_toggled(bool arg1)
+void MainWindow::on_actionDockData_toggled( bool checked )
 {
-    Data::get()->other.visible_vectors_main = arg1;
+    _dockData->setVisible( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionBladesDatum_toggled(bool arg1)
+void MainWindow::on_actionDockMain_toggled( bool checked )
 {
-    Data::get()->other.visible_blades_datum = arg1;
+    _dockMain->setVisible( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionDockTest_toggled( bool checked )
+{
+    _dockTest->setVisible( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionViewAft_triggered()
+{
+    _ui->widgetCGI->setViewAft();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionViewFwd_triggered()
+{
+    _ui->widgetCGI->setViewFwd();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionViewLft_triggered()
+{
+    _ui->widgetCGI->setViewLft();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionViewRgt_triggered()
+{
+    _ui->widgetCGI->setViewRgt();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionViewTop_triggered()
+{
+    _ui->widgetCGI->setViewTop();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionRotationStart_triggered()
+{
+    _ui->widgetCGI->rotationStart();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionRotationStop_triggered()
+{
+    _ui->widgetCGI->rotationStop();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowVectorsSpan_toggled(bool arg1)
+{
+    Data::get()->other.show_vectors_span = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowVectorsMain_toggled(bool arg1)
+{
+    Data::get()->other.show_vectors_main = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowBladesDatum_toggled(bool arg1)
+{
+    Data::get()->other.show_blades_datum = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowBladesTrace_toggled(bool arg1)
+{
+    Data::get()->other.show_blades_trace = arg1;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockCtrl_closed()
+{
+    _ui->actionDockCtrl->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockData_closed()
+{
+    _ui->actionDockData->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockMain_closed()
+{
+    _ui->actionDockMain->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::dockTest_closed()
+{
+    _ui->actionDockTest->setChecked( false );
 }

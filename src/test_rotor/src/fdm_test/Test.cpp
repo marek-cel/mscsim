@@ -19,80 +19,89 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DOCKWIDGETMAIN_H
-#define DOCKWIDGETMAIN_H
-
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QDockWidget>
-
-#include <QElapsedTimer>
 
 #include <fdm_test/Test.h>
 
-#include <gui/DockWidgetTest.h>
-#include <gui/WidgetCGI.h>
+#include <fdm/fdm_Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
+using namespace fdm;
+
+////////////////////////////////////////////////////////////////////////////////
+
+Test::Test() :
+    _blade ( nullptr ),
+    _rotor ( nullptr )
 {
-    class DockWidgetMain;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class DockWidgetMain : public QDockWidget
+Test::~Test()
 {
-    Q_OBJECT
-
-public:
-
-    explicit DockWidgetMain( QWidget *parent = nullptr );
-
-    virtual ~DockWidgetMain();
-
-    void update( double timeStep );
-
-    bool getCCW() const { return _ccw; }
-
-    double getTimeCoef();
-
-    void setDockTest( DockWidgetTest *dockTest );
-
-    void setWidgetCGI( WidgetCGI *widgetCGI );
-
-signals:
-
-    void closed();
-
-protected:
-
-    void closeEvent( QCloseEvent *event );
-
-private:
-
-    Ui::DockWidgetMain *_ui;        ///<
-
-    DockWidgetTest *_dockTest;      ///<
-    WidgetCGI *_widgetCGI;          ///<
-
-    fdm::Test *_test;
-    bool _ccw;
-
-    void settingsRead();
-    void settingsSave();
-
-private slots:
-
-    void on_pushButtonInit_clicked();
-    void on_pushButtonWork_clicked();
-    void on_pushButtonPause_clicked();
-    void on_pushButtonStop_clicked();
-
-    void on_radioButtonCCW_toggled(bool checked);
-};
+    stop();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DOCKWIDGETMAIN_H
+void Test::initBlades( MainRotor::Direction direction, int blades_count )
+{
+    if ( _blade == nullptr && _rotor == nullptr )
+    {
+        try
+        {
+            _blade = new test_Blade( direction, blades_count );
+        }
+        catch ( fdm::Exception &e )
+        {
+            fdm::Log::e() << e.getInfo() << std::endl;
+
+            while ( e.hasCause() )
+            {
+                e = e.getCause();
+                fdm::Log::e() << e.getInfo() << std::endl;
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Test::update( double timeStep )
+{
+    if ( _blade )
+    {
+        _blade->update( timeStep );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Test::updateData()
+{
+    if ( _blade )
+    {
+        _blade->updateData();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Test::stop()
+{
+    if ( _blade ) delete _blade;
+    _blade = nullptr;
+
+    if ( _rotor ) delete _rotor;
+    _rotor = nullptr;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool Test::isInited()
+{
+    return ( _blade != nullptr && _rotor == nullptr )
+        || ( _blade == nullptr && _rotor != nullptr );
+}

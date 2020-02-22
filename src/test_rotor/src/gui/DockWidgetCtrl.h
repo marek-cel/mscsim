@@ -53,6 +53,15 @@ public:
 
     double getAzimuth();
     double getOmega();
+
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetCtrl *_ui;        ///<

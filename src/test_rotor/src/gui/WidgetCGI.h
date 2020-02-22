@@ -24,7 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osgGA/NodeTrackerManipulator>
 #include <osgQt/GraphicsWindowQt>
 #include <osgViewer/Viewer>
 
@@ -32,7 +31,10 @@
 #include <QGridLayout>
 #include <QWidget>
 
+
+#include <cgi/cgi_ManipulatorOrbit.h>
 #include <cgi/cgi_SceneRoot.h>
+
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,16 +55,21 @@ public:
         KeyHandler( WidgetCGI *widgetCGI );
 
         /** */
-        inline const bool* getKeysState() const { return m_keysState; }
+        inline const bool* getKeysState() const { return _keysState; }
 
         /** */
         bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );
 
+        void keyDn( hid::Assignment::Key key );
+        void keyUp( hid::Assignment::Key key );
+
     private:
 
-        WidgetCGI *m_widgetCGI;
+        WidgetCGI *_widgetCGI;
 
-        bool m_keysState[ HID_MAX_KEYS ];
+        bool _keysState[ HID_MAX_KEYS ];
+
+        int getKeyIndex( int key );
 
         bool handleKeyDn( const osgGA::GUIEventAdapter &ea );
         bool handleKeyUp( const osgGA::GUIEventAdapter &ea );
@@ -74,10 +81,22 @@ public:
     /** Destructor. */
     virtual ~WidgetCGI();
 
-    /** */
-    void update();
+    inline void keyDn( hid::Assignment::Key key ) { _keyHandler->keyDn( key ); }
+    inline void keyUp( hid::Assignment::Key key ) { _keyHandler->keyUp( key ); }
+
+    void setViewAft();
+    void setViewFwd();
+    void setViewLft();
+    void setViewRgt();
+    void setViewTop();
+
+    void rotationStart();
+    void rotationStop();
 
 protected:
+
+    /** */
+    void timerEvent( QTimerEvent *event );
 
     /** */
     void paintEvent( QPaintEvent *event );
@@ -87,10 +106,17 @@ private:
     cgi::SceneRoot *_sceneRoot;
     QGridLayout    *_gridLayout;
 
-    osg::ref_ptr<osgGA::CameraManipulator> _manipulator;
+    osg::ref_ptr<cgi::ManipulatorOrbit> _manipulator;
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
     osg::ref_ptr<KeyHandler> _keyHandler;
+
+    double _head_0;
+    double _elev_0;
+
+    bool _rotation;
+
+    int _timerId;
 
     /** */
     QWidget* addViewWidget( osgQt::GraphicsWindowQt *graphicsWindow, osg::Node *scene );

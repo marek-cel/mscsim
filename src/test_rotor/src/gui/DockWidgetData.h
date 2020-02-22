@@ -45,6 +45,14 @@ public:
 
     virtual ~DockWidgetData();
 
+signals:
+
+    void closed();
+
+protected:
+
+    void closeEvent( QCloseEvent *event );
+
 private:
 
     Ui::DockWidgetData *_ui;        ///<

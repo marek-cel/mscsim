@@ -19,74 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_ROTOR_H
-#define CGI_ROTOR_H
+#ifndef KEYS_H
+#define KEYS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <osg/Group>
-#include <osg/PositionAttitudeTransform>
-#include <osg/Switch>
-
-#include <Data.h>
+#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-
-namespace cgi
-{
 
 /** */
-class Rotor
+class Keys
 {
 public:
 
-    typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
-    typedef std::vector< osg::ref_ptr<osg::Switch> > Datums;
-    typedef std::vector< osg::ref_ptr<osg::Vec3Array> > Traces;
-
-    /** */
-    Rotor();
-
-    /** */
-    virtual ~Rotor();
-
-    void update();
-
-    /** Returns root node. */
-    inline osg::ref_ptr<osg::Group> getRoot() { return _root; }
-
-private:
-
-    const double _bladesOffset;
-    const double _rotorRadiusCW;
-    const double _rotorRadiusCCW;
-
-    osg::ref_ptr<osg::Group> _root;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;
-    osg::ref_ptr<osg::Switch> _switchTraces;
-
-    Blades _blades;
-    Datums _datums;
-
-    Data::Rotor::Direction _direction;
-
-    Traces _traces;
-
-    int _bladesCount;
-
-    double _bladesSpan;
-
-    void createBlades();
-    void createDatums();
-    void reload();
-    void removeAllChildren();
-
-    void updateTraces();
-    void updateTrace( osg::Group *parent, osg::Vec3Array *positions );
+    static hid::Assignment::Key getKey( int key );
 };
-
-} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // CGI_ROTOR_H
+#endif // KEYS_H

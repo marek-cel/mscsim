@@ -91,9 +91,12 @@ private:
     double _timeStep;               ///< [s] simulation time step
     double _realTime;               ///< [s] simulation real time
 
-    unsigned int _timeSteps;        ///< number of time steps
+    double _compTimeTot;            ///< [s] computations time - total
+    double _compTimeMax;            ///< [s] computations time - maximum
 
     double _timeStepMax;            ///< [s] simulation maximum time step
+
+    unsigned int _timeSteps;        ///< number of time steps
 
     bool _verbose;                  ///< specifies if extra information should be printed
 

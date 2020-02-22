@@ -54,7 +54,7 @@ void Vector::update()
         _root->removeChildren( 0, _root->getNumChildren() );
     }
 
-    if ( Data::get()->other.visible_vectors_main )
+    if ( Data::get()->other.show_vectors_main )
     {
         for ( int i = 0; i < VECT_MAIN; i++ )
         {
@@ -73,7 +73,7 @@ void Vector::update()
         }
     }
 
-    if ( Data::get()->other.visible_vectors_span )
+    if ( Data::get()->other.show_vectors_span )
     {
         int no = 0;
         for ( int i = 0; i < VECT_SPAN; i++ )

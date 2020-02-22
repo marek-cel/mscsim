@@ -53,17 +53,22 @@ namespace fdm
  *   <hub_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </hub_center>
  *   <inclination> { [rad] rotor inclination angle (positive if forward) } </inclination>
  *   <number_of_blades> { number of blades } </number_of_blades>
+ *   <rotor_radius> { [m] rotor radius } </rotor_radius>
  *   <blade>
  *     { blade data }
  *   </blade>
  * </main_rotor>
  * @endcode
+ *
+ * @see fdm::Blade
  */
 class FDMEXPORT MainRotorBE : public MainRotor
 {
 public:
 
     typedef std::vector< Blade* > Blades;
+
+    static const double _timeStepMax;       ///< [s] maximum integration time step
 
     /** Constructor. */
     MainRotorBE();
@@ -78,10 +83,58 @@ public:
     virtual void readData( XmlNode &dataNode );
 
     /**
+     * @brief Compute forces and moments.
+     * @param vel_air_bas [m/s]     rotor hub linear velocity relative to airflow expressed in BAS
+     * @param omg_air_bas [rad/s]   rotor hub angular velocity relative to airflow expressed in BAS
+     * @param omg_bas     [rad/s]   angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   rotor hub linear acceleration expressed in BAS
+     * @param eps_bas     [rad/s^2] angular acceleration expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param airDensity  [kg/m^3]  air density
+     */
+    virtual void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                        const Vector3 &omg_air_bas,
+                                        const Vector3 &omg_bas,
+                                        const Vector3 &acc_bas,
+                                        const Vector3 &eps_bas,
+                                        const Vector3 &grav_bas,
+                                        double airDensity );
+
+    /**
+     * @brief Updates main rotor model.
+     * @param timeStep    [s]       time step
+     * @param vel_air_bas [m/s]     rotor hub linear velocity relative to airflow expressed in BAS
+     * @param omg_air_bas [rad/s]   rotor hub angular velocity relative to airflow expressed in BAS
+     * @param omg_bas     [rad/s]   angular velocity expressed in BAS
+     * @param acc_bas     [m/s^2]   rotor hub linear acceleration expressed in BAS
+     * @param eps_bas     [rad/s^2] angular acceleration expressed in BAS
+     * @param grav_bas    [m/s^2]   gravity acceleration vector expressed in BAS
+     * @param omega       [rad/s]   rotor speed
+     * @param azimuth     [rad]     blade azimuth
+     * @param airDensity  [kg/m^3]  air density
+     * @param collective  [rad]     collective pitch angle
+     * @param cyclicLat   [rad]     cyclic lateral pitch angle
+     * @param cyclicLon   [rad]     cyclic longitudinal pitch angle
+     */
+    virtual void update( double timeStep,
+                         const Vector3 &vel_air_bas,
+                         const Vector3 &omg_air_bas,
+                         const Vector3 &omg_bas,
+                         const Vector3 &acc_bas,
+                         const Vector3 &eps_bas,
+                         const Vector3 &grav_bas,
+                         double omega,
+                         double azimuth,
+                         double airDensity,
+                         double collective,
+                         double cyclicLat,
+                         double cyclicLon );
+
+    /**
      * Returns rotor total inartia about shaft axis.
      * @return [kg*m^2] rotor total inartia about shaft axis
      */
-    inline double getInertia() const { return _inertia; }
+    inline double getInertia() const { return _i_tot; }
 
     inline const Blade* getBlade( int index ) const { return _blades[ index ]; }
 
@@ -89,11 +142,31 @@ protected:
 
     Blades _blades;             ///< main rotor blades
 
-    double _inertia;            ///< [kg*m^2] rotor inartia about shaft axis
+    Vector3 _vel_air_ras;       ///< [m/s]     rotor hub linear velocity relative to airflow expressed in RAS
+    Vector3 _omg_air_ras;       ///< [rad/s]   rotor hub angular velocity relative to airflow expressed in RAS
+    Vector3 _omg_ras;           ///< [rad/s]   angular velocity expressed in RAS
+    Vector3 _acc_ras;           ///< [m/s^2]   rotor hub linear acceleration expressed in RAS
+    Vector3 _eps_ras;           ///< [rad/s^2] angular acceleration expressed in RAS
+    Vector3 _grav_ras;          ///< [m/s^2]   gravity acceleration vector expressed in RAS
 
-    double _delta_psi;          ///< [rad] azimuth difference between adjacent blades
+    Vector3 _prev_vel_air_ras;  ///< [m/s]     rotor hub linear velocity relative to airflow expressed in RAS (previous value)
+    Vector3 _prev_omg_air_ras;  ///< [rad/s]   rotor hub angular velocity relative to airflow expressed in RAS (previous value)
+    Vector3 _prev_omg_ras;      ///< [rad/s]   angular velocity expressed in RAS (previous value)
+    Vector3 _prev_acc_ras;      ///< [m/s^2]   rotor hub linear acceleration expressed in RAS (previous value)
+    Vector3 _prev_eps_ras;      ///< [rad/s^2] angular acceleration expressed in RAS (previous value)
+    Vector3 _prev_grav_ras;     ///< [m/s^2]   gravity acceleration vector expressed in RAS (previous value)
 
-    double _azimuth_prev;       ///< [rad] rotor azimuth position (previous value)
+    double _prev_azimuth;       ///< [rad] rotor azimuth position (previous value)
+
+    double _prev_theta_0;       ///< [rad] collective feathering angle (previous value)
+    double _prev_theta_1c;      ///< [rad] (previous value)
+    double _prev_theta_1s;      ///< [rad] (previous value)
+
+    double _i_tot;              ///< [kg*m^2] rotor total inartia about shaft axis
+    double _d_psi;              ///< [rad] azimuth difference between adjacent blades
+
+    /** */
+    virtual void inducedVelcoity();
 };
 
 } // end of fdm namespace
