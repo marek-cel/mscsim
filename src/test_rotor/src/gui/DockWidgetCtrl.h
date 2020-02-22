@@ -47,10 +47,6 @@ public:
 
     void update( double timeStep );
 
-    double getCollective();
-    double getCyclicLat();
-    double getCyclicLon();
-
     double getAzimuth();
     double getOmega();
 

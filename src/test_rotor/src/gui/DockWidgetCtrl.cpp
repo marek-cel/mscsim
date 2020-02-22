@@ -86,34 +86,13 @@ void DockWidgetCtrl::update( double timeStep )
     _ui->spinBoxCyclicLon  ->setValue( cyclicLon  );
     _ui->spinBoxCyclicLat  ->setValue( cyclicLat  );
 
-    double normCollective = collective / MAX_COLLECTIVE_DEG;
+    double normCollective = ( collective - MIN_COLLECTIVE_DEG )  / ( MAX_COLLECTIVE_DEG - MIN_COLLECTIVE_DEG );
     double normCyclicLon  = ( cyclicLon / MAX_CYCLIC_DEG + 1.0 ) / 2.0;
     double normCyclicLat  = ( cyclicLat / MAX_CYCLIC_DEG + 1.0 ) / 2.0;
 
     _ui->sliderCollective ->setValue( 100 * normCollective );
     _ui->sliderCyclicLon  ->setValue( 100 * normCyclicLon  );
     _ui->sliderCyclicLat  ->setValue( 100 * normCyclicLat  );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double DockWidgetCtrl::getCollective()
-{
-    return fdm::Units::deg2rad( _ui->spinBoxCollective->value() );;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double DockWidgetCtrl::getCyclicLat()
-{
-    return fdm::Units::deg2rad( _ui->spinBoxCyclicLat->value() );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double DockWidgetCtrl::getCyclicLon()
-{
-    return fdm::Units::deg2rad( _ui->spinBoxCyclicLon->value() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

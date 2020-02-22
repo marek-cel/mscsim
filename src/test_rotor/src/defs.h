@@ -32,7 +32,8 @@
 #define SIM_TIME_STEP 0.01
 #define CGI_TIME_STEP 0.016666667
 
-#define MAX_COLLECTIVE_DEG 10.0
+#define MIN_COLLECTIVE_DEG 10.0
+#define MAX_COLLECTIVE_DEG 20.0
 #define MAX_CYCLIC_DEG     10.0
 
 ////////////////////////////////////////////////////////////////////////////////
