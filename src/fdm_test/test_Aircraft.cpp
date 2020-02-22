@@ -91,8 +91,8 @@ void TEST_Aircraft::updateOutputData()
     // blades
     for ( int i = 0; i < _aero->getMainRotorBE()->getNumberOfBlades(); i++ )
     {
-        _dataOut->blade[ i ].beta  = _aero->getMainRotorBE()->getBlade( i )->getBeta();
-        _dataOut->blade[ i ].theta = _aero->getMainRotorBE()->getBlade( i )->getTheta();
+        _dataOut->blade[ i ].flapping   = _aero->getMainRotorBE()->getBlade( i )->getBeta();
+        _dataOut->blade[ i ].feathering = _aero->getMainRotorBE()->getBlade( i )->getTheta();
     }
 #   endif
 }
