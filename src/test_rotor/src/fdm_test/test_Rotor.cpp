@@ -22,6 +22,9 @@
 
 #include <fdm_test/test_Rotor.h>
 
+#include <fdm/fdm_Log.h>
+#include <fdm/xml/fdm_XmlDoc.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -33,3 +36,51 @@ test_Rotor::test_Rotor() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 test_Rotor::~test_Rotor() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void test_Rotor::readData( const std::string &dataFile )
+{
+    XmlDoc doc( dataFile );
+
+    if ( doc.isOpen() )
+    {
+        XmlNode rootNode = doc.getRootNode();
+
+        if ( rootNode.isValid() )
+        {
+            XmlNode nodeRotor = rootNode.getFirstChildElement( "main_rotor" );
+
+            if ( nodeRotor.isValid() )
+            {
+                // TODO
+            }
+            else
+            {
+                Log::e() << "Reading file \"" << dataFile << "\" failed" << std::endl;
+            }
+        }
+        else
+        {
+            Log::e() << "Reading file \"" << dataFile << "\" failed. Invalid root node." << std::endl;
+        }
+    }
+    else
+    {
+        Log::e() << "Reading file \"" << dataFile << "\" failed." << std::endl;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void test_Rotor::update( double timeStep )
+{
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void test_Rotor::updateData()
+{
+
+}

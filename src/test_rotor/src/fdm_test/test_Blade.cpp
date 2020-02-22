@@ -140,11 +140,20 @@ void test_Blade::readData( const std::string &dataFile )
 
         if ( rootNode.isValid() )
         {
-            XmlNode nodeBlade = rootNode.getFirstChildElement( "blade" );
+            XmlNode nodeRotor = rootNode.getFirstChildElement( "main_rotor" );
 
-            for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+            if ( nodeRotor.isValid() )
             {
-                (*it)->readData( nodeBlade );
+                XmlNode nodeBlade = nodeRotor.getFirstChildElement( "blade" );
+
+                for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+                {
+                    (*it)->readData( nodeBlade );
+                }
+            }
+            else
+            {
+                Log::e() << "Reading file \"" << dataFile << "\" failed" << std::endl;
             }
         }
         else

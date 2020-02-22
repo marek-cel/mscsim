@@ -24,6 +24,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <fdm/models/fdm_MainRotorBE.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
 namespace fdm
 {
 
@@ -34,6 +38,12 @@ public:
     test_Rotor();
 
     virtual ~test_Rotor();
+
+    void readData( const std::string &dataFile );
+
+    void update( double timeStep );
+
+    void updateData();
 
 };
 

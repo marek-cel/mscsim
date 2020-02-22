@@ -46,7 +46,7 @@ Test::~Test()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Test::initBlades( MainRotor::Direction direction, int blades_count )
+void Test::initBlade( MainRotor::Direction direction, int blades_count )
 {
     if ( _blade == nullptr && _rotor == nullptr )
     {
@@ -69,11 +69,39 @@ void Test::initBlades( MainRotor::Direction direction, int blades_count )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Test::initRotor( MainRotor::Direction direction, int blades_count )
+{
+    if ( _blade == nullptr && _rotor == nullptr )
+    {
+        try
+        {
+            //_rotor = new test_Rotor( direction, blades_count );
+        }
+        catch ( fdm::Exception &e )
+        {
+            fdm::Log::e() << e.getInfo() << std::endl;
+
+            while ( e.hasCause() )
+            {
+                e = e.getCause();
+                fdm::Log::e() << e.getInfo() << std::endl;
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Test::update( double timeStep )
 {
     if ( _blade )
     {
         _blade->update( timeStep );
+    }
+
+    if ( _rotor )
+    {
+        _rotor->update( timeStep );
     }
 }
 
@@ -84,6 +112,11 @@ void Test::updateData()
     if ( _blade )
     {
         _blade->updateData();
+    }
+
+    if ( _rotor )
+    {
+        _rotor->updateData();
     }
 }
 

@@ -246,8 +246,8 @@ void DockWidgetMain::on_pushButtonInit_clicked()
 
     _ui->groupBoxDirection->setEnabled( false );
 
-    _test->initBlades( _ccw ? fdm::MainRotor::CCW : fdm::MainRotor::CW,
-                       _ui->spinBoxBladesCount->value() );
+    _test->initBlade( _ccw ? fdm::MainRotor::CCW : fdm::MainRotor::CW,
+                      _ui->spinBoxBladesCount->value() );
 
     if ( !_test->isInited() )
     {
