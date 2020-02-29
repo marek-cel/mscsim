@@ -169,6 +169,26 @@ public:
             double sunAzim;                 ///< [rad] Sun azimuth
         };
 
+        /** Vector data. */
+        struct Vector
+        {
+            bool visible;                   ///< specifies if vector is visible
+
+            double b_x;                     ///< [m] vector beginning x-coordinate
+            double b_y;                     ///< [m] vector beginning y-coordinate
+            double b_z;                     ///< [m] vector beginning z-coordinate
+
+            double v_x;                     ///< [m] vector x-coordinate
+            double v_y;                     ///< [m] vector y-coordinate
+            double v_z;                     ///< [m] vector z-coordinate
+        };
+
+        /** Rotor data. */
+        struct Rotor
+        {
+            Vector v[ FDM_MAX_VECTORS ];    ///< vectors data
+        };
+
         /** View types. */
         enum ViewType
         {
@@ -183,10 +203,15 @@ public:
         Environment environment;            ///< environment data
         HUD         hud;                    ///< HUD data
         SkyDome     skyDome;                ///< sky dome data
+        Vector      vector;                 ///< vector data
+        Rotor       rotor;                  /// rotor data
 
         ViewType viewType;                  ///< view type
 
-        bool traces;                        ///< specifies if traces are visible
+        bool show_traces;                   ///< specifies if traces are visible
+        bool show_rotor_blur;               ///< specifies if rotor blur is visible
+        bool show_blades_datum;             ///< specifies if blades datum is visible
+        bool show_blades_paths;             ///< specifies if blades paths are visible
     };
 
     /** Date and Time. */
@@ -255,7 +280,31 @@ public:
             double feathering;              ///< [rad] feathering angle
         };
 
-        Blade blade[ FDM_MAX_BLADES ];      ///< blades data
+        /** Main rotor data. */
+        struct MainRotor
+        {
+            double coef;                    ///< [-] main rotor rotation coefficient (sign)
+            double omega;                   ///< [rad/s] main rotor rotation speed
+            double azimuth;                 ///< [rad] main rotor rotation angle (azimuth)
+            double coningAngle;             ///< [rad] main rotor coning angle
+            double diskRoll;                ///< [rad] main rotor disk roll angle
+            double diskPitch;               ///< [rad] main rotor disk pitch angle
+            double collective;              ///< [rad] main rotor collective pitch angle
+            double cyclicLon;               ///< [rad] main rotor longitudinal cyclic pitch angle
+            double cyclicLat;               ///< [rad] main rotor lateral cyclic pitch angle
+
+            Blade blade[ FDM_MAX_BLADES ];  ///< blades data
+        };
+
+        /** Tail rotor data. */
+        struct TailRotor
+        {
+            double coef;                    ///< [-] tail rotor rotation coefficient (sign)
+            double azimuth;                 ///< [rad] tail rotor rotation angle
+        };
+
+        MainRotor mainRotor;
+        TailRotor tailRotor;
 
         char aircraftFile[ 1024 ];          ///< ownship model file path
 
@@ -279,6 +328,7 @@ public:
 
         double airspeed;                    ///< [m/s] airspeed
         double ias;                         ///< [m/s] indicated airspeed
+        double groundSpeed;                 ///< [m/s] ground speed (horizontal velocity)
         double machNumber;                  ///< [-]   Mach number
         double climbRate;                   ///< [m/s] climb rate
 
@@ -317,19 +367,9 @@ public:
 
         double propeller[ FDM_MAX_ENGINES ];///< [rad] propeller angle
 
-        double mainRotor_azimuth;           ///< [rad] main rotor rotation angle (azimuth)
-        double mainRotor_coningAngle;       ///< [rad] main rotor coning angle
-        double mainRotor_diskRoll;          ///< [rad] main rotor disk roll angle
-        double mainRotor_diskPitch;         ///< [rad] main rotor disk pitch angle
-        double mainRotor_collective;        ///< [rad] main rotor collective pitch angle
-        double mainRotor_cyclicLon;         ///< [rad] main rotor longitudinal cyclic pitch angle
-        double mainRotor_cyclicLat;         ///< [rad] main rotor lateral cyclic pitch angle
-        double tailRotor_azimuth;           ///< [rad] tail rotor rotation angle
-        double mainRotor_coef;              ///< [-] main rotor rotation coefficient (sign)
-        double tailRotor_coef;              ///< [-] tail rotor rotation coefficient (sign)
-
         bool onGround;                      ///< specifies if aircraft is on ground
         bool stall;                         ///< specifies if aircraft is stalling
+        bool crash;                         ///< specifies if aircraft crashed
     };
 
     /** Propulsion data. */
@@ -366,6 +406,12 @@ public:
         Engine engine[ FDM_MAX_ENGINES ];   ///< engines data
     };
 
+    /** SFX data. */
+    struct SFX
+    {
+        double volume;                      ///< sound volume
+    };
+
     /** Simulation data struct. */
     struct DataBuf
     {
@@ -390,6 +436,7 @@ public:
         Ownship     ownship;                ///< ownship data
         Propulsion  propulsion;             ///< propulsion data
         Recording   recording;              ///< recording data
+        SFX         sfx;                    ///< SFX data
 
         AircraftType aircraftType;          ///< input aircraft type
 

@@ -32,15 +32,15 @@ namespace fdm
 {
 
 /** */
-class TEST_MainRotorBE : public MainRotorBE
+class TEST_MainRotor : public MainRotorBE
 {
 public:
 
     /** Constructor. */
-    TEST_MainRotorBE();
+    TEST_MainRotor();
 
     /** Destructor. */
-    ~TEST_MainRotorBE();
+    ~TEST_MainRotor();
 };
 
 } // end of fdm namespace

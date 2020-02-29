@@ -6,9 +6,9 @@
     Id="{b3e39794-6324-4e30-88f9-02a84e6b7268}" 
     Name="MScSim"
     Language="1033"
-    Version="0.2"
+    Version="0.3"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{9fac2790-93e6-4557-8a6e-a01d335e2e2d}">
+    UpgradeCode="{09fb11a8-4e61-476f-a897-2fe6f6d781d5}">
         
     <Package
       Description="MScSim Windows Installer Package"
@@ -30,7 +30,7 @@
         <Directory Id="dir_mscsim" Name="MScSim">
           
           <!-- sim.exe -->
-          <Component Id="dir_mscsim_mscsim" Guid="{f54f2559-574a-4fb0-bbad-9618c252d327}">
+          <Component Id="dir_mscsim_mscsim" Guid="{fd4685ff-e47f-4d7f-8701-7af5b30842be}">
             <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
           </Component>
           
@@ -40,7 +40,7 @@
       <!-- start menu shortcuts -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="MscSim">
-          <Component Id="menu_shortcuts" Guid="{a051bb6c-b5c5-40ee-bbd5-54ed35ffa9f1}">
+          <Component Id="menu_shortcuts" Guid="{161e5841-d82a-4ec8-94d5-248edb1afe1e}">
             <Shortcut
               Id="menu_sim" 
               Name="MscSim" 
@@ -64,6 +64,7 @@
 
     <!-- main program -->
     <Feature Id="mscsim_main" Title="MScSim" Level="1">
+	  <ComponentGroupRef Id="cg_mscsim_alut" /> <!-- ALUT libs -->
       <ComponentGroupRef Id="cg_mscsim_data" /> <!-- data -->
       <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
       <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->

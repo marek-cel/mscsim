@@ -131,9 +131,14 @@ private:
 
     QString _rec_file;                  ///<
 
-    ViewType _viewType;                 ///< specifies if HUD is visible
-    bool _showHUD;                      ///< specifies if traces are visible
-    bool _showTraces;
+    ViewType _viewType;                 ///< specifies view type
+
+    bool _showHUD;                      ///< specifies if HUD is visible
+    bool _showTraces;                   ///< specifies if traces are visible
+
+    bool _showRotorBlur;                ///<
+    bool _showBladesDatum;              ///<
+    bool _showBladesPaths;              ///<
 
     double _timeCoef;                   ///< [-] time compression coefficient
 
@@ -222,6 +227,10 @@ private slots:
 
     void on_actionShowHUD_triggered( bool checked );
     void on_actionShowTraces_triggered( bool checked );
+
+    void on_actionShowRotorBlur_triggered( bool checked );
+    void on_actionShowBladesDatum_triggered( bool checked );
+    void on_actionShowBladesPaths_triggered( bool checked );
 
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();

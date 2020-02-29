@@ -36,10 +36,13 @@ PageGeneral::PageGeneral( QWidget *parent ) :
 
     _hud_color( 0, 170, 0 ),
     _hud_color_temp( _hud_color ),
-    _hud_opacity ( 100 ),
+    _hud_opacity  ( 100 ),
     _hud_factor_alt ( 1.0 ),
     _hud_factor_vel ( 1.0 ),
-    _widescreen ( true )
+
+    _widescreen ( true ),
+
+    _sound_volume ( 100 )
 {
     _ui->setupUi( this );
 
@@ -64,15 +67,17 @@ void PageGeneral::readData()
     setFrameHudColor( _hud_color );
     _ui->sliderHudOpacity->setValue( _hud_opacity );
     _ui->checkBoxWidescreen->setChecked( _widescreen );
+    _ui->sliderSoundVol->setValue( _sound_volume );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void PageGeneral::saveData()
 {
-    _hud_color = _hud_color_temp;
-    _hud_opacity = _ui->sliderHudOpacity->value();
-    _widescreen = _ui->checkBoxWidescreen->isChecked();
+    _hud_color    = _hud_color_temp;
+    _hud_opacity  = _ui->sliderHudOpacity->value();
+    _widescreen   = _ui->checkBoxWidescreen->isChecked();
+    _sound_volume = _ui->sliderSoundVol->value();
 
     settingsSave();
 }
@@ -110,6 +115,8 @@ void PageGeneral::settingsRead()
         _ui->comboBoxHudVelocity->setCurrentIndex( hud_factor_vel_index );
 
         _widescreen = settings.value( "widescreen_layout", 1 ).toInt() != 0;
+
+        _sound_volume = settings.value( "sound_volume", 100 ).toInt();
     }
     settings.endGroup(); // page_general
 }
@@ -132,6 +139,8 @@ void PageGeneral::settingsSave()
         settings.setValue( "hud_factor_vel", _ui->comboBoxHudVelocity->currentIndex() );
 
         settings.setValue( "widescreen_layout" , _widescreen ? 1 : 0 );
+
+        settings.setValue( "sound_volume" , _sound_volume );
     }
     settings.endGroup(); // page_general
 }

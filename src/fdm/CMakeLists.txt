@@ -2,6 +2,7 @@ add_library( fdm STATIC
     fdm_Base.cpp
     fdm_Log.cpp
     fdm_Recorder.cpp
+    fdm_Test.cpp
 
     auto/fdm_Autopilot.cpp
     auto/fdm_FlightDirector.cpp

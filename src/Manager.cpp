@@ -40,6 +40,7 @@ Manager::Manager() :
 
     _ap  ( NULLPTR ),
     _nav ( NULLPTR ),
+    _sfx ( NULLPTR ),
     _sim ( NULLPTR ),
     _win ( NULLPTR ),
 
@@ -49,6 +50,7 @@ Manager::Manager() :
 {
     _ap  = new Autopilot();
     _nav = new nav::Manager();
+    _sfx = new sfx::Thread();
     _sim = new Simulation();
     _win = new MainWindow();
 
@@ -63,6 +65,14 @@ Manager::~Manager()
 
     DELPTR( _timer );
 
+    if ( _sfx )
+    {
+        while ( _sfx->isRunning() )
+        {
+            _sfx->quit();
+        }
+    }
+
     if ( _sim )
     {
         while ( _sim->isRunning() )
@@ -73,6 +83,7 @@ Manager::~Manager()
 
     DELPTR( _ap  );
     DELPTR( _nav );
+    DELPTR( _sfx );
     DELPTR( _sim );
     DELPTR( _win );
 }
@@ -84,11 +95,14 @@ void Manager::init()
     qRegisterMetaType< Data::DataBuf >( "Data::DataBuf" );
     qRegisterMetaType< fdm::DataOut  >( "fdm::DataOut"  );
 
-    connect( this, SIGNAL(dataInpUpdated(const Data::DataBuf *)) , _sim, SLOT(onDataInpUpdated(const Data::DataBuf *)) );
-    connect( _sim, SIGNAL(dataOutUpdated(const fdm::DataOut &))  , this, SLOT(onDataOutUpdated(const fdm::DataOut &))  );
+    connect( this, SIGNAL(dataInpUpdated(const Data::DataBuf*)), _sim, SLOT(onDataInpUpdated(const Data::DataBuf*)) );
+    connect( this, SIGNAL(dataInpUpdated(const Data::DataBuf*)), _sfx, SLOT(onDataInpUpdated(const Data::DataBuf*)) );
+
+    connect( _sim, SIGNAL(dataOutUpdated(const fdm::DataOut&)), this, SLOT(onDataOutUpdated(const fdm::DataOut&)) );
 
     hid::Manager::instance()->init();
 
+    _sfx->init();
     _sim->init();
 
     _win->setAutopilot( _ap );
@@ -202,11 +216,22 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->cgi.hud.stall = dataOut.flight.stall;
 
     // ownship
+    Data::get()->ownship.mainRotor.omega       = dataOut.rotor.mainRotor_omega;
+    Data::get()->ownship.mainRotor.azimuth     = dataOut.rotor.mainRotor_azimuth;
+    Data::get()->ownship.mainRotor.coningAngle = dataOut.rotor.mainRotor_coningAngle;
+    Data::get()->ownship.mainRotor.diskRoll    = dataOut.rotor.mainRotor_diskRoll;
+    Data::get()->ownship.mainRotor.diskPitch   = dataOut.rotor.mainRotor_diskPitch;
+    Data::get()->ownship.mainRotor.collective  = dataOut.rotor.mainRotor_collective;
+    Data::get()->ownship.mainRotor.cyclicLon   = dataOut.rotor.mainRotor_cyclicLon;
+    Data::get()->ownship.mainRotor.cyclicLat   = dataOut.rotor.mainRotor_cyclicLat;
+
     for ( int i = 0; i < FDM_MAX_BLADES; i++ )
     {
-        Data::get()->ownship.blade[ i ].flapping   = dataOut.blade[ i ].flapping;
-        Data::get()->ownship.blade[ i ].feathering = dataOut.blade[ i ].feathering;
+        Data::get()->ownship.mainRotor.blade[ i ].flapping   = dataOut.blade[ i ].flapping;
+        Data::get()->ownship.mainRotor.blade[ i ].feathering = dataOut.blade[ i ].feathering;
     }
+
+    Data::get()->ownship.tailRotor.azimuth     = dataOut.rotor.tailRotor_azimuth;
 
     Data::get()->ownship.latitude  = dataOut.flight.latitude;
     Data::get()->ownship.longitude = dataOut.flight.longitude;
@@ -226,10 +251,11 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 
     Data::get()->ownship.slipSkidAngle = dataOut.flight.slipSkidAngle;
 
-    Data::get()->ownship.airspeed   = dataOut.flight.airspeed;
-    Data::get()->ownship.ias        = dataOut.flight.ias;
-    Data::get()->ownship.machNumber = dataOut.flight.machNumber;
-    Data::get()->ownship.climbRate  = dataOut.flight.climbRate;
+    Data::get()->ownship.airspeed    = dataOut.flight.airspeed;
+    Data::get()->ownship.ias         = dataOut.flight.ias;
+    Data::get()->ownship.groundSpeed = dataOut.flight.groundSpeed;
+    Data::get()->ownship.machNumber  = dataOut.flight.machNumber;
+    Data::get()->ownship.climbRate   = dataOut.flight.climbRate;
 
     Data::get()->ownship.rollRate  = dataOut.flight.rollRate;
     Data::get()->ownship.pitchRate = dataOut.flight.pitchRate;
@@ -285,17 +311,9 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
         }
     }
 
-    Data::get()->ownship.mainRotor_azimuth     = dataOut.rotor.mainRotor_azimuth;
-    Data::get()->ownship.mainRotor_coningAngle = dataOut.rotor.mainRotor_coningAngle;
-    Data::get()->ownship.mainRotor_diskRoll    = dataOut.rotor.mainRotor_diskRoll;
-    Data::get()->ownship.mainRotor_diskPitch   = dataOut.rotor.mainRotor_diskPitch;
-    Data::get()->ownship.mainRotor_collective  = dataOut.rotor.mainRotor_collective;
-    Data::get()->ownship.mainRotor_cyclicLon   = dataOut.rotor.mainRotor_cyclicLon;
-    Data::get()->ownship.mainRotor_cyclicLat   = dataOut.rotor.mainRotor_cyclicLat;
-    Data::get()->ownship.tailRotor_azimuth     = dataOut.rotor.tailRotor_azimuth;
-
     Data::get()->ownship.onGround = dataOut.flight.onGround;
     Data::get()->ownship.stall = dataOut.flight.stall;
+    Data::get()->ownship.crash = dataOut.crash != fdm::DataOut::NoCrash;
 
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
@@ -316,6 +334,9 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 
         Data::get()->propulsion.engine[ i ].fuelFlow = dataOut.engine[ i ].fuelFlow;
     }
+
+    // SFX
+    // TODO
 
     // output state
     Data::get()->stateOut = dataOut.stateOut;

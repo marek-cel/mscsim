@@ -12,6 +12,7 @@ TARGET = mscsim
 ################################################################################
 
 CONFIG += c++11
+CONFIG += fdm
 
 ################################################################################
 
@@ -35,12 +36,11 @@ DEFINES += \
 #    SIM_OSG_DEBUG_INFO \
     SIM_INTERSECTIONS \
     SIM_LOCAL_DATA_DIR \
-#    SIM_ROTOR_BLUR \
     SIM_SKYDOME_SCALING \
     SIM_USE_THREADS \
     SIM_VERTICALSYNC
 
-DEFINES += FDM_TEST_ROTOR_BE
+#DEFINES += FDM_TEST
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -64,6 +64,7 @@ unix: DEFINES += _LINUX_
 INCLUDEPATH += ./
 
 win32: INCLUDEPATH += \
+    $(OPENAL_DIR)/include \
     $(OSG_ROOT)/include/ \
     $(OSG_ROOT)/include/libxml2
 
@@ -73,8 +74,11 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 win32: LIBS += \
+    -L$(OPENAL_DIR)/libs/Win32 \
     -L$(OSG_ROOT)/lib \
+    -lalut \
     -llibxml2 \
+    -lopenal32 \
     -lopengl32 \
     -lwinmm
 
@@ -107,6 +111,8 @@ win32: CONFIG(debug, debug|release): LIBS += \
 unix: LIBS += \
     -L/lib \
     -L/usr/lib \
+    -lalut \
+    -lopenal \
     -lxml2 \
     -lOpenThreads \
     -losg \
@@ -127,15 +133,15 @@ HEADERS += \
     $$PWD/Common.h \
     $$PWD/Data.h \
     $$PWD/Defines.h \
-    $$PWD/fdm_Manager.h \
     $$PWD/Manager.h \
+    $$PWD/ManagerFDM.h \
     $$PWD/Simulation.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/Autopilot.cpp \
-    $$PWD/fdm_Manager.cpp \
     $$PWD/Manager.cpp \
+    $$PWD/ManagerFDM.cpp \
     $$PWD/Simulation.cpp
 
 RESOURCES += \
@@ -150,7 +156,8 @@ include($$PWD/fdm_c172/fdm_c172.pri)
 include($$PWD/fdm_f16/fdm_f16.pri)
 include($$PWD/fdm_p51/fdm_p51.pri)
 include($$PWD/fdm_uh60/fdm_uh60.pri)
-include($$PWD/fdm_test/fdm_test.pri)
+#include($$PWD/fdm_test/fdm_test.pri)
 include($$PWD/gui/gui.pri)
 include($$PWD/hid/hid.pri)
 include($$PWD/nav/nav.pri)
+include($$PWD/sfx/sfx.pri)

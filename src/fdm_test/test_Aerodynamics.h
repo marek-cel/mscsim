@@ -26,7 +26,6 @@
 
 #include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdm_test/test_MainRotorAD.h>
 #include <fdm_test/test_MainRotorBE.h>
 #include <fdm_test/test_TailRotor.h>
 #include <fdm_test/test_Fuselage.h>
@@ -66,18 +65,13 @@ public:
     /** Updates model. */
     void update();
 
-    inline const MainRotor* getMainRotor() const { return _mainRotor; }
-    inline const TEST_MainRotorAD* getMainRotorAD() const { return _mainRotorAD; }
-    inline const TEST_MainRotorBE* getMainRotorBE() const { return _mainRotorBE; }
+    inline const TEST_MainRotor* getMainRotor() const { return _mainRotor; }
 
 private:
 
     const TEST_Aircraft *_aircraft;     ///< aircraft model main object
 
-    MainRotor          *_mainRotor;
-    TEST_MainRotorAD   *_mainRotorAD;   ///<
-    TEST_MainRotorBE   *_mainRotorBE;   ///<
-
+    TEST_MainRotor     *_mainRotor;
     TEST_TailRotor     *_tailRotor;     ///<
     TEST_Fuselage      *_fuselage;      ///<
     TEST_StabilizerHor *_stabHor;       ///<

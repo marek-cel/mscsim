@@ -31,6 +31,7 @@ using namespace cgi;
 const osg::Vec3 Colors::_black = osg::Vec3( 0.00f, 0.00f, 0.00f );
 const osg::Vec3 Colors::_white = osg::Vec3( 1.00f, 1.00f, 1.00f );
 
+const osg::Vec3 Colors::_blue    = osg::Vec3( 0.00f, 0.00f, 1.00f );
 const osg::Vec3 Colors::_cyan    = osg::Vec3( 0.00f, 1.00f, 1.00f );
 const osg::Vec3 Colors::_green   = osg::Vec3( 0.00f, 0.50f, 0.00f );
 const osg::Vec3 Colors::_grey    = osg::Vec3( 0.50f, 0.50f, 0.50f );

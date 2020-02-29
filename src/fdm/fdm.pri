@@ -7,12 +7,14 @@ HEADERS += \
     $$PWD/fdm_Log.h \
     $$PWD/fdm_Path.h \
     $$PWD/fdm_Recorder.h \
+    $$PWD/fdm_Test.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \
     $$PWD/fdm_Base.cpp \
     $$PWD/fdm_Log.cpp \
-    $$PWD/fdm_Recorder.cpp
+    $$PWD/fdm_Recorder.cpp \
+    $$PWD/fdm_Test.cpp
 
 ################################################################################
 

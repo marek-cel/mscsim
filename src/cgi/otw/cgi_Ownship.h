@@ -32,6 +32,9 @@
 
 #include <cgi/cgi_Module.h>
 
+#include <cgi/otw/cgi_Rotor.h>
+#include <cgi/otw/cgi_Vector.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace cgi
@@ -79,6 +82,9 @@ public:
 
 private:
 
+    Rotor  *_rotor;         ///< rotor
+    Vector *_vector;        ///< vector
+
     osg::Quat  _att_wgs;    ///< aircraft attitude
     osg::Vec3d _pos_wgs;    ///< aircraft position
 
@@ -87,7 +93,6 @@ private:
 
     osg::ref_ptr<osg::Switch> _switch;                          ///<
     osg::ref_ptr<osg::Switch> _switchRibbons;                   ///<
-    osg::ref_ptr<osg::Switch> _switchRotor;                     ///<
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronL;     ///< left aileron deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> _aileronR;     ///< right aileron deflection
@@ -155,8 +160,6 @@ private:
     void reset();
 
     void updateModel();
-
-    void updateRotor();
 
     void updateTraces();
     void updateTrace( osg::Group *parent, osg::Vec3Array *positions,

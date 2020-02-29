@@ -4,49 +4,49 @@
   <Fragment>
     <DirectoryRef Id="dir_mscsim">
       <Directory Id="dir_mscsim_osgPlugins_3_4_0" Name="osgPlugins-3.4.0" />
-      <Component Id="dir_mscsim_libpng15" Guid="{54c6171b-2989-423f-b603-e1219a0f4c39}">
+      <Component Id="dir_mscsim_libpng15" Guid="{89c91dfc-7c9a-4853-8e88-6f7b3e692b3c}">
         <File Id="dir_mscsim_libpng15_dll" Name="libpng15.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng15.dll" />
       </Component>
-      <Component Id="dir_mscsim_libxml2" Guid="{13b57d92-5464-4a38-9b83-2dde3f98ae26}">
+      <Component Id="dir_mscsim_libxml2" Guid="{12fbe207-2ea1-4c3f-aa80-297181148067}">
         <File Id="dir_mscsim_libxml2_dll" Name="libxml2.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libxml2.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osg" Guid="{de809ef6-637d-4e8c-86a3-77c5d7b131ae}">
+      <Component Id="dir_mscsim_osg130_osg" Guid="{d75da9a4-cfe5-489a-ac7a-1fa259b15e72}">
         <File Id="dir_mscsim_osg130_osg_dll" Name="osg130-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osg.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgDB" Guid="{efad63b9-2c8d-4802-8e12-2bb4c8c436df}">
+      <Component Id="dir_mscsim_osg130_osgDB" Guid="{a6a49702-7dc7-45be-81fc-1c2282f027c5}">
         <File Id="dir_mscsim_osg130_osgDB_dll" Name="osg130-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgDB.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgGA" Guid="{09a1af8f-bd40-4160-934f-6b12508d9022}">
+      <Component Id="dir_mscsim_osg130_osgGA" Guid="{0e062807-1eec-4398-8e98-7f8670c86e06}">
         <File Id="dir_mscsim_osg130_osgGA_dll" Name="osg130-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgGA.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgParticle" Guid="{cfb0f15f-8f1a-4bb7-b678-312c4d0130d1}">
+      <Component Id="dir_mscsim_osg130_osgParticle" Guid="{47b2e977-3bd7-46ea-8a4f-9eeb947d3358}">
         <File Id="dir_mscsim_osg130_osgParticle_dll" Name="osg130-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgParticle.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgQt" Guid="{3c6fb4fa-00cf-43ee-886a-0da2d8a4a0fe}">
+      <Component Id="dir_mscsim_osg130_osgQt" Guid="{dcbf18bf-1f22-487f-8d93-ebcae410745d}">
         <File Id="dir_mscsim_osg130_osgQt_dll" Name="osg130-osgQt.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgQt.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgSim" Guid="{d8f2bd62-aca6-46ab-b1b6-bb92b9bcbaf1}">
+      <Component Id="dir_mscsim_osg130_osgSim" Guid="{9fc7935b-d4e0-402b-94bd-4d05ebe42f41}">
         <File Id="dir_mscsim_osg130_osgSim_dll" Name="osg130-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgSim.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgTerrain" Guid="{e822ed0f-a543-44e1-8906-983343be130a}">
+      <Component Id="dir_mscsim_osg130_osgTerrain" Guid="{5cfdd414-39ae-4992-a70b-0730408b39e2}">
         <File Id="dir_mscsim_osg130_osgTerrain_dll" Name="osg130-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgTerrain.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgText" Guid="{0c30db43-3558-4dd2-99b6-339f2eae8abb}">
+      <Component Id="dir_mscsim_osg130_osgText" Guid="{9ee12771-4873-49a2-9147-2fdbb5b978c0}">
         <File Id="dir_mscsim_osg130_osgText_dll" Name="osg130-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgText.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgUtil" Guid="{54f1eb07-0265-4465-8f14-596d4dd04516}">
+      <Component Id="dir_mscsim_osg130_osgUtil" Guid="{bd10558e-e762-4f4d-9a10-637fd9056286}">
         <File Id="dir_mscsim_osg130_osgUtil_dll" Name="osg130-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgUtil.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgViewer" Guid="{77c02282-bddd-4431-9c88-39f9e840f40a}">
+      <Component Id="dir_mscsim_osg130_osgViewer" Guid="{95c4b193-a830-449d-ac65-60ae191b954c}">
         <File Id="dir_mscsim_osg130_osgViewer_dll" Name="osg130-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgViewer.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgWidget" Guid="{8d025e0a-14c2-46ca-a56e-61da9cac7bdc}">
+      <Component Id="dir_mscsim_osg130_osgWidget" Guid="{cbd88a54-c47b-4f47-a689-b7f858ba512a}">
         <File Id="dir_mscsim_osg130_osgWidget_dll" Name="osg130-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgWidget.dll" />
       </Component>
-      <Component Id="dir_mscsim_ot20_OpenThreads" Guid="{cff1e252-daa4-45db-8d7b-6c7bf318169a}">
+      <Component Id="dir_mscsim_ot20_OpenThreads" Guid="{4a412b40-eaad-415d-ae5a-62daf4ba75a2}">
         <File Id="dir_mscsim_ot20_OpenThreads_dll" Name="ot20-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot20-OpenThreads.dll" />
       </Component>
-      <Component Id="dir_mscsim_zlib1" Guid="{c5802a36-cce5-4b32-bab8-6fcdcedf3197}">
+      <Component Id="dir_mscsim_zlib1" Guid="{e169f6c3-f980-468d-9dc1-8c3ddbbc40d3}">
         <File Id="dir_mscsim_zlib1_dll" Name="zlib1.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\zlib1.dll" />
       </Component>
     </DirectoryRef>

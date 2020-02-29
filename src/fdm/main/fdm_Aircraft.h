@@ -248,6 +248,7 @@ public:
     inline double getSlipSkidAngle() const { return _slipSkidAngle; }
     inline double getAirspeed()      const { return _airspeed;      }
     inline double getIAS()           const { return _ias;           }
+    inline double getGroundSpeed()   const { return _groundSpeed;   }
     inline double getDynPress()      const { return _dynPress;      }
     inline double getMachNumber()    const { return _machNumber;    }
     inline double getClimbRate()     const { return _climbRate;     }
@@ -281,7 +282,7 @@ protected:
     {
     public:
 
-        Integrator( Aircraft *obj, void (Aircraft::*fun)(const StateVector &, StateVector &) ) :
+        Integrator( Aircraft *obj, void (Aircraft::*fun)(const StateVector &, StateVector *) ) :
             RungeKutta4( obj, fun ) {}
     };
 
@@ -371,6 +372,7 @@ protected:
     double _airspeed;           ///< [m/s] true airspeed
     double _dynPress;           ///< [Pa] dynamic pressure
     double _ias;                ///< [m/s] indicated airspeed
+    double _groundSpeed;        ///< [m/s] ground speed (horizontal velocity)
     double _machNumber;         ///< [-] Mach number
     double _climbRate;          ///< [m/s] climb rate
     double _turnRate;           ///< [rad/s] turn rate
@@ -403,7 +405,7 @@ protected:
      * @param derivVect resulting state vector derivative
      */
     virtual void computeStateDeriv( const StateVector &stateVect,
-                                    StateVector &derivVect );
+                                    StateVector *derivVect );
 
     /**
      * Updates aircraft state variables.

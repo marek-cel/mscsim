@@ -71,6 +71,16 @@ public:
                             int segments = 32 );
 
     /**
+     * Creates line.
+     * @param geom
+     * @param b
+     * @param e
+     * @param color
+     */
+    static void createLine( osg::Geometry *geom, const osg::Vec3 &b, const osg::Vec3 &e,
+                            const osg::Vec3 &color );
+
+    /**
      * Creates flat square plane.
      * @param geom
      * @param size

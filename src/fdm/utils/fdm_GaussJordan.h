@@ -53,7 +53,7 @@ public:
      * @return FDM_SUCCESS on success and FDM_FAILURE on failure
      */
     static int solve( const Matrix< SIZE, SIZE > &mtr, const Vector< SIZE > &rhs,
-                      Vector< SIZE > &x, double eps = 1.0e-14 )
+                      Vector< SIZE > *x, double eps = 1.0e-14 )
     {
         Matrix< SIZE, SIZE > mtr_temp = mtr;
         Vector< SIZE > rhs_temp = rhs;
@@ -107,7 +107,7 @@ public:
         }
 
         // rewritting results
-        x = rhs_temp;
+        (*x) = rhs_temp;
 
         return FDM_SUCCESS;
     }

@@ -17,6 +17,39 @@
    <locale language="English" country="UnitedStates"/>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="6" column="0" colspan="3">
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelHudAltitude">
+     <property name="text">
+      <string>HUD Altitude Unit:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>comboBoxHudAltitude</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="ComboUnitsLength" name="comboBoxHudAltitude"/>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="ComboUnitsVelocity" name="comboBoxHudVelocity"/>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="Line" name="line_1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <widget class="QLabel" name="labelHudVelocity">
      <property name="text">
@@ -50,7 +83,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="3">
+   <item row="8" column="0" colspan="3">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -109,27 +142,24 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="labelHudAltitude">
+   <item row="7" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>HUD Altitude Unit:</string>
+      <string>Sound Volume:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="buddy">
-      <cstring>comboBoxHudAltitude</cstring>
-     </property>
     </widget>
    </item>
-   <item row="2" column="1" colspan="2">
-    <widget class="ComboUnitsLength" name="comboBoxHudAltitude"/>
-   </item>
-   <item row="3" column="1" colspan="2">
-    <widget class="ComboUnitsVelocity" name="comboBoxHudVelocity"/>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="Line" name="line">
+   <item row="7" column="1" colspan="2">
+    <widget class="QSlider" name="sliderSoundVol">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

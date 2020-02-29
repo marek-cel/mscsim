@@ -8,18 +8,18 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin )
 
 ################################################################################
 
-#set( CMAKE_VERBOSE_MAKEFILE ON )
+# set( CMAKE_VERBOSE_MAKEFILE ON )
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
 ################################################################################
 
 # add_definitions( -DSIM_CONSOLE_OUTPUT )
-# add_definitions( -DSIM_OSGDEBUGINFO )
+# add_definitions( -DSIM_OSG_DEBUG_INFO )
 add_definitions( -DSIM_INTERSECTIONS )
 # add_definitions( -DSIM_LOCAL_DATA_DIR )
-add_definitions( -DSIM_SKYDOMESCALING )
-add_definitions( -DSIM_USETHREADS )
+add_definitions( -DSIM_SKYDOME_SCALING )
+add_definitions( -DSIM_USE_THREADS )
 add_definitions( -DSIM_VERTICALSYNC )
 
 if( UNIX )
@@ -78,6 +78,11 @@ include_directories( ${OPENSCENEGRAPH_INCLUDE_DIRS} )
 
 find_package( LibXml2 REQUIRED )
 
+find_package( OpenAL REQUIRED )
+include_directories( ${OPENAL_INCLUDE_DIR} )
+
+find_library( ALUT_LIBRARY alut )
+
 ################################################################################
 
 add_subdirectory( cgi )
@@ -91,6 +96,7 @@ add_subdirectory( fdm_uh60 )
 add_subdirectory( gui )
 add_subdirectory( hid )
 add_subdirectory( nav )
+add_subdirectory( sfx )
 
 ################################################################################
 
@@ -107,9 +113,9 @@ qt4_add_resources( RES_SOURCES
 
 add_executable( ${PROJECT_NAME}
     Autopilot.cpp
-    fdm_Manager.cpp
     main.cpp
     Manager.cpp
+    ManagerFDM.cpp
     Simulation.cpp
 
     ${MOC_SRCS}
@@ -123,6 +129,8 @@ if( WIN32 )
         ${QT_LIBRARIES}
         ${OPENSCENEGRAPH_LIBRARIES}
         ${LIBXML2_LIBRARIES}
+        ${OPENAL_LIBRARY}
+        ${ALUT_LIBRARY}
         winmm
     )
 endif()
@@ -132,6 +140,8 @@ if( UNIX )
         ${QT_LIBRARIES}
         ${OPENSCENEGRAPH_LIBRARIES}
         ${LIBXML2_LIBRARIES}
+        ${OPENAL_LIBRARY}
+        ${ALUT_LIBRARY}
     )
 endif()
 
@@ -147,12 +157,11 @@ target_link_libraries( ${PROJECT_NAME}
     fdm_c172
     fdm_f16
     fdm_p51
-    fdm_test
     fdm_uh60
     gui
     hid
     nav
-    sim_fdm
+    sfx
 
     ${LIBS}
 

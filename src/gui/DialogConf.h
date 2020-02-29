@@ -69,6 +69,8 @@ public:
     double getHudFactorVel() const;
 
     bool getWidescreen() const;
+
+    int getSoundVolume() const;
     
 private:
 

@@ -17,6 +17,7 @@ HEADERS += \
     $$PWD/cgi_Module.h \
     $$PWD/cgi_Singleton.h \
     $$PWD/cgi_Textures.h \
+    $$PWD/cgi_Utils.h \
     $$PWD/cgi_WGS84.h
 
 SOURCES += \
@@ -36,6 +37,7 @@ SOURCES += \
     $$PWD/cgi_Models.cpp \
     $$PWD/cgi_Module.cpp \
     $$PWD/cgi_Textures.cpp \
+    $$PWD/cgi_Utils.cpp \
     $$PWD/cgi_WGS84.cpp
 
 ################################################################################
@@ -70,9 +72,11 @@ HEADERS += \
     $$PWD/otw/cgi_FogScene.h \
     $$PWD/otw/cgi_OTW.h \
     $$PWD/otw/cgi_Ownship.h \
+    $$PWD/otw/cgi_Rotor.h \
     $$PWD/otw/cgi_Scenery.h \
     $$PWD/otw/cgi_SkyDome.h \
-    $$PWD/otw/cgi_Terrain.h
+    $$PWD/otw/cgi_Terrain.h \
+    $$PWD/otw/cgi_Vector.h
 
 SOURCES += \
     $$PWD/otw/cgi_Airport.cpp \
@@ -82,6 +86,8 @@ SOURCES += \
     $$PWD/otw/cgi_FogScene.cpp \
     $$PWD/otw/cgi_OTW.cpp \
     $$PWD/otw/cgi_Ownship.cpp \
+    $$PWD/otw/cgi_Rotor.cpp \
     $$PWD/otw/cgi_Scenery.cpp \
     $$PWD/otw/cgi_SkyDome.cpp \
-    $$PWD/otw/cgi_Terrain.cpp
+    $$PWD/otw/cgi_Terrain.cpp \
+    $$PWD/otw/cgi_Vector.cpp

@@ -41,6 +41,7 @@ public:
     static const osg::Vec3 _black;      ///< black
     static const osg::Vec3 _white;      ///< white
 
+    static const osg::Vec3 _blue;       ///< cyan    (according to W3C)
     static const osg::Vec3 _cyan;       ///< cyan    (according to W3C)
     static const osg::Vec3 _green;      ///< green   (according to W3C)
     static const osg::Vec3 _grey;       ///< grey    (according to W3C)

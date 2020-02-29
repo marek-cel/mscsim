@@ -3,22 +3,22 @@
   
   <Fragment>
     <DirectoryRef Id="dir_mscsim">
-      <Component Id="dir_mscsim_qtcore4" Guid="{6748003a-93fc-4588-b9ce-da16bb868773}">
+      <Component Id="dir_mscsim_qtcore4" Guid="{41566dd9-550b-4226-be33-e964a3b80ea4}">
         <File Id="dir_mscsim_qtcore4_dll" Name="QtCore4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtCore4.dll" />
       </Component>
-      <Component Id="dir_mscsim_qtgui4" Guid="{a1a7d661-c0cf-499d-be4d-4f57899bf12d}">
+      <Component Id="dir_mscsim_qtgui4" Guid="{5f7355f1-d25c-441e-8f47-9514d0ed67da}">
         <File Id="dir_mscsim_qtgui4_dll" Name="QtGui4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtGui4.dll" />
       </Component>
-      <Component Id="dir_mscsim_qtnetwork4" Guid="{ac83f137-03ec-4f29-8982-cdcfcea3be01}">
+      <Component Id="dir_mscsim_qtnetwork4" Guid="{712f797c-cf35-4520-b019-9a31b35913b0}">
         <File Id="dir_mscsim_qtnetwork4_dll" Name="QtNetwork4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtNetwork4.dll" />
       </Component>
-      <Component Id="dir_mscsim_qtopengl4" Guid="{e193ddbc-f271-4c4f-b67e-7495aab587da}">
+      <Component Id="dir_mscsim_qtopengl4" Guid="{44c7a76f-55f9-4a03-9105-769c64bbdb74}">
         <File Id="dir_mscsim_qtopengl4_dll" Name="QtOpenGL4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtOpenGL4.dll" />
       </Component>
-      <Component Id="dir_mscsim_qtsvg4" Guid="{2ece8b98-f1f3-4608-bbc7-ac49b268e00f}">
+      <Component Id="dir_mscsim_qtsvg4" Guid="{2849cb06-8e4f-4420-88fb-b748e50e0622}">
         <File Id="dir_mscsim_qtsvg4_dll" Name="QtSvg4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtSvg4.dll" />
       </Component>
-      <Component Id="dir_mscsim_qtxml4" Guid="{c39359e0-9450-467f-a6fc-d19741920a95}">
+      <Component Id="dir_mscsim_qtxml4" Guid="{1d7e1fac-9cb2-4482-a615-29b669bf8597}">
         <File Id="dir_mscsim_qtxml4_dll" Name="QtXml4.dll" DiskId="1" Source="$(env.QTDIR)\bin\QtXml4.dll" />
       </Component>
     </DirectoryRef>

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+
+  <Bundle
+    Name="MScSim"
+    Version="0.3"
+    UpgradeCode="{b3377200-eb13-4ec6-8ec3-646d9686fd2c}">
+
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication
+        LicenseFile="LICENSE.rtf"
+		LogoFile="mscsim.png"
+		ShowVersion="yes" />
+	</BootstrapperApplicationRef>
+	  
+    <Chain>
+
+      <PackageGroupRef Id="OpenAL"/>
+	  <MsiPackage SourceFile="mscsim-0.3-win32.msi" />
+
+    </Chain>
+	
+  </Bundle>
+  
+  <Fragment>
+  
+    <PackageGroup Id="OpenAL">
+      <ExePackage
+        SourceFile="oalinst.exe"
+        DetectCondition="ExeDetectedVariable"
+	    InstallCommand="/q /ACTION=Install"
+        RepairCommand="/q ACTION=Repair /hideconsole"
+        UninstallCommand="/q ACTION=Uninstall /hideconsole" />
+    </PackageGroup>
+  
+  </Fragment>
+
+</Wix>

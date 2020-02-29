@@ -23,6 +23,8 @@
 #include <fdm_test/test_Aerodynamics.h>
 #include <fdm_test/test_Aircraft.h>
 
+#include <fdm/fdm_Test.h>
+
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,22 +37,13 @@ TEST_Aerodynamics::TEST_Aerodynamics( const TEST_Aircraft *aircraft ) :
     Aerodynamics( aircraft ),
     _aircraft ( aircraft ),
 
-    _mainRotor   ( FDM_NULLPTR ),
-    _mainRotorAD ( FDM_NULLPTR ),
-    _mainRotorBE ( FDM_NULLPTR ),
-
+    _mainRotor ( FDM_NULLPTR ),
     _tailRotor ( FDM_NULLPTR ),
     _fuselage  ( FDM_NULLPTR ),
     _stabHor   ( FDM_NULLPTR ),
     _stabVer   ( FDM_NULLPTR )
 {
-#   ifdef FDM_TEST_ROTOR_BE
-    _mainRotor = _mainRotorBE = new TEST_MainRotorBE();
-#   else
-    _mainRotor = _mainRotorAD = new TEST_MainRotorAD();
-#   endif
-
-
+    _mainRotor = new TEST_MainRotor();
     _tailRotor = new TEST_TailRotor();
     _fuselage  = new TEST_Fuselage();
     _stabHor   = new TEST_StabilizerHor();
@@ -61,9 +54,7 @@ TEST_Aerodynamics::TEST_Aerodynamics( const TEST_Aircraft *aircraft ) :
 
 TEST_Aerodynamics::~TEST_Aerodynamics()
 {
-    FDM_DELPTR( _mainRotorAD );
-    FDM_DELPTR( _mainRotorBE );
-
+    FDM_DELPTR( _mainRotor );
     FDM_DELPTR( _tailRotor );
     FDM_DELPTR( _fuselage );
     FDM_DELPTR( _stabHor );
@@ -95,17 +86,8 @@ void TEST_Aerodynamics::readData( XmlNode &dataNode )
         _stabHor->readData( nodeStabHor );
         _stabVer->readData( nodeStabVer );
 
-        if ( _mainRotorAD )
-        {
-            XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor_ad" );
-            _mainRotorAD->readData( nodeMainRotor );
-        }
-
-        if ( _mainRotorBE )
-        {
-            XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor_be" );
-            _mainRotorBE->readData( nodeMainRotor );
-        }
+        XmlNode nodeMainRotor = dataNode.getFirstChildElement( "main_rotor_be" );
+        _mainRotor->readData( nodeMainRotor );
     }
     else
     {
@@ -119,15 +101,18 @@ void TEST_Aerodynamics::computeForceAndMoment()
 {
     updateMatrices();
 
-#   ifdef FDM_TEST_ROTOR_BE
-    _mainRotorBE->computeForceAndMoment( _aircraft->getVel_air_BAS(),
-                                         _aircraft->getOmg_air_BAS(),
-                                         _aircraft->getOmg_BAS(),
-                                         _aircraft->getAcc_BAS(),
-                                         _aircraft->getEps_BAS(),
-                                         _aircraft->getGrav_BAS(),
-                                         _aircraft->getEnvir()->getDensity() );
-#   endif
+    _mainRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
+                                       _aircraft->getOmg_air_BAS(),
+                                       _aircraft->getOmg_BAS(),
+                                       _aircraft->getAcc_BAS(),
+                                       _aircraft->getEps_BAS(),
+                                       _aircraft->getGrav_BAS(),
+                                       _aircraft->getEnvir()->getDensity() );
+
+    Vector3 b = _mainRotor->getR_hub_BAS();
+    Vector3 v = _mainRotor->getFor_BAS();
+    v.normalize();
+    Test::setVector( b, 5.0 * v );
 
     _tailRotor->computeForceAndMoment( _aircraft->getVel_air_BAS(),// - _mainRotor->getVel_i_BAS(),
                                        _aircraft->getOmg_air_BAS(),
@@ -142,7 +127,7 @@ void TEST_Aerodynamics::computeForceAndMoment()
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getElevator() );
 
-    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS() - _tailRotor->getVel_i_BAS(),
+    _stabVer->computeForceAndMoment( _aircraft->getVel_air_BAS(),// - _tailRotor->getVel_i_BAS(),
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity() );
 
@@ -203,21 +188,19 @@ void TEST_Aerodynamics::update()
     Aerodynamics::update();
     ///////////////////////
 
-#   ifdef FDM_TEST_ROTOR_BE
-    _mainRotorBE->update( _aircraft->getTimeStep(),
-                          _aircraft->getVel_air_BAS(),
-                          _aircraft->getOmg_air_BAS(),
-                          _aircraft->getOmg_BAS(),
-                          _aircraft->getAcc_BAS(),
-                          _aircraft->getEps_BAS(),
-                          _aircraft->getGrav_BAS(),
-                          _aircraft->getProp()->getMainRotorOmega(),
-                          _aircraft->getProp()->getMainRotorPsi(),
-                          _aircraft->getEnvir()->getDensity(),
-                          _aircraft->getCtrl()->getCollective(),
-                          _aircraft->getCtrl()->getCyclicLat(),
-                          _aircraft->getCtrl()->getCyclicLon() );
-#   endif
+    _mainRotor->update( _aircraft->getTimeStep(),
+                        _aircraft->getVel_air_BAS(),
+                        _aircraft->getOmg_air_BAS(),
+                        _aircraft->getOmg_BAS(),
+                        _aircraft->getAcc_BAS(),
+                        _aircraft->getEps_BAS(),
+                        _aircraft->getGrav_BAS(),
+                        _aircraft->getProp()->getMainRotorOmega(),
+                        _aircraft->getProp()->getMainRotorPsi(),
+                        _aircraft->getEnvir()->getDensity(),
+                        _aircraft->getCtrl()->getCollective(),
+                        _aircraft->getCtrl()->getCyclicLat(),
+                        _aircraft->getCtrl()->getCyclicLon() );
 
     _tailRotor->update( _aircraft->getProp()->getTailRotorOmega(),
                         _aircraft->getCtrl()->getTailPitch() );

@@ -631,6 +631,16 @@ public:
     }
 
     /**
+     * Converts given angular velocity from radians per second to revolutions per minute.
+     * @param ang_vel angular velocity expressed in radians per second
+     * @return velocity expressed in revolutions per minute
+     */
+    FDM_CONSTEXPR static inline double rad_s2rpm( double ang_vel = 1.0 )
+    {
+        return 30.0 * ang_vel / M_PI;
+    }
+
+    /**
      * Converts given mass from kilograms to pounds.
      * @param mass mass expressed in kilograms
      * @return mass expressed in pounds

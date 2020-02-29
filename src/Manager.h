@@ -28,6 +28,7 @@
 
 #include <gui/MainWindow.h>
 #include <nav/nav_Manager.h>
+#include <sfx/sfx_Thread.h>
 
 #include <Autopilot.h>
 #include <Simulation.h>
@@ -61,6 +62,7 @@ private:
 
     Autopilot    *_ap;          ///< autopilot
     nav::Manager *_nav;         ///< navigation
+    sfx::Thread  *_sfx;         ///< SFX
     Simulation   *_sim;         ///< simulation
     MainWindow   *_win;         ///< GUI
 

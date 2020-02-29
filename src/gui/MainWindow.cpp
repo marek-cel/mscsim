@@ -95,8 +95,13 @@ MainWindow::MainWindow( QWidget *parent ) :
     _scTimeSlower ( NULLPTR ),
 
     _viewType ( Data::CGI::ViewPilot ),
+
     _showHUD ( true ),
     _showTraces ( false ),
+
+    _showRotorBlur   ( false ),
+    _showBladesDatum ( false ),
+    _showBladesPaths ( false ),
 
     _timeCoef ( 1.0 ),
 
@@ -528,16 +533,16 @@ void MainWindow::settingsRead_Airport( QSettings &settings )
 {
     settings.beginGroup( "airport" );
 
-    bool lightsHELI = settings.value( "lightsHELI", 1 ).toInt();
-    bool lightsRALS = settings.value( "lightsRALS", 1 ).toInt();
-    bool lightsRCLS = settings.value( "lightsRCLS", 1 ).toInt();
-    bool lightsRELS = settings.value( "lightsRELS", 1 ).toInt();
-    bool lightsTDZL = settings.value( "lightsTDZL", 1 ).toInt();
-    bool lightsTELS = settings.value( "lightsTELS", 1 ).toInt();
-    bool lightsTWRL = settings.value( "lightsTWRL", 1 ).toInt();
-    bool lightsVGSI = settings.value( "lightsVGSI", 1 ).toInt();
-    bool gatesRwy18 = settings.value( "gatesRwy18", 0 ).toInt();
-    bool gatesRwy36 = settings.value( "gatesRwy36", 0 ).toInt();
+    bool lightsHELI = settings.value( "lightsHELI", 1 ).toBool();
+    bool lightsRALS = settings.value( "lightsRALS", 1 ).toBool();
+    bool lightsRCLS = settings.value( "lightsRCLS", 1 ).toBool();
+    bool lightsRELS = settings.value( "lightsRELS", 1 ).toBool();
+    bool lightsTDZL = settings.value( "lightsTDZL", 1 ).toBool();
+    bool lightsTELS = settings.value( "lightsTELS", 1 ).toBool();
+    bool lightsTWRL = settings.value( "lightsTWRL", 1 ).toBool();
+    bool lightsVGSI = settings.value( "lightsVGSI", 1 ).toBool();
+    bool gatesRwy18 = settings.value( "gatesRwy18", 0 ).toBool();
+    bool gatesRwy36 = settings.value( "gatesRwy36", 0 ).toBool();
 
     _ui->actionAirportLightsHELI->setChecked( lightsHELI );
     _ui->actionAirportLightsRALS->setChecked( lightsRALS );
@@ -589,11 +594,26 @@ void MainWindow::settingsRead_View( QSettings &settings )
         break;
     }
 
-    _showHUD = settings.value( "show_hud", 1 ).toInt();
-    _showTraces = settings.value( "show_traces", 0 ).toInt();
+    _showHUD    = settings.value( "show_hud"    , 1 ).toBool();
+    _showTraces = settings.value( "show_traces" , 0 ).toBool();
 
     _ui->actionShowHUD->setChecked( _showHUD );
     _ui->actionShowTraces->setChecked( _showTraces );
+
+    {
+        settings.beginGroup( "rotor" );
+
+
+        _showRotorBlur   = settings.value( "show_rotor_blur"   , 0 ).toBool();
+        _showBladesDatum = settings.value( "show_blades_datum" , 0 ).toBool();
+        _showBladesPaths = settings.value( "show_blades_paths" , 0 ).toBool();
+
+        _ui->actionShowRotorBlur->setChecked( _showRotorBlur );
+        _ui->actionShowBladesDatum->setChecked( _showBladesDatum );
+        _ui->actionShowBladesPaths->setChecked( _showBladesPaths );
+
+        settings.endGroup();
+    }
 
     settings.endGroup();
 }
@@ -652,6 +672,16 @@ void MainWindow::settingsSave_View( QSettings &settings )
     settings.setValue( "view_type"   , (int)_viewType   );
     settings.setValue( "show_hud"    , (int)_showHUD    );
     settings.setValue( "show_traces" , (int)_showTraces );
+
+    {
+        settings.beginGroup( "rotor" );
+
+        settings.setValue( "show_rotor_blur"   , (int)_showRotorBlur   );
+        settings.setValue( "show_blades_datum" , (int)_showBladesDatum );
+        settings.setValue( "show_blades_paths" , (int)_showBladesPaths );
+
+        settings.endGroup();
+    }
 
     settings.endGroup();
 }
@@ -1041,12 +1071,17 @@ void MainWindow::updateOutputData()
     Data::get()->cgi.hud.color_r = _dialogConf->getHudColorR();
     Data::get()->cgi.hud.color_g = _dialogConf->getHudColorG();
     Data::get()->cgi.hud.color_b = _dialogConf->getHudColorB();
-    Data::get()->cgi.hud.opacity = (float)_dialogConf->getHudOpacity() / 100.0f;
-    Data::get()->cgi.hud.factor_alt = (float)_dialogConf->getHudFactorAlt();
-    Data::get()->cgi.hud.factor_vel = (float)_dialogConf->getHudFactorVel();
+    Data::get()->cgi.hud.opacity = (double)_dialogConf->getHudOpacity() / 100.0;
+    Data::get()->cgi.hud.factor_alt = (double)_dialogConf->getHudFactorAlt();
+    Data::get()->cgi.hud.factor_vel = (double)_dialogConf->getHudFactorVel();
 
-    // CGI - ribbons
-    Data::get()->cgi.traces = _showTraces;
+    // CGI - show
+    Data::get()->cgi.show_traces = _showTraces;
+
+    // CGI - show - rotor
+    Data::get()->cgi.show_rotor_blur = _showRotorBlur;
+    Data::get()->cgi.show_blades_datum = _showBladesDatum;
+    Data::get()->cgi.show_blades_paths = _showBladesPaths;
 
     // date time
     Data::get()->dateTime.year   = (unsigned short)_dateTime.date().year();
@@ -1077,8 +1112,8 @@ void MainWindow::updateOutputData()
     // ownship
     strcpy( Data::get()->ownship.aircraftFile, aircraft.file.toStdString().c_str() );
 
-    Data::get()->ownship.mainRotor_coef = aircraft.mainRotorCoef;
-    Data::get()->ownship.tailRotor_coef = aircraft.tailRotorCoef;
+    Data::get()->ownship.mainRotor.coef = aircraft.mainRotorCoef;
+    Data::get()->ownship.tailRotor.coef = aircraft.tailRotorCoef;
 
     // propulsion
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
@@ -1110,6 +1145,8 @@ void MainWindow::updateOutputData()
         Data::get()->recording.mode = fdm::DataInp::Recording::Record;
         strncpy( Data::get()->recording.file, _tmp_file.toLocal8Bit().data(), 4095 );
     }
+
+    Data::get()->sfx.volume = (double)_dialogConf->getSoundVolume() / 100.0;
 
     // aircraft type
     Data::get()->aircraftType = (fdm::DataInp::AircraftType)aircraft.type;
@@ -1339,6 +1376,27 @@ void MainWindow::on_actionShowHUD_triggered( bool checked )
 void MainWindow::on_actionShowTraces_triggered( bool checked )
 {
     _showTraces = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowRotorBlur_triggered( bool checked )
+{
+    _showRotorBlur = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowBladesDatum_triggered( bool checked )
+{
+    _showBladesDatum = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowBladesPaths_triggered( bool checked )
+{
+    _showBladesPaths = checked;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

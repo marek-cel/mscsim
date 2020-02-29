@@ -64,6 +64,8 @@ public:
 
     inline bool getWidescreen() const { return _widescreen; }
 
+    inline int getSoundVolume() const { return _sound_volume; }
+
 private:
 
     Ui::PageGeneral *_ui;       ///<
@@ -77,6 +79,8 @@ private:
     double _hud_factor_vel;     ///<
 
     bool _widescreen;           ///< widescreen dock window layout
+
+    int _sound_volume;          ///< [%]
 
     void setFrameHudColor( const QColor &color );
 

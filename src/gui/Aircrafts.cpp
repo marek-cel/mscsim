@@ -24,9 +24,10 @@
 
 #include <QFile>
 
+#include <Common.h>
+
 #include <gui/gui_Defines.h>
 
-#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +38,7 @@ Aircrafts* Aircrafts::_instance = NULLPTR;
 
 Aircrafts::Aircrafts()
 {
-    QFile file( fdm::Path::get( "data/gui/aircrafts.xml" ).c_str() );
+    QFile file( Path::get( "data/gui/aircrafts.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -84,7 +85,7 @@ void Aircrafts::parseAircraft(const QDomElement &node )
         Aircraft aircraft;
 
         aircraft.name = nodeName.text();
-        aircraft.type = nodeType.text().toInt( NULL, 16 );
+        aircraft.type = nodeType.text().toInt( NULL );
         aircraft.file = nodeFile.text();
 
         aircraft.distance_def = nodeDistDef.isNull() ? 5.0 : nodeDistDef.text().toFloat();

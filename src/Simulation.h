@@ -28,9 +28,10 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-#include <fdm_Manager.h>
+#include <ManagerFDM.h>
 
 #include <Data.h>
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,12 +44,16 @@ class Simulation : public QThread
 
 public:
 
+    /** Constructor. */
     Simulation();
 
+    /** Destructor. */
     virtual ~Simulation();
 
+    /** */
     void init();
 
+    /** */
     void run();
 
 public slots:
@@ -71,7 +76,7 @@ private:
     QTimer        *_timeoutTimer;   ///<
     QElapsedTimer *_elapsedTimer;   ///<
 
-    fdm::Manager *_fdm;             ///< flight dynamics model
+    ManagerFDM *_fdm;               ///< flight dynamics model
 
     fdm::DataInp _dataInp;          ///< flight dynamics model input data
     fdm::DataOut _dataOut;          ///< flight dynamics model output data

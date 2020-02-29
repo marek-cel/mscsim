@@ -121,6 +121,13 @@ bool DialogConf::getWidescreen() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+int DialogConf::getSoundVolume() const
+{
+    return _ui->pageGeneral->getSoundVolume();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DialogConf::settingsRead()
 {
     QSettings settings( SIM_ORG_NAME, SIM_APP_NAME );

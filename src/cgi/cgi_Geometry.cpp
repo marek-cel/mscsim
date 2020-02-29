@@ -178,6 +178,29 @@ void Geometry::createFace( osg::Geometry *geom, float radius, bool texCoords,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Geometry::createLine( osg::Geometry *geom, const osg::Vec3 &b, const osg::Vec3 &e,
+                           const osg::Vec3 &color )
+{
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();  // normals
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();  // normals
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();  // colors
+
+    v->push_back( b );
+    v->push_back( e );
+
+    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+    c->push_back( osg::Vec4( color, 1.0f ) );
+
+    geom->setVertexArray( v.get() );
+    geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::LINE_STRIP, 0, v->size() ) );
+    geom->setNormalArray( n.get() );
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL );
+    geom->setColorArray( c.get() );
+    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Geometry::createPlane( osg::Geometry *geom, double size, int segments,
                             double origin_x, double origin_y,
                             bool texCoords, int segmentsPerTexture )

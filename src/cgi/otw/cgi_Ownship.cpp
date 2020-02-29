@@ -28,11 +28,11 @@
 #include <osg/Geometry>
 #include <osg/LineWidth>
 
-#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
+#include <Common.h>
 #include <Data.h>
 
 #include <cgi/cgi_Colors.h>
@@ -47,8 +47,13 @@ using namespace cgi;
 ////////////////////////////////////////////////////////////////////////////////
 
 Ownship::Ownship( const Module *parent ) :
-    Module( parent )
+    Module( parent ),
+
+    _rotor  ( NULLPTR ),
+    _vector ( NULLPTR )
 {
+    _vector = new Vector();
+
     _pat = new osg::PositionAttitudeTransform();
     _root->addChild( _pat.get() );
 
@@ -62,16 +67,17 @@ Ownship::Ownship( const Module *parent ) :
     _switchRibbons = new osg::Switch();
     _patRibbons->addChild( _switchRibbons.get() );
 
-    _switchRotor = new osg::Switch();
-    _pat->addChild( _switchRotor.get() );
-
     _trace_1 = new osg::Vec3Array();
     _trace_2 = new osg::Vec3Array();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Ownship::~Ownship() {}
+Ownship::~Ownship()
+{
+    DELPTR( _rotor  );
+    DELPTR( _vector );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -104,10 +110,11 @@ void Ownship::update()
     _pat->setPosition( _pos_wgs );
 
     updateModel();
-#   ifdef SIM_ROTOR_BLUR
-    updateRotor();
-#   endif
     updateTraces();
+
+    if ( _rotor ) _rotor->update();
+
+    _vector->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +142,8 @@ void Ownship::updateAxis( double input, ElementData::AxisData *axisData )
 
 void Ownship::loadModel( const std::string &modelFile )
 {
+    _switch->addChild( _vector->getNode() );
+
     osg::ref_ptr<osg::Node> model = Models::get( modelFile );
 
     if ( model.valid() )
@@ -269,6 +278,13 @@ void Ownship::loadModel( const std::string &modelFile )
                 break;
             }
         }
+
+        if ( _helicopter )
+        {
+            _rotor = new Rotor( _rotor_center, _rotorBlades.size(),
+                                _rotor_radius, _hinge_offset, _inclination );
+            _switch->addChild( _rotor->getNode() );
+        }
     }
 }
 
@@ -369,7 +385,7 @@ void Ownship::reload()
 
     _aircraftFile = Data::get()->ownship.aircraftFile;
 
-    fdm::XmlDoc doc( fdm::Path::get( _aircraftFile ) );
+    fdm::XmlDoc doc( Path::get( _aircraftFile ) );
 
     if ( doc.isOpen() )
     {
@@ -427,6 +443,8 @@ void Ownship::reload()
 
 void Ownship::reset()
 {
+    DELPTR( _rotor );
+
     if ( _switch->getNumChildren() > 0 )
     {
         _switch->removeChildren( 0, _switch->getNumChildren() );
@@ -633,102 +651,27 @@ void Ownship::updateModel()
     // main rotor
     if ( _mainRotor.valid() )
     {
-        double psi = Data::get()->ownship.mainRotor_coef * Data::get()->ownship.mainRotor_azimuth;
+        double psi = Data::get()->ownship.mainRotor.coef * Data::get()->ownship.mainRotor.azimuth;
         _mainRotor->setAttitude( osg::Quat( psi, osg::Z_AXIS ) );
     }
 
     // tail rotor
     if ( _tailRotor.valid() )
     {
-        double psi = Data::get()->ownship.tailRotor_coef * Data::get()->ownship.tailRotor_azimuth;
+        double psi = Data::get()->ownship.tailRotor.coef * Data::get()->ownship.tailRotor.azimuth;
         _tailRotor->setAttitude( osg::Quat( psi, osg::Y_AXIS ) );
     }
 
     // main rotor blades
-    double coef_f = -Data::get()->ownship.mainRotor_coef;
+    double coef_f = -Data::get()->ownship.mainRotor.coef;
     for ( unsigned int i = 0; i < _rotorBlades.size() && i < FDM_MAX_BLADES; i++ )
     {
-        double feathering = Data::get()->ownship.blade[ i ].feathering * coef_f;
-        double flapping   = Data::get()->ownship.blade[ i ].flapping;
+        double feathering = Data::get()->ownship.mainRotor.blade[ i ].feathering * coef_f;
+        double flapping   = Data::get()->ownship.mainRotor.blade[ i ].flapping;
 
         _rotorBlades[ i ]->setAttitude( osg::Quat( feathering, osg::X_AXIS,
                                                      flapping, osg::Y_AXIS,
                                                           0.0, osg::Z_AXIS ) );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Ownship::updateRotor()
-{
-    if ( _switchRotor->getNumChildren() > 0 )
-    {
-        _switchRotor->removeChildren( 0, _switchRotor->getNumChildren() );
-    }
-
-    if ( _helicopter )
-    {
-        osg::ref_ptr<osg::PositionAttitudeTransform> patRotor = new osg::PositionAttitudeTransform();
-        _switchRotor->addChild( patRotor.get() );
-
-        patRotor->setPosition( _rotor_center );
-        patRotor->setAttitude( osg::Quat( -_inclination, osg::Y_AXIS ) );
-
-        osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-        patRotor->addChild( geode.get() );
-
-        osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
-        geode->addDrawable( geometry.get() );
-
-        osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
-        osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
-        osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
-
-        const double span = _rotor_radius - _hinge_offset;
-
-        for ( int i = 0; i <= 36; i++ )
-        {
-            double psi = fdm::Units::deg2rad( 10.0 * i );
-
-            double cosPsi = cos( psi );
-            double sinPsi = sin( psi );
-
-            double beta = Data::get()->ownship.mainRotor_coningAngle
-                        + cosPsi * Data::get()->ownship.mainRotor_diskPitch
-                        - sinPsi * Data::get()->ownship.mainRotor_diskRoll;
-
-            double cosBeta = cos( beta );
-            double sinBeta = sin( beta );
-
-            double span_real = cosBeta * span;
-
-            double xi = cosPsi * _hinge_offset;
-            double xo = cosPsi * ( _hinge_offset + span_real );
-
-            double yi = sinPsi * _hinge_offset;
-            double yo = sinPsi * ( _hinge_offset + span_real );
-
-            double zo = sinBeta * span;
-
-            v->push_back( osg::Vec3( xi, yi, 0.0 ) );
-            v->push_back( osg::Vec3( xo, yo, -zo ) );
-        }
-
-        n->push_back( osg::Vec3( 0.0f, 0.0f, -1.0f ) );
-        c->push_back( osg::Vec4( 0.0f, 0.0f, 0.0f, 0.2f ) );
-
-        geometry->setVertexArray( v );
-        geometry->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUAD_STRIP, 0, v->size() ) );
-        geometry->setNormalArray( n.get() );
-        geometry->setNormalBinding( osg::Geometry::BIND_OVERALL );
-        geometry->setColorArray( c.get() );
-        geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
-
-        osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
-        stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-        stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::OFF|osg::StateAttribute::OVERRIDE );
-        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-        stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_WORLD + 11, "RenderBin" );
     }
 }
 
@@ -769,7 +712,7 @@ void Ownship::updateTraces()
         }
     }
 
-    if ( Data::get()->cgi.traces )
+    if ( Data::get()->cgi.show_traces )
     {
         _switchRibbons->setAllChildrenOn();
 

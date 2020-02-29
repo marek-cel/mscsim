@@ -24,7 +24,8 @@
 
 #include <QFile>
 
-#include <fdm/fdm_Path.h>
+#include <Common.h>
+
 #include <fdm/utils/fdm_Units.h>
 
 #include <gui/gui_Defines.h>
@@ -46,7 +47,7 @@ Airports::Airports()
     _default.slope  = 0.0;
     _default.runway = false;
 
-    QFile file( fdm::Path::get( "data/gui/airports.xml" ).c_str() );
+    QFile file( Path::get( "data/gui/airports.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {

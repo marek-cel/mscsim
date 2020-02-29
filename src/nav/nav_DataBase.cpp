@@ -30,8 +30,6 @@
 
 #include <Common.h>
 
-#include <fdm/fdm_Path.h>
-
 #include <fdm/utils/fdm_String.h>
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/utils/fdm_WGS84.h>
@@ -92,7 +90,7 @@ double DataBase::getTrueBearing( const std::string &str_bear, const std::string 
 
 DataBase::DataBase()
 {
-    QFile file( fdm::Path::get( "data/nav/nav_db.xml" ).c_str() );
+    QFile file( Path::get( "data/nav/nav_db.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {
@@ -164,7 +162,7 @@ DataBase::~DataBase() {}
 
 void DataBase::parseAPT( const char *path )
 {
-    std::fstream file( fdm::Path::get( path ).c_str(), std::ios_base::in );
+    std::fstream file( Path::get( path ).c_str(), std::ios_base::in );
 
     if ( file.is_open() )
     {
@@ -206,7 +204,7 @@ void DataBase::parseAPT( const char *path )
 
 void DataBase::parseILS( const char *path )
 {
-    std::fstream file( fdm::Path::get( path ).c_str(), std::ios_base::in );
+    std::fstream file( Path::get( path ).c_str(), std::ios_base::in );
 
     if ( file.is_open() )
     {
@@ -282,7 +280,7 @@ void DataBase::parseILS( const char *path )
 
 void DataBase::parseNAV( const char *path )
 {
-    std::fstream file( fdm::Path::get( path ).c_str(), std::ios_base::in );
+    std::fstream file( Path::get( path ).c_str(), std::ios_base::in );
 
     if ( file.is_open() )
     {
@@ -348,7 +346,7 @@ void DataBase::parseNAV( const char *path )
 
 void DataBase::parseRWY( const char *path )
 {
-    std::fstream file( fdm::Path::get( path ).c_str(), std::ios_base::in );
+    std::fstream file( Path::get( path ).c_str(), std::ios_base::in );
 
     if ( file.is_open() )
     {

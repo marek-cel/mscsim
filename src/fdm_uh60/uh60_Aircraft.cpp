@@ -78,6 +78,7 @@ void UH60_Aircraft::updateOutputData()
 //    _dataOut->engine[ 0 ].ff  = _prop->getEngine()->getFuelFlow();
 
     // rotor
+    _dataOut->rotor.mainRotor_omega       = _prop->getMainRotorOmega();
     _dataOut->rotor.mainRotor_azimuth     = _prop->getMainRotorPsi();
     _dataOut->rotor.mainRotor_coningAngle = _aero->getMainRotor()->getConingAngle();
     _dataOut->rotor.mainRotor_diskRoll    = _aero->getMainRotor()->getDiskRoll();

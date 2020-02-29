@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_MANAGER_H
-#define FDM_MANAGER_H
+#ifndef MANAGER_FDM_H
+#define MANAGER_FDM_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -147,4 +147,8 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_MANAGER_H
+typedef fdm::Manager ManagerFDM;
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // MANAGER_FDM_H

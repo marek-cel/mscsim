@@ -113,6 +113,14 @@
     <property name="title">
      <string>View</string>
     </property>
+    <widget class="QMenu" name="menuRotor">
+     <property name="title">
+      <string>Rotor</string>
+     </property>
+     <addaction name="actionShowRotorBlur"/>
+     <addaction name="actionShowBladesDatum"/>
+     <addaction name="actionShowBladesPaths"/>
+    </widget>
     <addaction name="actionViewChase"/>
     <addaction name="actionViewOrbit"/>
     <addaction name="actionViewPilot"/>
@@ -120,6 +128,8 @@
     <addaction name="separator"/>
     <addaction name="actionShowHUD"/>
     <addaction name="actionShowTraces"/>
+    <addaction name="separator"/>
+    <addaction name="menuRotor"/>
    </widget>
    <widget class="QMenu" name="menuAirport">
     <property name="title">
@@ -503,6 +513,30 @@
    </property>
    <property name="text">
     <string>Show Traces</string>
+   </property>
+  </action>
+  <action name="actionShowRotorBlur">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Rotor Blur</string>
+   </property>
+  </action>
+  <action name="actionShowBladesDatum">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Blades Datum</string>
+   </property>
+  </action>
+  <action name="actionShowBladesPaths">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Blades Paths</string>
    </property>
   </action>
  </widget>

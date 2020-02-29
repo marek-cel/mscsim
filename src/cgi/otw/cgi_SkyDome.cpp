@@ -29,9 +29,8 @@
 #include <osg/Light>
 #include <osg/PolygonOffset>
 
+#include <Common.h>
 #include <Data.h>
-
-#include <fdm/fdm_Path.h>
 
 #include <cgi/otw/cgi_FogScene.h>
 
@@ -641,7 +640,7 @@ void SkyDome::createStars()
 
     float magLimit = 4.5f;
 
-    FILE *file = fopen( fdm::Path::get( "data/cgi/stars.csv" ).c_str(), "r" );
+    FILE *file = fopen( Path::get( "data/cgi/stars.csv" ).c_str(), "r" );
 
     if ( file )
     {

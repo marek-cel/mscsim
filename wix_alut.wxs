@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  
+  <Fragment>
+    <DirectoryRef Id="dir_mscsim">
+      <Component Id="dir_mscsim_alut" Guid="{fff9255a-23a2-4638-8d97-7cdfe0dcdc81}">
+        <File Id="dir_mscsim_alut_dll" Name="alut.dll" DiskId="1" Source="$(env.OPENAL_DIR)\bin\alut.dll" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+  
+  <Fragment>
+    <ComponentGroup Id="cg_mscsim_alut">
+      <ComponentRef Id="dir_mscsim_alut" />
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

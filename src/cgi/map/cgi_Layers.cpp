@@ -28,13 +28,14 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/Material>
 
+#include <Common.h>
+
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_Mercator.h>
 #include <cgi/cgi_Models.h>
 
 #include <cgi/map/cgi_Map.h>
 
-#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
@@ -266,7 +267,7 @@ void Layers::initLayer( osg::Node* layer, osg::Vec3 color, float width )
 
 void Layers::readLayers()
 {
-    fdm::XmlDoc doc( fdm::Path::get( "data/map/layers/layers.xml" ) );
+    fdm::XmlDoc doc( Path::get( "data/map/layers/layers.xml" ) );
 
     if ( doc.isOpen() )
     {

@@ -1,3 +1,15 @@
+2020-02-29 Marek M. Cel <marekcel@marekcel.pl>
+
+    * CGI - vectors, rotor blur, blades datum and paths
+    
+    * SFX - first attempt
+    
+    * testing utilities
+    
+    * WiX files and scripts
+
+
+
 2020-02-22 Marek M. Cel <marekcel@marekcel.pl>
 
     * blade element method

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_Manager.h>
+#include <ManagerFDM.h>
 
 #include <cstring>
 
@@ -35,7 +35,10 @@
 #include <fdm_f16/f16_Aircraft.h>
 #include <fdm_p51/p51_Aircraft.h>
 #include <fdm_uh60/uh60_Aircraft.h>
-#include <fdm_test/test_Aircraft.h>
+
+#ifdef FDM_TEST
+#   include <fdm_test/test_Aircraft.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -142,9 +145,11 @@ Aircraft* Manager::createAircraft( AircraftType aircraftType )
         aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
         break;
 
+#   ifdef FDM_TEST
     case DataInp::TEST:
         aircraft = new TEST_Aircraft( &_dataInp, &_dataOut );
         break;
+#   endif
     }
 
     return aircraft;
@@ -482,6 +487,7 @@ void Manager::updateStateInp()
         _stateInp = DataInp::Stop;
     }
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 
 void Manager::updateStateIdle()

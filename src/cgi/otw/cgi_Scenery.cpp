@@ -27,9 +27,9 @@
 #include <osg/Material>
 #include <osg/TexEnv>
 
+#include <Common.h>
 #include <Data.h>
 
-#include <fdm/fdm_Path.h>
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
@@ -69,7 +69,7 @@ Scenery::Scenery( const Module *parent ) :
 
     //createShadow();
 
-    fdm::XmlDoc doc( fdm::Path::get( "data/cgi/scenery/scenery.xml" ) );
+    fdm::XmlDoc doc( Path::get( "data/cgi/scenery/scenery.xml" ) );
 
     if ( doc.isOpen() )
     {
