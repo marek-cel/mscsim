@@ -49,7 +49,7 @@ namespace fdm
  *     <friction_static> { [-] static friction coefficient } </friction_static>
  *     <friction_kinetic> { [-] kinetic friction coefficient } </friction_kinetic>
  *     <friction_rolling> { [-] rolling friction coefficient } </friction_rolling>
- *     [<max_angle> { [deg] max steering angle } </max_angle>]
+ *     [<max_angle> { [rad] max steering angle } </max_angle>]
  *   </wheel>
  *   ... { more wheels }
  * </landing_gear>

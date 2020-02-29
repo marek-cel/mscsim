@@ -35,12 +35,13 @@ using namespace fdm;
 Stabilizer::Stabilizer( Type type ) :
     _type ( type ),
     _area ( 0.0 ),
-    _incidence ( 0.0 ),
-    _downwash ( 0.0 )
+    _incidence ( 0.0 )
 {
     _cx = Table::createOneRecordTable( 0.0 );
     _cy = Table::createOneRecordTable( 0.0 );
     _cz = Table::createOneRecordTable( 0.0 );
+
+    _downwash = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,8 +60,9 @@ void Stabilizer::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area, "area" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _incidence , "incidence" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _downwash  , "downwash"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _incidence, "incidence", true );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _downwash, "downwash", true );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", _type == Horizontal );
@@ -120,7 +122,7 @@ double Stabilizer::getAngleOfAttack( const Vector3 &vel_air_bas,
                                      double wingAngleOfAttack )
 {
     return Aerodynamics::getAngleOfAttack( vel_air_bas )
-         + _incidence - _downwash * wingAngleOfAttack;
+         + _incidence - _downwash.getValue( wingAngleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
