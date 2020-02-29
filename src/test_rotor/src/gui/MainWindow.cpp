@@ -195,17 +195,17 @@ void MainWindow::settingsRead()
     bool show_vectors_main = settings.value( "show_vectors_main", 0 ).toBool();
     bool show_vectors_span = settings.value( "show_vectors_span", 0 ).toBool();
     bool show_blades_datum = settings.value( "show_blades_datum", 0 ).toBool();
-    bool show_blades_trace = settings.value( "show_blades_trace", 0 ).toBool();
+    bool show_blades_paths = settings.value( "show_blades_paths", 0 ).toBool();
 
     _ui->actionShowVectorsSpan->setChecked( show_vectors_span );
     _ui->actionShowVectorsMain->setChecked( show_vectors_main );
     _ui->actionShowBladesDatum->setChecked( show_blades_datum );
-    _ui->actionShowBladesTrace->setChecked( show_blades_trace );
+    _ui->actionShowBladesPaths->setChecked( show_blades_paths );
 
     Data::get()->other.show_vectors_span = show_vectors_span;
     Data::get()->other.show_vectors_main = show_vectors_main;
     Data::get()->other.show_blades_datum = show_blades_datum;
-    Data::get()->other.show_blades_trace = show_blades_trace;
+    Data::get()->other.show_blades_paths = show_blades_paths;
 
     bool visibleCtrl = settings.value( "dock_ctrl_visible", 1 ).toBool();
     bool visibleData = settings.value( "dock_data_visible", 1 ).toBool();
@@ -234,7 +234,7 @@ void MainWindow::settingsSave()
     settings.setValue( "show_vectors_span", _ui->actionShowVectorsSpan->isChecked() );
     settings.setValue( "show_vectors_main", _ui->actionShowVectorsMain->isChecked() );
     settings.setValue( "show_blades_datum", _ui->actionShowBladesDatum->isChecked() );
-    settings.setValue( "show_blades_trace", _ui->actionShowBladesTrace->isChecked() );
+    settings.setValue( "show_blades_paths", _ui->actionShowBladesPaths->isChecked() );
 
     settings.setValue( "dock_ctrl_visible", _ui->actionDockCtrl->isChecked() ? 1 : 0 );
     settings.setValue( "dock_data_visible", _ui->actionDockData->isChecked() ? 1 : 0 );
@@ -403,9 +403,9 @@ void MainWindow::on_actionShowBladesDatum_toggled(bool arg1)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionShowBladesTrace_toggled(bool arg1)
+void MainWindow::on_actionShowBladesPaths_toggled(bool arg1)
 {
-    Data::get()->other.show_blades_trace = arg1;
+    Data::get()->other.show_blades_paths = arg1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -97,6 +97,8 @@ class FDMEXPORT Blade
 {
 public:
 
+    typedef Vector< 2 > StateVector;
+
 #   ifdef SIM_ROTOR_TEST
     struct Vect
     {
@@ -205,14 +207,17 @@ protected:
 
     const double _dirFactor;    ///< factor due to direction
 
+    StateVector _stateVect;     ///< blade state vector
+    StateVector _derivVect;     ///< blade state vector derivative
+
     Vector3 _for_ras;           ///< [N] total force vector expressed in RAS
     Vector3 _mom_ras;           ///< [N*m] total moment vector expressed in RAS
 
     Matrix3x3 _ras2sra;         ///< matrix of rotation from RAS to SRA
     Matrix3x3 _sra2ras;         ///< matrix of rotation from SRA to RAS
 
-    Matrix3x3 _sra2bsa;         ///< matrix of rotation from SRA to BSA
-    Matrix3x3 _bsa2sra;         ///< matrix of rotation from BSA to SRA
+    //Matrix3x3 _sra2bsa;         ///< matrix of rotation from SRA to BSA
+    //Matrix3x3 _bsa2sra;         ///< matrix of rotation from BSA to SRA
 
     Vector3 _pos_fh_sra;        ///< [m] flapping hinge coordinates expressed SRA
 
@@ -238,18 +243,38 @@ protected:
     double _torque;             ///< [N*m] torque
     double _moment;             ///< [N*m] total moment about flapping hinge (including aerodynamic, gravity and inertia moments)
 
-    double _beta_0;             ///< [rad] current flapping angle (positive upwards)
-    double _beta_1;             ///< [rad/s] flapping angle time derivative
-    double _beta_2;             ///< [rad/s^2] flapping angle second time derivative
-
-    double &_beta;              ///< _beta_0 alias
+    double &_beta;              ///< [rad] flapping angle
+    double &_beta_dot;          ///< [rad/s] flapping angle derivative
 
     double _theta;              ///< [rad] feathering angle
+
+    virtual void computeStateDeriv( const StateVector &stateVect,
+                                    StateVector *derivVect );
 
     virtual double getTheta( double azimuth,
                              double theta_0,
                              double theta_1c,
                              double theta_1s );
+
+    virtual void integrateEulerRect( double timeStep,
+                                     const Vector3 &vel_air_ras,
+                                     const Vector3 &omg_air_ras,
+                                     const Vector3 &omg_ras,
+                                     const Vector3 &acc_ras,
+                                     const Vector3 &eps_ras,
+                                     const Vector3 &grav_ras,
+                                     double omega,
+                                     double airDensity );
+
+    virtual void integrateRungeKutta4( double timeStep,
+                                       const Vector3 &vel_air_ras,
+                                       const Vector3 &omg_air_ras,
+                                       const Vector3 &omg_ras,
+                                       const Vector3 &acc_ras,
+                                       const Vector3 &eps_ras,
+                                       const Vector3 &grav_ras,
+                                       double omega,
+                                       double airDensity );
 
     /**
      * @brief Integrates blade spanwise.
@@ -269,7 +294,9 @@ protected:
                                     const Vector3 &eps_ras,
                                     const Vector3 &grav_ras,
                                     double omega,
-                                    double airDensity );
+                                    double airDensity,
+                                    double beta,
+                                    double beta_dot );
 };
 
 } // end of fdm namespace

@@ -45,7 +45,7 @@ class RungeKutta4 : public Integrator< SIZE, TYPE >
 public:
 
     /** Constructor. */
-    RungeKutta4( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > &) = 0 ) :
+    RungeKutta4( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > *) = 0 ) :
         Integrator< SIZE, TYPE > ( obj, fun )
     {}
 
@@ -58,28 +58,28 @@ public:
      * @param step integration time step [s]
      * @param vect integrating vector
      */
-    void integrate( double step, Vector< SIZE > &vect )
+    void integrate( double step, Vector< SIZE > *vect )
     {
-        _xt = vect;
+        _xt = (*vect);
         _k1 = _k2 = _k3 = _k4 = Vector< SIZE >();
 
         // k1 - derivatives calculation
-        this->fun( _xt, _k1 );
+        this->fun( _xt, &_k1 );
 
         // k2 - derivatives calculation
-        _xt = vect + _k1 * ( step / 2.0 );
-        this->fun( _xt, _k2 );
+        _xt = (*vect) + _k1 * ( step / 2.0 );
+        this->fun( _xt, &_k2 );
 
         // k3 - derivatives calculation
-        _xt = vect + _k2 * ( step / 2.0 );
-        this->fun( _xt, _k3 );
+        _xt = (*vect) + _k2 * ( step / 2.0 );
+        this->fun( _xt, &_k3 );
 
         // k4 - derivatives calculation
-        _xt = vect + _k3 * step;
-        this->fun( _xt, _k4 );
+        _xt = (*vect) + _k3 * step;
+        this->fun( _xt, &_k4 );
 
         // integration
-        vect = vect + ( _k1 + _k2 * 2.0 + _k3 * 2.0 + _k4 ) * ( step / 6.0 );
+        (*vect) = (*vect) + ( _k1 + _k2 * 2.0 + _k3 * 2.0 + _k4 ) * ( step / 6.0 );
     }
 
 private:

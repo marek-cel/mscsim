@@ -51,12 +51,12 @@ Rotor::Rotor() :
     _mainRotor = new osg::PositionAttitudeTransform();
     _root->addChild( _mainRotor.get() );
 
-    _switchTraces = new osg::Switch();
-    _root->addChild( _switchTraces.get() );
+    _switchPaths = new osg::Switch();
+    _root->addChild( _switchPaths.get() );
 
     for ( int i = 0; i < MAX_BLADES; i++ )
     {
-        _traces.push_back( new osg::Vec3Array() );
+        _paths.push_back( new osg::Vec3Array() );
     }
 
     reload();
@@ -112,7 +112,7 @@ void Rotor::update()
                                                    0.0, osg::Z_AXIS ) );
     }
 
-    updateTraces();
+    updatePaths();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -297,7 +297,7 @@ void Rotor::reload()
     removeAllChildren();
 
     _root->addChild( _mainRotor.get() );
-    _root->addChild( _switchTraces.get() );
+    _root->addChild( _switchPaths.get() );
 
     osg::ref_ptr<osg::Node> nodeHub;
 
@@ -321,9 +321,9 @@ void Rotor::removeAllChildren()
         _mainRotor->removeChild( 0, _mainRotor->getNumChildren() );
     }
 
-    if ( _switchTraces.valid() )
+    if ( _switchPaths.valid() )
     {
-        _switchTraces->removeChild( 0, _switchTraces->getNumChildren() );
+        _switchPaths->removeChild( 0, _switchPaths->getNumChildren() );
     }
 
     if ( _root.valid() )
@@ -334,7 +334,7 @@ void Rotor::removeAllChildren()
     _blades.clear();
     _datums.clear();
 
-    for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+    for ( Paths::iterator it = _paths.begin(); it != _paths.end(); it++ )
     {
         (*it)->clear();
     }
@@ -342,23 +342,23 @@ void Rotor::removeAllChildren()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Rotor::updateTraces()
+void Rotor::updatePaths()
 {
-    if ( _switchTraces->getNumChildren() > 0 )
+    if ( _switchPaths->getNumChildren() > 0 )
     {
-        _switchTraces->removeChildren( 0, _switchTraces->getNumChildren() );
+        _switchPaths->removeChildren( 0, _switchPaths->getNumChildren() );
     }
 
     if ( Data::get()->phase == Data::Phase::Stop )
     {
-        for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); it++ )
         {
             (*it)->clear();
         }
 
-        if ( _switchTraces->getNumChildren() > 0 )
+        if ( _switchPaths->getNumChildren() > 0 )
         {
-            _switchTraces->removeChildren( 0, _switchTraces->getNumChildren() );
+            _switchPaths->removeChildren( 0, _switchPaths->getNumChildren() );
         }
     }
     else if ( Data::get()->phase == Data::Phase::Work )
@@ -367,7 +367,7 @@ void Rotor::updateTraces()
         double delta_psi = 2.0 * M_PI / (double)(MAX_BLADES);
 
         // main rotor blades
-        for ( unsigned int i = 0; i < _traces.size() && i < MAX_BLADES; i++ )
+        for ( unsigned int i = 0; i < _paths.size() && i < MAX_BLADES; i++ )
         {
             double beta = -Data::get()->blade[ i ].beta;
 
@@ -390,7 +390,7 @@ void Rotor::updateTraces()
             osg::Vec3 r_tp_ras = q_sra * r_fh_sra
                     + q_sra * ( q_bsa * r_tp_bsa );
 
-            _traces[ i ]->push_back( r_tp_ras );
+            _paths[ i ]->push_back( r_tp_ras );
 
             double rot_time = ( 2.0 * M_PI ) / Data::get()->rotor.omega / Data::get()->time_coef;
             double frames = rot_time / CGI_TIME_STEP / MAX_BLADES;
@@ -399,32 +399,32 @@ void Rotor::updateTraces()
             int min = 36;
             if ( max < min ) max = min;
 
-            while ( _traces[ i ]->size() > (unsigned int)max )
+            while ( _paths[ i ]->size() > (unsigned int)max )
             {
-                _traces[ i ]->erase( _traces[ i ]->begin(),
-                                     _traces[ i ]->begin() + 1 );
+                _paths[ i ]->erase( _paths[ i ]->begin(),
+                                    _paths[ i ]->begin() + 1 );
             }
         }
     }
 
-    if ( Data::get()->other.show_blades_trace )
+    if ( Data::get()->other.show_blades_paths )
     {
-        for ( Traces::iterator it = _traces.begin(); it != _traces.end(); it++ )
+        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); it++ )
         {
-            updateTrace( _switchTraces.get(), (*it).get() );
+            updatePath( _switchPaths.get(), (*it).get() );
         }
 
-        _switchTraces->setAllChildrenOn();
+        _switchPaths->setAllChildrenOn();
     }
     else
     {
-        _switchTraces->setAllChildrenOff();
+        _switchPaths->setAllChildrenOff();
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Rotor::updateTrace( osg::Group *parent, osg::Vec3Array *positions )
+void Rotor::updatePath( osg::Group *parent, osg::Vec3Array *positions )
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     parent->addChild( geode.get() );

@@ -122,7 +122,7 @@ public:
         bool show_vectors_main;     ///<
         bool show_vectors_span;     ///<
         bool show_blades_datum;     ///<
-        bool show_blades_trace;     ///<
+        bool show_blades_paths;     ///<
     };
 
     /** Data struct. */

@@ -103,7 +103,6 @@ Matrix3x3 Blade::getSRA2BSA( double beta, Direction direction )
 
 Blade::Blade( Direction direction ) :
     _direction ( direction ),
-
     _dirFactor ( _direction == MainRotor::CCW ? 1.0 : -1.0 ),
 
     _m ( 0.0 ),
@@ -123,11 +122,8 @@ Blade::Blade( Direction direction ) :
     _torque ( 0.0 ),
     _moment ( 0.0 ),
 
-    _beta_0 ( 0.0 ),
-    _beta_1 ( 0.0 ),
-    _beta_2 ( 0.0 ),
-
-    _beta ( _beta_0 ),
+    _beta     ( _stateVect( 0 ) ),
+    _beta_dot ( _stateVect( 1 ) ),
 
     _theta ( 0.0 )
 {
@@ -138,8 +134,8 @@ Blade::Blade( Direction direction ) :
 
     _ras2sra = Matrix3x3::createIdentityMatrix();
     _sra2ras = Matrix3x3::createIdentityMatrix();
-    _sra2bsa = Matrix3x3::createIdentityMatrix();
-    _bsa2sra = Matrix3x3::createIdentityMatrix();
+    //_sra2bsa = Matrix3x3::createIdentityMatrix();
+    //_bsa2sra = Matrix3x3::createIdentityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,8 +211,8 @@ void Blade::computeForceAndMoment( const Vector3 &vel_air_ras,
     _ras2sra = getRAS2SRA( azimuth, _direction );
     _sra2ras = _ras2sra.getTransposed();
 
-    _sra2bsa = getSRA2BSA( _beta, _direction );
-    _bsa2sra = _sra2bsa.getTransposed();
+    //_sra2bsa = getSRA2BSA( _beta, _direction );
+    //_bsa2sra = _sra2bsa.getTransposed();
 
     _theta = getTheta( azimuth, theta_0, theta_1c, theta_1s );
 
@@ -227,7 +223,9 @@ void Blade::computeForceAndMoment( const Vector3 &vel_air_ras,
                        eps_ras,
                        grav_ras,
                        omega,
-                       airDensity );
+                       airDensity,
+                       _beta,
+                       _beta_dot );
 
     _for_ras = _sra2ras * Vector3( _xforce, _yforce, _zforce );
     _mom_ras = Vector3( 0.0, 0.0, _dirFactor * _torque );
@@ -252,46 +250,54 @@ void Blade::integrate( double timeStep,
     _ras2sra = getRAS2SRA( azimuth, _direction );
     _sra2ras = _ras2sra.getTransposed();
 
-    _sra2bsa = getSRA2BSA( _beta, _direction );
-    _bsa2sra = _sra2bsa.getTransposed();
-
     _theta = getTheta( azimuth, theta_0, theta_1c, theta_1s );
 
-    integrateSpanwise( vel_air_ras,
-                       omg_air_ras,
-                       omg_ras,
-                       acc_ras,
-                       eps_ras,
-                       grav_ras,
-                       omega,
-                       airDensity );
+    double beta_prev = _beta;
 
-    double beta_0_prev = _beta_0;
-    double beta_1_prev = _beta_1;
+//    integrateEulerRect( timeStep,
+//                        vel_air_ras,
+//                        omg_air_ras,
+//                        omg_ras,
+//                        acc_ras,
+//                        eps_ras,
+//                        grav_ras,
+//                        omega,
+//                        airDensity );
 
-    // flaping angle time 2nd derivative
-    _beta_2 = _moment / _ib;
-
-    // flapping angle and flaping angle time derivative Euler integration
-    _beta_1 += _beta_2 * timeStep;
-    _beta_0 += _beta_1 * timeStep;
+    integrateRungeKutta4( timeStep,
+                          vel_air_ras,
+                          omg_air_ras,
+                          omg_ras,
+                          acc_ras,
+                          eps_ras,
+                          grav_ras,
+                          omega,
+                          airDensity );
 
     // limiting flapping angle
-    if ( Misc::isOutside( _beta_min, _beta_max, _beta_0 ) )
+    if ( Misc::isOutside( _beta_min, _beta_max, _beta ) )
     {
         //_beta_0 = Misc::satur( _beta_min, _beta_max, _beta_0 );
 
-        double beta_new = Misc::satur( _beta_min, _beta_max, _beta_0 );
+        double beta_new = Misc::satur( _beta_min, _beta_max, _beta );
         double beta_tc = 0.01;
-        _beta_0 = Misc::inertia( beta_new, _beta_0, timeStep, beta_tc );
+        _beta = Misc::inertia( beta_new, _beta, timeStep, beta_tc );
 
         // back calculating flaping angle time derivatives
         if ( timeStep >= FDM_TIME_STEP_MIN )
         {
-            _beta_1 = ( _beta_0 - beta_0_prev ) / timeStep;
-            _beta_2 = ( _beta_1 - beta_1_prev ) / timeStep;
+            _beta_dot = ( _beta - beta_prev ) / timeStep;
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Blade::computeStateDeriv( const StateVector &stateVect,
+                               StateVector *derivVect )
+{
+    (*derivVect)( 0 ) = stateVect( 1 );
+    (*derivVect)( 1 ) = _moment / _ib;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -309,6 +315,114 @@ double Blade::getTheta( double azimuth,
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Blade::integrateEulerRect( double timeStep,
+                                const Vector3 &vel_air_ras,
+                                const Vector3 &omg_air_ras,
+                                const Vector3 &omg_ras,
+                                const Vector3 &acc_ras,
+                                const Vector3 &eps_ras,
+                                const Vector3 &grav_ras,
+                                double omega,
+                                double airDensity )
+{
+    integrateSpanwise( vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       acc_ras,
+                       eps_ras,
+                       grav_ras,
+                       omega,
+                       airDensity,
+                       _beta,
+                       _beta_dot );
+
+    computeStateDeriv( _stateVect, &_derivVect );
+
+    _stateVect = _stateVect + _derivVect * timeStep;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Blade::integrateRungeKutta4( double timeStep,
+                                  const Vector3 &vel_air_ras,
+                                  const Vector3 &omg_air_ras,
+                                  const Vector3 &omg_ras,
+                                  const Vector3 &acc_ras,
+                                  const Vector3 &eps_ras,
+                                  const Vector3 &grav_ras,
+                                  double omega,
+                                  double airDensity )
+{
+    StateVector xt = _stateVect;
+
+    // k1 - derivatives calculation
+    StateVector k1;
+    integrateSpanwise( vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       acc_ras,
+                       eps_ras,
+                       grav_ras,
+                       omega,
+                       airDensity,
+                       xt( 0 ),
+                       xt( 1 ) );
+    computeStateDeriv( xt, &k1 );
+
+    xt = _stateVect + k1 * ( timeStep / 2.0 );
+
+    // k2 - derivatives calculation
+    StateVector k2;
+    integrateSpanwise( vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       acc_ras,
+                       eps_ras,
+                       grav_ras,
+                       omega,
+                       airDensity,
+                       xt( 0 ),
+                       xt( 1 ) );
+    computeStateDeriv( xt, &k2 );
+
+    xt = _stateVect + k2 * ( timeStep / 2.0 );
+
+    // k3 - derivatives calculation
+    StateVector k3;
+    integrateSpanwise( vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       acc_ras,
+                       eps_ras,
+                       grav_ras,
+                       omega,
+                       airDensity,
+                       xt( 0 ),
+                       xt( 1 ) );
+    computeStateDeriv( xt, &k3 );
+
+    xt = _stateVect + k3 * timeStep;
+
+    // k4 - derivatives calculation
+    StateVector k4;
+    integrateSpanwise( vel_air_ras,
+                       omg_air_ras,
+                       omg_ras,
+                       acc_ras,
+                       eps_ras,
+                       grav_ras,
+                       omega,
+                       airDensity,
+                       xt( 0 ),
+                       xt( 1 ) );
+    computeStateDeriv( xt, &k4 );
+
+    // integration
+    _stateVect = _stateVect + ( k1 + k2 * 2.0 + k3 * 2.0 + k4 ) * ( timeStep / 6.0 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
                                const Vector3 &omg_air_ras,
                                const Vector3 &omg_ras,
@@ -316,8 +430,13 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
                                const Vector3 &eps_ras,
                                const Vector3 &grav_ras,
                                double omega,
-                               double airDensity )
+                               double airDensity,
+                               double beta,
+                               double beta_dot )
 {
+    Matrix3x3 sra2bsa = getSRA2BSA( beta, _direction );
+    Matrix3x3 bsa2sra = sra2bsa.getTransposed();
+
     // velocity relative to airflow
     Vector3 vel_air_sra = _ras2sra * vel_air_ras;
     Vector3 omg_air_sra = _ras2sra * omg_air_ras;
@@ -327,8 +446,8 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
     Vector3 omega_r_sra = _ras2sra * omega_r_ras;
 
     // angular velocity due to blade flapping
-    Vector3 omega_f_bsa( _dirFactor * _beta_1, 0.0, 0.0 );
-    Vector3 omega_f_sra = _bsa2sra * omega_f_bsa;
+    Vector3 omega_f_bsa( _dirFactor * beta_dot, 0.0, 0.0 );
+    Vector3 omega_f_sra = bsa2sra * omega_f_bsa;
 
     // total angular velocity
     // omega_f_sra not included
@@ -337,7 +456,7 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
             = _ras2sra * omg_ras
             + omega_r_sra
             ;
-    Vector3 omg_tot_bsa = _sra2bsa * omg_tot_sra;
+    Vector3 omg_tot_bsa = sra2bsa * omg_tot_sra;
 
     // total angular velocity relative to airflow
     // omega_f_sra included
@@ -347,21 +466,21 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
             + omega_r_sra
             + omega_f_sra
             ;
-    Vector3 omg_air_tot_bsa = _sra2bsa * omg_air_tot_sra;
+    Vector3 omg_air_tot_bsa = sra2bsa * omg_air_tot_sra;
 
     // linear velocity of flapping hinge relative to airflow
-    Vector3 vel_fh_air_bsa = _sra2bsa * ( vel_air_sra + omg_air_tot_sra % _pos_fh_sra );
+    Vector3 vel_fh_air_bsa = sra2bsa * ( vel_air_sra + omg_air_tot_sra % _pos_fh_sra );
 
     // accelerations
-    Vector3 eps_bsa = _sra2bsa * ( _ras2sra * eps_ras );
+    Vector3 eps_bsa = sra2bsa * ( _ras2sra * eps_ras );
     Vector3 acc_bsa
-            = _sra2bsa * ( _ras2sra * acc_ras )
+            = sra2bsa * ( _ras2sra * acc_ras )
             + ( omg_tot_bsa % ( omg_tot_bsa % _pos_fh_sra ) ) // centrifugal force
             + ( eps_bsa % _pos_fh_sra )                       // Euler force
             ;
 
     // gravity acceleration
-    Vector3 grav_bsa = _sra2bsa * ( _ras2sra * grav_ras );
+    Vector3 grav_bsa = sra2bsa * ( _ras2sra * grav_ras );
 
     const int steps = 10;
 
@@ -387,8 +506,8 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
         // moment due to inertia
         Vector3 acc_i_bsa
                 = acc_bsa
-                + ( omg_tot_bsa % ( omg_tot_bsa % pos_i_bsa ) ) // centrifugal force
-                + ( eps_bsa % pos_i_bsa )                       // Euler force
+                + ( omg_tot_bsa % ( omg_tot_bsa % pos_i_bsa ) ) // centrifugal acceleration
+                + ( eps_bsa % pos_i_bsa )                       // Euler acceleration
                 ;
         Vector3 mom_iner_bsa = -dm * ( pos_i_bsa % acc_i_bsa );
 
@@ -425,13 +544,13 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
         double dZ = sinAlpha * dD + cosAlpha * dL;
 
         Vector3 for_aero_bsa( dX, 0.0, dZ );
-        Vector3 for_aero_sra = _bsa2sra * for_aero_bsa;
+        Vector3 for_aero_sra = bsa2sra * for_aero_bsa;
         Vector3 mom_aero_bsa = pos_i_bsa % for_aero_sra;
-        Vector3 mom_aero_sra = _bsa2sra * mom_aero_bsa;
+        Vector3 mom_aero_sra = bsa2sra * mom_aero_bsa;
 
 #       ifdef SIM_ROTOR_TEST
         {
-            Vector3 pos_i_sra = _pos_fh_sra + _bsa2sra * pos_i_bsa;
+            Vector3 pos_i_sra = _pos_fh_sra + bsa2sra * pos_i_bsa;
 
             int i1 = 3 * i;
             int i2 = i1 + 1;

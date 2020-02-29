@@ -84,6 +84,10 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
+    inline Direction getDirection() const { return _direction; }
+
+    inline const Vector3& getR_hub_BAS() const { return _r_hub_bas; }
+
     inline int getNumberOfBlades() const { return _blades_no; }
 
     inline double getRadius() const { return _radius; }

@@ -42,7 +42,7 @@ public:
 
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Blades;
     typedef std::vector< osg::ref_ptr<osg::Switch> > Datums;
-    typedef std::vector< osg::ref_ptr<osg::Vec3Array> > Traces;
+    typedef std::vector< osg::ref_ptr<osg::Vec3Array> > Paths;
 
     /** */
     Rotor();
@@ -63,14 +63,14 @@ private:
 
     osg::ref_ptr<osg::Group> _root;
     osg::ref_ptr<osg::PositionAttitudeTransform> _mainRotor;
-    osg::ref_ptr<osg::Switch> _switchTraces;
+    osg::ref_ptr<osg::Switch> _switchPaths;
 
     Blades _blades;
     Datums _datums;
 
     Data::Rotor::Direction _direction;
 
-    Traces _traces;
+    Paths _paths;
 
     int _bladesCount;
 
@@ -81,8 +81,8 @@ private:
     void reload();
     void removeAllChildren();
 
-    void updateTraces();
-    void updateTrace( osg::Group *parent, osg::Vec3Array *positions );
+    void updatePaths();
+    void updatePath( osg::Group *parent, osg::Vec3Array *positions );
 };
 
 } // end of cgi namespace

@@ -33,7 +33,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double MainRotorBE::_timeStepMax = 1.0e-3;
+const double MainRotorBE::_timeStepMax = 1.0e-2;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -138,6 +138,8 @@ void MainRotorBE::computeForceAndMoment( const Vector3 &vel_air_bas,
     Vector3 eps_ras     = _bas2ras * eps_bas;
     Vector3 grav_ras    = _bas2ras * grav_bas;
 
+    double delta_psi = 0.0;
+
     for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
     {
         (*it)->computeForceAndMoment( vel_air_ras,
@@ -147,7 +149,7 @@ void MainRotorBE::computeForceAndMoment( const Vector3 &vel_air_bas,
                                       eps_ras,
                                       grav_ras,
                                       _omega,
-                                      _azimuth,
+                                      _azimuth + delta_psi,
                                       airDensity,
                                       _theta_0,
                                       _theta_1c,
@@ -158,6 +160,8 @@ void MainRotorBE::computeForceAndMoment( const Vector3 &vel_air_bas,
         _mom_bas += _ras2bas * (*it)->getMom_RAS();
 
         _torque += (*it)->getTorque();
+
+        delta_psi += _d_psi;
     }
 
     _mom_bas += _r_hub_bas % _for_bas;
@@ -236,6 +240,8 @@ void MainRotorBE::update( double timeStep,
         double theta_1c = _prev_theta_1c + coef * d_theta_1c;
         double theta_1s = _prev_theta_1s + coef * d_theta_1s;
 
+        double delta_psi = 0.0;
+
         for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
         {
             (*it)->integrate( timeStepInt,
@@ -246,12 +252,14 @@ void MainRotorBE::update( double timeStep,
                               eps_ras,
                               grav_ras,
                               omega,
-                              azimuth,
+                              azimuth + delta_psi,
                               airDensity,
                               theta_0,
                               theta_1c,
                               theta_1s
                             );
+
+            delta_psi += _d_psi;
         }
     }
 }

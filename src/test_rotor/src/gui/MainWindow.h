@@ -105,7 +105,7 @@ private slots:
     void on_actionShowVectorsSpan_toggled(bool arg1);
     void on_actionShowVectorsMain_toggled(bool arg1);
     void on_actionShowBladesDatum_toggled(bool arg1);
-    void on_actionShowBladesTrace_toggled(bool arg1);
+    void on_actionShowBladesPaths_toggled(bool arg1);
 
     void dockCtrl_closed();
     void dockData_closed();

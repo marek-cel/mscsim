@@ -75,6 +75,7 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _airspeed      ( 0.0 ),
     _dynPress      ( 0.0 ),
     _ias           ( 0.0 ),
+    _groundSpeed   ( 0.0 ),
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
     _turnRate      ( 0.0 ),
@@ -123,9 +124,9 @@ void Aircraft::step( double timeStep )
     {
         anteIntegration();
 
-        ////////////////////////////////////////////////
-        _integrator->integrate( _timeStep, _stateVect );
-        ////////////////////////////////////////////////
+        /////////////////////////////////////////////////
+        _integrator->integrate( _timeStep, &_stateVect );
+        /////////////////////////////////////////////////
 
         postIntegration();
     }
@@ -193,10 +194,11 @@ void Aircraft::updateOutputData()
 
     _dataOut->flight.slipSkidAngle = _slipSkidAngle;
 
-    _dataOut->flight.airspeed   = _airspeed;
-    _dataOut->flight.ias        = _ias;
-    _dataOut->flight.machNumber = _machNumber;
-    _dataOut->flight.climbRate  = _climbRate;
+    _dataOut->flight.airspeed    = _airspeed;
+    _dataOut->flight.ias         = _ias;
+    _dataOut->flight.groundSpeed = _groundSpeed;
+    _dataOut->flight.machNumber  = _machNumber;
+    _dataOut->flight.climbRate   = _climbRate;
 
     _dataOut->flight.rollRate  = _omg_bas.x();
     _dataOut->flight.pitchRate = _omg_bas.y();
@@ -258,7 +260,7 @@ void Aircraft::setStateVector( const StateVector &stateVector )
     _statePrev = _stateVect;
 
     anteIntegration();
-    computeStateDeriv( _stateVect, _derivVect );
+    computeStateDeriv( _stateVect, &_derivVect );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -460,9 +462,9 @@ void Aircraft::detectCrash()
 ////////////////////////////////////////////////////////////////////////////////
 
 void Aircraft::computeStateDeriv( const StateVector &stateVect,
-                                  StateVector &derivVect )
+                                  StateVector *derivVect )
 {
-    updateVariables( stateVect, derivVect );
+    updateVariables( stateVect, *derivVect );
 
     // computing forces and moments
     _aero->computeForceAndMoment();
@@ -483,17 +485,17 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     // computing position derivatives
     Vector3 pos_dot_wgs = _bas2wgs * _vel_bas;
 
-    derivVect( _is_x ) = pos_dot_wgs.x();
-    derivVect( _is_y ) = pos_dot_wgs.y();
-    derivVect( _is_z ) = pos_dot_wgs.z();
+    (*derivVect)( _is_x ) = pos_dot_wgs.x();
+    (*derivVect)( _is_y ) = pos_dot_wgs.y();
+    (*derivVect)( _is_z ) = pos_dot_wgs.z();
 
     // computing attitude derivatives
     Quaternion att_dot_wgs = _att_wgs.getDerivative( _omg_bas );
 
-    derivVect( _is_e0 ) = att_dot_wgs.e0();
-    derivVect( _is_ex ) = att_dot_wgs.ex();
-    derivVect( _is_ey ) = att_dot_wgs.ey();
-    derivVect( _is_ez ) = att_dot_wgs.ez();
+    (*derivVect)( _is_e0 ) = att_dot_wgs.e0();
+    (*derivVect)( _is_ex ) = att_dot_wgs.ex();
+    (*derivVect)( _is_ey ) = att_dot_wgs.ey();
+    (*derivVect)( _is_ez ) = att_dot_wgs.ez();
 
     // computing linear and angular velocities derivatives
     double mass = _mass->getMass();
@@ -526,7 +528,7 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     // state derivatives (results)
     Vector6 acc_bas;
 
-    GaussJordan< 6 >::solve( mi_bas, vec_rhs, acc_bas );
+    GaussJordan< 6 >::solve( mi_bas, vec_rhs, &acc_bas );
 
     // Coriolis effect due to Earth rotation
     Vector3 acc_coriolis_bas = -2.0 * ( _wgs2bas * ( WGS84::getOmega_WGS() % _vel_bas ) );
@@ -538,7 +540,7 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     // rewriting acceleration into state derivatives vector
     for ( int i = _is_u; i < FDM_STATE_DIMENSION; i++ )
     {
-        derivVect( i ) = acc_bas( i - _is_u );
+        (*derivVect)( i ) = acc_bas( i - _is_u );
     }
 }
 
@@ -640,9 +642,10 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _slipSkidAngle = atan2( -_g_pilot.y(), _g_pilot.z() );
 
-    _airspeed   = _vel_air_bas.getLength();
-    _dynPress   = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
-    _ias        = sqrt( 2.0 * _dynPress / fdm::Atmosphere::_std_sl_rho );
-    _machNumber = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
-    _climbRate  = -_vel_ned.z();
+    _airspeed    = _vel_air_bas.getLength();
+    _dynPress    = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
+    _ias         = sqrt( 2.0 * _dynPress / fdm::Atmosphere::_std_sl_rho );
+    _groundSpeed = _vel_ned.getLengthXY();
+    _machNumber  = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
+    _climbRate   = -_vel_ned.z();
 }

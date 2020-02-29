@@ -203,7 +203,7 @@ void test_Blade::update( double timeStep )
     Vector3 grav_bas = _ned2bas * grav_ned;
     Vector3 grav_ras = _bas2ras * grav_bas;
 
-    //std::cout << grav_ras.toString() << std::endl;
+    std::cout << grav_ras.toString() << std::endl;
 
     double omega   = Data::get()->rotor.omega;
     double azimuth = Data::get()->rotor.azimuth;
