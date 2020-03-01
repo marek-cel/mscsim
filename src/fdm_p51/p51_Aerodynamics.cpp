@@ -98,7 +98,8 @@ void P51_Aerodynamics::computeForceAndMoment()
                                      _aircraft->getOmg_air_BAS(),
                                      _aircraft->getEnvir()->getDensity(),
                                      _aircraft->getCtrl()->getAilerons(),
-                                     _aircraft->getCtrl()->getFlaps() );
+                                     _aircraft->getCtrl()->getFlaps(),
+                                     _aircraft->getDataInp()->controls.landing_gear );
 
     _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS() + vel_i_bas,
                                      _aircraft->getOmg_air_BAS(),

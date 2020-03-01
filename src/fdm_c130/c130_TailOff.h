@@ -57,12 +57,14 @@ public:
      * @param airDensity [kg/m^3] air density
      * @param ailerons [rad] ailerons deflection
      * @param flaps [rad] flaps deflection
+     * @param gear [rad] landing gear
      */
     void computeForceAndMoment( const fdm::Vector3 &vel_air_bas,
                                 const fdm::Vector3 &omg_air_bas,
                                 double airDensity ,
                                 double ailerons,
-                                double flaps );
+                                double flaps,
+                                double gear );
 
     /**
      * Updates model.
@@ -75,12 +77,17 @@ private:
 
     double _ailerons;               ///< [rad] ailerons deflection
     double _flaps;                  ///< [rad] flaps deflection
+    double _gear;                   ///< [-] landing gear
 
     double _dcl_dailerons;          ///< [1/rad]
 
     Table _dcx_dflaps;              ///< [1/rad]
     Table _dcz_dflaps;              ///< [1/rad]
     Table _dcm_dflaps;              ///< [1/rad]
+
+    Table _dcx_dgear;               ///< [-/-]
+    Table _dcz_dgear;               ///< [-/-]
+    Table _dcm_dgear;               ///< [-/-]
 
     /**
      * Computes drag coefficient.

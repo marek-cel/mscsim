@@ -48,16 +48,16 @@ namespace fdm
  *   <diameter> { [m] propeller diameter } </diameter>
  *   <inertia> { [kg*m^2] polar moment of inertia } </inertia>
  *   <pitch>
- *     { [-] normalized pitch } { [deg] propeller pitch at 0.75 radius }
+ *     { [-] normalized pitch } { [rad] propeller pitch at 0.75 radius }
  *     ... { more entries }
  *   </pitch>
  *   <thrust_coef>
- *     { [deg] propeller pitch at 0.75 radius } ... { more values of propeller pitch }
+ *     { [rad] propeller pitch at 0.75 radius } ... { more values of propeller pitch }
  *     { [-] propeller advance } { [-] thrust coefficients } ... { more values of thrust coefficients }
  *     ... { more entries }
  *   </thrust_coef>
  *   <power_coef>
- *     { [deg] propeller pitch at 0.75 radius } ... { more values of propeller pitch}
+ *     { [rad] propeller pitch at 0.75 radius } ... { more values of propeller pitch}
  *     { [-] propeller advance } { [-] power coefficients } ... { more values of power coefficients }
  *     ... { more entries }
  *   </power_coef>

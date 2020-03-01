@@ -51,17 +51,20 @@ namespace fdm
  *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
  *   <area> { [m^2] area } </area>
  *   [<incidence> { [rad] incidence } </incidence>]
- *   [<downwash> { [-] downwash coefficient } </downwash>]
+ *   [<downwash>
+ *     { [rad] wing angle of attack } { [rad] downwash angle }
+ *     ... { more entries }
+ *   </downwash>]
  *   <cx>
- *     { [deg] angle } { [-] drag coefficient }
+ *     { [rad] angle } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [deg] angle } { [-] sideforce coefficient }
+ *     { [rad] angle } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  *   <cz>
- *     { [deg] angle } { [-] lift coefficient }
+ *     { [rad] angle } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
  * </stabilizer>
@@ -126,10 +129,11 @@ protected:
     Table _cy;                  ///< [-] sideforce coefficient vs "angle of attack"
     Table _cz;                  ///< [-] lift coefficient vs "angle of attack"
 
+    Table _downwash;            ///< [rad] downwash angle vs wing angle of attack
+
     double _area;               ///< [m^2] stabilizer reference area
 
     double _incidence;          ///< [rad] stabilizer incidence angle
-    double _downwash;           ///< [-] downwash angle derivative with respect to the aircraft angle of attack
 
     /**
      * Computes stabilizer angle of attack.
