@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required( VERSION 2.8.11 )
 
 project( mscsim )
 
@@ -12,12 +12,16 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin )
 
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
+# set( CMAKE_AUTOMOC ON )
+# set( CMAKE_AUTORCC ON )
+# set( CMAKE_AUTOUIC ON )
+
 ################################################################################
 
 # add_definitions( -DSIM_CONSOLE_OUTPUT )
 # add_definitions( -DSIM_OSG_DEBUG_INFO )
 add_definitions( -DSIM_INTERSECTIONS )
-# add_definitions( -DSIM_LOCAL_DATA_DIR )
+add_definitions( -DSIM_LOCAL_DATA_DIR )
 add_definitions( -DSIM_SKYDOME_SCALING )
 add_definitions( -DSIM_USE_THREADS )
 add_definitions( -DSIM_VERTICALSYNC )
@@ -57,6 +61,7 @@ find_package( Qt4 REQUIRED
     QtOpenGL
     QtSvg
     QtXml
+    qtmain
 )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
@@ -109,15 +114,23 @@ qt4_add_resources( RES_SOURCES
     mscsim.qrc
 )
 
-################################################################################
-
-add_executable( ${PROJECT_NAME}
+set( SOURCES
     Autopilot.cpp
     main.cpp
     Manager.cpp
     ManagerFDM.cpp
     Simulation.cpp
+)
 
+if (WIN32)
+    ENABLE_LANGUAGE(RC)
+    set(SOURCES mscsim.rc ${SOURCES})
+endif()
+
+################################################################################
+
+add_executable( ${PROJECT_NAME} WIN32
+    ${SOURCES}
     ${MOC_SRCS}
     ${RES_SOURCES}
 )
