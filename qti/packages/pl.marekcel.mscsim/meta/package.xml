@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+  <DisplayName>MScSim</DisplayName>
+  <Description>MScSim main program and essential data.</Description>
+  <Version>0.3</Version>
+  <ReleaseDate>2020-03-07</ReleaseDate>
+  <Licenses>
+    <License name="MIT License" file="LICENSE-MIT.txt" />
+  </Licenses>
+  <Default>true</Default>
+  <Script>installscript.qs</Script>
+</Package>

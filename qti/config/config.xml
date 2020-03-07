@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+  <Name>MScSim</Name>
+  <Version>0.3</Version>
+  <Title>MScSim Installer</Title>
+  <Publisher>Marek Cel</Publisher>
+  <StartMenuDir>MScSim</StartMenuDir>
+  <TargetDir>@ApplicationsDir@/MScSim</TargetDir>
+</Installer>
