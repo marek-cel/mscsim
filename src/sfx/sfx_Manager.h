@@ -61,6 +61,8 @@ private:
     Sample *_explosion;         ///<
     Sample *_touchdown;         ///<
 
+    Sample *_warning;           ///<
+
     Sample *_run_noise;         ///<
 
     Sample *_gear_lock;         ///<
@@ -89,6 +91,7 @@ private:
 
     void updateLandingGear( const Data::DataBuf *data );
     void updateTouchdown( const Data::DataBuf *data, double vel_max );
+    void updateWarning( const Data::DataBuf *data );
 
     void updateAircraft_C130 ( const Data::DataBuf *data );
     void updateAircraft_C172 ( const Data::DataBuf *data );

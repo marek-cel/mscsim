@@ -82,7 +82,12 @@ public:
      */
     virtual Vector3 getNormal( double lat, double lon ) const;
 
+    void setGroundWGS( const Vector3 &ground_wgs ) { _ground_wgs = ground_wgs; }
+    void setNormalWGS( const Vector3 &normal_wgs ) { _normal_wgs = normal_wgs; }
+
 protected:
+
+    bool _inited;               ///< specifies if intersections are initialized
 
     Vector3 _ground_wgs;        ///< [m] ground intersection expressed in WGS
     Vector3 _normal_wgs;        ///< ground normal vector

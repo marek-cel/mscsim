@@ -35,6 +35,21 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Table2D Table2D::createOneRecordTable( double val )
+{
+    std::vector< double > rowValues;
+    std::vector< double > colValues;
+    std::vector< double > tableData;
+
+    rowValues.push_back( 0.0 );
+    colValues.push_back( 0.0 );
+    tableData.push_back( val );
+
+    return Table2D( rowValues, colValues, tableData );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Table2D::Table2D() :
     _rows ( 0 ),
     _cols ( 0 ),
@@ -134,6 +149,22 @@ Table2D::~Table2D()
     FDM_DELTAB( _colValues );
     FDM_DELTAB( _tableData );
     FDM_DELTAB( _interpolData );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Table Table2D::getTable( double colValue ) const
+{
+    std::vector< double > keyValues;
+    std::vector< double > tableData;
+
+    for ( unsigned int i = 0; i < _rows; i++ )
+    {
+        keyValues.push_back( _rowValues[ i ] );
+        tableData.push_back( getValue( _rowValues[ i ], colValue ) );
+    }
+
+    return Table( keyValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

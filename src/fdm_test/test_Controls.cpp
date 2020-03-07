@@ -73,13 +73,13 @@ void TEST_Controls::init()
     _channelBrakeL     = getChannelByName( "brake_l"    );
     _channelBrakeR     = getChannelByName( "brake_r"    );
 
-    if ( 0 != _channelCyclicLat
-      && 0 != _channelCyclicLon
-      && 0 != _channelCollective
-      && 0 != _channelTailPitch
-      && 0 != _channelElevator
-      && 0 != _channelBrakeL
-      && 0 != _channelBrakeR )
+    if ( FDM_NULLPTR != _channelCyclicLat
+      && FDM_NULLPTR != _channelCyclicLon
+      && FDM_NULLPTR != _channelCollective
+      && FDM_NULLPTR != _channelTailPitch
+      && FDM_NULLPTR != _channelElevator
+      && FDM_NULLPTR != _channelBrakeL
+      && FDM_NULLPTR != _channelBrakeR )
     {
         _channelCyclicLat  ->input = &_aircraft->getDataInp()->controls.roll;
         _channelCyclicLon  ->input = &_aircraft->getDataInp()->controls.pitch;

@@ -1,10 +1,10 @@
 call run_wix_clean.bat
 
-copy src\sim.ico sim.ico
+copy src\mscsim.ico mscsim.ico
 copy C:\OpenAL\1.1\redist\oalinst.exe oalinst.exe
 
-call "%WIX%bin\heat.exe" dir ".\data" -gg -ke -sfrag -dr dir_mscsim -cg cg_mscsim_data -var var.SourceDir -template:fragment -out wix_data.wxs
-call "%WIX%bin\heat.exe" dir "%OSG_ROOT%\bin\osgPlugins-3.4.0" -gg -ke -sfrag -dr dir_mscsim -cg cg_mscsim_osg_plugins -var var.SourceDir -template:fragment -out wix_osg_plugins.wxs
+call "%WIX%bin\heat.exe" dir ".\data" -gg -ke -sfrag -dr dir_mscsim -cg cg_mscsim_data -var var.SourceDir -template fragment -out wix_data.wxs
+call "%WIX%bin\heat.exe" dir "%OSG_ROOT%\bin\osgPlugins-3.4.0" -gg -ke -sfrag -dr dir_mscsim -cg cg_mscsim_osg_plugins -var var.SourceDir -template fragment -out wix_osg_plugins.wxs
 
 copy "C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC90_CRT_x86.msm" Microsoft_VC90_CRT_x86.msm
 

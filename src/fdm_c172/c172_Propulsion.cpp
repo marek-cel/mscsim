@@ -60,7 +60,7 @@ void C172_Propulsion::init()
 
     bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
-    _propeller->setRPM( engineOn ? 2700.0 : 0.0 );
+    _propeller->setRPM( engineOn ? 600.0 : 0.0 );
     _engine->setRPM( _propeller->getEngineRPM() );
 }
 

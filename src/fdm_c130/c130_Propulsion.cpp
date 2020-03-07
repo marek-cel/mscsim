@@ -67,7 +67,7 @@ void C130_Propulsion::init()
 
     for ( int i = 0; i < _enginesCount; i++ )
     {
-        _propeller[ i ]->setRPM( engineOn ? 3000.0 : 0.0 );
+        _propeller[ i ]->setRPM( engineOn ? 600.0 : 0.0 );
         _engine[ i ]->setRPM( _propeller[ i ]->getEngineRPM() );
     }
 }

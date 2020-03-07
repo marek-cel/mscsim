@@ -69,14 +69,14 @@ void C172_Controls::init()
     _channelBrakeR       = getChannelByName( "brake_r"       );
     _channelNoseWheel    = getChannelByName( "nose_wheel"    );
 
-    if ( 0 != _channelAilerons
-      && 0 != _channelElevator
-      && 0 != _channelRudder
-      && 0 != _channelElevatorTrim
-      && 0 != _channelFlaps
-      && 0 != _channelBrakeL
-      && 0 != _channelBrakeR
-      && 0 != _channelNoseWheel )
+    if ( FDM_NULLPTR != _channelAilerons
+      && FDM_NULLPTR != _channelElevator
+      && FDM_NULLPTR != _channelRudder
+      && FDM_NULLPTR != _channelElevatorTrim
+      && FDM_NULLPTR != _channelFlaps
+      && FDM_NULLPTR != _channelBrakeL
+      && FDM_NULLPTR != _channelBrakeR
+      && FDM_NULLPTR != _channelNoseWheel )
     {
         _channelAilerons     ->input = &_aircraft->getDataInp()->controls.roll;
         _channelElevator     ->input = &_aircraft->getDataInp()->controls.pitch;

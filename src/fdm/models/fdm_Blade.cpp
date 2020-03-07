@@ -187,7 +187,7 @@ void Blade::readData( XmlNode &dataNode )
 void Blade::TEST_INIT()
 {
     //_beta_0 = _beta_max;
-    _beta_0 = _beta_min;
+    _beta = _beta_min;
 
     //Log::out() << _beta_0 << std::endl;
 }
@@ -564,9 +564,9 @@ void Blade::integrateSpanwise( const Vector3 &vel_air_ras,
             span[ i2 ].b_sra = pos_i_sra;
             span[ i3 ].b_sra = pos_i_sra;
 
-            span[ i1 ].v_sra = _bsa2sra * Vector3(  dX, 0.0, 0.0 );
-            span[ i2 ].v_sra = _bsa2sra * Vector3( 0.0, 0.0,  dZ );
-            span[ i3 ].v_sra = _bsa2sra * vel_i_air_bsa;
+            span[ i1 ].v_sra = bsa2sra * Vector3(  dX, 0.0, 0.0 );
+            span[ i2 ].v_sra = bsa2sra * Vector3( 0.0, 0.0,  dZ );
+            span[ i3 ].v_sra = bsa2sra * vel_i_air_bsa;
         }
 #       endif
 

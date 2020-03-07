@@ -39,6 +39,8 @@ Manager::Manager() :
     _explosion ( NULLPTR ),
     _touchdown ( NULLPTR ),
 
+    _warning   ( NULLPTR ),
+
     _run_noise ( NULLPTR ),
 
     _gear_lock ( NULLPTR ),
@@ -81,6 +83,8 @@ Manager::Manager() :
     _explosion = new Sample( Path::get( "data/sfx/explosion.wav" ) );
     _touchdown = new Sample( Path::get( "data/sfx/touchdown.wav" ) );
 
+    _warning = new Sample( Path::get( "data/sfx/warning.wav" ), true );
+
     _run_noise = new Sample( Path::get( "data/sfx/run_noise.wav" ), true );
 
     _gear_lock = new Sample( Path::get( "data/sfx/gear_lock.wav" ) );
@@ -100,6 +104,8 @@ Manager::~Manager()
 {
     DELPTR( _explosion );
     DELPTR( _touchdown );
+
+    DELPTR( _warning );
 
     DELPTR( _run_noise );
 
@@ -176,6 +182,8 @@ void Manager::init( const Data::DataBuf *data )
 
 void Manager::stop()
 {
+    _warning->stop();
+
     _run_noise->stop();
 
     _gear_move->stop();
@@ -238,10 +246,26 @@ void Manager::updateTouchdown(  const Data::DataBuf *data , double vel_max )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Manager::updateWarning( const Data::DataBuf *data )
+{
+    if ( data->ownship.stall )
+    {
+        _warning->play();
+        _warning->setVolume( _volume );
+    }
+    else
+    {
+        _warning->stop();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Manager::updateAircraft_C130( const Data::DataBuf *data )
 {
     updateTouchdown( data, 30.0 );
     updateLandingGear( data );
+    updateWarning( data );
 
     double rpm = data->propulsion.engine[ 0 ].rpm;
     double coef = fdm::Misc::satur( 0.0, 1.0, rpm / 2000.0 );
@@ -256,6 +280,7 @@ void Manager::updateAircraft_C130( const Data::DataBuf *data )
 void Manager::updateAircraft_C172( const Data::DataBuf *data )
 {
     updateTouchdown( data, 30.0 );
+    updateWarning( data );
 
     double rpm = data->propulsion.engine[ 0 ].rpm;
     double coef = fdm::Misc::satur( 0.0, 1.0, rpm / 2000.0 );
@@ -271,6 +296,7 @@ void Manager::updateAircraft_F16( const Data::DataBuf *data )
 {
     updateTouchdown( data, 30.0 );
     updateLandingGear( data );
+    updateWarning( data );
 
     bool afterburner = data->propulsion.engine[ 0 ].afterburner;
     double n2 = data->propulsion.engine[ 0 ].n2;
@@ -292,6 +318,7 @@ void Manager::updateAircraft_P51( const Data::DataBuf *data )
 {
     updateTouchdown( data, 30.0 );
     updateLandingGear( data );
+    updateWarning( data );
 
     double rpm = data->propulsion.engine[ 0 ].rpm;
     double coef = fdm::Misc::satur( 0.0, 1.0, rpm / 4000.0 );
@@ -306,6 +333,7 @@ void Manager::updateAircraft_P51( const Data::DataBuf *data )
 void Manager::updateAircraft_UH60( const Data::DataBuf *data )
 {
     updateTouchdown( data, 30.0 );
+    updateWarning( data );
 
     if ( data->ownship.mainRotor.omega > 0.0 )
     {

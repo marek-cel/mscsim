@@ -16,7 +16,7 @@ CONFIG += fdm
 
 ################################################################################
 
-win32: RC_FILE = sim.rc
+win32: RC_FILE = mscsim.rc
 
 ################################################################################
 
@@ -40,7 +40,7 @@ DEFINES += \
     SIM_USE_THREADS \
     SIM_VERTICALSYNC
 
-#DEFINES += FDM_TEST
+DEFINES += FDM_TEST
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -145,7 +145,7 @@ SOURCES += \
     $$PWD/Simulation.cpp
 
 RESOURCES += \
-    $$PWD/sim.qrc
+    $$PWD/mscsim.qrc
 
 ################################################################################
 
@@ -156,7 +156,7 @@ include($$PWD/fdm_c172/fdm_c172.pri)
 include($$PWD/fdm_f16/fdm_f16.pri)
 include($$PWD/fdm_p51/fdm_p51.pri)
 include($$PWD/fdm_uh60/fdm_uh60.pri)
-#include($$PWD/fdm_test/fdm_test.pri)
+include($$PWD/fdm_test/fdm_test.pri)
 include($$PWD/gui/gui.pri)
 include($$PWD/hid/hid.pri)
 include($$PWD/nav/nav.pri)

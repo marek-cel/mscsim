@@ -60,7 +60,7 @@ void P51_Propulsion::init()
 
     bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
-    _propeller->setRPM( engineOn ? 3000.0 : 0.0 );
+    _propeller->setRPM( engineOn ? 700.0 : 0.0 );
     _engine->setRPM( _propeller->getEngineRPM() );
 }
 

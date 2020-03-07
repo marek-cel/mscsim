@@ -35,7 +35,9 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Intersections::Intersections() {}
+Intersections::Intersections() :
+    _inited ( false )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -56,6 +58,8 @@ void Intersections::update( double lat, double lon )
 
     if ( cgi::Intersections::instance()->findFirst( b, e, r, n ) )
     {
+        _inited = true;
+
         _ground_wgs = Vector3( r.x(), r.y(), r.z() );
         _normal_wgs = Vector3( n.x(), n.y(), n.z() );
     }
@@ -95,19 +99,22 @@ double Intersections::getElevation( double lat, double lon ) const
 int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
                                     Vector3 &r, Vector3 &n ) const
 {
-    double num = _normal_wgs * ( _ground_wgs - b );
-    double den = _normal_wgs * ( e - b );
-
-    double u = 0.0;
-
-    if ( fabs( den ) > 10e-15 ) u = num / den;
-
-    if ( 0.0 < u && u < 1.0 )
+    if ( _inited )
     {
-        r = b + u * ( e - b );
-        n = _normal_wgs;
+        double num = _normal_wgs * ( _ground_wgs - b );
+        double den = _normal_wgs * ( e - b );
 
-        return FDM_SUCCESS;
+        double u = 0.0;
+
+        if ( fabs( den ) > 10e-15 ) u = num / den;
+
+        if ( 0.0 < u && u < 1.0 )
+        {
+            r = b + u * ( e - b );
+            n = _normal_wgs;
+
+            return FDM_SUCCESS;
+        }
     }
 
     return FDM_FAILURE;
@@ -117,16 +124,19 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
 
 bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e ) const
 {
-    double num = _normal_wgs * ( _ground_wgs - b );
-    double den = _normal_wgs * ( e - b );
-
-    double u = 0.0;
-
-    if ( fabs( den ) > 10e-15 ) u = num / den;
-
-    if ( 0.0 < u && u < 1.0 )
+    if ( _inited )
     {
-        return true;
+        double num = _normal_wgs * ( _ground_wgs - b );
+        double den = _normal_wgs * ( e - b );
+
+        double u = 0.0;
+
+        if ( fabs( den ) > 10e-15 ) u = num / den;
+
+        if ( 0.0 < u && u < 1.0 )
+        {
+            return true;
+        }
     }
 
     return false;

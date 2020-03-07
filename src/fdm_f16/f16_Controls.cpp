@@ -139,16 +139,16 @@ void F16_Controls::init()
     _channelBrakeR    = getChannelByName( "brake_r"    );
     _channelNoseWheel = getChannelByName( "nose_wheel" );
 
-    if ( 0 != _channelRoll
-      && 0 != _channelPitch
-      && 0 != _channelYaw
-      && 0 != _channelRollTrim
-      && 0 != _channelPitchTrim
-      && 0 != _channelYawTrim
-      && 0 != _channelAirbrake
-      && 0 != _channelBrakeL
-      && 0 != _channelBrakeR
-      && 0 != _channelNoseWheel )
+    if ( FDM_NULLPTR != _channelRoll
+      && FDM_NULLPTR != _channelPitch
+      && FDM_NULLPTR != _channelYaw
+      && FDM_NULLPTR != _channelRollTrim
+      && FDM_NULLPTR != _channelPitchTrim
+      && FDM_NULLPTR != _channelYawTrim
+      && FDM_NULLPTR != _channelAirbrake
+      && FDM_NULLPTR != _channelBrakeL
+      && FDM_NULLPTR != _channelBrakeR
+      && FDM_NULLPTR != _channelNoseWheel )
     {
         _channelRoll      ->input = &_aircraft->getDataInp()->controls.roll;
         _channelPitch     ->input = &_aircraft->getDataInp()->controls.pitch;

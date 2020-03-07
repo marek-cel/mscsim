@@ -26,6 +26,8 @@
 
 #include <fdm/models/fdm_TailOff.h>
 
+#include <fdm/utils/fdm_Table2D.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -64,7 +66,7 @@ public:
                                 double airDensity ,
                                 double ailerons,
                                 double flaps,
-                                double gear );
+                                double landing_gear );
 
     /**
      * Updates model.
@@ -77,17 +79,17 @@ private:
 
     double _ailerons;               ///< [rad] ailerons deflection
     double _flaps;                  ///< [rad] flaps deflection
-    double _gear;                   ///< [-] landing gear
+    double _landing_gear;           ///< [-] landing gear
 
     double _dcl_dailerons;          ///< [1/rad]
 
-    Table _dcx_dflaps;              ///< [1/rad]
-    Table _dcz_dflaps;              ///< [1/rad]
-    Table _dcm_dflaps;              ///< [1/rad]
+    double _dcx_dgear;              ///< [-/-]
+    double _dcz_dgear;              ///< [-/-]
+    double _dcm_dgear;              ///< [-/-]
 
-    Table _dcx_dgear;               ///< [-/-]
-    Table _dcz_dgear;               ///< [-/-]
-    Table _dcm_dgear;               ///< [-/-]
+    Table2D _dcx_dflaps;            ///< [1/rad]
+    Table2D _dcz_dflaps;            ///< [1/rad]
+    Table2D _dcm_dflaps;            ///< [1/rad]
 
     /**
      * Computes drag coefficient.

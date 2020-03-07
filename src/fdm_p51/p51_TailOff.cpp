@@ -32,19 +32,19 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_TailOff::P51_TailOff() :
-    _ailerons ( 0.0 ),
-    _flaps    ( 0.0 ),
-    _gear     ( 0.0 ),
+    _ailerons     ( 0.0 ),
+    _flaps        ( 0.0 ),
+    _landing_gear ( 0.0 ),
 
-    _dcl_dailerons ( 0.0 )
+    _dcl_dailerons ( 0.0 ),
+
+    _dcx_dgear ( 0.0 ),
+    _dcz_dgear ( 0.0 ),
+    _dcm_dgear ( 0.0 )
 {
     _dcx_dflaps = Table::createOneRecordTable( 0.0 );
     _dcz_dflaps = Table::createOneRecordTable( 0.0 );
     _dcm_dflaps = Table::createOneRecordTable( 0.0 );
-
-    _dcx_dgear = Table::createOneRecordTable( 0.0 );
-    _dcz_dgear = Table::createOneRecordTable( 0.0 );
-    _dcm_dgear = Table::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,13 +65,13 @@ void P51_TailOff::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcl_dailerons, "dcl_dailerons" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dflaps, "dcx_dflaps" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dflaps, "dcz_dflaps" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dflaps, "dcm_dflaps" );
-
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dgear, "dcx_dgear" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dgear, "dcz_dgear" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dgear, "dcm_dgear" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dflaps, "dcx_dflaps" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dflaps, "dcz_dflaps" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dflaps, "dcm_dflaps" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
@@ -88,11 +88,11 @@ void P51_TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
                                          double airDensity,
                                          double ailerons,
                                          double flaps,
-                                         double gear )
+                                         double landing_gear )
 {
-    _ailerons = ailerons;
-    _flaps    = flaps;
-    _gear     = gear;
+    _ailerons     = ailerons;
+    _flaps        = flaps;
+    _landing_gear = landing_gear;
 
     ///////////////////////////////////////////////////////////////////////
     TailOff::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
@@ -107,12 +107,10 @@ void P51_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
-    Table cz_total = _cz + _flaps * _dcz_dflaps + _gear * _dcz_dgear;
+    Table cz_total = _cz + _flaps * _dcz_dflaps;
 
     _aoa_critical_neg = cz_total.getKeyOfValueMin();
     _aoa_critical_pos = cz_total.getKeyOfValueMax();
-
-    //_ailerons->getHingeMoment( dynPress, alpha, m_delta_a );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,8 +118,7 @@ void P51_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas
 double P51_TailOff::getCx( double angleOfAttack ) const
 {
     return TailOff::getCx( angleOfAttack )
-            + _flaps * _dcx_dflaps.getValue( angleOfAttack )
-            + _gear  * _dcx_dgear.getValue( angleOfAttack );
+            + _flaps * _dcx_dflaps.getValue( angleOfAttack ) + _landing_gear * _dcx_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -136,8 +133,7 @@ double P51_TailOff::getCy( double sideslipAngle ) const
 double P51_TailOff::getCz( double angleOfAttack ) const
 {
     return TailOff::getCz( angleOfAttack )
-            + _flaps * _dcz_dflaps.getValue( angleOfAttack )
-            + _gear  * _dcz_dgear.getValue( angleOfAttack );
+            + _flaps * _dcz_dflaps.getValue( angleOfAttack ) + _landing_gear * _dcz_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,8 +148,7 @@ double P51_TailOff::getCl( double sideslipAngle ) const
 double P51_TailOff::getCm( double angleOfAttack ) const
 {
     return TailOff::getCm( angleOfAttack )
-            + _flaps * _dcm_dflaps.getValue( angleOfAttack )
-            + _gear  * _dcm_dgear.getValue( angleOfAttack );
+            + _flaps * _dcm_dflaps.getValue( angleOfAttack ) + _landing_gear * _dcm_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

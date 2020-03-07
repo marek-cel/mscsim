@@ -197,6 +197,11 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
 
     _typeIndex = settings.value( "type_index", 0 ).toInt();
 
+    if ( _typeIndex >= Aircrafts::instance()->getCount() )
+    {
+        _typeIndex = 0;
+    }
+
     Airports::Location location = Airports::instance()->getDefault();
 
     _lat = settings.value( "lat", location.lat ).toFloat();

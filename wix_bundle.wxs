@@ -10,17 +10,17 @@
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
         LicenseFile="LICENSE.rtf"
-		LogoFile="mscsim.png"
-		ShowVersion="yes" />
-	</BootstrapperApplicationRef>
-	  
+    LogoFile="mscsim.png"
+    ShowVersion="yes" />
+  </BootstrapperApplicationRef>
+    
     <Chain>
 
       <PackageGroupRef Id="OpenAL"/>
-	  <MsiPackage SourceFile="mscsim-0.3-win32.msi" />
+    <MsiPackage SourceFile="mscsim-0.3-win32.msi" />
 
     </Chain>
-	
+  
   </Bundle>
   
   <Fragment>
@@ -29,7 +29,7 @@
       <ExePackage
         SourceFile="oalinst.exe"
         DetectCondition="ExeDetectedVariable"
-	    InstallCommand="/q /ACTION=Install"
+        InstallCommand="/q /ACTION=Install"
         RepairCommand="/q ACTION=Repair /hideconsole"
         UninstallCommand="/q ACTION=Uninstall /hideconsole" />
     </PackageGroup>

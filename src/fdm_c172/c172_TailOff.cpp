@@ -100,8 +100,6 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
 
     _aoa_critical_neg = cz_total.getKeyOfValueMin();
     _aoa_critical_pos = cz_total.getKeyOfValueMax();
-
-    //m_ailerons->getHingeMoment( dynPress, alpha, m_delta_a );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -161,6 +161,11 @@ void Manager::initInFlight()
 {
     if ( _stateOut != DataOut::Ready )
     {
+        if ( _initStep == 0 && _verbose )
+        {
+            Log::i() << "In-flight initialization..." << std::endl;
+        }
+
         updateInitialPositionAndAttitude();
 
         StateVector stateVector;
@@ -198,6 +203,11 @@ void Manager::initOnGround()
 {
     if ( _stateOut != DataOut::Ready )
     {
+        if ( _initStep == 0 && _verbose )
+        {
+            Log::i() << "On-ground initialization..." << std::endl;
+        }
+
         if ( _initStep == 0 )
         {
             _init_phi =  0.0;

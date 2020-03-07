@@ -44,7 +44,7 @@
             <Shortcut
               Id="menu_sim" 
               Name="MscSim" 
-              Icon="sim.ico"
+              Icon="mscsim_ico"
               Description="Flight Simulator"
               Target="[dir_mscsim]\mscsim.exe"
               WorkingDirectory="dir_mscsim" />
@@ -64,7 +64,7 @@
 
     <!-- main program -->
     <Feature Id="mscsim_main" Title="MScSim" Level="1">
-	  <ComponentGroupRef Id="cg_mscsim_alut" /> <!-- ALUT libs -->
+    <ComponentGroupRef Id="cg_mscsim_alut" /> <!-- ALUT libs -->
       <ComponentGroupRef Id="cg_mscsim_data" /> <!-- data -->
       <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
       <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->
@@ -82,7 +82,7 @@
     <Property Id="WIXUI_INSTALLDIR" Value="dir_mscsim" />
     <UIRef Id="WixUI_InstallDir" />
     
-    <Icon Id="sim.ico" SourceFile="src/sim.ico" />
+    <Icon Id="mscsim_ico" SourceFile="mscsim.ico" />
     
   </Product>
 </Wix>

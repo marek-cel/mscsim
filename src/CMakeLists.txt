@@ -106,7 +106,7 @@ qt4_wrap_cpp( MOC_SRCS
 )
 
 qt4_add_resources( RES_SOURCES
-    sim.qrc
+    mscsim.qrc
 )
 
 ################################################################################
