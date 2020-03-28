@@ -57,10 +57,7 @@ public:
      * Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
-    void init( bool engineOn = false );
-
-    /** Updates output data. */
-    void updateOutputData();
+    void initialize( bool engineOn = false );
 
     inline C172_Aerodynamics* getAero() { return _aero; }
     inline C172_Controls*     getCtrl() { return _ctrl; }
@@ -81,6 +78,9 @@ private:
     C172_LandingGear  *_gear;   ///< landing gear model
     C172_Mass         *_mass;   ///< mass and inertia model
     C172_Propulsion   *_prop;   ///< propulsion model
+
+    /** Updates output data. */
+    void updateOutputData();
 };
 
 } // end of fdm namespace

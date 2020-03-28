@@ -155,22 +155,19 @@ public:
      * Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
-    virtual void init( bool engineOn = false );
+    virtual void initialize( bool engineOn = false );
 
     /**
      * Updates aircraft due to simulation time step.
      * @param timeStep simulation time step [s]
      */
-    virtual void step( double timeStep );
+    virtual void update( double timeStep );
 
     /**
      * Updates aircraft due to simulation time step.
      * @param timeStep simulation time step [s]
      */
-    virtual void stepFrozen( double timeStep );
-
-    /** Updates output data. */
-    virtual void updateOutputData();
+    virtual void updateFrozen( double timeStep );
 
     inline const DataInp* getDataInp() const { return _dataInp; }
     inline const DataOut* getDataOut() const { return _dataOut; }
@@ -398,6 +395,9 @@ protected:
 
     /** This function checks collisions. */
     virtual void detectCrash();
+
+    /** Updates output data. */
+    virtual void updateOutputData();
 
     /**
      * Computes state vector derivatives due to given state vector.

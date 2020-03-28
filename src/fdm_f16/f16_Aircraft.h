@@ -62,10 +62,7 @@ public:
      * Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
-    void init( bool engineOn = false );
-
-    /** Updates output data. */
-    void updateOutputData();
+    void initialize( bool engineOn = false );
 
     inline F16_Aerodynamics* getAero() { return _aero; }
     inline F16_Controls*     getCtrl() { return _ctrl; }
@@ -86,6 +83,9 @@ private:
     F16_LandingGear  *_gear;    ///< landing gear model
     F16_Mass         *_mass;    ///< mass and inertia model
     F16_Propulsion   *_prop;    ///< propulsion model
+
+    /** Updates output data. */
+    void updateOutputData();
 };
 
 } // end of fdm namespace

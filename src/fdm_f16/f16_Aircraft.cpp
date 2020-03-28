@@ -42,6 +42,8 @@ F16_Aircraft::F16_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_gear = _gear = new F16_LandingGear( this );
     Aircraft::_mass = _mass = new F16_Mass( this );
     Aircraft::_prop = _prop = new F16_Propulsion( this );
+
+    readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,13 +59,11 @@ F16_Aircraft::~F16_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_Aircraft::init( bool engineOn )
+void F16_Aircraft::initialize( bool engineOn )
 {
-    readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ) );
-
-    ///////////////////////////
-    Aircraft::init( engineOn );
-    ///////////////////////////
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

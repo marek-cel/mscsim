@@ -68,6 +68,8 @@ Manager::Manager() :
 
     if ( _device )
     {
+        //ALint attribs[] = { ALC_FREQUENCY, 44000, 0 };
+        //_context = alcCreateContext( _device, attribs );
         _context = alcCreateContext( _device, NULL );
 
         if ( !alcMakeContextCurrent( _context ) )
@@ -209,8 +211,8 @@ void Manager::updateLandingGear( const Data::DataBuf *data )
             _gear_lock->setVolume( _volume );
         }
 
-        _gear_move->play();
-        _gear_move->setVolume( _volume );
+        //_gear_move->play();
+        //_gear_move->setVolume( _volume );
     }
     else
     {

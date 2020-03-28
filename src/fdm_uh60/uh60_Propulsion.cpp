@@ -48,11 +48,25 @@ UH60_Propulsion::~UH60_Propulsion() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Propulsion::init()
+void UH60_Propulsion::readData( XmlNode &dataNode )
 {
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
+    if ( dataNode.isValid() )
+    {
+        // TODO
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void UH60_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
 
     bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
@@ -67,20 +81,6 @@ void UH60_Propulsion::init()
     {
         _mainRotorOmega = 0.0;
         _tailRotorOmega = 0.0;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void UH60_Propulsion::readData( XmlNode &dataNode )
-{
-    if ( dataNode.isValid() )
-    {
-        // TODO
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

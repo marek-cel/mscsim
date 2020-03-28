@@ -40,7 +40,7 @@ P51_Mass::~P51_Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Mass::init()
+void P51_Mass::initialize()
 {
     VarMass *pilot       = getVariableMassByName( "pilot" );
     VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
@@ -63,7 +63,7 @@ void P51_Mass::init()
         FDM_THROW( e );
     }
 
-    /////////////
-    Mass::init();
-    /////////////
+    ///////////////////
+    Mass::initialize();
+    ///////////////////
 }

@@ -59,7 +59,7 @@ public:
         virtual ~VariableBase() {}
 
         /** Initializes variable. */
-        virtual void init() = 0;
+        virtual void initialize() = 0;
 
         /** Interpolates variable value. */
         virtual void interpolate( double coef ) = 0;
@@ -93,7 +93,7 @@ public:
         virtual ~Variable() {}
 
         /** Initializes variable. */
-        virtual void init()
+        virtual void initialize()
         {
             ( *_ptr ) = _value;
         }
@@ -149,10 +149,11 @@ public:
     void addVariable( VariableBase *var );
 
     /**
-     * @brief init
+     * Initializes recorder.
+     * @param mode
      * @param file
      */
-    void init( Mode mode, const std::string &file );
+    void initialize( Mode mode, const std::string &file );
 
     /**
      * Performs recorder step.

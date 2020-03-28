@@ -47,7 +47,7 @@ public:
     ~TEST_Controls();
 
     /** Initializes controls. */
-    void init();
+    void initialize();
 
     /** Updates model. */
     void update();

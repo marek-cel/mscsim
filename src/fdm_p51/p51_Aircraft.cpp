@@ -42,6 +42,8 @@ P51_Aircraft::P51_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_gear = _gear = new P51_LandingGear( this );
     Aircraft::_mass = _mass = new P51_Mass( this );
     Aircraft::_prop = _prop = new P51_Propulsion( this );
+
+    readFile( Path::get( "data/fdm/p51/p51_fdm.xml" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,13 +59,11 @@ P51_Aircraft::~P51_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Aircraft::init( bool engineOn )
+void P51_Aircraft::initialize( bool engineOn )
 {
-    readFile( Path::get( "data/fdm/p51/p51_fdm.xml" ) );
-
-    ///////////////////////////
-    Aircraft::init( engineOn );
-    ///////////////////////////
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

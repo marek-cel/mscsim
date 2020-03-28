@@ -50,14 +50,14 @@ public:
     /** Destructor. */
     ~TEST_Aerodynamics();
 
-    /** Initializes aerodynamics. */
-    void init();
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
+
+    /** Initializes aerodynamics. */
+    void initialize();
 
     /** Computes force and moment. */
     void computeForceAndMoment();

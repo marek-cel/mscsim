@@ -57,23 +57,6 @@ C130_Propulsion::~C130_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_Propulsion::init()
-{
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    for ( int i = 0; i < _enginesCount; i++ )
-    {
-        _propeller[ i ]->setRPM( engineOn ? 600.0 : 0.0 );
-        _engine[ i ]->setRPM( _propeller[ i ]->getEngineRPM() );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void C130_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -90,6 +73,23 @@ void C130_Propulsion::readData( XmlNode &dataNode )
     else
     {
         XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C130_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
+
+    for ( int i = 0; i < _enginesCount; i++ )
+    {
+        _propeller[ i ]->setRPM( engineOn ? 600.0 : 0.0 );
+        _engine[ i ]->setRPM( _propeller[ i ]->getEngineRPM() );
     }
 }
 

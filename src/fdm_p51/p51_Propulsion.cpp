@@ -52,20 +52,6 @@ P51_Propulsion::~P51_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Propulsion::init()
-{
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    _propeller->setRPM( engineOn ? 700.0 : 0.0 );
-    _engine->setRPM( _propeller->getEngineRPM() );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void P51_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -80,6 +66,20 @@ void P51_Propulsion::readData( XmlNode &dataNode )
     {
         XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void P51_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
+
+    _propeller->setRPM( engineOn ? 700.0 : 0.0 );
+    _engine->setRPM( _propeller->getEngineRPM() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

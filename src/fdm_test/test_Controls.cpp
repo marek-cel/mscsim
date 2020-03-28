@@ -63,7 +63,7 @@ TEST_Controls::~TEST_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Controls::init()
+void TEST_Controls::initialize()
 {
     _channelCyclicLat  = getChannelByName( "cyclic_lat" );
     _channelCyclicLon  = getChannelByName( "cyclic_lon" );
@@ -99,9 +99,9 @@ void TEST_Controls::init()
         FDM_THROW( e );
     }
 
-    /////////////////
-    Controls::init();
-    /////////////////
+    ///////////////////////
+    Controls::initialize();
+    ///////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

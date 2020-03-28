@@ -40,7 +40,7 @@ TEST_LandingGear::~TEST_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_LandingGear::init()
+void TEST_LandingGear::initialize()
 {
     Wheel *wheel_n = getWheelByName( "wheel_n" );
     Wheel *wheel_l = getWheelByName( "wheel_l" );
@@ -62,9 +62,9 @@ void TEST_LandingGear::init()
         FDM_THROW( e );
     }
 
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
+    //////////////////////////
+    LandingGear::initialize();
+    //////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -52,20 +52,6 @@ C172_Propulsion::~C172_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Propulsion::init()
-{
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    _propeller->setRPM( engineOn ? 600.0 : 0.0 );
-    _engine->setRPM( _propeller->getEngineRPM() );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void C172_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -80,6 +66,20 @@ void C172_Propulsion::readData( XmlNode &dataNode )
     {
         XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
+
+    _propeller->setRPM( engineOn ? 600.0 : 0.0 );
+    _engine->setRPM( _propeller->getEngineRPM() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

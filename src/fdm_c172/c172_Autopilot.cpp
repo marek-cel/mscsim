@@ -56,37 +56,6 @@ C172_Autopilot::~C172_Autopilot()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::init()
-{
-    std::string dataFile = Path::get( "data/fdm/c172/c172_ap.xml" );
-    fdm::XmlDoc doc( dataFile );
-
-    if ( doc.isOpen() )
-    {
-        fdm::XmlNode rootNode = doc.getRootNode();
-
-        if ( rootNode.isValid() )
-        {
-            readData( rootNode );
-        }
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::FileReadingError );
-        e.setInfo( "Reading file \"" + dataFile + "\" failed." );
-
-        FDM_THROW( e );
-    }
-
-    //////////////////
-    Autopilot::init();
-    //////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void C172_Autopilot::readData( XmlNode &dataNode )
 {
     ////////////////////////////////
@@ -113,6 +82,37 @@ void C172_Autopilot::readData( XmlNode &dataNode )
     {
         XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void C172_Autopilot::initialize()
+{
+    std::string dataFile = Path::get( "data/fdm/c172/c172_ap.xml" );
+    fdm::XmlDoc doc( dataFile );
+
+    if ( doc.isOpen() )
+    {
+        fdm::XmlNode rootNode = doc.getRootNode();
+
+        if ( rootNode.isValid() )
+        {
+            readData( rootNode );
+        }
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::FileReadingError );
+        e.setInfo( "Reading file \"" + dataFile + "\" failed." );
+
+        FDM_THROW( e );
+    }
+
+    ////////////////////////
+    Autopilot::initialize();
+    ////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

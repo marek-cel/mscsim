@@ -52,10 +52,7 @@ public:
      * Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
-    void init( bool engineOn = false );
-
-    /** Updates output data. */
-    void updateOutputData();
+    void initialize( bool engineOn = false );
 
     inline TEST_Aerodynamics* getAero() { return _aero; }
     inline TEST_Controls*     getCtrl() { return _ctrl; }
@@ -76,6 +73,9 @@ private:
     TEST_LandingGear  *_gear;   ///< landing gear model
     TEST_Mass         *_mass;   ///< mass and inertia model
     TEST_Propulsion   *_prop;   ///< propulsion model
+
+    /** Updates output data. */
+    void updateOutputData();
 };
 
 } // end of fdm namespace

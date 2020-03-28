@@ -47,15 +47,13 @@ public:
     virtual ~Propulsion();
 
     /**
-     * @brief Initializes propulsion.
-     */
-    virtual void init();
-
-    /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
+
+    /** Initializes propulsion. */
+    virtual void initialize();
 
     /** Computes force and moment. */
     virtual void computeForceAndMoment() = 0;

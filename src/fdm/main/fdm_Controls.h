@@ -73,14 +73,14 @@ public:
     /** Destructor. */
     virtual ~Controls();
 
-    /** Initializes controls. */
-    virtual void init();
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
+
+    /** Initializes controls. */
+    virtual void initialize();
 
     /** Updates controls. */
     virtual void update();

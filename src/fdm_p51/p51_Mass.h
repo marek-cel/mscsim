@@ -47,7 +47,7 @@ public:
     ~P51_Mass();
 
     /** Initializes mass. */
-    void init();
+    void initialize();
 
 private:
 

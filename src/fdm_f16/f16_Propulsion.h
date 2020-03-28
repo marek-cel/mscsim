@@ -48,14 +48,14 @@ public:
     /** Destructor. */
     ~F16_Propulsion();
 
-    /** Initializes propulsion. */
-    void init();
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
+
+    /** Initializes propulsion. */
+    void initialize();
 
     /** Computes force and moment. */
     void computeForceAndMoment();

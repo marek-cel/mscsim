@@ -56,7 +56,7 @@ P51_Controls::~P51_Controls() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Controls::init()
+void P51_Controls::initialize()
 {
     _channelAilerons     = getChannelByName( "ailerons"      );
     _channelElevator     = getChannelByName( "elevator"      );
@@ -92,9 +92,9 @@ void P51_Controls::init()
         FDM_THROW( e );
     }
 
-    /////////////////
-    Controls::init();
-    /////////////////
+    ///////////////////////
+    Controls::initialize();
+    ///////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

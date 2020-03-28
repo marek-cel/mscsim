@@ -40,7 +40,7 @@ F16_Mass::~F16_Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_Mass::init()
+void F16_Mass::initialize()
 {
     VarMass *pilot       = getVariableMassByName( "pilot" );
     VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
@@ -67,7 +67,7 @@ void F16_Mass::init()
         FDM_THROW( e );
     }
 
-    /////////////
-    Mass::init();
-    /////////////
+    ///////////////////
+    Mass::initialize();
+    ///////////////////
 }

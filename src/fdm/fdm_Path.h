@@ -46,19 +46,7 @@ public:
      */
     inline static std::string get( const char *path = "" )
     {
-#       ifdef SIM_LOCAL_DATA_DIR
-        return "../" + std::string( path );
-#       else
-
-#       ifdef _LINUX_
-        return "/usr/share/mscsim/" + std::string( path );
-#       endif
-
-#       ifdef WIN32
-        return std::string( path );
-#       endif
-
-#       endif // SIM_LOCAL_DATA_DIR
+        return get( std::string( path ) );
     }
 
     /**
@@ -67,7 +55,19 @@ public:
      */
     inline static std::string get( const std::string &path )
     {
-        return get( path.c_str() );
+#       ifdef SIM_LOCAL_DATA_DIR
+        return "../" + path;
+#       else
+
+#       ifdef _LINUX_
+        return "/usr/share/mscsim/" + path;
+#       endif
+
+#       ifdef WIN32
+        return path;
+#       endif
+
+#       endif // SIM_LOCAL_DATA_DIR
     }
 };
 

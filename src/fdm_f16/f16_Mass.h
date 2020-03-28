@@ -47,7 +47,7 @@ public:
     ~F16_Mass();
 
     /** Initializes mass. */
-    void init();
+    void initialize();
 
 private:
 

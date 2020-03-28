@@ -48,14 +48,14 @@ public:
     /** Destructor. */
     virtual ~Module() {}
 
-    /** Initializes module. */
-    virtual void init() = 0;
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
+
+    /** Initializes module. */
+    virtual void initialize() = 0;
 
     /** Updates module. */
     virtual void update() = 0;

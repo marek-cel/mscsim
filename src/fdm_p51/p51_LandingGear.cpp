@@ -40,7 +40,7 @@ P51_LandingGear::~P51_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_LandingGear::init()
+void P51_LandingGear::initialize()
 {
     Wheel *wheel_l = getWheelByName( "wheel_l" );
     Wheel *wheel_r = getWheelByName( "wheel_r" );
@@ -62,9 +62,9 @@ void P51_LandingGear::init()
         FDM_THROW( e );
     }
 
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
+    //////////////////////////
+    LandingGear::initialize();
+    //////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

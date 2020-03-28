@@ -36,6 +36,8 @@ UH60_Aircraft::UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_gear = _gear = new UH60_LandingGear( this );
     Aircraft::_mass = _mass = new UH60_Mass( this );
     Aircraft::_prop = _prop = new UH60_Propulsion( this );
+
+    readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,13 +53,11 @@ UH60_Aircraft::~UH60_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void UH60_Aircraft::init( bool engineOn )
+void UH60_Aircraft::initialize( bool engineOn )
 {
-    readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ) );
-
-    ///////////////////////////
-    Aircraft::init( engineOn );
-    ///////////////////////////
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

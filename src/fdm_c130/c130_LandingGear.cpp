@@ -40,7 +40,7 @@ C130_LandingGear::~C130_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_LandingGear::init()
+void C130_LandingGear::initialize()
 {
     Wheel *wheel_n  = getWheelByName( "wheel_n"  );
     Wheel *wheel_lf = getWheelByName( "wheel_lf" );
@@ -66,9 +66,9 @@ void C130_LandingGear::init()
         FDM_THROW( e );
     }
 
-    ////////////////////
-    LandingGear::init();
-    ////////////////////
+    //////////////////////////
+    LandingGear::initialize();
+    //////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

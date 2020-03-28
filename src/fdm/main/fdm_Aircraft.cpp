@@ -101,22 +101,22 @@ Aircraft::~Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::init( bool engineOn )
+void Aircraft::initialize( bool engineOn )
 {
     _initPropState = engineOn ? Running : Stopped;
 
-    _aero->init();
-    _ctrl->init();
-    _gear->init();
-    _mass->init();
-    _prop->init();
+    _aero->initialize();
+    _ctrl->initialize();
+    _gear->initialize();
+    _mass->initialize();
+    _prop->initialize();
 
     updateVariables( _stateVect, _derivVect );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::step( double timeStep )
+void Aircraft::update( double timeStep )
 {
     _timeStep = timeStep;
 
@@ -140,11 +140,13 @@ void Aircraft::step( double timeStep )
 
         FDM_THROW( e );
     }
+
+    updateOutputData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::stepFrozen( double timeStep )
+void Aircraft::updateFrozen( double timeStep )
 {
     _timeStep = timeStep;
 
@@ -169,87 +171,8 @@ void Aircraft::stepFrozen( double timeStep )
 
         FDM_THROW( e );
     }
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::updateOutputData()
-{
-    // flight data
-    _dataOut->flight.latitude  = _wgs.getPos_Geo().lat;
-    _dataOut->flight.longitude = _wgs.getPos_Geo().lon;
-
-    _dataOut->flight.altitude_asl = _altitude_asl;
-    _dataOut->flight.altitude_agl = _altitude_agl;
-
-    _dataOut->flight.roll    = _roll;
-    _dataOut->flight.pitch   = _pitch;
-    _dataOut->flight.heading = _heading;
-
-    _dataOut->flight.angleOfAttack = _angleOfAttack;
-    _dataOut->flight.sideslipAngle = _sideslipAngle;
-
-    _dataOut->flight.climbAngle = _climbAngle;
-    _dataOut->flight.trackAngle = _trackAngle;
-
-    _dataOut->flight.slipSkidAngle = _slipSkidAngle;
-
-    _dataOut->flight.airspeed    = _airspeed;
-    _dataOut->flight.ias         = _ias;
-    _dataOut->flight.groundSpeed = _groundSpeed;
-    _dataOut->flight.machNumber  = _machNumber;
-    _dataOut->flight.climbRate   = _climbRate;
-
-    _dataOut->flight.rollRate  = _omg_bas.x();
-    _dataOut->flight.pitchRate = _omg_bas.y();
-    _dataOut->flight.yawRate   = _omg_bas.z();
-    _dataOut->flight.turnRate  = _turnRate;
-
-    _dataOut->flight.pos_x_wgs = _pos_wgs.x();
-    _dataOut->flight.pos_y_wgs = _pos_wgs.y();
-    _dataOut->flight.pos_z_wgs = _pos_wgs.z();
-
-    _dataOut->flight.att_e0_wgs = _att_wgs.e0();
-    _dataOut->flight.att_ex_wgs = _att_wgs.ex();
-    _dataOut->flight.att_ey_wgs = _att_wgs.ey();
-    _dataOut->flight.att_ez_wgs = _att_wgs.ez();
-
-    _dataOut->flight.vel_u_bas = _vel_bas.x();
-    _dataOut->flight.vel_v_bas = _vel_bas.y();
-    _dataOut->flight.vel_w_bas = _vel_bas.z();
-
-    _dataOut->flight.omg_p_bas = _omg_bas.x();
-    _dataOut->flight.omg_q_bas = _omg_bas.y();
-    _dataOut->flight.omg_r_bas = _omg_bas.z();
-
-    _dataOut->flight.phi_wgs = _angles_wgs.phi();
-    _dataOut->flight.tht_wgs = _angles_wgs.tht();
-    _dataOut->flight.psi_wgs = _angles_wgs.psi();
-
-    _dataOut->flight.tas_u_bas = _vel_air_bas.x();
-    _dataOut->flight.tas_v_bas = _vel_air_bas.y();
-    _dataOut->flight.tas_w_bas = _vel_air_bas.z();
-
-    _dataOut->flight.vel_north = _vel_ned.x();
-    _dataOut->flight.vel_east  = _vel_ned.y();
-
-    _dataOut->flight.acc_x_bas = _acc_bas.x();
-    _dataOut->flight.acc_y_bas = _acc_bas.y();
-    _dataOut->flight.acc_z_bas = _acc_bas.z();
-
-    _dataOut->flight.g_force_x = _g_force.x();
-    _dataOut->flight.g_force_y = _g_force.y();
-    _dataOut->flight.g_force_z = _g_force.z();
-
-    _dataOut->flight.g_pilot_x = _g_pilot.x();
-    _dataOut->flight.g_pilot_y = _g_pilot.y();
-    _dataOut->flight.g_pilot_z = _g_pilot.z();
-
-    _dataOut->flight.onGround = _gear->getOnGround();
-    _dataOut->flight.stall    = _aero->getStall();
-
-    // crash
-    _dataOut->crash = _crash;
+    updateOutputData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -261,6 +184,8 @@ void Aircraft::setStateVector( const StateVector &stateVector )
 
     anteIntegration();
     computeStateDeriv( _stateVect, &_derivVect );
+
+    updateOutputData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -461,6 +386,87 @@ void Aircraft::detectCrash()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Aircraft::updateOutputData()
+{
+    // flight data
+    _dataOut->flight.latitude  = _wgs.getPos_Geo().lat;
+    _dataOut->flight.longitude = _wgs.getPos_Geo().lon;
+
+    _dataOut->flight.altitude_asl = _altitude_asl;
+    _dataOut->flight.altitude_agl = _altitude_agl;
+
+    _dataOut->flight.roll    = _roll;
+    _dataOut->flight.pitch   = _pitch;
+    _dataOut->flight.heading = _heading;
+
+    _dataOut->flight.angleOfAttack = _angleOfAttack;
+    _dataOut->flight.sideslipAngle = _sideslipAngle;
+
+    _dataOut->flight.climbAngle = _climbAngle;
+    _dataOut->flight.trackAngle = _trackAngle;
+
+    _dataOut->flight.slipSkidAngle = _slipSkidAngle;
+
+    _dataOut->flight.airspeed    = _airspeed;
+    _dataOut->flight.ias         = _ias;
+    _dataOut->flight.groundSpeed = _groundSpeed;
+    _dataOut->flight.machNumber  = _machNumber;
+    _dataOut->flight.climbRate   = _climbRate;
+
+    _dataOut->flight.rollRate  = _omg_bas.x();
+    _dataOut->flight.pitchRate = _omg_bas.y();
+    _dataOut->flight.yawRate   = _omg_bas.z();
+    _dataOut->flight.turnRate  = _turnRate;
+
+    _dataOut->flight.pos_x_wgs = _pos_wgs.x();
+    _dataOut->flight.pos_y_wgs = _pos_wgs.y();
+    _dataOut->flight.pos_z_wgs = _pos_wgs.z();
+
+    _dataOut->flight.att_e0_wgs = _att_wgs.e0();
+    _dataOut->flight.att_ex_wgs = _att_wgs.ex();
+    _dataOut->flight.att_ey_wgs = _att_wgs.ey();
+    _dataOut->flight.att_ez_wgs = _att_wgs.ez();
+
+    _dataOut->flight.vel_u_bas = _vel_bas.x();
+    _dataOut->flight.vel_v_bas = _vel_bas.y();
+    _dataOut->flight.vel_w_bas = _vel_bas.z();
+
+    _dataOut->flight.omg_p_bas = _omg_bas.x();
+    _dataOut->flight.omg_q_bas = _omg_bas.y();
+    _dataOut->flight.omg_r_bas = _omg_bas.z();
+
+    _dataOut->flight.phi_wgs = _angles_wgs.phi();
+    _dataOut->flight.tht_wgs = _angles_wgs.tht();
+    _dataOut->flight.psi_wgs = _angles_wgs.psi();
+
+    _dataOut->flight.tas_u_bas = _vel_air_bas.x();
+    _dataOut->flight.tas_v_bas = _vel_air_bas.y();
+    _dataOut->flight.tas_w_bas = _vel_air_bas.z();
+
+    _dataOut->flight.vel_north = _vel_ned.x();
+    _dataOut->flight.vel_east  = _vel_ned.y();
+
+    _dataOut->flight.acc_x_bas = _acc_bas.x();
+    _dataOut->flight.acc_y_bas = _acc_bas.y();
+    _dataOut->flight.acc_z_bas = _acc_bas.z();
+
+    _dataOut->flight.g_force_x = _g_force.x();
+    _dataOut->flight.g_force_y = _g_force.y();
+    _dataOut->flight.g_force_z = _g_force.z();
+
+    _dataOut->flight.g_pilot_x = _g_pilot.x();
+    _dataOut->flight.g_pilot_y = _g_pilot.y();
+    _dataOut->flight.g_pilot_z = _g_pilot.z();
+
+    _dataOut->flight.onGround = _gear->getOnGround();
+    _dataOut->flight.stall    = _aero->getStall();
+
+    // crash
+    _dataOut->crash = _crash;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Aircraft::computeStateDeriv( const StateVector &stateVect,
                                   StateVector *derivVect )
 {
@@ -642,9 +648,11 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _slipSkidAngle = atan2( -_g_pilot.y(), _g_pilot.z() );
 
+    double dynPressLon = 0.5 * _envir->getDensity() * _vel_air_bas.x() * _vel_air_bas.x();
+
     _airspeed    = _vel_air_bas.getLength();
     _dynPress    = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
-    _ias         = sqrt( 2.0 * _dynPress / fdm::Atmosphere::_std_sl_rho );
+    _ias         = sqrt( 2.0 * dynPressLon / fdm::Atmosphere::_std_sl_rho );
     _groundSpeed = _vel_ned.getLengthXY();
     _machNumber  = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate   = -_vel_ned.z();

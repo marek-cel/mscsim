@@ -57,7 +57,7 @@ public:
      * Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
-    void init( bool engineOn = false );
+    void initialize( bool engineOn = false );
 
     /** Updates output data. */
     void updateOutputData();

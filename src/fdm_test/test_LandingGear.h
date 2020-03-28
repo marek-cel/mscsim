@@ -45,7 +45,7 @@ public:
     ~TEST_LandingGear();
 
     /** Initializes landing gear. */
-    void init();
+    void initialize();
 
     /** Updates model. */
     void update();

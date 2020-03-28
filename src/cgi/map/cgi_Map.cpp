@@ -98,7 +98,7 @@ using namespace cgi;
 //const osg::Vec3 Map::_colorBorders     = osg::Vec3( 0.00, 0.00, 0.00 );
 //const osg::Vec3 Map::_colorAeroData    = osg::Vec3( 0.00, 0.00, 0.00 );
 
-// ICAO
+// ICAO Annex 4 - Aeronautical Charts
 const osg::Vec3 Map::_colorOceans      = osg::Vec3( 0.73, 0.77, 0.82 );
 const osg::Vec3 Map::_colorLandmass    = osg::Vec3( 1.00, 1.00, 1.00 );
 const osg::Vec3 Map::_colorCoastline   = osg::Vec3( 0.11, 0.20, 0.39 );

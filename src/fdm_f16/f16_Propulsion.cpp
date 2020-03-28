@@ -50,19 +50,6 @@ F16_Propulsion::~F16_Propulsion()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F16_Propulsion::init()
-{
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
-
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    _engine->initialize( engineOn );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void F16_Propulsion::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
@@ -75,6 +62,19 @@ void F16_Propulsion::readData( XmlNode &dataNode )
     {
         XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F16_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
+
+    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
+
+    _engine->initialize( engineOn );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -372,7 +372,7 @@ void Manager::initRecorder()
         _recorder->addVariable( new Recorder::Variable< bool >( "starter"  + num, &( _dataInp.engine[ i ].starter  ) ) );
     }
 
-    _recorder->init( _dataInp.recording.mode, _dataInp.recording.file );
+    _recorder->initialize( _dataInp.recording.mode, _dataInp.recording.file );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -654,7 +654,7 @@ void Manager::updateStateInit()
                 if ( _aircraft != 0 )
                 {
                     initRecorder();
-                    _aircraft->init( _dataInp.initial.engineOn );
+                    _aircraft->initialize( _dataInp.initial.engineOn );
 
                     if ( _dataInp.recording.mode == DataInp::Recording::Replay )
                     {
@@ -675,8 +675,6 @@ void Manager::updateStateInit()
                     initOnGround();
                 else
                     initInFlight();
-
-                _aircraft->updateOutputData();
             }
         }
         catch ( Exception &e )
@@ -711,11 +709,9 @@ void Manager::updateStateWork()
             if ( _dataInp.recording.mode != DataInp::Recording::Replay || _recorder->isReplaying() )
             {
                 if ( _recorder->isReplaying() )
-                    _aircraft->stepFrozen( _timeStep );
+                    _aircraft->updateFrozen( _timeStep );
                 else
-                    _aircraft->step( _timeStep );
-
-                _aircraft->updateOutputData();
+                    _aircraft->update( _timeStep );
             }
 
             //double lat = Units::rad2deg( _aircraft->getWGS().getPos_Geo().lat );
@@ -796,8 +792,7 @@ void Manager::updateStateFreeze()
         {
             double compTime_0 = Time::get();
 
-            _aircraft->stepFrozen( _timeStep );
-            _aircraft->updateOutputData();
+            _aircraft->updateFrozen( _timeStep );
 
             _realTime += _timeStep;
             _timeSteps++;

@@ -40,7 +40,7 @@ TEST_Mass::~TEST_Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Mass::init()
+void TEST_Mass::initialize()
 {
     VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
     VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
@@ -64,7 +64,7 @@ void TEST_Mass::init()
         FDM_THROW( e );
     }
 
-    /////////////
-    Mass::init();
-    /////////////
+    ///////////////////
+    Mass::initialize();
+    ///////////////////
 }

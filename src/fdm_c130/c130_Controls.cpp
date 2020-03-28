@@ -56,7 +56,7 @@ C130_Controls::~C130_Controls() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_Controls::init()
+void C130_Controls::initialize()
 {
     _channelAilerons     = getChannelByName( "ailerons"      );
     _channelElevator     = getChannelByName( "elevator"      );
@@ -92,9 +92,9 @@ void C130_Controls::init()
         FDM_THROW( e );
     }
 
-    /////////////////
-    Controls::init();
-    /////////////////
+    ///////////////////////
+    Controls::initialize();
+    ///////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

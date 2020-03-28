@@ -40,7 +40,7 @@ C172_Mass::~C172_Mass() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Mass::init()
+void C172_Mass::initialize()
 {
     VarMass *pilot_l     = getVariableMassByName( "pilot_l" );
     VarMass *pilot_r     = getVariableMassByName( "pilot_r" );
@@ -70,7 +70,7 @@ void C172_Mass::init()
         FDM_THROW( e );
     }
 
-    /////////////
-    Mass::init();
-    /////////////
+    ///////////////////
+    Mass::initialize();
+    ///////////////////
 }

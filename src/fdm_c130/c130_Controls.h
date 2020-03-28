@@ -47,7 +47,7 @@ public:
     ~C130_Controls();
 
     /** Initializes controls. */
-    void init();
+    void initialize();
 
     /** Updates controls. */
     void update();

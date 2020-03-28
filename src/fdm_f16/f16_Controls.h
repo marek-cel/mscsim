@@ -48,14 +48,14 @@ public:
     /** Destructor. */
     ~F16_Controls();
 
-    /** Initializes controls. */
-    void init();
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
+
+    /** Initializes controls. */
+    void initialize();
 
     /** Updates model. */
     void update();

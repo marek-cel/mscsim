@@ -42,6 +42,8 @@ C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_gear = _gear = new C130_LandingGear( this );
     Aircraft::_mass = _mass = new C130_Mass( this );
     Aircraft::_prop = _prop = new C130_Propulsion( this );
+
+    readFile( Path::get( "data/fdm/c130/c130_fdm.xml" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,13 +59,11 @@ C130_Aircraft::~C130_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_Aircraft::init( bool engineOn )
+void C130_Aircraft::initialize( bool engineOn )
 {
-    readFile( Path::get( "data/fdm/c130/c130_fdm.xml" ) );
-
-    ///////////////////////////
-    Aircraft::init( engineOn );
-    ///////////////////////////
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////

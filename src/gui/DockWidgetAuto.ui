@@ -86,7 +86,7 @@
             <number>9</number>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_CRS_2">
+            <widget class="QLabel" name="label_NAV">
              <property name="font">
               <font>
                <pointsize>8</pointsize>
@@ -132,7 +132,7 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QLabel" name="label_CRS_3">
+            <widget class="QLabel" name="label_STBY">
              <property name="font">
               <font>
                <pointsize>8</pointsize>
@@ -1201,7 +1201,7 @@ QLabel:disabled
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLabel" name="label_4">
+            <widget class="QLabel" name="label_ALT">
              <property name="font">
               <font>
                <pointsize>8</pointsize>
@@ -1216,7 +1216,7 @@ QLabel:disabled
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="label_VS">
              <property name="font">
               <font>
                <pointsize>8</pointsize>

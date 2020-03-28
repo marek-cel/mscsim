@@ -47,7 +47,7 @@ public:
     ~P51_LandingGear();
 
     /** Initializes landing gear. */
-    void init();
+    void initialize();
 
     /** Updates landing gear. */
     void update();

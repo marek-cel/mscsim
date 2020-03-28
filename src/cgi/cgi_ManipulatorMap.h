@@ -59,6 +59,8 @@ public:
     double getMouseLat() const { return _mouse_lat; }
     double getMouseLon() const { return _mouse_lon; }
 
+    double getScale() const { return _scale; }
+
     void registerScaleChangeCallback( void(*fun)(double) );
 
     void setCenterX( double x );

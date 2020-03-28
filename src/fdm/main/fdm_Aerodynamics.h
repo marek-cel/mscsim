@@ -123,14 +123,14 @@ public:
     /** Destructor. */
     virtual ~Aerodynamics();
 
-    /** Initializes aerodynamics. */
-    virtual void init();
-
     /**
      * Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
+
+    /** Initializes aerodynamics. */
+    virtual void initialize();
 
     /** Computes force and moment. */
     virtual void computeForceAndMoment() = 0;

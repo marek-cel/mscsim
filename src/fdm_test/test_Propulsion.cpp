@@ -48,11 +48,25 @@ TEST_Propulsion::~TEST_Propulsion() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Propulsion::init()
+void TEST_Propulsion::readData( XmlNode &dataNode )
 {
-    ///////////////////
-    Propulsion::init();
-    ///////////////////
+    if ( dataNode.isValid() )
+    {
+        // TODO
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void TEST_Propulsion::initialize()
+{
+    /////////////////////////
+    Propulsion::initialize();
+    /////////////////////////
 
     bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
@@ -67,20 +81,6 @@ void TEST_Propulsion::init()
     {
         _mainRotorOmega = 0.0;
         _tailRotorOmega = 0.0;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void TEST_Propulsion::readData( XmlNode &dataNode )
-{
-    if ( dataNode.isValid() )
-    {
-        // TODO
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

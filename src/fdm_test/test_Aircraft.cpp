@@ -36,6 +36,8 @@ TEST_Aircraft::TEST_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_gear = _gear = new TEST_LandingGear( this );
     Aircraft::_mass = _mass = new TEST_Mass( this );
     Aircraft::_prop = _prop = new TEST_Propulsion( this );
+
+    readFile( Path::get( "data/fdm/test/test_fdm.xml" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,13 +53,11 @@ TEST_Aircraft::~TEST_Aircraft()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TEST_Aircraft::init( bool engineOn )
+void TEST_Aircraft::initialize( bool engineOn )
 {
-    readFile( Path::get( "data/fdm/test/test_fdm.xml" ) );
-
-    ///////////////////////////
-    Aircraft::init( engineOn );
-    ///////////////////////////
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////
