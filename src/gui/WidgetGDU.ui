@@ -37,9 +37,7 @@
      <property name="styleSheet">
       <string notr="true">#frame
 {
-	background-color: #393939;
 	border-image:url(:/gui/images/g1000/background.png);
-	border-radius: 10px;
 }</string>
      </property>
      <property name="frameShape">
@@ -101,7 +99,7 @@
       <property name="styleSheet">
        <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_soft.png);
+	border-image:url(:/gui/images/g1000/up_btn_soft.png);
 }
 
 QPushButton:pressed
@@ -117,7 +115,7 @@ QLabel
       <widget class="QPushButton" name="button_11">
        <property name="geometry">
         <rect>
-         <x>674</x>
+         <x>675</x>
          <y>17</y>
          <width>44</width>
          <height>29</height>
@@ -134,6 +132,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 11</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -145,7 +146,7 @@ QLabel
       <widget class="QPushButton" name="button_10">
        <property name="geometry">
         <rect>
-         <x>608</x>
+         <x>609</x>
          <y>17</y>
          <width>44</width>
          <height>29</height>
@@ -162,6 +163,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 10</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -191,6 +195,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 9</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -218,6 +225,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 2</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -247,6 +257,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 8</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -274,6 +287,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 4</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -303,6 +319,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 6</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -330,6 +349,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 3</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -359,6 +381,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 7</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -386,6 +411,9 @@ QLabel
          <width>44</width>
          <height>29</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Soft Key 1</string>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -415,6 +443,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 5</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -443,6 +474,9 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Soft Key 12</string>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -466,28 +500,36 @@ QLabel
       <widget class="QPushButton" name="buttonKnob_RANGE">
        <property name="geometry">
         <rect>
-         <x>61</x>
-         <y>393</y>
-         <width>39</width>
-         <height>39</height>
+         <x>60</x>
+         <y>392</y>
+         <width>41</width>
+         <height>41</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>39</width>
-         <height>39</height>
+         <width>41</width>
+         <height>41</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>39</width>
-         <height>39</height>
+         <width>41</width>
+         <height>41</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>Joystick</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_pan.png);
+	border-image:url(:/gui/images/g1000/up_joy_pan.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_joy_pan.png);
 }</string>
        </property>
        <property name="text">
@@ -497,28 +539,36 @@ QLabel
       <widget class="QPushButton" name="buttonKnob_CRS">
        <property name="geometry">
         <rect>
-         <x>53</x>
+         <x>52</x>
          <y>266</y>
-         <width>55</width>
-         <height>55</height>
+         <width>57</width>
+         <height>57</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>55</width>
-         <height>55</height>
+         <width>57</width>
+         <height>57</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>55</width>
-         <height>55</height>
+         <width>57</width>
+         <height>57</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>CRS/BARO Knob</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_crs.png);
+	border-image:url(:/gui/images/g1000/up_knob_crs.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_crs.png);
 }</string>
        </property>
        <property name="text">
@@ -528,28 +578,36 @@ QLabel
       <widget class="QPushButton" name="buttonKnob_COM_ID">
        <property name="geometry">
         <rect>
-         <x>65</x>
-         <y>36</y>
-         <width>30</width>
-         <height>30</height>
+         <x>64</x>
+         <y>35</y>
+         <width>33</width>
+         <height>33</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>33</width>
+         <height>33</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>30</width>
-         <height>30</height>
+         <width>33</width>
+         <height>33</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>COM VOL/SQ Knob</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_vol.png);
+	border-image:url(:/gui/images/g1000/up_knob_vol.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_vol.png);
 }</string>
        </property>
        <property name="text">
@@ -577,10 +635,18 @@ QLabel
          <height>58</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Dual COM Knob</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_dual.png);
+	border-image:url(:/gui/images/g1000/up_knob_dual.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_dual.png);
 }</string>
        </property>
        <property name="text">
@@ -608,10 +674,13 @@ QLabel
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>COM Frequency Transfer Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_switch.png);
+	border-image:url(:/gui/images/g1000/up_btn_switch.png);
 }
 
 QPushButton:pressed
@@ -644,10 +713,18 @@ QPushButton:pressed
          <height>58</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Dual FMS Knob</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_dual.png);
+	border-image:url(:/gui/images/g1000/up_knob_dual.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_dual.png);
 }</string>
        </property>
        <property name="text">
@@ -675,10 +752,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Direct-to Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_dest.png);
+	border-image:url(:/gui/images/g1000/up_btn_dest.png);
 }
 
 QPushButton:pressed
@@ -711,10 +791,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>FPL Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_fpl.png);
+	border-image:url(:/gui/images/g1000/up_btn_fpl.png);
 }
 
 QPushButton:pressed
@@ -747,10 +830,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>ENT Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_ent.png);
+	border-image:url(:/gui/images/g1000/up_btn_ent.png);
 }
 
 QPushButton:pressed
@@ -783,10 +869,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>PROC Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_proc.png);
+	border-image:url(:/gui/images/g1000/up_btn_proc.png);
 }
 
 QPushButton:pressed
@@ -819,10 +908,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>MENU Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_menu.png);
+	border-image:url(:/gui/images/g1000/up_btn_menu.png);
 }
 
 QPushButton:pressed
@@ -855,10 +947,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>CLR Key (DFLT MAP)</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_clr.png);
+	border-image:url(:/gui/images/g1000/up_btn_clr.png);
 }
 
 QPushButton:pressed
@@ -904,10 +999,18 @@ QPushButton:pressed
          <height>58</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Dual ALT Knob</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_dual.png);
+	border-image:url(:/gui/images/g1000/up_knob_dual.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_dual.png);
 }</string>
        </property>
        <property name="text">
@@ -917,28 +1020,36 @@ QPushButton:pressed
       <widget class="QPushButton" name="buttonKnob_NAV_ID">
        <property name="geometry">
         <rect>
-         <x>53</x>
-         <y>36</y>
-         <width>31</width>
-         <height>31</height>
+         <x>52</x>
+         <y>35</y>
+         <width>33</width>
+         <height>33</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>31</width>
-         <height>31</height>
+         <width>33</width>
+         <height>33</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>31</width>
-         <height>31</height>
+         <width>33</width>
+         <height>33</height>
         </size>
+       </property>
+       <property name="toolTip">
+        <string>NAV VOL/ID Knob</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_vol.png);
+	border-image:url(:/gui/images/g1000/up_knob_vol.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_vol.png);
 }</string>
        </property>
        <property name="text">
@@ -966,10 +1077,18 @@ QPushButton:pressed
          <height>57</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Heading Knob</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_hdg.png);
+	border-image:url(:/gui/images/g1000/up_knob_hdg.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_hdg.png);
 }</string>
        </property>
        <property name="text">
@@ -997,10 +1116,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>NAV Frequency Transfer Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_switch.png);
+	border-image:url(:/gui/images/g1000/up_btn_switch.png);
 }
 
 QPushButton:pressed
@@ -1033,10 +1155,18 @@ QPushButton:pressed
          <height>58</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Dual NAV Knob</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/knob_dual.png);
+	border-image:url(:/gui/images/g1000/up_knob_dual.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_knob_dual.png);
 }</string>
        </property>
        <property name="text">
@@ -1064,10 +1194,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>AP Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_ap.png);
+	border-image:url(:/gui/images/g1000/up_btn_ap.png);
 }
 
 QPushButton:pressed
@@ -1100,10 +1233,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>FD Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_fd.png);
+	border-image:url(:/gui/images/g1000/up_btn_fd.png);
 }
 
 QPushButton:pressed
@@ -1136,10 +1272,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>HDG Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_hdg.png);
+	border-image:url(:/gui/images/g1000/up_btn_hdg.png);
 }
 
 QPushButton:pressed
@@ -1172,10 +1311,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>ALT Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_alt.png);
+	border-image:url(:/gui/images/g1000/up_btn_alt.png);
 }
 
 QPushButton:pressed
@@ -1208,10 +1350,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>NAV Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_nav.png);
+	border-image:url(:/gui/images/g1000/up_btn_nav.png);
 }
 
 QPushButton:pressed
@@ -1244,10 +1389,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>VNV Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_vnv.png);
+	border-image:url(:/gui/images/g1000/up_btn_vnv.png);
 }
 
 QPushButton:pressed
@@ -1280,10 +1428,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>APR Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_apr.png);
+	border-image:url(:/gui/images/g1000/up_btn_apr.png);
 }
 
 QPushButton:pressed
@@ -1316,10 +1467,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>BC Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_bc.png);
+	border-image:url(:/gui/images/g1000/up_btn_bc.png);
 }
 
 QPushButton:pressed
@@ -1352,10 +1506,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>VS Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_vs.png);
+	border-image:url(:/gui/images/g1000/up_btn_vs.png);
 }
 
 QPushButton:pressed
@@ -1388,10 +1545,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>NOSE UP Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_up.png);
+	border-image:url(:/gui/images/g1000/up_btn_up.png);
 }
 
 QPushButton:pressed
@@ -1424,10 +1584,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>FLC Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_flc.png);
+	border-image:url(:/gui/images/g1000/up_btn_flc.png);
 }
 
 QPushButton:pressed
@@ -1460,10 +1623,13 @@ QPushButton:pressed
          <height>29</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>NOSE DN Key</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QPushButton
 {
-	border-image:url(:/gui/images/g1000/btn_dn.png);
+	border-image:url(:/gui/images/g1000/up_btn_dn.png);
 }
 
 QPushButton:pressed

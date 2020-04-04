@@ -45,26 +45,6 @@
         <file>gui/images/efis/ehsi/ehsi_hdg_scale.svg</file>
         
         <file>gui/images/g1000/background.png</file>
-        <file>gui/images/g1000/btn_alt.png</file>
-        <file>gui/images/g1000/btn_ap.png</file>
-        <file>gui/images/g1000/btn_apr.png</file>
-        <file>gui/images/g1000/btn_bc.png</file>
-        <file>gui/images/g1000/btn_clr.png</file>
-        <file>gui/images/g1000/btn_dest.png</file>
-        <file>gui/images/g1000/btn_dn.png</file>
-        <file>gui/images/g1000/btn_ent.png</file>
-        <file>gui/images/g1000/btn_fd.png</file>
-        <file>gui/images/g1000/btn_flc.png</file>
-        <file>gui/images/g1000/btn_fpl.png</file>
-        <file>gui/images/g1000/btn_hdg.png</file>
-        <file>gui/images/g1000/btn_menu.png</file>
-        <file>gui/images/g1000/btn_nav.png</file>
-        <file>gui/images/g1000/btn_proc.png</file>
-        <file>gui/images/g1000/btn_soft.png</file>
-        <file>gui/images/g1000/btn_switch.png</file>
-        <file>gui/images/g1000/btn_up.png</file>
-        <file>gui/images/g1000/btn_vnv.png</file>
-        <file>gui/images/g1000/btn_vs.png</file>
         <file>gui/images/g1000/dn_btn_alt.png</file>
         <file>gui/images/g1000/dn_btn_ap.png</file>
         <file>gui/images/g1000/dn_btn_apr.png</file>
@@ -85,10 +65,35 @@
         <file>gui/images/g1000/dn_btn_up.png</file>
         <file>gui/images/g1000/dn_btn_vnv.png</file>
         <file>gui/images/g1000/dn_btn_vs.png</file>
-        <file>gui/images/g1000/knob_crs.png</file>
-        <file>gui/images/g1000/knob_dual.png</file>
-        <file>gui/images/g1000/knob_hdg.png</file>
-        <file>gui/images/g1000/knob_pan.png</file>
-        <file>gui/images/g1000/knob_vol.png</file>
+        <file>gui/images/g1000/dn_joy_pan.png</file>
+        <file>gui/images/g1000/dn_knob_crs.png</file>
+        <file>gui/images/g1000/dn_knob_dual.png</file>
+        <file>gui/images/g1000/dn_knob_hdg.png</file>
+        <file>gui/images/g1000/dn_knob_vol.png</file>        
+        <file>gui/images/g1000/up_btn_alt.png</file>
+        <file>gui/images/g1000/up_btn_ap.png</file>
+        <file>gui/images/g1000/up_btn_apr.png</file>
+        <file>gui/images/g1000/up_btn_bc.png</file>
+        <file>gui/images/g1000/up_btn_clr.png</file>
+        <file>gui/images/g1000/up_btn_dest.png</file>
+        <file>gui/images/g1000/up_btn_dn.png</file>
+        <file>gui/images/g1000/up_btn_ent.png</file>
+        <file>gui/images/g1000/up_btn_fd.png</file>
+        <file>gui/images/g1000/up_btn_flc.png</file>
+        <file>gui/images/g1000/up_btn_fpl.png</file>
+        <file>gui/images/g1000/up_btn_hdg.png</file>
+        <file>gui/images/g1000/up_btn_menu.png</file>
+        <file>gui/images/g1000/up_btn_nav.png</file>
+        <file>gui/images/g1000/up_btn_proc.png</file>
+        <file>gui/images/g1000/up_btn_soft.png</file>
+        <file>gui/images/g1000/up_btn_switch.png</file>
+        <file>gui/images/g1000/up_btn_up.png</file>
+        <file>gui/images/g1000/up_btn_vnv.png</file>
+        <file>gui/images/g1000/up_btn_vs.png</file>
+        <file>gui/images/g1000/up_joy_pan.png</file>
+        <file>gui/images/g1000/up_knob_crs.png</file>
+        <file>gui/images/g1000/up_knob_dual.png</file>
+        <file>gui/images/g1000/up_knob_hdg.png</file>
+        <file>gui/images/g1000/up_knob_vol.png</file>
     </qresource>
 </RCC>
