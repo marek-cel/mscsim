@@ -1,10 +1,14 @@
 HEADERS += \
     $$PWD/c172_Aerodynamics.h \
     $$PWD/c172_Aircraft.h \
-    $$PWD/c172_Autopilot.h \
     $$PWD/c172_Controls.h \
     $$PWD/c172_Engine.h \
-    $$PWD/c172_FlightDirector.h \
+    $$PWD/c172_GFC700_AP.h \
+    $$PWD/c172_GFC700_FD.h \
+    $$PWD/c172_KAP140_AP.h \
+    $$PWD/c172_KAP140_FD.h \
+    $$PWD/c172_KFC325_AP.h \
+    $$PWD/c172_KFC325_FD.h \
     $$PWD/c172_LandingGear.h \
     $$PWD/c172_Mass.h \
     $$PWD/c172_Propeller.h \
@@ -16,10 +20,14 @@ HEADERS += \
 SOURCES += \
     $$PWD/c172_Aerodynamics.cpp \
     $$PWD/c172_Aircraft.cpp \
-    $$PWD/c172_Autopilot.cpp \
     $$PWD/c172_Controls.cpp \
     $$PWD/c172_Engine.cpp \
-    $$PWD/c172_FlightDirector.cpp \
+    $$PWD/c172_GFC700_AP.cpp \
+    $$PWD/c172_GFC700_FD.cpp \
+    $$PWD/c172_KAP140_AP.cpp \
+    $$PWD/c172_KAP140_FD.cpp \
+    $$PWD/c172_KFC325_AP.cpp \
+    $$PWD/c172_KFC325_FD.cpp \
     $$PWD/c172_LandingGear.cpp \
     $$PWD/c172_Mass.cpp \
     $$PWD/c172_Propeller.cpp \

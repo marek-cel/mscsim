@@ -24,36 +24,22 @@
 
 #include <osg/PositionAttitudeTransform>
 #include <osgDB/ReadFile>
+#include <osgGA/TrackballManipulator>
 #include <osgViewer/ViewerEventHandlers>
 
-#include <fdm/utils/fdm_WGS84.h>
-
-#include <cgi/cgi_Defines.h>
-#include <cgi/cgi_Manager.h>
-#include <cgi/cgi_WGS84.h>
-
-#include <gui/gui_Defines.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-const double WidgetCGI::_zNear = 0.55;
-const double WidgetCGI::_zFar  = CGI_SKYDOME_RADIUS + 0.1f * CGI_SKYDOME_RADIUS;
+#include <g1000/g1000_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::WidgetCGI( QWidget *parent ) :
     QWidget ( parent ),
-    _gridLayout ( 0 ),
-    _timerId ( 0 ),
-    _camManipulatorInited ( false )
+    _gridLayout ( 0 )
 {
 #   ifdef SIM_OSG_DEBUG_INFO
     osg::setNotifyLevel( osg::DEBUG_INFO );
 #   else
     osg::setNotifyLevel( osg::WARN );
 #   endif
-
-    cgi::Manager::instance()->setCameraManipulatorPilot();
 
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
@@ -66,99 +52,12 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     _gridLayout->setContentsMargins( 1, 1, 1, 1 );
     _gridLayout->addWidget( widget, 0, 0 );
 
-    _keyHandler = new KeyHandler( this );
-    getEventHandlers().push_front( _keyHandler.get() );
-
     setLayout( _gridLayout );
-
-    _timerId = startTimer( 1000.0 * CGI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WidgetCGI::~WidgetCGI()
-{
-    if ( _timerId ) killTimer( _timerId );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setCameraManipulatorChase()
-{
-    cgi::Manager::instance()->setCameraManipulatorChase();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
-
-    _camManipulatorInited = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setCameraManipulatorOrbit()
-{
-    cgi::Manager::instance()->setCameraManipulatorOrbit();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
-
-    _camManipulatorInited = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setCameraManipulatorPilot()
-{
-    cgi::Manager::instance()->setCameraManipulatorPilot();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
-
-    _camManipulatorInited = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setCameraManipulatorWorld()
-{
-    osg::Vec3d eye = cgi::Manager::instance()->getCameraManipulator()->getMatrix().getTrans();
-    osg::Vec3d center( 0.0, 0.0, 0.0 );
-    osg::Vec3d up( 0.0, 0.0, 1.0 );
-
-    cgi::Manager::instance()->setCameraManipulatorWorld();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
-
-    if ( _camManipulatorInited )
-    {
-        cgi::WGS84 eye_wgs( eye );
-
-        if ( eye_wgs.getAlt() < 10000.0 )
-        {
-            eye_wgs.setAlt( 10000.0 );
-        }
-
-        eye = eye_wgs.getPosition();
-        up  = eye_wgs.getAttitude().inverse() * osg::Vec3( 1.0, 0.0, 0.0 );
-
-        osg::ref_ptr<cgi::ManipulatorWorld> manipulator =
-                dynamic_cast<cgi::ManipulatorWorld*>( cgi::Manager::instance()->getCameraManipulator() );
-
-        if ( manipulator.valid() )
-        {
-            manipulator->setTransformation( eye, center, up );
-        }
-    }
-
-    _camManipulatorInited = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setDistanceMin( double distance_min )
-{
-    cgi::Manager::instance()->setDistanceMin( distance_min );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::setDistanceDef( double distance_def )
-{
-    cgi::Manager::instance()->setDistanceDef( distance_def );
-}
+WidgetCGI::~WidgetCGI() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -173,43 +72,13 @@ void WidgetCGI::paintEvent( QPaintEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::timerEvent( QTimerEvent *event )
-{
-    /////////////////////////////
-    QWidget::timerEvent( event );
-    /////////////////////////////
-
-    update();
-
-    if ( !_camManipulatorInited )
-    {
-        osg::ref_ptr<cgi::ManipulatorOrbit> manipulator =
-                dynamic_cast<cgi::ManipulatorOrbit*>( cgi::Manager::instance()->getCameraManipulator() );
-
-        if ( manipulator.valid() )
-        {
-            manipulator->setDistance( 50.0 );
-        }
-
-        _camManipulatorInited = true;
-    }
-
-    cgi::Manager::instance()->updateHUD();
-    cgi::Manager::instance()->updateOTW();
-
-    _keyHandler->update();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 QWidget* WidgetCGI::addViewWidget()
 {
-    createCameraOTW();
-    createCameraHUD();
+    createCamera();
 
-    setSceneData( cgi::Manager::instance()->getNodeOTW() );
+    setSceneData( new osg::Group() );
     addEventHandler( new osgViewer::StatsHandler );
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+    //setCameraManipulator( new osgGA::TrackballManipulator() );
 
     setKeyEventSetsDone( 0 );
 
@@ -220,45 +89,30 @@ QWidget* WidgetCGI::addViewWidget()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetCGI::createCameraOTW()
+void WidgetCGI::createCamera()
 {
-    osg::ref_ptr<osg::Camera> cameraOTW = getCamera();
+    osg::ref_ptr<osg::Camera> camera = getCamera();
 
-    cameraOTW->setGraphicsContext( _graphicsWindow );
+    camera->setGraphicsContext( _graphicsWindow );
 
     const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
-    cameraOTW->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
-    cameraOTW->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-    cameraOTW->setProjectionMatrixAsPerspective( CGI_FOV_Y, w2h, _zNear, _zFar );
-    cameraOTW->setNearFarRatio( _zNear / _zFar );
-}
+    camera->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
+    camera->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
 
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetCGI::createCameraHUD()
-{
-    osg::ref_ptr<osg::Camera> cameraHUD = new osg::Camera();
-
-    cameraHUD->setGraphicsContext( _graphicsWindow );
-
-    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
-
-    double w2h = (double)(traits->width) / (double)(traits->height);
-
-    cameraHUD->setProjectionMatrixAsOrtho2D( -CGI_HUD_Y_2 * w2h, CGI_HUD_Y_2 * w2h, -CGI_HUD_Y_2, CGI_HUD_Y_2 );
-    cameraHUD->setReferenceFrame( osg::Transform::ABSOLUTE_RF );
-    cameraHUD->setViewMatrix( osg::Matrix::identity() );
-    cameraHUD->setClearMask( GL_DEPTH_BUFFER_BIT );
-    cameraHUD->setRenderOrder( osg::Camera::POST_RENDER );
-    cameraHUD->setAllowEventFocus( false );
-    cameraHUD->setProjectionResizePolicy( osg::Camera::HORIZONTAL );
-    cameraHUD->addChild( cgi::Manager::instance()->getNodeHUD() );
-    cameraHUD->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
-
-    addSlave( cameraHUD, false );
+    if ( 0 )
+    {
+        camera->setProjectionMatrixAsPerspective( G1000_GDU_FOV_V, w2h, 1.0, 10000.0 );
+    }
+    else
+    {
+        camera->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
+        camera->setProjectionMatrixAsOrtho2D( -G1000_GDU_HEIGHT_2 * w2h , G1000_GDU_HEIGHT_2 * w2h,
+                                              -G1000_GDU_HEIGHT_2       , G1000_GDU_HEIGHT_2 );
+        camera->setViewMatrix( osg::Matrix::identity() );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -279,11 +133,7 @@ osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetCGI::createGraphicsWindow( int x, in
     traits->stencil          = displaySettings->getMinimumNumStencilBits();
     traits->sampleBuffers    = displaySettings->getMultiSamples();
     traits->samples          = 4;
-#   ifdef SIM_VERTICALSYNC
-    traits->vsync            = true;
-#   else
     traits->vsync            = false;
-#   endif
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
 

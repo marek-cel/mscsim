@@ -47,6 +47,8 @@ public:
         int  mixture;           ///<
         bool airbrake;          ///<
         bool spoilers;          ///<
+
+        QList<double> notches;  ///<
     };
 
     /** Aircraft propulsion data struct. */

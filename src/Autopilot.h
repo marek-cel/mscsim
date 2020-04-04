@@ -25,7 +25,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/auto/fdm_Autopilot.h>
-#include <fdm_c172/c172_Autopilot.h>
+
+#include <fdm_c172/c172_GFC700_AP.h>
+#include <fdm_c172/c172_KAP140_AP.h>
+#include <fdm_c172/c172_KFC325_AP.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -126,13 +129,14 @@ public:
 
 private:
 
-    typedef fdm::C172_Autopilot C172_Autopilot;
+    fdm::Autopilot *_autopilot;             ///< autopilot
 
-    fdm::Autopilot *_autopilot;         ///<
-    C172_Autopilot *_autopilot_c172;    ///<
+    fdm::C172_GFC700_AP *_c172_gfc700_ap;   ///< Cessna 172 Garmin GFC 700 autopilot
+    fdm::C172_KAP140_AP *_c172_kap140_ap;   ///< Cessna 172 Bendix/King KAP 140 autopilot
+    fdm::C172_KFC325_AP *_c172_kfc325_ap;   ///< Cessna 172 Bendix/King KFC 325 autopilot
 
-    double _altitude;                   ///< [m]   desired altitude
-    double _climbRate;                  ///< [m/s] desired climb rate
+    double _altitude;                       ///< [m]   desired altitude
+    double _climbRate;                      ///< [m/s] desired climb rate
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -85,7 +85,7 @@ public:
      * @param ang angle expressed in degrees
      * @return angle expressed in radians
      */
-    FDM_CONSTEXPR static inline double deg2rad( double ang = 1.0 )
+    static inline double deg2rad( double ang = 1.0 )
     {
         return ang * M_PI / 180.0;
     }
@@ -95,7 +95,7 @@ public:
      * @param ang angle expressed in radians
      * @return angle expressed in degrees
      */
-    FDM_CONSTEXPR static inline double rad2deg( double ang = 1.0 )
+    static inline double rad2deg( double ang = 1.0 )
     {
         return ang * 180.0 / M_PI;
     }
@@ -105,7 +105,7 @@ public:
      * @param len length expressed in metres
      * @return length expressed in feet
      */
-    FDM_CONSTEXPR static inline double m2ft( double len = 1.0 )
+    static inline double m2ft( double len = 1.0 )
     {
         return len * 3.2808399;
     }
@@ -115,7 +115,7 @@ public:
      * @param len length expressed in metres
      * @return length expressed in miles
      */
-    FDM_CONSTEXPR static inline double m2mi( double len = 1.0 )
+    static inline double m2mi( double len = 1.0 )
     {
         return len * 0.000621371192;
     }
@@ -125,7 +125,7 @@ public:
      * @param len length expressed in metres
      * @return length expressed in nautical miles
      */
-    FDM_CONSTEXPR static inline double m2nmi( double len = 1.0 )
+    static inline double m2nmi( double len = 1.0 )
     {
         return len * 0.000539956803;
     }
@@ -135,7 +135,7 @@ public:
      * @param len length expressed in metres
      * @return length expressed in kilometres
      */
-    FDM_CONSTEXPR static inline double m2km( double len = 1.0 )
+    static inline double m2km( double len = 1.0 )
     {
         return len * 0.001;
     }
@@ -145,7 +145,7 @@ public:
      * @param len length expressed in feet
      * @return length expressed in metres
      */
-    FDM_CONSTEXPR static inline double ft2m( double len = 1.0 )
+    static inline double ft2m( double len = 1.0 )
     {
         return len * 0.3048;
     }
@@ -155,7 +155,7 @@ public:
      * @param len length expressed in feet
      * @return length expressed in kilometres
      */
-    FDM_CONSTEXPR static inline double ft2km( double len = 1.0 )
+    static inline double ft2km( double len = 1.0 )
     {
         return len * 0.0003048;
     }
@@ -165,7 +165,7 @@ public:
      * @param len length expressed in feet
      * @return length expressed in miles
      */
-    FDM_CONSTEXPR static inline double ft2mi( double len = 1.0 )
+    static inline double ft2mi( double len = 1.0 )
     {
         return len * 0.000189393939;
     }
@@ -175,7 +175,7 @@ public:
      * @param len length expressed in feet
      * @return length expressed in nautical miles
      */
-    FDM_CONSTEXPR static inline double ft2nmi( double len = 1.0 )
+    static inline double ft2nmi( double len = 1.0 )
     {
         return len * 0.000164578834;
     }
@@ -185,7 +185,7 @@ public:
      * @param len length expressed in kilometres
      * @return length expressed in metres
      */
-    FDM_CONSTEXPR static inline double km2m( double len = 1.0 )
+    static inline double km2m( double len = 1.0 )
     {
         return len * 1000.0;
     }
@@ -195,7 +195,7 @@ public:
      * @param len length expressed in kilometres
      * @return length expressed in feet
      */
-    FDM_CONSTEXPR static inline double km2ft( double len = 1.0 )
+    static inline double km2ft( double len = 1.0 )
     {
         return len * 3280.8399;
     }
@@ -205,7 +205,7 @@ public:
      * @param len length expressed in kilometres
      * @return length expressed in miles
      */
-    FDM_CONSTEXPR static inline double km2mi( double len = 1.0 )
+    static inline double km2mi( double len = 1.0 )
     {
         return len * 0.621371192;
     }
@@ -215,7 +215,7 @@ public:
      * @param len length expressed in kilometres
      * @return length expressed in nautical miles
      */
-    FDM_CONSTEXPR static inline double km2nmi( double len = 1.0 )
+    static inline double km2nmi( double len = 1.0 )
     {
         return len * 0.539956803;
     }
@@ -225,7 +225,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in metres
      */
-    FDM_CONSTEXPR static inline double mi2m( double len = 1.0 )
+    static inline double mi2m( double len = 1.0 )
     {
         return len * 1609.344;
     }
@@ -235,7 +235,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in feet
      */
-    FDM_CONSTEXPR static inline double mi2ft( double len = 1.0 )
+    static inline double mi2ft( double len = 1.0 )
     {
         return len * 5280.0;
     }
@@ -245,7 +245,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in kilometres
      */
-    FDM_CONSTEXPR static inline double mi2km( double len = 1.0 )
+    static inline double mi2km( double len = 1.0 )
     {
         return len * 1.609344;
     }
@@ -255,7 +255,7 @@ public:
      * @param len length expressed in miles
      * @return length expressed in nautical miles
      */
-    FDM_CONSTEXPR static inline double mi2nmi( double len = 1.0 )
+    static inline double mi2nmi( double len = 1.0 )
     {
         return len * 0.868976242;
     }
@@ -265,7 +265,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in metres
      */
-    FDM_CONSTEXPR static inline double nmi2m( double len = 1.0 )
+    static inline double nmi2m( double len = 1.0 )
     {
         return len * 1852.0;
     }
@@ -275,7 +275,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in feet
      */
-    FDM_CONSTEXPR static inline double nmi2ft( double len = 1.0 )
+    static inline double nmi2ft( double len = 1.0 )
     {
         return len * 6076.11549;
     }
@@ -285,7 +285,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in kilometres
      */
-    FDM_CONSTEXPR static inline double nmi2km( double len = 1.0 )
+    static inline double nmi2km( double len = 1.0 )
     {
         return len * 1.852;
     }
@@ -295,7 +295,7 @@ public:
      * @param len length expressed in nautical miles
      * @return length expressed in miles
      */
-    FDM_CONSTEXPR static inline double nmi2mi( double len = 1.0 )
+    static inline double nmi2mi( double len = 1.0 )
     {
         return len * 1.15077945;
     }
@@ -305,7 +305,7 @@ public:
      * @param vol volume expressed in cubic inches
      * @return volume expressed in cubic metres
      */
-    FDM_CONSTEXPR static inline double cuin2m3( double vol = 1.0 )
+    static inline double cuin2m3( double vol = 1.0 )
     {
         return vol * 0.000016387064;
     }
@@ -315,7 +315,7 @@ public:
      * @param vol volume expressed in litress
      * @return volume expressed in cubic metres
      */
-    FDM_CONSTEXPR static inline double l2m3( double vol = 1.0 )
+    static inline double l2m3( double vol = 1.0 )
     {
         return vol / 1000.0;
     }
@@ -325,7 +325,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/min
      */
-    FDM_CONSTEXPR static inline double mps2fpm( double vel = 1.0 )
+    static inline double mps2fpm( double vel = 1.0 )
     {
         return vel * 196.850394;
     }
@@ -335,7 +335,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/s
      */
-    FDM_CONSTEXPR static inline double mps2fps( double vel = 1.0 )
+    static inline double mps2fps( double vel = 1.0 )
     {
         return vel * 3.2808399;
     }
@@ -345,7 +345,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in km/h
      */
-    FDM_CONSTEXPR static inline double mps2kmh( double vel = 1.0 )
+    static inline double mps2kmh( double vel = 1.0 )
     {
         return vel * 3.6;
     }
@@ -355,7 +355,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in knots
      */
-    FDM_CONSTEXPR static inline double mps2kts( double vel = 1.0 )
+    static inline double mps2kts( double vel = 1.0 )
     {
         return vel * 1.943844491;
     }
@@ -365,7 +365,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double mps2mph( double vel = 1.0 )
+    static inline double mps2mph( double vel = 1.0 )
     {
         return vel * 2.23693629;
     }
@@ -375,7 +375,7 @@ public:
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in ft/s
      */
-    FDM_CONSTEXPR static inline double fpm2fps( double vel = 1.0 )
+    static inline double fpm2fps( double vel = 1.0 )
     {
         return vel * 0.0166666666667;
     }
@@ -385,7 +385,7 @@ public:
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in km/h
      */
-    FDM_CONSTEXPR static inline double fpm2kmh( double vel = 1.0 )
+    static inline double fpm2kmh( double vel = 1.0 )
     {
         return vel * 0.018288;
     }
@@ -395,7 +395,7 @@ public:
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in knots
      */
-    FDM_CONSTEXPR static inline double fpm2kts( double vel = 1.0 )
+    static inline double fpm2kts( double vel = 1.0 )
     {
         return vel * 0.00987473001;
     }
@@ -405,7 +405,7 @@ public:
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double fpm2mph( double vel = 1.0 )
+    static inline double fpm2mph( double vel = 1.0 )
     {
         return vel * 0.0113636364;
     }
@@ -415,7 +415,7 @@ public:
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in m/s
      */
-    FDM_CONSTEXPR static inline double fpm2mps( double vel = 1.0 )
+    static inline double fpm2mps( double vel = 1.0 )
     {
         return vel * 0.00508;
     }
@@ -425,7 +425,7 @@ public:
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in ft/min
      */
-    FDM_CONSTEXPR static inline double fps2fpm( double vel = 1.0 )
+    static inline double fps2fpm( double vel = 1.0 )
     {
         return vel * 60.0;
     }
@@ -435,7 +435,7 @@ public:
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in km/h
      */
-    FDM_CONSTEXPR static inline double fps2kmh( double vel = 1.0 )
+    static inline double fps2kmh( double vel = 1.0 )
     {
         return vel * 1.09728;
     }
@@ -445,7 +445,7 @@ public:
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in knots
      */
-    FDM_CONSTEXPR static inline double fps2kts( double vel = 1.0 )
+    static inline double fps2kts( double vel = 1.0 )
     {
         return vel * 0.592483801;
     }
@@ -455,7 +455,7 @@ public:
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double fps2mph( double vel = 1.0 )
+    static inline double fps2mph( double vel = 1.0 )
     {
         return vel * 0.681818182;
     }
@@ -465,7 +465,7 @@ public:
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in m/s
      */
-    FDM_CONSTEXPR static inline double fps2mps( double vel = 1.0 )
+    static inline double fps2mps( double vel = 1.0 )
     {
         return vel * 0.3048;
     }
@@ -475,7 +475,7 @@ public:
      * @param vel velocity expressed in km/h
      * @return velocity expressed in ft/min
      */
-    FDM_CONSTEXPR static inline double kmh2fpm( double vel = 1.0 )
+    static inline double kmh2fpm( double vel = 1.0 )
     {
         return vel * 54.6806649;
     }
@@ -485,7 +485,7 @@ public:
      * @param vel velocity expressed in km/h
      * @return velocity expressed in ft/s
      */
-    FDM_CONSTEXPR static inline double kmh2fps( double vel = 1.0 )
+    static inline double kmh2fps( double vel = 1.0 )
     {
         return vel * 0.911344415;
     }
@@ -495,7 +495,7 @@ public:
      * @param vel velocity expressed in km/h
      * @return velocity expressed in knots
      */
-    FDM_CONSTEXPR static inline double kmh2kts( double vel = 1.0 )
+    static inline double kmh2kts( double vel = 1.0 )
     {
         return vel * 0.539956803;
     }
@@ -505,7 +505,7 @@ public:
      * @param vel velocity expressed in km/h
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double kmh2mph( double vel = 1.0 )
+    static inline double kmh2mph( double vel = 1.0 )
     {
         return vel * 0.621371192;
     }
@@ -515,7 +515,7 @@ public:
      * @param vel velocity expressed in km/h
      * @return velocity expressed in m/s
      */
-    FDM_CONSTEXPR static inline double kmh2mps( double vel = 1.0 )
+    static inline double kmh2mps( double vel = 1.0 )
     {
         return vel * 0.2777777777778;
     }
@@ -525,7 +525,7 @@ public:
      * @param vel velocity expressed in knots
      * @return velocity expressed in ft/min
      */
-    FDM_CONSTEXPR static inline double kts2fpm( double vel = 1.0 )
+    static inline double kts2fpm( double vel = 1.0 )
     {
         return vel * 101.2685916;
     }
@@ -535,7 +535,7 @@ public:
      * @param vel velocity expressed in knots
      * @return velocity expressed in ft/s
      */
-    FDM_CONSTEXPR static inline double kts2fps( double vel = 1.0 )
+    static inline double kts2fps( double vel = 1.0 )
     {
         return vel * 1.68780986;
     }
@@ -545,7 +545,7 @@ public:
      * @param vel velocity expressed in knots
      * @return velocity expressed in km/h
      */
-    FDM_CONSTEXPR static inline double kts2kmh( double vel = 1.0 )
+    static inline double kts2kmh( double vel = 1.0 )
     {
         return vel * 1.852;
     }
@@ -555,7 +555,7 @@ public:
      * @param vel velocity expressed in knots
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double kts2mph( double vel = 1.0 )
+    static inline double kts2mph( double vel = 1.0 )
     {
         return vel * 1.15077945;
     }
@@ -565,7 +565,7 @@ public:
      * @param vel velocity expressed in knots
      * @return velocity expressed in m/s
      */
-    FDM_CONSTEXPR static inline double kts2mps( double vel = 1.0 )
+    static inline double kts2mps( double vel = 1.0 )
     {
         return vel * 0.5144444444444;
     }
@@ -575,7 +575,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/min
      */
-    FDM_CONSTEXPR static inline double mph2fpm( double vel = 1.0 )
+    static inline double mph2fpm( double vel = 1.0 )
     {
         return vel * 88.0;
     }
@@ -585,7 +585,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/s
      */
-    FDM_CONSTEXPR static inline double mph2fps( double vel = 1.0 )
+    static inline double mph2fps( double vel = 1.0 )
     {
         return vel * 1.46666667;
     }
@@ -595,7 +595,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in km/h
      */
-    FDM_CONSTEXPR static inline double mph2kmh( double vel = 1.0 )
+    static inline double mph2kmh( double vel = 1.0 )
     {
         return vel * 1.609344;
     }
@@ -605,7 +605,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in knots
      */
-    FDM_CONSTEXPR static inline double mph2kts( double vel = 1.0 )
+    static inline double mph2kts( double vel = 1.0 )
     {
         return vel * 0.868976242;
     }
@@ -615,7 +615,7 @@ public:
      * @param vel velocity expressed in m/s
      * @return velocity expressed in miles per hour
      */
-    FDM_CONSTEXPR static inline double mph2mps( double vel = 1.0 )
+    static inline double mph2mps( double vel = 1.0 )
     {
         return vel * 0.44704;
     }
@@ -625,7 +625,7 @@ public:
      * @param ang_vel angular velocity expressed in revolutions per minute
      * @return velocity expressed in radians per second
      */
-    FDM_CONSTEXPR static inline double rpm2rad_s( double ang_vel = 1.0 )
+    static inline double rpm2rad_s( double ang_vel = 1.0 )
     {
         return M_PI * ang_vel / 30.0;
     }
@@ -635,7 +635,7 @@ public:
      * @param ang_vel angular velocity expressed in radians per second
      * @return velocity expressed in revolutions per minute
      */
-    FDM_CONSTEXPR static inline double rad_s2rpm( double ang_vel = 1.0 )
+    static inline double rad_s2rpm( double ang_vel = 1.0 )
     {
         return 30.0 * ang_vel / M_PI;
     }
@@ -645,7 +645,7 @@ public:
      * @param mass mass expressed in kilograms
      * @return mass expressed in pounds
      */
-    FDM_CONSTEXPR static inline double kg2lb( double mass = 1.0 )
+    static inline double kg2lb( double mass = 1.0 )
     {
         return mass * 2.20462262;
     }
@@ -655,7 +655,7 @@ public:
      * @param mass mass expressed in pounds
      * @return mass expressed in kilograms
      */
-    FDM_CONSTEXPR static inline double lb2kg( double mass = 1.0 )
+    static inline double lb2kg( double mass = 1.0 )
     {
         return mass * 0.45359237;
     }
@@ -665,7 +665,7 @@ public:
      * @param force force expressed in newtons
      * @return force expressed in pounds
      */
-    FDM_CONSTEXPR static inline double n2lbf( double force = 1.0 )
+    static inline double n2lbf( double force = 1.0 )
     {
         return force * 0.224808943;
     }
@@ -675,7 +675,7 @@ public:
      * @param force force expressed in pounds
      * @return force expressed in newtons
      */
-    FDM_CONSTEXPR static inline double lbf2n( double force = 1.0 )
+    static inline double lbf2n( double force = 1.0 )
     {
         return force * 4.4482216152605;
     }
@@ -805,7 +805,7 @@ public:
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in (mechanical) horsepower
      */
-    FDM_CONSTEXPR static inline double ps2hp( double pwr = 1.0 )
+    static inline double ps2hp( double pwr = 1.0 )
     {
         return pwr * 0.98632005756;
     }
@@ -815,7 +815,7 @@ public:
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in watts
      */
-    FDM_CONSTEXPR static inline double ps2w( double pwr = 1.0 )
+    static inline double ps2w( double pwr = 1.0 )
     {
         return pwr * 735.498749992;
     }
@@ -825,7 +825,7 @@ public:
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in kilowatts
      */
-    FDM_CONSTEXPR static inline double ps2kw( double pwr = 1.0 )
+    static inline double ps2kw( double pwr = 1.0 )
     {
         return pwr * 0.735498749992;
     }
@@ -835,7 +835,7 @@ public:
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in (metric) horsepower
      */
-    FDM_CONSTEXPR static inline double hp2ps( double pwr = 1.0 )
+    static inline double hp2ps( double pwr = 1.0 )
     {
         return pwr * 1.01386967884;
     }
@@ -845,7 +845,7 @@ public:
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in watts
      */
-    FDM_CONSTEXPR static inline double hp2w( double pwr = 1.0 )
+    static inline double hp2w( double pwr = 1.0 )
     {
         return pwr * 745.699881448;
     }
@@ -855,7 +855,7 @@ public:
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in kilowatts
      */
-    FDM_CONSTEXPR static inline double hp2kw( double pwr = 1.0 )
+    static inline double hp2kw( double pwr = 1.0 )
     {
         return pwr * 0.745699881448;
     }
@@ -865,7 +865,7 @@ public:
      * @param pwr power expressed in watts
      * @return power expressed in (metric) horsepower
      */
-    FDM_CONSTEXPR static inline double w2ps( double pwr = 1.0 )
+    static inline double w2ps( double pwr = 1.0 )
     {
         return pwr * 0.00135962161;
     }
@@ -875,7 +875,7 @@ public:
      * @param pwr power expressed in watts
      * @return power expressed in (mechanical) horsepower
      */
-    FDM_CONSTEXPR static inline double w2hp( double pwr = 1.0 )
+    static inline double w2hp( double pwr = 1.0 )
     {
         return pwr * 0.00134102207;
     }
@@ -885,7 +885,7 @@ public:
      * @param pwr power expressed in watts
      * @return power expressed in kilowatts
      */
-    FDM_CONSTEXPR static inline double w2kw( double pwr = 1.0 )
+    static inline double w2kw( double pwr = 1.0 )
     {
         return pwr * 0.001;
     }
@@ -895,7 +895,7 @@ public:
      * @param pwr power expressed in kilowatts
      * @return power expressed in (metric) horsepower
      */
-    FDM_CONSTEXPR static inline double kw2ps( double pwr = 1.0 )
+    static inline double kw2ps( double pwr = 1.0 )
     {
         return pwr * 1.35962161732;
     }
@@ -905,7 +905,7 @@ public:
      * @param pwr power expressed in kilowatts
      * @return power expressed in (mechanical) horsepower
      */
-    FDM_CONSTEXPR static inline double kw2hp( double pwr = 1.0 )
+    static inline double kw2hp( double pwr = 1.0 )
     {
         return pwr * 1.34102207185;
     }
@@ -915,7 +915,7 @@ public:
      * @param pwr power expressed in kilowatts
      * @return power expressed in watts
      */
-    FDM_CONSTEXPR static inline double kw2w( double pwr = 1.0 )
+    static inline double kw2w( double pwr = 1.0 )
     {
         return pwr * 1000.0;
     }
@@ -925,7 +925,7 @@ public:
      * @param temp temperature expressed in degrees Celsius
      * @return temperature expressed in degrees Fehrenheit
      */
-    FDM_CONSTEXPR static inline double c2f( double temp )
+    static inline double c2f( double temp )
     {
         return ( 9.0 * temp / 5.0 ) + 32.0;
     }
@@ -935,7 +935,7 @@ public:
      * @param temp temperature expressed in degrees Celsius
      * @return temperature expressed in Kelvins
      */
-    FDM_CONSTEXPR static inline double c2k( double temp )
+    static inline double c2k( double temp )
     {
         return temp + 273.15;
     }
@@ -945,7 +945,7 @@ public:
      * @param temp temperature expressed in degrees Fahrenheit
      * @return temperature expressed in degrees Celsius
      */
-    FDM_CONSTEXPR static inline double f2c( double temp )
+    static inline double f2c( double temp )
     {
         return 5.0 * ( temp - 32.0 ) / 9.0;
     }
@@ -955,7 +955,7 @@ public:
      * @param temp temperature expressed in degrees Fahrenheit
      * @return temperature expressed in Kelvins
      */
-    FDM_CONSTEXPR static inline double f2k( double temp )
+    static inline double f2k( double temp )
     {
         return ( 5.0 * ( temp - 32.0 ) / 9.0 ) + 273.15;
     }
@@ -965,7 +965,7 @@ public:
      * @param temp temperature expressed in Kelvins
      * @return temperature expressed in degrees Celsius
      */
-    FDM_CONSTEXPR static inline double k2c( double temp )
+    static inline double k2c( double temp )
     {
         return ( temp - 273.15 );
     }
@@ -975,7 +975,7 @@ public:
      * @param temp temperature expressed in Kelvins
      * @return temperature expressed in degrees Fahrenheit
      */
-    FDM_CONSTEXPR static inline double k2f( double temp )
+    static inline double k2f( double temp )
     {
         return ( 9.0 * ( temp - 273.15 ) / 5.0 ) + 32.0;
     }
@@ -985,7 +985,7 @@ public:
      * @param sfc specific fuel consumption expressed in g/kWh
      * @return specific fuel consumption expressed in kg/Ws
      */
-    FDM_CONSTEXPR static inline double g_kWh_2_kg_Ws( double sfc = 1.0 )
+    static inline double g_kWh_2_kg_Ws( double sfc = 1.0 )
     {
          return sfc / ( 3.6e9 );
     }
@@ -995,7 +995,7 @@ public:
      * @param sfc specific fuel consumption expressed in g/kNs
      * @return specific fuel consumption expressed in kg/Ns
      */
-    FDM_CONSTEXPR static inline double g_kNs_2_kg_Ns( double sfc = 1.0 )
+    static inline double g_kNs_2_kg_Ns( double sfc = 1.0 )
     {
         return sfc / ( 1.0e6 );
     }

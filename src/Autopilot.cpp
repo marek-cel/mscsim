@@ -33,8 +33,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Autopilot::Autopilot() :
-    _autopilot      ( NULLPTR ),
-    _autopilot_c172 ( NULLPTR ),
+    _autopilot ( NULLPTR ),
+
+    _c172_gfc700_ap ( NULLPTR ),
+    _c172_kap140_ap ( NULLPTR ),
+    _c172_kfc325_ap ( NULLPTR ),
 
     _altitude  ( 100.0 ),
     _climbRate (   0.0 )
@@ -58,7 +61,9 @@ void Autopilot::init()
             switch ( Data::get()->aircraftType )
             {
             case fdm::DataInp::C172:
-                _autopilot = _autopilot_c172 = new fdm::C172_Autopilot();
+                //_autopilot = _c172_gfc700_ap = new fdm::C172_GFC700_AP();
+                //_autopilot = _c172_kap140_ap = new fdm::C172_KAP140_AP();
+                _autopilot = _c172_kfc325_ap = new fdm::C172_KFC325_AP();
                 break;
 
             default:
@@ -86,7 +91,10 @@ void Autopilot::init()
 void Autopilot::stop()
 {
     DELPTR( _autopilot );
-    _autopilot_c172 = NULLPTR;
+
+    _c172_gfc700_ap = NULLPTR;
+    _c172_kap140_ap = NULLPTR;
+    _c172_kfc325_ap = NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,9 +103,9 @@ void Autopilot::update( double timeStep )
 {
     if ( _autopilot )
     {
-        if ( _autopilot_c172 )
+        if ( _c172_kfc325_ap )
         {
-            _autopilot_c172->setHeadingILS( Data::get()->navigation.ils_heading );
+            _c172_kfc325_ap->setHeadingILS( Data::get()->navigation.ils_heading );
         }
 
         _autopilot->update( timeStep,
@@ -128,10 +136,7 @@ void Autopilot::update( double timeStep )
 
 void Autopilot::update( double timeStep, bool btn_dn, bool btn_up )
 {
-    if ( _autopilot_c172 )
-    {
-        _autopilot_c172->update( timeStep, btn_dn, btn_up );
-    }
+    if ( _c172_kfc325_ap ) _c172_kfc325_ap->update( timeStep, btn_dn, btn_up );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +145,9 @@ void Autopilot::onPressedAP()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedAP();
+        if ( _c172_gfc700_ap ) _c172_gfc700_ap->onPressedAP();
+        if ( _c172_kap140_ap ) _c172_kap140_ap->onPressedAP();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onPressedAP();
     }
 }
 
@@ -150,12 +157,38 @@ void Autopilot::onPressedFD()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // GFC 700
+        if ( _c172_gfc700_ap )
         {
-            if ( !_autopilot_c172->isActiveFD() )
-                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
+            if ( !_c172_gfc700_ap->isActiveFD() )
+            {
+                _c172_gfc700_ap->setPitch( Data::get()->ownship.pitch );
+                _c172_gfc700_ap->setRoll( Data::get()->ownship.roll );
+            }
 
-            _autopilot_c172->onPressedFD();
+            _c172_gfc700_ap->onPressedFD();
+        }
+
+        // KAP 140
+        if ( _c172_kap140_ap )
+        {
+            if ( !_c172_kap140_ap->isActiveFD() )
+            {
+                _c172_kap140_ap->setPitch( Data::get()->ownship.pitch );
+            }
+
+            _c172_kap140_ap->onPressedFD();
+        }
+
+        // KFC 325
+        if ( _c172_kfc325_ap )
+        {
+            if ( !_c172_kfc325_ap->isActiveFD() )
+            {
+                _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
+            }
+
+            _c172_kfc325_ap->onPressedFD();
         }
     }
 }
@@ -166,13 +199,14 @@ void Autopilot::onPressedALT()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveALT() )
+            if ( !_c172_kfc325_ap->isActiveALT() )
                 _altitude = Data::get()->ownship.altitude_asl;
 
-            _autopilot_c172->setAltitude( _altitude );
-            _autopilot_c172->onPressedALT();
+            _c172_kfc325_ap->setAltitude( _altitude );
+            _c172_kfc325_ap->onPressedALT();
         }
     }
 }
@@ -183,12 +217,13 @@ void Autopilot::onPressedIAS()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveIAS() )
-                _autopilot_c172->setAirspeed( Data::get()->ownship.ias );
+            if ( !_c172_kfc325_ap->isActiveIAS() )
+                _c172_kfc325_ap->setAirspeed( Data::get()->ownship.ias );
 
-            _autopilot_c172->onPressedIAS();
+            _c172_kfc325_ap->onPressedIAS();
         }
     }
 }
@@ -199,15 +234,16 @@ void Autopilot::onPressedENG()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveVS() )
+            if ( !_c172_kfc325_ap->isActiveVS() )
             {
                 _climbRate = Data::get()->ownship.climbRate;
             }
 
-            _autopilot_c172->setClimbRate( _climbRate );
-            _autopilot_c172->onPressedENG();
+            _c172_kfc325_ap->setClimbRate( _climbRate );
+            _c172_kfc325_ap->onPressedENG();
         }
     }
 }
@@ -218,15 +254,16 @@ void Autopilot::onPressedARM()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveARM() )
+            if ( !_c172_kfc325_ap->isActiveARM() )
             {
                 _altitude = Data::get()->ownship.altitude_asl;
             }
 
-            _autopilot_c172->setAltitude( _altitude );
-            _autopilot_c172->onPressedARM();
+            _c172_kfc325_ap->setAltitude( _altitude );
+            _c172_kfc325_ap->onPressedARM();
         }
     }
 }
@@ -237,13 +274,14 @@ void Autopilot::onPressedHDG( double hdg )
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveFD() )
-                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
+            if ( !_c172_kfc325_ap->isActiveFD() )
+                _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
 
-            _autopilot_c172->setHeading( hdg );
-            _autopilot_c172->onPressedHDG();
+            _c172_kfc325_ap->setHeading( hdg );
+            _c172_kfc325_ap->onPressedHDG();
         }
     }
 }
@@ -254,13 +292,14 @@ void Autopilot::onPressedNAV( double crs )
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveFD() )
-                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
+            if ( !_c172_kfc325_ap->isActiveFD() )
+                _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
 
-            _autopilot_c172->setCourse( crs );
-            _autopilot_c172->onPressedNAV();
+            _c172_kfc325_ap->setCourse( crs );
+            _c172_kfc325_ap->onPressedNAV();
         }
     }
 }
@@ -271,12 +310,13 @@ void Autopilot::onPressedAPR()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveFD() )
-                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
+            if ( !_c172_kfc325_ap->isActiveFD() )
+                _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
 
-            _autopilot_c172->onPressedAPR();
+            _c172_kfc325_ap->onPressedAPR();
         }
     }
 }
@@ -287,12 +327,13 @@ void Autopilot::onPressedBC()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 )
+        // KFC 325
+        if ( _c172_kfc325_ap )
         {
-            if ( !_autopilot_c172->isActiveFD() )
-                _autopilot_c172->setPitch( Data::get()->ownship.pitch );
+            if ( !_c172_kfc325_ap->isActiveFD() )
+                _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
 
-            _autopilot_c172->onPressedBC();
+            _c172_kfc325_ap->onPressedBC();
         }
     }
 }
@@ -303,7 +344,7 @@ void Autopilot::onPressedYD()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedYD();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onPressedYD();
     }
 }
 
@@ -313,7 +354,7 @@ void Autopilot::onPressedSoftRide()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedSoftRide();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onPressedSoftRide();
     }
 }
 
@@ -323,7 +364,7 @@ void Autopilot::onPressedHalfBank()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedHalfBank();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onPressedHalfBank();
     }
 }
 
@@ -333,7 +374,7 @@ void Autopilot::onPressedTest()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onPressedTest();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onPressedTest();
     }
 }
 
@@ -343,7 +384,7 @@ void Autopilot::onReleasedTest()
 {
     if ( isWorking() )
     {
-        if ( _autopilot_c172 ) _autopilot_c172->onReleasedTest();
+        if ( _c172_kfc325_ap ) _c172_kfc325_ap->onReleasedTest();
     }
 }
 
@@ -432,7 +473,7 @@ double Autopilot::getCtrlYaw() const
 
 bool Autopilot::getLampAP() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampAP();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampAP();
 
     return false;
 }
@@ -441,7 +482,7 @@ bool Autopilot::getLampAP() const
 
 bool Autopilot::getLampFD() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampFD();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampFD();
 
     return false;
 }
@@ -450,7 +491,7 @@ bool Autopilot::getLampFD() const
 
 bool Autopilot::getLampYD() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampYD();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampYD();
 
     return false;
 }
@@ -459,7 +500,7 @@ bool Autopilot::getLampYD() const
 
 bool Autopilot::getLampALT() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampALT();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampALT();
 
     return false;
 }
@@ -468,7 +509,7 @@ bool Autopilot::getLampALT() const
 
 bool Autopilot::getLampIAS() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampIAS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampIAS();
 
     return false;
 }
@@ -477,7 +518,7 @@ bool Autopilot::getLampIAS() const
 
 bool Autopilot::getLampGS()  const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampGS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampGS();
 
     return false;
 }
@@ -486,7 +527,7 @@ bool Autopilot::getLampGS()  const
 
 bool Autopilot::getLampHDG() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampHDG();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampHDG();
 
     return false;
 }
@@ -495,7 +536,7 @@ bool Autopilot::getLampHDG() const
 
 bool Autopilot::getLampNAV() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampNAV();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampNAV();
 
     return false;
 }
@@ -504,7 +545,7 @@ bool Autopilot::getLampNAV() const
 
 bool Autopilot::getLampAPR() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampAPR();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampAPR();
 
     return false;
 }
@@ -513,7 +554,7 @@ bool Autopilot::getLampAPR() const
 
 bool Autopilot::getLampBC() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampBC();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampBC();
 
     return false;
 }
@@ -522,7 +563,7 @@ bool Autopilot::getLampBC() const
 
 bool Autopilot::getLampNAV_ARM() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampNAV_ARM();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampNAV_ARM();
 
     return false;
 }
@@ -531,7 +572,7 @@ bool Autopilot::getLampNAV_ARM() const
 
 bool Autopilot::getLampAPR_ARM() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampAPR_ARM();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampAPR_ARM();
 
     return false;
 }
@@ -540,7 +581,7 @@ bool Autopilot::getLampAPR_ARM() const
 
 bool Autopilot::getLampSR() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampSR();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampSR();
 
     return false;
 }
@@ -549,7 +590,7 @@ bool Autopilot::getLampSR() const
 
 bool Autopilot::getLampHB() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampHB();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampHB();
 
     return false;
 }
@@ -558,7 +599,7 @@ bool Autopilot::getLampHB() const
 
 bool Autopilot::getLampTRIM() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampTRIM();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampTRIM();
 
     return false;
 }
@@ -567,7 +608,7 @@ bool Autopilot::getLampTRIM() const
 
 bool Autopilot::getLampVS() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampVS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampVS();
 
     return false;
 }
@@ -576,7 +617,7 @@ bool Autopilot::getLampVS() const
 
 bool Autopilot::getLampARM() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->getLampARM();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->getLampARM();
 
     return false;
 }
@@ -648,7 +689,7 @@ bool Autopilot::isActiveYD() const
 
 bool Autopilot::isActiveALT() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveALT();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveALT();
 
     return false;
 }
@@ -657,7 +698,7 @@ bool Autopilot::isActiveALT() const
 
 bool Autopilot::isActiveIAS() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveIAS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveIAS();
 
     return false;
 }
@@ -666,7 +707,7 @@ bool Autopilot::isActiveIAS() const
 
 bool Autopilot::isActiveVS() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveVS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveVS();
 
     return false;
 }
@@ -675,7 +716,7 @@ bool Autopilot::isActiveVS() const
 
 bool Autopilot::isActiveARM() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveARM();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveARM();
 
     return false;
 }
@@ -684,7 +725,7 @@ bool Autopilot::isActiveARM() const
 
 bool Autopilot::isActiveGS() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveGS();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveGS();
 
     return false;
 }
@@ -693,7 +734,7 @@ bool Autopilot::isActiveGS() const
 
 bool Autopilot::isActiveHDG() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveHDG();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveHDG();
 
     return false;
 }
@@ -702,7 +743,7 @@ bool Autopilot::isActiveHDG() const
 
 bool Autopilot::isActiveNAV() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveNAV();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveNAV();
 
     return false;
 }
@@ -711,7 +752,7 @@ bool Autopilot::isActiveNAV() const
 
 bool Autopilot::isActiveAPR() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveAPR();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveAPR();
 
     return false;
 }
@@ -720,7 +761,7 @@ bool Autopilot::isActiveAPR() const
 
 bool Autopilot::isActiveBC() const
 {
-    if ( _autopilot_c172 ) return _autopilot_c172->isActiveBC();
+    if ( _c172_kfc325_ap ) return _c172_kfc325_ap->isActiveBC();
 
     return false;
 }

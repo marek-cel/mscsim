@@ -42,18 +42,20 @@ Autopilot::Autopilot( FlightDirector *fd ) :
     _pid_p ( 0.0, 0.0, 0.0, -1.0, 1.0 ),
     _pid_y ( 0.0, 0.0, 0.0, -1.0, 1.0 ),
 
-    _max_rate_roll  ( 0.0 ),
-    _max_rate_pitch ( 0.0 ),
-    _max_rate_yaw   ( 0.0 ),
+    _max_rate_roll  ( DBL_MAX ),
+    _max_rate_pitch ( DBL_MAX ),
+    _max_rate_yaw   ( DBL_MAX ),
 
-    _min_pitch ( 0.0 ),
-    _max_pitch ( 0.0 ),
-    _min_alt   ( 0.0 ),
-    _max_alt   ( 0.0 ),
-    _min_ias   ( 0.0 ),
-    _max_ias   ( 0.0 ),
-    _min_vs    ( 0.0 ),
-    _max_vs    ( 0.0 ),
+    _min_roll  ( -M_PI_2  ),
+    _max_roll  (  M_PI_2  ),
+    _min_pitch ( -M_PI_2  ),
+    _max_pitch (  M_PI_2  ),
+    _min_alt   (  0.0     ),
+    _max_alt   (  DBL_MAX ),
+    _min_ias   (  0.0     ),
+    _max_ias   (  DBL_MAX ),
+    _min_vs    ( -DBL_MAX ),
+    _max_vs    (  DBL_MAX ),
 
     _ctrl_roll  ( 0.0 ),
     _ctrl_pitch ( 0.0 ),
@@ -85,14 +87,16 @@ void Autopilot::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_pitch , "min_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_pitch , "max_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_alt   , "min_alt"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_alt   , "max_alt"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_ias   , "min_ias"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_ias   , "max_ias"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_vs    , "min_vs"    );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_vs    , "max_vs"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_roll  , "min_roll"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_roll  , "max_roll"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_pitch , "min_pitch" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_pitch , "max_pitch" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_alt   , "min_alt"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_alt   , "max_alt"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_ias   , "min_ias"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_ias   , "max_ias"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_vs    , "min_vs"    , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_vs    , "max_vs"    , true );
 
         if ( result == FDM_SUCCESS )
         {
@@ -223,6 +227,13 @@ void Autopilot::setCourse( double course )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Autopilot::setRoll( double roll )
+{
+    _fd->setRoll( Misc::satur( _min_roll, _max_roll, roll ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Autopilot::setPitch( double pitch )
 {
     _fd->setPitch( Misc::satur( _min_pitch, _max_pitch, pitch ) );
@@ -230,7 +241,7 @@ void Autopilot::setPitch( double pitch )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Autopilot::readChannel( const fdm::XmlNode &dataNode, double &max_rate,
+void Autopilot::readChannel( const XmlNode &dataNode, double &max_rate,
                              PID &pid, Table &gain_ias )
 {
     if ( dataNode.isValid() )
@@ -254,7 +265,7 @@ void Autopilot::readChannel( const fdm::XmlNode &dataNode, double &max_rate,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Autopilot::readPID( const fdm::XmlNode &dataNode, PID &pid )
+void Autopilot::readPID( const XmlNode &dataNode, PID &pid )
 {
     if ( dataNode.isValid() )
     {

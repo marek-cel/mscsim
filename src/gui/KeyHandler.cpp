@@ -28,8 +28,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-KeyHandler::KeyHandler( WidgetCGI *widgetCGI ) :
-    _widgetCGI ( widgetCGI )
+KeyHandler::KeyHandler( WidgetOTW *widgetOTW ) :
+    _widgetOTW ( widgetOTW )
 {
     for ( int i = 0; i < HID_MAX_KEYS; i++ ) _keysState[ i ] = false;
 }

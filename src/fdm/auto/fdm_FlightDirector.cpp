@@ -40,6 +40,7 @@ FlightDirector::FlightDirector() :
     _heading   ( 0.0 ),
     _course    ( 0.0 ),
     _climbRate ( 0.0 ),
+    _roll      ( 0.0 ),
     _pitch     ( 0.0 ),
 
     _engaged ( false )
@@ -53,14 +54,14 @@ FlightDirector::~FlightDirector() {}
 
 void FlightDirector::setAltitude( double altitude )
 {
-    _altitude = fdm::Misc::max( 0.0, altitude );
+    _altitude = Misc::max( 0.0, altitude );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void FlightDirector::setAirspeed( double airspeed )
 {
-    _airspeed = fdm::Misc::max( 0.0, airspeed );
+    _airspeed = Misc::max( 0.0, airspeed );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +84,15 @@ void FlightDirector::setCourse( double course )
 {
     _course = course;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void FlightDirector::setRoll( double roll )
+{
+    _roll = Misc::satur( -M_PI_2, M_PI_2, roll );
+    _cmd_roll = _roll;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 

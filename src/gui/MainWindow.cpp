@@ -88,6 +88,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMap  ( NULLPTR ),
     _dockProp ( NULLPTR ),
 
+    _widgetPFD ( NULLPTR ),
+
     _scCycleViews ( NULLPTR ),
     _scToggleHud  ( NULLPTR ),
     _scFullScreen ( NULLPTR ),
@@ -128,6 +130,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMain = new DockWidgetMain( this );
     _dockMap  = new DockWidgetMap( this );
     _dockProp = new DockWidgetProp( this );
+
+    _widgetPFD = new WidgetPFD();
 
     _dockAuto->setObjectName( "DockAuto" );
     _dockCtrl->setObjectName( "DockCtrl" );
@@ -198,6 +202,8 @@ MainWindow::~MainWindow()
     DELPTR( _dockMap  );
     DELPTR( _dockProp );
 
+    DELPTR( _widgetPFD );
+
     DELPTR( _scCycleViews );
     DELPTR( _scToggleHud  );
     DELPTR( _scFullScreen );
@@ -232,7 +238,7 @@ void MainWindow::keyPressEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        _ui->widgetCGI->keyDn( Keys::getKey( event->key() ) );
+        _ui->widgetOTW->keyDn( Keys::getKey( event->key() ) );
     }
 }
 
@@ -246,7 +252,7 @@ void MainWindow::keyReleaseEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        _ui->widgetCGI->keyUp( Keys::getKey( event->key() ) );
+        _ui->widgetOTW->keyUp( Keys::getKey( event->key() ) );
     }
 }
 
@@ -266,6 +272,8 @@ void MainWindow::closeEvent( QCloseEvent *event )
         /////////////////////////////////
         QMainWindow::closeEvent( event );
         /////////////////////////////////
+
+        _widgetPFD->close();
     }
     else
     {
@@ -299,6 +307,8 @@ void MainWindow::timerEvent( QTimerEvent *event )
     updateDockProp();
     updateDockEFIS();
     updateDockAuto();
+
+    updateGarmin();
 
     updateMenu();
     updateStatusBar();
@@ -413,8 +423,8 @@ void MainWindow::setViewChase()
 {
     _viewType = Data::CGI::ViewChase;
     _ui->stackedMain->setCurrentIndex( 1 );
-    _ui->widgetCGI->setCameraManipulatorChase();
-    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
+    _ui->widgetOTW->setCameraManipulatorChase();
+    _ui->widgetOTW->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -423,8 +433,8 @@ void MainWindow::setViewOrbit()
 {
     _viewType = Data::CGI::ViewOrbit;
     _ui->stackedMain->setCurrentIndex( 1 );
-    _ui->widgetCGI->setCameraManipulatorOrbit();
-    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
+    _ui->widgetOTW->setCameraManipulatorOrbit();
+    _ui->widgetOTW->setDistanceDef( Aircrafts::instance()->getAircraft( _typeIndex ).distance_def );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -433,7 +443,7 @@ void MainWindow::setViewPilot()
 {
     _viewType = Data::CGI::ViewPilot;
     _ui->stackedMain->setCurrentIndex( 1 );
-    _ui->widgetCGI->setCameraManipulatorPilot();
+    _ui->widgetOTW->setCameraManipulatorPilot();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -442,7 +452,7 @@ void MainWindow::setViewWorld()
 {
     _viewType = Data::CGI::ViewWorld;
     _ui->stackedMain->setCurrentIndex( 1 );
-    _ui->widgetCGI->setCameraManipulatorWorld();
+    _ui->widgetOTW->setCameraManipulatorWorld();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -456,8 +466,12 @@ void MainWindow::setAircraftType( int typeIndex )
     _dockCtrl->setAircraftType( typeIndex );
     _dockProp->setAircraftType( typeIndex );
 
-    _ui->widgetCGI->setDistanceDef( Aircrafts::instance()->getAircraft( typeIndex ).distance_def );
-    _ui->widgetCGI->setDistanceMin( Aircrafts::instance()->getAircraft( typeIndex ).distance_min );
+    _ui->widgetOTW->setDistanceDef( Aircrafts::instance()->getAircraft( typeIndex ).distance_def );
+    _ui->widgetOTW->setDistanceMin( Aircrafts::instance()->getAircraft( typeIndex ).distance_min );
+
+    std::vector< double > notches =
+            Aircrafts::instance()->getAircraft( typeIndex ).controls.notches.toVector().toStdVector();
+    hid::Manager::instance()->setNotches( notches );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -574,23 +588,23 @@ void MainWindow::settingsRead_View( QSettings &settings )
     {
     case Data::CGI::ViewChase:
         _viewType = Data::CGI::ViewChase;
-        _ui->widgetCGI->setCameraManipulatorChase();
+        _ui->widgetOTW->setCameraManipulatorChase();
         break;
 
     default:
     case Data::CGI::ViewPilot:
         _viewType = Data::CGI::ViewPilot;
-        _ui->widgetCGI->setCameraManipulatorPilot();
+        _ui->widgetOTW->setCameraManipulatorPilot();
         break;
 
     case Data::CGI::ViewOrbit:
         _viewType = Data::CGI::ViewOrbit;
-        _ui->widgetCGI->setCameraManipulatorOrbit();
+        _ui->widgetOTW->setCameraManipulatorOrbit();
         break;
 
     case Data::CGI::ViewWorld:
         _viewType = Data::CGI::ViewWorld;
-        _ui->widgetCGI->setCameraManipulatorWorld();
+        _ui->widgetOTW->setCameraManipulatorWorld();
         break;
     }
 
@@ -921,6 +935,47 @@ void MainWindow::updateDockProp()
             _dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].fuelFlow );
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::updateGarmin()
+{
+     g1000::Data data;
+
+     data.pfd.roll    = Data::get()->ownship.roll;
+     data.pfd.pitch   = Data::get()->ownship.pitch;
+     data.pfd.heading = Data::get()->ownship.heading;
+
+     data.pfd.fd_visible = _ap->isActiveFD();
+     data.pfd.fd_pitch   = _ap->getCmdPitch();
+     data.pfd.fd_roll    = _ap->getCmdRoll();
+
+     data.pfd.altitude  = Data::get()->ownship.altitude_asl;
+     data.pfd.ias       = Data::get()->ownship.ias;
+     data.pfd.tas       = Data::get()->ownship.tas;
+     data.pfd.climbRate = Data::get()->ownship.climbRate;
+     data.pfd.slipSkid  = Data::get()->ownship.slipSkidAngle;
+
+     data.pfd.ref_pressure = 101325.0;
+
+     data.pfd.sel_course    = 0.0;
+     data.pfd.sel_heading   = 0.0;
+     data.pfd.sel_airspeed  = 0.0;
+     data.pfd.sel_altitude  = 0.0;
+     data.pfd.sel_climbRate = 0.0;
+
+     data.pfd.com_1_act = 0.0;
+     data.pfd.com_1_sby = 0.0;
+     data.pfd.com_2_act = 0.0;
+     data.pfd.com_2_sby = 0.0;
+
+     data.pfd.nav_1_act = 0.0;
+     data.pfd.nav_1_sby = 0.0;
+     data.pfd.nav_2_act = 0.0;
+     data.pfd.nav_2_sby = 0.0;
+
+    if ( _widgetPFD ) _widgetPFD->update( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1271,6 +1326,13 @@ void MainWindow::on_actionDockMap_toggled( bool checked )
 void MainWindow::on_actionDockProp_toggled( bool checked )
 {
     _dockProp->setVisible( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionShowPFD_triggered()
+{
+    _widgetPFD->show();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -328,6 +328,7 @@ public:
 
         double airspeed;                    ///< [m/s] airspeed
         double ias;                         ///< [m/s] indicated airspeed
+        double tas;                         ///< [m/s] true airspeed
         double groundSpeed;                 ///< [m/s] ground speed (horizontal velocity)
         double machNumber;                  ///< [-]   Mach number
         double climbRate;                   ///< [m/s] climb rate

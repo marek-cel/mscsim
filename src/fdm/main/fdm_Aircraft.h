@@ -245,6 +245,7 @@ public:
     inline double getSlipSkidAngle() const { return _slipSkidAngle; }
     inline double getAirspeed()      const { return _airspeed;      }
     inline double getIAS()           const { return _ias;           }
+    inline double getTAS()           const { return _tas;           }
     inline double getGroundSpeed()   const { return _groundSpeed;   }
     inline double getDynPress()      const { return _dynPress;      }
     inline double getMachNumber()    const { return _machNumber;    }
@@ -366,9 +367,10 @@ protected:
     double _climbAngle;         ///< [rad] climb angle
     double _trackAngle;         ///< [rad] track angle
     double _slipSkidAngle;      ///< [rad] slip/skid angle
-    double _airspeed;           ///< [m/s] true airspeed
+    double _airspeed;           ///< [m/s] real airspeed
     double _dynPress;           ///< [Pa] dynamic pressure
     double _ias;                ///< [m/s] indicated airspeed
+    double _tas;                ///< [m/s] true airspeed
     double _groundSpeed;        ///< [m/s] ground speed (horizontal velocity)
     double _machNumber;         ///< [-] Mach number
     double _climbRate;          ///< [m/s] climb rate

@@ -253,6 +253,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 
     Data::get()->ownship.airspeed    = dataOut.flight.airspeed;
     Data::get()->ownship.ias         = dataOut.flight.ias;
+    Data::get()->ownship.tas         = dataOut.flight.tas;
     Data::get()->ownship.groundSpeed = dataOut.flight.groundSpeed;
     Data::get()->ownship.machNumber  = dataOut.flight.machNumber;
     Data::get()->ownship.climbRate   = dataOut.flight.climbRate;

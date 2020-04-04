@@ -1,10 +1,14 @@
 add_library( fdm_c172 STATIC
     c172_Aerodynamics.cpp
     c172_Aircraft.cpp
-    c172_Autopilot.cpp
     c172_Controls.cpp
     c172_Engine.cpp
-    c172_FlightDirector.cpp
+    c172_GFC700_AP.cpp
+    c172_GFC700_FD.cpp
+    c172_KAP140_AP.cpp
+    c172_KAP140_FD.cpp
+    c172_KFC325_AP.cpp
+    c172_KFC325_FD.cpp
     c172_LandingGear.cpp
     c172_Mass.cpp
     c172_Propeller.cpp

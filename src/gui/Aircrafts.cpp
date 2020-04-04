@@ -187,9 +187,22 @@ void Aircrafts::parseAircraftControls( const QDomElement &node, Controls &contro
 
         controls.collective  = !nodeCollective.isNull();
         controls.landingGear = !nodeLandingGear.isNull();
-        controls.flaps       = !nodeFlaps.isNull();
         controls.airbrake    = !nodeAirbrake.isNull();
         controls.spoilers    = !nodeSpoilers.isNull();
+
+        if ( !nodeFlaps.isNull() )
+        {
+            controls.flaps = true;
+
+            QDomElement nodeNotch = nodeFlaps.firstChildElement( "notch" );
+
+            while ( !nodeNotch.isNull() )
+            {
+                controls.notches.push_back( nodeNotch.text().toDouble() );
+
+                nodeNotch = nodeNotch.nextSiblingElement( "notch" );
+            }
+        }
 
         if ( !nodeThrottle.isNull() )
         {

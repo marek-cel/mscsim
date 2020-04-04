@@ -85,6 +85,7 @@ public:
     void setClimbRate( double climbRate );
     void setHeading( double heading );
     void setCourse( double course );
+    void setRoll( double roll );
     void setPitch( double pitch );
 
 protected:
@@ -97,6 +98,7 @@ protected:
     double _heading;        ///< [rad] desired heading
     double _course;         ///< [rad] desired course
     double _climbRate;      ///< [m/s] desired climb rate
+    double _roll;           ///< [rad] desired roll
     double _pitch;          ///< [rad] desired pitch
 
     bool _engaged;          ///< specifies if flight director is engaged

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_c172/c172_FlightDirector.h>
+#include <fdm_c172/c172_KFC325_FD.h>
 
 #include <fdm/fdm_Log.h>
 #include <fdm/utils/fdm_Misc.h>
@@ -34,7 +34,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_FlightDirector::C172_FlightDirector() :
+C172_KFC325_FD::C172_KFC325_FD() :
     _lat_mode ( LM_FD ),
     _ver_mode ( VM_FD ),
 
@@ -95,11 +95,11 @@ C172_FlightDirector::C172_FlightDirector() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_FlightDirector::~C172_FlightDirector() {}
+C172_KFC325_FD::~C172_KFC325_FD() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::readData( XmlNode &dataNode )
+void C172_KFC325_FD::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -159,14 +159,14 @@ void C172_FlightDirector::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::update( double timeStep,
-                                  double heading,
-                                  double altitude, double airspeed,
-                                  double turnRate, double climbRate,
-                                  double dme_distance,
-                                  double nav_deviation, bool nav_active,
-                                  double loc_deviation, bool loc_active,
-                                  double gs_deviation,  bool gs_active )
+void C172_KFC325_FD::update( double timeStep,
+                             double heading,
+                             double altitude, double airspeed,
+                             double turnRate, double climbRate,
+                             double dme_distance,
+                             double nav_deviation, bool nav_active,
+                             double loc_deviation, bool loc_active,
+                             double gs_deviation,  bool gs_active )
 {
     _turnRateMode = false;
 
@@ -221,7 +221,7 @@ void C172_FlightDirector::update( double timeStep,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::disableHalfBank()
+void C172_KFC325_FD::disableHalfBank()
 {
     _pid_trn .setMin( -_max_roll );
     _pid_trn .setMax(  _max_roll );
@@ -229,7 +229,7 @@ void C172_FlightDirector::disableHalfBank()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::enableHalfBank()
+void C172_KFC325_FD::enableHalfBank()
 {
     double min_roll = -0.5 * _max_roll;
     double max_roll =  0.5 * _max_roll;
@@ -240,14 +240,14 @@ void C172_FlightDirector::enableHalfBank()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::setHeadingILS( double heading_ils )
+void C172_KFC325_FD::setHeadingILS( double heading_ils )
 {
     _heading_ils = heading_ils;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::toggleLatMode( LatMode lat_mode )
+void C172_KFC325_FD::toggleLatMode( LatMode lat_mode )
 {
     if ( _lat_mode == lat_mode )
         _lat_mode = LM_FD;
@@ -259,7 +259,7 @@ void C172_FlightDirector::toggleLatMode( LatMode lat_mode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::toggleVerMode( VerMode ver_mode )
+void C172_KFC325_FD::toggleVerMode( VerMode ver_mode )
 {
     if ( _ver_mode == ver_mode )
         _ver_mode = VM_FD;
@@ -269,7 +269,7 @@ void C172_FlightDirector::toggleVerMode( VerMode ver_mode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::readMode( const fdm::XmlNode &dataNode, PID &pid, double min, double max )
+void C172_KFC325_FD::readMode( const XmlNode &dataNode, PID &pid, double min, double max )
 {
     if ( dataNode.isValid() )
     {
@@ -284,7 +284,7 @@ void C172_FlightDirector::readMode( const fdm::XmlNode &dataNode, PID &pid, doub
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::readPID( const fdm::XmlNode &dataNode, PID &pid, double min, double max )
+void C172_KFC325_FD::readPID( const XmlNode &dataNode, PID &pid, double min, double max )
 {
     if ( dataNode.isValid() )
     {
@@ -329,9 +329,9 @@ void C172_FlightDirector::readPID( const fdm::XmlNode &dataNode, PID &pid, doubl
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateArmMode( double dme_distance,
-                                         double nav_deviation, bool nav_active,
-                                         double loc_deviation, bool loc_active )
+void C172_KFC325_FD::updateArmMode( double dme_distance,
+                                    double nav_deviation, bool nav_active,
+                                    double loc_deviation, bool loc_active )
 {
     // NAV
     if ( _arm_mode == ARM_NAV )
@@ -410,7 +410,7 @@ void C172_FlightDirector::updateArmMode( double dme_distance,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatFD( double timeStep )
+void C172_KFC325_FD::updateLatFD( double timeStep )
 {
     if ( _lat_mode == LM_FD )
     {
@@ -420,7 +420,7 @@ void C172_FlightDirector::updateLatFD( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, double nav_deviation )
+void C172_KFC325_FD::updateLatNAV( double timeStep, double dme_distance, double nav_deviation )
 {
     if ( _lat_mode == LM_NAV )
     {
@@ -447,7 +447,7 @@ void C172_FlightDirector::updateLatNAV( double timeStep, double dme_distance, do
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatAPR( double timeStep, double dme_distance, double loc_deviation )
+void C172_KFC325_FD::updateLatAPR( double timeStep, double dme_distance, double loc_deviation )
 {
     if ( _lat_mode == LM_APR )
     {
@@ -457,7 +457,7 @@ void C172_FlightDirector::updateLatAPR( double timeStep, double dme_distance, do
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatBC( double timeStep, double dme_distance, double loc_deviation )
+void C172_KFC325_FD::updateLatBC( double timeStep, double dme_distance, double loc_deviation )
 {
     if ( _lat_mode == LM_BC )
     {
@@ -467,7 +467,7 @@ void C172_FlightDirector::updateLatBC( double timeStep, double dme_distance, dou
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatABC( double timeStep, double dme_distance, double loc_deviation, double heading )
+void C172_KFC325_FD::updateLatABC( double timeStep, double dme_distance, double loc_deviation, double heading )
 {
     if ( ( _lat_mode == LM_APR && _arm_mode == ARM_APR )
       || ( _lat_mode == LM_BC  && _arm_mode == ARM_BC ) )
@@ -492,7 +492,7 @@ void C172_FlightDirector::updateLatABC( double timeStep, double dme_distance, do
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatHDG( double timeStep, double heading, double turnRate )
+void C172_KFC325_FD::updateLatHDG( double timeStep, double heading, double turnRate )
 {
     if ( _lat_mode == LM_HDG || _lat_mode == LM_NAV || _lat_mode == LM_APR || _lat_mode == LM_BC )
     {
@@ -514,11 +514,11 @@ void C172_FlightDirector::updateLatHDG( double timeStep, double heading, double 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateLatTRN( double timeStep, double turnRate, double airspeed )
+void C172_KFC325_FD::updateLatTRN( double timeStep, double turnRate, double airspeed )
 {
     if ( _turnRateMode )
     {
-        double roll = atan2( airspeed * _turnRate, fdm::WGS84::_g );
+        double roll = atan2( airspeed * _turnRate, WGS84::_g );
 
         _pid_trn.update( timeStep, _turnRate - turnRate );
         _cmd_roll = Misc::rate( timeStep, _max_rate_roll, _cmd_roll, roll + _pid_trn.getValue() );
@@ -532,7 +532,7 @@ void C172_FlightDirector::updateLatTRN( double timeStep, double turnRate, double
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerFD( double timeStep )
+void C172_KFC325_FD::updateVerFD( double timeStep )
 {
     if ( _ver_mode == VM_FD )
         _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pitch );
@@ -542,7 +542,7 @@ void C172_FlightDirector::updateVerFD( double timeStep )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerALT( double timeStep, double altitude )
+void C172_KFC325_FD::updateVerALT( double timeStep, double altitude )
 {
     if ( _ver_mode == VM_ALT )
     {
@@ -557,7 +557,7 @@ void C172_FlightDirector::updateVerALT( double timeStep, double altitude )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerIAS( double timeStep, double airspeed )
+void C172_KFC325_FD::updateVerIAS( double timeStep, double airspeed )
 {
     if ( _ver_mode == VM_IAS )
     {
@@ -572,7 +572,7 @@ void C172_FlightDirector::updateVerIAS( double timeStep, double airspeed )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerVS( double timeStep, double altitude, double climbRate )
+void C172_KFC325_FD::updateVerVS( double timeStep, double altitude, double climbRate )
 {
     if ( _ver_mode == VM_VS || _ver_mode == VM_ARM )
     {
@@ -606,7 +606,7 @@ void C172_FlightDirector::updateVerVS( double timeStep, double altitude, double 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerARM( double timeStep, double altitude, double climbRate )
+void C172_KFC325_FD::updateVerARM( double timeStep, double altitude, double climbRate )
 {
     if ( _ver_mode == VM_ARM )
     {
@@ -630,7 +630,7 @@ void C172_FlightDirector::updateVerARM( double timeStep, double altitude, double
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_FlightDirector::updateVerGS( double timeStep, double gs_deviation, bool gs_active )
+void C172_KFC325_FD::updateVerGS( double timeStep, double gs_deviation, bool gs_active )
 {
     if ( gs_active && _lat_mode == LM_APR && _ver_mode != VM_GS
       && ( Misc::sign( _gs_dev_prev ) != Misc::sign( gs_deviation ) ) )

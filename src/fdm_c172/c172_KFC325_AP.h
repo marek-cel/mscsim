@@ -19,14 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef C172_AUTOPILOT_H
-#define C172_AUTOPILOT_H
+#ifndef C172_KFC325_AP_H
+#define C172_KFC325_AP_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/auto/fdm_Autopilot.h>
 
-#include <fdm_c172/c172_FlightDirector.h>
+#include <fdm_c172/c172_KFC325_FD.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,19 +34,19 @@ namespace fdm
 {
 
 /**
- * @brief Autopilot class.
+ * @brief Bendix/King KFC 325 autopilot class.
  *
  * @see Bendix King KFC 325 Pilot's Guide
  */
-class C172_Autopilot : public Autopilot
+class C172_KFC325_AP : public Autopilot
 {
 public:
 
     /** Constructor. */
-    C172_Autopilot();
+    C172_KFC325_AP();
 
     /** Destructor. */
-    virtual ~C172_Autopilot();
+    virtual ~C172_KFC325_AP();
 
     /**
      * Reads data.
@@ -109,22 +109,22 @@ public:
     inline bool getLampVS()  const { return isActiveVS();  }
     inline bool getLampARM() const { return isActiveARM(); }
 
-    inline bool isActiveALT() const { return _fd->getVerMode() == C172_FlightDirector::VM_ALT; }
-    inline bool isActiveIAS() const { return _fd->getVerMode() == C172_FlightDirector::VM_IAS; }
-    inline bool isActiveVS()  const { return _fd->getVerMode() == C172_FlightDirector::VM_VS;  }
-    inline bool isActiveARM() const { return _fd->getVerMode() == C172_FlightDirector::VM_ARM; }
-    inline bool isActiveGS()  const { return _fd->getVerMode() == C172_FlightDirector::VM_GS;  }
-    inline bool isActiveHDG() const { return _fd->getLatMode() == C172_FlightDirector::LM_HDG; }
-    inline bool isActiveNAV() const { return _fd->getLatMode() == C172_FlightDirector::LM_NAV; }
-    inline bool isActiveAPR() const { return _fd->getLatMode() == C172_FlightDirector::LM_APR; }
-    inline bool isActiveBC()  const { return _fd->getLatMode() == C172_FlightDirector::LM_BC;  }
+    inline bool isActiveALT() const { return _fd->getVerMode() == C172_KFC325_FD::VM_ALT; }
+    inline bool isActiveIAS() const { return _fd->getVerMode() == C172_KFC325_FD::VM_IAS; }
+    inline bool isActiveVS()  const { return _fd->getVerMode() == C172_KFC325_FD::VM_VS;  }
+    inline bool isActiveARM() const { return _fd->getVerMode() == C172_KFC325_FD::VM_ARM; }
+    inline bool isActiveGS()  const { return _fd->getVerMode() == C172_KFC325_FD::VM_GS;  }
+    inline bool isActiveHDG() const { return _fd->getLatMode() == C172_KFC325_FD::LM_HDG; }
+    inline bool isActiveNAV() const { return _fd->getLatMode() == C172_KFC325_FD::LM_NAV; }
+    inline bool isActiveAPR() const { return _fd->getLatMode() == C172_KFC325_FD::LM_APR; }
+    inline bool isActiveBC()  const { return _fd->getLatMode() == C172_KFC325_FD::LM_BC;  }
 
     inline bool isActiveSoftRide() const { return _softRide; }
     inline bool isActiveHalfBank() const { return _halfBank; }
 
-    inline bool isArmedNAV() const { return _fd->getArmMode() == C172_FlightDirector::ARM_NAV; }
-    inline bool isArmedAPR() const { return _fd->getArmMode() == C172_FlightDirector::ARM_APR; }
-    inline bool isArmedBC()  const { return _fd->getArmMode() == C172_FlightDirector::ARM_BC;  }
+    inline bool isArmedNAV() const { return _fd->getArmMode() == C172_KFC325_FD::ARM_NAV; }
+    inline bool isArmedAPR() const { return _fd->getArmMode() == C172_KFC325_FD::ARM_APR; }
+    inline bool isArmedBC()  const { return _fd->getArmMode() == C172_KFC325_FD::ARM_BC;  }
 
     inline bool isActiveOrArmedAPR() const { return isActiveAPR() || isArmedAPR(); }
     inline bool isActiveOrArmedBC()  const { return isActiveBC()  || isArmedBC();  }
@@ -133,7 +133,7 @@ public:
 
 private:
 
-    C172_FlightDirector *_fd;   ///< flight director
+    C172_KFC325_FD *_fd;        ///< flight director
 
     double _rate_pitch;         ///< [deg/s] pitch rate of change
     double _rate_alt;           ///< [m/s] altitude rate of change
@@ -150,4 +150,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // C172_AUTOPILOT_H
+#endif // C172_KFC325_AP_H

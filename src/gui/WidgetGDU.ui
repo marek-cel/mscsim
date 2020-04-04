@@ -1,0 +1,1517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WidgetGDU</class>
+ <widget class="QWidget" name="WidgetGDU">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1100</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">#frame
+{
+	background-color: #393939;
+	border-image:url(:/gui/images/g1000/background.png);
+	border-radius: 10px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="WidgetCGI" name="widgetCGI" native="true">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>45</y>
+        <width>800</width>
+        <height>600</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>800</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#widgetCGI
+{
+	background-color: #000;
+	/* border-radius: 10px; */
+}</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widgetBottom" native="true">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>650</y>
+        <width>800</width>
+        <height>70</height>
+       </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>800</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>800</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_soft.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_soft.png);
+}
+
+QLabel
+{
+	border-image:url(:/gui/images/g1000/line.png);
+}</string>
+      </property>
+      <widget class="QPushButton" name="button_11">
+       <property name="geometry">
+        <rect>
+         <x>674</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_10">
+       <property name="geometry">
+        <rect>
+         <x>608</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_09">
+       <property name="geometry">
+        <rect>
+         <x>542</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_02">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_08">
+       <property name="geometry">
+        <rect>
+         <x>476</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_04">
+       <property name="geometry">
+        <rect>
+         <x>212</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_06">
+       <property name="geometry">
+        <rect>
+         <x>344</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_03">
+       <property name="geometry">
+        <rect>
+         <x>146</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_07">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_01">
+       <property name="geometry">
+        <rect>
+         <x>14</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_05">
+       <property name="geometry">
+        <rect>
+         <x>278</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_12">
+       <property name="geometry">
+        <rect>
+         <x>741</x>
+         <y>17</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="widgetRight" native="true">
+      <property name="geometry">
+       <rect>
+        <x>950</x>
+        <y>0</y>
+        <width>150</width>
+        <height>720</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <widget class="QPushButton" name="buttonKnob_RANGE">
+       <property name="geometry">
+        <rect>
+         <x>61</x>
+         <y>393</y>
+         <width>39</width>
+         <height>39</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>39</width>
+         <height>39</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>39</width>
+         <height>39</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_pan.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_CRS">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>266</y>
+         <width>55</width>
+         <height>55</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>55</width>
+         <height>55</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_crs.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_COM_ID">
+       <property name="geometry">
+        <rect>
+         <x>65</x>
+         <y>36</y>
+         <width>30</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_vol.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_COM">
+       <property name="geometry">
+        <rect>
+         <x>52</x>
+         <y>133</y>
+         <width>58</width>
+         <height>58</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_dual.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonSwitch_COM">
+       <property name="geometry">
+        <rect>
+         <x>22</x>
+         <y>79</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_switch.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_switch.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_FMS">
+       <property name="geometry">
+        <rect>
+         <x>52</x>
+         <y>630</y>
+         <width>58</width>
+         <height>58</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_dual.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_DEST">
+       <property name="geometry">
+        <rect>
+         <x>33</x>
+         <y>482</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_dest.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_dest.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_FPL">
+       <property name="geometry">
+        <rect>
+         <x>33</x>
+         <y>523</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_fpl.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_fpl.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_ENT">
+       <property name="geometry">
+        <rect>
+         <x>84</x>
+         <y>563</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_ent.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_ent.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_PROC">
+       <property name="geometry">
+        <rect>
+         <x>84</x>
+         <y>523</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_proc.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_proc.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_MENU">
+       <property name="geometry">
+        <rect>
+         <x>84</x>
+         <y>482</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_menu.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_menu.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_CLR">
+       <property name="geometry">
+        <rect>
+         <x>33</x>
+         <y>563</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_clr.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_clr.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="widgetLeft" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>150</width>
+        <height>720</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <widget class="QPushButton" name="buttonKnob_ALT">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>630</y>
+         <width>58</width>
+         <height>58</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_dual.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_NAV_ID">
+       <property name="geometry">
+        <rect>
+         <x>53</x>
+         <y>36</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_vol.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_HDG">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>266</y>
+         <width>57</width>
+         <height>57</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>57</width>
+         <height>57</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>57</width>
+         <height>57</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_hdg.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonSwitch_NAV">
+       <property name="geometry">
+        <rect>
+         <x>83</x>
+         <y>79</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_switch.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_switch.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="buttonKnob_NAV">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>133</y>
+         <width>58</width>
+         <height>58</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>58</width>
+         <height>58</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/knob_dual.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_AP">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>362</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_ap.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_ap.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_FD">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>362</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_fd.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_fd.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_HDG">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>402</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_hdg.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_hdg.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_ALT">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>402</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_alt.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_alt.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_NAV">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>442</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_nav.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_nav.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_VNV">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>442</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_vnv.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_vnv.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_APR">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>482</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_apr.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_apr.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_BC">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>482</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_bc.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_bc.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_VS">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>523</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_vs.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_vs.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_UP">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>523</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_up.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_up.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_FLC">
+       <property name="geometry">
+        <rect>
+         <x>21</x>
+         <y>563</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_flc.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_flc.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="button_DN">
+       <property name="geometry">
+        <rect>
+         <x>72</x>
+         <y>563</y>
+         <width>44</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>44</width>
+         <height>29</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	border-image:url(:/gui/images/g1000/btn_dn.png);
+}
+
+QPushButton:pressed
+{
+	border-image:url(:/gui/images/g1000/dn_btn_dn.png);
+}</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>WidgetCGI</class>
+   <extends>QWidget</extends>
+   <header>gui/WidgetCGI.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>buttonKnob_NAV_ID</tabstop>
+  <tabstop>buttonSwitch_NAV</tabstop>
+  <tabstop>buttonKnob_NAV</tabstop>
+  <tabstop>buttonKnob_HDG</tabstop>
+  <tabstop>button_AP</tabstop>
+  <tabstop>button_FD</tabstop>
+  <tabstop>button_HDG</tabstop>
+  <tabstop>button_ALT</tabstop>
+  <tabstop>button_NAV</tabstop>
+  <tabstop>button_VNV</tabstop>
+  <tabstop>button_APR</tabstop>
+  <tabstop>button_BC</tabstop>
+  <tabstop>button_VS</tabstop>
+  <tabstop>button_UP</tabstop>
+  <tabstop>button_FLC</tabstop>
+  <tabstop>button_DN</tabstop>
+  <tabstop>buttonKnob_ALT</tabstop>
+  <tabstop>buttonKnob_COM_ID</tabstop>
+  <tabstop>buttonSwitch_COM</tabstop>
+  <tabstop>buttonKnob_COM</tabstop>
+  <tabstop>buttonKnob_CRS</tabstop>
+  <tabstop>buttonKnob_FMS</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

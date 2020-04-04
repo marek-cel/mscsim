@@ -32,10 +32,7 @@
 #include <osgGA/GUIEventHandler>
 #include <osgQt/GraphicsWindowQt>
 
-#include <hid/hid_Assignment.h>
-
-#include "gui_Defines.h"
-#include "KeyHandler.h"
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,62 +45,28 @@ class WidgetCGI : public QWidget, public osgViewer::Viewer
 
 public:
 
-    static const double _zNear;
-    static const double _zFar;
-
     /** Constructor. */
     WidgetCGI( QWidget *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~WidgetCGI();
 
-    inline void keyDn( hid::Assignment::Key key ) { _keyHandler->keyDn( key ); }
-    inline void keyUp( hid::Assignment::Key key ) { _keyHandler->keyUp( key ); }
-
-    /** */
-    void setCameraManipulatorChase();
-
-    /** */
-    void setCameraManipulatorOrbit();
-
-    /** */
-    void setCameraManipulatorPilot();
-
-    /** */
-    void setCameraManipulatorWorld();
-
-    /** */
-    void setDistanceDef( double distance_def );
-
-    /** */
-    void setDistanceMin( double distance_min );
-
 protected:
 
     /** */
     void paintEvent( QPaintEvent *event );
-
-    /** */
-    void timerEvent( QTimerEvent *event );
 
 private:
 
     QGridLayout *_gridLayout;
 
     osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
-    osg::ref_ptr<KeyHandler> _keyHandler;
-
-    int _timerId;                   ///< timer ID
-
-    bool _camManipulatorInited;
 
     /** */
     QWidget* addViewWidget();
 
-    void createCameraOTW();
-
     /** */
-    void createCameraHUD();
+    void createCamera();
 
     /** */
     osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );

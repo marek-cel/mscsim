@@ -40,7 +40,10 @@ HEADERS += \
     $$PWD/ScreenSaver.h \
     $$PWD/SpinBoxHighlight.h \
     $$PWD/WidgetCGI.h \
+    $$PWD/WidgetGDU.h \
     $$PWD/WidgetMap.h \
+    $$PWD/WidgetOTW.h \
+    $$PWD/WidgetPFD.h \
     $$PWD/WidgetSquare.h
 
 SOURCES += \
@@ -84,7 +87,10 @@ SOURCES += \
     $$PWD/ScreenSaver.cpp \
     $$PWD/SpinBoxHighlight.cpp \
     $$PWD/WidgetCGI.cpp \
+    $$PWD/WidgetGDU.cpp \
     $$PWD/WidgetMap.cpp \
+    $$PWD/WidgetOTW.cpp \
+    $$PWD/WidgetPFD.cpp \
     $$PWD/WidgetSquare.cpp
 
 FORMS += \
@@ -103,4 +109,6 @@ FORMS += \
     $$PWD/DockWidgetProp.ui \
     $$PWD/MainWindow.ui \
     $$PWD/PageControls.ui \
-    $$PWD/PageGeneral.ui
+    $$PWD/PageGeneral.ui \
+    $$PWD/WidgetGDU.ui \
+    $$PWD/WidgetPFD.ui

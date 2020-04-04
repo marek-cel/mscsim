@@ -14,8 +14,8 @@
    <string>MScSim</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../sim.qrc">
-    <normaloff>:/gui/images/sim.svg</normaloff>:/gui/images/sim.svg</iconset>
+   <iconset resource="../mscsim.qrc">
+    <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -57,7 +57,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="WidgetCGI" name="widgetCGI" native="true"/>
+         <widget class="WidgetOTW" name="widgetOTW" native="true"/>
         </item>
        </layout>
       </widget>
@@ -108,6 +108,7 @@
     <addaction name="actionDockMap"/>
     <addaction name="actionDockProp"/>
     <addaction name="separator"/>
+    <addaction name="actionShowPFD"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -539,17 +540,22 @@
     <string>Blades Paths</string>
    </property>
   </action>
+  <action name="actionShowPFD">
+   <property name="text">
+    <string>Show PFD</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>WidgetCGI</class>
+   <class>WidgetOTW</class>
    <extends>QWidget</extends>
-   <header>gui/WidgetCGI.h</header>
+   <header>gui/WidgetOTW.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../sim.qrc"/>
+  <include location="../mscsim.qrc"/>
  </resources>
  <connections/>
 </ui>

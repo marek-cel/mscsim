@@ -47,6 +47,8 @@
 #include "DockWidgetMap.h"
 #include "DockWidgetProp.h"
 
+#include "WidgetPFD.h"
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace Ui
@@ -123,6 +125,8 @@ private:
     DockWidgetMap  *_dockMap;           ///<
     DockWidgetProp *_dockProp;          ///<
 
+    WidgetPFD *_widgetPFD;              ///<
+
     QShortcut *_scCycleViews;           ///< key shortcut
     QShortcut *_scToggleHud;            ///< key shortcut
     QShortcut *_scFullScreen;           ///< key shortcut
@@ -188,6 +192,8 @@ private:
     void updateDockMain();
     void updateDockProp();
 
+    void updateGarmin();
+
     void updateMenu();
     void updateStatusBar();
 
@@ -207,6 +213,8 @@ private slots:
     void on_actionDockMain_toggled( bool checked );
     void on_actionDockMap_toggled( bool checked );
     void on_actionDockProp_toggled( bool checked );
+
+    void on_actionShowPFD_triggered();
 
     void on_actionFlightOpen_triggered();
     void on_actionFlightSave_triggered();

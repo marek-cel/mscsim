@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef C172_FLIGHTDIRECTOR_H
-#define C172_FLIGHTDIRECTOR_H
+#ifndef C172_KFC325_FD_H
+#define C172_KFC325_FD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +36,7 @@ namespace fdm
  *
  * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999, p.213. [in Polish]
  */
-class C172_FlightDirector : public FlightDirector
+class C172_KFC325_FD : public FlightDirector
 {
 public:
 
@@ -45,7 +45,7 @@ public:
     {
         LM_FD = 0,      ///< wing level
         LM_HDG,         ///< heading select
-        LM_NAV,         ///< track navigation senson
+        LM_NAV,         ///< track navigation sensor
         LM_APR,         ///< approach
         LM_BC           ///< back course approach
     };
@@ -71,10 +71,10 @@ public:
     };
 
     /** Constructor. */
-    C172_FlightDirector();
+    C172_KFC325_FD();
 
     /** Destructor. */
-    virtual ~C172_FlightDirector();
+    virtual ~C172_KFC325_FD();
 
     /**
      * Reads data.
@@ -156,8 +156,8 @@ protected:
 
     bool _turnRateMode;     ///<
 
-    virtual void readMode( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
-    virtual void readPID( const fdm::XmlNode &dataNode, PID &pid, double min, double max );
+    virtual void readMode( const XmlNode &dataNode, PID &pid, double min, double max );
+    virtual void readPID( const XmlNode &dataNode, PID &pid, double min, double max );
 
     virtual void updateArmMode( double dme_distance,
                                 double nav_deviation, bool nav_active,
@@ -183,4 +183,4 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // C172_FLIGHTDIRECTOR_H
+#endif // C172_KFC325_FD_H

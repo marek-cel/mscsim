@@ -122,6 +122,7 @@ public:
     void setClimbRate( double climbRate );
     void setHeading( double heading );
     void setCourse( double course );
+    void setRoll( double roll );
     void setPitch( double pitch );
 
 protected:
@@ -140,6 +141,8 @@ protected:
     double _max_rate_pitch; ///< [1/s] max control pitch rate
     double _max_rate_yaw;   ///< [1/s] max control yaw rate
 
+    double _min_roll;       ///< [rad] min roll
+    double _max_roll;       ///< [rad] max roll
     double _min_pitch;      ///< [rad] min pitch
     double _max_pitch;      ///< [rad] max pitch
     double _min_alt;        ///< [m]   min altitude
@@ -158,10 +161,10 @@ protected:
     bool _testing;          ///< specifies if test is active
     bool _engaged;          ///< specifies if autopilot is engaged
 
-    virtual void readChannel( const fdm::XmlNode &dataNode, double &max_rate,
+    virtual void readChannel( const XmlNode &dataNode, double &max_rate,
                               PID &pid, Table &gain_ias );
 
-    virtual void readPID( const fdm::XmlNode &dataNode, PID &pid );
+    virtual void readPID( const XmlNode &dataNode, PID &pid );
 };
 
 } // end of fdm namespace

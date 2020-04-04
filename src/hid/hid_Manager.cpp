@@ -22,6 +22,7 @@
 
 #include <hid/hid_Manager.h>
 
+#include <cmath>
 #include <cstring>
 
 #include <Common.h>
@@ -265,6 +266,8 @@ void Manager::reset( bool onGround )
         _propeller [ i ] = 1.0;
     }
 
+    _prevFlapsExtend        = false;
+    _prevFlapsRetract       = false;
     _prevLandingGearToggle  = false;
     _prevParkingBrakeToggle = false;
     _prevSpoilersToggle     = false;
@@ -272,6 +275,8 @@ void Manager::reset( bool onGround )
     _stateLandingGear  = onGround;
     _stateParkingBrake = false;
     _stateSpoilers     = false;
+
+    _notch = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -301,6 +306,14 @@ void Manager::setKeysState( bool keysState[] )
     {
         _keysState[ i ] = keysState[ i ];
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::setNotches( const std::vector< double > &notches )
+{
+    _notches.clear();
+    _notches = notches;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -645,9 +658,50 @@ void Manager::updateMiscActions()
                   &_landingGear, _speedGear, 0.0f, 1.0f );
 
     // flaps
-    getRealValue( Assignment::FlapsRetract,
-                  Assignment::FlapsExtend,
-                  &_flaps, _speedFlaps, 0.0f, 1.0f );
+    if ( _notches.size() > 0 )
+    {
+        bool flapsExtend  = getButtState( _assignments[ Assignment::FlapsExtend  ] );
+        bool flapsRetract = getButtState( _assignments[ Assignment::FlapsRetract ] );
+
+        if ( flapsExtend  && !_prevFlapsExtend )
+        {
+            if ( _notch + 1 < (int)_notches.size() )
+            {
+                _notch = _notch + 1;
+            }
+        }
+
+
+        if ( flapsRetract && !_prevFlapsRetract )
+        {
+            if ( _notch > 0 )
+            {
+                _notch = _notch - 1;
+            }
+        }
+
+        _prevFlapsExtend  = flapsExtend;
+        _prevFlapsRetract = flapsRetract;
+
+        double notch = _notches[ _notch ];
+        double delta = notch - _flaps;
+
+        if ( fabs( delta ) > _speedFlaps * _timeStep )
+        {
+            if ( _flaps > notch ) _flaps -= _speedFlaps * _timeStep;
+            if ( _flaps < notch ) _flaps += _speedFlaps * _timeStep;
+        }
+        else
+        {
+            _flaps = notch;
+        }
+    }
+    else
+    {
+        getRealValue( Assignment::FlapsRetract,
+                      Assignment::FlapsExtend,
+                      &_flaps, _speedFlaps, 0.0f, 1.0f );
+    }
 
     // airbrake
     getRealValue( Assignment::AirbrakeRetract,

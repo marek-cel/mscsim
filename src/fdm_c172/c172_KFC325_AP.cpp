@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_c172/c172_Autopilot.h>
+#include <fdm_c172/c172_KFC325_AP.h>
 
 #include <fdm/fdm_Path.h>
 
@@ -33,8 +33,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Autopilot::C172_Autopilot() :
-    Autopilot ( _fd = new C172_FlightDirector() ),
+C172_KFC325_AP::C172_KFC325_AP() :
+    Autopilot ( _fd = new C172_KFC325_FD() ),
 
     _rate_pitch ( 0.0 ),
     _rate_alt   ( 0.0 ),
@@ -49,14 +49,14 @@ C172_Autopilot::C172_Autopilot() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Autopilot::~C172_Autopilot()
+C172_KFC325_AP::~C172_KFC325_AP()
 {
     FDM_DELPTR( _fd );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::readData( XmlNode &dataNode )
+void C172_KFC325_AP::readData( XmlNode &dataNode )
 {
     ////////////////////////////////
     Autopilot::readData( dataNode );
@@ -86,9 +86,9 @@ void C172_Autopilot::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::initialize()
+void C172_KFC325_AP::initialize()
 {
-    std::string dataFile = Path::get( "data/fdm/c172/c172_ap.xml" );
+    std::string dataFile = Path::get( "data/fdm/c172/c172_ap_kfc325.xml" );
     fdm::XmlDoc doc( dataFile );
 
     if ( doc.isOpen() )
@@ -117,7 +117,7 @@ void C172_Autopilot::initialize()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::update( double timeStep, bool button_dn, bool button_up )
+void C172_KFC325_AP::update( double timeStep, bool button_dn, bool button_up )
 {
     if ( button_dn || button_up )
     {
@@ -125,23 +125,23 @@ void C172_Autopilot::update( double timeStep, bool button_dn, bool button_up )
 
         switch ( _fd->getVerMode() )
         {
-        case C172_FlightDirector::VM_FD:
+        case C172_KFC325_FD::VM_FD:
             setPitch( getPitch() + coef * timeStep * _rate_pitch );
             break;
 
-        case C172_FlightDirector::VM_ALT:
+        case C172_KFC325_FD::VM_ALT:
             setAltitude( getAltitude() + coef * timeStep * _rate_alt );
             break;
 
-        case C172_FlightDirector::VM_IAS:
+        case C172_KFC325_FD::VM_IAS:
             setAirspeed( getAirspeed() + coef * timeStep * _rate_ias );
             break;
 
-        case C172_FlightDirector::VM_VS:
+        case C172_KFC325_FD::VM_VS:
             setClimbRate( getClimbRate() + coef * timeStep * _rate_vs );
             break;
 
-        case C172_FlightDirector::VM_ARM:
+        case C172_KFC325_FD::VM_ARM:
         default:
             // do nothing
             break;
@@ -151,7 +151,7 @@ void C172_Autopilot::update( double timeStep, bool button_dn, bool button_up )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedAP()
+void C172_KFC325_AP::onPressedAP()
 {
     _engaged = !_engaged;
 
@@ -160,7 +160,7 @@ void C172_Autopilot::onPressedAP()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedFD()
+void C172_KFC325_AP::onPressedFD()
 {
     if ( _fd->isEngaged() )
     {
@@ -168,8 +168,8 @@ void C172_Autopilot::onPressedFD()
 
         if ( !_engaged )
         {
-            _fd->setLatMode( C172_FlightDirector::LM_FD );
-            _fd->setVerMode( C172_FlightDirector::VM_FD );
+            _fd->setLatMode( C172_KFC325_FD::LM_FD );
+            _fd->setVerMode( C172_KFC325_FD::VM_FD );
         }
 
     }
@@ -181,107 +181,107 @@ void C172_Autopilot::onPressedFD()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedALT()
+void C172_KFC325_AP::onPressedALT()
 {
     if ( !isActiveGS() )
-        _fd->toggleVerMode( C172_FlightDirector::VM_ALT );
+        _fd->toggleVerMode( C172_KFC325_FD::VM_ALT );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedIAS()
+void C172_KFC325_AP::onPressedIAS()
 {
     if ( !isActiveGS() )
-        _fd->toggleVerMode( C172_FlightDirector::VM_IAS );
+        _fd->toggleVerMode( C172_KFC325_FD::VM_IAS );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedENG()
+void C172_KFC325_AP::onPressedENG()
 {
     if ( !isActiveGS() )
-        _fd->setVerMode( C172_FlightDirector::VM_VS ); // or toggle ??
+        _fd->setVerMode( C172_KFC325_FD::VM_VS ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedARM()
+void C172_KFC325_AP::onPressedARM()
 {
     if ( !isActiveGS() )
-        _fd->setVerMode( C172_FlightDirector::VM_ARM ); // or toggle ??
+        _fd->setVerMode( C172_KFC325_FD::VM_ARM ); // or toggle ??
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedHDG()
+void C172_KFC325_AP::onPressedHDG()
 {
     _fd->engage();
-    _fd->toggleLatMode( C172_FlightDirector::LM_HDG );
+    _fd->toggleLatMode( C172_KFC325_FD::LM_HDG );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedNAV()
+void C172_KFC325_AP::onPressedNAV()
 {
     _fd->engage();
 
     if ( isActiveNAV() && !isArmedNAV() )
-        _fd->toggleLatMode( C172_FlightDirector::LM_NAV );
+        _fd->toggleLatMode( C172_KFC325_FD::LM_NAV );
     else
-        _fd->setArmMode( C172_FlightDirector::ARM_NAV );
+        _fd->setArmMode( C172_KFC325_FD::ARM_NAV );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedAPR()
+void C172_KFC325_AP::onPressedAPR()
 {
     _fd->engage();
 
     if ( isActiveAPR() && !isArmedAPR() )
     {
-        _fd->setLatMode( C172_FlightDirector::LM_FD );
+        _fd->setLatMode( C172_KFC325_FD::LM_FD );
 
         if ( isActiveGS() )
-            _fd->setVerMode( C172_FlightDirector::VM_FD );
+            _fd->setVerMode( C172_KFC325_FD::VM_FD );
     }
     else
-        _fd->setArmMode( C172_FlightDirector::ARM_APR );
+        _fd->setArmMode( C172_KFC325_FD::ARM_APR );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedBC()
+void C172_KFC325_AP::onPressedBC()
 {
     _fd->engage();
 
     if ( isActiveBC() && !isArmedBC() )
     {
-        _fd->setLatMode( C172_FlightDirector::LM_FD );
+        _fd->setLatMode( C172_KFC325_FD::LM_FD );
 
         if ( isActiveGS() )
-            _fd->setVerMode( C172_FlightDirector::VM_FD );
+            _fd->setVerMode( C172_KFC325_FD::VM_FD );
     }
     else
-        _fd->setArmMode( C172_FlightDirector::ARM_BC );
+        _fd->setArmMode( C172_KFC325_FD::ARM_BC );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedYD()
+void C172_KFC325_AP::onPressedYD()
 {
     _yawDamper = !_yawDamper;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedSoftRide()
+void C172_KFC325_AP::onPressedSoftRide()
 {
     _softRide = !_softRide;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedHalfBank()
+void C172_KFC325_AP::onPressedHalfBank()
 {
     _halfBank = !_halfBank;
 
@@ -293,21 +293,21 @@ void C172_Autopilot::onPressedHalfBank()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onPressedTest()
+void C172_KFC325_AP::onPressedTest()
 {
     _testing = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::onReleasedTest()
+void C172_KFC325_AP::onReleasedTest()
 {
     _testing = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_Autopilot::setHeadingILS( double heading_ils )
+void C172_KFC325_AP::setHeadingILS( double heading_ils )
 {
     _fd->setHeadingILS( heading_ils );
 }

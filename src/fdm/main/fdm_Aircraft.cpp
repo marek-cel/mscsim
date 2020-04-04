@@ -75,6 +75,7 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _airspeed      ( 0.0 ),
     _dynPress      ( 0.0 ),
     _ias           ( 0.0 ),
+    _tas           ( 0.0 ),
     _groundSpeed   ( 0.0 ),
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
@@ -409,6 +410,7 @@ void Aircraft::updateOutputData()
 
     _dataOut->flight.airspeed    = _airspeed;
     _dataOut->flight.ias         = _ias;
+    _dataOut->flight.tas         = _tas;
     _dataOut->flight.groundSpeed = _groundSpeed;
     _dataOut->flight.machNumber  = _machNumber;
     _dataOut->flight.climbRate   = _climbRate;
@@ -653,6 +655,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _airspeed    = _vel_air_bas.getLength();
     _dynPress    = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
     _ias         = sqrt( 2.0 * dynPressLon / fdm::Atmosphere::_std_sl_rho );
+    _tas         = _ias * sqrt( Atmosphere::_std_sl_rho / _envir->getDensity() );
     _groundSpeed = _vel_ned.getLengthXY();
     _machNumber  = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate   = -_vel_ned.z();
