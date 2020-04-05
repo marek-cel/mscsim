@@ -39,11 +39,11 @@ const double PFD::_z_bars = -50.0;
 ////////////////////////////////////////////////////////////////////////////////
 
 PFD::PFD() :
-    _adi ( nullptr ),
-    _alt ( nullptr ),
-    _asi ( nullptr ),
-    _hsi ( nullptr ),
-    _vsi ( nullptr )
+    _adi ( NULLPTR ),
+    _alt ( NULLPTR ),
+    _asi ( NULLPTR ),
+    _hsi ( NULLPTR ),
+    _vsi ( NULLPTR )
 {
     _adi = new ADI();
     _alt = new ALT();
@@ -62,20 +62,11 @@ PFD::PFD() :
 
 PFD::~PFD()
 {
-    if ( _adi ) delete _adi;
-    _adi = nullptr;
-
-    if ( _alt ) delete _alt;
-    _alt = nullptr;
-
-    if ( _asi ) delete _asi;
-    _asi = nullptr;
-
-    if ( _hsi ) delete _hsi;
-    _hsi = nullptr;
-
-    if ( _vsi ) delete _vsi;
-    _vsi = nullptr;
+	DELPTR( _adi );
+	DELPTR( _alt );
+	DELPTR( _asi );
+	DELPTR( _hsi );
+	DELPTR( _vsi );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

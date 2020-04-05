@@ -22,6 +22,8 @@
 
 #include <g1000/xml/g1000_XmlDoc.h>
 
+#include <g1000/g1000_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace g1000;
@@ -31,7 +33,7 @@ using namespace g1000;
 XmlDoc::XmlDoc( const std::string &fileName ) :
     _doc  ( 0 ),
     _open ( false ),
-    _root ( nullptr )
+    _root ( NULLPTR )
 {
     readFile( fileName );
 }
@@ -40,8 +42,7 @@ XmlDoc::XmlDoc( const std::string &fileName ) :
 
 XmlDoc::~XmlDoc()
 {
-    if ( _root ) delete _root;
-    _root = nullptr;
+	DELPTR( _root );
 
     xmlFreeDoc( _doc );
 }

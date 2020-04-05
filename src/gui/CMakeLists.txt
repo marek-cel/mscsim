@@ -32,7 +32,10 @@ qt4_wrap_cpp( MOC_SRCS
     PageGeneral.h
     SpinBoxHighlight.h
     WidgetCGI.h
+    WidgetGDU.h
     WidgetMap.h
+    WidgetOTW.h
+    WidgetPFD.h
     WidgetSquare.h
 )
 
@@ -55,6 +58,8 @@ qt4_wrap_ui( UI_HEADERS
     MainWindow.ui
     PageControls.ui
     PageGeneral.ui
+    WidgetGDU.ui
+    WidgetPFD.ui
 )
 
 ################################################################################
@@ -100,7 +105,10 @@ add_library( gui STATIC
     ScreenSaver.cpp
     SpinBoxHighlight.cpp
     WidgetCGI.cpp
+    WidgetGDU.cpp
     WidgetMap.cpp
+    WidgetOTW.cpp
+    WidgetPFD.cpp
     WidgetSquare.cpp
 
     ${MOC_SRCS}

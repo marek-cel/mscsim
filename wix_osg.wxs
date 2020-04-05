@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
   <Fragment>
-    <DirectoryRef Id="dir_mscsim">
+    <DirectoryRef Id="dir_mscsim_bin">
       <Directory Id="dir_mscsim_osgPlugins_3_4_0" Name="osgPlugins-3.4.0" />
       <Component Id="dir_mscsim_libpng15" Guid="{89c91dfc-7c9a-4853-8e88-6f7b3e692b3c}">
         <File Id="dir_mscsim_libpng15_dll" Name="libpng15.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng15.dll" />

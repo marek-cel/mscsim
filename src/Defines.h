@@ -31,27 +31,33 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if __cplusplus >= 201103L
-#   define NULLPTR nullptr
-#else
-#   define NULLPTR 0
+#ifndef NULLPTR
+#   if __cplusplus >= 201103L
+#       define NULLPTR nullptr
+#   else
+#       define NULLPTR 0
+#   endif
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef DELPTR
 #define DELPTR( ptr ) \
 { \
     if ( ptr ) delete ptr; \
     ptr = NULLPTR; \
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef DELTAB
 #define DELTAB( ptr ) \
 { \
     if ( ptr ) delete [] ptr; \
     ptr = NULLPTR; \
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 

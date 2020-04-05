@@ -22,6 +22,7 @@
 
 #include <g1000/utils/g1000_Units.h>
 
+#include <g1000/g1000_Defines.h>
 #include <g1000/utils/g1000_String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +67,7 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "degF" ) )
         return &Units::f2k;
 
-    return nullptr;
+    return NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,5 +108,5 @@ Units::fptr Units::getConverterInv( const char *name )
     else if ( 0 == String::icompare( name, "degF" ) )
         return &Units::k2f;
 
-    return nullptr;
+    return NULLPTR;
 }

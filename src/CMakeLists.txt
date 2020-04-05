@@ -98,6 +98,7 @@ add_subdirectory( fdm_f16 )
 add_subdirectory( fdm_p51 )
 add_subdirectory( fdm_test )
 add_subdirectory( fdm_uh60 )
+add_subdirectory( g1000 )
 add_subdirectory( gui )
 add_subdirectory( hid )
 add_subdirectory( nav )
@@ -171,6 +172,7 @@ target_link_libraries( ${PROJECT_NAME}
     fdm_f16
     fdm_p51
     fdm_uh60
+    g1000
     gui
     hid
     nav

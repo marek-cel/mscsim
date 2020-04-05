@@ -1,3 +1,13 @@
+2020-04-05 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * CMake files
+    
+    * WiX installer building scripts and input files
+    
+    * Qt Installer Framework buildings scripts and input files
+
+
+
 2020-04-04 Marek M. Cel <marekcel@marekcel.pl>
     
     * Flaps notches

@@ -11,10 +11,10 @@ Component.prototype.createOperations = function()
   {
     component.addOperation(
       "CreateShortcut",
-      "@TargetDir@/mscsim.exe",
+      "@TargetDir@/bin/mscsim.exe",
       "@StartMenuDir@/MScSim.lnk",
-      "workingDirectory=@TargetDir@",
-      "iconPath=@TargetDir@/mscsim.ico",
+      "workingDirectory=@TargetDir@/bin/",
+      "iconPath=@TargetDir@/bin/mscsim.ico",
       "iconId=0",
       "description=MScSim"
     );

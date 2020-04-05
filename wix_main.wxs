@@ -28,12 +28,14 @@
       <!-- installation dir -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="dir_mscsim" Name="MScSim">
+          <Directory Id="dir_mscsim_bin" Name="bin">
           
-          <!-- sim.exe -->
-          <Component Id="dir_mscsim_mscsim" Guid="{fd4685ff-e47f-4d7f-8701-7af5b30842be}">
-            <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
-          </Component>
+            <!-- sim.exe -->
+            <Component Id="dir_mscsim_mscsim" Guid="{fd4685ff-e47f-4d7f-8701-7af5b30842be}">
+              <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
+            </Component>
           
+          </Directory>
         </Directory>
       </Directory>
             
@@ -43,11 +45,11 @@
           <Component Id="menu_shortcuts" Guid="{161e5841-d82a-4ec8-94d5-248edb1afe1e}">
             <Shortcut
               Id="menu_sim" 
-              Name="MscSim" 
+              Name="MScSim" 
               Icon="mscsim_ico"
-              Description="Flight Simulator"
-              Target="[dir_mscsim]\mscsim.exe"
-              WorkingDirectory="dir_mscsim" />
+              Description="MScSim Flight Simulator"
+              Target="[dir_mscsim_bin]\mscsim.exe"
+              WorkingDirectory="dir_mscsim_bin" />
             <Shortcut
               Id="menu_unistall"
               Name="Uninstall MScSim"

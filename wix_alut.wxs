@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
   <Fragment>
-    <DirectoryRef Id="dir_mscsim">
+    <DirectoryRef Id="dir_mscsim_bin">
       <Component Id="dir_mscsim_alut" Guid="{fff9255a-23a2-4638-8d97-7cdfe0dcdc81}">
         <File Id="dir_mscsim_alut_dll" Name="alut.dll" DiskId="1" Source="$(env.OPENAL_DIR)\bin\alut.dll" />
       </Component>
