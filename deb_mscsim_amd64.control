@@ -1,5 +1,5 @@
 Package: mscsim
-Version: 0.2
+Version: 0.3
 Architecture: amd64
 Maintainer: Marek M. Cel <marekcel@marekcel.pl>
 Depends: mscsim-data, libopenscenegraph100v5, libopenthreads20, libalut0, libopenal1, libqt4-opengl, libqt4-svg, libqt4-xml, libqtcore4, libqtgui4
