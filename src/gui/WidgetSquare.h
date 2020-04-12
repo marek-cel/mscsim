@@ -26,8 +26,9 @@
 
 #include <QWidget>
 
-#include "gui_Defines.h"
-#include "LayoutSquare.h"
+#include <Defines.h>
+
+#include <gui/LayoutSquare.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

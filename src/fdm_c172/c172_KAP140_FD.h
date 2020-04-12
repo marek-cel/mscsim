@@ -31,6 +31,8 @@
 namespace fdm
 {
 
+class C172_KAP140_AP;
+
 /**
  * @brief Flight director class.
  *
@@ -59,7 +61,7 @@ public:
     };
 
     /** Constructor. */
-    C172_KAP140_FD();
+    C172_KAP140_FD( const C172_KAP140_AP *ap );
 
     /** Destructor. */
     virtual ~C172_KAP140_FD();
@@ -93,8 +95,10 @@ public:
 
 protected:
 
-    LatMode _lat_mode;      ///< lateral mode
-    VerMode _ver_mode;      ///< vertical mode
+    const C172_KAP140_AP *_ap;  ///< autopilot
+
+    LatMode _lat_mode;          ///< lateral mode
+    VerMode _ver_mode;          ///< vertical mode
 };
 
 } // end of fdm namespace

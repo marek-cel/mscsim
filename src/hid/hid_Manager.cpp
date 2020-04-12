@@ -107,10 +107,11 @@ const std::string Manager::_keysNames[] = {
     "`", "-", "=", "[", "]", ";", "'", ",", ".", "/",
     "Space",
     "Left", "Right", "Up", "Down",
-    "Insert", "Delete", "Home", "End", "Page Up", "Page Down"
+    "Insert", "Delete", "Home", "End", "Page Up", "Page Down",
+    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"
 };
 
-#if ( HID_MAX_KEYS != 57 )
+#if ( HID_MAX_KEYS != 69 )
 #   error 'HID_MAX_KEYS' has been changed! Check code following this line!
 #endif
 
@@ -617,8 +618,8 @@ void Manager::updateAxisActions()
       || _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None
       || _assignments[ Assignment::PropellerAxis1 ].type == Assignment::None )
     {
-        getRealValue( Assignment::PropellerDecrease,
-                      Assignment::PropellerIncrease,
+        getRealValue( Assignment::PropellerCoarse,
+                      Assignment::PropellerFine,
                       &_commonPropeller, _speedPropeller, 0.0f, 1.0f );
 
         _propeller[ 0 ] = _commonPropeller;

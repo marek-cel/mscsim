@@ -31,8 +31,9 @@
 
 #include <osgText/Text>
 
-#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/g1000_Defines.h>
+
+#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/gdu/g1000_Fonts.h>
 
 #include <g1000/utils/g1000_Misc.h>
@@ -92,16 +93,7 @@ ADI::ADI()
 
     _patFlightDir = new osg::PositionAttitudeTransform();
     _switchFlightDir->addChild( _patFlightDir.get() );
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-ADI::~ADI() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void ADI::init( XmlNode &node )
-{
     createAircraftSymbol();
     createFlightDirector();
     createHorizonLine();
@@ -111,6 +103,10 @@ void ADI::init( XmlNode &node )
     createRollScale();
     createSkyAndGround();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+ADI::~ADI() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -157,7 +153,8 @@ void ADI::update( const Data &data )
     slipSkid_norm = Misc::satur( -1.0, 1.0, slipSkid_norm );
     _patSlipSkid->setPosition( osg::Vec3( 5.0 * -slipSkid_norm, 0.0, 0.0 ) );
 
-    if ( data.pfd.fd_visible )
+    if ( data.pfd.fd_visible && fabs( data.pfd.roll ) < Units::deg2rad( 65.0 )
+      && data.pfd.pitch < Units::deg2rad(  30.0 ) && data.pfd.pitch > Units::deg2rad( -20.0 ) )
     {
         _switchFlightDir->setAllChildrenOn();
 

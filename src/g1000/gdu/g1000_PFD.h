@@ -29,9 +29,12 @@
 #include <g1000/gdu/g1000_GDU.h>
 
 #include <g1000/gdu/g1000_ADI.h>
+#include <g1000/gdu/g1000_AFCS.h>
 #include <g1000/gdu/g1000_ALT.h>
 #include <g1000/gdu/g1000_ASI.h>
+#include <g1000/gdu/g1000_COM.h>
 #include <g1000/gdu/g1000_HSI.h>
+#include <g1000/gdu/g1000_NAV.h>
 #include <g1000/gdu/g1000_VSI.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,31 +49,30 @@ class PFD : public GDU
 {
 public:
 
-    static const osg::Vec3 _colorBars;
     static const double _z_bars;
 
     /** Constructor. */
-    PFD();
+    PFD( const std::string &file );
 
     /** Destructor. */
     virtual ~PFD();
-
-    /** Initializes PFD. */
-    void init( const std::string &file );
 
     /** Updates PFD. */
     void update( const Data &data );
 
 private:
 
-    ADI *_adi;              ///< attitude director indicator
-    ALT *_alt;              ///< altimeter
-    ASI *_asi;              ///< airspeed indicator
-    HSI *_hsi;              ///< horizontal situation indicator
-    VSI *_vsi;              ///< vertical speed indicator
+    ADI  *_adi;             ///< attitude director indicator
+    AFCS *_afcs;            ///< AFCS status box
+    ALT  *_alt;             ///< altimeter
+    ASI  *_asi;             ///< airspeed indicator
+    COM  *_com;             ///< communication frequencies
+    HSI  *_hsi;             ///< horizontal situation indicator
+    NAV  *_nav;             ///< navigation frequencies
+    VSI  *_vsi;             ///< vertical speed indicator
 
-    void createLowerBar( XmlNode &node );
-    void createUpperBar( XmlNode &node );
+    void createLowerBar();
+    void createUpperBar();
 };
 
 } // end of g1000 namespace

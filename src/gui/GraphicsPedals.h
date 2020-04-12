@@ -27,7 +27,7 @@
 #include <QGraphicsLineItem>
 #include <QGraphicsView>
 
-#include "gui_Defines.h"
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

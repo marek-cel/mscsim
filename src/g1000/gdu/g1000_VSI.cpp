@@ -27,8 +27,9 @@
 #include <osg/Geode>
 #include <osg/Geometry>
 
-#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/g1000_Defines.h>
+
+#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/gdu/g1000_Fonts.h>
 
 #include <g1000/utils/g1000_Misc.h>
@@ -67,16 +68,7 @@ VSI::VSI()
 
     _patBug = new osg::PositionAttitudeTransform();
     _pat->addChild( _patBug.get() );
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-VSI::~VSI() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void VSI::init( XmlNode &node )
-{
     createBack();
     createBoxSelect();
     createBug();
@@ -84,6 +76,10 @@ void VSI::init( XmlNode &node )
     createPointer();
     createScale();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+VSI::~VSI() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 

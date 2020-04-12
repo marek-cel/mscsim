@@ -42,7 +42,7 @@ namespace fdm
  *
  * @see McLean D.: Automatic Flight Control Systems, 1990
  * @see Roskam J.: Airplane Flight Dynamics and Automatic Flight Controls, 2001
- * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999, p.213. [in Polish]
+ * @see Bociek S., Gruszecki J.: Uklady sterowania automatycznego samolotem, 1999 [in Polish]
  */
 class FDMEXPORT Autopilot
 {

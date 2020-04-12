@@ -32,10 +32,10 @@
 #include <osgGA/GUIEventHandler>
 #include <osgQt/GraphicsWindowQt>
 
-#include <hid/hid_Assignment.h>
+#include <Defines.h>
 
-#include "gui_Defines.h"
-#include "KeyHandler.h"
+#include <gui/KeyHandler.h>
+#include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

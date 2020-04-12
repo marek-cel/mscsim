@@ -257,7 +257,55 @@ hid::Assignment::Key Keys::getKey( int key )
     case Qt::Key_PageDown:
         return hid::Assignment::KeyPageDown;
         break;
+
+    case Qt::Key_F1:
+        return hid::Assignment::KeyF1;
+        break;
+
+    case Qt::Key_F2:
+        return hid::Assignment::KeyF2;
+        break;
+
+    case Qt::Key_F3:
+        return hid::Assignment::KeyF3;
+        break;
+
+    case Qt::Key_F4:
+        return hid::Assignment::KeyF4;
+        break;
+
+    case Qt::Key_F5:
+        return hid::Assignment::KeyF5;
+        break;
+
+    case Qt::Key_F6:
+        return hid::Assignment::KeyF6;
+        break;
+
+    case Qt::Key_F7:
+        return hid::Assignment::KeyF7;
+        break;
+
+    case Qt::Key_F8:
+        return hid::Assignment::KeyF8;
+        break;
+
+    case Qt::Key_F9:
+        return hid::Assignment::KeyF9;
+        break;
+
+    case Qt::Key_F10:
+        return hid::Assignment::KeyF10;
+        break;
+
+    case Qt::Key_F11:
+        return hid::Assignment::KeyF11;
+        break;
+
+    case Qt::Key_F12:
+        return hid::Assignment::KeyF12;
+        break;
     }
 
-    return (hid::Assignment::Key)0;
+    return (hid::Assignment::Key)(-1);
 }

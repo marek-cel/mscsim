@@ -27,8 +27,9 @@
 #include <osg/Geode>
 #include <osg/Geometry>
 
-#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/g1000_Defines.h>
+
+#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/gdu/g1000_Fonts.h>
 
 #include <g1000/utils/g1000_Misc.h>
@@ -47,8 +48,8 @@ const osg::Vec3 ALT::_colorBack = osg::Vec3( 0.38, 0.38, 0.38 );
 
 const double ALT::_z_back  = -80.0;
 const double ALT::_z_box   = -60.0;
-const double ALT::_z_bug   = -75.0;
-const double ALT::_z_frame = -70.0;
+const double ALT::_z_bug   = -69.0;
+const double ALT::_z_frame = -60.0;
 const double ALT::_z_scale = -70.0;
 
 const double ALT::_alt2pt = 0.11;
@@ -72,16 +73,7 @@ ALT::ALT()
 
     _patBug = new osg::PositionAttitudeTransform();
     _pat->addChild( _patBug.get() );
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-ALT::~ALT() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void ALT::init( XmlNode &node )
-{
     createAltitudeBug();
     createBack();
     createBox();
@@ -93,6 +85,10 @@ void ALT::init( XmlNode &node )
     createScale();
     createScaleMask();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+ALT::~ALT() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 

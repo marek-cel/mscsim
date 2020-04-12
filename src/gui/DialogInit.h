@@ -29,7 +29,7 @@
 #include <QDomElement>
 #include <QSettings>
 
-#include "gui_Defines.h"
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -28,6 +28,7 @@
 
 #include <osg/Node>
 
+#include <Autopilot.h>
 #include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,9 +55,59 @@ public:
 
     void setSceneRoot( osg::Node *sceneRoot );
 
+    inline void setAutopilot( Autopilot *ap ) { _ap = ap; }
+
 private:
 
     Ui::WidgetGDU *_ui;
+
+    Autopilot *_ap;             ///< autopilot object
+
+private slots:
+
+    void on_buttonKnob_Vol_NAV_clicked();
+    void on_buttonKnob_Vol_COM_clicked();
+
+    void on_buttonKnob_NAV_clicked();
+    void on_buttonKnob_COM_clicked();
+    void on_buttonKnob_HDG_clicked();
+    void on_buttonKnob_CRS_clicked();
+    void on_buttonKnob_ALT_clicked();
+    void on_buttonKnob_FMS_clicked();
+
+    void on_buttonKey_NAV_clicked();
+    void on_buttonKey_COM_clicked();
+
+    void on_buttonKey_AP_AP_clicked();
+    void on_buttonKey_AP_FD_clicked();
+    void on_buttonKey_AP_HDG_clicked();
+    void on_buttonKey_AP_ALT_clicked();
+    void on_buttonKey_AP_NAV_clicked();
+    void on_buttonKey_AP_VNV_clicked();
+    void on_buttonKey_AP_APR_clicked();
+    void on_buttonKey_AP_BC_clicked();
+    void on_buttonKey_AP_VS_clicked();
+    void on_buttonKey_AP_FLC_clicked();
+
+    void on_buttonKey_FMS_DEST_clicked();
+    void on_buttonKey_FMS_MENU_clicked();
+    void on_buttonKey_FMS_FPL_clicked();
+    void on_buttonKey_FMS_PROC_clicked();
+    void on_buttonKey_FMS_CLR_clicked();
+    void on_buttonKey_FMS_ENT_clicked();
+
+    void on_buttonKeySoft_01_clicked();
+    void on_buttonKeySoft_02_clicked();
+    void on_buttonKeySoft_03_clicked();
+    void on_buttonKeySoft_04_clicked();
+    void on_buttonKeySoft_05_clicked();
+    void on_buttonKeySoft_06_clicked();
+    void on_buttonKeySoft_07_clicked();
+    void on_buttonKeySoft_08_clicked();
+    void on_buttonKeySoft_09_clicked();
+    void on_buttonKeySoft_10_clicked();
+    void on_buttonKeySoft_11_clicked();
+    void on_buttonKeySoft_12_clicked();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

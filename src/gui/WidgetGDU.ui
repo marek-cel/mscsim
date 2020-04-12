@@ -112,7 +112,7 @@ QLabel
 	border-image:url(:/gui/images/g1000/line.png);
 }</string>
       </property>
-      <widget class="QPushButton" name="button_11">
+      <widget class="QPushButton" name="buttonKeySoft_11">
        <property name="geometry">
         <rect>
          <x>675</x>
@@ -143,7 +143,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_10">
+      <widget class="QPushButton" name="buttonKeySoft_10">
        <property name="geometry">
         <rect>
          <x>609</x>
@@ -174,7 +174,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_09">
+      <widget class="QPushButton" name="buttonKeySoft_09">
        <property name="geometry">
         <rect>
          <x>542</x>
@@ -205,7 +205,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_02">
+      <widget class="QPushButton" name="buttonKeySoft_02">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -236,7 +236,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_08">
+      <widget class="QPushButton" name="buttonKeySoft_08">
        <property name="geometry">
         <rect>
          <x>476</x>
@@ -267,7 +267,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_04">
+      <widget class="QPushButton" name="buttonKeySoft_04">
        <property name="geometry">
         <rect>
          <x>212</x>
@@ -298,7 +298,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_06">
+      <widget class="QPushButton" name="buttonKeySoft_06">
        <property name="geometry">
         <rect>
          <x>344</x>
@@ -329,7 +329,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_03">
+      <widget class="QPushButton" name="buttonKeySoft_03">
        <property name="geometry">
         <rect>
          <x>146</x>
@@ -360,7 +360,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_07">
+      <widget class="QPushButton" name="buttonKeySoft_07">
        <property name="geometry">
         <rect>
          <x>410</x>
@@ -391,7 +391,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_01">
+      <widget class="QPushButton" name="buttonKeySoft_01">
        <property name="geometry">
         <rect>
          <x>14</x>
@@ -422,7 +422,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_05">
+      <widget class="QPushButton" name="buttonKeySoft_05">
        <property name="geometry">
         <rect>
          <x>278</x>
@@ -453,7 +453,7 @@ QLabel
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_12">
+      <widget class="QPushButton" name="buttonKeySoft_12">
        <property name="geometry">
         <rect>
          <x>741</x>
@@ -575,7 +575,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="buttonKnob_COM_ID">
+      <widget class="QPushButton" name="buttonKnob_Vol_COM">
        <property name="geometry">
         <rect>
          <x>64</x>
@@ -653,7 +653,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="buttonSwitch_COM">
+      <widget class="QPushButton" name="buttonKey_COM">
        <property name="geometry">
         <rect>
          <x>22</x>
@@ -731,7 +731,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_DEST">
+      <widget class="QPushButton" name="buttonKey_FMS_DEST">
        <property name="geometry">
         <rect>
          <x>33</x>
@@ -770,7 +770,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_FPL">
+      <widget class="QPushButton" name="buttonKey_FMS_FPL">
        <property name="geometry">
         <rect>
          <x>33</x>
@@ -809,7 +809,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_ENT">
+      <widget class="QPushButton" name="buttonKey_FMS_ENT">
        <property name="geometry">
         <rect>
          <x>84</x>
@@ -848,7 +848,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_PROC">
+      <widget class="QPushButton" name="buttonKey_FMS_PROC">
        <property name="geometry">
         <rect>
          <x>84</x>
@@ -887,7 +887,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_MENU">
+      <widget class="QPushButton" name="buttonKey_FMS_MENU">
        <property name="geometry">
         <rect>
          <x>84</x>
@@ -926,7 +926,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_CLR">
+      <widget class="QPushButton" name="buttonKey_FMS_CLR">
        <property name="geometry">
         <rect>
          <x>33</x>
@@ -1017,7 +1017,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="buttonKnob_NAV_ID">
+      <widget class="QPushButton" name="buttonKnob_Vol_NAV">
        <property name="geometry">
         <rect>
          <x>52</x>
@@ -1095,7 +1095,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="buttonSwitch_NAV">
+      <widget class="QPushButton" name="buttonKey_NAV">
        <property name="geometry">
         <rect>
          <x>83</x>
@@ -1173,7 +1173,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_AP">
+      <widget class="QPushButton" name="buttonKey_AP_AP">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1212,7 +1212,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_FD">
+      <widget class="QPushButton" name="buttonKey_AP_FD">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1251,7 +1251,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_HDG">
+      <widget class="QPushButton" name="buttonKey_AP_HDG">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1290,7 +1290,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_ALT">
+      <widget class="QPushButton" name="buttonKey_AP_ALT">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1329,7 +1329,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_NAV">
+      <widget class="QPushButton" name="buttonKey_AP_NAV">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1368,7 +1368,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_VNV">
+      <widget class="QPushButton" name="buttonKey_AP_VNV">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1407,7 +1407,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_APR">
+      <widget class="QPushButton" name="buttonKey_AP_APR">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1446,7 +1446,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_BC">
+      <widget class="QPushButton" name="buttonKey_AP_BC">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1485,7 +1485,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_VS">
+      <widget class="QPushButton" name="buttonKey_AP_VS">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1524,7 +1524,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_UP">
+      <widget class="QPushButton" name="buttonKey_AP_UP">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1563,7 +1563,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_FLC">
+      <widget class="QPushButton" name="buttonKey_AP_FLC">
        <property name="geometry">
         <rect>
          <x>21</x>
@@ -1602,7 +1602,7 @@ QPushButton:pressed
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="button_DN">
+      <widget class="QPushButton" name="buttonKey_AP_DN">
        <property name="geometry">
         <rect>
          <x>72</x>
@@ -1655,25 +1655,25 @@ QPushButton:pressed
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>buttonKnob_NAV_ID</tabstop>
-  <tabstop>buttonSwitch_NAV</tabstop>
+  <tabstop>buttonKnob_Vol_NAV</tabstop>
+  <tabstop>buttonKey_NAV</tabstop>
   <tabstop>buttonKnob_NAV</tabstop>
   <tabstop>buttonKnob_HDG</tabstop>
-  <tabstop>button_AP</tabstop>
-  <tabstop>button_FD</tabstop>
-  <tabstop>button_HDG</tabstop>
-  <tabstop>button_ALT</tabstop>
-  <tabstop>button_NAV</tabstop>
-  <tabstop>button_VNV</tabstop>
-  <tabstop>button_APR</tabstop>
-  <tabstop>button_BC</tabstop>
-  <tabstop>button_VS</tabstop>
-  <tabstop>button_UP</tabstop>
-  <tabstop>button_FLC</tabstop>
-  <tabstop>button_DN</tabstop>
+  <tabstop>buttonKey_AP_AP</tabstop>
+  <tabstop>buttonKey_AP_FD</tabstop>
+  <tabstop>buttonKey_AP_HDG</tabstop>
+  <tabstop>buttonKey_AP_ALT</tabstop>
+  <tabstop>buttonKey_AP_NAV</tabstop>
+  <tabstop>buttonKey_AP_VNV</tabstop>
+  <tabstop>buttonKey_AP_APR</tabstop>
+  <tabstop>buttonKey_AP_BC</tabstop>
+  <tabstop>buttonKey_AP_VS</tabstop>
+  <tabstop>buttonKey_AP_UP</tabstop>
+  <tabstop>buttonKey_AP_FLC</tabstop>
+  <tabstop>buttonKey_AP_DN</tabstop>
   <tabstop>buttonKnob_ALT</tabstop>
-  <tabstop>buttonKnob_COM_ID</tabstop>
-  <tabstop>buttonSwitch_COM</tabstop>
+  <tabstop>buttonKnob_Vol_COM</tabstop>
+  <tabstop>buttonKey_COM</tabstop>
   <tabstop>buttonKnob_COM</tabstop>
   <tabstop>buttonKnob_CRS</tabstop>
   <tabstop>buttonKnob_FMS</tabstop>

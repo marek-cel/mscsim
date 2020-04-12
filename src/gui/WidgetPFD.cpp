@@ -35,8 +35,7 @@ WidgetPFD::WidgetPFD( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
-    _pfd = new g1000::PFD();
-    _pfd->init( Path::get( "data/g1000/pfd.xml" ) );
+    _pfd = new g1000::PFD( Path::get( "data/g1000/pfd.xml" ) );
 
     _ui->widgetPFD->setSceneRoot( _pfd->getRoot() );
 
@@ -60,6 +59,13 @@ void WidgetPFD::update( const g1000::Data &data )
 {
     _pfd->update( data );
     _ui->widgetPFD->update();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetPFD::setAutopilot( Autopilot *ap )
+{
+    _ui->widgetPFD->setAutopilot( ap );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,7 @@
 
 #include <QWidget>
 
+#include <Autopilot.h>
 #include <Defines.h>
 
 #include <g1000/gdu/g1000_PFD.h>
@@ -51,6 +52,8 @@ public:
     ~WidgetPFD();
 
     void update( const g1000::Data &data );
+
+    void setAutopilot( Autopilot *ap );
 
 private:
 

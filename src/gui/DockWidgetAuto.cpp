@@ -31,6 +31,8 @@
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlDoc.h>
 
+#include <gui/gui_Defines.h>
+
 #include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,10 +26,10 @@
 
 #include <QDockWidget>
 
-#include "gui_Defines.h"
+#include <Defines.h>
 
-#include "GraphicsEADI.h"
-#include "GraphicsEHSI.h"
+#include <gui/GraphicsEADI.h>
+#include <gui/GraphicsEHSI.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

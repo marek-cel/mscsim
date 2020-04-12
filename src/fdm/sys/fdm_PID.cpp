@@ -130,6 +130,19 @@ void PID::update( double timeStep, double error )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void PID::reset()
+{
+    _error_i = 0.0;
+    _error_d = 0.0;
+
+    _error = 0.0;
+
+    _value = 0.0;
+    _delta = 0.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void PID::setParallel( double kp, double ki, double kd )
 {
     _kp = kp;
@@ -157,11 +170,32 @@ void PID::setStandard( double Kp, double Ti, double Td )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void PID::setError( double error )
+{
+    _error = error;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void PID::setValue( double value )
 {
-    _error   = 0.0;
     _error_i = fabs( _ki ) > 0.0 ? value / _ki : 0.0;
     _error_d = 0.0;
+
+    _error = 0.0;
+
+    _value = value;
+    _delta = 0.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PID::setValue( double timeStep, double error, double value )
+{
+    _error_i = fabs( _ki ) > 0.0 ? value / _ki : 0.0;
+    _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
+
+    _error = error;
 
     _value = value;
     _delta = 0.0;

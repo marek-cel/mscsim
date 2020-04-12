@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     virtual ~GDU();
 
-    /** Initializes display. */
-    virtual void init( const std::string &file ) = 0;
-
     /** Updates display. */
     virtual void update( const Data &data ) = 0;
 

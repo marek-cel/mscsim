@@ -94,8 +94,8 @@ PageControls::PageControls( QWidget *parent ) :
     _actionNames[ hid::Assignment::PropellerAxis2      ] = "propeller_axis_2";     // 49
     _actionNames[ hid::Assignment::PropellerAxis3      ] = "propeller_axis_3";     // 50
     _actionNames[ hid::Assignment::PropellerAxis4      ] = "propeller_axis_4";     // 51
-    _actionNames[ hid::Assignment::PropellerIncrease   ] = "propeller_increase";   // 52
-    _actionNames[ hid::Assignment::PropellerDecrease   ] = "propeller_decrease";   // 53
+    _actionNames[ hid::Assignment::PropellerFine       ] = "propeller_fine";       // 52
+    _actionNames[ hid::Assignment::PropellerCoarse     ] = "propeller_coarse";     // 53
 
 #   if ( HID_MAX_ACTIONS != 54 )
 #       error 'HID_MAX_ACTIONS' has been changed! Check code above this line!
@@ -467,76 +467,76 @@ void PageControls::initDefaultAssignments()
         _assignments[ hid::Assignment::YawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPeriod;
 
         _assignments[ hid::Assignment::TrimRollBankLeft ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimRollBankLeft ].data.keyboard.keyId = hid::Assignment::KeyInsert;
+        _assignments[ hid::Assignment::TrimRollBankLeft ].data.keyboard.keyId = hid::Assignment::Key8;
 
         _assignments[ hid::Assignment::TrimRollBankRight ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimRollBankRight ].data.keyboard.keyId = hid::Assignment::KeyPageUp;
+        _assignments[ hid::Assignment::TrimRollBankRight ].data.keyboard.keyId = hid::Assignment::Key0;
 
         _assignments[ hid::Assignment::TrimPitchNoseUp ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimPitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyEnd;
+        _assignments[ hid::Assignment::TrimPitchNoseUp ].data.keyboard.keyId = hid::Assignment::KeyRightBracket;
 
         _assignments[ hid::Assignment::TrimPitchNoseDown ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimPitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyHome;
+        _assignments[ hid::Assignment::TrimPitchNoseDown ].data.keyboard.keyId = hid::Assignment::KeyLeftBracket;
 
         _assignments[ hid::Assignment::TrimYawTurnLeft ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimYawTurnLeft ].data.keyboard.keyId = hid::Assignment::KeyDelete;
+        _assignments[ hid::Assignment::TrimYawTurnLeft ].data.keyboard.keyId = hid::Assignment::Key5;
 
         _assignments[ hid::Assignment::TrimYawTurnRight ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimYawTurnRight ].data.keyboard.keyId = hid::Assignment::KeyPageDown;
+        _assignments[ hid::Assignment::TrimYawTurnRight ].data.keyboard.keyId = hid::Assignment::Key7;
 
         _assignments[ hid::Assignment::TrimReset ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::TrimReset ].data.keyboard.keyId = hid::Assignment::KeyT;
+        _assignments[ hid::Assignment::TrimReset ].data.keyboard.keyId = hid::Assignment::Key9;
 
         _assignments[ hid::Assignment::BrakeLeftApply ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::BrakeLeftApply ].data.keyboard.keyId = hid::Assignment::KeyB;
+        _assignments[ hid::Assignment::BrakeLeftApply ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
         _assignments[ hid::Assignment::BrakeRightApply ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::BrakeRightApply ].data.keyboard.keyId = hid::Assignment::KeyB;
+        _assignments[ hid::Assignment::BrakeRightApply ].data.keyboard.keyId = hid::Assignment::KeySpace;
 
         _assignments[ hid::Assignment::ParkingBrakeToggle ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::ParkingBrakeToggle ].data.keyboard.keyId = hid::Assignment::KeyP;
+        _assignments[ hid::Assignment::ParkingBrakeToggle ].data.keyboard.keyId = hid::Assignment::KeyB;
 
         _assignments[ hid::Assignment::LandingGearToggle ].type = hid::Assignment::Keyboard;
         _assignments[ hid::Assignment::LandingGearToggle ].data.keyboard.keyId = hid::Assignment::KeyG;
 
         _assignments[ hid::Assignment::FlapsExtend ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::FlapsExtend ].data.keyboard.keyId = hid::Assignment::KeyV;
+        _assignments[ hid::Assignment::FlapsExtend ].data.keyboard.keyId = hid::Assignment::Key2;
 
         _assignments[ hid::Assignment::FlapsRetract ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::FlapsRetract ].data.keyboard.keyId = hid::Assignment::KeyF;
+        _assignments[ hid::Assignment::FlapsRetract ].data.keyboard.keyId = hid::Assignment::Key1;
 
         _assignments[ hid::Assignment::AirbrakeExtend ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::AirbrakeExtend ].data.keyboard.keyId = hid::Assignment::KeyA;
+        _assignments[ hid::Assignment::AirbrakeExtend ].data.keyboard.keyId = hid::Assignment::Key4;
 
         _assignments[ hid::Assignment::AirbrakeRetract ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::AirbrakeRetract ].data.keyboard.keyId = hid::Assignment::KeyZ;
+        _assignments[ hid::Assignment::AirbrakeRetract ].data.keyboard.keyId = hid::Assignment::Key3;
 
         _assignments[ hid::Assignment::SpoilersToggle ].type = hid::Assignment::Keyboard;
         _assignments[ hid::Assignment::SpoilersToggle ].data.keyboard.keyId = hid::Assignment::KeyS;
 
         _assignments[ hid::Assignment::CollectiveIncrease ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::CollectiveIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
+        _assignments[ hid::Assignment::CollectiveIncrease ].data.keyboard.keyId = hid::Assignment::KeyF10;
 
         _assignments[ hid::Assignment::CollectiveDecreade ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::CollectiveDecreade ].data.keyboard.keyId = hid::Assignment::KeyMinus;
+        _assignments[ hid::Assignment::CollectiveDecreade ].data.keyboard.keyId = hid::Assignment::KeyF9;
 
         _assignments[ hid::Assignment::ThrottleIncrease ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::ThrottleIncrease ].data.keyboard.keyId = hid::Assignment::KeyEquals;
+        _assignments[ hid::Assignment::ThrottleIncrease ].data.keyboard.keyId = hid::Assignment::KeyF2;
 
         _assignments[ hid::Assignment::ThrottleDecrease ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::ThrottleDecrease ].data.keyboard.keyId = hid::Assignment::KeyMinus;
+        _assignments[ hid::Assignment::ThrottleDecrease ].data.keyboard.keyId = hid::Assignment::KeyF1;
 
         _assignments[ hid::Assignment::MixtureRich ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::MixtureRich ].data.keyboard.keyId = hid::Assignment::KeyRightBracket;
+        _assignments[ hid::Assignment::MixtureRich ].data.keyboard.keyId = hid::Assignment::KeyF6;
 
         _assignments[ hid::Assignment::MixtureLean ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::MixtureLean ].data.keyboard.keyId = hid::Assignment::KeyLeftBracket;
+        _assignments[ hid::Assignment::MixtureLean ].data.keyboard.keyId = hid::Assignment::KeyF5;
 
-        _assignments[ hid::Assignment::PropellerIncrease ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::PropellerIncrease ].data.keyboard.keyId = hid::Assignment::KeyQuote;
+        _assignments[ hid::Assignment::PropellerFine ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::PropellerFine ].data.keyboard.keyId = hid::Assignment::KeyF4;
 
-        _assignments[ hid::Assignment::PropellerDecrease ].type = hid::Assignment::Keyboard;
-        _assignments[ hid::Assignment::PropellerDecrease ].data.keyboard.keyId = hid::Assignment::KeySemicolon;
+        _assignments[ hid::Assignment::PropellerCoarse ].type = hid::Assignment::Keyboard;
+        _assignments[ hid::Assignment::PropellerCoarse ].data.keyboard.keyId = hid::Assignment::KeyF3;
 
 #       if ( HID_MAX_ACTIONS != 54 )
 #           error 'HID_MAX_ACTIONS' has been changed! Check code above this line!

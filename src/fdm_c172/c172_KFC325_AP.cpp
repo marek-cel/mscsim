@@ -34,7 +34,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_KFC325_AP::C172_KFC325_AP() :
-    Autopilot ( _fd = new C172_KFC325_FD() ),
+    Autopilot ( _fd = new C172_KFC325_FD( this ) ),
 
     _rate_pitch ( 0.0 ),
     _rate_alt   ( 0.0 ),
@@ -43,8 +43,7 @@ C172_KFC325_AP::C172_KFC325_AP() :
 
     _softRideCoef ( 0.0 ),
 
-    _softRide ( false ),
-    _halfBank ( false )
+    _softRide ( false )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -162,107 +161,63 @@ void C172_KFC325_AP::onPressedAP()
 
 void C172_KFC325_AP::onPressedFD()
 {
-    if ( _fd->isEngaged() )
-    {
-        _fd->disengage();
-
-        if ( !_engaged )
-        {
-            _fd->setLatMode( C172_KFC325_FD::LM_FD );
-            _fd->setVerMode( C172_KFC325_FD::VM_FD );
-        }
-
-    }
-    else
-    {
-        _fd->engage();
-    }
+    _fd->onPressedFD();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedALT()
 {
-    if ( !isActiveGS() )
-        _fd->toggleVerMode( C172_KFC325_FD::VM_ALT );
+    _fd->onPressedALT();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedIAS()
 {
-    if ( !isActiveGS() )
-        _fd->toggleVerMode( C172_KFC325_FD::VM_IAS );
+    _fd->onPressedIAS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedENG()
 {
-    if ( !isActiveGS() )
-        _fd->setVerMode( C172_KFC325_FD::VM_VS ); // or toggle ??
+    _fd->onPressedENG();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedARM()
 {
-    if ( !isActiveGS() )
-        _fd->setVerMode( C172_KFC325_FD::VM_ARM ); // or toggle ??
+    _fd->onPressedARM();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedHDG()
 {
-    _fd->engage();
-    _fd->toggleLatMode( C172_KFC325_FD::LM_HDG );
+    _fd->onPressedHDG();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedNAV()
 {
-    _fd->engage();
-
-    if ( isActiveNAV() && !isArmedNAV() )
-        _fd->toggleLatMode( C172_KFC325_FD::LM_NAV );
-    else
-        _fd->setArmMode( C172_KFC325_FD::ARM_NAV );
+    _fd->onPressedNAV();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedAPR()
 {
-    _fd->engage();
-
-    if ( isActiveAPR() && !isArmedAPR() )
-    {
-        _fd->setLatMode( C172_KFC325_FD::LM_FD );
-
-        if ( isActiveGS() )
-            _fd->setVerMode( C172_KFC325_FD::VM_FD );
-    }
-    else
-        _fd->setArmMode( C172_KFC325_FD::ARM_APR );
+    _fd->onPressedAPR();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void C172_KFC325_AP::onPressedBC()
 {
-    _fd->engage();
-
-    if ( isActiveBC() && !isArmedBC() )
-    {
-        _fd->setLatMode( C172_KFC325_FD::LM_FD );
-
-        if ( isActiveGS() )
-            _fd->setVerMode( C172_KFC325_FD::VM_FD );
-    }
-    else
-        _fd->setArmMode( C172_KFC325_FD::ARM_BC );
+    _fd->onPressedBC();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,12 +238,7 @@ void C172_KFC325_AP::onPressedSoftRide()
 
 void C172_KFC325_AP::onPressedHalfBank()
 {
-    _halfBank = !_halfBank;
-
-    if ( _halfBank )
-        _fd->enableHalfBank();
-    else
-        _fd->disableHalfBank();
+    _fd->onPressedHalfBank();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

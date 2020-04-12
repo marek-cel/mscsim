@@ -34,20 +34,20 @@
 
 #include <Autopilot.h>
 
-#include "DialogConf.h"
-#include "DialogEnvr.h"
-#include "DialogInit.h"
-#include "DialogMass.h"
+#include <gui/DialogConf.h>
+#include <gui/DialogEnvr.h>
+#include <gui/DialogInit.h>
+#include <gui/DialogMass.h>
 
-#include "DockWidgetAuto.h"
-#include "DockWidgetCtrl.h"
-#include "DockWidgetData.h"
-#include "DockWidgetEFIS.h"
-#include "DockWidgetMain.h"
-#include "DockWidgetMap.h"
-#include "DockWidgetProp.h"
+#include <gui/DockWidgetAuto.h>
+#include <gui/DockWidgetCtrl.h>
+#include <gui/DockWidgetData.h>
+#include <gui/DockWidgetEFIS.h>
+#include <gui/DockWidgetMain.h>
+#include <gui/DockWidgetMap.h>
+#include <gui/DockWidgetProp.h>
 
-#include "WidgetPFD.h"
+#include <gui/WidgetPFD.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -85,7 +85,7 @@ public:
     inline double getFreqNav() const { return _dockAuto->getFreqNav(); }
 
     /** */
-    inline void setAutopilot( Autopilot *ap ) { _dockAuto->setAutopilot( _ap = ap ); }
+    void setAutopilot( Autopilot *ap );
 
 protected:
 

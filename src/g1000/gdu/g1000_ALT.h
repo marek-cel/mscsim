@@ -64,9 +64,6 @@ public:
     /** Destructor. */
     virtual ~ALT();
 
-    /** Initializes. */
-    void init( XmlNode &node );
-
     /** Updates. */
     void update( const Data &data );
 

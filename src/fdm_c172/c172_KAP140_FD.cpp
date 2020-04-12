@@ -28,13 +28,19 @@
 #include <fdm/utils/fdm_WGS84.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
+#include <fdm_c172/c172_KAP140_AP.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_KAP140_FD::C172_KAP140_FD() :
+C172_KAP140_FD::C172_KAP140_FD( const C172_KAP140_AP *ap ) :
+    FlightDirector( ap ),
+
+    _ap ( ap ),
+
     _lat_mode ( LM_ROL ),
     _ver_mode ( VM_PIT )
 {}

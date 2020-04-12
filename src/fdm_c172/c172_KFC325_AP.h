@@ -120,7 +120,7 @@ public:
     inline bool isActiveBC()  const { return _fd->getLatMode() == C172_KFC325_FD::LM_BC;  }
 
     inline bool isActiveSoftRide() const { return _softRide; }
-    inline bool isActiveHalfBank() const { return _halfBank; }
+    inline bool isActiveHalfBank() const { return _fd->isActiveHalfBank(); }
 
     inline bool isArmedNAV() const { return _fd->getArmMode() == C172_KFC325_FD::ARM_NAV; }
     inline bool isArmedAPR() const { return _fd->getArmMode() == C172_KFC325_FD::ARM_APR; }
@@ -143,7 +143,6 @@ private:
     double _softRideCoef;       ///< [-] soft ride coefficient
 
     bool _softRide;             ///< specifies if soft ride is engaged
-    bool _halfBank;             ///< specifies if half bank is engaged
 };
 
 } // end of fdm namespace

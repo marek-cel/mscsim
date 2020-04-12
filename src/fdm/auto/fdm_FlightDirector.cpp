@@ -31,7 +31,9 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-FlightDirector::FlightDirector() :
+FlightDirector::FlightDirector( const Autopilot *ap ) :
+    _ap ( ap ),
+
     _cmd_roll  ( 0.0 ),
     _cmd_pitch ( 0.0 ),
 

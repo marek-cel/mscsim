@@ -27,12 +27,16 @@
 #include <osg/Geode>
 #include <osg/Geometry>
 
-#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/g1000_Defines.h>
+#include <g1000/g1000_Log.h>
+
+#include <g1000/gdu/g1000_Colors.h>
 #include <g1000/gdu/g1000_Fonts.h>
 
 #include <g1000/utils/g1000_Misc.h>
 #include <g1000/utils/g1000_Units.h>
+
+#include <g1000/xml/g1000_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,7 +69,7 @@ const int ASI::_depth_sorted_bin_disk = 100;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ASI::ASI()
+ASI::ASI( XmlNode &node )
 {
     _pat = new osg::PositionAttitudeTransform();
     _root->addChild( _pat.get() );
@@ -89,7 +93,6 @@ ASI::ASI()
     _groupRed = new osg::Group();
     _pat->addChild( _groupRed.get() );
 
-
     _materialBlack = new osg::Material();
     _materialBlack->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
     _materialBlack->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Colors::_black, 1.0 ) );
@@ -99,16 +102,16 @@ ASI::ASI()
     _materialRed->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
     _materialRed->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4( Colors::_red, 1.0 ) );
     _materialRed->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4( Colors::_red, 1.0 ) );
-}
 
-////////////////////////////////////////////////////////////////////////////////
+    if ( node.isValid() )
+    {
+        // TODO
+    }
+    else
+    {
+        Log::e() << ( "Reading XML file failed. " + XmlUtils::getErrorInfo( node ) ) << std::endl;
+    }
 
-ASI::~ASI() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void ASI::init( XmlNode &node )
-{
     createAirspeedBug();
     createBack();
     createBarRed();
@@ -125,6 +128,10 @@ void ASI::init( XmlNode &node )
     createScale();
     createScaleMask();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+ASI::~ASI() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 

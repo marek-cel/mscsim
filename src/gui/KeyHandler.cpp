@@ -357,6 +357,54 @@ int KeyHandler::getIndex( int key )
     case osgGA::GUIEventAdapter::KEY_KP_Page_Down:
         return hid::Assignment::KeyPageDown;
         break;
+
+    case osgGA::GUIEventAdapter::KEY_F1:
+        return hid::Assignment::KeyF1;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F2:
+        return hid::Assignment::KeyF2;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F3:
+        return hid::Assignment::KeyF3;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F4:
+        return hid::Assignment::KeyF4;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F5:
+        return hid::Assignment::KeyF5;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F6:
+        return hid::Assignment::KeyF6;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F7:
+        return hid::Assignment::KeyF7;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F8:
+        return hid::Assignment::KeyF8;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F9:
+        return hid::Assignment::KeyF9;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F10:
+        return hid::Assignment::KeyF10;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F11:
+        return hid::Assignment::KeyF11;
+        break;
+
+    case osgGA::GUIEventAdapter::KEY_F12:
+        return hid::Assignment::KeyF12;
+        break;
     }
 
     return -1;

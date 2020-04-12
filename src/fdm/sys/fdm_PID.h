@@ -78,7 +78,7 @@ public:
     virtual void update( double timeStep, double error );
 
     /** Resets controller. */
-    inline void reset() { setValue( 0.0 ); }
+    virtual void reset();
 
     /** Returns controller output. */
     inline double getValue() const { return _value; }
@@ -96,8 +96,12 @@ public:
     virtual void setSerial( double k, double tau_i, double tau_d );
     virtual void setStandard( double Kp, double Ti, double Td );
 
+    virtual void setError( double error );
+
     /** Sets controller output (resets error integral sum). */
     virtual void setValue( double value );
+
+    virtual void setValue( double timeStep, double error, double value );
 
     inline void setKp( double kp ) { _kp = kp; }
     inline void setKi( double ki ) { _ki = ki; }

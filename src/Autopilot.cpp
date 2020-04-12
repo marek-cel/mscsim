@@ -199,6 +199,12 @@ void Autopilot::onPressedALT()
 {
     if ( isWorking() )
     {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+
         // KFC 325
         if ( _c172_kfc325_ap )
         {
@@ -270,10 +276,58 @@ void Autopilot::onPressedARM()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Autopilot::onPressedVNV()
+{
+    if ( isWorking() )
+    {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Autopilot::onPressedFLC()
+{
+    if ( isWorking() )
+    {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Autopilot::onPressedVS()
+{
+    if ( isWorking() )
+    {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void Autopilot::onPressedHDG( double hdg )
 {
     if ( isWorking() )
     {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+
         // KFC 325
         if ( _c172_kfc325_ap )
         {
@@ -292,6 +346,12 @@ void Autopilot::onPressedNAV( double crs )
 {
     if ( isWorking() )
     {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+
         // KFC 325
         if ( _c172_kfc325_ap )
         {
@@ -310,6 +370,12 @@ void Autopilot::onPressedAPR()
 {
     if ( isWorking() )
     {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+
         // KFC 325
         if ( _c172_kfc325_ap )
         {
@@ -327,6 +393,12 @@ void Autopilot::onPressedBC()
 {
     if ( isWorking() )
     {
+        // GFC 700
+        if ( _c172_gfc700_ap )
+        {
+            // TODO
+        }
+
         // KFC 325
         if ( _c172_kfc325_ap )
         {
@@ -334,6 +406,20 @@ void Autopilot::onPressedBC()
                 _c172_kfc325_ap->setPitch( Data::get()->ownship.pitch );
 
             _c172_kfc325_ap->onPressedBC();
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Autopilot::onPressedREV()
+{
+    if ( isWorking() )
+    {
+        // KAP 140
+        if ( _c172_kap140_ap )
+        {
+
         }
     }
 }
