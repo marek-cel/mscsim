@@ -52,6 +52,19 @@ class Misc
 public:
 
     /**
+     * Firt order inertia.
+     * @param u desired value
+     * @param y current value
+     * @param dt [s] time step
+     * @param tc [s] time constant
+     * @return firt order inertia output
+     */
+    inline static double inertia( double u, double y, double dt, double tc )
+    {
+        return y + ( 1.0 - exp( -dt / tc ) ) * ( u - y );
+    }
+
+    /**
      * Checks if given varaible is Infinite.
      * @param val double precision value to test
      * @return function returns TRUE if tested value is Infinite
@@ -121,6 +134,16 @@ public:
     inline static double min( const double &v1, const double &v2 )
     {
         return ( v1 < v2 ) ? v1 : v2;
+    }
+
+    /**
+     * Power 2 (square) function.
+     * @param val argument
+     * @return power 2 (square)
+     */
+    inline static double pow2( const double &val )
+    {
+        return val * val;
     }
 
     /**

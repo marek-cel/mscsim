@@ -19,71 +19,73 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_HSI_H
+#define G1000_HSI_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <osg/PositionAttitudeTransform>
 
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
+#include <osgText/Text>
 
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/cgi/g1000_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
 
 /**
- * @brief Simulation manager class.
+ * @brief PFD Horizontal Situation Indicator
  */
-class Manager : public QObject
+class HSI : public Module
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    static const double _x_offset;
+    static const double _y_offset;
 
-    virtual ~Manager();
+    static const osg::Vec3 _colorFace;
 
-    void init();
+    static const double _z_aircraft_symbol;
+    static const double _z_box;
+    static const double _z_bug;
+    static const double _z_compass_face;
+    static const double _z_course_pointer;
+    static const double _z_heading_bug;
 
-signals:
+    /** Constructor. */
+    HSI( IFD *ifd );
 
-    void dataInpUpdated( const Data::DataBuf *data );
+    /** Destructor. */
+    virtual ~HSI();
 
-protected:
-
-    void timerEvent( QTimerEvent *event );
+    /** Updates. */
+    void update();
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patHDG;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patCRS;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patBug;
 
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
+    osg::ref_ptr<osgText::Text> _headingText;
 
-    QElapsedTimer *_timer;      ///< elapsed timer
+    osg::ref_ptr<osgText::Text> _textCRS;
+    osg::ref_ptr<osgText::Text> _textHDG;
 
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    void createAircraftSymbol();
+    void createBoxCRS();
+    void createBoxHDG();
+    void createCompass();
+    void createCoursePointer();
+    void createHeadingBox();
+    void createHeadingBug();
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_HSI_H

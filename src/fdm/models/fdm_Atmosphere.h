@@ -70,7 +70,7 @@ public:
     static const double _l_b[ 7 ];      ///< [K/m] temperature gradients
 
     static const double _m;             ///< [kg/kmol] mean molecular weight
-    static const double _r;             ///< [J/(kmol*K)] gas constant
+    static const double _r;             ///< [J/(kmol*K)] universal gas constant
     static const double _s;             ///< [K] Sutherland constant
     static const double _beta;          ///< [kg/(s*m*K^0.5)] a constant used in computing dynamic viscosity
     static const double _gamma;         ///< [-] a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume

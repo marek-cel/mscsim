@@ -19,59 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef WIDGETPFD_H
-#define WIDGETPFD_H
+
+#include <g1000/utils/g1000_Const.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QWidget>
-
-#include <Autopilot.h>
-#include <Defines.h>
-
-#include <g1000/cgi/g1000_PFD.h>
+using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace Ui
-{
-    class WidgetPFD;
-}
+const double Const::_g = 9.80665;
 
-////////////////////////////////////////////////////////////////////////////////
+const double Const::_r = 8.31432;           // US Standard Atmosphere 1976, Table 2, p.2
 
-/** */
-class WidgetPFD : public QWidget
-{
-    Q_OBJECT
+const double Const::_r_spec_air = 287.058;
 
-public:
+const double Const::_dt_dh = 0.0065;
 
-    explicit WidgetPFD( QWidget *parent = NULLPTR );
-
-    ~WidgetPFD();
-
-    void setup( Autopilot *ap, g1000::IFD *ifd );
-
-    void init();
-
-protected:
-
-    /** */
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Ui::WidgetPFD *_ui;
-
-    g1000::PFD *_pfd;
-
-    int _timerId;
-
-    void settingsRead();
-    void settingsSave();
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // WIDGETPFD_H
+const double Const::_std_sl_p = 101325.0;   // US Standard Atmosphere 1976, Table 2, p.2
+const double Const::_std_sl_t = 288.15;     // US Standard Atmosphere 1976, Table 2, p.2
+const double Const::_std_sl_rho = 1.225;

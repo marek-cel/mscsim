@@ -19,71 +19,79 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_ALT_H
+#define G1000_ALT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <osg/PositionAttitudeTransform>
 
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
+#include <osgText/Text>
 
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/cgi/g1000_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
 
 /**
- * @brief Simulation manager class.
+ * @brief Altimeter.
  */
-class Manager : public QObject
+class ALT : public Module
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    static const double _x_offset;
+    static const double _y_offset;
 
-    virtual ~Manager();
+    static const osg::Vec3 _colorBack;
 
-    void init();
+    static const double _z_back;
+    static const double _z_box;
+    static const double _z_bug;
+    static const double _z_frame;
+    static const double _z_scale;
 
-signals:
+    static const double _alt2pt;
 
-    void dataInpUpdated( const Data::DataBuf *data );
+    static const int _depth_sorted_bin_scale;
+    static const int _depth_sorted_bin_disk;
 
-protected:
+    /** Constructor. */
+    ALT( IFD *ifd );
 
-    void timerEvent( QTimerEvent *event );
+    /** Destructor. */
+    virtual ~ALT();
+
+    /** Updates. */
+    void update();
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patDisk;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patScale;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patBug;
 
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
+    osg::ref_ptr<osgText::Text> _textAlt_100;
+    osg::ref_ptr<osgText::Text> _textPress;
+    osg::ref_ptr<osgText::Text> _textSelect;
 
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    void createAltitudeBug();
+    void createBack();
+    void createBox();
+    void createBoxSelect();
+    void createBoxPress();
+    void createDisk();
+    void createDiskMask();
+    void createFrame();
+    void createScale();
+    void createScaleMask();
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_ALT_H

@@ -19,71 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
 
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QObject>
-
+#include <g1000/sim/g1000_GMU.h>
 #include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+using namespace g1000;
+
+////////////////////////////////////////////////////////////////////////////////
+
+GMU::GMU( IFD *ifd ) :
+    _ifd ( ifd )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+GMU::~GMU() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GMU::update()
 {
-    Q_OBJECT
 
-public:
-
-    Manager();
-
-    virtual ~Manager();
-
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MANAGER_H
+}

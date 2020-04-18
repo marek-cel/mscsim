@@ -19,71 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_GTX_H
+#define G1000_GTX_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/g1000_Input.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
+
+class IFD; ///< IFD class forward declaration
 
 /**
- * @brief Simulation manager class.
+ * @brief Garmin GTX 33 Transponder class.
  */
-class Manager : public QObject
+class GTX
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    /** Constructor. */
+    GTX( IFD *ifd );
 
-    virtual ~Manager();
+    /** Destructor. */
+    virtual ~GTX();
 
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
+    /** Updates Transponder. */
+    void update();
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    const IFD *_ifd;        ///< IFD object
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_GTX_H

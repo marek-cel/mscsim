@@ -27,17 +27,17 @@
 
 #include <Common.h>
 
+#include <gui/gui_Defines.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetPFD::WidgetPFD( QWidget *parent ) :
     QWidget ( parent ),
-    _ui ( new Ui::WidgetPFD )
+    _ui ( new Ui::WidgetPFD ),
+    _pfd ( NULLPTR ),
+    _timerId ( 0 )
 {
     _ui->setupUi( this );
-
-    _pfd = new g1000::PFD( Path::get( "data/g1000/pfd.xml" ) );
-
-    _ui->widgetPFD->setSceneRoot( _pfd->getRoot() );
 
     settingsRead();
 }
@@ -55,17 +55,31 @@ WidgetPFD::~WidgetPFD()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetPFD::update( const g1000::Data &data )
+void WidgetPFD::setup( Autopilot *ap, g1000::IFD *ifd )
 {
-    _pfd->update( data );
-    _ui->widgetPFD->update();
+    _ui->widgetPFD->setAutopilot( ap );
+
+    _pfd = new g1000::PFD( ifd, Path::get( "data/g1000/pfd.xml" ) );
+    _ui->widgetPFD->setSceneRoot( _pfd->getRoot() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetPFD::setAutopilot( Autopilot *ap )
+void WidgetPFD::init()
 {
-    _ui->widgetPFD->setAutopilot( ap );
+    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetPFD::timerEvent( QTimerEvent *event )
+{
+    /////////////////////////////
+    QWidget::timerEvent( event );
+    /////////////////////////////
+
+    _pfd->update();
+    _ui->widgetPFD->update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

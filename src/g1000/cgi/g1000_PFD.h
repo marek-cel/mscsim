@@ -19,71 +19,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_PFD_H
+#define G1000_PFD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <osg/Geode>
 
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
+#include <g1000/cgi/g1000_GDU.h>
 
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/cgi/g1000_ADI.h>
+#include <g1000/cgi/g1000_AFCS.h>
+#include <g1000/cgi/g1000_ALT.h>
+#include <g1000/cgi/g1000_ASI.h>
+#include <g1000/cgi/g1000_COM.h>
+#include <g1000/cgi/g1000_HSI.h>
+#include <g1000/cgi/g1000_NAV.h>
+#include <g1000/cgi/g1000_VSI.h>
+#include <g1000/cgi/g1000_WYPT.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
 
 /**
- * @brief Simulation manager class.
+ * @brief PFD (Primary Flight Display) class.
  */
-class Manager : public QObject
+class PFD : public GDU
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    static const double _z_bars;
 
-    virtual ~Manager();
+    /** Constructor. */
+    PFD( IFD *ifd, const std::string &file );
 
-    void init();
+    /** Destructor. */
+    virtual ~PFD();
 
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
+    /** Updates PFD. */
+    void update();
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
+    ADI  *_adi;             ///< attitude director indicator
+    AFCS *_afcs;            ///< AFCS status box
+    ALT  *_alt;             ///< altimeter
+    ASI  *_asi;             ///< airspeed indicator
+    COM  *_com;             ///< communication frequencies
+    HSI  *_hsi;             ///< horizontal situation indicator
+    NAV  *_nav;             ///< navigation frequencies
+    VSI  *_vsi;             ///< vertical speed indicator
+    WYPT *_wypt;            ///< next waypoint box
 
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    void createLowerBar();
+    void createUpperBar();
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_PFD_H

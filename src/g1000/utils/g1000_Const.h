@@ -19,71 +19,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_CONST_H
+#define G1000_CONST_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
-
-////////////////////////////////////////////////////////////////////////////////
+namespace g1000
+{
 
 /**
- * @brief Simulation manager class.
+ * @brief Constant values class.
+ *
+ * @see Department of Defence World Geodetic System 1984, NIMA, TR-8350.2, 2000
+ * @see US Standard Atmosphere 1976, NASA, TM-X-74335
  */
-class Manager : public QObject
+class Const
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    static const double _g;             ///< [m/s^2] standard gravitional acceleration
 
-    virtual ~Manager();
+    static const double _r;             ///< [J/(mol*K)] universal gas constant
+    static const double _r_spec_air;    ///< [J/(kg*K)] specific gas constant (air)
 
-    void init();
+    static const double _dt_dh;         ///< [K/m] temperature gradient (below 11000 m)
 
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    static const double _std_sl_t;      ///< [K]  standard sea level temperature (15 deg C)
+    static const double _std_sl_p;      ///< [Pa] standard sea level pressure (1013.25 hPa)
+    static const double _std_sl_rho;    ///< [kg/m^3] standard sea level density (1.225 kg/m^3)
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_CONST_H

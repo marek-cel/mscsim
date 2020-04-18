@@ -19,71 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
 
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QObject>
-
+#include <g1000/sim/g1000_GRS.h>
 #include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
 
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+using namespace g1000;
+
+////////////////////////////////////////////////////////////////////////////////
+
+GRS::GRS( IFD *ifd ) :
+    _ifd ( ifd ),
+
+    _roll    ( 0.0 ),
+    _pitch   ( 0.0 ),
+    _heading ( 0.0 ),
+
+    _slipSkid ( 0.0 )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+GRS::~GRS() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GRS::update()
 {
-    Q_OBJECT
+    double roll    = _ifd->input().roll;
+    double pitch   = _ifd->input().pitch;
+    double heading = _ifd->input().heading;
 
-public:
+    double g_force_y = 0.0;
+    double g_force_z = 0.0;
 
-    Manager();
+    _roll    = roll;
+    _pitch   = pitch;
+    _heading = heading;
 
-    virtual ~Manager();
-
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MANAGER_H
+    _slipSkid = atan2( -g_force_y, g_force_z );
+}

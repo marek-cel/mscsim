@@ -19,71 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+
+#include <g1000/cgi/g1000_GDU.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+GDU::GDU( IFD *ifd ) :
+    _ifd ( ifd )
 {
-    Q_OBJECT
+    _root = new osg::Group();
 
-public:
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
-    Manager();
-
-    virtual ~Manager();
-
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
+    stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::OFF );
+    stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::OFF );
+    stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+GDU::~GDU() {}

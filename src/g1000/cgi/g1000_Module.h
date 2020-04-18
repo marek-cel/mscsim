@@ -19,71 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_MODULE_H
+#define G1000_MODULE_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <osg/Group>
+#include <osg/Vec3>
 
 #include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+namespace g1000
 {
-    Q_OBJECT
 
+/**
+ * @brief GDU module base class.
+ */
+class Module
+{
 public:
 
-    Manager();
+    /** Constructor. */
+    Module( IFD *ifd );
 
-    virtual ~Manager();
+    /** Destructor. */
+    virtual ~Module();
 
-    void init();
+    /** Updates module. */
+    virtual void update() = 0;
 
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
+    /** Returns module OSG root node.  */
+    inline osg::Group* getNode() { return _root.get(); }
 
 protected:
 
-    void timerEvent( QTimerEvent *event );
+    const IFD *_ifd;                    ///< IFD object
 
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    osg::ref_ptr<osg::Group> _root;     ///< OSG module root node
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_MODULE_H

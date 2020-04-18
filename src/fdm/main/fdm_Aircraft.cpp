@@ -441,9 +441,9 @@ void Aircraft::updateOutputData()
     _dataOut->flight.tht_wgs = _angles_wgs.tht();
     _dataOut->flight.psi_wgs = _angles_wgs.psi();
 
-    _dataOut->flight.tas_u_bas = _vel_air_bas.x();
-    _dataOut->flight.tas_v_bas = _vel_air_bas.y();
-    _dataOut->flight.tas_w_bas = _vel_air_bas.z();
+    _dataOut->flight.airspeed_u_bas = _vel_air_bas.x();
+    _dataOut->flight.airspeed_v_bas = _vel_air_bas.y();
+    _dataOut->flight.airspeed_w_bas = _vel_air_bas.z();
 
     _dataOut->flight.vel_north = _vel_ned.x();
     _dataOut->flight.vel_east  = _vel_ned.y();
@@ -462,6 +462,11 @@ void Aircraft::updateOutputData()
 
     _dataOut->flight.onGround = _gear->getOnGround();
     _dataOut->flight.stall    = _aero->getStall();
+
+    // environment data
+    _dataOut->environment.air_pressure    = _envir->getPressure();
+    _dataOut->environment.air_density     = _envir->getDensity();
+    _dataOut->environment.air_temperature = _envir->getTemperature();
 
     // crash
     _dataOut->crash = _crash;

@@ -568,9 +568,9 @@ void Manager::updateStateIdle()
     _dataOut.flight.tht_wgs = angles_wgs.tht();
     _dataOut.flight.psi_wgs = angles_wgs.psi();
 
-    _dataOut.flight.tas_u_bas = _dataInp.initial.airspeed;
-    _dataOut.flight.tas_v_bas = 0.0;
-    _dataOut.flight.tas_w_bas = 0.0;
+    _dataOut.flight.airspeed_u_bas = _dataInp.initial.airspeed;
+    _dataOut.flight.airspeed_v_bas = 0.0;
+    _dataOut.flight.airspeed_w_bas = 0.0;
 
     _dataOut.flight.vel_north = 0.0;
     _dataOut.flight.vel_east  = 0.0;

@@ -19,71 +19,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_AFCS_H
+#define G1000_AFCS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
+#include <osgText/Text>
 
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/cgi/g1000_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
 
 /**
- * @brief Simulation manager class.
+ * @brief AFCS status box class.
  */
-class Manager : public QObject
+class AFCS : public Module
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    static const double _z_text;
 
-    virtual ~Manager();
+    /** Constructor. */
+    AFCS( IFD *ifd );
 
-    void init();
+    /** Destructor. */
+    virtual ~AFCS();
 
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
+    /** Updates PFD. */
+    void update();
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
+    osg::ref_ptr<osgText::Text> _textStateAP;
+    osg::ref_ptr<osgText::Text> _textModeLat;
+    osg::ref_ptr<osgText::Text> _textModeLatArm;
+    osg::ref_ptr<osgText::Text> _textModeVer;
+    osg::ref_ptr<osgText::Text> _textModeVerRef;
+    osg::ref_ptr<osgText::Text> _textModeVerArm;
 
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    void create();
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_AFCS_H

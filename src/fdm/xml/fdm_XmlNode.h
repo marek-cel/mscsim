@@ -166,7 +166,7 @@ public:
     }
 
     /**
-     * Returns true if node is attribute.
+     * Returns true if node is an attribute.
      */
     inline bool isAttribute() const
     {
@@ -179,7 +179,7 @@ public:
     }
 
     /**
-     * Returns true if node is comment.
+     * Returns true if node is a comment.
      */
     inline bool isComment() const
     {
@@ -192,7 +192,7 @@ public:
     }
 
     /**
-     * Returns true if node is element.
+     * Returns true if node is an element.
      */
     inline bool isElement() const
     {
@@ -205,7 +205,7 @@ public:
     }
 
     /**
-     * Returns true if node is text.
+     * Returns true if node is a text.
      */
     inline bool isText() const
     {

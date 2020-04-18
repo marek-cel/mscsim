@@ -19,71 +19,69 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
-
-////////////////////////////////////////////////////////////////////////////////
-
-#include <QObject>
 
 #include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
 
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <cstring>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+using namespace g1000;
+
+////////////////////////////////////////////////////////////////////////////////
+
+IFD::IFD() :
+    _timeStep ( 0.0 ),
+
+    _gia_1 ( NULLPTR ),
+    _gia_2 ( NULLPTR ),
+
+    _gdc ( NULLPTR ),
+    _gea ( NULLPTR ),
+    _grs ( NULLPTR ),
+    _gmu ( NULLPTR ),
+    _gtx ( NULLPTR )
 {
-    Q_OBJECT
+    memset( &_input, 0, sizeof(Input) );
 
-public:
+    _gia_1 = new GIA( this, 0 );
+    _gia_2 = new GIA( this, 1 );
 
-    Manager();
-
-    virtual ~Manager();
-
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
+    _gdc = new GDC( this );
+    _gea = new GEA( this );
+    _grs = new GRS( this );
+    _gmu = new GMU( this );
+    _gtx = new GTX( this );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+IFD::~IFD()
+{
+    DELPTR( _gia_1 );
+    DELPTR( _gia_2 );
+
+    DELPTR( _gdc );
+    DELPTR( _gea );
+    DELPTR( _grs );
+    DELPTR( _gmu );
+    DELPTR( _gtx );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void IFD::update( double timeStep, const Input &input )
+{
+    _timeStep = timeStep;
+
+    memcpy( &_input, &input, sizeof(Input) );
+
+    _gia_1->update();
+    _gia_2->update();
+
+    _gdc->update();
+    _gea->update();
+    _grs->update();
+    _gmu->update();
+    _gtx->update();
+}

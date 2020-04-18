@@ -19,71 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+
+#include <g1000/cgi/g1000_Colors.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
-{
-    Q_OBJECT
+const osg::Vec3 Colors::_black = osg::Vec3( 0.00f, 0.00f, 0.00f );
+const osg::Vec3 Colors::_white = osg::Vec3( 1.00f, 1.00f, 1.00f );
 
-public:
-
-    Manager();
-
-    virtual ~Manager();
-
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MANAGER_H
+const osg::Vec3 Colors::_cyan    = osg::Vec3( 0.00f, 1.00f, 1.00f );
+const osg::Vec3 Colors::_green   = osg::Vec3( 0.00f, 0.50f, 0.00f );
+const osg::Vec3 Colors::_grey    = osg::Vec3( 0.50f, 0.50f, 0.50f );
+const osg::Vec3 Colors::_lime    = osg::Vec3( 0.00f, 1.00f, 0.00f );
+const osg::Vec3 Colors::_magenta = osg::Vec3( 1.00f, 0.00f, 1.00f );
+const osg::Vec3 Colors::_maroon  = osg::Vec3( 0.50f, 0.00f, 0.00f );
+const osg::Vec3 Colors::_navy    = osg::Vec3( 0.00f, 0.00f, 0.50f );
+const osg::Vec3 Colors::_olive   = osg::Vec3( 0.50f, 0.50f, 0.00f );
+const osg::Vec3 Colors::_orange  = osg::Vec3( 1.00f, 0.65f, 0.00f );
+const osg::Vec3 Colors::_purple  = osg::Vec3( 0.50f, 0.00f, 0.50f );
+const osg::Vec3 Colors::_red     = osg::Vec3( 1.00f, 0.00f, 0.00f );
+const osg::Vec3 Colors::_teal    = osg::Vec3( 0.00f, 0.50f, 0.50f );
+const osg::Vec3 Colors::_yellow  = osg::Vec3( 1.00f, 1.00f, 0.00f );

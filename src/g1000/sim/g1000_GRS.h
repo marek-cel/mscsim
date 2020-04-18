@@ -19,71 +19,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+#ifndef G1000_GRS_H
+#define G1000_GRS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+#include <g1000/g1000_Input.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace g1000
+{
+
+class IFD; ///< IFD class forward declaration
 
 /**
- * @brief Simulation manager class.
+ * @brief Garmin GRS 77 AHRS class.
  */
-class Manager : public QObject
+class GRS
 {
-    Q_OBJECT
-
 public:
 
-    Manager();
+    /** Constructor. */
+    GRS( IFD *ifd );
 
-    virtual ~Manager();
+    /** Destructor. */
+    virtual ~GRS();
 
-    void init();
+    /** Updates AHRS. */
+    void update();
 
-signals:
+    inline double getRoll()    const { return _roll;    }
+    inline double getPitch()   const { return _pitch;   }
+    inline double getHeading() const { return _heading; }
 
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
+    inline double getSlipSkid() const { return _slipSkid; }
 
 private:
 
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
+    const IFD *_ifd;        ///< IFD object
 
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
+    double _roll;           ///< [rad]
+    double _pitch;          ///< [rad]
+    double _heading;        ///< [rad]
 
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
+    double _slipSkid;       ///< [rad]
 };
+
+} // end of g1000 namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+#endif // G1000_GRS_H

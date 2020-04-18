@@ -19,71 +19,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_H
-#define MANAGER_H
+
+#include <g1000/cgi/g1000_Fonts.h>
+
+#include <osgDB/ReadFile>
+
+#include <g1000/g1000_Log.h>
+#include <g1000/g1000_Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QObject>
-
-#include <g1000/sim/g1000_IFD.h>
-#include <gui/MainWindow.h>
-#include <nav/nav_Manager.h>
-#include <sfx/sfx_Thread.h>
-
-#include <Autopilot.h>
-#include <Simulation.h>
+using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Simulation manager class.
- */
-class Manager : public QObject
+osgText::Font* Fonts::get( const std::string &fontFile )
 {
-    Q_OBJECT
+    for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
+    {
+        if ( fontFile == instance()->_fileNames.at( i ) )
+        {
+            return instance()->_fonts.at( i );
+        }
+    }
 
-public:
+    osg::ref_ptr<osgText::Font> font = osgText::readFontFile( Path::get( fontFile ) );
 
-    Manager();
+    if ( font.valid() )
+    {
+        instance()->_fonts.push_back( font.get() );
+        instance()->_fileNames.push_back( fontFile );
 
-    virtual ~Manager();
+        return font.get();
+    }
+    else
+    {
+        Log::w() << "Cannot open font file: " << fontFile << std::endl;
+    }
 
-    void init();
-
-signals:
-
-    void dataInpUpdated( const Data::DataBuf *data );
-
-protected:
-
-    void timerEvent( QTimerEvent *event );
-
-private:
-
-    Autopilot    *_ap;          ///< autopilot
-    nav::Manager *_nav;         ///< navigation
-    sfx::Thread  *_sfx;         ///< SFX
-    Simulation   *_sim;         ///< simulation
-    MainWindow   *_win;         ///< GUI
-
-    g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
-    g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
-
-    QElapsedTimer *_timer;      ///< elapsed timer
-
-    int _timerId;               ///< timer Id
-
-    double _timeStep;           ///< [s] time step
-
-    void updatedInputG1000();
-    void updatedInputG1000( const fdm::DataOut &dataOut );
-
-private slots:
-
-    void onDataOutUpdated( const fdm::DataOut &dataOut );
-};
+    return 0;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // MANAGER_H
+void Fonts::reset()
+{
+    instance()->_fileNames.clear();
+    instance()->_fonts.clear();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Fonts::Fonts()
+{
+    _fileNames.clear();
+    _fonts.clear();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Fonts::~Fonts()
+{
+    _fileNames.clear();
+    _fonts.clear();
+}

@@ -215,6 +215,18 @@ MainWindow::~MainWindow()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void MainWindow::setup( Autopilot *ap, g1000::IFD *ifd )
+{
+    _ap = ap;
+
+    _widgetPFD->setup( _ap, ifd );
+
+    _dockAuto->setAutopilot( _ap );
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void MainWindow::init()
 {
     _dialogConf->readData();
@@ -223,19 +235,11 @@ void MainWindow::init()
 
     _dialogConf->updateAssignments();
 
+    _widgetPFD->init();
+
     updateOutputData();
 
     _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::setAutopilot( Autopilot *ap )
-{
-    _ap = ap;
-
-    _dockAuto  ->setAutopilot( _ap );
-    _widgetPFD ->setAutopilot( _ap );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -317,8 +321,6 @@ void MainWindow::timerEvent( QTimerEvent *event )
     updateDockProp();
     updateDockEFIS();
     updateDockAuto();
-
-    updateGarmin();
 
     updateMenu();
     updateStatusBar();
@@ -945,47 +947,6 @@ void MainWindow::updateDockProp()
             _dockProp->setFF    ( i, Data::get()->propulsion.engine[ i ].fuelFlow );
         }
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::updateGarmin()
-{
-     g1000::Data data;
-
-     data.pfd.roll    = Data::get()->ownship.roll;
-     data.pfd.pitch   = Data::get()->ownship.pitch;
-     data.pfd.heading = Data::get()->ownship.heading;
-
-     data.pfd.fd_visible = _ap->isActiveFD();
-     data.pfd.fd_pitch   = _ap->getCmdPitch();
-     data.pfd.fd_roll    = _ap->getCmdRoll();
-
-     data.pfd.altitude  = Data::get()->ownship.altitude_asl;
-     data.pfd.ias       = Data::get()->ownship.ias;
-     data.pfd.tas       = Data::get()->ownship.tas;
-     data.pfd.climbRate = Data::get()->ownship.climbRate;
-     data.pfd.slipSkid  = Data::get()->ownship.slipSkidAngle;
-
-     data.pfd.ref_pressure = 101325.0;
-
-     data.pfd.sel_course    = 0.0;
-     data.pfd.sel_heading   = 0.0;
-     data.pfd.sel_airspeed  = 0.0;
-     data.pfd.sel_altitude  = 0.0;
-     data.pfd.sel_climbRate = 0.0;
-
-     data.pfd.com_1_act = 0.0;
-     data.pfd.com_1_sby = 0.0;
-     data.pfd.com_2_act = 0.0;
-     data.pfd.com_2_sby = 0.0;
-
-     data.pfd.nav_1_act = 0.0;
-     data.pfd.nav_1_sby = 0.0;
-     data.pfd.nav_2_act = 0.0;
-     data.pfd.nav_2_sby = 0.0;
-
-    if ( _widgetPFD ) _widgetPFD->update( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
