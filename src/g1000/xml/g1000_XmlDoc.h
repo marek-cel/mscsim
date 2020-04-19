@@ -24,51 +24,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <string>
-
-#include <libxml/tree.h>
-
-#include <g1000/xml/g1000_XmlNode.h>
+#include <fdm/xml/fdm_XmlDoc.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace g1000
 {
 
-/**
- * @brief XML Document class.
- */
-class XmlDoc
-{
-public:
-
-    /** Constrcutor. */
-    XmlDoc( const std::string &fileName = std::string() );
-
-    /** Destrcutor. */
-    virtual ~XmlDoc();
-
-    /** */
-    inline XmlNode getRootNode()
-    {
-        return XmlNode( *_root );
-    }
-
-    /** */
-    inline bool isOpen() const
-    {
-        return _open;
-    }
-
-    /** @return true on success, false on failure. */
-    bool readFile( const std::string &fileName );
-
-private:
-
-    xmlDocPtr _doc;
-    bool _open;
-    XmlNode *_root;
-};
+typedef fdm::XmlDoc XmlDoc;
 
 } // end of g1000 namespace
 

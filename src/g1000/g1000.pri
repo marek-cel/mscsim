@@ -85,6 +85,4 @@ HEADERS += \
     $$PWD/xml/g1000_XmlUtils.h
 
 SOURCES += \
-    $$PWD/xml/g1000_XmlDoc.cpp \
-    $$PWD/xml/g1000_XmlNode.cpp \
-    $$PWD/xml/g1000_XmlUtils.cpp
+

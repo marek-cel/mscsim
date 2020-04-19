@@ -24,106 +24,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <g1000/xml/g1000_XmlNode.h>
-
-#include <g1000/utils/g1000_Units.h>
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace g1000
 {
 
-/**
- * @brief XML utilities class.
- */
-class XmlUtils
-{
-public:
-
-    /**
-     * @brief Returns XML parsing error info string.
-     * @param node XML node
-     * @return XML parsing error info string
-     */
-    static std::string getErrorInfo( const XmlNode &node );
-
-    /**
-     * @brief Reads value from XML file.
-     * @param node XML node
-     * @param str destination
-     * @return true on success or false on failure.
-     */
-    static bool read( const XmlNode &node, std::string &str );
-
-    /**
-     * @brief Reads value from XML file.
-     * @param node XML node
-     * @param data destination
-     * @return true on success or false on failure.
-     */
-    static bool read( const XmlNode &node, int &data );
-
-    /**
-     * @brief Reads value from XML file.
-     * @param node XML node
-     * @param data destination
-     * @return true on success or false on failure.
-     *
-     * @code
-     * <tag_name [unit="{ unit string }"]> { value } </tag_name>
-     * @endcode
-     *
-     * @see fdm::Units::getConverter()
-     */
-    static bool read( const XmlNode &node, double &data );
-
-    /**
-     * @brief Reads value from XML file.
-     * @param node XML node
-     * @param converter function pointer
-     * @return true on success or false on failure.
-     *
-     * @code
-     * <tag_name [unit="{ unit string }"] />
-     * @endcode
-     *
-     * @see fdm::Units::getConverterInv()
-     */
-    static bool read( const XmlNode &node, Units::fptr *fptr );
-
-    /**
-     * @brief Reads value from XML file.
-     * @param parent parent XML node
-     * @param data destination
-     * @param name element containing data name
-     * @param optional if true then true will be returned if element of given name doesn't exist
-     * @return true on success or false on failure.
-     */
-    template < class TYPE >
-    static bool read( const XmlNode &parent, TYPE &data, const std::string name,
-                      bool optional = false )
-    {
-        // empty aircraft mass
-        XmlNode node = parent.getFirstChildElement( name );
-
-        if ( node.isValid() )
-        {
-            TYPE data_temp;
-
-            if ( read( node, data_temp ) )
-            {
-                data = data_temp;
-                return true;
-            }
-        }
-        else if ( optional )
-        {
-            return true;
-        }
-
-        return false;
-    }
-};
+typedef fdm::XmlUtils XmlUtils;
 
 } // end of g1000 namespace
 
