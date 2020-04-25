@@ -46,8 +46,8 @@ void scaleChangeCallback( double scale )
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetMap::WidgetMap( QWidget *parent ) :
-    QWidget ( parent ),
-    _gridLayout ( 0 ),
+    WidgetOSG ( parent ),
+    _layout ( NULLPTR ),
     _timerId ( 0 ),
     _camManipulatorInited ( false ),
     _viewCrops     ( false ),
@@ -63,11 +63,6 @@ WidgetMap::WidgetMap( QWidget *parent ) :
 {
     setMouseTracking( true );
 
-    setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
-    //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
-
-    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
-
     _manipulator = new cgi::ManipulatorMap();
     _manipulator->registerScaleChangeCallback( &scaleChangeCallback );
     _manipulator->setScaleMin( 1.0e-5 );//m_manipulator->setScaleMin( 5.0e-5 );
@@ -82,11 +77,11 @@ WidgetMap::WidgetMap( QWidget *parent ) :
 
     QWidget *widget = addViewWidget();
 
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    _gridLayout->addWidget( widget, 0, 0 );
+    _layout = new QGridLayout( this );
+    _layout->setContentsMargins( 1, 1, 1, 1 );
+    _layout->addWidget( widget, 0, 0 );
 
-    setLayout( _gridLayout );
+    setLayout( _layout );
 
     settingsRead();
 
@@ -232,17 +227,6 @@ bool WidgetMap::event( QEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetMap::paintEvent( QPaintEvent *event )
-{
-    /////////////////////////////
-    QWidget::paintEvent( event );
-    /////////////////////////////
-
-    frame();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void WidgetMap::timerEvent( QTimerEvent *event )
 {
     /////////////////////////////
@@ -273,7 +257,7 @@ QWidget* WidgetMap::addViewWidget()
 
     assignSceneDataToCameras();
 
-    return _graphicsWindow->getGLWidget();
+    return _gwin->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -282,9 +266,9 @@ void WidgetMap::createCameraMap()
 {
     osg::ref_ptr<osg::Camera> cameraMap = getCamera();
 
-    cameraMap->setGraphicsContext( _graphicsWindow );
+    cameraMap->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
@@ -302,35 +286,6 @@ void WidgetMap::createCameraMap()
         cameraMap->setProjectionMatrixAsOrtho2D( -CGI_MAP_Y_2 * w2h, CGI_MAP_Y_2 * w2h, -CGI_MAP_Y_2, CGI_MAP_Y_2 );
         cameraMap->setViewMatrix( osg::Matrix::identity() );
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetMap::createGraphicsWindow( int x, int y, int w, int h )
-{
-    osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
-    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
-
-    traits->windowName       = "";
-    traits->windowDecoration = false;
-    traits->x                = x;
-    traits->y                = y;
-    traits->width            = w;
-    traits->height           = h;
-    traits->doubleBuffer     = true;
-    traits->alpha            = displaySettings->getMinimumNumAlphaBits();
-    traits->stencil          = displaySettings->getMinimumNumStencilBits();
-    traits->sampleBuffers    = displaySettings->getMultiSamples();
-    traits->samples          = 4;
-#   ifdef SIM_VERTICALSYNC
-    traits->vsync            = true;
-#   else
-    traits->vsync            = false;
-#   endif
-
-    osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
-
-    return graphicsWindow;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

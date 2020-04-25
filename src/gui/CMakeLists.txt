@@ -34,6 +34,7 @@ qt4_wrap_cpp( MOC_SRCS
     WidgetCGI.h
     WidgetGDU.h
     WidgetMap.h
+    WidgetOSG.h
     WidgetOTW.h
     WidgetPFD.h
     WidgetSquare.h
@@ -107,6 +108,7 @@ add_library( gui STATIC
     WidgetCGI.cpp
     WidgetGDU.cpp
     WidgetMap.cpp
+    WidgetOSG.cpp
     WidgetOTW.cpp
     WidgetPFD.cpp
     WidgetSquare.cpp

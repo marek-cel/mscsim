@@ -42,34 +42,23 @@ const double WidgetOTW::_zFar  = CGI_SKYDOME_RADIUS + 0.1f * CGI_SKYDOME_RADIUS;
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetOTW::WidgetOTW( QWidget *parent ) :
-    QWidget ( parent ),
-    _gridLayout ( 0 ),
+    WidgetOSG ( parent ),
+    _layout ( NULLPTR ),
     _timerId ( 0 ),
     _camManipulatorInited ( false )
 {
-#   ifdef SIM_OSG_DEBUG_INFO
-    osg::setNotifyLevel( osg::DEBUG_INFO );
-#   else
-    osg::setNotifyLevel( osg::WARN );
-#   endif
-
     cgi::Manager::instance()->setCameraManipulatorPilot();
-
-    setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
-    //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
-
-    _graphicsWindow = createGraphicsWindow( x(), y(), width(), height() );
 
     QWidget *widget = addViewWidget();
 
-    _gridLayout = new QGridLayout( this );
-    _gridLayout->setContentsMargins( 1, 1, 1, 1 );
-    _gridLayout->addWidget( widget, 0, 0 );
+    _layout = new QGridLayout( this );
+    _layout->setContentsMargins( 1, 1, 1, 1 );
+    _layout->addWidget( widget, 0, 0 );
 
     _keyHandler = new KeyHandler( this );
     getEventHandlers().push_front( _keyHandler.get() );
 
-    setLayout( _gridLayout );
+    setLayout( _layout );
 
     _timerId = startTimer( 1000.0 * CGI_TIME_STEP );
 }
@@ -162,17 +151,6 @@ void WidgetOTW::setDistanceDef( double distance_def )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetOTW::paintEvent( QPaintEvent *event )
-{
-    /////////////////////////////
-    QWidget::paintEvent( event );
-    /////////////////////////////
-
-    frame();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void WidgetOTW::timerEvent( QTimerEvent *event )
 {
     /////////////////////////////
@@ -215,7 +193,7 @@ QWidget* WidgetOTW::addViewWidget()
 
     assignSceneDataToCameras();
 
-    return _graphicsWindow->getGLWidget();
+    return _gwin->getGLWidget();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,9 +202,9 @@ void WidgetOTW::createCameraOTW()
 {
     osg::ref_ptr<osg::Camera> cameraOTW = getCamera();
 
-    cameraOTW->setGraphicsContext( _graphicsWindow );
+    cameraOTW->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
@@ -242,9 +220,9 @@ void WidgetOTW::createCameraHUD()
 {
     osg::ref_ptr<osg::Camera> cameraHUD = new osg::Camera();
 
-    cameraHUD->setGraphicsContext( _graphicsWindow );
+    cameraHUD->setGraphicsContext( _gwin );
 
-    const osg::GraphicsContext::Traits *traits = _graphicsWindow->getTraits();
+    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
@@ -259,33 +237,4 @@ void WidgetOTW::createCameraHUD()
     cameraHUD->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
 
     addSlave( cameraHUD, false );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetOTW::createGraphicsWindow( int x, int y, int w, int h )
-{
-    osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
-    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
-
-    traits->windowName       = "";
-    traits->windowDecoration = false;
-    traits->x                = x;
-    traits->y                = y;
-    traits->width            = w;
-    traits->height           = h;
-    traits->doubleBuffer     = true;
-    traits->alpha            = displaySettings->getMinimumNumAlphaBits();
-    traits->stencil          = displaySettings->getMinimumNumStencilBits();
-    traits->sampleBuffers    = displaySettings->getMultiSamples();
-    traits->samples          = 4;
-#   ifdef SIM_VERTICALSYNC
-    traits->vsync            = true;
-#   else
-    traits->vsync            = false;
-#   endif
-
-    osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
-
-    return graphicsWindow;
 }

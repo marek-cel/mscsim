@@ -19,41 +19,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef WIDGETCGI_H
-#define WIDGETCGI_H
+#ifndef WIDGETOSG_H
+#define WIDGETOSG_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <gui/WidgetOSG.h>
+#include <QDateTime>
+#include <QGridLayout>
+#include <QWidget>
+
+#include <osgViewer/Viewer>
+#include <osgGA/GUIEventHandler>
+#include <osgQt/GraphicsWindowQt>
+
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * @brief CGI widget class.
+ * @brief OSG common widget class.
  */
-class WidgetCGI : public WidgetOSG
+class WidgetOSG : public QWidget, public osgViewer::Viewer
 {
     Q_OBJECT
 
 public:
 
     /** Constructor. */
-    WidgetCGI( QWidget *parent = NULLPTR );
+    WidgetOSG( QWidget *parent = NULLPTR );
 
     /** Destructor. */
-    virtual ~WidgetCGI();
+    virtual ~WidgetOSG();
 
-private:
+protected:
 
-    QGridLayout *_layout;
-
-    /** */
-    QWidget* addViewWidget();
+    osg::ref_ptr<osgQt::GraphicsWindowQt> _gwin;
 
     /** */
-    void createCamera();
+    virtual void paintEvent( QPaintEvent *event );
+
+    /** */
+    virtual osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // WIDGETCGI_H
+#endif // WIDGETOSG_H

@@ -42,6 +42,7 @@ HEADERS += \
     $$PWD/WidgetCGI.h \
     $$PWD/WidgetGDU.h \
     $$PWD/WidgetMap.h \
+    $$PWD/WidgetOSG.h \
     $$PWD/WidgetOTW.h \
     $$PWD/WidgetPFD.h \
     $$PWD/WidgetSquare.h
@@ -89,6 +90,7 @@ SOURCES += \
     $$PWD/WidgetCGI.cpp \
     $$PWD/WidgetGDU.cpp \
     $$PWD/WidgetMap.cpp \
+    $$PWD/WidgetOSG.cpp \
     $$PWD/WidgetOTW.cpp \
     $$PWD/WidgetPFD.cpp \
     $$PWD/WidgetSquare.cpp

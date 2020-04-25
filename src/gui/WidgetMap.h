@@ -24,23 +24,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QDateTime>
-#include <QGridLayout>
-#include <QWidget>
-
-#include <osgViewer/Viewer>
-#include <osgQt/GraphicsWindowQt>
+#include <gui/WidgetOSG.h>
 
 #include <cgi/cgi_ManipulatorMap.h>
-
-#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief Map widget class.
  */
-class WidgetMap : public QWidget, public osgViewer::Viewer
+class WidgetMap : public WidgetOSG
 {
     Q_OBJECT
 
@@ -65,16 +58,11 @@ protected:
     bool event( QEvent *event );
 
     /** */
-    void paintEvent( QPaintEvent *event );
-
-    /** */
     void timerEvent( QTimerEvent *event );
 
 private:
 
-    QGridLayout *_gridLayout;
-
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _graphicsWindow;
+    QGridLayout *_layout;
 
     osg::ref_ptr<cgi::ManipulatorMap> _manipulator;
 
@@ -100,9 +88,6 @@ private:
 
     /** */
     void createCameraMap();
-
-    /** */
-    osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );
 
     void updateMouseGeoPositionStr( double lat, double lon );
 
