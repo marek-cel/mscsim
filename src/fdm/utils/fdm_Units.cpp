@@ -56,7 +56,7 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "kts" ) )
         return &Units::kts2mps;
 
-    else if ( 0 == String::icompare( name, "deg_s" ) )
+    else if ( 0 == String::icompare( name, "deg/s" ) )
         return &Units::deg2rad;
     else if ( 0 == String::icompare( name, "rpm" ) )
         return &Units::rpm2rad_s;
@@ -86,10 +86,10 @@ Units::fptr Units::getConverter( const char *name )
     else if ( 0 == String::icompare( name, "degF" ) )
         return &Units::f2k;
 
-    else if ( 0 == String::icompare( name, "g_kWh" ) )
+    else if ( 0 == String::icompare( name, "g/kWh" ) )
         return &Units::g_kWh_2_kg_Ws;
 
-    else if ( 0 == String::icompare( name, "g_kNs" ) )
+    else if ( 0 == String::icompare( name, "g/kNs" ) )
         return &Units::g_kNs_2_kg_Ns;
 
     return FDM_NULLPTR;

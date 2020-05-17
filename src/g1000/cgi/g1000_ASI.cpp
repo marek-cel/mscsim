@@ -22,6 +22,10 @@
 
 #include <g1000/cgi/g1000_ASI.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 #include <sstream>
 
 #include <osg/Geode>

@@ -22,6 +22,10 @@
 
 #include <cgi/otw/cgi_SkyDome.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 #include <cmath>
 
 #include <osg/Geode>

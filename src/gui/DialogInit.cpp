@@ -222,7 +222,11 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
     QDate date;
     QTime time;
 
+#   if QT_VERSION >= 0x050000
+    date.setDate( date_y, date_m, date_d );
+#   else
     date.setYMD( date_y, date_m, date_d );
+#   endif
     time.setHMS( time_h, time_m, 0 );
 
     _dateTime.setDate( date );

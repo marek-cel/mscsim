@@ -22,6 +22,10 @@
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;

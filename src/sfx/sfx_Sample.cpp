@@ -22,6 +22,10 @@
 
 #include <sfx/sfx_Sample.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 #include <cstring>
 
 #include <AL/alut.h>

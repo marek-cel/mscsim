@@ -22,6 +22,10 @@
 
 #include <fdm_f16/f16_Engine.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 #include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>

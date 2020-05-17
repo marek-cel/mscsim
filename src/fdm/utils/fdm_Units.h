@@ -69,14 +69,14 @@ public:
      * - Length: ft (feet), km (kilometer), nmi (nautical mile)
      * - Volume: cuin (cubic inches), l (litres)
      * - Velocity: fpm (feet per minute), fps (feet per second), kmh (kilemeter per hour), kts (knots)
-     * - Angular Velocity: deg_s (degrees per second), rpm (revolutions per minute)
+     * - Angular Velocity: deg/s (degrees per second), rpm (revolutions per minute)
      * - Mass: lb (pound)
      * - Force: lbf (pound of force)
      * - Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)
      * - Power: PS (metric horsepower), hp (horsepower), kW (kilowatt)
      * - Temperature: degC (degree Celsius), degF (degree Fahrenheit)
-     * - Specific fuel consumption: g_kWh (grams per kilowatt-hour)
-     * - Thrust Specific fuel consumption: g_kNs (grams per kilonewton-socond)
+     * - Specific fuel consumption: g/kWh (grams per kilowatt-hour)
+     * - Thrust Specific fuel consumption: g/kNs (grams per kilonewton-socond)
      */
     static fptr getConverter( const char *name );
 

@@ -111,7 +111,7 @@ void Mass::computeForceAndMoment()
         Exception e;
 
         e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "ERROR! NaN detected in the mass model." );
+        e.setInfo( "NaN detected in the mass model." );
 
         FDM_THROW( e );
     }

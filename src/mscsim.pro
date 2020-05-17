@@ -45,6 +45,7 @@ DEFINES += SIM_LOCAL_DATA_DIR
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
 win32: DEFINES += \
+    NOMINMAX \
     WIN32 \
     _WINDOWS \
     _CRT_SECURE_NO_DEPRECATE \
@@ -74,7 +75,7 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 win32: LIBS += \
-    -L$(OPENAL_DIR)/libs/Win32 \
+    -L$(OPENAL_DIR)/libs/Win64 \
     -L$(OSG_ROOT)/lib \
     -lalut \
     -llibxml2 \

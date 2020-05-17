@@ -22,6 +22,10 @@
 
 #include <cgi/otw/cgi_CloudsBlock.h>
 
+#ifdef _MSC_VER
+#   include <algorithm>
+#endif
+
 #include <osg/AlphaFunc>
 #include <osg/Billboard>
 #include <osg/BlendFunc>
