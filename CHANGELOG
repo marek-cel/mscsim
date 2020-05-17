@@ -1,8 +1,10 @@
 2020-05-17 Marek M. Cel <marekcel@marekcel.pl>
     
     * units ID strings
-	
-	* building with MSVC 2019
+    
+    * building with MSVC 2019
+    
+    * CMake fix for MSVC 2019 and Qt 5
 
 
 

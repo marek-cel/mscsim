@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 2.8.11 )
+cmake_minimum_required( VERSION 3.5 )
 
 project( mscsim )
 
@@ -8,13 +8,14 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../bin )
 
 ################################################################################
 
-# set( CMAKE_VERBOSE_MAKEFILE ON )
-
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 
-# set( CMAKE_AUTOMOC ON )
-# set( CMAKE_AUTORCC ON )
-# set( CMAKE_AUTOUIC ON )
+set( CMAKE_AUTOMOC ON )
+set( CMAKE_AUTORCC ON )
+set( CMAKE_AUTOUIC ON )
+
+set(CMAKE_CXX_STANDARD 11 )
+set(CMAKE_CXX_STANDARD_REQUIRED ON )
 
 ################################################################################
 
@@ -38,7 +39,7 @@ endif()
 
 ################################################################################
 
-set( CMAKE_CXX_FLAGS "-Wall -std=c++0x -O3" )
+set( CMAKE_CXX_FLAGS "-Wall -O3" )
 
 ################################################################################
 
@@ -55,16 +56,7 @@ endif()
 
 ################################################################################
 
-find_package( Qt4 REQUIRED
-    QtCore
-    QtGui
-    QtOpenGL
-    QtSvg
-    QtXml
-    qtmain
-)
-include( ${QT_USE_FILE} )
-add_definitions( ${QT_DEFINITIONS} )
+find_package( Qt5 COMPONENTS Core Widgets OpenGL Svg Xml REQUIRED )
 
 find_package( OpenSceneGraph REQUIRED
     OpenThreads
@@ -106,21 +98,17 @@ add_subdirectory( sfx )
 
 ################################################################################
 
-qt4_wrap_cpp( MOC_SRCS
-    Manager.h
-    Simulation.h
-)
-
-qt4_add_resources( RES_SOURCES
-    mscsim.qrc
-)
-
 set( SOURCES
     Autopilot.cpp
     main.cpp
     Manager.cpp
     ManagerFDM.cpp
     Simulation.cpp
+    
+    Manager.h
+    Simulation.h
+    
+    mscsim.qrc
 )
 
 if (WIN32)
@@ -130,11 +118,7 @@ endif()
 
 ################################################################################
 
-add_executable( ${PROJECT_NAME} WIN32
-    ${SOURCES}
-    ${MOC_SRCS}
-    ${RES_SOURCES}
-)
+add_executable( ${PROJECT_NAME} WIN32 ${SOURCES} )
 
 ################################################################################
 

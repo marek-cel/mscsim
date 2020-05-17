@@ -1,70 +1,3 @@
-qt4_wrap_cpp( MOC_SRCS
-    ComboUnits.h
-    ComboUnitsAngle.h
-    ComboUnitsFlowRate.h
-    ComboUnitsLength.h
-    ComboUnitsMass.h
-    ComboUnitsNumber.h
-    ComboUnitsPressure.h
-    ComboUnitsRotation.h
-    ComboUnitsTemperature.h
-    ComboUnitsVelocity.h
-    DialogAction.h
-    DialogConf.h
-    DialogEnvr.h
-    DialogInit.h
-    DialogMass.h
-    DialogTime.h
-    DockWidgetAuto.h
-    DockWidgetCtrl.h
-    DockWidgetData.h
-    DockWidgetEFIS.h
-    DockWidgetMain.h
-    DockWidgetMap.h
-    DockWidgetProp.h
-    GraphicsEADI.h
-    GraphicsEHSI.h
-    GraphicsPedals.h
-    GraphicsStick.h
-    LayoutSquare.h
-    MainWindow.h
-    PageControls.h
-    PageGeneral.h
-    SpinBoxHighlight.h
-    WidgetCGI.h
-    WidgetGDU.h
-    WidgetMap.h
-    WidgetOSG.h
-    WidgetOTW.h
-    WidgetPFD.h
-    WidgetSquare.h
-)
-
-################################################################################
-
-qt4_wrap_ui( UI_HEADERS
-    DialogAction.ui
-    DialogConf.ui
-    DialogEnvr.ui
-    DialogInit.ui
-    DialogMass.ui
-    DialogTime.ui
-    DockWidgetAuto.ui
-    DockWidgetCtrl.ui
-    DockWidgetData.ui
-    DockWidgetEFIS.ui
-    DockWidgetMain.ui
-    DockWidgetMap.ui
-    DockWidgetProp.ui
-    MainWindow.ui
-    PageControls.ui
-    PageGeneral.ui
-    WidgetGDU.ui
-    WidgetPFD.ui
-)
-
-################################################################################
-
 add_library( gui STATIC
     Aircrafts.cpp
     Airports.cpp
@@ -113,6 +46,64 @@ add_library( gui STATIC
     WidgetPFD.cpp
     WidgetSquare.cpp
 
-    ${MOC_SRCS}
-    ${UI_HEADERS}
+    ComboUnits.h
+    ComboUnitsAngle.h
+    ComboUnitsFlowRate.h
+    ComboUnitsLength.h
+    ComboUnitsMass.h
+    ComboUnitsNumber.h
+    ComboUnitsPressure.h
+    ComboUnitsRotation.h
+    ComboUnitsTemperature.h
+    ComboUnitsVelocity.h
+    DialogAction.h
+    DialogConf.h
+    DialogEnvr.h
+    DialogInit.h
+    DialogMass.h
+    DialogTime.h
+    DockWidgetAuto.h
+    DockWidgetCtrl.h
+    DockWidgetData.h
+    DockWidgetEFIS.h
+    DockWidgetMain.h
+    DockWidgetMap.h
+    DockWidgetProp.h
+    GraphicsEADI.h
+    GraphicsEHSI.h
+    GraphicsPedals.h
+    GraphicsStick.h
+    LayoutSquare.h
+    MainWindow.h
+    PageControls.h
+    PageGeneral.h
+    SpinBoxHighlight.h
+    WidgetCGI.h
+    WidgetGDU.h
+    WidgetMap.h
+    WidgetOSG.h
+    WidgetOTW.h
+    WidgetPFD.h
+    WidgetSquare.h
+
+    DialogAction.ui
+    DialogConf.ui
+    DialogEnvr.ui
+    DialogInit.ui
+    DialogMass.ui
+    DialogTime.ui
+    DockWidgetAuto.ui
+    DockWidgetCtrl.ui
+    DockWidgetData.ui
+    DockWidgetEFIS.ui
+    DockWidgetMain.ui
+    DockWidgetMap.ui
+    DockWidgetProp.ui
+    MainWindow.ui
+    PageControls.ui
+    PageGeneral.ui
+    WidgetGDU.ui
+    WidgetPFD.ui
 )
+
+qt5_use_modules( gui Widgets OpenGL Svg Xml )
