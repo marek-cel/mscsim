@@ -1,4 +1,6 @@
-add_library( cgi STATIC
+set( MODULE_NAME cgi )
+
+set( CPP_FILES
     hud/cgi_HUD.cpp
     map/cgi_Icons.cpp
     map/cgi_Layers.cpp
@@ -35,3 +37,5 @@ add_library( cgi STATIC
     cgi_Utils.cpp
     cgi_WGS84.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

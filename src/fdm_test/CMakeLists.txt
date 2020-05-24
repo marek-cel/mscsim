@@ -1,4 +1,6 @@
-add_library( fdm_test STATIC
+set( MODULE_NAME fdm_test )
+
+set( CPP_FILES
     test_Aerodynamics.cpp
     test_AFCS.cpp
     test_Aircraft.cpp
@@ -13,3 +15,5 @@ add_library( fdm_test STATIC
     test_StabilizerVer.cpp
     test_TailRotor.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

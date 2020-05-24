@@ -91,10 +91,15 @@ private:
     double _timeStep;               ///< [s] simulation time step
     double _realTime;               ///< [s] simulation real time
 
-    double _compTimeTot;            ///< [s] computations time - total
-    double _compTimeMax;            ///< [s] computations time - maximum
+    double _compTimeMax;            ///< [s] maximum computations time
+    double _compTimeSum;            ///< [s] sum of computations time
+    double _compTimeSum2;           ///< [s] sum of computations time squared
 
-    double _timeStepMax;            ///< [s] simulation maximum time step
+    double _timeStepRaw;            ///< [s] simulation raw time step
+    double _timeStepMin;            ///< [s] simulation minimum raw time step
+    double _timeStepMax;            ///< [s] simulation maximum raw time step
+    double _timeStepSum;            ///< [s] sum of simulation raw time step
+    double _timeStepSum2;           ///< [s] sum of simulation raw time step squared
 
     unsigned int _timeSteps;        ///< number of time steps
 
@@ -138,6 +143,8 @@ private:
     void updateStateFreeze();
     void updateStatePause();
     void updateStateStop();
+
+    void updateStatistics( double compTime_0 );
 
     void printFlightEndInfo();
     void printState();

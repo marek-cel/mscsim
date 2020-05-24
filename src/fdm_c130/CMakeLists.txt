@@ -1,4 +1,6 @@
-add_library( fdm_c130 STATIC
+set( MODULE_NAME fdm_c130 )
+
+set( CPP_FILES
     c130_Aerodynamics.cpp
     c130_Aircraft.cpp
     c130_Controls.cpp
@@ -12,3 +14,5 @@ add_library( fdm_c130 STATIC
     c130_StabilizerVer.cpp
     c130_TailOff.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

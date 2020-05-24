@@ -1,4 +1,6 @@
-add_library( fdm_uh60 STATIC
+set( MODULE_NAME fdm_uh60 )
+
+set( CPP_FILES
     uh60_Aerodynamics.cpp
     uh60_AFCS.cpp
     uh60_Aircraft.cpp
@@ -12,3 +14,5 @@ add_library( fdm_uh60 STATIC
     uh60_StabilizerVer.cpp
     uh60_TailRotor.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

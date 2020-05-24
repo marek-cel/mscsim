@@ -1,4 +1,6 @@
-add_library( fdm STATIC
+set( MODULE_NAME fdm )
+
+set( CPP_FILES
     fdm_Base.cpp
     fdm_Log.cpp
     fdm_Recorder.cpp
@@ -65,3 +67,5 @@ add_library( fdm STATIC
     xml/fdm_XmlNode.cpp
     xml/fdm_XmlUtils.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

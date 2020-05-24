@@ -1,4 +1,6 @@
-add_library( fdm_p51 STATIC
+set( MODULE_NAME fdm_p51 )
+
+set( CPP_FILES
     p51_Aerodynamics.cpp
     p51_Aircraft.cpp
     p51_Controls.cpp
@@ -12,3 +14,5 @@ add_library( fdm_p51 STATIC
     p51_StabilizerVer.cpp
     p51_TailOff.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

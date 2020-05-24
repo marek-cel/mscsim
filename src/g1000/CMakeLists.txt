@@ -1,4 +1,6 @@
-add_library( g1000 STATIC
+set( MODULE_NAME g1000 )
+
+set( CPP_FILES
     g1000_Log.cpp
 
     cgi/g1000_ADI.cpp
@@ -29,3 +31,5 @@ add_library( g1000 STATIC
     utils/g1000_String.cpp
     utils/g1000_Units.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

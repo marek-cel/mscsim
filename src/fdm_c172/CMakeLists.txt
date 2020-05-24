@@ -1,4 +1,6 @@
-add_library( fdm_c172 STATIC
+set( MODULE_NAME fdm_c172 )
+
+set( CPP_FILES
     c172_Aerodynamics.cpp
     c172_Aircraft.cpp
     c172_Controls.cpp
@@ -17,3 +19,5 @@ add_library( fdm_c172 STATIC
     c172_StabilizerVer.cpp
     c172_TailOff.cpp
 )
+
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

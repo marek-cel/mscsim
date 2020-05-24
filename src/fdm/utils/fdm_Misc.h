@@ -270,6 +270,23 @@ public:
     {
         return 1.0 / ( 1.0 + exp( -val ) );
     }
+
+    /**
+     * Estimates standard deviation based on a sample.
+     * @see https://en.wikipedia.org/wiki/Standard_deviation
+     * @see https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+     * @param sum sum of samples values
+     * @param sumSq  sum of samples values squared
+     * @param n number of samples
+     * @return standard deviation
+     */
+    inline static double stDev( double sum, double sumSq, int n )
+    {
+        double coef = 1.0 / ( (double)n - 1.0 );
+        double s2 = sumSq * coef - Misc::pow2( sum ) * coef / (double)n;
+
+        return sqrt( s2 );
+    }
 };
 
 } // end of fdm namespace

@@ -62,10 +62,15 @@ Manager::Manager() :
     _timeStep ( 0.0 ),
     _realTime ( 0.0 ),
 
-    _compTimeTot ( 0.0 ),
-    _compTimeMax ( 0.0 ),
+    _compTimeMax  ( 0.0 ),
+    _compTimeSum  ( 0.0 ),
+    _compTimeSum2 ( 0.0 ),
 
-    _timeStepMax ( 0.0 ),
+    _timeStepRaw  ( 0.0 ),
+    _timeStepMin  ( DBL_MAX ),
+    _timeStepMax  ( 0.0 ),
+    _timeStepSum  ( 0.0 ),
+    _timeStepSum2 ( 0.0 ),
 
     _timeSteps ( 0 ),
 
@@ -87,7 +92,7 @@ Manager::~Manager()
 
 void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 {
-    _timeStep = timeStep;
+    _timeStep = _timeStepRaw = timeStep;
 
     if ( _timeStep < FDM_TIME_STEP_MIN ) _timeStep = FDM_TIME_STEP_MIN;
     if ( _timeStep > FDM_TIME_STEP_MAX ) _timeStep = FDM_TIME_STEP_MAX;
@@ -502,7 +507,18 @@ void Manager::updateStateInp()
 
 void Manager::updateStateIdle()
 {
-    _timeStepMax = 0.0;
+    _realTime = 0.0;
+
+    _compTimeMax  = 0.0;
+    _compTimeSum  = 0.0;
+    _compTimeSum2 = 0.0;
+
+    _timeStepMin  = DBL_MAX;
+    _timeStepMax  = 0.0;
+    _timeStepSum  = 0.0;
+    _timeStepSum2 = 0.0;
+
+    _timeSteps = 0;
 
     updateInitialPositionAndAttitude();
 
@@ -696,8 +712,6 @@ void Manager::updateStateInit()
 
 void Manager::updateStateWork()
 {
-    if ( _timeStep > _timeStepMax ) _timeStepMax = _timeStep;
-
     if ( _aircraft != 0 )
     {
         try
@@ -713,10 +727,6 @@ void Manager::updateStateWork()
                 else
                     _aircraft->update( _timeStep );
             }
-
-            //double lat = Units::rad2deg( _aircraft->getWGS().getPos_Geo().lat );
-            //double lon = Units::rad2deg( _aircraft->getWGS().getPos_Geo().lon );
-            //printf( "%lf %lf\n", lat , lon );
 
             _realTime += _timeStep;
             _timeSteps++;
@@ -757,9 +767,7 @@ void Manager::updateStateWork()
                 }
             }
 
-            double compTime = Time::get() - compTime_0;
-            _compTimeTot += compTime;
-            _compTimeMax = Misc::max( _compTimeMax, compTime );
+            updateStatistics( compTime_0 );
         }
         catch ( Exception &e )
         {
@@ -784,8 +792,6 @@ void Manager::updateStateWork()
 
 void Manager::updateStateFreeze()
 {
-    if ( _timeStep > _timeStepMax ) _timeStepMax = _timeStep;
-
     if ( _aircraft != 0 )
     {
         try
@@ -799,9 +805,7 @@ void Manager::updateStateFreeze()
 
             _stateOut = DataOut::Frozen;
 
-            double compTime = Time::get() - compTime_0;
-            _compTimeTot += compTime;
-            _compTimeMax = Misc::max( _compTimeMax, compTime );
+            updateStatistics( compTime_0 );
         }
         catch ( Exception &e )
         {
@@ -838,17 +842,27 @@ void Manager::updateStateStop()
         printFlightEndInfo();
     }
 
-    _realTime = 0.0;
-
-    _compTimeTot = 0.0;
-    _compTimeMax = 0.0;
-
-    _timeSteps = 0;
-
     FDM_DELPTR( _aircraft );
     FDM_DELPTR( _recorder );
 
     _stateOut = DataOut::Stopped;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::updateStatistics( double compTime_0 )
+{
+    _timeStepMin = Misc::min( _timeStepMin, _timeStepRaw );
+    _timeStepMax = Misc::max( _timeStepMax, _timeStepRaw );
+
+    double compTime = Time::get() - compTime_0;
+    _compTimeMax = Misc::max( _compTimeMax, compTime );
+
+    _compTimeSum  += compTime;
+    _compTimeSum2 += Misc::pow2( compTime );
+
+    _timeStepSum  += _timeStepRaw;
+    _timeStepSum2 += Misc::pow2( _timeStepRaw );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -861,14 +875,20 @@ void Manager::printFlightEndInfo()
 
     double meanStep = _realTime / (double)_timeSteps;
     double meanFreq = 1.0 / meanStep;
-    double meanComp = _compTimeTot / (double)_timeSteps;
+    double meanComp = _compTimeSum / (double)_timeSteps;
+
+    double sdStep = Misc::stDev( _timeStepSum, _timeStepSum2, _timeSteps );
+    double sdComp = Misc::stDev( _compTimeSum, _compTimeSum2, _timeSteps );
 
     Log::out().setf( std::ios_base::showpoint );
     Log::out().setf( std::ios_base::fixed );
 
     Log::out() << "        Mean frequency [Hz] : " << std::setprecision( 3 ) << meanFreq << std::endl;
     Log::out() << "         Mean time step [s] : " << std::setprecision( 6 ) << meanStep << std::endl;
+    Log::out() << "           Time step SD [s] : " << std::setprecision( 6 ) << sdStep   << std::endl;
     Log::out() << " Mean computations time [s] : " << std::setprecision( 6 ) << meanComp << std::endl;
+    Log::out() << "   Computations time SD [s] : " << std::setprecision( 6 ) << sdComp   << std::endl;
+    Log::out() << "          Min time step [s] : " << std::setprecision( 6 ) << _timeStepMin << std::endl;
     Log::out() << "          Max time step [s] : " << std::setprecision( 6 ) << _timeStepMax << std::endl;
     Log::out() << "  Max computations time [s] : " << std::setprecision( 6 ) << _compTimeMax << std::endl;
 

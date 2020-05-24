@@ -1,4 +1,6 @@
-add_library( gui STATIC
+set( MODULE_NAME gui )
+
+set( CPP_FILES
     Aircrafts.cpp
     Airports.cpp
     Colors.cpp
@@ -45,7 +47,9 @@ add_library( gui STATIC
     WidgetOTW.cpp
     WidgetPFD.cpp
     WidgetSquare.cpp
+)
 
+set( MOC_SRC_FILES
     ComboUnits.h
     ComboUnitsAngle.h
     ComboUnitsFlowRate.h
@@ -85,7 +89,9 @@ add_library( gui STATIC
     WidgetOTW.h
     WidgetPFD.h
     WidgetSquare.h
+)
 
+set( UIC_SRC_FILES
     DialogAction.ui
     DialogConf.ui
     DialogEnvr.ui
@@ -106,4 +112,11 @@ add_library( gui STATIC
     WidgetPFD.ui
 )
 
-qt5_use_modules( gui Widgets OpenGL Svg Xml )
+if( USE_QT4 )
+    qt4_wrap_cpp( MOC_SRCS ${MOC_SRC_FILES} )
+    qt4_wrap_ui( UI_HEADERS ${UIC_SRC_FILES} )
+    add_library( ${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRCS} ${UI_HEADERS} )
+else()
+    add_library( ${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES} )
+    qt5_use_modules( ${MODULE_NAME} Widgets OpenGL Svg Xml )
+endif()
