@@ -38,7 +38,7 @@ DEFINES += \
     SIM_USE_THREADS \
     SIM_VERTICALSYNC
 
-DEFINES += FDM_TEST
+#DEFINES += FDM_TEST
 DEFINES += SIM_CONSOLE_OUTPUT
 DEFINES += SIM_LOCAL_DATA_DIR
 
@@ -157,7 +157,7 @@ include($$PWD/fdm_c172/fdm_c172.pri)
 include($$PWD/fdm_f16/fdm_f16.pri)
 include($$PWD/fdm_p51/fdm_p51.pri)
 include($$PWD/fdm_uh60/fdm_uh60.pri)
-include($$PWD/fdm_test/fdm_test.pri)
+#include($$PWD/fdm_test/fdm_test.pri)
 include($$PWD/g1000/g1000.pri)
 include($$PWD/gui/gui.pri)
 include($$PWD/hid/hid.pri)

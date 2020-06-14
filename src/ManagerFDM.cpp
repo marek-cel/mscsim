@@ -674,6 +674,7 @@ void Manager::updateStateInit()
 
                     if ( _dataInp.recording.mode == DataInp::Recording::Replay )
                     {
+                        _aircraft->updateFrozen( FDM_TIME_STEP );
                         _stateOut = DataOut::Ready;
 
                         if ( _verbose )
