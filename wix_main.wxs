@@ -8,7 +8,7 @@
     Language="1033"
     Version="0.3"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{09fb11a8-4e61-476f-a897-2fe6f6d781d5}">
+    UpgradeCode="{33d53f6e-a4a1-43ce-9986-5d600627218c}">
         
     <Package
       Description="MScSim Windows Installer Package"
@@ -22,8 +22,8 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
     
-      <!-- Visual C++ 2008 Redistributable Merge Module -->
-      <Merge Id="VCRedist" SourceFile="Microsoft_VC90_CRT_x86.msm" DiskId="1" Language="0"/>
+      <!-- Visual C++ 2019 Redistributable Merge Module -->
+      <Merge Id="VCRedist" SourceFile="Microsoft_VC160_CRT_x86.msm" DiskId="1" Language="0"/>
       
       <!-- installation dir -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
