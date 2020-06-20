@@ -13,7 +13,7 @@
     <Package
       Description="MScSim Windows Installer Package"
       Manufacturer="Marek Cel (marekcel.pl)"
-      InstallerVersion="300"
+      InstallerVersion="301"
       InstallPrivileges="elevated"
       InstallScope="perMachine"
       Platform="x64"
@@ -28,7 +28,7 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
     
       <!-- Visual C++ 2019 Redistributable Merge Module -->
-      <!-- <Merge Id="VCRedist" SourceFile="Microsoft_VC160_CRT_x86.msm" DiskId="1" Language="0"/>-->
+      <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.25.28508\MergeModules\Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
       
       <!-- installation dir -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
@@ -84,9 +84,9 @@
     </Feature>
     
     <!-- Visual C++ 2019 Redistributable Merge Module -->
-    <!-- <Feature Id="VCRedist" Title="Visual C++ 16.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+    <Feature Id="VCRedist" Title="Visual C++ 2019 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
       <MergeRef Id="VCRedist"/>
-    </Feature>-->
+    </Feature>
 
     <Property Id="WIXUI_INSTALLDIR" Value="dir_mscsim" />
     <UIRef Id="WixUI_InstallDir" />

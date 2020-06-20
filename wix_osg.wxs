@@ -4,6 +4,15 @@
   <Fragment>
     <DirectoryRef Id="dir_mscsim_bin">
       <Directory Id="dir_mscsim_osgPlugins_3_4_0" Name="osgPlugins-3.4.0" />
+      <Component Id="dir_mscsim_icudt58" Guid="{2394f105-7818-4757-9541-1e63cb8c60b1}">
+        <File Id="dir_mscsim_icudt58_dll" Name="icudt58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icudt58.dll" />
+      </Component>
+      <Component Id="dir_mscsim_icuin58" Guid="{6f3e76f1-8b99-45ea-a3a9-a1bd1af1e19f}">
+        <File Id="dir_mscsim_icuin58_dll" Name="icuin58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuin58.dll" />
+      </Component>
+      <Component Id="dir_mscsim_icuuc58" Guid="{55a19905-ba25-4d15-8ab2-1c502997afd9}">
+        <File Id="dir_mscsim_icuuc58_dll" Name="icuuc58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuuc58.dll" />
+      </Component>
       <Component Id="dir_mscsim_libpng16" Guid="{67ebfdf1-dac6-4684-9920-6ae917341173}">
         <File Id="dir_mscsim_libpng16_dll" Name="libpng16.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng16.dll" />
       </Component>
@@ -55,6 +64,9 @@
   <Fragment>
     <ComponentGroup Id="cg_mscsim_osg">
       <ComponentGroupRef Id="cg_mscsim_osg_plugins" />
+      <ComponentRef Id="dir_mscsim_icudt58" />
+      <ComponentRef Id="dir_mscsim_icuin58" />
+      <ComponentRef Id="dir_mscsim_icuuc58" />
       <ComponentRef Id="dir_mscsim_libpng16" />
       <ComponentRef Id="dir_mscsim_libxml2" />
       <ComponentRef Id="dir_mscsim_osg130_osg" />

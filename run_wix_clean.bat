@@ -1,4 +1,4 @@
-del sim.ico
+del mscsim.ico
 
 rmdir /S /Q qt
 
