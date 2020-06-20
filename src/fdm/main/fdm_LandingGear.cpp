@@ -222,8 +222,8 @@ LandingGear::Wheel* LandingGear::getWheelByName( const std::string &name )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3 LandingGear::getWheelForce(const Wheel &wheel, const Vector3 &r_i_bas,
-                                   double surf_coef, double vel_break )
+Vector3 LandingGear::getWheelForce( const Wheel &wheel, const Vector3 &r_i_bas,
+                                    double surf_coef, double vel_break )
 {
     double deflection_norm = _aircraft->getNormal_BAS() * ( r_i_bas - wheel.r_u_bas );
 

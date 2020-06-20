@@ -1,3 +1,15 @@
+2020-06-20 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * increased number of fuel tanks
+    
+    * C-130 fuel tanks
+    
+    * G1000 overspeed indication fix
+    
+    * axes tuning coefficients
+
+
+
 2020-06-14 Marek M. Cel <marekcel@marekcel.pl>
     
     * replaying initialization fixed

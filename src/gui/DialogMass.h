@@ -63,6 +63,10 @@ public:
     inline double getFuelTank2() const { return _fuel_tank_2; }
     inline double getFuelTank3() const { return _fuel_tank_3; }
     inline double getFuelTank4() const { return _fuel_tank_4; }
+    inline double getFuelTank5() const { return _fuel_tank_5; }
+    inline double getFuelTank6() const { return _fuel_tank_6; }
+    inline double getFuelTank7() const { return _fuel_tank_7; }
+    inline double getFuelTank8() const { return _fuel_tank_8; }
 
     inline double getCabin()  const { return _cabin; }
     inline double getTrunk()  const { return _trunk; }
@@ -82,6 +86,10 @@ private:
     double _fuel_tank_2;    ///< [kg]
     double _fuel_tank_3;    ///< [kg]
     double _fuel_tank_4;    ///< [kg]
+    double _fuel_tank_5;    ///< [kg]
+    double _fuel_tank_6;    ///< [kg]
+    double _fuel_tank_7;    ///< [kg]
+    double _fuel_tank_8;    ///< [kg]
 
     double _cabin;          ///< [kg]
     double _trunk;          ///< [kg]
@@ -103,6 +111,10 @@ private slots:
     void on_comboBoxFuelTank_2_currentIndexChanged( int index );
     void on_comboBoxFuelTank_3_currentIndexChanged( int index );
     void on_comboBoxFuelTank_4_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_5_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_6_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_7_currentIndexChanged( int index );
+    void on_comboBoxFuelTank_8_currentIndexChanged( int index );
 
     void on_comboBoxCabin_currentIndexChanged( int index );
     void on_comboBoxTrunk_currentIndexChanged( int index );

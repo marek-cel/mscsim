@@ -36,6 +36,21 @@ class Aircrafts
 {
 public:
 
+    /** Axis tuning data. */
+    struct Axis
+    {
+        double curvature;       ///< curvature
+        double deadzone;        ///< deadzone expressed as fraction of input
+    };
+
+    /** Axes tuning data. */
+    struct Axes
+    {
+        Axis roll;              ///< roll axis tuning data
+        Axis pitch;             ///< pitch axis tuning data
+        Axis yaw;               ///< yaw axis tuning data
+    };
+
     /** Aircraft controls data struct. */
     struct Controls
     {
@@ -90,6 +105,10 @@ public:
         Mass fuel_tank_2;       ///<
         Mass fuel_tank_3;       ///<
         Mass fuel_tank_4;       ///<
+        Mass fuel_tank_5;       ///<
+        Mass fuel_tank_6;       ///<
+        Mass fuel_tank_7;       ///<
+        Mass fuel_tank_8;       ///<
 
         Mass cabin;             ///<
         Mass trunk;             ///<
@@ -112,6 +131,7 @@ public:
         float vfe;              ///< [m/s] maximum flap extension speed
         float vne;              ///< [m/s] never exceed speed
 
+        Axes       axes;        ///< axes tuning data
         Controls   controls;    ///< controls data
         Propulsion propulsion;  ///< propulsion data
         Masses     masses;      ///< masses data
@@ -157,6 +177,8 @@ private:
     Aircrafts( const Aircrafts & ) {}
 
     void parseAircraft( const QDomElement &node );
+    void parseAircraftAxes( const QDomElement &node, Axes &axes );
+    void parseAircraftAxis( const QDomElement &node, Axis &axis );
     void parseAircraftControls( const QDomElement &node, Controls &controls );
     void parseAircraftPropulsion( const QDomElement &node, Propulsion &propulsion );
     void parseAircraftMasses( const QDomElement &node, Masses &masses );

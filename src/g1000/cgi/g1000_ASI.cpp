@@ -356,7 +356,7 @@ void ASI::createBox()
     const double dx = -44.5;
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _pat->addChild( geode.get() );
+    _groupRed->addChild( geode.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
 
@@ -387,9 +387,6 @@ void ASI::createBox()
 
     geom->setVertexArray( v.get() );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLES, 0, v->size() ) );
-
-    geom->setColorArray( c.get() );
-    geom->setColorBinding( osg::Geometry::BIND_OVERALL );
 
     geode->addDrawable( geom.get() );
 

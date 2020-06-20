@@ -34,8 +34,6 @@
 
 #include <fdm/utils/fdm_Units.h>
 
-#include <gui/Aircrafts.h>
-
 #include <hid/hid_Manager.h>
 #include <gui/gui_Defines.h>
 
@@ -240,6 +238,13 @@ void MainWindow::init()
     updateOutputData();
 
     _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Aircrafts::Aircraft MainWindow::getCurrentAircraft() const
+{
+    return Aircrafts::instance()->getAircraft( _typeIndex );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -742,14 +747,14 @@ void MainWindow::updateDockCtrl()
     {
         _dockCtrl->setCollective( hid::Manager::instance()->getCollective() );
 
-        _dockCtrl->setCtrlStick( -Data::get()->controls.roll,
-                                 -Data::get()->controls.pitch );
+        _dockCtrl->setCtrlStick( hid::Manager::instance()->getCtrlRoll(),
+                                 hid::Manager::instance()->getCtrlPitch() );
 
-        _dockCtrl->setTrimStick( -Data::get()->controls.trim_roll,
-                                 -Data::get()->controls.trim_pitch );
+        _dockCtrl->setTrimStick( hid::Manager::instance()->getTrimRoll(),
+                                 hid::Manager::instance()->getTrimPitch() );
 
-        _dockCtrl->setCtrlPedals( -Data::get()->controls.yaw );
-        _dockCtrl->setTrimPedals( -Data::get()->controls.trim_yaw );
+        _dockCtrl->setCtrlPedals( hid::Manager::instance()->getCtrlYaw() );
+        _dockCtrl->setTrimPedals( hid::Manager::instance()->getTrimYaw() );
 
         _dockCtrl->setBrakes( Data::get()->controls.brake_l,
                               Data::get()->controls.brake_r );
@@ -1156,6 +1161,10 @@ void MainWindow::updateOutputData()
     Data::get()->masses.tank[ 1 ]  = _dialogMass->getFuelTank2();
     Data::get()->masses.tank[ 2 ]  = _dialogMass->getFuelTank3();
     Data::get()->masses.tank[ 3 ]  = _dialogMass->getFuelTank4();
+    Data::get()->masses.tank[ 4 ]  = _dialogMass->getFuelTank5();
+    Data::get()->masses.tank[ 5 ]  = _dialogMass->getFuelTank6();
+    Data::get()->masses.tank[ 6 ]  = _dialogMass->getFuelTank7();
+    Data::get()->masses.tank[ 7 ]  = _dialogMass->getFuelTank8();
     Data::get()->masses.cabin      = _dialogMass->getCabin();
     Data::get()->masses.trunk      = _dialogMass->getTrunk();
     Data::get()->masses.slung      = 0.0;

@@ -27,6 +27,9 @@
 
 #include <fdm/utils/fdm_Units.h>
 
+#include <gui/Aircrafts.h>
+
+#include <hid/hid_AxisTune.h>
 #include <hid/hid_Manager.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,9 +155,23 @@ void Manager::timerEvent( QTimerEvent *event )
     _nav->update();
 
     // controls
-    Data::get()->controls.roll         = -hid::Manager::instance()->getCtrlRoll();
-    Data::get()->controls.pitch        = -hid::Manager::instance()->getCtrlPitch();
-    Data::get()->controls.yaw          = -hid::Manager::instance()->getCtrlYaw();
+    double raw_roll  = hid::Manager::instance()->getCtrlRoll();
+    double raw_pitch = hid::Manager::instance()->getCtrlPitch();
+    double raw_yaw   = hid::Manager::instance()->getCtrlYaw();
+
+    Aircrafts::Aircraft aircraft = _win->getCurrentAircraft();
+
+    double deadzone_roll  = aircraft.axes.roll.deadzone;
+    double deadzone_pitch = aircraft.axes.pitch.deadzone;
+    double deadzone_yaw   = aircraft.axes.yaw.deadzone;
+
+    double curvature_roll  = aircraft.axes.roll.curvature;
+    double curvature_pitch = aircraft.axes.pitch.curvature;
+    double curvature_yaw   = aircraft.axes.yaw.curvature;
+
+    Data::get()->controls.roll         = -hid::AxisTune::getAxisTune( raw_roll  , deadzone_roll  , curvature_roll  );
+    Data::get()->controls.pitch        = -hid::AxisTune::getAxisTune( raw_pitch , deadzone_pitch , curvature_pitch );
+    Data::get()->controls.yaw          = -hid::AxisTune::getAxisTune( raw_yaw   , deadzone_yaw   , curvature_yaw   );
     Data::get()->controls.trim_roll    = -hid::Manager::instance()->getTrimRoll();
     Data::get()->controls.trim_pitch   = -hid::Manager::instance()->getTrimPitch();
     Data::get()->controls.trim_yaw     = -hid::Manager::instance()->getTrimYaw();

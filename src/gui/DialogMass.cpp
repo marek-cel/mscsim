@@ -40,6 +40,10 @@ DialogMass::DialogMass( QWidget *parent ) :
     _fuel_tank_2 ( 0.0 ),
     _fuel_tank_3 ( 0.0 ),
     _fuel_tank_4 ( 0.0 ),
+    _fuel_tank_5 ( 0.0 ),
+    _fuel_tank_6 ( 0.0 ),
+    _fuel_tank_7 ( 0.0 ),
+    _fuel_tank_8 ( 0.0 ),
     _cabin ( 0.0 ),
     _trunk ( 0.0 )
 {
@@ -68,6 +72,10 @@ void DialogMass::readData()
     _ui->spinBoxFuelTank_2->setValue( _ui->comboBoxFuelTank_2->convert( _fuel_tank_2 ) );
     _ui->spinBoxFuelTank_3->setValue( _ui->comboBoxFuelTank_3->convert( _fuel_tank_3 ) );
     _ui->spinBoxFuelTank_4->setValue( _ui->comboBoxFuelTank_4->convert( _fuel_tank_4 ) );
+    _ui->spinBoxFuelTank_5->setValue( _ui->comboBoxFuelTank_5->convert( _fuel_tank_5 ) );
+    _ui->spinBoxFuelTank_6->setValue( _ui->comboBoxFuelTank_6->convert( _fuel_tank_6 ) );
+    _ui->spinBoxFuelTank_7->setValue( _ui->comboBoxFuelTank_7->convert( _fuel_tank_7 ) );
+    _ui->spinBoxFuelTank_8->setValue( _ui->comboBoxFuelTank_8->convert( _fuel_tank_8 ) );
 
     _ui->spinBoxCabin->setValue( _ui->comboBoxCabin->convert( _cabin ) );
     _ui->spinBoxTrunk->setValue( _ui->comboBoxTrunk->convert( _trunk ) );
@@ -84,6 +92,10 @@ void DialogMass::saveData()
     _fuel_tank_2 = _ui->comboBoxFuelTank_2->invert( _ui->spinBoxFuelTank_2->value() );
     _fuel_tank_3 = _ui->comboBoxFuelTank_3->invert( _ui->spinBoxFuelTank_3->value() );
     _fuel_tank_4 = _ui->comboBoxFuelTank_4->invert( _ui->spinBoxFuelTank_4->value() );
+    _fuel_tank_5 = _ui->comboBoxFuelTank_5->invert( _ui->spinBoxFuelTank_5->value() );
+    _fuel_tank_6 = _ui->comboBoxFuelTank_6->invert( _ui->spinBoxFuelTank_6->value() );
+    _fuel_tank_7 = _ui->comboBoxFuelTank_7->invert( _ui->spinBoxFuelTank_7->value() );
+    _fuel_tank_8 = _ui->comboBoxFuelTank_8->invert( _ui->spinBoxFuelTank_8->value() );
 
     _cabin = _ui->comboBoxCabin->invert( _ui->spinBoxCabin->value() );
     _trunk = _ui->comboBoxTrunk->invert( _ui->spinBoxTrunk->value() );
@@ -106,6 +118,10 @@ void DialogMass::setAircraftType( int type )
         _fuel_tank_2 = masses.fuel_tank_2.def;
         _fuel_tank_3 = masses.fuel_tank_3.def;
         _fuel_tank_4 = masses.fuel_tank_4.def;
+        _fuel_tank_5 = masses.fuel_tank_5.def;
+        _fuel_tank_6 = masses.fuel_tank_6.def;
+        _fuel_tank_7 = masses.fuel_tank_7.def;
+        _fuel_tank_8 = masses.fuel_tank_8.def;
 
         _cabin = masses.cabin.def;
         _trunk = masses.trunk.def;
@@ -118,6 +134,10 @@ void DialogMass::setAircraftType( int type )
     _ui->spinBoxFuelTank_2->setMaximum( _ui->comboBoxFuelTank_2->convert( masses.fuel_tank_2.max ) );
     _ui->spinBoxFuelTank_3->setMaximum( _ui->comboBoxFuelTank_3->convert( masses.fuel_tank_3.max ) );
     _ui->spinBoxFuelTank_4->setMaximum( _ui->comboBoxFuelTank_4->convert( masses.fuel_tank_4.max ) );
+    _ui->spinBoxFuelTank_5->setMaximum( _ui->comboBoxFuelTank_5->convert( masses.fuel_tank_5.max ) );
+    _ui->spinBoxFuelTank_6->setMaximum( _ui->comboBoxFuelTank_6->convert( masses.fuel_tank_6.max ) );
+    _ui->spinBoxFuelTank_7->setMaximum( _ui->comboBoxFuelTank_7->convert( masses.fuel_tank_7.max ) );
+    _ui->spinBoxFuelTank_8->setMaximum( _ui->comboBoxFuelTank_8->convert( masses.fuel_tank_8.max ) );
 
     _ui->spinBoxCabin->setMaximum( _ui->comboBoxCabin->convert( masses.cabin.max ) );
     _ui->spinBoxTrunk->setMaximum( _ui->comboBoxTrunk->convert( masses.trunk.max ) );
@@ -129,6 +149,10 @@ void DialogMass::setAircraftType( int type )
     _ui->labelFuelTank_2->setVisible( masses.fuel_tank_2.enabled );
     _ui->labelFuelTank_3->setVisible( masses.fuel_tank_3.enabled );
     _ui->labelFuelTank_4->setVisible( masses.fuel_tank_4.enabled );
+    _ui->labelFuelTank_5->setVisible( masses.fuel_tank_5.enabled );
+    _ui->labelFuelTank_6->setVisible( masses.fuel_tank_6.enabled );
+    _ui->labelFuelTank_7->setVisible( masses.fuel_tank_7.enabled );
+    _ui->labelFuelTank_8->setVisible( masses.fuel_tank_8.enabled );
 
     _ui->labelCabin->setVisible( masses.cabin.enabled );
     _ui->labelTrunk->setVisible( masses.trunk.enabled );
@@ -140,6 +164,10 @@ void DialogMass::setAircraftType( int type )
     _ui->labelFuelTank_2->setText( masses.fuel_tank_2.name + ":" );
     _ui->labelFuelTank_3->setText( masses.fuel_tank_3.name + ":" );
     _ui->labelFuelTank_4->setText( masses.fuel_tank_4.name + ":" );
+    _ui->labelFuelTank_5->setText( masses.fuel_tank_5.name + ":" );
+    _ui->labelFuelTank_6->setText( masses.fuel_tank_6.name + ":" );
+    _ui->labelFuelTank_7->setText( masses.fuel_tank_7.name + ":" );
+    _ui->labelFuelTank_8->setText( masses.fuel_tank_8.name + ":" );
 
     _ui->labelCabin->setText( masses.cabin.name + ":" );
     _ui->labelTrunk->setText( masses.trunk.name + ":" );
@@ -151,6 +179,10 @@ void DialogMass::setAircraftType( int type )
     _ui->spinBoxFuelTank_2->setVisible( masses.fuel_tank_2.enabled );
     _ui->spinBoxFuelTank_3->setVisible( masses.fuel_tank_3.enabled );
     _ui->spinBoxFuelTank_4->setVisible( masses.fuel_tank_4.enabled );
+    _ui->spinBoxFuelTank_5->setVisible( masses.fuel_tank_5.enabled );
+    _ui->spinBoxFuelTank_6->setVisible( masses.fuel_tank_6.enabled );
+    _ui->spinBoxFuelTank_7->setVisible( masses.fuel_tank_7.enabled );
+    _ui->spinBoxFuelTank_8->setVisible( masses.fuel_tank_8.enabled );
 
     _ui->spinBoxCabin->setVisible( masses.cabin.enabled );
     _ui->spinBoxTrunk->setVisible( masses.trunk.enabled );
@@ -162,6 +194,10 @@ void DialogMass::setAircraftType( int type )
     _ui->comboBoxFuelTank_2->setVisible( masses.fuel_tank_2.enabled );
     _ui->comboBoxFuelTank_3->setVisible( masses.fuel_tank_3.enabled );
     _ui->comboBoxFuelTank_4->setVisible( masses.fuel_tank_4.enabled );
+    _ui->comboBoxFuelTank_5->setVisible( masses.fuel_tank_5.enabled );
+    _ui->comboBoxFuelTank_6->setVisible( masses.fuel_tank_6.enabled );
+    _ui->comboBoxFuelTank_7->setVisible( masses.fuel_tank_7.enabled );
+    _ui->comboBoxFuelTank_8->setVisible( masses.fuel_tank_8.enabled );
 
     _ui->comboBoxCabin->setVisible( masses.cabin.enabled );
     _ui->comboBoxTrunk->setVisible( masses.trunk.enabled );
@@ -200,6 +236,10 @@ void DialogMass::settingsRead_MassData( QSettings &settings )
     _fuel_tank_2 = settings.value( "fuel_tank_2", 0.0 ).toDouble();
     _fuel_tank_3 = settings.value( "fuel_tank_3", 0.0 ).toDouble();
     _fuel_tank_4 = settings.value( "fuel_tank_4", 0.0 ).toDouble();
+    _fuel_tank_5 = settings.value( "fuel_tank_5", 0.0 ).toDouble();
+    _fuel_tank_6 = settings.value( "fuel_tank_6", 0.0 ).toDouble();
+    _fuel_tank_7 = settings.value( "fuel_tank_7", 0.0 ).toDouble();
+    _fuel_tank_8 = settings.value( "fuel_tank_8", 0.0 ).toDouble();
 
     _cabin = settings.value( "cabin", 0.0 ).toDouble();
     _trunk = settings.value( "trunk", 0.0 ).toDouble();
@@ -220,6 +260,10 @@ void DialogMass::settingsRead_UnitCombos( QSettings &settings )
     _ui->comboBoxFuelTank_2->setCurrentIndex( settings.value( "fuel_tank_2", 0 ).toInt() );
     _ui->comboBoxFuelTank_3->setCurrentIndex( settings.value( "fuel_tank_3", 0 ).toInt() );
     _ui->comboBoxFuelTank_4->setCurrentIndex( settings.value( "fuel_tank_4", 0 ).toInt() );
+    _ui->comboBoxFuelTank_5->setCurrentIndex( settings.value( "fuel_tank_5", 0 ).toInt() );
+    _ui->comboBoxFuelTank_6->setCurrentIndex( settings.value( "fuel_tank_6", 0 ).toInt() );
+    _ui->comboBoxFuelTank_7->setCurrentIndex( settings.value( "fuel_tank_7", 0 ).toInt() );
+    _ui->comboBoxFuelTank_8->setCurrentIndex( settings.value( "fuel_tank_8", 0 ).toInt() );
 
     _ui->comboBoxCabin->setCurrentIndex( settings.value( "cabin", 0 ).toInt() );
     _ui->comboBoxTrunk->setCurrentIndex( settings.value( "trunk", 0 ).toInt() );
@@ -258,6 +302,10 @@ void DialogMass::settingsSave_MassData( QSettings &settings )
     settings.setValue( "fuel_tank_2", _fuel_tank_2 );
     settings.setValue( "fuel_tank_3", _fuel_tank_3 );
     settings.setValue( "fuel_tank_4", _fuel_tank_4 );
+    settings.setValue( "fuel_tank_5", _fuel_tank_5 );
+    settings.setValue( "fuel_tank_6", _fuel_tank_6 );
+    settings.setValue( "fuel_tank_7", _fuel_tank_7 );
+    settings.setValue( "fuel_tank_8", _fuel_tank_8 );
 
     settings.setValue( "cabin", _cabin );
     settings.setValue( "trunk", _trunk );
@@ -278,6 +326,10 @@ void DialogMass::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "fuel_tank_2", _ui->comboBoxFuelTank_2->currentIndex() );
     settings.setValue( "fuel_tank_3", _ui->comboBoxFuelTank_3->currentIndex() );
     settings.setValue( "fuel_tank_4", _ui->comboBoxFuelTank_4->currentIndex() );
+    settings.setValue( "fuel_tank_5", _ui->comboBoxFuelTank_5->currentIndex() );
+    settings.setValue( "fuel_tank_6", _ui->comboBoxFuelTank_6->currentIndex() );
+    settings.setValue( "fuel_tank_7", _ui->comboBoxFuelTank_7->currentIndex() );
+    settings.setValue( "fuel_tank_8", _ui->comboBoxFuelTank_8->currentIndex() );
 
     settings.setValue( "cabin", _ui->comboBoxCabin->currentIndex() );
     settings.setValue( "trunk", _ui->comboBoxTrunk->currentIndex() );
@@ -349,6 +401,50 @@ void DialogMass::on_comboBoxFuelTank_4_currentIndexChanged( int )
     Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.fuel_tank_4;
     _ui->spinBoxFuelTank_4->setMaximum( _ui->comboBoxFuelTank_4->convert( mass.max ) );
     _ui->spinBoxFuelTank_4->setValue( _ui->comboBoxFuelTank_4->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_comboBoxFuelTank_5_currentIndexChanged( int )
+{
+    double mass_kg = _ui->comboBoxFuelTank_5->invertPrev( _ui->spinBoxFuelTank_5->value() );
+
+    Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.fuel_tank_5;
+    _ui->spinBoxFuelTank_5->setMaximum( _ui->comboBoxFuelTank_5->convert( mass.max ) );
+    _ui->spinBoxFuelTank_5->setValue( _ui->comboBoxFuelTank_5->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_comboBoxFuelTank_6_currentIndexChanged( int )
+{
+    double mass_kg = _ui->comboBoxFuelTank_6->invertPrev( _ui->spinBoxFuelTank_6->value() );
+
+    Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.fuel_tank_6;
+    _ui->spinBoxFuelTank_6->setMaximum( _ui->comboBoxFuelTank_6->convert( mass.max ) );
+    _ui->spinBoxFuelTank_6->setValue( _ui->comboBoxFuelTank_6->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_comboBoxFuelTank_7_currentIndexChanged( int )
+{
+    double mass_kg = _ui->comboBoxFuelTank_7->invertPrev( _ui->spinBoxFuelTank_7->value() );
+
+    Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.fuel_tank_7;
+    _ui->spinBoxFuelTank_7->setMaximum( _ui->comboBoxFuelTank_7->convert( mass.max ) );
+    _ui->spinBoxFuelTank_7->setValue( _ui->comboBoxFuelTank_7->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_comboBoxFuelTank_8_currentIndexChanged( int )
+{
+    double mass_kg = _ui->comboBoxFuelTank_8->invertPrev( _ui->spinBoxFuelTank_8->value() );
+
+    Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.fuel_tank_8;
+    _ui->spinBoxFuelTank_8->setMaximum( _ui->comboBoxFuelTank_8->convert( mass.max ) );
+    _ui->spinBoxFuelTank_8->setValue( _ui->comboBoxFuelTank_8->convert( mass_kg ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

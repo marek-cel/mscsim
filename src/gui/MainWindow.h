@@ -34,6 +34,8 @@
 
 #include <Autopilot.h>
 
+#include <gui/Aircrafts.h>
+
 #include <gui/DialogConf.h>
 #include <gui/DialogEnvr.h>
 #include <gui/DialogInit.h>
@@ -80,6 +82,12 @@ public:
 
     /** */
     void init();
+
+    /**
+     * @brief Returns current aircraft data
+     * @return current aircraft data
+     */
+    Aircrafts::Aircraft getCurrentAircraft() const;
 
     inline bool getABS() const { return _dockCtrl->getABS(); }
     inline bool getNWS() const { return _dockCtrl->getNWS(); }

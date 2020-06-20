@@ -135,6 +135,7 @@ void Aircrafts::parseAircraft(const QDomElement &node )
                 aircraft.vne = ( *converter )( aircraft.vne );
         }
 
+        parseAircraftAxes( node, aircraft.axes );
         parseAircraftControls( node, aircraft.controls );
         parseAircraftPropulsion( node, aircraft.propulsion );
         parseAircraftMasses( node, aircraft.masses );
@@ -156,6 +157,45 @@ void Aircrafts::parseAircraft(const QDomElement &node )
         }
 
         _aircrafts.push_back( aircraft );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircrafts::parseAircraftAxes( const QDomElement &node, Axes &axes )
+{
+    axes.roll.curvature  = 0.0;
+    axes.roll.deadzone   = 0.0;
+    axes.pitch.curvature = 0.0;
+    axes.pitch.deadzone  = 0.0;
+    axes.yaw.curvature   = 0.0;
+    axes.yaw.deadzone    = 0.0;
+
+    QDomElement nodeAxes = node.firstChildElement( "axes" );
+
+    if ( !nodeAxes.isNull() )
+    {
+        QDomElement nodeRoll  = nodeAxes.firstChildElement( "roll"  );
+        QDomElement nodePitch = nodeAxes.firstChildElement( "pitch" );
+        QDomElement nodeYaw   = nodeAxes.firstChildElement( "yaw"   );
+
+        parseAircraftAxis( nodeRoll  , axes.roll  );
+        parseAircraftAxis( nodePitch , axes.pitch );
+        parseAircraftAxis( nodeYaw   , axes.yaw   );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircrafts::parseAircraftAxis( const QDomElement &node, Axis &axis )
+{
+    if ( !node.isNull() )
+    {
+        QDomElement nodeCurvature = node.firstChildElement( "curvature" );
+        QDomElement nodeDeadzone  = node.firstChildElement( "deadzone"  );
+
+        if ( !nodeCurvature .isNull() ) axis.curvature = nodeCurvature .text().toDouble();
+        if ( !nodeDeadzone  .isNull() ) axis.deadzone  = nodeDeadzone  .text().toDouble();
     }
 }
 
@@ -291,6 +331,10 @@ void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
         QDomElement nodeFuel2 = nodeMasses.firstChildElement( "fuel_tank_2" );
         QDomElement nodeFuel3 = nodeMasses.firstChildElement( "fuel_tank_3" );
         QDomElement nodeFuel4 = nodeMasses.firstChildElement( "fuel_tank_4" );
+        QDomElement nodeFuel5 = nodeMasses.firstChildElement( "fuel_tank_5" );
+        QDomElement nodeFuel6 = nodeMasses.firstChildElement( "fuel_tank_6" );
+        QDomElement nodeFuel7 = nodeMasses.firstChildElement( "fuel_tank_7" );
+        QDomElement nodeFuel8 = nodeMasses.firstChildElement( "fuel_tank_8" );
 
         QDomElement nodeCabin = nodeMasses.firstChildElement( "cabin" );
         QDomElement nodeTrunk = nodeMasses.firstChildElement( "cargo_trunk" );
@@ -302,6 +346,10 @@ void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
         parseAircraftMass( nodeFuel2 , masses.fuel_tank_2 );
         parseAircraftMass( nodeFuel3 , masses.fuel_tank_3 );
         parseAircraftMass( nodeFuel4 , masses.fuel_tank_4 );
+        parseAircraftMass( nodeFuel5 , masses.fuel_tank_5 );
+        parseAircraftMass( nodeFuel6 , masses.fuel_tank_6 );
+        parseAircraftMass( nodeFuel7 , masses.fuel_tank_7 );
+        parseAircraftMass( nodeFuel8 , masses.fuel_tank_8 );
 
         parseAircraftMass( nodeCabin, masses.cabin );
         parseAircraftMass( nodeTrunk, masses.trunk );
