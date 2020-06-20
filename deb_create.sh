@@ -7,7 +7,7 @@ APP_VER=0.3
 
 ################################################################################
 
-APP_DIR=${APP_NAME}_${APP_VER}_bionic_amd64
+APP_DIR=${APP_NAME}_${APP_VER}_focal_amd64
 
 sudo rm -R $APP_DIR
 sudo rm $APP_DIR.deb
@@ -37,7 +37,7 @@ dpkg -b $APP_DIR/
 
 ################################################################################
 
-DATA_DIR=${APP_NAME}-data_${APP_VER}_bionic_all
+DATA_DIR=${APP_NAME}-data_${APP_VER}_all
 
 sudo rm -R $DATA_DIR
 sudo rm $DATA_DIR.deb
