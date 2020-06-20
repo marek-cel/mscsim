@@ -17,7 +17,7 @@
     <Chain>
 
       <PackageGroupRef Id="OpenAL"/>
-    <MsiPackage SourceFile="mscsim-0.3-win32.msi" />
+      <MsiPackage SourceFile="mscsim-0.3-win64.msi" />
 
     </Chain>
   

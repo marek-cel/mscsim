@@ -8,34 +8,41 @@
     Language="1033"
     Version="0.3"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{33d53f6e-a4a1-43ce-9986-5d600627218c}">
+    UpgradeCode="{a3fab96b-7ed3-4cef-82fc-61a680f82e45}">
         
     <Package
       Description="MScSim Windows Installer Package"
       Manufacturer="Marek Cel (marekcel.pl)"
       InstallerVersion="300"
+      InstallPrivileges="elevated"
+      InstallScope="perMachine"
+      Platform="x64"
       Compressed="yes" />
 
     <Media Id="1" Cabinet="mscsim.cab" EmbedCab="yes" />
+    
+    <Property Id="AllUSERS" Value="1"/>
     
     <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
     
       <!-- Visual C++ 2019 Redistributable Merge Module -->
-      <Merge Id="VCRedist" SourceFile="Microsoft_VC160_CRT_x86.msm" DiskId="1" Language="0"/>
+      <!-- <Merge Id="VCRedist" SourceFile="Microsoft_VC160_CRT_x86.msm" DiskId="1" Language="0"/>-->
       
       <!-- installation dir -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="dir_mscsim" Name="MScSim">
+        
           <Directory Id="dir_mscsim_bin" Name="bin">
           
             <!-- sim.exe -->
-            <Component Id="dir_mscsim_mscsim" Guid="{fd4685ff-e47f-4d7f-8701-7af5b30842be}">
+            <Component Id="dir_mscsim_mscsim" Guid="{e3197461-1aef-4740-a27b-501ee14e66e9}">
               <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
             </Component>
           
           </Directory>
+            
         </Directory>
       </Directory>
             
@@ -66,7 +73,7 @@
 
     <!-- main program -->
     <Feature Id="mscsim_main" Title="MScSim" Level="1">
-    <ComponentGroupRef Id="cg_mscsim_alut" /> <!-- ALUT libs -->
+      <ComponentGroupRef Id="cg_mscsim_alut" /> <!-- ALUT libs -->
       <ComponentGroupRef Id="cg_mscsim_data" /> <!-- data -->
       <ComponentGroupRef Id="cg_mscsim_osg" />  <!-- OSG libs -->
       <ComponentGroupRef Id="cg_mscsim_qt" />   <!-- Qt libs -->
@@ -76,10 +83,10 @@
       <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
     </Feature>
     
-    <!-- Visual C++ 2008 Redistributable Merge Module -->
-    <Feature Id="VCRedist" Title="Visual C++ 8.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
+    <!-- Visual C++ 2019 Redistributable Merge Module -->
+    <!-- <Feature Id="VCRedist" Title="Visual C++ 16.0 Runtime" AllowAdvertise="no" Display="hidden" Level="1">
       <MergeRef Id="VCRedist"/>
-    </Feature>
+    </Feature>-->
 
     <Property Id="WIXUI_INSTALLDIR" Value="dir_mscsim" />
     <UIRef Id="WixUI_InstallDir" />
