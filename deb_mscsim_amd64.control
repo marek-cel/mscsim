@@ -3,6 +3,6 @@ Version: 0.3
 Architecture: amd64
 Maintainer: Marek M. Cel <marekcel@marekcel.pl>
 Depends: mscsim-data, libopenscenegraph100v5, libopenthreads20, libalut0, libopenal1, libqt4-opengl, libqt4-svg, libqt4-xml, libqtcore4, libqtgui4
-Installed-Size: 3104
+Installed-Size: 3154
 Homepage: http://marekcel.pl
 Description: Simple flight simulator focused on realistic flight dynamics and flight controls simulation.
