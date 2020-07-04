@@ -19,23 +19,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SCREENSAVER_H
-#define SCREENSAVER_H
+#ifndef GRAPHICSWINDOW_H
+#define GRAPHICSWINDOW_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** */
-class ScreenSaver
+#include <QGLWidget>
+
+#include <osgViewer/GraphicsWindow>
+
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * @brief The GraphicsWindow class
+ */
+class GraphicsWindow : public osgViewer::GraphicsWindow
 {
 public:
 
-    static void disable();
+    /**
+     * @brief The GLWidget class
+     */
+    class GLWidget : public QGLWidget
+    {
+        typedef QGLWidget inherited;
 
-    static void enable();
+    public:
 
-    static void reset();
+        GLWidget();
+
+        virtual ~GLWidget();
+    };
+
+    GraphicsWindow( osg::GraphicsContext::Traits *traits );
+
+    virtual ~GraphicsWindow();
+
+    inline       GLWidget* getGLWidget()       { return _widget; }
+    inline const GLWidget* getGLWidget() const { return _widget; }
+
+protected:
+
+    GLWidget *_widget;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SCREENSAVER_H
+#endif // GRAPHICSWINDOW_H

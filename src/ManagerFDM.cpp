@@ -74,6 +74,9 @@ Manager::Manager() :
 
     _timeSteps ( 0 ),
 
+    _stepsLT_def ( 0 ),
+    _stepsGT_def ( 0 ),
+
     _verbose ( true )
 {
     memset( &_dataInp, 0, sizeof(DataInp) );
@@ -520,6 +523,9 @@ void Manager::updateStateIdle()
 
     _timeSteps = 0;
 
+    _stepsLT_def = 0;
+    _stepsGT_def = 0;
+
     updateInitialPositionAndAttitude();
 
     Angles angles_wgs = _init_att_wgs.getAngles();
@@ -768,7 +774,7 @@ void Manager::updateStateWork()
                 }
             }
 
-            updateStatistics( compTime_0 );
+            updateTimeStepStats( compTime_0 );
         }
         catch ( Exception &e )
         {
@@ -806,7 +812,7 @@ void Manager::updateStateFreeze()
 
             _stateOut = DataOut::Frozen;
 
-            updateStatistics( compTime_0 );
+            updateTimeStepStats( compTime_0 );
         }
         catch ( Exception &e )
         {
@@ -851,7 +857,7 @@ void Manager::updateStateStop()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Manager::updateStatistics( double compTime_0 )
+void Manager::updateTimeStepStats( double compTime_0 )
 {
     _timeStepMin = Misc::min( _timeStepMin, _timeStepRaw );
     _timeStepMax = Misc::max( _timeStepMax, _timeStepRaw );
@@ -864,6 +870,9 @@ void Manager::updateStatistics( double compTime_0 )
 
     _timeStepSum  += _timeStepRaw;
     _timeStepSum2 += Misc::pow2( _timeStepRaw );
+
+    if ( _timeStepRaw < FDM_TIME_STEP ) _stepsLT_def++;
+    if ( _timeStepRaw > FDM_TIME_STEP ) _stepsGT_def++;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -873,28 +882,7 @@ void Manager::printFlightEndInfo()
     Log::i() << "Flight finished." << std::endl;
 
     printState();
-
-    double meanStep = _realTime / (double)_timeSteps;
-    double meanFreq = 1.0 / meanStep;
-    double meanComp = _compTimeSum / (double)_timeSteps;
-
-    double sdStep = Misc::stDev( _timeStepSum, _timeStepSum2, _timeSteps );
-    double sdComp = Misc::stDev( _compTimeSum, _compTimeSum2, _timeSteps );
-
-    Log::out().setf( std::ios_base::showpoint );
-    Log::out().setf( std::ios_base::fixed );
-
-    Log::out() << "        Mean frequency [Hz] : " << std::setprecision( 3 ) << meanFreq << std::endl;
-    Log::out() << "         Mean time step [s] : " << std::setprecision( 6 ) << meanStep << std::endl;
-    Log::out() << "           Time step SD [s] : " << std::setprecision( 6 ) << sdStep   << std::endl;
-    Log::out() << " Mean computations time [s] : " << std::setprecision( 6 ) << meanComp << std::endl;
-    Log::out() << "   Computations time SD [s] : " << std::setprecision( 6 ) << sdComp   << std::endl;
-    Log::out() << "          Min time step [s] : " << std::setprecision( 6 ) << _timeStepMin << std::endl;
-    Log::out() << "          Max time step [s] : " << std::setprecision( 6 ) << _timeStepMax << std::endl;
-    Log::out() << "  Max computations time [s] : " << std::setprecision( 6 ) << _compTimeMax << std::endl;
-
-    Log::out().unsetf( std::ios_base::showpoint );
-    Log::out().unsetf( std::ios_base::fixed );
+    printTimeStepStats();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -937,4 +925,41 @@ void Manager::printState()
         Log::out() << "       r_cm_z [m] : " << _aircraft->getMass()->getCenterOfMass().z() << std::endl;
         Log::out() << std::endl;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::printTimeStepStats()
+{
+    double meanStep = _realTime / (double)_timeSteps;
+    double meanFreq = 1.0 / meanStep;
+    double meanComp = _compTimeSum / (double)_timeSteps;
+
+    double sdStep = Misc::stDev( _timeStepSum, _timeStepSum2, _timeSteps );
+    double sdComp = Misc::stDev( _compTimeSum, _compTimeSum2, _timeSteps );
+
+    Log::out().setf( std::ios_base::showpoint );
+    Log::out().setf( std::ios_base::fixed );
+
+    Log::out() << "  Total simulation time [s] : " << std::setprecision( 3 ) << _realTime << std::endl;
+    Log::out() << "        Mean frequency [Hz] : " << std::setprecision( 3 ) << meanFreq  << std::endl;
+    Log::out() << "         Mean time step [s] : " << std::setprecision( 6 ) << meanStep  << std::endl;
+    Log::out() << "           Time step SD [s] : " << std::setprecision( 6 ) << sdStep    << std::endl;
+    Log::out() << " Mean computations time [s] : " << std::setprecision( 6 ) << meanComp  << std::endl;
+    Log::out() << "   Computations time SD [s] : " << std::setprecision( 6 ) << sdComp    << std::endl;
+    Log::out() << "          Min time step [s] : " << std::setprecision( 6 ) << _timeStepMin << std::endl;
+    Log::out() << "          Max time step [s] : " << std::setprecision( 6 ) << _timeStepMax << std::endl;
+    Log::out() << "  Max computations time [s] : " << std::setprecision( 6 ) << _compTimeMax << std::endl;
+    Log::out() << "   mean_ts + 3*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 3.0 * sdStep ) << " (96.65% is less than this value)"       << std::endl;
+    Log::out() << "   mean_ct + 3*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 3.0 * sdComp ) << " (96.65% is less than this value)"       << std::endl;
+    Log::out() << "   mean_ts + 6*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 6.0 * sdStep ) << " (99.99983% is less than this value)"   << std::endl;
+    Log::out() << "   mean_ct + 6*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 6.0 * sdComp ) << " (99.99983% is less than this value)"   << std::endl;
+    Log::out() << "   mean_ts + 7*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 7.0 * sdStep ) << " (99.99999905% is less than this value)" << std::endl;
+    Log::out() << "   mean_ct + 7*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 7.0 * sdComp ) << " (99.99999905% is less than this value)" << std::endl;
+    Log::out() << "            Number of steps : " << _timeSteps << std::endl;
+    Log::out() << "     Steps less than " << std::setprecision( 3 ) << FDM_TIME_STEP << "s : " << _stepsLT_def << std::endl;
+    Log::out() << "  Steps greater than " << std::setprecision( 3 ) << FDM_TIME_STEP << "s : " << _stepsGT_def << std::endl;
+
+    Log::out().unsetf( std::ios_base::showpoint );
+    Log::out().unsetf( std::ios_base::fixed );
 }

@@ -19,23 +19,5 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SCREENSAVER_H
-#define SCREENSAVER_H
 
-////////////////////////////////////////////////////////////////////////////////
-
-/** */
-class ScreenSaver
-{
-public:
-
-    static void disable();
-
-    static void enable();
-
-    static void reset();
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // SCREENSAVER_H
+#include <gui/GraphicsWindow.h>

@@ -82,8 +82,8 @@ int main( int argc, char *argv[] )
 
     int result = app->exec();
 
-    delete mgr; mgr = 0;
-    delete app; app = 0;
+    delete mgr; mgr = NULLPTR;
+    delete app; app = NULLPTR;
 
 #   ifndef SIM_CONSOLE_OUTPUT
     std::cerr.rdbuf( strbuf );

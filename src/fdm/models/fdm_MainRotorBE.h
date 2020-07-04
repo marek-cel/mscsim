@@ -26,7 +26,7 @@
 
 #include <fdm/models/fdm_MainRotor.h>
 
-#include <fdm/models/fdm_Blade.h>
+#include <fdm/models/fdm_RotorBlade.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -66,7 +66,7 @@ class FDMEXPORT MainRotorBE : public MainRotor
 {
 public:
 
-    typedef std::vector< Blade* > Blades;
+    typedef std::vector< RotorBlade* > Blades;
 
     static const double _timeStepMax;       ///< [s] maximum integration time step
 
@@ -136,7 +136,7 @@ public:
      */
     inline double getInertia() const { return _i_tot; }
 
-    inline const Blade* getBlade( int index ) const { return _blades[ index ]; }
+    inline const RotorBlade* getBlade( int index ) const { return _blades[ index ]; }
 
 protected:
 

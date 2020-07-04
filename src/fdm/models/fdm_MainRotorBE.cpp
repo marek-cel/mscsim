@@ -101,7 +101,7 @@ void MainRotorBE::readData( XmlNode &dataNode )
 
         for ( int i = 0; i < _blades_no; i++ )
         {
-            Blade *blade = new Blade( _direction );
+            RotorBlade *blade = new RotorBlade( _direction );
             blade->readData( nodeBlade );
 
             _i_tot += blade->getInertia();

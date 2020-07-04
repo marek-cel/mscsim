@@ -49,8 +49,8 @@ public:
     struct DegMinSec
     {
         int    deg;     ///< degree part
-        int    min;     ///< minute part
-        double sec;     ///< second part
+        int    min;     ///< minute part (always greater than or equal to 0)
+        double sec;     ///< second part (always greater than or equal to 0)
     };
 
     /**

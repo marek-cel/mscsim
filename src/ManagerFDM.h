@@ -102,6 +102,8 @@ private:
     double _timeStepSum2;           ///< [s] sum of simulation raw time step squared
 
     unsigned int _timeSteps;        ///< number of time steps
+    unsigned int _stepsLT_def;      ///< number of steps less than default time step
+    unsigned int _stepsGT_def;      ///< number of steps greater than default time step
 
     bool _verbose;                  ///< specifies if extra information should be printed
 
@@ -144,10 +146,11 @@ private:
     void updateStatePause();
     void updateStateStop();
 
-    void updateStatistics( double compTime_0 );
+    void updateTimeStepStats( double compTime_0 );
 
     void printFlightEndInfo();
     void printState();
+    void printTimeStepStats();
 };
 
 } // end of fdm namespace

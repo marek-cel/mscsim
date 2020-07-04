@@ -22,9 +22,14 @@
 
 #include <gui/ScreenSaver.h>
 
+#ifdef _MSC_VER
+#   include <windows.h>
+#endif
+
 #ifdef _LINUX_
-//#   include <QX11Info>
-//#   include <X11/extensions/scrnsaver.h>
+#   include <QX11Info>
+#   include <X11/extensions/scrnsaver.h>
+#   include <X11/Xlib.h>
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,13 +37,11 @@
 void ScreenSaver::disable()
 {
 #   ifdef _MSC_VER
-//    SystemParametersInfo(SPI_SETSCREENSAVEACTIVE,FALSE,NULL,TRUE);
+    SetThreadExecutionState( ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED );
 #   endif
 
 #   ifdef _LINUX_
-//    ScreenSaverSuspend( QX11Info::display(), True );
-//    system( "xset s off" );
-//    system( "xset -dpms" );
+    XScreenSaverSuspend( QX11Info::display(), True );
 #   endif
 }
 
@@ -46,7 +49,20 @@ void ScreenSaver::disable()
 
 void ScreenSaver::enable()
 {
+#   ifdef _MSC_VER
+    SetThreadExecutionState( ES_CONTINUOUS );
+#   endif
+
 #   ifdef _LINUX_
-//    XScreenSaverSuspend( QX11Info::display(), False );
+    XScreenSaverSuspend( QX11Info::display(), False );
+#   endif
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void ScreenSaver::reset()
+{
+#   ifdef _LINUX_
+    XResetScreenSaver( QX11Info::display() );
 #   endif
 }

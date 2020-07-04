@@ -350,6 +350,8 @@ void MainRotorAD::computeForceAndMoment( const Vector3 &vel_bas,
     _thrust = _thrust_factor * airDensity * _ad * _r2 * omega2 * _ct;
     _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * _cq;
 
+    // TODO H-Force
+
     _for_bas = _das2bas * Vector3( 0.0, 0.0, -_thrust );
     _mom_bas = ( _r_hub_bas % _for_bas )
              + _ras2bas * Vector3( 0.0, 0.0, _direction == CW ? -_torque : _torque );

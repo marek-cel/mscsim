@@ -318,6 +318,11 @@ void MainWindow::timerEvent( QTimerEvent *event )
         }
     }
 
+    if ( _stateOut == fdm::DataOut::Working || _stateOut == fdm::DataOut::Frozen )
+    {
+        ScreenSaver::reset();
+    }
+
     updateDateTime();
 
     updateDockMain();
