@@ -56,7 +56,7 @@ void WidgetOSG::paintEvent( QPaintEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetOSG::createGraphicsWindow( int x, int y, int w, int h )
+osg::ref_ptr<GraphicsWinQt> WidgetOSG::createGraphicsWindow( int x, int y, int w, int h )
 {
     osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
@@ -74,7 +74,7 @@ osg::ref_ptr<osgQt::GraphicsWindowQt> WidgetOSG::createGraphicsWindow( int x, in
     traits->samples          = 4;
     traits->vsync            = true;
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> graphicsWindow = new osgQt::GraphicsWindowQt( traits.get() );
+    osg::ref_ptr<GraphicsWinQt> graphicsWindow = new GraphicsWinQt( traits.get() );
 
     return graphicsWindow;
 }

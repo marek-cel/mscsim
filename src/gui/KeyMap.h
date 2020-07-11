@@ -19,50 +19,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef GRAPHICSWINDOW_H
-#define GRAPHICSWINDOW_H
+#ifndef KEYMAP_H
+#define KEYMAP_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <QGLWidget>
+#include <hid/hid_Assignment.h>
 
-#include <osgViewer/GraphicsWindow>
+#include <osgGA/GUIEventAdapter>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief The GraphicsWindow class
- */
-class GraphicsWindow : public osgViewer::GraphicsWindow
+/** */
+class KeyMap
 {
 public:
 
-    /**
-     * @brief The GLWidget class
-     */
-    class GLWidget : public QGLWidget
-    {
-        typedef QGLWidget inherited;
+    static hid::Assignment::Key remapHID( int key_qt );
 
-    public:
-
-        GLWidget();
-
-        virtual ~GLWidget();
-    };
-
-    GraphicsWindow( osg::GraphicsContext::Traits *traits );
-
-    virtual ~GraphicsWindow();
-
-    inline       GLWidget* getGLWidget()       { return _widget; }
-    inline const GLWidget* getGLWidget() const { return _widget; }
-
-protected:
-
-    GLWidget *_widget;
+    static osgGA::GUIEventAdapter::KeySymbol remapOSG( int key_qt );
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // GRAPHICSWINDOW_H
+#endif // KEYMAP_H

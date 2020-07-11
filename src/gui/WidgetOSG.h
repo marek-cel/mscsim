@@ -30,9 +30,10 @@
 
 #include <osgViewer/Viewer>
 #include <osgGA/GUIEventHandler>
-#include <osgQt/GraphicsWindowQt>
 
 #include <Defines.h>
+
+#include <gui/GraphicsWinQt.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -53,13 +54,13 @@ public:
 
 protected:
 
-    osg::ref_ptr<osgQt::GraphicsWindowQt> _gwin;
+    osg::ref_ptr<GraphicsWinQt> _gwin;
 
     /** */
     virtual void paintEvent( QPaintEvent *event );
 
     /** */
-    virtual osg::ref_ptr<osgQt::GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );
+    virtual osg::ref_ptr<GraphicsWinQt> createGraphicsWindow( int x, int y, int w, int h );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -186,9 +186,9 @@ struct Assignment
         KeyF12                      ///< 68: F12
     };
 
-#       if ( HID_MAX_KEYS != 69 )
-#           error 'HID_MAX_KEYS' has been changed! Check code following this line!
-#       endif
+#   if ( HID_MAX_KEYS != 69 )
+#       error 'HID_MAX_KEYS' has been changed! Check code following this line!
+#   endif
 
     /** */
     enum POVs

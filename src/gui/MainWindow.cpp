@@ -37,7 +37,7 @@
 #include <hid/hid_Manager.h>
 #include <gui/gui_Defines.h>
 
-#include <gui/Keys.h>
+#include <gui/KeyMap.h>
 #include <gui/ScreenSaver.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ void MainWindow::keyPressEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        _ui->widgetOTW->keyDn( Keys::getKey( event->key() ) );
+        _ui->widgetOTW->keyDn( KeyMap::remapHID( event->key() ) );
     }
 }
 
@@ -271,7 +271,7 @@ void MainWindow::keyReleaseEvent( QKeyEvent *event )
 
     if ( !event->isAutoRepeat() )
     {
-        _ui->widgetOTW->keyUp( Keys::getKey( event->key() ) );
+        _ui->widgetOTW->keyUp( KeyMap::remapHID( event->key() ) );
     }
 }
 
