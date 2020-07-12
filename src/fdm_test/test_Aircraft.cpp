@@ -37,7 +37,7 @@ TEST_Aircraft::TEST_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_mass = _mass = new TEST_Mass( this );
     Aircraft::_prop = _prop = new TEST_Propulsion( this );
 
-    readFile( Path::get( "data/fdm/test/test_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/test/test_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

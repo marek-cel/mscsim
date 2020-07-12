@@ -36,7 +36,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Node* Models::get( const std::string &objectFile, bool straight )
+osg::Node* Models::get( const char *objectFile, bool straight )
 {
     for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {

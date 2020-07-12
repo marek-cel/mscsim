@@ -50,7 +50,7 @@ public:
      * @param straight
      * @return
      */
-    static osg::Node* get( const std::string &objectFile, bool straight = false );
+    static osg::Node* get( const char *objectFile, bool straight = false );
 
     /** Reads object from file. */
     static osg::Node* readNodeFile( std::string objectFile );

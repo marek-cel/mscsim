@@ -222,7 +222,7 @@ void Mass::addVariableMass( const VarMass &varMass )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Mass::VarMass* Mass::getVariableMassByName( const std::string &name )
+Mass::VarMass* Mass::getVariableMassByName( const char *name )
 {
     Masses::iterator it = _masses.find( name );
 

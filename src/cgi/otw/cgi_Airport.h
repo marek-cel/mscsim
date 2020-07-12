@@ -43,7 +43,7 @@ class Airport : public Module
 public:
 
     /** Constructor. */
-    Airport( const std::string &file, double lat, double lon, double alt,
+    Airport( const char *file, double lat, double lon, double alt,
              const Module *parent = NULLPTR );
 
     /** Destructor. */

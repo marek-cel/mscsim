@@ -33,7 +33,7 @@ using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osgText::Font* Fonts::get( const std::string &fontFile )
+osgText::Font* Fonts::get( const char *fontFile )
 {
     for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {

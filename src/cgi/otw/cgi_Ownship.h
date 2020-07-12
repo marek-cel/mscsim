@@ -149,7 +149,7 @@ private:
 
     void updateAxis( double input, ElementData::AxisData *axisData );
 
-    void loadModel( const std::string &modelFile );
+    void loadModel( const char *modelFile );
 
     void readElementsData( const fdm::XmlNode &rootNode, ElementsData *elementsData );
     void readElementAxisData( const fdm::XmlNode &node, ElementData::AxisData *axisData );

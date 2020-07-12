@@ -71,13 +71,13 @@ void Recorder::addVariable( VariableBase *var )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Recorder::initialize( Mode mode, const std::string &file )
+void Recorder::initialize( Mode mode, const char *file )
 {
     _mode = mode;
 
     if ( _mode != DataInp::Recording::Disabled )
     {
-        _fstream.open( file.c_str(), getOpenMode( _mode ) );
+        _fstream.open( file, getOpenMode( _mode ) );
 
         if ( _fstream.is_open() )
         {
@@ -107,7 +107,7 @@ void Recorder::initialize( Mode mode, const std::string &file )
             Exception e;
 
             e.setType( Exception::FileReadingError );
-            e.setInfo( "Cannot open recording file file \"" + file + "\"." );
+            e.setInfo( "Cannot open recording file file \"" + std::string( file ) + "\"." );
 
             FDM_THROW( e );
         }

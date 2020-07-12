@@ -140,7 +140,7 @@ void Ownship::updateAxis( double input, ElementData::AxisData *axisData )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Ownship::loadModel( const std::string &modelFile )
+void Ownship::loadModel( const char *modelFile )
 {
     _switch->addChild( _vector->getNode() );
 
@@ -210,7 +210,7 @@ void Ownship::loadModel( const std::string &modelFile )
             ss << "LandingGear" << ( i + 1 );
 
             osg::ref_ptr<osg::PositionAttitudeTransform> gearElement =
-                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str() ) );
+                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str().c_str() ) );
 
             if ( gearElement.valid() )
             {
@@ -229,7 +229,7 @@ void Ownship::loadModel( const std::string &modelFile )
             ss << "Flap" << ( i + 1 );
 
             osg::ref_ptr<osg::PositionAttitudeTransform> flapElement =
-                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str() ) );
+                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str().c_str() ) );
 
             if ( flapElement.valid() )
             {
@@ -297,7 +297,7 @@ void Ownship::readElementsData( const fdm::XmlNode &rootNode, ElementsData *elem
         std::stringstream ss;
         ss << "element_" << ( i + 1 );
 
-        fdm::XmlNode landingGearNode = rootNode.getFirstChildElement( ss.str() );
+        fdm::XmlNode landingGearNode = rootNode.getFirstChildElement( ss.str().c_str() );
 
         if ( landingGearNode.isValid() )
         {
@@ -385,7 +385,7 @@ void Ownship::reload()
 
     _aircraftFile = Data::get()->ownship.aircraftFile;
 
-    fdm::XmlDoc doc( Path::get( _aircraftFile ) );
+    fdm::XmlDoc doc( Path::get( _aircraftFile ).c_str() );
 
     if ( doc.isOpen() )
     {
@@ -433,7 +433,7 @@ void Ownship::reload()
 
             if ( result == FDM_SUCCESS )
             {
-                loadModel( modelFile );
+                loadModel( modelFile.c_str() );
             }
         }
     }

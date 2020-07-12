@@ -107,8 +107,7 @@ void Icons::setScale( double scale )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Icons::createIcon( osg::Group *parent, float z,
-                        const std::string &textureFile )
+void Icons::createIcon( osg::Group *parent, float z, const char *textureFile )
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     parent->addChild( geode.get() );

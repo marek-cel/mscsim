@@ -69,7 +69,7 @@ Scenery::Scenery( const Module *parent ) :
 
     //createShadow();
 
-    fdm::XmlDoc doc( Path::get( "data/cgi/scenery/scenery.xml" ) );
+    fdm::XmlDoc doc( Path::get( "data/cgi/scenery/scenery.xml" ).c_str() );
 
     if ( doc.isOpen() )
     {
@@ -208,7 +208,7 @@ void Scenery::readAirports( const fdm::XmlNode &node )
                     double lon = osg::DegreesToRadians( fdm::String::toDouble( lonTextNode.getText() ) );
                     double alt = fdm::String::toDouble( altTextNode.getText() );
 
-                    addChild( new Airport( file, lat, lon, alt, this ) );
+                    addChild( new Airport( file.c_str(), lat, lon, alt, this ) );
                 }
             }
 
@@ -231,7 +231,7 @@ void Scenery::readTerrain( const fdm::XmlNode &node )
         {
             std::string file = terrainTextNode.getText();
 
-            addChild( new Terrain( file, this ) );
+            addChild( new Terrain( file.c_str(), this ) );
         }
     }
 }

@@ -43,7 +43,7 @@ class FDMEXPORT XmlDoc
 public:
 
     /** Constrcutor. */
-    XmlDoc( const std::string &fileName = std::string() );
+    XmlDoc( const char *fileName = "" );
 
     /** Destrcutor. */
     virtual ~XmlDoc();
@@ -67,7 +67,7 @@ public:
     }
 
     /** @return FDM_SUCCESS on success, FDM_FAILURE on failure. */
-    int readFile( const std::string &fileName );
+    int readFile( const char *fileName );
 
 private:
 

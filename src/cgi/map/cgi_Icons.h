@@ -73,8 +73,7 @@ private:
     osg::ref_ptr<osg::Node> _symbolNavaidVORDME;
     osg::ref_ptr<osg::Node> _symbolNavaidILSLOC;
 
-    void createIcon( osg::Group *parent, float z,
-                     const std::string &textureFile );
+    void createIcon( osg::Group *parent, float z, const char *textureFile );
 
     void createOwnship();
 

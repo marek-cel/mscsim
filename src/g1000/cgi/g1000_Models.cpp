@@ -33,7 +33,7 @@ using namespace g1000;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Node* Models::get( const std::string &objectFile )
+osg::Node* Models::get( const char *objectFile )
 {
     for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )
     {

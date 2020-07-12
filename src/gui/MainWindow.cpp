@@ -32,6 +32,8 @@
 #   include <QDir>
 #endif
 
+#include <cgi/cgi_Manager.h>
+
 #include <fdm/utils/fdm_Units.h>
 
 #include <hid/hid_Manager.h>
@@ -227,13 +229,21 @@ void MainWindow::setup( Autopilot *ap, g1000::IFD *ifd )
 
 void MainWindow::init()
 {
+    cgi::Manager::instance()->init();
+
     _dialogConf->readData();
     _dialogInit->readData();
     _dialogMass->readData();
 
     _dialogConf->updateAssignments();
 
+    _dockAuto->init();
+    _dockMain->init();
+    _dockMap->init();
+
     _widgetPFD->init();
+
+    _ui->widgetOTW->init();
 
     updateOutputData();
 

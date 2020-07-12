@@ -82,22 +82,22 @@ Manager::Manager() :
         Log::e() << "Cannot open audio device." << std::endl;
     }
 
-    _explosion = new Sample( Path::get( "data/sfx/explosion.wav" ) );
-    _touchdown = new Sample( Path::get( "data/sfx/touchdown.wav" ) );
+    _explosion = new Sample( Path::get( "data/sfx/explosion.wav" ).c_str() );
+    _touchdown = new Sample( Path::get( "data/sfx/touchdown.wav" ).c_str() );
 
-    _warning = new Sample( Path::get( "data/sfx/warning.wav" ), true );
+    _warning = new Sample( Path::get( "data/sfx/warning.wav" ).c_str(), true );
 
-    _run_noise = new Sample( Path::get( "data/sfx/run_noise.wav" ), true );
+    _run_noise = new Sample( Path::get( "data/sfx/run_noise.wav" ).c_str(), true );
 
-    _gear_lock = new Sample( Path::get( "data/sfx/gear_lock.wav" ) );
-    _gear_move = new Sample( Path::get( "data/sfx/gear_move.wav" ), true );
+    _gear_lock = new Sample( Path::get( "data/sfx/gear_lock.wav" ).c_str() );
+    _gear_move = new Sample( Path::get( "data/sfx/gear_move.wav" ).c_str(), true );
 
-    _prop_c130  = new Sample( Path::get( "data/sfx/prop_c130.wav"  ), true );
-    _prop_c172  = new Sample( Path::get( "data/sfx/prop_c172.wav"  ), true );
-    _prop_p51   = new Sample( Path::get( "data/sfx/prop_p51.wav"   ), true );
-    _prop_f16   = new Sample( Path::get( "data/sfx/prop_f16.wav"   ), true );
-    _prop_f16ab = new Sample( Path::get( "data/sfx/prop_f16ab.wav" ), true );
-    _prop_uh60  = new Sample( Path::get( "data/sfx/prop_uh60.wav"  ), true );
+    _prop_c130  = new Sample( Path::get( "data/sfx/prop_c130.wav"  ).c_str(), true );
+    _prop_c172  = new Sample( Path::get( "data/sfx/prop_c172.wav"  ).c_str(), true );
+    _prop_p51   = new Sample( Path::get( "data/sfx/prop_p51.wav"   ).c_str(), true );
+    _prop_f16   = new Sample( Path::get( "data/sfx/prop_f16.wav"   ).c_str(), true );
+    _prop_f16ab = new Sample( Path::get( "data/sfx/prop_f16ab.wav" ).c_str(), true );
+    _prop_uh60  = new Sample( Path::get( "data/sfx/prop_uh60.wav"  ).c_str(), true );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

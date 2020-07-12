@@ -57,6 +57,9 @@ public:
     virtual ~DockWidgetMain();
 
     /** */
+    void init();
+
+    /** */
     void setStateInp( fdm::DataInp::StateInp stateInp );
     void setStateOut( fdm::DataOut::StateOut stateOut );
 

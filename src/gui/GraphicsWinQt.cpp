@@ -118,7 +118,7 @@ GraphicsWinQt::GraphicsWinQt( osg::GraphicsContext::Traits *traits ) :
         getState()->setContextID( osg::GraphicsContext::createNewContextID() );
     }
 
-    getEventQueue()->syncWindowRectangleWithGraphcisContext();
+    //getEventQueue()->syncWindowRectangleWithGraphcisContext();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +130,7 @@ GraphicsWinQt::~GraphicsWinQt()
     if ( _widget )
     {
         _widget->_gwin = NULLPTR;
+        _widget = NULLPTR;
     }
 }
 
@@ -270,7 +271,7 @@ bool GraphicsWinQt::realizeImplementation()
 
     _realized = true;
 
-    getEventQueue()->syncWindowRectangleWithGraphcisContext();
+    //getEventQueue()->syncWindowRectangleWithGraphcisContext();
 
     if ( !releaseContext() )
     {

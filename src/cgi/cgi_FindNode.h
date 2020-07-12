@@ -44,16 +44,16 @@ public:
     typedef std::vector< osg::ref_ptr<osg::Node> > Nodes;
 
     /** */
-    static osg::Node* findFirst( osg::Node* node, const std::string &name );
+    static osg::Node* findFirst( osg::Node* node, const char *name );
 
     /** */
-    static Nodes findNodes( osg::Node* node, const std::string &name );
+    static Nodes findNodes( osg::Node* node, const char *name );
 
     /** Constructor. */
     FindNode();
 
     /** Constructor. */
-    FindNode( const std::string &name, bool findAll = false );
+    FindNode (const char *name, bool findAll = false );
 
     /** */
     virtual void apply( osg::Node &searchNode );

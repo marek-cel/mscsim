@@ -32,7 +32,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::Texture2D* Textures::get( const std::string &textureFile, float maxAnisotropy,
+osg::Texture2D* Textures::get( const char *textureFile, float maxAnisotropy,
                                osg::Texture::WrapMode mode )
 {
     for ( unsigned int i = 0; i < instance()->_fileNames.size(); i++ )

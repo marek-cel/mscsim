@@ -34,7 +34,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Airport::Airport( const std::string &file, double lat, double lon, double alt,
+Airport::Airport( const char *file, double lat, double lon, double alt,
                   const Module *parent ) :
     Module( parent )
 {

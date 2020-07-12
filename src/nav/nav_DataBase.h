@@ -143,7 +143,7 @@ public:
         return _instance;
     }
 
-    static double getTrueBearing( const std::string &str_bear, const std::string &str_magvar );
+    static double getTrueBearing( const char *str_bear, const char *str_magvar );
 
     /** Destructor. */
     virtual ~DataBase();

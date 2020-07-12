@@ -38,7 +38,7 @@ using namespace sfx;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Sample::Sample( const std::string &file, bool looping )
+Sample::Sample( const char *file, bool looping )
 {
     bool error = false;
 
@@ -199,7 +199,7 @@ bool Sample::checkForErrors()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Sample::loadFile( const std::string &file )
+bool Sample::loadFile( const char *file )
 {
     bool error = false;
 
@@ -214,8 +214,8 @@ bool Sample::loadFile( const std::string &file )
 
     const size_t size_max = 4096;
     ALbyte file_temp[ size_max ];
-    size_t size_str = ( file.size() < size_max ) ? ( file.size() + 1 ) : size_max;
-    memcpy( file_temp, file.c_str(), size_str );
+    size_t size_str = ( strlen( file ) < size_max ) ? ( strlen( file ) + 1 ) : size_max;
+    memcpy( file_temp, file, size_str );
 
     alutLoadWAVFile( file_temp, &format, &data, &size, &freq, &loop );
 

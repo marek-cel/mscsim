@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <osg/Node>
+#include <osg/Vec3d>
 
 #include <osgUtil/IntersectionVisitor>
 
@@ -46,7 +47,7 @@ public:
 
     struct ReadCallback : public osgUtil::IntersectionVisitor::ReadCallback
     {
-        virtual osg::Node* readNodeFile( const std::string &filename );
+        virtual osg::ref_ptr<osg::Node> readNodeFile( const std::string& filename );
     };
 
     /** Destructor. */

@@ -39,7 +39,7 @@ class Terrain : public Module
 public:
 
     /** Constructor. */
-    Terrain( const std::string &file, const Module *parent = NULLPTR );
+    Terrain( const char *file, const Module *parent = NULLPTR );
 
     /** Destructor. */
     virtual ~Terrain();

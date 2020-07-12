@@ -109,7 +109,7 @@ void Controls::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Controls::Channel* Controls::getChannelByName( const std::string &name )
+Controls::Channel* Controls::getChannelByName( const char *name )
 {
     Channels::iterator it = _channels.find( name );
 

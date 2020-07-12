@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>gui/images/icon.svg</file>
+        <file>gui/images/splashscreen.png</file>
         
         <file>gui/images/efis/eadi/eadi_back.svg</file>
         <file>gui/images/efis/eadi/eadi_mask.svg</file>

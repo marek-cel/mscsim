@@ -43,7 +43,7 @@ F16_Aircraft::F16_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_mass = _mass = new F16_Mass( this );
     Aircraft::_prop = _prop = new F16_Propulsion( this );
 
-    readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

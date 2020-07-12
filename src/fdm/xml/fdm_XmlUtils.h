@@ -158,7 +158,7 @@ public:
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      */
     template < class TYPE >
-    static int read( const XmlNode &parent, TYPE &data, const std::string name,
+    static int read( const XmlNode &parent, TYPE &data, const char *name,
                      bool optional = false )
     {
         // empty aircraft mass

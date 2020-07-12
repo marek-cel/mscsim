@@ -49,6 +49,9 @@ public:
     /** Destructor. */
     virtual ~WidgetOTW();
 
+    /** */
+    void init();
+
     inline void keyDn( hid::Assignment::Key key ) { _keyHandler->keyDn( key ); }
     inline void keyUp( hid::Assignment::Key key ) { _keyHandler->keyUp( key ); }
 

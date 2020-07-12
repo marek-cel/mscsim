@@ -1,6 +1,4 @@
-QT += core gui opengl svg xml
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui opengl svg widgets x11extras xml
 
 TEMPLATE = app
 
@@ -112,6 +110,8 @@ unix: LIBS += \
     -L/usr/lib \
     -lalut \
     -lopenal \
+    -lX11 \
+    -lXss \
     -lxml2 \
     -lOpenThreads \
     -losg \
@@ -123,8 +123,6 @@ unix: LIBS += \
     -losgUtil \
     -losgViewer \
     -losgWidget
-
-unix: LIBS += -lX11 -lXss
 
 ################################################################################
 

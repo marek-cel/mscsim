@@ -37,7 +37,7 @@ UH60_Aircraft::UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft::_mass = _mass = new UH60_Mass( this );
     Aircraft::_prop = _prop = new UH60_Propulsion( this );
 
-    readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ) );
+    readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

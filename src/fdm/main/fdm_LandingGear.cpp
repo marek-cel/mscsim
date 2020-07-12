@@ -208,7 +208,7 @@ void LandingGear::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LandingGear::Wheel* LandingGear::getWheelByName( const std::string &name )
+LandingGear::Wheel* LandingGear::getWheelByName( const char *name )
 {
     Wheels::iterator it = _wheels.find( name );
 

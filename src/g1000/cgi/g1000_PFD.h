@@ -53,7 +53,7 @@ public:
     static const double _z_bars;
 
     /** Constructor. */
-    PFD( IFD *ifd, const std::string &file );
+    PFD( IFD *ifd, const char *file );
 
     /** Destructor. */
     virtual ~PFD();

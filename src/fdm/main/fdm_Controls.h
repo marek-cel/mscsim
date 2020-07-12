@@ -94,7 +94,7 @@ protected:
      * @param name channel name
      * @return channel
      */
-    virtual Channel* getChannelByName( const std::string &name );
+    virtual Channel* getChannelByName( const char *name );
 
 private:
 

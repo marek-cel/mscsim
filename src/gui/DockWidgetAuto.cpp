@@ -46,8 +46,6 @@ DockWidgetAuto::DockWidgetAuto( QWidget *parent ) :
     _ui->setupUi( this );
 
     settingsRead();
-
-    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +57,13 @@ DockWidgetAuto::~DockWidgetAuto()
     settingsSave();
 
     DELPTR( _ui );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetAuto::init()
+{
+    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -114,6 +114,11 @@ find_library( ALUT_LIBRARY alut )
 
 ################################################################################
 
+find_library( X11_LIBRARY X11 )
+find_library( XSS_LIBRARY Xss )
+
+################################################################################
+
 add_subdirectory( cgi )
 add_subdirectory( fdm )
 add_subdirectory( fdm_c130 )
@@ -183,6 +188,8 @@ if( UNIX )
         ${LIBXML2_LIBRARIES}
         ${OPENAL_LIBRARY}
         ${ALUT_LIBRARY}
+        ${X11_LIBRARY}
+        ${XSS_LIBRARY}
     )
 endif()
 

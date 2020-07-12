@@ -380,7 +380,7 @@ protected:
      * Reads data.
      * @param dataFile XML data file path
      */
-    virtual void readFile( const std::string &dataFile );
+    virtual void readFile( const char *dataFile );
 
     /**
      * Reads data.

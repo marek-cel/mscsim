@@ -81,7 +81,7 @@ public:
     public:
 
         /** Constructor. */
-        Variable( const std::string &name, TYPE *ptr, UInt8 precision = 1 ) :
+        Variable( const char *name, TYPE *ptr, UInt8 precision = 1 ) :
             _name       ( name ),
             _ptr        ( ptr ),
             _precision  ( precision ),
@@ -153,7 +153,7 @@ public:
      * @param mode
      * @param file
      */
-    void initialize( Mode mode, const std::string &file );
+    void initialize( Mode mode, const char *file );
 
     /**
      * Performs recorder step.

@@ -379,10 +379,10 @@ osgGA::GUIEventAdapter::KeySymbol KeyMap::remapOSG( int key_qt )
     case Qt::Key_Equal:
         return osgGA::GUIEventAdapter::KEY_Equals;
 
-    case Qt::Key_BraceLeft:
+    case Qt::Key_BracketLeft:
         return osgGA::GUIEventAdapter::KEY_Leftbracket;
 
-    case Qt::Key_BraceRight:
+    case Qt::Key_BracketRight:
         return osgGA::GUIEventAdapter::KEY_Rightbracket;
 
     case Qt::Key_Semicolon:

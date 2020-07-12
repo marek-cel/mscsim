@@ -53,7 +53,7 @@ public:
     XmlNode( const XmlNode &node );
 
     /** Constructor. */
-    XmlNode( xmlNodePtr node, const std::string &file );
+    XmlNode( xmlNodePtr node, const char *file );
 
     /** Destrcutor. */
     virtual ~XmlNode() {}
@@ -62,7 +62,7 @@ public:
      * Returns the value of the attribute or an empty string if the attribute
      * has not been specified.
      */
-    std::string getAttribute( const std::string &name ) const;
+    std::string getAttribute( const char *name ) const;
 
     /**
      * Returns element attributes list or empty list if the node is not
@@ -79,7 +79,7 @@ public:
      * Returns first child element node of the given name.
      * @param name element name
      */
-    XmlNode getFirstChildElement( const std::string &name = std::string() ) const;
+    XmlNode getFirstChildElement( const char *name = "" ) const;
 
     /**
      * Returns file name.
@@ -129,7 +129,7 @@ public:
      * Returns next sibling element node of the given name.
      * @param name element name
      */
-    XmlNode getNextSiblingElement( const std::string &name = std::string() ) const;
+    XmlNode getNextSiblingElement( const char *name = "" ) const;
 
     /** */
     std::string getText() const;
@@ -137,7 +137,7 @@ public:
     /**
      * Returns true if node has an attribute of a given name.
      */
-    bool hasAttribute( const std::string &name ) const;
+    bool hasAttribute( const char *name ) const;
 
     /**
      * Returns true if node has attributes.

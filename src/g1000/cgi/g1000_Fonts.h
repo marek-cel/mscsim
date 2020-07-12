@@ -45,7 +45,7 @@ public:
     typedef std::vector< osg::ref_ptr<osgText::Font> > List;
 
     /** */
-    static osgText::Font* get( const std::string &fontFile );
+    static osgText::Font* get( const char *fontFile );
 
     /** Resets fonts list. */
     static void reset();

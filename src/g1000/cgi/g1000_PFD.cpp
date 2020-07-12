@@ -40,7 +40,7 @@ const double PFD::_z_bars = -50.0;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PFD::PFD( IFD *ifd, const std::string &file ) :
+PFD::PFD( IFD *ifd, const char *file ) :
     GDU ( ifd ),
 
     _adi  ( NULLPTR ),

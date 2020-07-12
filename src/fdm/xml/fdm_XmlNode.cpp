@@ -22,6 +22,8 @@
 
 #include <fdm/xml/fdm_XmlNode.h>
 
+#include <cstring>
+
 #include <fdm/utils/fdm_String.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,14 +45,14 @@ XmlNode::XmlNode( const XmlNode &node ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlNode::XmlNode( xmlNodePtr node, const std::string &file ) :
+XmlNode::XmlNode( xmlNodePtr node, const char *file ) :
     _file ( file ),
     _node ( node )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string XmlNode::getAttribute( const std::string &name ) const
+std::string XmlNode::getAttribute( const char *name ) const
 {
     if ( hasAttributes() )
     {
@@ -58,7 +60,7 @@ std::string XmlNode::getAttribute( const std::string &name ) const
 
         while ( attr != 0 )
         {
-            if ( 0 == xmlStrcmp( attr->name, (const xmlChar*)name.c_str() ) )
+            if ( 0 == xmlStrcmp( attr->name, (const xmlChar*)name ) )
             {
                 if ( attr->children != 0 )
                 {
@@ -135,7 +137,7 @@ XmlNode XmlNode::getFirstChild() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlNode XmlNode::getFirstChildElement( const std::string &name ) const
+XmlNode XmlNode::getFirstChildElement( const char *name ) const
 {
     XmlNode result;
 
@@ -147,8 +149,8 @@ XmlNode XmlNode::getFirstChildElement( const std::string &name ) const
         {
             if ( child->type == XML_ELEMENT_NODE )
             {
-                if ( 0 == xmlStrcmp( child->name, (const xmlChar*)name.c_str() )
-                  || name.length() == 0 )
+                if ( 0 == xmlStrcmp( child->name, (const xmlChar*)name )
+                  || strlen( name ) == 0 )
                 {
                     result._node = child;
                     result._file = _file;
@@ -199,7 +201,7 @@ XmlNode XmlNode::getNextSibling() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XmlNode XmlNode::getNextSiblingElement( const std::string &name ) const
+XmlNode XmlNode::getNextSiblingElement( const char *name ) const
 {
     XmlNode result;
 
@@ -211,8 +213,8 @@ XmlNode XmlNode::getNextSiblingElement( const std::string &name ) const
         {
             if ( next->type == XML_ELEMENT_NODE )
             {
-                if ( 0 == xmlStrcmp( next->name, (const xmlChar*)name.c_str() )
-                  || name.length() == 0 )
+                if ( 0 == xmlStrcmp( next->name, (const xmlChar*)name )
+                  || strlen( name ) == 0 )
                 {
                     result._node = next;
                     result._file = _file;
@@ -247,7 +249,7 @@ std::string XmlNode::getText() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool XmlNode::hasAttribute( const std::string &name ) const
+bool XmlNode::hasAttribute( const char *name ) const
 {
     if ( hasAttributes() )
     {
@@ -255,7 +257,7 @@ bool XmlNode::hasAttribute( const std::string &name ) const
 
         while ( attr != 0 )
         {
-            if ( 0 == xmlStrcmp( attr->name, (const xmlChar*)name.c_str() ) )
+            if ( 0 == xmlStrcmp( attr->name, (const xmlChar*)name ) )
             {
                 return true;
             }

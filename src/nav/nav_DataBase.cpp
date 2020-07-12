@@ -46,11 +46,11 @@ DataBase* DataBase::_instance = NULLPTR;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double DataBase::getTrueBearing( const std::string &str_bear, const std::string &str_magvar )
+double DataBase::getTrueBearing( const char *str_bear, const char *str_magvar )
 {
     double bear = fdm::Units::deg2rad( fdm::String::toDouble( str_bear ) );
 
-    bool true_bear = toupper( str_bear.c_str()[ str_bear.length() - 1 ] ) == 'T';
+    bool true_bear = toupper( str_bear[ strlen( str_bear ) - 1 ] ) == 'T';
 
     std::vector< std::string > temp = fdm::String::split( str_magvar, " " );
 
@@ -247,7 +247,7 @@ void DataBase::parseILS( const char *path )
 
                             ils.elev = fdm::Units::ft2m( fdm::String::toDouble( cols.at( 10 ) ) );
 
-                            ils.true_bearing = ils.type == ILS::LOC ? getTrueBearing( cols.at( 24 ), cols.at( 22 ) ) : 0.0;
+                            ils.true_bearing = ils.type == ILS::LOC ? getTrueBearing( cols.at( 24 ).c_str(), cols.at( 22 ).c_str() ) : 0.0;
                             ils.glide_slope  = ils.type == ILS::GS  ? fdm::Units::deg2rad( fdm::String::toDouble( cols.at( 7 ) ) ) : 0.0;
 
                             ils.freq = fdm::String::toDouble( cols.at( 5 ) );

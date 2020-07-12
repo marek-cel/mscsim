@@ -371,13 +371,21 @@ void Manager::initRecorder()
     {
         std::string num = "_" + String::toString( (int)i );
 
-        _recorder->addVariable( new Recorder::Variable< double >( "throttle"  + num, &( _dataInp.engine[ i ].throttle  ), 3 ) );
-        _recorder->addVariable( new Recorder::Variable< double >( "mixture"   + num, &( _dataInp.engine[ i ].mixture   ), 3 ) );
-        _recorder->addVariable( new Recorder::Variable< double >( "propeller" + num, &( _dataInp.engine[ i ].propeller ), 3 ) );
+        std::string throttle  = "throttle"   + num;
+        std::string mixture   = "mixture"    + num;
+        std::string propeller = "propeller"  + num;
 
-        _recorder->addVariable( new Recorder::Variable< bool >( "fuel"     + num, &( _dataInp.engine[ i ].fuel     ) ) );
-        _recorder->addVariable( new Recorder::Variable< bool >( "ignition" + num, &( _dataInp.engine[ i ].ignition ) ) );
-        _recorder->addVariable( new Recorder::Variable< bool >( "starter"  + num, &( _dataInp.engine[ i ].starter  ) ) );
+        std::string fuel     = "fuel"      + num;
+        std::string ignition = "ignition"  + num;
+        std::string starter  = "starter"   + num;
+
+        _recorder->addVariable( new Recorder::Variable< double >( throttle  .c_str(), &( _dataInp.engine[ i ].throttle  ), 3 ) );
+        _recorder->addVariable( new Recorder::Variable< double >( mixture   .c_str(), &( _dataInp.engine[ i ].mixture   ), 3 ) );
+        _recorder->addVariable( new Recorder::Variable< double >( propeller .c_str(), &( _dataInp.engine[ i ].propeller ), 3 ) );
+
+        _recorder->addVariable( new Recorder::Variable< bool >( fuel     .c_str(), &( _dataInp.engine[ i ].fuel     ) ) );
+        _recorder->addVariable( new Recorder::Variable< bool >( ignition .c_str(), &( _dataInp.engine[ i ].ignition ) ) );
+        _recorder->addVariable( new Recorder::Variable< bool >( starter  .c_str(), &( _dataInp.engine[ i ].starter  ) ) );
     }
 
     _recorder->initialize( _dataInp.recording.mode, _dataInp.recording.file );

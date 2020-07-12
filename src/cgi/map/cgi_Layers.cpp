@@ -129,12 +129,19 @@ Layers::Layers( const Module *parent ) :
     initLayer( _borders      .get() , Map::_colorBorders     );
 
     createOcean();
-    readLayers();
+    //readLayers();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Layers::~Layers() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::init()
+{
+    readLayers();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -267,7 +274,7 @@ void Layers::initLayer( osg::Node* layer, osg::Vec3 color, float width )
 
 void Layers::readLayers()
 {
-    fdm::XmlDoc doc( Path::get( "data/map/layers/layers.xml" ) );
+    fdm::XmlDoc doc( Path::get( "data/map/layers/layers.xml" ).c_str() );
 
     if ( doc.isOpen() )
     {
@@ -323,7 +330,7 @@ void Layers::readLayer( const fdm::XmlNode &node, osg::Group *parent )
         {
             std::string file = fileTextNode.getText();
 
-            osg::ref_ptr<osg::Node> layerNode = Models::get( file );
+            osg::ref_ptr<osg::Node> layerNode = Models::get( file.c_str(), true );
 
             if ( layerNode.valid() )
             {

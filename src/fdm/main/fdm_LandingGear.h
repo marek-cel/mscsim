@@ -168,7 +168,7 @@ protected:
      * @param name wheel name
      * @return channel
      */
-    virtual Wheel* getWheelByName( const std::string &name );
+    virtual Wheel* getWheelByName( const char *name );
 
     /**
      * Returns wheel ground reaction force.

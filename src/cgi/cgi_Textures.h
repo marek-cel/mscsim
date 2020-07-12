@@ -45,7 +45,7 @@ public:
     typedef std::vector< osg::ref_ptr<osg::Texture2D> > List;
 
     /** */
-    static osg::Texture2D* get( const std::string &textureFile, float maxAnisotropy = 1.0f,
+    static osg::Texture2D* get( const char *textureFile, float maxAnisotropy = 1.0f,
                                 osg::Texture::WrapMode mode = osg::Texture::MIRROR );
 
     /** Destructor. */

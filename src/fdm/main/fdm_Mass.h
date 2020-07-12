@@ -160,7 +160,7 @@ protected:
      * @param name variable mass name
      * @return channel
      */
-    virtual VarMass* getVariableMassByName( const std::string &name );
+    virtual VarMass* getVariableMassByName( const char *name );
 
 private:
 
