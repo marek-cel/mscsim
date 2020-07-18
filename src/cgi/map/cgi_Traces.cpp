@@ -40,7 +40,8 @@ using namespace cgi;
 Traces::Traces( const Module *parent ) :
     Module( parent ),
     _visible ( true ),
-    _counter ( 0 )
+    _counter ( 0 ),
+    _prevState ( fdm::DataOut::Idle )
 {
     _switch = new osg::Switch();
     _root->addChild( _switch.get() );

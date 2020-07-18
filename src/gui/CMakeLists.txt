@@ -113,11 +113,12 @@ set( UIC_SRC_FILES
     WidgetPFD.ui
 )
 
-if( USE_QT4 )
-    qt4_wrap_cpp( MOC_SRCS ${MOC_SRC_FILES} )
-    qt4_wrap_ui( UI_HEADERS ${UIC_SRC_FILES} )
-    add_library( ${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRCS} ${UI_HEADERS} )
-else()
-    add_library( ${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES} )
+add_library( ${MODULE_NAME} STATIC ${CPP_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES} )
+
+if( WIN32 )
     qt5_use_modules( ${MODULE_NAME} Widgets OpenGL Svg Xml )
+endif()
+
+if( UNIX )
+    qt5_use_modules( ${MODULE_NAME} Widgets OpenGL Svg X11Extras Xml )
 endif()

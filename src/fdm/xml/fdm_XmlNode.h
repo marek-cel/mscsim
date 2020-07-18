@@ -225,6 +225,15 @@ public:
         return ( _node ) ? true : false;
     }
 
+    /** Assignment operator. */
+    inline const XmlNode& operator= ( const XmlNode &node )
+    {
+        _file = node._file;
+        _node = node._node;
+
+        return (*this);
+    }
+
 private:
 
     std::string _file;  ///< XML file name

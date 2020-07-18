@@ -3,6 +3,8 @@
 #include <QString>
 #include <QtTest>
 
+#include <fdm/utils/fdm_Matrix3x3.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace std;

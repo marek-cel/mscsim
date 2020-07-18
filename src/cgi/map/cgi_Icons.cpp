@@ -94,12 +94,12 @@ void Icons::setScale( double scale )
 
     _ownship.pat->setScale( sv );
 
-    for ( PATs::iterator it = _aerodromes.begin(); it != _aerodromes.end(); it++ )
+    for ( PATs::iterator it = _aerodromes.begin(); it != _aerodromes.end(); ++it )
     {
         (*it)->setScale( sv );
     }
 
-    for ( PATs::iterator it = _navaids.begin(); it != _navaids.end(); it++ )
+    for ( PATs::iterator it = _navaids.begin(); it != _navaids.end(); ++it )
     {
         (*it)->setScale( sv );
     }
@@ -251,7 +251,7 @@ void Icons::initAerodromes()
 {
     nav::DataBase::ListAPT list = nav::DataBase::instance()->getListAPT();
 
-    for ( nav::DataBase::ListAPT::iterator it = list.begin(); it != list.end(); it++ )
+    for ( nav::DataBase::ListAPT::iterator it = list.begin(); it != list.end(); ++it )
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
         _root->addChild( pat.get() );
@@ -269,7 +269,7 @@ void Icons::initLocalizers()
 {
     nav::DataBase::ListILS listILS = nav::DataBase::instance()->getListILS();
 
-    for ( nav::DataBase::ListILS::iterator it = listILS.begin(); it != listILS.end(); it++ )
+    for ( nav::DataBase::ListILS::iterator it = listILS.begin(); it != listILS.end(); ++it )
     {
         if ( (*it).type == nav::DataBase::ILS::LOC )
         {
@@ -291,7 +291,7 @@ void Icons::initNavaids()
 {
     nav::DataBase::ListNAV listNAV = nav::DataBase::instance()->getListNAV();
 
-    for ( nav::DataBase::ListNAV::iterator it = listNAV.begin(); it != listNAV.end(); it++ )
+    for ( nav::DataBase::ListNAV::iterator it = listNAV.begin(); it != listNAV.end(); ++it )
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
         _root->addChild( pat.get() );
@@ -309,7 +309,7 @@ void Icons::initRunways()
 {
     nav::DataBase::ListRWY listRWY = nav::DataBase::instance()->getListRWY();
 
-    for ( nav::DataBase::ListRWY::iterator it = listRWY.begin(); it != listRWY.end(); it++ )
+    for ( nav::DataBase::ListRWY::iterator it = listRWY.begin(); it != listRWY.end(); ++it )
     {
         osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
         _root->addChild( pat.get() );

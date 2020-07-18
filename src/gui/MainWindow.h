@@ -116,6 +116,7 @@ private:
     Ui::MainWindow *_ui;                ///<
 
     Autopilot *_ap;                     ///< autopilot object
+    g1000::IFD *_ifd;                   ///< G1000 IFD object
 
     QDateTime _dateTime;                ///< current date and time (initial date and time incremented every step)
     QTime _flightTime;                  ///< flight time
@@ -263,6 +264,8 @@ private slots:
     void dockMain_closed();
     void dockMap_closed();
     void dockProp_closed();
+
+    void widgetPFD_closed();
 };
 
 ////////////////////////////////////////////////////////////////////////////////

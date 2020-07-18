@@ -34,12 +34,12 @@ public:
 
     /**
      * @brief getAxisTune
-     * @param axis
+     * @param raw
      * @param deadzone
      * @param curvature
      * @return
      */
-    static double getAxisTune( double axis, double deadzone, double curvature );
+    static double getAxisTune( double raw, double deadzone, double curvature, double scale );
 };
 
 } // end of hid namepsace

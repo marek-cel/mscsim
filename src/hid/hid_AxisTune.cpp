@@ -30,23 +30,23 @@ using namespace hid;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double AxisTune::getAxisTune( double axis, double deadzone, double curvature )
+double AxisTune::getAxisTune( double raw, double deadzone, double curvature, double scale )
 {
     double result = 0.0;
 
-    if ( axis < -deadzone || deadzone < axis )
+    if ( raw < -deadzone || deadzone < raw )
     {
-        if ( axis < 0.0 )
+        if ( raw < 0.0 )
         {
-            result = ( axis + deadzone ) / ( 1.0 - deadzone );
+            result = ( raw + deadzone ) / ( 1.0 - deadzone );
         }
         else
         {
-            result = ( axis - deadzone ) / ( 1.0 - deadzone );
+            result = ( raw - deadzone ) / ( 1.0 - deadzone );
         }
 
         result -= curvature * sin( result * M_PI ) / M_PI;
     }
 
-    return result;
+    return result * scale;
 }

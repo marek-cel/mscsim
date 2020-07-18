@@ -3,6 +3,8 @@
 #include <QString>
 #include <QtTest>
 
+#include <fdm/utils/fdm_Quaternion.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace std;

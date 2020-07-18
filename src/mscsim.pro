@@ -1,4 +1,8 @@
-QT += core gui opengl svg widgets x11extras xml
+QT += core gui opengl svg xml
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+unix: greaterThan(QT_MAJOR_VERSION, 4): QT += x11extras
 
 TEMPLATE = app
 
@@ -19,7 +23,7 @@ win32: RC_FILE = mscsim.rc
 ################################################################################
 
 win32: CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
-unix:  CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O3
+unix:  CONFIG(release, debug|release): QMAKE_CXXFLAGS += -O2
 
 #win32: QMAKE_CXXFLAGS += /Zc:wchar_t
 

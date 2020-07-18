@@ -125,7 +125,7 @@ void Mass::update()
     _s_t_bas = _mass_e * _r_cm_e_bas;
     _i_t_bas = _i_e_bas;
 
-    for ( Masses::iterator it = _masses.begin(); it != _masses.end(); it++ )
+    for ( Masses::iterator it = _masses.begin(); it != _masses.end(); ++it )
     {
         VarMass &vm = (*it).second;
 

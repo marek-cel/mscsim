@@ -96,7 +96,7 @@ void Controls::initialize()
 
 void Controls::update()
 {
-    for ( Channels::iterator it = _channels.begin(); it != _channels.end(); it++ )
+    for ( Channels::iterator it = _channels.begin(); it != _channels.end(); ++it )
     {
         Channel &ch = (*it).second;
 

@@ -577,7 +577,7 @@ void HSI::createHeadingBox()
     _headingText->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _headingText->setCharacterSize( 6.0 );
     _headingText->setAxisAlignment( osgText::TextBase::XY_PLANE );
-    _headingText->setPosition( osg::Vec3( w - 0.2, y + 1.0, _z_box + 1.0 ) );
+    _headingText->setPosition( osg::Vec3( w + 0.2, y + 1.0, _z_box + 1.0 ) );
     _headingText->setLayout( osgText::Text::LEFT_TO_RIGHT );
     _headingText->setAlignment( osgText::Text::RIGHT_BOTTOM );
     _headingText->setText( osgText::String( "000°", osgText::String::ENCODING_UTF8 ) );

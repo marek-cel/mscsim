@@ -92,7 +92,7 @@ public:
     }
 
     /** This function normalizes vector. */
-    void normalize()
+    virtual void normalize()
     {
         double length = getLength();
 

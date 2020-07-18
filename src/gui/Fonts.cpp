@@ -53,17 +53,17 @@ void Fonts::init()
     _medium.setWeight( QFont::Bold );
 #   else
     _xsmall.setFamily( "courier" );
-    _xsmall.setPointSizeF( 11.0f );
+    _xsmall.setPointSizeF( 10.0f );
     _xsmall.setStretch( QFont::Condensed );
     _xsmall.setWeight( QFont::Bold );
 
     _small.setFamily( "courier" );
-    _small.setPointSizeF( 12.0f );
+    _small.setPointSizeF( 11.0f );
     _small.setStretch( QFont::Condensed );
     _small.setWeight( QFont::Bold );
 
     _medium.setFamily( "courier" );
-    _medium.setPointSizeF( 16.0f );
+    _medium.setPointSizeF( 14.0f );
     _medium.setStretch( QFont::Condensed );
     _medium.setWeight( QFont::Bold );
 #   endif

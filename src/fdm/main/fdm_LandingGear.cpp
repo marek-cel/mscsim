@@ -168,7 +168,7 @@ void LandingGear::computeForceAndMoment()
     _for_bas.set( 0.0, 0.0, 0.0 );
     _mom_bas.set( 0.0, 0.0, 0.0 );
 
-    for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); it++ )
+    for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
         Wheel &wheel = (*it).second;
 

@@ -89,7 +89,7 @@ Vector3 Vector3::getNormalized() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3 Vector3::rotate( const Quaternion quat )
+Vector3 Vector3::getRotated( const Quaternion quat )
 {
     // passive rotation
     Quaternion qv( 0.0, _x, _y, _z );

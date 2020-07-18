@@ -30,7 +30,7 @@ HEADERS += \
     $$PWD/GraphicsEHSI.h \
     $$PWD/GraphicsPedals.h \
     $$PWD/GraphicsStick.h \
-    $$PWD/GraphicsWinQt.h \
+    $$PWD/GraphicsWindowQt.h \
     $$PWD/gui_Defines.h \
     $$PWD/KeyHandler.h \
     $$PWD/KeyMap.h \
@@ -80,7 +80,7 @@ SOURCES += \
     $$PWD/GraphicsEHSI.cpp \
     $$PWD/GraphicsPedals.cpp \
     $$PWD/GraphicsStick.cpp \
-    $$PWD/GraphicsWinQt.cpp \
+    $$PWD/GraphicsWindowQt.cpp \
     $$PWD/KeyHandler.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/LayoutSquare.cpp \

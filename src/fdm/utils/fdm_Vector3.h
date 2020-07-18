@@ -78,8 +78,8 @@ public:
     /** @return normalized vector */
     Vector3 getNormalized() const;
 
-    /** Performs vector passive (alias) rotation. */
-    Vector3 rotate( const Quaternion quat );
+    /** @return rotated vector (passive or alias rotation) */
+    Vector3 getRotated( const Quaternion quat );
 
     inline double  x() const { return _x; }
     inline double  y() const { return _y; }

@@ -37,15 +37,14 @@ ManipulatorShift::ManipulatorShift() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi,
-                                    const osg::CopyOp &copyOp ) :
-    osg::Object( cmi, copyOp ),
-    inherited( cmi, copyOp ),
-    _matrix( cmi._matrix ),
-    _distance ( cmi._distance ),
-    _distance_min ( cmi._distance_min ),
-    _distance_max ( cmi._distance_max )
-{}
+//ManipulatorShift::ManipulatorShift( const ManipulatorShift &cmi,
+//                                    const osg::CopyOp &copyOp ) :
+//    inherited( cmi, copyOp ),
+//    _matrix( cmi._matrix ),
+//    _distance ( cmi._distance ),
+//    _distance_min ( cmi._distance_min ),
+//    _distance_max ( cmi._distance_max )
+//{}
 
 ////////////////////////////////////////////////////////////////////////////////
 

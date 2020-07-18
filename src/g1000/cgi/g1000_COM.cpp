@@ -58,8 +58,8 @@ void COM::create()
 {
     const double h = 11.0;
 
-    const double x_label   = G1000_GDU_WIDTH_2 - 8.0;
-    const double x_active  = G1000_GDU_WIDTH_2 - 49.0;
+    const double x_label   = G1000_GDU_WIDTH_2 - 10.0;
+    const double x_active  = G1000_GDU_WIDTH_2 - 50.0;
     const double x_standby = x_active + 23.0;
 
     const double y_upper = G1000_GDU_HEIGHT_2 - 0.37 * h;

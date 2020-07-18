@@ -302,7 +302,7 @@ void Rotor::updatePaths()
 
     if ( Data::get()->stateOut == fdm::DataOut::Idle )
     {
-        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); it++ )
+        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); ++it )
         {
             (*it)->clear();
         }
@@ -354,7 +354,7 @@ void Rotor::updatePaths()
 
     if ( Data::get()->cgi.show_blades_paths )
     {
-        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); it++ )
+        for ( Paths::iterator it = _paths.begin(); it != _paths.end(); ++it )
         {
             updatePath( _switchPaths.get(), (*it).get() );
         }

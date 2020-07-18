@@ -52,34 +52,16 @@ endif()
 
 ################################################################################
 
-if( NOT USE_QT4 )
-    if( WIN32 )
-        set( USE_QT4 false )
-    endif()
-    
-    if( UNIX )
-        set( USE_QT4 true )
-    endif()
+set( CMAKE_AUTOMOC ON )
+set( CMAKE_AUTORCC ON )
+set( CMAKE_AUTOUIC ON )
+
+if( WIN32 )
+    find_package( Qt5 COMPONENTS Core Widgets OpenGL Svg Xml REQUIRED )
 endif()
 
-if( USE_QT4 )
-    find_package( Qt4 REQUIRED
-        QtCore
-        QtGui
-        QtOpenGL
-        QtSvg
-        QtXml
-        qtmain
-    )
-    
-    include( ${QT_USE_FILE} )
-    add_definitions( ${QT_DEFINITIONS} )
-else()
-    set( CMAKE_AUTOMOC ON )
-    set( CMAKE_AUTORCC ON )
-    set( CMAKE_AUTOUIC ON )
-
-    find_package( Qt5 COMPONENTS Core Widgets OpenGL Svg Xml REQUIRED )
+if( UNIX )
+    find_package( Qt5 COMPONENTS Core Widgets OpenGL Svg X11Extras Xml REQUIRED )
 endif()
 
 ################################################################################
@@ -90,7 +72,6 @@ find_package( OpenSceneGraph REQUIRED
     osgDB
     osgGA
     osgParticle
-    osgQt
     osgSim
     osgText
     osgUtil
@@ -151,13 +132,7 @@ set( RCC_SRC_FILES
     mscsim.qrc
 )
 
-if( USE_QT4 )
-    qt4_wrap_cpp( MOC_SRCS ${MOC_SRC_FILES} )
-    qt4_add_resources( RES_SOURCES ${RCC_SRC_FILES} )
-    set( SOURCES ${CPP_FILES} ${MOC_SRCS} ${RES_SOURCES} )
-else()
-    set( SOURCES ${CPP_FILES} ${MOC_SRC_FILES} ${RCC_SRC_FILES} )
-endif()
+set( SOURCES ${CPP_FILES} ${MOC_SRC_FILES} ${RCC_SRC_FILES} )
 
 if( WIN32 )
     ENABLE_LANGUAGE(RC)

@@ -49,9 +49,6 @@ public:
     /** Destructor. */
     virtual ~Manager();
 
-    /** */
-    void init();
-
     inline void resetTraces() { _map->resetTraces(); }
 
     /** */

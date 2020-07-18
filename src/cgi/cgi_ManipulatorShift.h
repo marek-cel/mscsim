@@ -44,8 +44,8 @@ public:
     ManipulatorShift();
 
     /** Constructor. */
-    ManipulatorShift( const ManipulatorShift &cmi,
-                      const osg::CopyOp &copyOp = osg::CopyOp::SHALLOW_COPY );
+    //ManipulatorShift( const ManipulatorShift &cmi,
+    //                  const osg::CopyOp &copyOp = osg::CopyOp::SHALLOW_COPY );
 
     void setByMatrix( const osg::Matrixd &matrix );
     void setByInverseMatrix( const osg::Matrixd &matrix );

@@ -140,7 +140,7 @@ void MainRotorBE::computeForceAndMoment( const Vector3 &vel_air_bas,
 
     double delta_psi = 0.0;
 
-    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+    for ( Blades::iterator it = _blades.begin(); it != _blades.end(); ++it )
     {
         (*it)->computeForceAndMoment( vel_air_ras,
                                       omg_air_ras,
@@ -242,7 +242,7 @@ void MainRotorBE::update( double timeStep,
 
         double delta_psi = 0.0;
 
-        for ( Blades::iterator it = _blades.begin(); it != _blades.end(); it++ )
+        for ( Blades::iterator it = _blades.begin(); it != _blades.end(); ++it )
         {
             (*it)->integrate( timeStepInt,
                               vel_air_ras,

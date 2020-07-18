@@ -59,8 +59,8 @@ void NAV::create()
     const double h = 11.0;
 
     const double x_label   = -G1000_GDU_WIDTH_2 + 0.5;
-    const double x_active  = -G1000_GDU_WIDTH_2 + 8.5;
-    const double x_standby = x_active + 19.5;
+    const double x_active  = -G1000_GDU_WIDTH_2 + 9.0;
+    const double x_standby = x_active + 20.0;
 
     const double y_upper = G1000_GDU_HEIGHT_2 - 0.37 * h;
     const double y_lower = G1000_GDU_HEIGHT_2 - 0.87 * h;

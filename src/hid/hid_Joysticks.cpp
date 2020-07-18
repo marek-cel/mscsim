@@ -161,8 +161,8 @@ void Joysticks::init()
 
             char tempAxisCount = 0;
             char tempButtCount = 0;
-            char tempName[ 512 ];
-            char tempAxesMap[ HID_MAX_AXES + 2*HID_MAX_POVS ];
+            char tempName[ 512 ] = "";
+            char tempAxesMap[ HID_MAX_AXES + 2*HID_MAX_POVS ] = { 0 };
 
             ioctl( _fd[ _count ], JSIOCGAXES     , &tempAxisCount );
             ioctl( _fd[ _count ], JSIOCGBUTTONS  , &tempButtCount );

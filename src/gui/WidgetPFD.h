@@ -51,11 +51,15 @@ public:
 
     ~WidgetPFD();
 
-    void setup( Autopilot *ap, g1000::IFD *ifd );
+    void init( Autopilot *ap, g1000::IFD *ifd );
 
-    void init();
+signals:
+
+    void closed();
 
 protected:
+
+    void closeEvent( QCloseEvent *event );
 
     /** */
     void timerEvent( QTimerEvent *event );

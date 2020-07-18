@@ -110,6 +110,11 @@ void Manager::init()
     splash.show();
     splash.showMessage( QString( SIM_APP_NAME ) + " " + QString( SIM_APP_VER ) );
     qApp->processEvents();
+    QTimer::singleShot( 2000, &splash, &QWidget::close );
+    while ( splash.isVisible() )
+    {
+        qApp->processEvents();
+    }
 
     qRegisterMetaType< Data::DataBuf >( "Data::DataBuf" );
     qRegisterMetaType< fdm::DataOut  >( "fdm::DataOut"  );
@@ -126,6 +131,7 @@ void Manager::init()
 
     _win->setup( _ap, _g1000_ifd );
     _win->show();
+    splash.finish( _win );
     //qApp->processEvents();
 
     _win->init();
@@ -166,23 +172,27 @@ void Manager::timerEvent( QTimerEvent *event )
     _nav->update();
 
     // controls
-    double raw_roll  = hid::Manager::instance()->getCtrlRoll();
-    double raw_pitch = hid::Manager::instance()->getCtrlPitch();
-    double raw_yaw   = hid::Manager::instance()->getCtrlYaw();
+    double r_rv = hid::Manager::instance()->getCtrlRoll();
+    double p_rv = hid::Manager::instance()->getCtrlPitch();
+    double y_rv = hid::Manager::instance()->getCtrlYaw();
 
     Aircrafts::Aircraft aircraft = _win->getCurrentAircraft();
 
-    double deadzone_roll  = aircraft.axes.roll.deadzone;
-    double deadzone_pitch = aircraft.axes.pitch.deadzone;
-    double deadzone_yaw   = aircraft.axes.yaw.deadzone;
+    double r_d = aircraft.axes.roll.deadzone;
+    double r_c = aircraft.axes.roll.curvature;
+    double r_s = aircraft.axes.roll.scale;
 
-    double curvature_roll  = aircraft.axes.roll.curvature;
-    double curvature_pitch = aircraft.axes.pitch.curvature;
-    double curvature_yaw   = aircraft.axes.yaw.curvature;
+    double p_d = aircraft.axes.pitch.deadzone;
+    double p_c = aircraft.axes.pitch.curvature;
+    double p_s = aircraft.axes.pitch.scale;
 
-    Data::get()->controls.roll         = -hid::AxisTune::getAxisTune( raw_roll  , deadzone_roll  , curvature_roll  );
-    Data::get()->controls.pitch        = -hid::AxisTune::getAxisTune( raw_pitch , deadzone_pitch , curvature_pitch );
-    Data::get()->controls.yaw          = -hid::AxisTune::getAxisTune( raw_yaw   , deadzone_yaw   , curvature_yaw   );
+    double y_d = aircraft.axes.yaw.deadzone;
+    double y_c = aircraft.axes.yaw.curvature;
+    double y_s = aircraft.axes.yaw.scale;
+
+    Data::get()->controls.roll         = -hid::AxisTune::getAxisTune( r_rv, r_d, r_c, r_s );
+    Data::get()->controls.pitch        = -hid::AxisTune::getAxisTune( p_rv, p_d, p_c, p_s );
+    Data::get()->controls.yaw          = -hid::AxisTune::getAxisTune( y_rv, y_d, y_c, y_s );
     Data::get()->controls.trim_roll    = -hid::Manager::instance()->getTrimRoll();
     Data::get()->controls.trim_pitch   = -hid::Manager::instance()->getTrimPitch();
     Data::get()->controls.trim_yaw     = -hid::Manager::instance()->getTrimYaw();

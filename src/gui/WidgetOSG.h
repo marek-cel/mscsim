@@ -33,14 +33,22 @@
 
 #include <Defines.h>
 
-#include <gui/GraphicsWinQt.h>
+#ifdef SIM_NEW_OSG_QT
+#   include <osgQOpenGL/osgQOpenGLWidget>
+#else
+#   include <gui/GraphicsWindowQt.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief OSG common widget class.
  */
+#ifdef SIM_NEW_OSG_QT
+class WidgetOSG : public osgQOpenGLWidget
+#else
 class WidgetOSG : public QWidget, public osgViewer::Viewer
+#endif
 {
     Q_OBJECT
 
@@ -52,15 +60,27 @@ public:
     /** Destructor. */
     virtual ~WidgetOSG();
 
+    virtual osgViewer::Viewer* getOsgViewer();
+
+    virtual void setSceneData( osg::Node *node );
+
 protected:
 
-    osg::ref_ptr<GraphicsWinQt> _gwin;
+#   ifndef SIM_NEW_OSG_QT
+    QGridLayout *_layout;                   ///<
 
+    osg::ref_ptr<GraphicsWindowQt> _gwin;   ///<
+#   endif
+
+    bool _initialized;                      ///<
+
+#   ifndef SIM_NEW_OSG_QT
     /** */
     virtual void paintEvent( QPaintEvent *event );
 
     /** */
-    virtual osg::ref_ptr<GraphicsWinQt> createGraphicsWindow( int x, int y, int w, int h );
+    virtual osg::ref_ptr<GraphicsWindowQt> createGraphicsWindow( int x, int y, int w, int h );
+#   endif
 };
 
 ////////////////////////////////////////////////////////////////////////////////

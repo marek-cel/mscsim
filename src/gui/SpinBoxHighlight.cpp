@@ -35,7 +35,7 @@ SpinBoxHighlight::SpinBoxHighlight( QWidget *parent ) :
 
     QObjectList list = children();
 
-    for ( QObjectList::iterator it = list.begin(); it != list.end(); it++ )
+    for ( QObjectList::iterator it = list.begin(); it != list.end(); ++it )
     {
         QLineEdit *lineEdit = qobject_cast< QLineEdit* >( *it );
 

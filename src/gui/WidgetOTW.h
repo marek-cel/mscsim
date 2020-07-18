@@ -80,16 +80,16 @@ protected:
 
 private:
 
-    QGridLayout *_layout;
-
     osg::ref_ptr<KeyHandler> _keyHandler;
 
     int _timerId;                   ///< timer ID
 
     bool _camManipulatorInited;
 
+#   ifndef SIM_NEW_OSG_QT
     /** */
     QWidget* addViewWidget();
+#   endif
 
     void createCameraOTW();
 

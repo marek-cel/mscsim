@@ -32,6 +32,10 @@ private Q_SLOTS:
     void constructor();
     void isValid();
     void normalize();
+
+    void operator_assign();
+    void operator_equal();
+    void operator_notequal();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +165,98 @@ void AnglesTest::isValid()
 
 void AnglesTest::normalize()
 {
+    fdm::Angles ang;
+    // TODO
+    ang.normalize();
+    // TODO
+}
 
+////////////////////////////////////////////////////////////////////////////////
+
+void AnglesTest::operator_assign()
+{
+    fdm::Angles a;
+
+    fdm::Angles a1( M_PI, 0.0, 0.0 );
+    fdm::Angles a2( 0.0, M_PI, 0.0 );
+    fdm::Angles a3( 0.0, 0.0, M_PI );
+    fdm::Angles a4( 1.0, 2.0, 3.0 );
+
+    a = a1;
+    QVERIFY2( fabs( a.phi() - M_PI ) < 1.0e-9, "Failure phi a1" );
+    QVERIFY2( fabs( a.tht() -  0.0 ) < 1.0e-9, "Failure tht a1" );
+    QVERIFY2( fabs( a.psi() -  0.0 ) < 1.0e-9, "Failure psi a1" );
+
+    a = a2;
+    QVERIFY2( fabs( a.phi() -  0.0 ) < 1.0e-9, "Failure phi a2" );
+    QVERIFY2( fabs( a.tht() - M_PI ) < 1.0e-9, "Failure tht a2" );
+    QVERIFY2( fabs( a.psi() -  0.0 ) < 1.0e-9, "Failure psi a2" );
+
+    a = a3;
+    QVERIFY2( fabs( a.phi() -  0.0 ) < 1.0e-9, "Failure phi a3" );
+    QVERIFY2( fabs( a.tht() -  0.0 ) < 1.0e-9, "Failure tht a3" );
+    QVERIFY2( fabs( a.psi() - M_PI ) < 1.0e-9, "Failure psi a3" );
+
+    a = a4;
+    QVERIFY2( fabs( a.phi() - 1.0 ) < 1.0e-9, "Failure phi a4" );
+    QVERIFY2( fabs( a.tht() - 2.0 ) < 1.0e-9, "Failure tht a4" );
+    QVERIFY2( fabs( a.psi() - 3.0 ) < 1.0e-9, "Failure psi a4" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void AnglesTest::operator_equal()
+{
+    fdm::Angles a;
+
+    fdm::Angles a1( M_PI, 0.0, 0.0 );
+    fdm::Angles a2( 0.0, M_PI, 0.0 );
+    fdm::Angles a3( 0.0, 0.0, M_PI );
+    fdm::Angles a4( 1.0, 2.0, 3.0 );
+
+    QVERIFY2( !( a == a1 ), "Failure NEQ a1" );
+    a = a1;
+    QVERIFY2(  ( a == a1 ), "Failure  EQ a1" );
+
+    QVERIFY2( !( a == a2 ), "Failure NEQ a2" );
+    a = a2;
+    QVERIFY2(  ( a == a2 ), "Failure  EQ a2" );
+
+    QVERIFY2( !( a == a3 ), "Failure NEQ a3" );
+    a = a3;
+    QVERIFY2(  ( a == a3 ), "Failure  EQ a3" );
+
+    QVERIFY2( !( a == a4 ), "Failure NEQ a4" );
+    a = a4;
+    QVERIFY2(  ( a == a4 ), "Failure  EQ a4" );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void AnglesTest::operator_notequal()
+{
+    fdm::Angles a;
+
+    fdm::Angles a1( M_PI, 0.0, 0.0 );
+    fdm::Angles a2( 0.0, M_PI, 0.0 );
+    fdm::Angles a3( 0.0, 0.0, M_PI );
+    fdm::Angles a4( 1.0, 2.0, 3.0 );
+
+    QVERIFY2(  ( a != a1 ), "Failure NEQ a1" );
+    a = a1;
+    QVERIFY2( !( a != a1 ), "Failure  EQ a1" );
+
+    QVERIFY2(  ( a != a2 ), "Failure NEQ a2" );
+    a = a2;
+    QVERIFY2( !( a != a2 ), "Failure  EQ a2" );
+
+    QVERIFY2(  ( a != a3 ), "Failure NEQ a3" );
+    a = a3;
+    QVERIFY2( !( a != a3 ), "Failure  EQ a3" );
+
+    QVERIFY2(  ( a != a4 ), "Failure NEQ a4" );
+    a = a4;
+    QVERIFY2( !( a != a4 ), "Failure  EQ a4" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

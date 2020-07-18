@@ -71,7 +71,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow ( parent ),
     _ui ( new Ui::MainWindow ),
 
-    _ap ( NULLPTR ),
+    _ap  ( NULLPTR ),
+    _ifd ( NULLPTR ),
 
     _dateTime( QDateTime::currentDateTimeUtc() ),
     
@@ -130,8 +131,6 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMain = new DockWidgetMain( this );
     _dockMap  = new DockWidgetMap( this );
     _dockProp = new DockWidgetProp( this );
-
-    _widgetPFD = new WidgetPFD();
 
     _dockAuto->setObjectName( "DockAuto" );
     _dockCtrl->setObjectName( "DockCtrl" );
@@ -217,20 +216,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::setup( Autopilot *ap, g1000::IFD *ifd )
 {
-    _ap = ap;
-
-    _widgetPFD->setup( _ap, ifd );
+    _ap  = ap;
+    _ifd = ifd;
 
     _dockAuto->setAutopilot( _ap );
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::init()
 {
-    cgi::Manager::instance()->init();
-
     _dialogConf->readData();
     _dialogInit->readData();
     _dialogMass->readData();
@@ -239,9 +234,6 @@ void MainWindow::init()
 
     _dockAuto->init();
     _dockMain->init();
-    _dockMap->init();
-
-    _widgetPFD->init();
 
     _ui->widgetOTW->init();
 
@@ -302,7 +294,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
         QMainWindow::closeEvent( event );
         /////////////////////////////////
 
-        _widgetPFD->close();
+        if ( _widgetPFD ) _widgetPFD->close();
     }
     else
     {
@@ -1327,7 +1319,16 @@ void MainWindow::on_actionDockProp_toggled( bool checked )
 
 void MainWindow::on_actionShowPFD_triggered()
 {
-    _widgetPFD->show();
+    if ( !_widgetPFD )
+    {
+        _widgetPFD = new WidgetPFD();
+        _widgetPFD->setAttribute( Qt::WA_DeleteOnClose );
+        _widgetPFD->init( _ap, _ifd );
+
+        connect( _widgetPFD , SIGNAL(closed()), this, SLOT(widgetPFD_closed()) );
+    }
+
+    if ( _widgetPFD ) _widgetPFD->show();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1633,4 +1634,12 @@ void MainWindow::dockMap_closed()
 void MainWindow::dockProp_closed()
 {
     _ui->actionDockProp->setChecked( false );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::widgetPFD_closed()
+{
+    disconnect( _widgetPFD , SIGNAL(closed()), this, SLOT(widgetPFD_closed()) );
+    _widgetPFD = NULLPTR;
 }

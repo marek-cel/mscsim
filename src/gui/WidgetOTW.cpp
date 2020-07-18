@@ -22,8 +22,9 @@
 
 #include <gui/WidgetOTW.h>
 
-#include <osg/PositionAttitudeTransform>
-#include <osgDB/ReadFile>
+#include <osgGA/StateSetManipulator>
+
+#include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
 #include <fdm/utils/fdm_WGS84.h>
@@ -43,22 +44,68 @@ const double WidgetOTW::_zFar  = CGI_SKYDOME_RADIUS + 0.1f * CGI_SKYDOME_RADIUS;
 
 WidgetOTW::WidgetOTW( QWidget *parent ) :
     WidgetOSG ( parent ),
-    _layout ( NULLPTR ),
     _timerId ( 0 ),
     _camManipulatorInited ( false )
 {
+    _keyHandler = new KeyHandler( this );
+
+#   ifdef SIM_NEW_OSG_QT
+    QObject::connect( this, &WidgetOTW::initialized, [ this ]
+    {
+        getOsgViewer()->setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
+        //getOsgViewer()->setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
+
+        createCameraOTW();
+        createCameraHUD();
+
+        // add the state manipulator
+        getOsgViewer()->addEventHandler( new osgGA::StateSetManipulator( getOsgViewer()->getCamera()->getOrCreateStateSet() ) );
+
+        // add the thread model handler
+        getOsgViewer()->addEventHandler( new osgViewer::ThreadingHandler );
+
+        // add the window size toggle handler
+        getOsgViewer()->addEventHandler( new osgViewer::WindowSizeHandler );
+
+        // add the stats handler
+        getOsgViewer()->addEventHandler( new osgViewer::StatsHandler );
+
+        // add the record camera path handler
+        getOsgViewer()->addEventHandler( new osgViewer::RecordCameraPathHandler );
+
+        // add the LOD Scale handler
+        getOsgViewer()->addEventHandler( new osgViewer::LODScaleHandler );
+
+        // add the screen capture handler
+        getOsgViewer()->addEventHandler( new osgViewer::ScreenCaptureHandler );
+
+        getOsgViewer()->getEventHandlers().push_front( _keyHandler.get() );
+
+        getOsgViewer()->setKeyEventSetsDone( 0 );
+
+        ///////////////////////////////////////////////////////////////////////
+        getOsgViewer()->setSceneData( cgi::Manager::instance()->getNodeOTW() );
+        ///////////////////////////////////////////////////////////////////////
+
+        getOsgViewer()->assignSceneDataToCameras();
+
+        _initialized = true;
+
+        setCameraManipulatorPilot();
+    });
+#   else
     QWidget *widget = addViewWidget();
 
     _layout = new QGridLayout( this );
     _layout->setContentsMargins( 1, 1, 1, 1 );
     _layout->addWidget( widget, 0, 0 );
 
-    _keyHandler = new KeyHandler( this );
-    getEventHandlers().push_front( _keyHandler.get() );
-
     setLayout( _layout );
 
-    cgi::Manager::instance()->setCameraManipulatorPilot();
+    getEventHandlers().push_front( _keyHandler.get() );
+
+    setCameraManipulatorPilot();
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,65 +126,77 @@ void WidgetOTW::init()
 
 void WidgetOTW::setCameraManipulatorChase()
 {
-    cgi::Manager::instance()->setCameraManipulatorChase();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+    if ( _initialized )
+    {
+        cgi::Manager::instance()->setCameraManipulatorChase();
+        getOsgViewer()->setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    _camManipulatorInited = false;
+        _camManipulatorInited = false;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetOTW::setCameraManipulatorOrbit()
 {
-    cgi::Manager::instance()->setCameraManipulatorOrbit();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+    if ( _initialized )
+    {
+        cgi::Manager::instance()->setCameraManipulatorOrbit();
+        getOsgViewer()->setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    _camManipulatorInited = false;
+        _camManipulatorInited = false;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetOTW::setCameraManipulatorPilot()
 {
-    cgi::Manager::instance()->setCameraManipulatorPilot();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+    if ( _initialized )
+    {
+        cgi::Manager::instance()->setCameraManipulatorPilot();
+        getOsgViewer()->setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
 
-    _camManipulatorInited = false;
+        _camManipulatorInited = false;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetOTW::setCameraManipulatorWorld()
 {
-    osg::Vec3d eye = cgi::Manager::instance()->getCameraManipulator()->getMatrix().getTrans();
-    osg::Vec3d center( 0.0, 0.0, 0.0 );
-    osg::Vec3d up( 0.0, 0.0, 1.0 );
-
-    cgi::Manager::instance()->setCameraManipulatorWorld();
-    setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
-
-    if ( _camManipulatorInited )
+    if ( _initialized )
     {
-        cgi::WGS84 eye_wgs( eye );
+        osg::Vec3d eye = cgi::Manager::instance()->getCameraManipulator()->getMatrix().getTrans();
+        osg::Vec3d center( 0.0, 0.0, 0.0 );
+        osg::Vec3d up( 0.0, 0.0, 1.0 );
 
-        if ( eye_wgs.getAlt() < 10000.0 )
+        cgi::Manager::instance()->setCameraManipulatorWorld();
+        getOsgViewer()->setCameraManipulator( cgi::Manager::instance()->getCameraManipulator() );
+
+        if ( _camManipulatorInited )
         {
-            eye_wgs.setAlt( 10000.0 );
+            cgi::WGS84 eye_wgs( eye );
+
+            if ( eye_wgs.getAlt() < 10000.0 )
+            {
+                eye_wgs.setAlt( 10000.0 );
+            }
+
+            eye = eye_wgs.getPosition();
+            up  = eye_wgs.getAttitude().inverse() * osg::Vec3( 1.0, 0.0, 0.0 );
+
+            osg::ref_ptr<cgi::ManipulatorWorld> manipulator =
+                    dynamic_cast<cgi::ManipulatorWorld*>( cgi::Manager::instance()->getCameraManipulator() );
+
+            if ( manipulator.valid() )
+            {
+                manipulator->setTransformation( eye, center, up );
+            }
         }
 
-        eye = eye_wgs.getPosition();
-        up  = eye_wgs.getAttitude().inverse() * osg::Vec3( 1.0, 0.0, 0.0 );
-
-        osg::ref_ptr<cgi::ManipulatorWorld> manipulator =
-                dynamic_cast<cgi::ManipulatorWorld*>( cgi::Manager::instance()->getCameraManipulator() );
-
-        if ( manipulator.valid() )
-        {
-            manipulator->setTransformation( eye, center, up );
-        }
+        _camManipulatorInited = false;
     }
-
-    _camManipulatorInited = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,6 +244,7 @@ void WidgetOTW::timerEvent( QTimerEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef SIM_NEW_OSG_QT
 QWidget* WidgetOTW::addViewWidget()
 {
     createCameraOTW();
@@ -200,16 +260,19 @@ QWidget* WidgetOTW::addViewWidget()
 
     return _gwin->getGLWidget();
 }
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void WidgetOTW::createCameraOTW()
 {
-    osg::ref_ptr<osg::Camera> cameraOTW = getCamera();
+    osg::ref_ptr<osg::Camera> cameraOTW = getOsgViewer()->getCamera();
 
+#   ifndef SIM_NEW_OSG_QT
     cameraOTW->setGraphicsContext( _gwin );
+#   endif
 
-    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
+    const osg::GraphicsContext::Traits *traits = cameraOTW->getGraphicsContext()->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
@@ -225,9 +288,15 @@ void WidgetOTW::createCameraHUD()
 {
     osg::ref_ptr<osg::Camera> cameraHUD = new osg::Camera();
 
+#   ifndef SIM_NEW_OSG_QT
     cameraHUD->setGraphicsContext( _gwin );
+#   endif
 
-    const osg::GraphicsContext::Traits *traits = _gwin->getTraits();
+    osg::GraphicsContext* context = getOsgViewer()->getCamera()->getGraphicsContext();
+
+    cameraHUD->setGraphicsContext( context );
+
+    const osg::GraphicsContext::Traits *traits = context->getTraits();
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
@@ -241,5 +310,5 @@ void WidgetOTW::createCameraHUD()
     cameraHUD->addChild( cgi::Manager::instance()->getNodeHUD() );
     cameraHUD->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
 
-    addSlave( cameraHUD, false );
+    getOsgViewer()->addSlave( cameraHUD, false );
 }

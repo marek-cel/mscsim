@@ -22,10 +22,19 @@
 
 #include <gui/WidgetOSG.h>
 
+#include <QDebug>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetOSG::WidgetOSG( QWidget *parent ) :
-    QWidget ( parent )
+#   ifdef SIM_NEW_OSG_QT
+    osgQOpenGLWidget ( parent ),
+    _initialized ( false )
+#   else
+    QWidget ( parent ),
+    _layout ( NULLPTR ),
+    _initialized ( true )
+#   endif
 {
 #   ifdef SIM_OSG_DEBUG_INFO
     osg::setNotifyLevel( osg::DEBUG_INFO );
@@ -33,10 +42,12 @@ WidgetOSG::WidgetOSG( QWidget *parent ) :
     osg::setNotifyLevel( osg::WARN );
 #   endif
 
+#   ifndef SIM_NEW_OSG_QT
     setThreadingModel( osgViewer::ViewerBase::SingleThreaded );
     //setThreadingModel( osgViewer::ViewerBase::ThreadPerContext );
 
     _gwin = createGraphicsWindow( x(), y(), width(), height() );
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +56,32 @@ WidgetOSG::~WidgetOSG() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+osgViewer::Viewer* WidgetOSG::getOsgViewer()
+{
+#   ifdef SIM_NEW_OSG_QT
+    return osgQOpenGLWidget::getOsgViewer();
+#   else
+    return this;
+#   endif
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetOSG::setSceneData( osg::Node *node )
+{
+#   ifdef SIM_NEW_OSG_QT
+    if ( _initialized )
+    {
+        getOsgViewer()->setSceneData( node );
+    }
+#   else
+    osgViewer::Viewer::setSceneData( node );
+#   endif
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+#ifndef SIM_NEW_OSG_QT
 void WidgetOSG::paintEvent( QPaintEvent *event )
 {
     /////////////////////////////
@@ -56,7 +93,7 @@ void WidgetOSG::paintEvent( QPaintEvent *event )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-osg::ref_ptr<GraphicsWinQt> WidgetOSG::createGraphicsWindow( int x, int y, int w, int h )
+osg::ref_ptr<GraphicsWindowQt> WidgetOSG::createGraphicsWindow( int x, int y, int w, int h )
 {
     osg::DisplaySettings *displaySettings = osg::DisplaySettings::instance().get();
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits();
@@ -74,7 +111,9 @@ osg::ref_ptr<GraphicsWinQt> WidgetOSG::createGraphicsWindow( int x, int y, int w
     traits->samples          = 4;
     traits->vsync            = true;
 
-    osg::ref_ptr<GraphicsWinQt> graphicsWindow = new GraphicsWinQt( traits.get() );
+    osg::ref_ptr<GraphicsWindowQt> graphicsWindow = new GraphicsWindowQt( traits.get() );
 
     return graphicsWindow;
 }
+#endif
+

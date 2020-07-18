@@ -96,7 +96,7 @@ void Recorder::initialize( Mode mode, const char *file )
                 headerRead();
                 recordRead( _time_next );
 
-                for ( Variables::iterator it = _variables.begin(); it != _variables.end(); it++ )
+                for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
                 {
                     (*it)->initialize();
                 }
@@ -167,7 +167,7 @@ void Recorder::headerWrite()
 {
     _fstream << "\"time\"";
 
-    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); it++ )
+    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
         _fstream << ",\"" << (*it)->name() << "\"";
     }
@@ -183,7 +183,7 @@ void Recorder::recordRead( double &time )
 
     char comma;
 
-    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); it++ )
+    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
         _fstream >> comma;
         (*it)->read( _fstream );
@@ -197,7 +197,7 @@ void Recorder::recordWrite( double time )
     _fstream << std::setprecision( 4 );
     _fstream << time;
 
-    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); it++ )
+    for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
         _fstream << ",";
         (*it)->write( _fstream );
@@ -242,7 +242,7 @@ void Recorder::stepReplay()
     {
         double t_coef = ( _time - _time_prev ) / ( _time_next - _time_prev );
 
-        for ( Variables::iterator it = _variables.begin(); it != _variables.end(); it++ )
+        for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
         {
             (*it)->interpolate( t_coef );
         }

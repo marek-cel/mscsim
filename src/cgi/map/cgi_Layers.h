@@ -47,9 +47,6 @@ public:
     /** Destructor. */
     virtual ~Layers();
 
-    /** */
-    void init();
-
     void setVisibilityCrops     ( bool visible );
     void setVisibilityGrassland ( bool visible );
     void setVisibilityWoodland  ( bool visible );

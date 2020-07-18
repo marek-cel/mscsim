@@ -29,7 +29,13 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Environment::Environment() :
-    _atmosphere ( FDM_NULLPTR )
+    _atmosphere ( FDM_NULLPTR ),
+
+    _temperature     ( 0.0 ),
+    _pressure        ( 0.0 ),
+    _density         ( 0.0 ),
+    _speedOfSound    ( 0.0 ),
+    _densityAltitude ( 0.0 )
 {
     _atmosphere = new Atmosphere();
 }

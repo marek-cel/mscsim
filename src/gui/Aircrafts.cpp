@@ -166,10 +166,15 @@ void Aircrafts::parseAircraftAxes( const QDomElement &node, Axes &axes )
 {
     axes.roll.curvature  = 0.0;
     axes.roll.deadzone   = 0.0;
+    axes.roll.scale      = 1.0;
+
     axes.pitch.curvature = 0.0;
     axes.pitch.deadzone  = 0.0;
+    axes.pitch.scale     = 1.0;
+
     axes.yaw.curvature   = 0.0;
     axes.yaw.deadzone    = 0.0;
+    axes.yaw.scale       = 1.0;
 
     QDomElement nodeAxes = node.firstChildElement( "axes" );
 
@@ -193,9 +198,11 @@ void Aircrafts::parseAircraftAxis( const QDomElement &node, Axis &axis )
     {
         QDomElement nodeCurvature = node.firstChildElement( "curvature" );
         QDomElement nodeDeadzone  = node.firstChildElement( "deadzone"  );
+        QDomElement nodeScale     = node.firstChildElement( "scale"     );
 
         if ( !nodeCurvature .isNull() ) axis.curvature = nodeCurvature .text().toDouble();
         if ( !nodeDeadzone  .isNull() ) axis.deadzone  = nodeDeadzone  .text().toDouble();
+        if ( !nodeScale     .isNull() ) axis.scale     = nodeScale     .text().toDouble();
     }
 }
 
