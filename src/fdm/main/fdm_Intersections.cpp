@@ -35,6 +35,26 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
+                                    const Vector3 &r, const Vector3 &n )
+{
+    double num = n * ( r - b );
+    double den = n * ( e - b );
+
+    double u = 0.0;
+
+    if ( fabs( den ) > 10e-14 ) u = num / den;
+
+    if ( 0.0 < u && u < 1.0 )
+    {
+        return true;
+    }
+
+    return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 Intersections::Intersections() :
     _inited ( false )
 {}
@@ -105,23 +125,41 @@ double Intersections::getElevation( double lat, double lon ) const
 ////////////////////////////////////////////////////////////////////////////////
 
 int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
-                                    Vector3 &r, Vector3 &n ) const
+                                    Vector3 &r, Vector3 &n, bool update ) const
 {
-    if ( _inited )
+    if ( update )
     {
-        double num = _normal_wgs * ( _ground_wgs - b );
-        double den = _normal_wgs * ( e - b );
+        osg::Vec3d b_tmp( b.x(), b.y(), b.z() );
+        osg::Vec3d e_tmp( e.x(), e.y(), e.z() );
+        osg::Vec3d r_tmp;
+        osg::Vec3d n_tmp;
 
-        double u = 0.0;
-
-        if ( fabs( den ) > 10e-15 ) u = num / den;
-
-        if ( 0.0 < u && u < 1.0 )
+        if ( cgi::Intersections::instance()->findFirst( b_tmp, e_tmp, r_tmp, n_tmp ) )
         {
-            r = b + u * ( e - b );
-            n = _normal_wgs;
+            r = Vector3( r_tmp.x(), r_tmp.y(), r_tmp.z() );
+            n = Vector3( n_tmp.x(), n_tmp.y(), n_tmp.z() );
 
             return FDM_SUCCESS;
+        }
+    }
+    else
+    {
+        if ( _inited )
+        {
+            double num = _normal_wgs * ( _ground_wgs - b );
+            double den = _normal_wgs * ( e - b );
+
+            double u = 0.0;
+
+            if ( fabs( den ) > 10e-15 ) u = num / den;
+
+            if ( 0.0 < u && u < 1.0 )
+            {
+                r = b + u * ( e - b );
+                n = _normal_wgs;
+
+                return FDM_SUCCESS;
+            }
         }
     }
 
@@ -130,20 +168,24 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e ) const
+bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
+                                    bool update ) const
 {
-    if ( _inited )
+    if ( update )
     {
-        double num = _normal_wgs * ( _ground_wgs - b );
-        double den = _normal_wgs * ( e - b );
+        Vector3 r;
+        Vector3 n;
 
-        double u = 0.0;
-
-        if ( fabs( den ) > 10e-15 ) u = num / den;
-
-        if ( 0.0 < u && u < 1.0 )
+        if ( FDM_SUCCESS == getIntersection( b, e, r, n, true ) )
         {
-            return true;
+            return isIntersection( b, e, r, n );
+        }
+    }
+    else
+    {
+        if ( _inited )
+        {
+            return isIntersection( b, e, _ground_wgs, _normal_wgs );
         }
     }
 

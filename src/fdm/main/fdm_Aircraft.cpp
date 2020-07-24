@@ -61,6 +61,8 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
     _initPropState ( Stopped ),
 
+    _cp_index ( 0 ),
+
     _elevation     ( 0.0 ),
     _altitude_asl  ( 0.0 ),
     _altitude_agl  ( 0.0 ),
@@ -346,14 +348,14 @@ void Aircraft::detectCrash()
     // detect collisions
     if ( _crash == DataOut::NoCrash )
     {
-        for ( CollisionPoints::iterator it = _cp.begin(); it != _cp.end(); ++it )
+        if ( _isect->isIntersection( _pos_wgs, _pos_wgs + _bas2wgs * _cp.at( _cp_index ), true ) )
         {
-            if ( _isect->isIntersection( _pos_wgs, _pos_wgs + _bas2wgs * (*it) ) )
-            {
-                _crash = DataOut::Collision;
-                break;
-            }
+            _crash = DataOut::Collision;
         }
+
+        _cp_index++;
+
+        if ( !( _cp_index < _cp.size() ) ) _cp_index = 0;
     }
 
     // detect overspeed
@@ -412,9 +414,9 @@ void Aircraft::updateOutputData()
     _dataOut->flight.machNumber  = _machNumber;
     _dataOut->flight.climbRate   = _climbRate;
 
-    _dataOut->flight.rollRate  = _omg_bas.x();
-    _dataOut->flight.pitchRate = _omg_bas.y();
-    _dataOut->flight.yawRate   = _omg_bas.z();
+    _dataOut->flight.rollRate  = _omg_bas.p();
+    _dataOut->flight.pitchRate = _omg_bas.q();
+    _dataOut->flight.yawRate   = _omg_bas.r();
     _dataOut->flight.turnRate  = _turnRate;
 
     _dataOut->flight.pos_x_wgs = _pos_wgs.x();
@@ -426,21 +428,21 @@ void Aircraft::updateOutputData()
     _dataOut->flight.att_ey_wgs = _att_wgs.ey();
     _dataOut->flight.att_ez_wgs = _att_wgs.ez();
 
-    _dataOut->flight.vel_u_bas = _vel_bas.x();
-    _dataOut->flight.vel_v_bas = _vel_bas.y();
-    _dataOut->flight.vel_w_bas = _vel_bas.z();
+    _dataOut->flight.vel_u_bas = _vel_bas.u();
+    _dataOut->flight.vel_v_bas = _vel_bas.v();
+    _dataOut->flight.vel_w_bas = _vel_bas.w();
 
-    _dataOut->flight.omg_p_bas = _omg_bas.x();
-    _dataOut->flight.omg_q_bas = _omg_bas.y();
-    _dataOut->flight.omg_r_bas = _omg_bas.z();
+    _dataOut->flight.omg_p_bas = _omg_bas.p();
+    _dataOut->flight.omg_q_bas = _omg_bas.q();
+    _dataOut->flight.omg_r_bas = _omg_bas.r();
 
     _dataOut->flight.phi_wgs = _angles_wgs.phi();
     _dataOut->flight.tht_wgs = _angles_wgs.tht();
     _dataOut->flight.psi_wgs = _angles_wgs.psi();
 
-    _dataOut->flight.airspeed_u_bas = _vel_air_bas.x();
-    _dataOut->flight.airspeed_v_bas = _vel_air_bas.y();
-    _dataOut->flight.airspeed_w_bas = _vel_air_bas.z();
+    _dataOut->flight.airspeed_u_bas = _vel_air_bas.u();
+    _dataOut->flight.airspeed_v_bas = _vel_air_bas.v();
+    _dataOut->flight.airspeed_w_bas = _vel_air_bas.w();
 
     _dataOut->flight.vel_north = _vel_ned.x();
     _dataOut->flight.vel_east  = _vel_ned.y();
@@ -598,13 +600,13 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _vel_air_bas = _vel_bas - _envir->getWind_BAS();
     _omg_air_bas = _omg_bas;
 
-    _acc_bas.x() = derivVect( _is_u );
-    _acc_bas.y() = derivVect( _is_v );
-    _acc_bas.z() = derivVect( _is_w );
+    _acc_bas.u() = derivVect( _is_u );
+    _acc_bas.v() = derivVect( _is_v );
+    _acc_bas.w() = derivVect( _is_w );
 
-    _eps_bas.x() = derivVect( _is_p );
-    _eps_bas.y() = derivVect( _is_q );
-    _eps_bas.z() = derivVect( _is_r );
+    _eps_bas.p() = derivVect( _is_p );
+    _eps_bas.q() = derivVect( _is_q );
+    _eps_bas.r() = derivVect( _is_r );
 
     _grav_wgs = _wgs.getGrav_WGS();
     _grav_bas = _wgs2bas * _grav_wgs;
@@ -645,17 +647,17 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _angleOfAttack = Aerodynamics::getAngleOfAttack( _vel_air_bas );
     _sideslipAngle = Aerodynamics::getSideslipAngle( _vel_air_bas );
 
-    double vel_ne = sqrt( _vel_ned.x()*_vel_ned.x() + _vel_ned.y()*_vel_ned.y() );
+    double vel_ne = _vel_ned.getLengthXY();
 
-    _trackAngle = atan2( _vel_ned.y(), _vel_ned.x() );
-    _climbAngle = atan2( -_vel_ned.z(), vel_ne );
+    _trackAngle = atan2( _vel_ned.v(), _vel_ned.u() );
+    _climbAngle = atan2( -_vel_ned.w(), vel_ne );
 
     while ( _trackAngle < 0.0      ) _trackAngle += 2.0*M_PI;
     while ( _trackAngle > 2.0*M_PI ) _trackAngle -= 2.0*M_PI;
 
     _slipSkidAngle = atan2( -_g_pilot.y(), _g_pilot.z() );
 
-    double dynPressLon = 0.5 * _envir->getDensity() * _vel_air_bas.x() * _vel_air_bas.x();
+    double dynPressLon = 0.5 * _envir->getDensity() * Misc::pow2( _vel_air_bas.u() );
 
     _airspeed    = _vel_air_bas.getLength();
     _dynPress    = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );

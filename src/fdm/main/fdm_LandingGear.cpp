@@ -342,7 +342,8 @@ Vector3 LandingGear::getWheelIsect( const Wheel &wheel )
     Vector3 n_wgs;
 
     if ( FDM_SUCCESS == _aircraft->getIsect()->getIntersection( b_wgs, e_wgs,
-                                                                r_wgs, n_wgs ) )
+                                                                r_wgs, n_wgs,
+                                                                true ) )
     {
         r_i_bas = _aircraft->getWGS2BAS() * ( r_wgs - _aircraft->getPos_WGS() );
     }

@@ -24,6 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <fdm/sys/fdm_PID.h>
+
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Table.h>
 #include <fdm/utils/fdm_Table2D.h>
@@ -81,7 +83,7 @@ public:
     static int read( const XmlNode &node, double &data );
 
     /**
-     * @brief Reads value from XML file.
+     * @brief Reads matrix data from XML file.
      * @param node XML node
      * @param data destination
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
@@ -99,7 +101,7 @@ public:
     static int read( const XmlNode &node, Matrix3x3 &data );
 
     /**
-     * @brief Reads value from XML file.
+     * @brief Reads vector data from XML file.
      * @param node XML node
      * @param data destination
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
@@ -115,9 +117,9 @@ public:
     static int read( const XmlNode &node, Vector3 &data );
 
     /**
-     * @brief Reads value from XML file.
+     * @brief Reads table data from XML file.
      * @param node XML node
-     * @param data destination
+     * @param table table
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      *
      * @code
@@ -129,12 +131,12 @@ public:
      *
      * @see fdm::Units::getConverter(const char *)
      */
-    static int read( const XmlNode &node, Table &data );
+    static int read( const XmlNode &node, Table &table );
 
     /**
-     * @brief Reads value from XML file.
+     * @brief Reads table data from XML file.
      * @param node XML node
-     * @param data destination
+     * @param table table
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      *
      * @code
@@ -147,7 +149,27 @@ public:
      *
      * @see fdm::Units::getConverter(const char *)
      */
-    static int read( const XmlNode &node, Table2D &data );
+    static int read( const XmlNode &node, Table2D &table );
+
+    /**
+     * @brief Reads PID controller data from XML file.
+     * @param node XML node
+     * @param pid PID controller
+     * @param min
+     * @param max
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
+     *
+     * @code
+     * <tag_name>
+     *   <kp> {proportional gain} </kp>
+     *   <ki> {integral gain}     </ki>
+     *   <kd> {derivative gain}   </kd>
+     *   <min> {minimum value} </min>
+     *   <max> {maximum value} </max>
+     * </tag_name>
+     * @endcode
+     */
+    static int read( const XmlNode &node, PID &pid, double min, double max );
 
     /**
      * @brief Reads value from XML file.

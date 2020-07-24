@@ -26,6 +26,7 @@
 
 #include <osg/Node>
 #include <osg/Vec3d>
+#include <osg/Version>
 
 #include <osgUtil/IntersectionVisitor>
 
@@ -47,7 +48,11 @@ public:
 
     struct ReadCallback : public osgUtil::IntersectionVisitor::ReadCallback
     {
+#       if OPENSCENEGRAPH_SOVERSION > 131
         virtual osg::ref_ptr<osg::Node> readNodeFile( const std::string& filename );
+#       else
+        virtual osg::Node* readNodeFile( const std::string& filename );
+#       endif
     };
 
     /** Destructor. */

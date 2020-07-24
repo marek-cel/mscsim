@@ -38,6 +38,17 @@ class FDMEXPORT Intersections
 {
 public:
 
+    /**
+     * Checks intersection.
+     * @param b [m] beginning of intersection line expressed in WGS
+     * @param e [m] end of intersection line expressed in WGS
+     * @param r [m] ground coordinates expressed in WGS
+     * @param n [-] ground normal vector expressed in WGS
+     * @return true if there is an intersection, false otherwise
+     */
+    static bool isIntersection( const Vector3 &b, const Vector3 &e,
+                                const Vector3 &r, const Vector3 &n );
+
     /** Constructor. */
     Intersections();
 
@@ -61,18 +72,21 @@ public:
      * @param e [m] end of intersection line expressed in WGS
      * @param r [m] intersection point coordinates expressed in WGS
      * @param n [-] intersection normal vector expressed in WGS
+     * @param update specifies if ground intersection data should be updated
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
     virtual int getIntersection( const Vector3 &b, const Vector3 &e,
-                                 Vector3 &r, Vector3 &n ) const;
+                                 Vector3 &r, Vector3 &n, bool update = false ) const;
 
     /**
      * Checks intersection.
      * @param b [m] beginning of intersection line expressed in WGS
      * @param e [m] end of intersection line expressed in WGS
+     * @param update specifies if ground intersection data should be updated
      * @return true if there is an intersection, false otherwise
      */
-    virtual bool isIntersection( const Vector3 &b, const Vector3 &e ) const;
+    virtual bool isIntersection( const Vector3 &b, const Vector3 &e,
+                                 bool update = false ) const;
 
     /**
      * Returns ground normal vector expressed in WGS.

@@ -49,6 +49,9 @@ DialogMass::DialogMass( QWidget *parent ) :
 {
     _ui->setupUi( this );
 
+    _ui->spinBoxTotal->setHighlightColor( QColor( 0xff, 0x0, 0x0 ) );
+    _ui->spinBoxTotal->setToggleOnDblClick( false );
+
     settingsRead();
 }
 
@@ -79,6 +82,8 @@ void DialogMass::readData()
 
     _ui->spinBoxCabin->setValue( _ui->comboBoxCabin->convert( _cabin ) );
     _ui->spinBoxTrunk->setValue( _ui->comboBoxTrunk->convert( _trunk ) );
+
+    updateResults();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -339,6 +344,45 @@ void DialogMass::settingsSave_UnitCombos( QSettings &settings )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DialogMass::updateResults()
+{
+    Aircrafts::Masses masses = Aircrafts::instance()->getAircraft( _type ).masses;
+
+    double m_e  = masses.empty;
+    double mtow = masses.mtow;
+
+    _ui->spinBoxMTOW->setValue( _ui->comboBoxMTOW->convert( mtow ) );
+
+    _ui->spinBoxTotal->setHighlighted( false );
+
+    if ( m_e > 0.0 )
+    {
+        double m_t = m_e;
+
+        if ( masses.pilot_1     .enabled ) m_t += _ui->comboBoxPilot_1    ->invert( _ui->spinBoxPilot_1    ->value() );
+        if ( masses.pilot_2     .enabled ) m_t += _ui->comboBoxPilot_2    ->invert( _ui->spinBoxPilot_2    ->value() );
+        if ( masses.fuel_tank_1 .enabled ) m_t += _ui->comboBoxFuelTank_1 ->invert( _ui->spinBoxFuelTank_1 ->value() );
+        if ( masses.fuel_tank_2 .enabled ) m_t += _ui->comboBoxFuelTank_2 ->invert( _ui->spinBoxFuelTank_2 ->value() );
+        if ( masses.fuel_tank_3 .enabled ) m_t += _ui->comboBoxFuelTank_3 ->invert( _ui->spinBoxFuelTank_3 ->value() );
+        if ( masses.fuel_tank_4 .enabled ) m_t += _ui->comboBoxFuelTank_4 ->invert( _ui->spinBoxFuelTank_4 ->value() );
+        if ( masses.fuel_tank_5 .enabled ) m_t += _ui->comboBoxFuelTank_5 ->invert( _ui->spinBoxFuelTank_5 ->value() );
+        if ( masses.fuel_tank_6 .enabled ) m_t += _ui->comboBoxFuelTank_6 ->invert( _ui->spinBoxFuelTank_6 ->value() );
+        if ( masses.fuel_tank_7 .enabled ) m_t += _ui->comboBoxFuelTank_7 ->invert( _ui->spinBoxFuelTank_7 ->value() );
+        if ( masses.fuel_tank_8 .enabled ) m_t += _ui->comboBoxFuelTank_8 ->invert( _ui->spinBoxFuelTank_8 ->value() );
+        if ( masses.cabin       .enabled ) m_t += _ui->comboBoxCabin      ->invert( _ui->spinBoxCabin      ->value() );
+        if ( masses.trunk       .enabled ) m_t += _ui->comboBoxTrunk      ->invert( _ui->spinBoxTrunk      ->value() );
+
+        _ui->spinBoxTotal->setValue( _ui->comboBoxTotal->convert( m_t ) );
+        _ui->spinBoxTotal->setHighlighted( m_t > mtow );
+    }
+    else
+    {
+        _ui->spinBoxTotal->setValue( 0.0 );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DialogMass::on_comboBoxPilot_1_currentIndexChanged( int )
 {
     double mass_kg = _ui->comboBoxPilot_1->invertPrev( _ui->spinBoxPilot_1->value() );
@@ -467,4 +511,84 @@ void DialogMass::on_comboBoxTrunk_currentIndexChanged( int )
     Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.trunk;
     _ui->spinBoxTrunk->setMaximum( _ui->comboBoxTrunk->convert( mass.max ) );
     _ui->spinBoxTrunk->setValue( _ui->comboBoxTrunk->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxPilot_1_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+void DialogMass::on_spinBoxPilot_2_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_1_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_2_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_3_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_4_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_5_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_6_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+void DialogMass::on_spinBoxFuelTank_7_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxFuelTank_8_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxCabin_valueChanged( double arg1 )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxTrunk_valueChanged( double /*arg1*/ )
+{
+    updateResults();
 }

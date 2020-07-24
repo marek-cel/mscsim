@@ -355,6 +355,8 @@ protected:
 
     PropState _initPropState;   ///< initial propulsion state
 
+    UInt32 _cp_index;           ///< current collision point index
+
     double _elevation;          ///< [m] ground elevation above mean sea level
     double _altitude_asl;       ///< [m] altitude above sea level
     double _altitude_agl;       ///< [m] altitude above ground level

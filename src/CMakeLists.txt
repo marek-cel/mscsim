@@ -102,10 +102,12 @@ find_library( XSS_LIBRARY Xss )
 
 add_subdirectory( cgi )
 add_subdirectory( fdm )
+add_subdirectory( fdm_aw101 )
 add_subdirectory( fdm_c130 )
 add_subdirectory( fdm_c172 )
 add_subdirectory( fdm_f16 )
 add_subdirectory( fdm_p51 )
+add_subdirectory( fdm_r44 )
 add_subdirectory( fdm_uh60 )
 add_subdirectory( g1000 )
 add_subdirectory( gui )
@@ -176,10 +178,13 @@ target_link_libraries( ${PROJECT_NAME}
 
     cgi
     fdm
+    fdm_aw101
     fdm_c130
     fdm_c172
     fdm_f16
+    fdm_f35a
     fdm_p51
+    fdm_r44
     fdm_uh60
     g1000
     gui

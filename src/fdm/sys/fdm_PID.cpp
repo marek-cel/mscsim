@@ -192,11 +192,11 @@ void PID::setValue( double value )
 
 void PID::setValue( double timeStep, double error, double value )
 {
+    _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
+    _error_i = fabs( _ki ) > 0.0 ? ( ( value  - _kp * error - _kd * _error_d ) / _ki ) : 0.0;
+
     _error = error;
 
     _value = value;
     _delta = 0.0;
-
-    _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
-    _error_i = fabs( _ki ) > 0.0 ? ( ( _value  - _kp * _error - _kd * _error_d ) / _ki ) : 0.0;
 }

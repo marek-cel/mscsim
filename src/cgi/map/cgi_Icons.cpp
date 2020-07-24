@@ -341,7 +341,7 @@ void Icons::initRunways()
 
         fdm::Vector3 v_delta_ned = he_pos_ned - le_pos_ned;
 
-        double heading = atan2( v_delta_ned.y(), v_delta_ned.x() );
+        double heading = atan2( v_delta_ned.v(), v_delta_ned.u() );
 
         pat->setPosition( osg::Vec3d( 0.5 * ( he_x + le_x ),
                                       0.5 * ( he_y + le_y ),

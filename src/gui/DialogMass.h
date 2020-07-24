@@ -102,6 +102,8 @@ private:
     void settingsSave_MassData( QSettings &settings );
     void settingsSave_UnitCombos( QSettings &settings );
 
+    void updateResults();
+
 private slots:
 
     void on_comboBoxPilot_1_currentIndexChanged( int index );
@@ -118,6 +120,21 @@ private slots:
 
     void on_comboBoxCabin_currentIndexChanged( int index );
     void on_comboBoxTrunk_currentIndexChanged( int index );
+
+    void on_spinBoxPilot_1_valueChanged( double arg1 );
+    void on_spinBoxPilot_2_valueChanged( double arg1 );
+
+    void on_spinBoxFuelTank_1_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_2_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_3_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_4_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_5_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_6_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_7_valueChanged( double arg1 );
+    void on_spinBoxFuelTank_8_valueChanged( double arg1 );
+
+    void on_spinBoxCabin_valueChanged( double arg1 );
+    void on_spinBoxTrunk_valueChanged( double arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

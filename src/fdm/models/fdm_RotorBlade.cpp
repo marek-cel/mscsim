@@ -520,8 +520,8 @@ void RotorBlade::integrateSpanwise( const Vector3 &vel_air_ras,
         Vector3 vel_i_air_bsa = vel_fh_air_bsa + omg_air_tot_bsa % pos_i_bsa;
 
         // section angle of attack
-        double u = -vel_i_air_bsa.x();
-        double w = -vel_i_air_bsa.z();
+        double u = -vel_i_air_bsa.u();
+        double w = -vel_i_air_bsa.w();
         double angleOfAttack = Aerodynamics::getAngleOfAttack( u, w );
         double angleOfAttackTot = angleOfAttack;
         if ( fabs( u ) > 0.1 )

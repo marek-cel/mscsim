@@ -251,53 +251,15 @@ void Autopilot::readChannel( const XmlNode &dataNode, double &max_rate,
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
 
         XmlNode nodePID = dataNode.getFirstChildElement( "pid" );
-        readPID( nodePID, pid );
+
+        if ( FDM_SUCCESS != XmlUtils::read( nodePID, pid, -1.0, 1.0 ) )
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
 
         result = XmlUtils::read( dataNode, gain_ias, "gain_ias", true );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Autopilot::readPID( const XmlNode &dataNode, PID &pid )
-{
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        double kp = 0.0;
-        double ki = 0.0;
-        double kd = 0.0;
-
-        double min = -1.0;
-        double max =  1.0;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kp, "kp", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ki, "ki", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kd, "kd", true );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, min, "min", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, max, "max", true );
-
-        if ( result == FDM_SUCCESS )
-        {
-            pid.setKp( kp );
-            pid.setKi( ki );
-            pid.setKd( kd );
-
-            pid.setMin( min );
-            pid.setMax( max );
-        }
-        else
-        {
-            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-        }
     }
     else
     {

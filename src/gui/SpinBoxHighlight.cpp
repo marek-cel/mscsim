@@ -29,7 +29,9 @@
 
 SpinBoxHighlight::SpinBoxHighlight( QWidget *parent ) :
     QDoubleSpinBox ( parent ),
-    _highlighted ( false )
+    _color( 0xff, 0xff, 0x99 ),
+    _highlighted ( false ),
+    _toggleOnDblClick ( true )
 {
     installEventFilter( this );
 
@@ -58,7 +60,7 @@ void SpinBoxHighlight::setHighlighted( bool highlighted )
 
     if ( _highlighted )
     {
-        setStyleSheet( "QDoubleSpinBox { background-color: #ff9; }" );
+        setStyleSheet( "QDoubleSpinBox { background-color: " + _color.name( QColor::HexRgb ) + "; }" );
     }
     else
     {
@@ -77,7 +79,7 @@ void SpinBoxHighlight::toggleHighlight()
 
 bool SpinBoxHighlight::eventFilter( QObject *, QEvent *event )
 {
-    if ( event->type() == QMouseEvent::MouseButtonDblClick )
+    if ( _toggleOnDblClick && event->type() == QMouseEvent::MouseButtonDblClick )
     {
         toggleHighlight();
     }

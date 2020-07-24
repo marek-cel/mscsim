@@ -397,49 +397,8 @@ void C172_KFC325_FD::readMode( const XmlNode &dataNode, PID &pid, double min, do
     if ( dataNode.isValid() )
     {
         XmlNode nodePID = dataNode.getFirstChildElement( "pid" );
-        readPID( nodePID, pid, min, max );
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-}
 
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_KFC325_FD::readPID( const XmlNode &dataNode, PID &pid, double min, double max )
-{
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        double kp = 0.0;
-        double ki = 0.0;
-        double kd = 0.0;
-
-        double temp_min = pid.getMin();
-        double temp_max = pid.getMax();
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kp, "kp", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ki, "ki", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, kd, "kd", true );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, temp_min, "min", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, temp_max, "max", true );
-
-        if ( result == FDM_SUCCESS )
-        {
-            if ( temp_min < min ) temp_min = min;
-            if ( temp_max > max ) temp_max = max;
-
-            pid.setKp( kp );
-            pid.setKi( ki );
-            pid.setKd( kd );
-
-            pid.setMin( temp_min );
-            pid.setMax( temp_max );
-        }
-        else
+        if ( FDM_SUCCESS != XmlUtils::read( nodePID, pid, min, max ) )
         {
             XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }

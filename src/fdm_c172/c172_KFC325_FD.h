@@ -176,7 +176,6 @@ protected:
     bool _halfBank;             ///< specifies if half bank is engaged
 
     virtual void readMode( const XmlNode &dataNode, PID &pid, double min, double max );
-    virtual void readPID( const XmlNode &dataNode, PID &pid, double min, double max );
 
     virtual void updateArmMode( double dme_distance,
                                 double nav_deviation, bool nav_active,

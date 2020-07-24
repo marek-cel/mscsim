@@ -39,15 +39,19 @@ struct DataInp
     /** Aircraft type. */
     enum AircraftType
     {
-        C130 = 0,                           ///< C-130
-        C172 = 1,                           ///< Cessna 172
-        F16  = 2,                           ///< F-16
-        P51  = 3,                           ///< P-51
-        UH60 = 4                            ///< UH-60
+        AW101 = 1,                          ///< AW101
+        C130  = 2,                          ///< C-130
+        C172  = 3,                          ///< Cessna 172
+        F16   = 4,                          ///< F-16
+        F35A  = 5,                          ///< F-35A
+        P51   = 6,                          ///< P-51
+        R44   = 7,                          ///< R44
+        UH60  = 8                           ///< UH-60
 
 #       ifdef FDM_TEST
         ,
-        TEST = 999                          ///< TEST
+        XF = 901,                           ///< eXperimental Fighter
+        XH = 902                            ///< eXperimental Helicopter
 #       endif
 
     };

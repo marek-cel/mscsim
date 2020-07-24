@@ -30,14 +30,18 @@
 #include <fdm/utils/fdm_Time.h>
 #include <fdm/utils/fdm_Units.h>
 
+#include <fdm_aw101/aw101_Aircraft.h>
 #include <fdm_c130/c130_Aircraft.h>
 #include <fdm_c172/c172_Aircraft.h>
 #include <fdm_f16/f16_Aircraft.h>
+#include <fdm_f35a/f35a_Aircraft.h>
 #include <fdm_p51/p51_Aircraft.h>
+#include <fdm_r44/r44_Aircraft.h>
 #include <fdm_uh60/uh60_Aircraft.h>
 
 #ifdef FDM_TEST
-#   include <fdm_test/test_Aircraft.h>
+#   include <fdm_xf/xf_Aircraft.h>
+#   include <fdm_xh/xh_Aircraft.h>
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +137,10 @@ Aircraft* Manager::createAircraft( AircraftType aircraftType )
 
     switch ( aircraftType )
     {
+    case DataInp::AW101:
+        aircraft = new AW101_Aircraft( &_dataInp, &_dataOut );
+        break;
+
     case DataInp::C130:
         aircraft = new C130_Aircraft( &_dataInp, &_dataOut );
         break;
@@ -145,17 +153,29 @@ Aircraft* Manager::createAircraft( AircraftType aircraftType )
         aircraft = new F16_Aircraft( &_dataInp, &_dataOut );
         break;
 
+    case DataInp::F35A:
+        aircraft = new F35A_Aircraft( &_dataInp, &_dataOut );
+        break;
+
     case DataInp::P51:
         aircraft = new P51_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::R44:
+        aircraft = new R44_Aircraft( &_dataInp, &_dataOut );
         break;
 
     case DataInp::UH60:
         aircraft = new UH60_Aircraft( &_dataInp, &_dataOut );
         break;
 
-#   ifdef FDM_TEST
-    case DataInp::TEST:
-        aircraft = new TEST_Aircraft( &_dataInp, &_dataOut );
+#   ifdef FDM_TEST        
+    case DataInp::XF:
+        aircraft = new XF_Aircraft( &_dataInp, &_dataOut );
+        break;
+
+    case DataInp::XH:
+        aircraft = new XH_Aircraft( &_dataInp, &_dataOut );
         break;
 #   endif
     }
@@ -916,12 +936,12 @@ void Manager::printState()
         Log::out() << "       roll [deg] : " << Units::rad2deg( _aircraft->getAngles_NED().phi() ) << std::endl;
         Log::out() << "      pitch [deg] : " << Units::rad2deg( _aircraft->getAngles_NED().tht() ) << std::endl;
         Log::out() << "    heading [deg] : " << Units::rad2deg( _aircraft->getAngles_NED().psi() ) << std::endl;
-        Log::out() << "      u-bas [m/s] : " << _aircraft->getVel_BAS().x() << std::endl;
-        Log::out() << "      v-bas [m/s] : " << _aircraft->getVel_BAS().y() << std::endl;
-        Log::out() << "      w-bas [m/s] : " << _aircraft->getVel_BAS().z() << std::endl;
-        Log::out() << "    p-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().x() ) << std::endl;
-        Log::out() << "    q-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().y() ) << std::endl;
-        Log::out() << "    r-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().z() ) << std::endl;
+        Log::out() << "      u-bas [m/s] : " << _aircraft->getVel_BAS().u() << std::endl;
+        Log::out() << "      v-bas [m/s] : " << _aircraft->getVel_BAS().v() << std::endl;
+        Log::out() << "      w-bas [m/s] : " << _aircraft->getVel_BAS().w() << std::endl;
+        Log::out() << "    p-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().p() ) << std::endl;
+        Log::out() << "    q-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().q() ) << std::endl;
+        Log::out() << "    r-bas [deg/s] : " << Units::rad2deg( _aircraft->getOmg_BAS().r() ) << std::endl;
         Log::out() << "   airspeed [m/s] : " << _aircraft->getAirspeed() << std::endl;
         Log::out() << "        AoA [deg] : " << Units::rad2deg( _aircraft->getAngleOfAttack() ) << std::endl;
         Log::out() << "           Gx [-] : " << _aircraft->getGForce().x() << std::endl;

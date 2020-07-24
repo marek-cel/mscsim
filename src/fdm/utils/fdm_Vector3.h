@@ -88,6 +88,20 @@ public:
     inline double& y()       { return _y; }
     inline double& z()       { return _z; }
 
+    inline double  p() const { return _x; }
+    inline double  q() const { return _y; }
+    inline double  r() const { return _z; }
+    inline double& p()       { return _x; }
+    inline double& q()       { return _y; }
+    inline double& r()       { return _z; }
+
+    inline double  u() const { return _x; }
+    inline double  v() const { return _y; }
+    inline double  w() const { return _z; }
+    inline double& u()       { return _x; }
+    inline double& v()       { return _y; }
+    inline double& w()       { return _z; }
+
     /** Sets vector values. */
     void set( double x, double y, double z );
 

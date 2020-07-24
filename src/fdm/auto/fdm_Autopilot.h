@@ -164,8 +164,6 @@ protected:
 
     virtual void readChannel( const XmlNode &dataNode, double &max_rate,
                               PID &pid, Table &gain_ias );
-
-    virtual void readPID( const XmlNode &dataNode, PID &pid );
 };
 
 } // end of fdm namespace

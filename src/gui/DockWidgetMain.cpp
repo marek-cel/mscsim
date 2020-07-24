@@ -54,7 +54,7 @@ DockWidgetMain::~DockWidgetMain()
 
 void DockWidgetMain::init()
 {
-    _timerId = startTimer( 1000.0 * GUI_TIME_STEP );
+    _timerId = startTimer( 400 ); // low frequency button blinking
 }
 
 ////////////////////////////////////////////////////////////////////////////////

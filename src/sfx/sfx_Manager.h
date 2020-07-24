@@ -68,12 +68,22 @@ private:
     Sample *_gear_lock;         ///<
     Sample *_gear_move;         ///<
 
+    Sample *_prop_aw101;        ///<
     Sample *_prop_c130;         ///<
     Sample *_prop_c172;         ///<
-    Sample *_prop_p51;          ///<
     Sample *_prop_f16;          ///<
     Sample *_prop_f16ab;        ///<
+    Sample *_prop_f35;          ///<
+    Sample *_prop_f35ab;        ///<
+    Sample *_prop_p51;          ///<
+    Sample *_prop_r44;          ///<
     Sample *_prop_uh60;         ///<
+
+#   ifdef FDM_TEST
+    Sample *_prop_xf;           ///<
+    Sample *_prop_xfab;         ///<
+    Sample *_prop_xh;           ///<
+#   endif
 
     double _volume;             ///<
 
@@ -93,11 +103,19 @@ private:
     void updateTouchdown( const Data::DataBuf *data, double vel_max );
     void updateWarning( const Data::DataBuf *data );
 
-    void updateAircraft_C130 ( const Data::DataBuf *data );
-    void updateAircraft_C172 ( const Data::DataBuf *data );
-    void updateAircraft_F16  ( const Data::DataBuf *data );
-    void updateAircraft_P51  ( const Data::DataBuf *data );
-    void updateAircraft_UH60 ( const Data::DataBuf *data );
+    void updateAircraft_AW101 ( const Data::DataBuf *data );
+    void updateAircraft_C130  ( const Data::DataBuf *data );
+    void updateAircraft_C172  ( const Data::DataBuf *data );
+    void updateAircraft_F16   ( const Data::DataBuf *data );
+    void updateAircraft_F35A  ( const Data::DataBuf *data );
+    void updateAircraft_P51   ( const Data::DataBuf *data );
+    void updateAircraft_R44   ( const Data::DataBuf *data );
+    void updateAircraft_UH60  ( const Data::DataBuf *data );
+
+#   ifdef FDM_TEST
+    void updateAircraft_XF( const Data::DataBuf *data );
+    void updateAircraft_XH( const Data::DataBuf *data );
+#   endif
 };
 
 } // end of sfx namepsace

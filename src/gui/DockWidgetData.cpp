@@ -333,11 +333,11 @@ void DockWidgetData::settingsRead_UnitCombos( QSettings &settings )
 {
     settings.beginGroup( "unit_combos" );
 
-    _ui->comboAltitudeASL   ->setCurrentIndex( settings.value( "altitude_asl"    , 0 ).toInt() );
-    _ui->comboAltitudeAGL   ->setCurrentIndex( settings.value( "altitude_agl"    , 0 ).toInt() );
-    _ui->comboAirspeed      ->setCurrentIndex( settings.value( "airspeed"        , 0 ).toInt() );
-    _ui->comboIAS           ->setCurrentIndex( settings.value( "ias"             , 0 ).toInt() );
-    _ui->comboClimbRate     ->setCurrentIndex( settings.value( "climb_rate"      , 0 ).toInt() );
+    _ui->comboAltitudeASL   ->setCurrentIndex( settings.value( "altitude_asl"    , 1 ).toInt() );
+    _ui->comboAltitudeAGL   ->setCurrentIndex( settings.value( "altitude_agl"    , 1 ).toInt() );
+    _ui->comboAirspeed      ->setCurrentIndex( settings.value( "airspeed"        , 4 ).toInt() );
+    _ui->comboIAS           ->setCurrentIndex( settings.value( "ias"             , 4 ).toInt() );
+    _ui->comboClimbRate     ->setCurrentIndex( settings.value( "climb_rate"      , 1 ).toInt() );
     _ui->comboMachNumber    ->setCurrentIndex( settings.value( "mach_number"     , 0 ).toInt() );
     _ui->comboRollAngle     ->setCurrentIndex( settings.value( "roll_angle"      , 1 ).toInt() );
     _ui->comboPitchAngle    ->setCurrentIndex( settings.value( "pitch_angle"     , 1 ).toInt() );

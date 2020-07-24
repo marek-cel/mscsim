@@ -331,6 +331,12 @@ void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
 
     if ( !nodeMasses.isNull() )
     {
+        QDomElement nodeEmpty = nodeMasses.firstChildElement( "empty" );
+        QDomElement nodeMTOW  = nodeMasses.firstChildElement( "mtow" );
+
+        masses.empty = ( nodeEmpty .isNull() ) ? 0.0 : nodeEmpty .text().toDouble();
+        masses.mtow  = ( nodeMTOW  .isNull() ) ? 0.0 : nodeMTOW  .text().toDouble();
+
         QDomElement nodePilot1 = nodeMasses.firstChildElement( "pilot_1" );
         QDomElement nodePilot2 = nodeMasses.firstChildElement( "pilot_2" );
 
