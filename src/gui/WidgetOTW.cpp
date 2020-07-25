@@ -276,7 +276,9 @@ void WidgetOTW::createCameraOTW()
 
     double w2h = (double)(traits->width) / (double)(traits->height);
 
+#   ifndef SIM_TEST_WORLD
     cameraOTW->setClearColor( osg::Vec4( 0.0, 0.0, 0.0, 1.0 ) );
+#   endif
     cameraOTW->setViewport( new osg::Viewport( 0, 0, traits->width, traits->height ) );
     cameraOTW->setProjectionMatrixAsPerspective( CGI_FOV_Y, w2h, _zNear, _zFar );
     cameraOTW->setNearFarRatio( _zNear / _zFar );

@@ -52,8 +52,12 @@ Scenery::Scenery( const Module *parent ) :
 {
     _root->setName( "Scenery" );
 
-    _patMaster = new osg::PositionAttitudeTransform();
-    _root->addChild( _patMaster.get() );
+    _patMasterPos = new osg::PositionAttitudeTransform();
+    _patMasterAtt = new osg::PositionAttitudeTransform();
+
+    _patMasterPos->addChild( _patMasterAtt.get() );
+
+    _root->addChild( _patMasterPos.get() );
 
     _on = new osgSim::OverlayNode( osgSim::OverlayNode::OBJECT_DEPENDENT_WITH_ORTHOGRAPHIC_OVERLAY );
     _on->setContinuousUpdate( true );
@@ -62,12 +66,22 @@ Scenery::Scenery( const Module *parent ) :
     _on->getOrCreateStateSet()->setMode( GL_BLEND, osg::StateAttribute::ON );
     _on->getOrCreateStateSet()->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     _on->getOrCreateStateSet()->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_WORLD, "RenderBin" );
-    _patMaster->addChild( _on.get() );
+    _patMasterAtt->addChild( _on.get() );
 
-    _patScenery = new osg::PositionAttitudeTransform();
-    _on->addChild( _patScenery.get() );
+    //_groupScenery = new osg::Group();
+    //_on->addChild( _groupScenery.get() );
 
-    //createShadow();
+    _patSceneryPos = new osg::PositionAttitudeTransform();
+    _patSceneryAtt = new osg::PositionAttitudeTransform();
+
+    _patSceneryAtt->addChild( _patSceneryPos.get() );
+
+    _on->addChild( _patSceneryAtt.get() );
+
+    _patShadow = new osg::PositionAttitudeTransform();
+    _on->setOverlaySubgraph( _patShadow.get() );
+
+    createShadow();
 
     fdm::XmlDoc doc( Path::get( "data/cgi/scenery/scenery.xml" ).c_str() );
 
@@ -99,7 +113,7 @@ void Scenery::addChild( Module *child )
     if ( child )
     {
         _children.push_back( child );
-        _patScenery->addChild( child->getNode() );
+        _patSceneryPos->addChild( child->getNode() );
     }
 }
 
@@ -111,40 +125,59 @@ void Scenery::update()
     Module::update();
     /////////////////
 
-//    osg::Quat q( -Data::get()->ownship.heading           , osg::Z_AXIS,
-//                 -Data::get()->ownship.latitude + M_PI_2 , osg::Y_AXIS,
-//                  Data::get()->ownship.longitude         , osg::Z_AXIS );
+    osg::Vec3d v( Data::get()->ownship.pos_x_wgs,
+                  Data::get()->ownship.pos_y_wgs,
+                  Data::get()->ownship.pos_z_wgs );
 
-//    osg::Matrixd localToWorld;
-//    WGS84::_em.computeLocalToWorldTransformFromXYZ( Data::get()->ownship.pos_x_wgs,
-//                                                    Data::get()->ownship.pos_y_wgs,
-//                                                    Data::get()->ownship.pos_z_wgs,
-//                                                    localToWorld );
-//    osg::Quat q = localToWorld.getRotate();
+    WGS84 wgs( v );
 
-//    _patScenery->setAttitude( q.inverse() );
-//    _patMaster->setAttitude( q );
+    _patSceneryAtt->setAttitude(  wgs.getAttitude().inverse() );
+    _patSceneryPos->setPosition( -wgs.getPosition() );
+
+    _patMasterAtt->setAttitude(  wgs.getAttitude() );
+    _patMasterPos->setPosition(  wgs.getPosition() );
+
+    osg::Quat att( Data::get()->ownship.roll    , osg::X_AXIS,
+                   Data::get()->ownship.pitch   , osg::Y_AXIS,
+                   Data::get()->ownship.heading , osg::Z_AXIS );
+
+    _patShadow->setAttitude( att );
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Scenery::setShadow( const char *shadowFile )
+{
+    osg::ref_ptr<osg::Texture2D> texture = Textures::get( shadowFile );
+
+    if ( !texture.valid() )
+    {
+        texture = Textures::get( "data/cgi/textures/shadow.png" );
+    }
+
+    _geodeShadow->getOrCreateStateSet()->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Scenery::createShadow()
 {
-    const double w_2 = 30.0;
-    const double l_2 = 30.0;
+    const double w_2 = 50.0;
+    const double l_2 = 50.0;
 
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _on->setOverlaySubgraph( geode.get() );
+    _geodeShadow = new osg::Geode();
+    _patShadow->addChild( _geodeShadow.get() );
 
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
-    geode->addDrawable( geom.get() );
+    _geodeShadow->addDrawable( geom.get() );
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
 
-    v->push_back( osg::Vec3d(  w_2, -l_2, 0.0 ) );
-    v->push_back( osg::Vec3d(  w_2,  l_2, 0.0 ) );
-    v->push_back( osg::Vec3d( -w_2,  l_2, 0.0 ) );
     v->push_back( osg::Vec3d( -w_2, -l_2, 0.0 ) );
+    v->push_back( osg::Vec3d( -w_2,  l_2, 0.0 ) );
+    v->push_back( osg::Vec3d(  w_2,  l_2, 0.0 ) );
+    v->push_back( osg::Vec3d(  w_2, -l_2, 0.0 ) );
 
     Geometry::createQuad( geom.get(), v.get(), true );
 
@@ -154,12 +187,7 @@ void Scenery::createShadow()
     material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
     material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.5f, 0.5f, 0.5f, 1.0f ) );
 
-    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
-
-    stateSet->setAttribute( material.get() );
-
-    osg::ref_ptr<osg::Texture2D> texture = Textures::get( "data/cgi/textures/shadow.png" );
-    stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+    _geodeShadow->getOrCreateStateSet()->setAttribute( material.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

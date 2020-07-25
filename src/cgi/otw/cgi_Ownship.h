@@ -33,6 +33,7 @@
 #include <cgi/cgi_Module.h>
 
 #include <cgi/otw/cgi_Rotor.h>
+#include <cgi/otw/cgi_Scenery.h>
 #include <cgi/otw/cgi_Vector.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +73,7 @@ public:
     typedef std::vector< ElementData > ElementsData;
 
     /** Constructor. */
-    Ownship( const Module *parent = NULLPTR );
+    Ownship( const Module *parent = NULLPTR, Scenery *scenery = NULLPTR );
 
     /** Destructor. */
     virtual ~Ownship();
@@ -81,6 +82,8 @@ public:
     void update();
 
 private:
+
+    Scenery *_scenery;      ///< scenery
 
     Rotor  *_rotor;         ///< rotor
     Vector *_vector;        ///< vector

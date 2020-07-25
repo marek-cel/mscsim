@@ -54,10 +54,19 @@ public:
     /** Updates scenery. */
     void update();
 
+    void setShadow( const char *shadowFile );
+
 private:
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> _patMaster;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _patScenery;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patShadow;
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patMasterPos;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patMasterAtt;
+
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSceneryPos;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patSceneryAtt;
+
+    osg::ref_ptr<osg::Geode> _geodeShadow;
 
     osg::ref_ptr<osgSim::OverlayNode> _on;
 

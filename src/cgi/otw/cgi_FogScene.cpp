@@ -82,6 +82,7 @@ int FogScene::getFogNumber( float sun_elev )
 FogScene::FogScene( const Module *parent ) :
     Module( parent )
 {
+#   ifndef SIM_TEST_WORLD
     _fog = new osg::Fog();
 
     osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
@@ -94,10 +95,15 @@ FogScene::FogScene( const Module *parent ) :
 
     stateSet->setAttributeAndModes( _fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
+#   endif // SIM_TEST_WORLD
 
-    addChild( new Clouds( this ) );
-    addChild( new Ownship( this ) );
-    addChild( new Scenery( this ) );
+    Clouds  *clouds  = new Clouds  ( this );
+    Scenery *scenery = new Scenery ( this );
+    Ownship *ownship = new Ownship ( this, scenery );
+
+    addChild( clouds  );
+    addChild( ownship );
+    addChild( scenery );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +118,7 @@ void FogScene::update()
     Module::update();
     /////////////////
 
+#   ifndef SIM_TEST_WORLD
     float visibility = Data::get()->cgi.environment.visibility;
     visibility = std::min( std::max( visibility, 1.0f ), 0.9f * CGI_SKYDOME_RADIUS );
 
@@ -127,4 +134,5 @@ void FogScene::update()
 
     stateSet->setAttributeAndModes( _fog.get(), osg::StateAttribute::ON );
     stateSet->setMode( GL_FOG, osg::StateAttribute::ON );
+#   endif // SIM_TEST_WORLD
 }

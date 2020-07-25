@@ -45,7 +45,9 @@ OTW::OTW( const Module *parent ) :
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
     addChild( new FogScene( this ) );
+#   ifndef SIM_TEST_WORLD
     addChild( new SkyDome( this ) );
+#   endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

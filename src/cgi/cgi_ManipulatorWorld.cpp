@@ -60,10 +60,12 @@ bool ManipulatorWorld::performMovementRightMouseButton( const double /*eventTime
 
 void ManipulatorWorld::boundDistance()
 {
+#   ifndef SIM_TEST_WORLD
     static const double distance_max = 0.8 * CGI_SKYDOME_RADIUS;
 
     if ( getDistance() > distance_max )
     {
         setDistance( distance_max );
     }
+#   endif
 }
