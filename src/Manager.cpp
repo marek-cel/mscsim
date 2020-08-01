@@ -110,7 +110,11 @@ void Manager::init()
     splash.show();
     splash.showMessage( QString( SIM_APP_NAME ) + " " + QString( SIM_APP_VER ) );
     qApp->processEvents();
+#   ifdef SIM_TEST
+    QTimer::singleShot(  100, &splash, &QWidget::close );
+#   else
     QTimer::singleShot( 2000, &splash, &QWidget::close );
+#   endif
     while ( splash.isVisible() )
     {
         qApp->processEvents();

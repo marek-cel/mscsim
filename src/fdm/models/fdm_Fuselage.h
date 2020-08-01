@@ -50,26 +50,26 @@ namespace fdm
  *     { [rad] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
- *   <cy>
+ *   [<cy>
  *     { [rad] angle of sideslip } { [-] sideforce coefficient }
  *     ... { more entries }
- *   </cy>
- *   <cz>
+ *   </cy>]
+ *   [<cz>
  *     { [rad] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
- *   </cz>
- *   <cl>
+ *   </cz>]
+ *   [<cl>
  *     { [rad] angle of sideslip } { [-] rolling moment coefficient }
  *     ... { more entries }
- *   </cl>
- *   <cm>
+ *   </cl>]
+ *   [<cm>
  *     { [rad] angle of attack } { [-] pitching moment coefficient }
  *     ... { more entries }
- *   </cm>
- *   <cn>
+ *   </cm>]
+ *   [<cn>
  *     { [rad] angle of sideslip } { [-] yawing moment coefficient }
  *     ... { more entries }
- *   </cn>
+ *   </cn>]
  * </fuselage>
  * @endcode
  *

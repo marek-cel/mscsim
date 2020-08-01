@@ -69,6 +69,7 @@ HEADERS += \
     $$PWD/otw/cgi_Clouds.h \
     $$PWD/otw/cgi_CloudsBlock.h \
     $$PWD/otw/cgi_CloudsLayer.h \
+    $$PWD/otw/cgi_Entities.h \
     $$PWD/otw/cgi_FogScene.h \
     $$PWD/otw/cgi_OTW.h \
     $$PWD/otw/cgi_Ownship.h \
@@ -83,6 +84,7 @@ SOURCES += \
     $$PWD/otw/cgi_Clouds.cpp \
     $$PWD/otw/cgi_CloudsBlock.cpp \
     $$PWD/otw/cgi_CloudsLayer.cpp \
+    $$PWD/otw/cgi_Entities.cpp \
     $$PWD/otw/cgi_FogScene.cpp \
     $$PWD/otw/cgi_OTW.cpp \
     $$PWD/otw/cgi_Ownship.cpp \

@@ -41,14 +41,15 @@ namespace fdm
  * @see Matulewski J., et. al.: Grafika fizyka metody numeryczne, 2010, p.309. [in Polish]
  * @see https://en.wikipedia.org/wiki/Euler_method
  */
-template < unsigned int SIZE, class TYPE >
-class EulerRect : public Integrator< SIZE, TYPE >
+template < class TYPE >
+class EulerRect : public Integrator< TYPE >
 {
 public:
 
     /** Constructor. */
-    EulerRect( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > *) = 0 ) :
-        Integrator< SIZE, TYPE > ( obj, fun )
+    //EulerRect( unsigned int size, TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
+    EulerRect( TYPE *obj = 0, fptr fun = 0 ) :
+        Integrator< TYPE > ( obj, fun )
     {}
 
     /** Destructor. */
@@ -60,10 +61,12 @@ public:
      * @param step integration time step [s]
      * @param vect integrating vector
      */
-    void integrate( double step, Vector< SIZE > *vect )
+    void integrate( double step, VectorN *vect )
     {
         _xt = vect;
-        _k0 = Vector< SIZE >();
+
+        _k0.resize( vect->getSize() );
+        _k0.zeroize();
 
         // derivatives calculation
         this->fun( _xt, _k0 );
@@ -74,8 +77,8 @@ public:
 
 private:
 
-    Vector< SIZE > _k0;     ///< auxiliary vector
-    Vector< SIZE > _xt;     ///< auxiliary vector
+    VectorN _k0;        ///< auxiliary vector
+    VectorN _xt;        ///< auxiliary vector
 
     /** Using this constructor is forbidden. */
     EulerRect( const EulerRect & ) {}

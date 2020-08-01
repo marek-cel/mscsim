@@ -53,7 +53,7 @@ public:
      */
     inline static std::string get( const std::string &path )
     {
-#       ifdef SIM_LOCAL_DATA_DIR
+#       ifdef SIM_TEST
         return "../" + path;
 #       else
 
@@ -65,7 +65,7 @@ public:
         return path;
 #       endif
 
-#       endif // SIM_LOCAL_DATA_DIR
+#       endif // SIM_TEST
     }
 };
 

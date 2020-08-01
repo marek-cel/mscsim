@@ -53,6 +53,10 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _load_aero_max ( 0.0 ),
     _load_gear_max ( 0.0 ),
 
+    _stateVect ( FDM_STATE_DIMENSION ),
+    _statePrev ( FDM_STATE_DIMENSION ),
+    _derivVect ( FDM_STATE_DIMENSION ),
+
     _integrator ( FDM_NULLPTR ),
 
     _timeStep ( 0.0 ),
@@ -96,10 +100,10 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
 
 Aircraft::~Aircraft()
 {
-    FDM_DELPTR( _integrator );
-
     FDM_DELPTR( _envir );
     FDM_DELPTR( _isect );
+
+    FDM_DELPTR( _integrator );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

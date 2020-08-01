@@ -96,6 +96,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     _scFullScreen ( NULLPTR ),
     _scTimeFaster ( NULLPTR ),
     _scTimeSlower ( NULLPTR ),
+    _scTimeNormal ( NULLPTR ),
 
     _viewType ( Data::CGI::ViewPilot ),
 
@@ -156,11 +157,12 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMap->setVisible( false );
     _dockProp->setVisible( false );
 
-    _scCycleViews = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V), this, SLOT(shorcutCycleViews_activated()) );
-    _scToggleHud  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_H), this, SLOT(shorcutToggleHud_activated()) );
-    _scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F), this, SLOT(shorcutFullScreen_activated()) );
-    _scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal), this, SLOT(on_actionTimeFaster_triggered()) );
-    _scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus), this, SLOT(on_actionTimeSlower_triggered()) );
+    _scCycleViews = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V)     , this, SLOT(shorcutCycleViews_activated())   );
+    _scToggleHud  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_H)     , this, SLOT(shorcutToggleHud_activated())    );
+    _scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F)     , this, SLOT(shorcutFullScreen_activated())   );
+    _scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal) , this, SLOT(on_actionTimeFaster_triggered()) );
+    _scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus) , this, SLOT(on_actionTimeSlower_triggered()) );
+    _scTimeNormal = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_0)     , this, SLOT(on_actionTimeNormal_triggered()) );
 
     connect( _dialogInit, SIGNAL(typeIndexChanged(int)), this, SLOT(dialogInit_typeIndexChanged(int)) );
     connect( _dockMain, SIGNAL(stateInpChanged(fdm::DataInp::StateInp)), this, SLOT(dockMain_stateInpChanged(fdm::DataInp::StateInp)) );
@@ -1517,6 +1519,13 @@ void MainWindow::on_actionTimeSlower_triggered()
     if ( timeCoef10 < 1 ) timeCoef10 = 1;
 
     _timeCoef = 0.1 * (double)timeCoef10;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_actionTimeNormal_triggered()
+{
+    _timeCoef = 1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@ set( CPP_FILES
     otw/cgi_Clouds.cpp
     otw/cgi_CloudsBlock.cpp
     otw/cgi_CloudsLayer.cpp
+    otw/cgi_Entities.cpp
     otw/cgi_FogScene.cpp
     otw/cgi_OTW.cpp
     otw/cgi_Ownship.cpp

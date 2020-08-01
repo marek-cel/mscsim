@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/utils/fdm_Vector.h>
+#include <fdm/utils/fdm_VectorN.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief Abstract numerical integration template class.
  */
-template < unsigned int SIZE, class TYPE >
+template < class TYPE >
 class Integrator
 {
 public:
@@ -45,7 +45,7 @@ public:
      * @param object pointer
      * @param pointer to function which calculates vector derivative and takes current vector as first argument and resulting vector derivative as second
      */
-    Integrator( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > *) = 0 ) :
+    Integrator( TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
         _obj ( obj ),
         _fun ( fun )
     {
@@ -76,21 +76,27 @@ public:
      * @param step integration time step [s]
      * @param vect integrating vector
      */
-    virtual void integrate( double step, Vector< SIZE > *vect ) = 0;
+    virtual void integrate( double step, VectorN *vect ) = 0;
+
+    /**
+     * Sets vectot size.
+     * @param size
+     */
+    virtual void setSize( unsigned int size ) = 0;
 
 protected:
 
     /** Calls function calculating derivative of the given vector. */
-    inline void fun( const Vector< SIZE > &x_0, Vector< SIZE > *x_dot )
+    inline void fun( const VectorN &x_0, VectorN *x_dot )
     {
         (_obj->*_fun)( x_0, x_dot );
     }
 
 private:
 
-    TYPE *const _obj;   ///< object pointer
+    TYPE *const _obj;           ///< object pointer
 
-    void (TYPE::*_fun)(const Vector< SIZE > &, Vector< SIZE > *);   ///< function pointer
+    void (TYPE::*_fun)(const VectorN &, VectorN *); ///< function pointer
 
     /** Using this constructor is forbidden. */
     Integrator( const Integrator & ) {}

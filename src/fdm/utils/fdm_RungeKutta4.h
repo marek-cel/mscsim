@@ -39,14 +39,14 @@ namespace fdm
  * @see Baron B., Piatek L.: Metody numeryczne w C++ Builder, 2004, p.331. [in Polish]
  * @see https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods
  */
-template < unsigned int SIZE, class TYPE >
-class RungeKutta4 : public Integrator< SIZE, TYPE >
+template < class TYPE >
+class RungeKutta4 : public Integrator< TYPE >
 {
 public:
 
     /** Constructor. */
-    RungeKutta4( TYPE *obj = 0, void (TYPE::*fun)(const Vector< SIZE > &, Vector< SIZE > *) = 0 ) :
-        Integrator< SIZE, TYPE > ( obj, fun )
+    RungeKutta4( TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
+        Integrator< TYPE > ( obj, fun )
     {}
 
     /** Destructor. */
@@ -58,10 +58,19 @@ public:
      * @param step integration time step [s]
      * @param vect integrating vector
      */
-    void integrate( double step, Vector< SIZE > *vect )
+    void integrate( double step, VectorN *vect )
     {
         _xt = (*vect);
-        _k1 = _k2 = _k3 = _k4 = Vector< SIZE >();
+
+        _k1.resize( vect->getSize() );
+        _k2.resize( vect->getSize() );
+        _k3.resize( vect->getSize() );
+        _k4.resize( vect->getSize() );
+
+        _k1.zeroize();
+        _k2.zeroize();
+        _k3.zeroize();
+        _k4.zeroize();
 
         // k1 - derivatives calculation
         this->fun( _xt, &_k1 );
@@ -82,14 +91,23 @@ public:
         (*vect) = (*vect) + ( _k1 + _k2 * 2.0 + _k3 * 2.0 + _k4 ) * ( step / 6.0 );
     }
 
+    /**
+     * Sets vectot size.
+     * @param size
+     */
+    void setSize( unsigned int size )
+    {
+
+    }
+
 private:
 
-    Vector< SIZE > _k1;     ///< auxiliary vector
-    Vector< SIZE > _k2;     ///< auxiliary vector
-    Vector< SIZE > _k3;     ///< auxiliary vector
-    Vector< SIZE > _k4;     ///< auxiliary vector
+    VectorN _k1;        ///< auxiliary vector
+    VectorN _k2;        ///< auxiliary vector
+    VectorN _k3;        ///< auxiliary vector
+    VectorN _k4;        ///< auxiliary vector
 
-    Vector< SIZE > _xt;     ///< auxiliary vector
+    VectorN _xt;        ///< auxiliary vector
 
     /** Using this constructor is forbidden. */
     RungeKutta4( const RungeKutta4 & ) {}

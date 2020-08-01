@@ -39,6 +39,7 @@
 #include <cgi/cgi_WGS84.h>
 
 #include <cgi/otw/cgi_Airport.h>
+#include <cgi/otw/cgi_Entities.h>
 #include <cgi/otw/cgi_Terrain.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +99,8 @@ Scenery::Scenery( const Module *parent ) :
             }
         }
     }
+
+    addChild( new Entities( this ) );
 
     Intersections::instance()->setScenery( _root.get() );
 }

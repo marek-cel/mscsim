@@ -31,11 +31,11 @@ using namespace fdm;
 R44_Aircraft::R44_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new R44_Aerodynamics( this );
-    Aircraft::_ctrl = _ctrl = new R44_Controls( this );
-    Aircraft::_gear = _gear = new R44_LandingGear( this );
-    Aircraft::_mass = _mass = new R44_Mass( this );
-    Aircraft::_prop = _prop = new R44_Propulsion( this );
+    Aircraft::_aero = _aero = new R44_Aerodynamics ( this );
+    Aircraft::_ctrl = _ctrl = new R44_Controls     ( this );
+    Aircraft::_gear = _gear = new R44_LandingGear  ( this );
+    Aircraft::_mass = _mass = new R44_Mass         ( this );
+    Aircraft::_prop = _prop = new R44_Propulsion   ( this );
 
     readFile( Path::get( "data/fdm/r44/r44_fdm.xml" ).c_str() );
 }

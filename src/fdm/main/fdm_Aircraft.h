@@ -136,6 +136,7 @@ class FDMEXPORT Aircraft : public Base
 public:
 
     typedef std::vector< Vector3 > CollisionPoints; ///< collision points
+    typedef VectorN StateVector;                    ///< state vector
 
     /** Propuslion state enum. */
     enum PropState
@@ -275,7 +276,7 @@ protected:
      * Because it is used entirely inside fdm::Aircraft, there is no need
      * to make it public.
      */
-    class Integrator : public RungeKutta4< FDM_STATE_DIMENSION, Aircraft >
+    class Integrator : public RungeKutta4< Aircraft >
     {
     public:
 

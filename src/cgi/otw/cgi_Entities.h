@@ -19,78 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef AW101_AFCS_H
-#define AW101_AFCS_H
+#ifndef CGI_ENTITIES_H
+#define CGI_ENTITIES_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_PID.h>
-#include <fdm/utils/fdm_Vector3.h>
-#include <fdm/xml/fdm_XmlNode.h>
+#include <osg/Fog>
+
+#include <cgi/cgi_Module.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+namespace cgi
 {
 
 /**
- * @brief AW101 Automatic Flight Control System (AFCS) class.
+ * @brief Entities.
  */
-class AW101_AFCS
+class Entities : public Module
 {
 public:
 
     /** Constructor. */
-    AW101_AFCS();
+    Entities( const Module *parent = NULLPTR );
 
     /** Destructor. */
-    ~AW101_AFCS();
+    virtual ~Entities();
 
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-    void update( double timeStep,
-                 double ctrlLat, double trimLat,
-                 double ctrlLon, double trimLon,
-                 double ctrlYaw, double trimYaw,
-                 double climbRate,
-                 const Angles &angles_ned,
-                 const Vector3 &omg_bas );
-
-    inline double getCyclicLat()  const { return _cyclic_lat; }
-    inline double getCyclicLon()  const { return _cyclic_lon; }
-    inline double getTailPitch()  const { return _tail_pitch; }
-
-    inline double getCollective() const { return _collective; }
+    /** Updates fog scene. */
+    void update();
 
 private:
 
-    /** */
-    struct Channel
-    {
-        double _auth;                   ///<
-    };
+    static const char _frag[];      ///<
+    static const char _vert[];      ///<
 
-    PID _pid_sas_roll;
-    PID _pid_sas_pitch;
-    PID _pid_sas_yaw;
-
-    PID _pid_collective;
-
-    double _cyclic_lat;                 ///<
-    double _cyclic_lon;                 ///<
-    double _tail_pitch;                 ///<
-
-    double _collective;                 ///<
-
-    virtual void readSAS( const XmlNode &dataNode, PID &pid );
+    static void createReflection( osg::Node *model, osg::Group *parent );
 };
 
-} // end of fdm namespace
+} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // AW101_AFCS_H
+#endif // CGI_ENTITIES_H

@@ -34,6 +34,7 @@ set( CPP_FILES
     models/fdm_TailOff.cpp
     models/fdm_TailRotor.cpp
     models/fdm_Turbofan.cpp
+    models/fdm_Wheel.cpp
     models/fdm_WindShear.cpp
     
     sys/fdm_BPF.cpp
@@ -61,6 +62,7 @@ set( CPP_FILES
     utils/fdm_Vector3.cpp
     utils/fdm_Vector4.cpp
     utils/fdm_Vector6.cpp
+    utils/fdm_VectorN.cpp
     utils/fdm_WGS84.cpp
     
     xml/fdm_XmlDoc.cpp

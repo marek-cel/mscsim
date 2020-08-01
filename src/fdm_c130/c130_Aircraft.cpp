@@ -37,11 +37,11 @@ C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new C130_Aerodynamics( this );
-    Aircraft::_ctrl = _ctrl = new C130_Controls( this );
-    Aircraft::_gear = _gear = new C130_LandingGear( this );
-    Aircraft::_mass = _mass = new C130_Mass( this );
-    Aircraft::_prop = _prop = new C130_Propulsion( this );
+    Aircraft::_aero = _aero = new C130_Aerodynamics ( this );
+    Aircraft::_ctrl = _ctrl = new C130_Controls     ( this );
+    Aircraft::_gear = _gear = new C130_LandingGear  ( this );
+    Aircraft::_mass = _mass = new C130_Mass         ( this );
+    Aircraft::_prop = _prop = new C130_Propulsion   ( this );
 
     readFile( Path::get( "data/fdm/c130/c130_fdm.xml" ).c_str() );
 }

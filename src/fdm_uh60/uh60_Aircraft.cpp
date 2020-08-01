@@ -31,11 +31,11 @@ using namespace fdm;
 UH60_Aircraft::UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new UH60_Aerodynamics( this );
-    Aircraft::_ctrl = _ctrl = new UH60_Controls( this );
-    Aircraft::_gear = _gear = new UH60_LandingGear( this );
-    Aircraft::_mass = _mass = new UH60_Mass( this );
-    Aircraft::_prop = _prop = new UH60_Propulsion( this );
+    Aircraft::_aero = _aero = new UH60_Aerodynamics ( this );
+    Aircraft::_ctrl = _ctrl = new UH60_Controls     ( this );
+    Aircraft::_gear = _gear = new UH60_LandingGear  ( this );
+    Aircraft::_mass = _mass = new UH60_Mass         ( this );
+    Aircraft::_prop = _prop = new UH60_Propulsion   ( this );
 
     readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ).c_str() );
 }

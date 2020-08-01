@@ -69,6 +69,7 @@ HEADERS += \
     $$PWD/models/fdm_TailOff.h \
     $$PWD/models/fdm_TailRotor.h \
     $$PWD/models/fdm_Turbofan.h \
+    $$PWD/models/fdm_Wheel.h \
     $$PWD/models/fdm_WindShear.h
 
 SOURCES += \
@@ -88,6 +89,7 @@ SOURCES += \
     $$PWD/models/fdm_TailOff.cpp \
     $$PWD/models/fdm_TailRotor.cpp \
     $$PWD/models/fdm_Turbofan.cpp \
+    $$PWD/models/fdm_Wheel.cpp \
     $$PWD/models/fdm_WindShear.cpp
 
 ################################################################################
@@ -141,6 +143,7 @@ HEADERS += \
     $$PWD/utils/fdm_Vector3.h \
     $$PWD/utils/fdm_Vector4.h \
     $$PWD/utils/fdm_Vector6.h \
+    $$PWD/utils/fdm_VectorN.h \
     $$PWD/utils/fdm_WGS84.h
 
 SOURCES += \
@@ -158,6 +161,7 @@ SOURCES += \
     $$PWD/utils/fdm_Vector3.cpp \
     $$PWD/utils/fdm_Vector4.cpp \
     $$PWD/utils/fdm_Vector6.cpp \
+    $$PWD/utils/fdm_VectorN.cpp \
     $$PWD/utils/fdm_WGS84.cpp
 
 ################################################################################

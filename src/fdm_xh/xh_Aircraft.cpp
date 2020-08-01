@@ -31,11 +31,15 @@ using namespace fdm;
 XH_Aircraft::XH_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new XH_Aerodynamics( this );
-    Aircraft::_ctrl = _ctrl = new XH_Controls( this );
-    Aircraft::_gear = _gear = new XH_LandingGear( this );
-    Aircraft::_mass = _mass = new XH_Mass( this );
-    Aircraft::_prop = _prop = new XH_Propulsion( this );
+    Aircraft::_aero = _aero = new XH_Aerodynamics ( this );
+    Aircraft::_ctrl = _ctrl = new XH_Controls     ( this );
+    Aircraft::_gear = _gear = new XH_LandingGear  ( this );
+    Aircraft::_mass = _mass = new XH_Mass         ( this );
+    Aircraft::_prop = _prop = new XH_Propulsion   ( this );
+
+    _stateVect = StateVector( FDM_STATE_DIMENSION + 1 );
+    _statePrev = StateVector( FDM_STATE_DIMENSION + 1 );
+    _derivVect = StateVector( FDM_STATE_DIMENSION + 1 );
 
     readFile( Path::get( "data/fdm/xh/xh_fdm.xml" ).c_str() );
 }
@@ -95,3 +99,26 @@ void XH_Aircraft::updateOutputData()
         _dataOut->blade[ i ].feathering = _aero->getMainRotor()->getBlade( i )->getTheta();
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void XH_Aircraft::computeStateDeriv( const StateVector &stateVect,
+                                     StateVector *derivVect )
+{
+    ////////////////////////////////////////////////////
+    Aircraft::computeStateDeriv( stateVect, derivVect );
+    ////////////////////////////////////////////////////
+
+    (*derivVect)( 13 ) = 1.0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void XH_Aircraft::updateVariables( const StateVector &stateVect,
+                                   const StateVector &derivVect )
+{
+    //////////////////////////////////////////////////
+    Aircraft::updateVariables( stateVect, derivVect );
+    //////////////////////////////////////////////////
+}
+

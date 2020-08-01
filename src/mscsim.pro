@@ -14,7 +14,6 @@ TARGET = mscsim
 ################################################################################
 
 CONFIG += c++11
-CONFIG += fdm
 
 ################################################################################
 
@@ -41,8 +40,7 @@ DEFINES += \
     SIM_VERTICALSYNC
 
 DEFINES += FDM_TEST
-DEFINES += SIM_CONSOLE_OUTPUT
-DEFINES += SIM_LOCAL_DATA_DIR
+DEFINES += SIM_TEST
 #DEFINES += SIM_TEST_WORLD
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5

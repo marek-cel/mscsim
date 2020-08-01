@@ -132,6 +132,7 @@ void AW101_Controls::update()
                    _aircraft->getDataInp()->controls.roll  , 0.0,
                    _aircraft->getDataInp()->controls.pitch , 0.0,
                    _aircraft->getDataInp()->controls.yaw   , 0.0,
+                   _aircraft->getClimbRate(),
                    _aircraft->getAngles_NED(),
                    _aircraft->getOmg_BAS() );
 
@@ -139,13 +140,16 @@ void AW101_Controls::update()
     double cyclic_lon = _aircraft->getDataInp()->controls.pitch + _afcs->getCyclicLon();
     double tail_pitch = _aircraft->getDataInp()->controls.yaw   + _afcs->getTailPitch()
                       - 0.2 * _aircraft->getDataInp()->controls.collective;
+    double collective = _aircraft->getDataInp()->controls.collective + _afcs->getCollective();
 
     cyclic_lat = Misc::satur( -1.0, 1.0, cyclic_lat );
     cyclic_lon = Misc::satur( -1.0, 1.0, cyclic_lon );
+    collective = Misc::satur(  0.0, 1.0, collective );
     tail_pitch = Misc::satur( -1.0, 1.0, tail_pitch );
 
     _channelCyclicLat  ->output = _channelCyclicLat  ->table.getValue( cyclic_lat );
     _channelCyclicLon  ->output = _channelCyclicLon  ->table.getValue( cyclic_lon );
+    _channelCollective ->output = _channelCollective ->table.getValue( collective );
     _channelTailPitch  ->output = _channelTailPitch  ->table.getValue( tail_pitch );
 
     _cyclic_lat = _channelCyclicLat  ->output;

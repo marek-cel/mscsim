@@ -141,6 +141,7 @@ private:
     QShortcut *_scFullScreen;           ///< key shortcut
     QShortcut *_scTimeFaster;           ///< key shortcut
     QShortcut *_scTimeSlower;           ///< key shortcut
+    QShortcut *_scTimeNormal;           ///< key shortcut
 
     QString _rec_file;                  ///<
 
@@ -249,6 +250,7 @@ private slots:
 
     void on_actionTimeFaster_triggered();
     void on_actionTimeSlower_triggered();
+    void on_actionTimeNormal_triggered();
 
     void shorcutCycleViews_activated();
     void shorcutToggleHud_activated();

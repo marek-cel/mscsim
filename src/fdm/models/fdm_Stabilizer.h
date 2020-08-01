@@ -59,14 +59,14 @@ namespace fdm
  *     { [rad] angle } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
- *   <cy>
+ *   [<cy>
  *     { [rad] angle } { [-] sideforce coefficient }
  *     ... { more entries }
- *   </cy>
- *   <cz>
+ *   </cy>]
+ *   [<cz>
  *     { [rad] angle } { [-] lift coefficient }
  *     ... { more entries }
- *   </cz>
+ *   </cz>]
  * </stabilizer>
  * @endcode
  *

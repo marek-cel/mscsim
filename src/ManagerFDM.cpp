@@ -196,7 +196,7 @@ void Manager::initInFlight()
 
         updateInitialPositionAndAttitude();
 
-        StateVector stateVector;
+        Aircraft::StateVector stateVector( _aircraft->getStateVect() );
 
         stateVector( _is_x  ) = _init_pos_wgs.x();
         stateVector( _is_y  ) = _init_pos_wgs.y();
@@ -263,8 +263,8 @@ void Manager::initOnGround()
             _init_pos_wgs = wgs.getPos_WGS();
             _init_att_wgs = wgs.getWGS2BAS( ned2bas );
 
-            StateVector stateVector;
-            StateVector derivVector;
+            Aircraft::StateVector stateVector( _aircraft->getStateVect() );
+            Aircraft::StateVector derivVector( _aircraft->getDerivVect() );
 
             stateVector( _is_x  ) = _init_pos_wgs.x();
             stateVector( _is_y  ) = _init_pos_wgs.y();

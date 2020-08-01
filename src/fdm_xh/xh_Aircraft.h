@@ -70,6 +70,8 @@ public:
 
 private:
 
+    friend class Aircraft::Integrator;
+
     XH_Aerodynamics *_aero;   ///< aerodynamics model
     XH_Controls     *_ctrl;   ///< controls model
     XH_LandingGear  *_gear;   ///< landing gear model
@@ -78,6 +80,22 @@ private:
 
     /** Updates output data. */
     void updateOutputData();
+
+    /**
+     * Computes state vector derivatives due to given state vector.
+     * @param stateVect state vector
+     * @param derivVect resulting state vector derivative
+     */
+    void computeStateDeriv( const StateVector &stateVect,
+                            StateVector *derivVect );
+
+    /**
+     * Updates aircraft state variables.
+     * @param stateVect state vector
+     * @param derivVect state vector derivative
+     */
+    void updateVariables( const StateVector &stateVect,
+                          const StateVector &derivVect );
 };
 
 } // end of fdm namespace
