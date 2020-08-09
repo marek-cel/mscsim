@@ -47,6 +47,11 @@ ComboUnitsVelocity::ComboUnitsVelocity( QWidget *parent ) :
     _coefs.push_back( fdm::Units::mps2mph() );
     _names.push_back( QString( "mph" ) );
 
+#   ifdef SIM_TEST
+    _coefs.push_back( 1.0e6 );
+    _names.push_back( QString( "10^-6" ) );
+#   endif
+
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }
 

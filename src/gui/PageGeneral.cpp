@@ -100,8 +100,8 @@ void PageGeneral::settingsRead()
 
     settings.beginGroup( "page_general" );
     {
-        _hud_color.setRed   ( settings.value( "hud_color_r",   0 ).toInt() );
-        _hud_color.setGreen ( settings.value( "hud_color_g", 170 ).toInt() );
+        _hud_color.setRed   ( settings.value( "hud_color_r",  85 ).toInt() );
+        _hud_color.setGreen ( settings.value( "hud_color_g", 255 ).toInt() );
         _hud_color.setBlue  ( settings.value( "hud_color_b",   0 ).toInt() );
 
         _hud_color_temp = _hud_color;

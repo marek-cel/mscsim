@@ -111,14 +111,16 @@ void Manager::init()
     splash.showMessage( QString( SIM_APP_NAME ) + " " + QString( SIM_APP_VER ) );
     qApp->processEvents();
 #   ifdef SIM_TEST
-    QTimer::singleShot(  100, &splash, &QWidget::close );
+    QTimer::singleShot(  100, &splash, SLOT(close()) );
 #   else
-    QTimer::singleShot( 2000, &splash, &QWidget::close );
+    QTimer::singleShot( 2000, &splash, SLOT(close()) );
 #   endif
     while ( splash.isVisible() )
     {
         qApp->processEvents();
     }
+
+    //#   if QT_VERSION >= 0x050000
 
     qRegisterMetaType< Data::DataBuf >( "Data::DataBuf" );
     qRegisterMetaType< fdm::DataOut  >( "fdm::DataOut"  );

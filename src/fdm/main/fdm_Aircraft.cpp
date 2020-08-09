@@ -630,7 +630,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     Vector3 normal_wgs;
 
     if ( FDM_SUCCESS == _isect->getIntersection( _pos_wgs, WGS84::geo2wgs( e_isect_geo ),
-                                                 ground_wgs, normal_wgs ) )
+                                                 &ground_wgs, &normal_wgs ) )
     {
         _ground_wgs = ground_wgs;
         _normal_wgs = normal_wgs;

@@ -110,7 +110,7 @@ HUD::~HUD() {}
 
 void HUD::update()
 {
-    if ( Data::get()->cgi.hud.enabled )
+    if ( Data::get()->cgi.hud.enabled && ( Data::get()->cgi.viewType == Data::CGI::ViewPilot || Data::get()->cgi.viewType == Data::CGI::ViewChase ) )
     {
         _switch->setAllChildrenOn();
 

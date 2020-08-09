@@ -114,7 +114,7 @@ double Intersections::getElevation( double lat, double lon ) const
     Vector3 r_wgs;
     Vector3 n_wgs;
 
-    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, r_wgs, n_wgs ) )
+    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, &r_wgs, &n_wgs ) )
     {
         return WGS84::wgs2geo( r_wgs ).alt;
     }
@@ -125,7 +125,7 @@ double Intersections::getElevation( double lat, double lon ) const
 ////////////////////////////////////////////////////////////////////////////////
 
 int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
-                                    Vector3 &r, Vector3 &n, bool update ) const
+                                    Vector3 *r, Vector3 *n, bool update ) const
 {
     if ( update )
     {
@@ -136,8 +136,8 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
 
         if ( cgi::Intersections::instance()->findFirst( b_tmp, e_tmp, r_tmp, n_tmp ) )
         {
-            r = Vector3( r_tmp.x(), r_tmp.y(), r_tmp.z() );
-            n = Vector3( n_tmp.x(), n_tmp.y(), n_tmp.z() );
+            (*r) = Vector3( r_tmp.x(), r_tmp.y(), r_tmp.z() );
+            (*n) = Vector3( n_tmp.x(), n_tmp.y(), n_tmp.z() );
 
             return FDM_SUCCESS;
         }
@@ -155,8 +155,8 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
 
             if ( 0.0 < u && u < 1.0 )
             {
-                r = b + u * ( e - b );
-                n = _normal_wgs;
+                (*r) = b + u * ( e - b );
+                (*n) = _normal_wgs;
 
                 return FDM_SUCCESS;
             }
@@ -176,7 +176,7 @@ bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
         Vector3 r;
         Vector3 n;
 
-        if ( FDM_SUCCESS == getIntersection( b, e, r, n, true ) )
+        if ( FDM_SUCCESS == getIntersection( b, e, &r, &n, true ) )
         {
             return isIntersection( b, e, r, n );
         }
@@ -212,7 +212,7 @@ Vector3 Intersections::getNormal( double lat, double lon ) const
     Vector3 r_wgs;
     Vector3 n_wgs;
 
-    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, r_wgs, n_wgs ) )
+    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, &r_wgs, &n_wgs ) )
     {
         return n_wgs;
     }

@@ -263,12 +263,16 @@ public:
      * Sigmoid (logistic) function.
      * @see https://en.wikipedia.org/wiki/Sigmoid_function
      * @see https://en.wikipedia.org/wiki/Logistic_function
-     * @param val input value
+     * @param x argument value
+     * @param x0 the sigmoid's midpoint
+     * @param k the logistic growth rate or steepness of the curve
+     * @param l the curve's maximum value
      * @return sigmoid function value
      */
-    inline static double sigmoid( const double &val )
+    inline static double sigmoid( const double &x, const double &x0 = 0.0,
+                                  const double &k = 1.0, const double &l = 1.0 )
     {
-        return 1.0 / ( 1.0 + exp( -val ) );
+        return l / ( 1.0 + exp( -k * ( x - x0 ) ) );
     }
 
     /**

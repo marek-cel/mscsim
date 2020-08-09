@@ -26,6 +26,8 @@
 
 #include <fdm/main/fdm_LandingGear.h>
 
+#include <fdm/models/fdm_Wheel.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -35,10 +37,29 @@ class P51_Aircraft;    ///< aircraft class forward declaration
 
 /**
  * @brief P-51 landing gear class.
+ *
+ * XML configuration file format:
+ * @code
+ * <landing_gear>
+ *   <wheel [steerable="{ 0|1 }"] [caster="{ 0|1 }"] [brake_group="{ 0|1|2 }]">
+ *     <attachment_point> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </attachment_point>
+ *     <unloaded_wheel> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </unloaded_wheel>
+ *     <stiffness> { [N/m] strut stiffness (linear spring) coefficient } </stiffness>
+ *     <damping> { [N/(m/s)] strut damping coefficient  } </damping>
+ *     <friction_static> { [-] static friction coefficient } </friction_static>
+ *     <friction_kinetic> { [-] kinetic friction coefficient } </friction_kinetic>
+ *     <friction_rolling> { [-] rolling friction coefficient } </friction_rolling>
+ *     [<max_angle> { [rad] max steering angle } </max_angle>]
+ *   </wheel>
+ *   ... { more wheels }
+ * </landing_gear>
+ * @endcode
  */
 class P51_LandingGear : public LandingGear
 {
 public:
+
+    typedef Wheel::Wheels Wheels;
 
     /** Constructor. */
     P51_LandingGear( const P51_Aircraft *aircraft );
@@ -46,15 +67,26 @@ public:
     /** Destructor. */
     ~P51_LandingGear();
 
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
     /** Initializes landing gear. */
     void initialize();
 
-    /** Updates landing gear. */
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates model. */
     void update();
 
 private:
 
     const P51_Aircraft *_aircraft;      ///< aircraft model main object
+
+    Wheels _wheels;                     ///< wheels container
 };
 
 } // end of fdm namespace

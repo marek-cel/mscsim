@@ -36,7 +36,11 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
+#if OPENSCENEGRAPH_SOVERSION > 131
 osg::ref_ptr<osg::Node> Intersections::ReadCallback::readNodeFile( const std::string& filename )
+#else
+osg::Node* Intersections::ReadCallback::readNodeFile( const std::string& filename )
+#endif
 {
     return osgDB::readRefNodeFile( filename );
 }

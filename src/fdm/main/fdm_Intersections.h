@@ -76,7 +76,7 @@ public:
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
     virtual int getIntersection( const Vector3 &b, const Vector3 &e,
-                                 Vector3 &r, Vector3 &n, bool update = false ) const;
+                                 Vector3 *r, Vector3 *n, bool update = false ) const;
 
     /**
      * Checks intersection.

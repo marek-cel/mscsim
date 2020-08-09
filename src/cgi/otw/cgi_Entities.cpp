@@ -27,7 +27,6 @@
 #include <osg/Geometry>
 #include <osg/LOD>
 #include <osg/MatrixTransform>
-#include <osg/PositionAttitudeTransform>
 #include <osg/Program>
 
 #include <cgi/cgi_Models.h>
@@ -112,25 +111,26 @@ const char Entities::_vert[] =
 Entities::Entities( const Module *parent ) :
     Module( parent )
 {
-    osg::ref_ptr<osg::Node> lcs = Models::get( "data/cgi/entities/lcs.osgb" );
+    _patBB39  = new osg::PositionAttitudeTransform();
+    _patBB63  = new osg::PositionAttitudeTransform();
+    _patLCS1  = new osg::PositionAttitudeTransform();
+    _patCVN78 = new osg::PositionAttitudeTransform();
 
-    if ( lcs.valid() )
-    {
-        osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
-        _root->addChild( pat.get() );
+    _root->addChild( _patBB39  .get() );
+    _root->addChild( _patBB63  .get() );
+    _root->addChild( _patLCS1  .get() );
+    _root->addChild( _patCVN78 .get() );
 
-        WGS84 wgs( osg::DegreesToRadians(   21.358034  ),
-                   osg::DegreesToRadians( -157.9558297 ),
-                   0.0 );
-        //WGS84 wgs( 0.0, 0.0, 30.0 );
+    addEntity( _patBB39  .get(), "data/cgi/entities/bb39.osgb"  );
+    addEntity( _patBB63  .get(), "data/cgi/entities/bb63.osgb"  );
+    addEntity( _patLCS1  .get(), "data/cgi/entities/lcs1.osgb"  );
+    //addEntity( _patCVN78 .get(), "data/cgi/entities/cvn78.osgb" );
 
-        pat->setPosition( wgs.getPosition() );
-        pat->setAttitude( wgs.getAttitude() );
+    setLatLonHdg( _patBB39.get(), osg::DegreesToRadians( 21.3646833 ), osg::DegreesToRadians( -157.9498556 ), osg::DegreesToRadians( 145.0 ) );
+    setLatLonHdg( _patBB63.get(), osg::DegreesToRadians( 21.3621139 ), osg::DegreesToRadians( -157.9534528 ), osg::DegreesToRadians(  46.0 ) );
+    setLatLonHdg( _patLCS1.get(), osg::DegreesToRadians( 21.3529540 ), osg::DegreesToRadians( -157.9685000 ), osg::DegreesToRadians( 180.0 ) );
 
-        pat->addChild( lcs.get() );
 
-        createReflection( lcs.get(), pat.get() );
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +144,20 @@ void Entities::update()
     /////////////////
     Module::update();
     /////////////////
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Entities::addEntity( osg::PositionAttitudeTransform *pat, const char *file )
+{
+    osg::ref_ptr<osg::Node> node = Models::get( file );
+
+    if ( node.valid() )
+    {
+        pat->addChild( node.get() );
+
+        createReflection( node.get(), pat );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,70 +187,89 @@ void Entities::createReflection( osg::Node *model, osg::Group *parent )
 
     ////////////////////////////////
 
-    // The RTT camera
-    osg::ref_ptr<osg::Texture2D> tex2D = new osg::Texture2D();
-    tex2D->setTextureSize( 1024, 1024 );
-    tex2D->setInternalFormat( GL_RGBA );
-    tex2D->setFilter( osg::Texture2D::MIN_FILTER, osg::Texture2D::LINEAR );
-    tex2D->setFilter( osg::Texture2D::MAG_FILTER, osg::Texture2D::LINEAR );
+    if ( 1 )
+    {
+        // The RTT camera
+        osg::ref_ptr<osg::Texture2D> tex2D = new osg::Texture2D();
+        tex2D->setTextureSize( 1024, 1024 );
+        tex2D->setInternalFormat( GL_RGBA );
+        tex2D->setFilter( osg::Texture2D::MIN_FILTER, osg::Texture2D::LINEAR );
+        tex2D->setFilter( osg::Texture2D::MAG_FILTER, osg::Texture2D::LINEAR );
 
-    osg::ref_ptr<osg::Camera> cameraRTT = new osg::Camera();
+        osg::ref_ptr<osg::Camera> cameraRTT = new osg::Camera();
 
-    cameraRTT->setClearColor( osg::Vec4() );
-    cameraRTT->setClearMask( GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT );
-    cameraRTT->setRenderTargetImplementation( osg::Camera::FRAME_BUFFER_OBJECT );
-    cameraRTT->setRenderOrder( osg::Camera::PRE_RENDER );
+        cameraRTT->setClearColor( osg::Vec4() );
+        cameraRTT->setClearMask( GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT );
+        cameraRTT->setRenderTargetImplementation( osg::Camera::FRAME_BUFFER_OBJECT );
+        cameraRTT->setRenderOrder( osg::Camera::PRE_RENDER );
 
-    cameraRTT->setViewport( 0, 0, tex2D->getTextureWidth(), tex2D->getTextureHeight() );
-    cameraRTT->attach( osg::Camera::COLOR_BUFFER, tex2D.get() );
+        cameraRTT->setViewport( 0, 0, tex2D->getTextureWidth(), tex2D->getTextureHeight() );
+        cameraRTT->attach( osg::Camera::COLOR_BUFFER, tex2D.get() );
 
-    cameraRTT->addChild( clipNode.get() );
+        cameraRTT->addChild( clipNode.get() );
 
-    // The water plane
-    const osg::Vec3& center = model->getBound().center();
-    //float planeSize = 4.0f * model->getBound().radius();
-    float planeSize = 200.0f;
+        // The water plane
+        const osg::Vec3& center = model->getBound().center();
+        float planeSize = 4.0f * model->getBound().radius();
+        //float planeSize = 200.0f;
 
-    osg::Vec3 planeCorner( center.x() - 0.5f*planeSize, center.y() - 0.5f*planeSize, z );
+        osg::Vec3 planeCorner( center.x() - 0.5f*planeSize, center.y() - 0.5f*planeSize, z );
 
-    osg::ref_ptr<osg::Geometry> quad = osg::createTexturedQuadGeometry(
-                planeCorner,
-                osg::Vec3( planeSize, 0.0f, 0.0f ),
-                osg::Vec3( 0.0f, planeSize, 0.0f ) );
+        osg::ref_ptr<osg::Geometry> quad = osg::createTexturedQuadGeometry(
+                    planeCorner,
+                    osg::Vec3( planeSize, 0.0f, 0.0f ),
+                    osg::Vec3( 0.0f, planeSize, 0.0f ) );
 
-    osg::ref_ptr<osg::Geode> geodeQuad = new osg::Geode;
-    geodeQuad->addDrawable( quad.get() );
+        osg::ref_ptr<osg::Geode> geodeQuad = new osg::Geode;
+        geodeQuad->addDrawable( quad.get() );
 
-    osg::ref_ptr<osg::Texture2D> texWaterDUDV = Textures::get( "data/cgi/textures/water_dudv.png" );
-    texWaterDUDV->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
-    texWaterDUDV->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
-    texWaterDUDV->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );
-    texWaterDUDV->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
+        osg::ref_ptr<osg::Texture2D> texWaterDUDV = Textures::get( "data/cgi/textures/water_dudv.png" );
+        texWaterDUDV->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
+        texWaterDUDV->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
+        texWaterDUDV->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );
+        texWaterDUDV->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
 
-    osg::ref_ptr<osg::Texture2D> texWaterNM = Textures::get( "data/cgi/textures/water_nm.png" );
-    texWaterNM->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
-    texWaterNM->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
-    texWaterNM->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );
-    texWaterNM->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
+        osg::ref_ptr<osg::Texture2D> texWaterNM = Textures::get( "data/cgi/textures/water_nm.png" );
+        texWaterNM->setWrap( osg::Texture::WRAP_S, osg::Texture::REPEAT );
+        texWaterNM->setWrap( osg::Texture::WRAP_T, osg::Texture::REPEAT );
+        texWaterNM->setFilter( osg::Texture::MIN_FILTER, osg::Texture::LINEAR );
+        texWaterNM->setFilter( osg::Texture::MAG_FILTER, osg::Texture::LINEAR );
 
-    osg::ref_ptr<osg::StateSet> stateSet = geodeQuad->getOrCreateStateSet();
-    stateSet->setTextureAttributeAndModes( 0, tex2D.get() );
-    stateSet->setTextureAttributeAndModes( 1, texWaterDUDV.get() );
-    stateSet->setTextureAttributeAndModes( 2, texWaterNM.get() );
+        osg::ref_ptr<osg::StateSet> stateSet = geodeQuad->getOrCreateStateSet();
+        stateSet->setTextureAttributeAndModes( 0, tex2D.get()        , osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+        stateSet->setTextureAttributeAndModes( 1, texWaterDUDV.get() , osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
+        stateSet->setTextureAttributeAndModes( 2, texWaterNM.get()   , osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
 
-    osg::ref_ptr<osg::Program> program = new osg::Program();
-    program->addShader( new osg::Shader( osg::Shader::VERTEX   , _vert ) );
-    program->addShader( new osg::Shader( osg::Shader::FRAGMENT , _frag ) );
-    stateSet->setAttributeAndModes( program.get() );
-    stateSet->addUniform( new osg::Uniform("defaultTex", 0) );
-    stateSet->addUniform( new osg::Uniform("refraction", 1) );
-    stateSet->addUniform( new osg::Uniform("normalTex", 2) );
+        osg::ref_ptr<osg::Program> program = new osg::Program();
+        program->addShader( new osg::Shader( osg::Shader::VERTEX   , _vert ) );
+        program->addShader( new osg::Shader( osg::Shader::FRAGMENT , _frag ) );
+        stateSet->setAttributeAndModes( program.get() );
+        stateSet->addUniform( new osg::Uniform("defaultTex", 0) );
+        stateSet->addUniform( new osg::Uniform("refraction", 1) );
+        stateSet->addUniform( new osg::Uniform("normalTex", 2) );
 
-    ////////////////////////////////
+        ////////////////////////////////
 
-    //groupReflection->addChild( model );
-    groupReflection->addChild( cameraRTT.get() );
-    groupReflection->addChild( geodeQuad.get() );
+        //groupReflection->addChild( model );
+        groupReflection->addChild( cameraRTT.get() );
+        groupReflection->addChild( geodeQuad.get() );
 
-    parent->addChild( lodReflection.get() );
+        parent->addChild( lodReflection.get() );
+    }
+    else
+    {
+        parent->addChild( clipNode.get() );
+    }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Entities::setLatLonHdg( osg::PositionAttitudeTransform *pat,
+                             double lat, double lon, double hdg )
+{
+    WGS84 wgs( lat, lon, 0.0 );
+
+    pat->setPosition( wgs.getPosition() );
+    pat->setAttitude( osg::Quat( hdg, osg::Z_AXIS ) * wgs.getAttitude() );
+}
+

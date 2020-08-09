@@ -23,6 +23,9 @@
 #include <fdm_xf/xf_LandingGear.h>
 #include <fdm_xf/xf_Aircraft.h>
 
+#include <fdm/utils/fdm_String.h>
+#include <fdm/xml/fdm_XmlUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -40,17 +43,48 @@ XF_LandingGear::~XF_LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void XF_LandingGear::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        int result = FDM_SUCCESS;
+
+        XmlNode wheelNode = dataNode.getFirstChildElement( "wheel" );
+
+        while ( result == FDM_SUCCESS && wheelNode.isValid() )
+        {
+            Wheel wheel;
+
+            std::string name = wheelNode.getAttribute( "name" );
+
+            wheel.readData( wheelNode );
+
+            result = _wheels.addWheel( name.c_str(), wheel );
+
+            wheelNode = wheelNode.getNextSiblingElement( "wheel" );
+        }
+
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void XF_LandingGear::initialize()
 {
-    Wheel *wheel_n = getWheelByName( "wheel_n" );
-    Wheel *wheel_l = getWheelByName( "wheel_l" );
-    Wheel *wheel_r = getWheelByName( "wheel_r" );
+    Wheel *wheel_n = _wheels.getWheelByName( "wheel_n" );
+    Wheel *wheel_l = _wheels.getWheelByName( "wheel_l" );
+    Wheel *wheel_r = _wheels.getWheelByName( "wheel_r" );
 
     if ( wheel_n && wheel_l && wheel_r )
     {
-        wheel_n->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_l->input = &_aircraft->getDataInp()->controls.landing_gear;
-        wheel_r->input = &_aircraft->getDataInp()->controls.landing_gear;
+        wheel_n->setInput( &_aircraft->getDataInp()->controls.landing_gear );
+        wheel_l->setInput( &_aircraft->getDataInp()->controls.landing_gear );
+        wheel_r->setInput( &_aircraft->getDataInp()->controls.landing_gear );
     }
     else
     {
@@ -69,6 +103,52 @@ void XF_LandingGear::initialize()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void XF_LandingGear::computeForceAndMoment()
+{
+    _for_bas.zeroize();
+    _mom_bas.zeroize();
+
+    for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
+    {
+        Wheel &wheel = (*it).second;
+
+        double position = 1.0;
+        if ( wheel.isInputValid() )
+        {
+            position = wheel.getInputValue();
+        }
+
+        if ( position >= 1.0 )
+        {
+            Vector3 r_c_bas;
+            Vector3 n_c_bas;
+
+            getIsect( wheel.getRa_BAS(), wheel.getRu_BAS(), &r_c_bas, &n_c_bas );
+
+            wheel.computeForceAndMoment( _aircraft->getVel_BAS(),
+                                         _aircraft->getOmg_BAS(),
+                                         r_c_bas,
+                                         n_c_bas,
+                                         _steering, _antiskid );
+
+            _for_bas += wheel.getFor_BAS();
+            _mom_bas += wheel.getMom_BAS();
+        }
+    }
+
+    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnexpectedNaN );
+        e.setInfo( "NaN detected in the landing gear model." );
+
+        FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void XF_LandingGear::update()
 {
     //////////////////////
@@ -82,4 +162,27 @@ void XF_LandingGear::update()
 
     _antiskid = _aircraft->getDataInp()->controls.abs;
     _steering = _aircraft->getDataInp()->controls.nws;
+
+    for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
+    {
+        Wheel &wheel = (*it).second;
+
+        Vector3 r_c_bas;
+        Vector3 n_c_bas;
+
+        getIsect( wheel.getRa_BAS(), wheel.getRu_BAS(), &r_c_bas, &n_c_bas );
+
+        wheel.integrate( _aircraft->getTimeStep(),
+                         _aircraft->getVel_BAS(),
+                         _aircraft->getOmg_BAS(),
+                         r_c_bas,
+                         n_c_bas,
+                         _steering );
+
+        double brake = 0.0;
+        if      ( wheel.getBrakeGroup() == Wheel::Left  ) brake = _brake_l;
+        else if ( wheel.getBrakeGroup() == Wheel::Right ) brake = _brake_r;
+
+        wheel.update( _ctrlAngle, brake );
+    }
 }
