@@ -120,8 +120,6 @@ void Manager::init()
         qApp->processEvents();
     }
 
-    //#   if QT_VERSION >= 0x050000
-
     qRegisterMetaType< Data::DataBuf >( "Data::DataBuf" );
     qRegisterMetaType< fdm::DataOut  >( "fdm::DataOut"  );
 
