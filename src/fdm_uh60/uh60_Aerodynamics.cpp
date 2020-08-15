@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Aerodynamics::UH60_Aerodynamics( const UH60_Aircraft *aircraft ) :
-    Aerodynamics( aircraft ),
+UH60_Aerodynamics::UH60_Aerodynamics( const UH60_Aircraft *aircraft, DataNode *rootNode ) :
+    Aerodynamics( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _mainRotor ( FDM_NULLPTR ),

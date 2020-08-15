@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_Controls::F16_Controls( const F16_Aircraft *aircraft ) :
-    Controls( aircraft ),
+F16_Controls::F16_Controls( const F16_Aircraft *aircraft, DataNode *rootNode ) :
+    Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _channelRoll      ( FDM_NULLPTR ),

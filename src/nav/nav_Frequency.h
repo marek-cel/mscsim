@@ -34,8 +34,25 @@ class Frequency
 {
 public:
 
+    /**
+     * Returns DME frequency based on TACAN channel.
+     * @param chan TACAN channel
+     * @return [kHz] DME frequency
+     */
     static int getFreqDME( const char *chan );
+
+    /**
+     * Returns DME frequency based on ILS LOC frequency.
+     * @param freq_ils [kHz] ILS LOC frequency
+     * @return [kHz] DME frequency
+     */
     static int getFreqDME( int freq_ils );
+
+    /**
+     * Returns GS frequency based on ILS LOC frequency.
+     * @param freq_ils [kHz] ILS LOC frequency
+     * @return [kHz] DME frequencys
+     */
     static int getFreqGS( int freq_ils );
 };
 

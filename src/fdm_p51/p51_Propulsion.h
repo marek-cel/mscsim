@@ -44,7 +44,7 @@ class P51_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    P51_Propulsion( const P51_Aircraft *aircraft );
+    P51_Propulsion( const P51_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~P51_Propulsion();

@@ -37,11 +37,11 @@ F16_Aircraft::F16_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new F16_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new F16_Controls     ( this );
-    Aircraft::_gear = _gear = new F16_LandingGear  ( this );
-    Aircraft::_mass = _mass = new F16_Mass         ( this );
-    Aircraft::_prop = _prop = new F16_Propulsion   ( this );
+    Aircraft::_aero = _aero = new F16_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new F16_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new F16_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new F16_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new F16_Propulsion   ( this, _rootNode );
 
     readFile( Path::get( "data/fdm/f16/f16_fdm.xml" ).c_str() );
 }

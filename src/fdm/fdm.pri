@@ -32,6 +32,9 @@ HEADERS += \
     $$PWD/main/fdm_Aerodynamics.h \
     $$PWD/main/fdm_Aircraft.h \
     $$PWD/main/fdm_Controls.h \
+    $$PWD/main/fdm_DataManager.h \
+    $$PWD/main/fdm_DataNode.h \
+    $$PWD/main/fdm_DataRef.h \
     $$PWD/main/fdm_Environment.h \
     $$PWD/main/fdm_Intersections.h \
     $$PWD/main/fdm_LandingGear.h \
@@ -43,6 +46,8 @@ SOURCES += \
     $$PWD/main/fdm_Aerodynamics.cpp \
     $$PWD/main/fdm_Aircraft.cpp \
     $$PWD/main/fdm_Controls.cpp \
+    $$PWD/main/fdm_DataManager.cpp \
+    $$PWD/main/fdm_DataNode.cpp \
     $$PWD/main/fdm_Environment.cpp \
     $$PWD/main/fdm_Intersections.cpp \
     $$PWD/main/fdm_LandingGear.cpp \

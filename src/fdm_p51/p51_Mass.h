@@ -41,7 +41,7 @@ class P51_Mass : public Mass
 public:
 
     /** Constructor. */
-    P51_Mass( const P51_Aircraft *aircraft );
+    P51_Mass( const P51_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~P51_Mass();

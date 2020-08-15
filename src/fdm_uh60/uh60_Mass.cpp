@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft ) :
-    Mass( aircraft ),
+UH60_Mass::UH60_Mass( const UH60_Aircraft *aircraft, DataNode *rootNode ) :
+    Mass( aircraft, rootNode ),
     _aircraft ( aircraft )
 {}
 

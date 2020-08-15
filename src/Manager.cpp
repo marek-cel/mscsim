@@ -389,8 +389,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.norm_flaps       = hid::Manager::instance()->getFlaps();
     Data::get()->ownship.norm_landingGear = hid::Manager::instance()->getLandingGear();
 
-    if ( dataOut.stateOut == fdm::DataOut::Working
-      || dataOut.stateOut == fdm::DataOut::Frozen )
+    if ( dataOut.stateOut == fdm::DataOut::Working )
     {
         for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {

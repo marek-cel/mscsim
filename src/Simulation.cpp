@@ -161,6 +161,11 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
         _dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
     }
 
+    // freezes
+    _dataInp.freezes.position = data->freezes.position;
+    _dataInp.freezes.attitude = data->freezes.attitude;
+    _dataInp.freezes.velocity = data->freezes.velocity;
+
     // masses
     for ( unsigned int i = 0; i < FDM_MAX_PILOTS; i++ )
     {

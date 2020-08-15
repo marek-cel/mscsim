@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _engine ( 0 )

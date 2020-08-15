@@ -43,7 +43,7 @@ class XF_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    XF_Propulsion( const XF_Aircraft *aircraft );
+    XF_Propulsion( const XF_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~XF_Propulsion();

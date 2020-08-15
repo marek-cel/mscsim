@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft ) :
-    Aerodynamics( aircraft ),
+C172_Aerodynamics::C172_Aerodynamics( const C172_Aircraft *aircraft, DataNode *rootNode ) :
+    Aerodynamics( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _tailOff ( FDM_NULLPTR ),

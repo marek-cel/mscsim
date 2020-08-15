@@ -19,69 +19,75 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef C130_AERODYNAMICS_H
-#define C130_AERODYNAMICS_H
+#ifndef FDM_DATAMANAGER_H
+#define FDM_DATAMANAGER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/fdm_Base.h>
 
-#include <fdm_c130/c130_TailOff.h>
-#include <fdm_c130/c130_StabilizerHor.h>
-#include <fdm_c130/c130_StabilizerVer.h>
+#include <fdm/main/fdm_DataRef.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-class C130_Aircraft;    ///< aircraft class forward declaration
-
 /**
- * @brief C-130 aerodynamics class.
+ * @brief Data manager class.
  */
-class C130_Aerodynamics : public Aerodynamics
+class FDMEXPORT DataManager : public Base
 {
 public:
 
     /** Constructor. */
-    C130_Aerodynamics( const C130_Aircraft *aircraft, DataNode *rootNode );
+    DataManager( DataNode *rootNode = 0 );
+
+    /** Constructor. */
+    DataManager( const DataManager *dataManager );
 
     /** Destructor. */
-    ~C130_Aerodynamics();
+    virtual ~DataManager();
 
     /**
-     * Reads data.
-     * @param dataNode XML node
+     * Adds data refernce.
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
-    void readData( XmlNode &dataNode );
-
-    /** Computes force and moment. */
-    void computeForceAndMoment();
-
-    /** Updates aerodynamics. */
-    void update();
+    int addDataRef( const char *path, DataNode::Type type );
 
     /**
-     * Returns true if aircraft is stalling, otherwise returns false.
-     * @return true if aircraft is stalling, false otherwise
+     * Adds data refernce.
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
-    inline bool getStall() const { return _tailOff->getStall(); }
+    int addDataRef( const std::string &path, DataNode::Type type );
+
+    /**
+     * Returns data reference of the data node
+     * @param path data node path relative to the root node
+     * @return data reference of the data node
+     */
+    DataRef getDataRef( const char *path );
+
+    /**
+     * Returns data reference of the data node
+     * @param path data node path relative to the root node
+     * @return data reference of the data node
+     */
+    DataRef getDataRef( const std::string &path );
+
+    /**
+     * Returns pointer to data root node.
+     * @return pointer to data root node
+     */
+    DataNode* getDataRootNode() { return _rootNode; }
 
 private:
 
-    const C130_Aircraft *_aircraft;     ///< aircraft model main object
-
-    C130_TailOff       *_tailOff;       ///< wing model
-    C130_StabilizerHor *_stabHor;       ///< horizontal stabilizer model
-    C130_StabilizerVer *_stabVer;       ///< vertical stabilizer model
-
-    Table _drag_ground_effect;          ///< [-] drag factor due to ground effect vs [m] altitude AGL
-    Table _lift_ground_effect;          ///< [-] lift factor due to ground effect vs [m] altitude AGL
+    DataNode *_rootNode;    ///< data tree root node
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // C130_AERODYNAMICS_H
+#endif // FDM_DATAMANAGER_H

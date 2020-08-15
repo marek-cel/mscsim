@@ -41,7 +41,7 @@ class C130_Mass : public Mass
 public:
 
     /** Constructor. */
-    C130_Mass( const C130_Aircraft *aircraft );
+    C130_Mass( const C130_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~C130_Mass();

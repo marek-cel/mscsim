@@ -51,20 +51,7 @@
            <string>Simulation State</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="3" column="0">
-            <widget class="QPushButton" name="buttonStateInpFreeze">
-             <property name="text">
-              <string>Freeze</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">buttonGroupStateInp</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="6" column="0">
+           <item row="5" column="0">
             <widget class="QPushButton" name="buttonStateInpStop">
              <property name="text">
               <string>Stop</string>
@@ -118,7 +105,7 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="5" column="1">
             <widget class="QPushButton" name="buttonStateOutStopped">
              <property name="enabled">
               <bool>false</bool>
@@ -160,19 +147,6 @@ QPushButton:disabled:checked
             <widget class="QPushButton" name="buttonStateInpWork">
              <property name="text">
               <string>Run</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">buttonGroupStateInp</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QPushButton" name="buttonStateInpPause">
-             <property name="text">
-              <string>Pause</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -249,44 +223,6 @@ QPushButton:disabled:checked
              </attribute>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QPushButton" name="buttonStateOutPaused">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QPushButton:disabled 
-{
-	padding: 5px;
-	background-color: #555;
-	border-radius: 5px;
-	color: #000;
-}
-
-QPushButton:disabled:pressed
-{
-	background-color: #ff0;
-}
-
-QPushButton:disabled:checked 
-{
-	background-color: #0f0;
-}</string>
-             </property>
-             <property name="text">
-              <string>PAUSED</string>
-             </property>
-             <property name="checkable">
-              <bool>true</bool>
-             </property>
-             <attribute name="buttonGroup">
-              <string notr="true">buttonGroupStateOut</string>
-             </attribute>
-            </widget>
-           </item>
            <item row="0" column="1">
             <widget class="QPushButton" name="buttonStateOutIdle">
              <property name="enabled">
@@ -329,9 +265,12 @@ QPushButton:disabled:checked
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QPushButton" name="buttonStateOutFrozen">
+            <widget class="QPushButton" name="buttonStateOutPaused">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
              </property>
              <property name="styleSheet">
               <string notr="true">QPushButton:disabled 
@@ -353,13 +292,26 @@ QPushButton:disabled:checked
 }</string>
              </property>
              <property name="text">
-              <string>FROZEN</string>
+              <string>PAUSED</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
              <attribute name="buttonGroup">
               <string notr="true">buttonGroupStateOut</string>
+             </attribute>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QPushButton" name="buttonStateInpPause">
+             <property name="text">
+              <string>Pause</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <attribute name="buttonGroup">
+              <string notr="true">buttonGroupStateInp</string>
              </attribute>
             </widget>
            </item>
@@ -504,7 +456,7 @@ QPushButton:disabled:checked
           </layout>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -516,6 +468,141 @@ QPushButton:disabled:checked
            </size>
           </property>
          </spacer>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="groupBoxFreezes">
+          <property name="title">
+           <string>Simulation Freeze</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QPushButton" name="buttonFreezePosition">
+             <property name="text">
+              <string>Position</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPushButton" name="buttonFreezeAttitude">
+             <property name="text">
+              <string>Attitude</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QPushButton" name="buttonFreezeVelocity">
+             <property name="text">
+              <string>Velocity</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="buttonFrozenPosition">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton:disabled 
+{
+	padding: 5px;
+	background-color: #555;
+	border-radius: 5px;
+	color: #000;
+}
+
+QPushButton:disabled:pressed
+{
+	background-color: #ff0;
+}
+
+QPushButton:disabled:checked 
+{
+	background-color: #0f0;
+}</string>
+             </property>
+             <property name="text">
+              <string>FROZEN</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="buttonFrozenAttitude">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton:disabled 
+{
+	padding: 5px;
+	background-color: #555;
+	border-radius: 5px;
+	color: #000;
+}
+
+QPushButton:disabled:pressed
+{
+	background-color: #ff0;
+}
+
+QPushButton:disabled:checked 
+{
+	background-color: #0f0;
+}</string>
+             </property>
+             <property name="text">
+              <string>FROZEN</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="buttonFrozenVelocity">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton:disabled 
+{
+	padding: 5px;
+	background-color: #555;
+	border-radius: 5px;
+	color: #000;
+}
+
+QPushButton:disabled:pressed
+{
+	background-color: #ff0;
+}
+
+QPushButton:disabled:checked 
+{
+	background-color: #0f0;
+}</string>
+             </property>
+             <property name="text">
+              <string>FROZEN</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -533,7 +620,56 @@ QPushButton:disabled:checked
   <tabstop>buttonStateInpStop</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonFreezePosition</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>buttonFrozenPosition</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>193</x>
+     <y>459</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>218</x>
+     <y>459</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonFreezeAttitude</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>buttonFrozenAttitude</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>228</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonFreezeVelocity</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>buttonFrozenVelocity</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>530</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>530</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <buttongroups>
   <buttongroup name="buttonGroupStateOut">
    <property name="exclusive">

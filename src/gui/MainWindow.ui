@@ -90,7 +90,6 @@
     <addaction name="actionStateInpIdle"/>
     <addaction name="actionStateInpInit"/>
     <addaction name="actionStateInpWork"/>
-    <addaction name="actionStateInpFreeze"/>
     <addaction name="actionStateInpPause"/>
     <addaction name="actionStateInpStop"/>
     <addaction name="separator"/>
@@ -165,7 +164,7 @@
     </property>
     <addaction name="actionTimeFaster"/>
     <addaction name="actionTimeSlower"/>
-    <addaction name="actionNormal"/>
+    <addaction name="actionTimeNormal"/>
    </widget>
    <addaction name="menuSimulation"/>
    <addaction name="menuView"/>
@@ -494,11 +493,6 @@
     <string>Map</string>
    </property>
   </action>
-  <action name="actionStateInpFreeze">
-   <property name="text">
-    <string>Freeze</string>
-   </property>
-  </action>
   <action name="actionFlightOpen">
    <property name="text">
     <string>Open Flight...</string>
@@ -546,7 +540,7 @@
     <string>Show PFD</string>
    </property>
   </action>
-  <action name="actionNormal">
+  <action name="actionTimeNormal">
    <property name="text">
     <string>Normal</string>
    </property>

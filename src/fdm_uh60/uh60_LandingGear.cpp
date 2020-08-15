@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_LandingGear::UH60_LandingGear( const UH60_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
+UH60_LandingGear::UH60_LandingGear( const UH60_Aircraft *aircraft, DataNode *rootNode ) :
+    LandingGear( aircraft, rootNode ),
     _aircraft ( aircraft )
 {}
 

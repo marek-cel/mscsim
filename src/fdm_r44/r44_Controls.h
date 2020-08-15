@@ -41,7 +41,7 @@ class R44_Controls : public Controls
 public:
 
     /** Constructor. */
-    R44_Controls( const R44_Aircraft *aircraft );
+    R44_Controls( const R44_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~R44_Controls();

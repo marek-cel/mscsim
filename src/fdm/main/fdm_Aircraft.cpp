@@ -25,6 +25,7 @@
 #include <cstring>
 
 #include <fdm/utils/fdm_GaussJordan.h>
+#include <fdm/utils/fdm_String.h>
 
 #include <fdm/xml/fdm_XmlDoc.h>
 #include <fdm/xml/fdm_XmlUtils.h>
@@ -36,6 +37,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
+    DataManager( _rootNode = new DataNode() ),
+
     _dataInp ( dataInp ),
     _dataOut ( dataOut ),
 
@@ -86,7 +89,11 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _machNumber    ( 0.0 ),
     _climbRate     ( 0.0 ),
     _turnRate      ( 0.0 ),
-    _headingPrev   ( 0.0 )
+    _headingPrev   ( 0.0 ),
+
+    _integrate_pos ( true ),
+    _integrate_att ( true ),
+    _integrate_vel ( true )
 {
     memset( _dataOut, 0, sizeof(DataOut) );
 
@@ -94,6 +101,8 @@ Aircraft::Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _isect = new Intersections();
 
     _integrator = new Aircraft::Integrator( this, &Aircraft::computeStateDeriv );
+
+    initDataTree();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +113,8 @@ Aircraft::~Aircraft()
     FDM_DELPTR( _isect );
 
     FDM_DELPTR( _integrator );
+
+    FDM_DELPTR( _rootNode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +134,7 @@ void Aircraft::initialize( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::update( double timeStep )
+void Aircraft::update( double timeStep, bool integrate )
 {
     _timeStep = timeStep;
 
@@ -131,40 +142,12 @@ void Aircraft::update( double timeStep )
     {
         anteIntegration();
 
-        /////////////////////////////////////////////////
-        _integrator->integrate( _timeStep, &_stateVect );
-        /////////////////////////////////////////////////
-
-        postIntegration();
-    }
-    catch ( Exception &catched )
-    {
-        Exception e;
-
-        e.setType( Exception::ExceptionCatched );
-        e.setInfo( "Exception catched." );
-        e.setCause( catched );
-
-        FDM_THROW( e );
-    }
-
-    updateOutputData();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Aircraft::updateFrozen( double timeStep )
-{
-    _timeStep = timeStep;
-
-    try
-    {
-        anteIntegration();
-
-        _aero->computeForceAndMoment();
-        _gear->computeForceAndMoment();
-        _mass->computeForceAndMoment();
-        _prop->computeForceAndMoment();
+        if ( integrate )
+        {
+            /////////////////////////////////////////////////
+            _integrator->integrate( _timeStep, &_stateVect );
+            /////////////////////////////////////////////////
+        }
 
         postIntegration();
     }
@@ -501,17 +484,37 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     // computing position derivatives
     Vector3 pos_dot_wgs = _bas2wgs * _vel_bas;
 
-    (*derivVect)( _is_x ) = pos_dot_wgs.x();
-    (*derivVect)( _is_y ) = pos_dot_wgs.y();
-    (*derivVect)( _is_z ) = pos_dot_wgs.z();
+    if ( _integrate_pos )
+    {
+        (*derivVect)( _is_x ) = pos_dot_wgs.x();
+        (*derivVect)( _is_y ) = pos_dot_wgs.y();
+        (*derivVect)( _is_z ) = pos_dot_wgs.z();
+    }
+    else
+    {
+        (*derivVect)( _is_x ) = 0.0;
+        (*derivVect)( _is_y ) = 0.0;
+        (*derivVect)( _is_z ) = 0.0;
+    }
+
 
     // computing attitude derivatives
     Quaternion att_dot_wgs = _att_wgs.getDerivative( _omg_bas );
 
-    (*derivVect)( _is_e0 ) = att_dot_wgs.e0();
-    (*derivVect)( _is_ex ) = att_dot_wgs.ex();
-    (*derivVect)( _is_ey ) = att_dot_wgs.ey();
-    (*derivVect)( _is_ez ) = att_dot_wgs.ez();
+    if ( _integrate_att )
+    {
+        (*derivVect)( _is_e0 ) = att_dot_wgs.e0();
+        (*derivVect)( _is_ex ) = att_dot_wgs.ex();
+        (*derivVect)( _is_ey ) = att_dot_wgs.ey();
+        (*derivVect)( _is_ez ) = att_dot_wgs.ez();
+    }
+    else
+    {
+        (*derivVect)( _is_e0 ) = 0.0;
+        (*derivVect)( _is_ex ) = 0.0;
+        (*derivVect)( _is_ey ) = 0.0;
+        (*derivVect)( _is_ez ) = 0.0;
+    }
 
     // computing linear and angular velocities derivatives
     double mass = _mass->getMass();
@@ -553,10 +556,20 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
     acc_bas( 1 ) += acc_coriolis_bas.y();
     acc_bas( 2 ) += acc_coriolis_bas.z();
 
-    // rewriting acceleration into state derivatives vector
-    for ( int i = _is_u; i < FDM_STATE_DIMENSION; i++ )
+    if ( _integrate_vel )
     {
-        (*derivVect)( i ) = acc_bas( i - _is_u );
+        // rewriting acceleration into state derivatives vector
+        for ( int i = _is_u; i < FDM_STATE_DIMENSION; i++ )
+        {
+            (*derivVect)( i ) = acc_bas( i - _is_u );
+        }
+    }
+    else
+    {
+        for ( int i = _is_u; i < FDM_STATE_DIMENSION; i++ )
+        {
+            (*derivVect)( i ) = 0.0;
+        }
     }
 }
 
@@ -670,4 +683,198 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _groundSpeed = _vel_ned.getLengthXY();
     _machNumber  = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate   = -_vel_ned.z();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Aircraft::initDataTree()
+{
+    int result = FDM_SUCCESS;
+
+    // input - controls
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.roll"  , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.pitch" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.yaw"   , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.trim_roll"  , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.trim_pitch" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.trim_yaw"   , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.brake_l", DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.brake_r", DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.landing_gear" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.nose_wheel"   , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.flaps"    , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.airbrake" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.spoilers" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.collective" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.lgh" , DataNode::Bool );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.nws" , DataNode::Bool );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.controls.abs" , DataNode::Bool );
+
+    // input - engines
+    for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
+    {
+        std::string number = String::toString( i + 1 );
+
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".throttle"  , DataNode::Double );
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".mixture"   , DataNode::Double );
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".propeller" , DataNode::Double );
+
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".fuel"     , DataNode::Bool );
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".ignition" , DataNode::Bool );
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.engine_" + number + ".starter"  , DataNode::Bool );
+    }
+
+    // input - masses
+    for ( int i = 0; i < FDM_MAX_PILOTS; i++ )
+    {
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.pilot_" + String::toString( i + 1 ), DataNode::Double );
+    }
+
+    for ( int i = 0; i < FDM_MAX_TANKS; i++ )
+    {
+        if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.tank_" + String::toString( i + 1 ), DataNode::Double );
+    }
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.cabin" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.trunk" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.slung" , DataNode::Double );
+
+    // output - flight data
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.latitude"  , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.longitude" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.altitude_asl" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.altitude_agl" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.roll"    , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.pitch"   , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.heading" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.angle_of_attack" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.sideslip_angle"  , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.climbAngle" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.trackAngle" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.slip_skid_angle" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.airspeed"     , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.ias"          , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.tas"          , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.ground_speed" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.mach_number"  , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.climb_rate"   , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.roll_rate"  , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.pitch_rate" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.yaw_rate"   , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.turn_rate"  , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.pos_x_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.pos_y_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.pos_z_wgs" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.att_e0_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.att_ex_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.att_ey_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.att_ez_wgs" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.vel_u_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.vel_v_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.vel_w_bas" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.omg_p_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.omg_q_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.omg_r_bas" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.phi_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.tht_wgs" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.psi_wgs" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.airspeed_u_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.airspeed_v_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.airspeed_w_bas" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.vel_north" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.vel_east"  , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.acc_x_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.acc_y_bas" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.acc_z_bas" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_force_x" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_force_y" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_force_z" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_pilot_x" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_pilot_y" , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.g_pilot_z" , DataNode::Double );
+
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.on_ground" , DataNode::Bool );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.flight.stall"     , DataNode::Bool );
+
+    // output - environment data
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.environment.air_pressure"    , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.environment.air_density"     , DataNode::Double );
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.environment.air_temperature" , DataNode::Double );
+
+    // output - crash
+    if ( result == FDM_SUCCESS ) result = addDataRef( "output.crash" , DataNode::Int );
+
+    if ( result == FDM_SUCCESS )
+    {
+        // input - controls
+        _dataRefs.input.controls.roll  = getDataRef( "input.controls.roll"  );
+        _dataRefs.input.controls.pitch = getDataRef( "input.controls.pitch" );
+        _dataRefs.input.controls.yaw   = getDataRef( "input.controls.yaw"   );
+
+        _dataRefs.input.controls.trim_roll  = getDataRef( "input.controls.trim_roll"  );
+        _dataRefs.input.controls.trim_pitch = getDataRef( "input.controls.trim_pitch" );
+        _dataRefs.input.controls.trim_yaw   = getDataRef( "input.controls.trim_yaw"   );
+
+        _dataRefs.input.controls.brake_l = getDataRef( "input.controls.brake_l" );
+        _dataRefs.input.controls.brake_r = getDataRef( "input.controls.brake_r" );
+
+        _dataRefs.input.controls.landing_gear = getDataRef( "input.controls.landing_gear" );
+        _dataRefs.input.controls.nose_wheel   = getDataRef( "input.controls.nose_wheel"   );
+
+        _dataRefs.input.controls.flaps    = getDataRef( "input.controls.flaps"    );
+        _dataRefs.input.controls.airbrake = getDataRef( "input.controls.airbrake" );
+        _dataRefs.input.controls.spoilers = getDataRef( "input.controls.spoilers" );
+
+        _dataRefs.input.controls.collective = getDataRef( "input.controls.collective" );
+
+        _dataRefs.input.controls.lgh = getDataRef( "input.controls.lgh" );
+        _dataRefs.input.controls.nws = getDataRef( "input.controls.nws" );
+        _dataRefs.input.controls.abs = getDataRef( "input.controls.abs" );
+
+        // input - engines
+        for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
+        {
+            std::string number = String::toString( i + 1 );
+
+            _dataRefs.input.engine[ i ].throttle  = getDataRef( "input.engine_" + number + ".throttle"  );
+            _dataRefs.input.engine[ i ].mixture   = getDataRef( "input.engine_" + number + ".mixture"   );
+            _dataRefs.input.engine[ i ].propeller = getDataRef( "input.engine_" + number + ".propeller" );
+
+            _dataRefs.input.engine[ i ].fuel     = getDataRef( "input.engine_" + number + ".fuel"     );
+            _dataRefs.input.engine[ i ].ignition = getDataRef( "input.engine_" + number + ".ignition" );
+            _dataRefs.input.engine[ i ].starter  = getDataRef( "input.engine_" + number + ".starter"  );
+        }
+    }
+    else
+    {
+        Exception e;
+
+        e.setType( Exception::DataRefInitError );
+        e.setInfo( "Cannot initialize data tree." );
+
+        FDM_THROW( e );
+    }
 }

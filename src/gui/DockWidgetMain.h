@@ -59,6 +59,10 @@ public:
     /** */
     void init();
 
+    inline bool getFreezePosition() const { return _freeze_position; }
+    inline bool getFreezeAttitude() const { return _freeze_attitude; }
+    inline bool getFreezeVelocity() const { return _freeze_velocity; }
+
     /** */
     void setStateInp( fdm::DataInp::StateInp stateInp );
     void setStateOut( fdm::DataOut::StateOut stateOut );
@@ -88,6 +92,10 @@ private:
     fdm::DataInp::StateInp _stateInp;   ///< simulation input state
     fdm::DataOut::StateOut _stateOut;   ///< simulation output state
 
+    bool _freeze_position;              ///<
+    bool _freeze_attitude;              ///<
+    bool _freeze_velocity;              ///<
+
     int _timerId;   ///< timer ID
     bool _blink;    ///<
 
@@ -96,9 +104,12 @@ private slots:
     void on_buttonStateInpIdle_clicked();
     void on_buttonStateInpInit_clicked();
     void on_buttonStateInpWork_clicked();
-    void on_buttonStateInpFreeze_clicked();
     void on_buttonStateInpPause_clicked();
     void on_buttonStateInpStop_clicked();
+
+    void on_buttonFreezePosition_toggled( bool checked );
+    void on_buttonFreezeAttitude_toggled( bool checked );
+    void on_buttonFreezeVelocity_toggled( bool checked );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

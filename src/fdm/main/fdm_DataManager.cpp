@@ -20,7 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_p51/p51_Aircraft.h>
+#include <fdm/main/fdm_DataManager.h>
+
+#include <fdm/fdm_Exception.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,62 +30,74 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Aircraft::P51_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( dataInp, dataOut ),
-
-    _aero ( 0 ),
-    _ctrl ( 0 ),
-    _gear ( 0 ),
-    _mass ( 0 ),
-    _prop ( 0 )
+DataManager::DataManager( DataNode *rootNode ) :
+    _rootNode( rootNode )
 {
-    Aircraft::_aero = _aero = new P51_Aerodynamics ( this, _rootNode );
-    Aircraft::_ctrl = _ctrl = new P51_Controls     ( this, _rootNode );
-    Aircraft::_gear = _gear = new P51_LandingGear  ( this, _rootNode );
-    Aircraft::_mass = _mass = new P51_Mass         ( this, _rootNode );
-    Aircraft::_prop = _prop = new P51_Propulsion   ( this, _rootNode );
+    if ( _rootNode == 0 )
+    {
+        Exception e;
 
-    readFile( Path::get( "data/fdm/p51/p51_fdm.xml" ).c_str() );
+        e.setType( Exception::NullPointer );
+        e.setInfo( "Data root node pointer NULL." );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Aircraft::~P51_Aircraft()
+DataManager::DataManager( const DataManager *dataManager ) :
+    _rootNode( dataManager->_rootNode )
 {
-    FDM_DELPTR( _aero );
-    FDM_DELPTR( _ctrl );
-    FDM_DELPTR( _gear );
-    FDM_DELPTR( _mass );
-    FDM_DELPTR( _prop );
+    if ( _rootNode == 0 )
+    {
+        Exception e;
+
+        e.setType( Exception::NullPointer );
+        e.setInfo( "Data root node pointer NULL." );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Aircraft::initialize( bool engineOn )
+DataManager::~DataManager() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int DataManager::addDataRef( const char *path, DataNode::Type type )
 {
-    /////////////////////////////////
-    Aircraft::initialize( engineOn );
-    /////////////////////////////////
+    return _rootNode->addNode( path, type );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_Aircraft::updateOutputData()
+int DataManager::addDataRef( const std::string &path, DataNode::Type type )
 {
-    /////////////////////////////
-    Aircraft::updateOutputData();
-    /////////////////////////////
+    return _rootNode->addNode( path.c_str(), type );
+}
 
-    // controls
-    _dataOut->controls.ailerons = _ctrl->getAilerons();
-    _dataOut->controls.elevator = _ctrl->getElevator();
-    _dataOut->controls.rudder   = _ctrl->getRudder();
-    _dataOut->controls.flaps    = _ctrl->getFlaps();
+////////////////////////////////////////////////////////////////////////////////
 
-    // propulsion
-    _dataOut->engine[ 0 ].state    = _prop->getEngine()->getState() == Engine::Running;
-    _dataOut->engine[ 0 ].rpm      = _prop->getEngine()->getRPM();
-    _dataOut->engine[ 0 ].prop     = _prop->getPropeller()->getRPM();
-    _dataOut->engine[ 0 ].map      = _prop->getEngine()->getMAP();
-    _dataOut->engine[ 0 ].fuelFlow = _prop->getEngine()->getFuelFlow();
+DataRef DataManager::getDataRef( const char *path )
+{
+    DataNode *dataNode = _rootNode->getNode( path );
+
+    if ( dataNode != 0 )
+    {
+        if ( dataNode->getType() == DataNode::Group )
+        {
+            dataNode = 0;
+        }
+    }
+
+    return DataRef( dataNode );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DataRef DataManager::getDataRef( const std::string &path )
+{
+    return getDataRef( path.c_str() );
 }

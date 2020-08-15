@@ -142,7 +142,6 @@ private:
     void updateStateIdle();
     void updateStateInit();
     void updateStateWork();
-    void updateStateFreeze();
     void updateStatePause();
     void updateStateStop();
 

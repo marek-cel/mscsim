@@ -62,7 +62,7 @@ public:
     typedef Wheel::Wheels Wheels;
 
     /** Constructor. */
-    AW101_LandingGear( const AW101_Aircraft *aircraft );
+    AW101_LandingGear( const AW101_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~AW101_LandingGear();

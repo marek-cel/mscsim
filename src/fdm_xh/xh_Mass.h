@@ -41,7 +41,7 @@ class XH_Mass : public Mass
 public:
 
     /** Constructor. */
-    XH_Mass( const XH_Aircraft *aircraft );
+    XH_Mass( const XH_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~XH_Mass();

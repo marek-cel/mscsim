@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XH_Propulsion::XH_Propulsion( const XH_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+XH_Propulsion::XH_Propulsion( const XH_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _mainRotorPsi ( 0.0 ),

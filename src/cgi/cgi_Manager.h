@@ -130,11 +130,11 @@ public:
 
 private:
 
-    HUD *_hud;          ///<
-    Map *_map;          ///<
-    OTW *_otw;          ///<
+    HUD *_hud;                  ///<
+    Map *_map;                  ///<
+    OTW *_otw;                  ///<
 
-    Camera *_camera;    ///<
+    Camera *_camera;            ///<
 
     /**
      * You should use static function instance() due to get refernce

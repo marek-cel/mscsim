@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Propulsion::Propulsion( const Aircraft* aircraft ) :
-    Module ( aircraft )
+Propulsion::Propulsion( const Aircraft* aircraft, DataNode *rootNode ) :
+    Module ( aircraft, rootNode )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

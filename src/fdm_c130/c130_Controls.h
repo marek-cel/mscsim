@@ -41,7 +41,7 @@ class C130_Controls : public Controls
 public:
 
     /** Constructor. */
-    C130_Controls( const C130_Aircraft *aircraft );
+    C130_Controls( const C130_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~C130_Controls();

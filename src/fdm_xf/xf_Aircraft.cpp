@@ -37,11 +37,11 @@ XF_Aircraft::XF_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new XF_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new XF_Controls     ( this );
-    Aircraft::_gear = _gear = new XF_LandingGear  ( this );
-    Aircraft::_mass = _mass = new XF_Mass         ( this );
-    Aircraft::_prop = _prop = new XF_Propulsion   ( this );
+    Aircraft::_aero = _aero = new XF_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new XF_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new XF_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new XF_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new XF_Propulsion   ( this, _rootNode );
 
     readFile( Path::get( "data/fdm/xf/xf_fdm.xml" ).c_str() );
 }

@@ -47,7 +47,7 @@ class XH_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    XH_Aerodynamics( const XH_Aircraft *aircraft );
+    XH_Aerodynamics( const XH_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~XH_Aerodynamics();

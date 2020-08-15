@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C130_Mass::C130_Mass( const C130_Aircraft *aircraft ) :
-    Mass( aircraft ),
+C130_Mass::C130_Mass( const C130_Aircraft *aircraft, DataNode *rootNode ) :
+    Mass( aircraft, rootNode ),
     _aircraft ( aircraft )
 {}
 

@@ -242,6 +242,14 @@ public:
         WindShear  windShear;               ///< wind shear model type
     };
 
+    /** Simulation freezes data. */
+    struct Freezes
+    {
+        bool position;                      ///< freezes aircraft position
+        bool attitude;                      ///< freezes aircraft attitude
+        bool velocity;                      ///< freezes aircraft velocity
+    };
+
     /** Navigation data. */
     struct Navigation
     {
@@ -430,6 +438,7 @@ public:
         Controls    controls;               ///< controls data
         DateTime    dateTime;               ///< date time data
         Environment environment;            ///< environment data
+        Freezes     freezes;                ///< freezes data
         Ground      ground;                 ///< ground data
         Initial     initial;                ///< initial conditions
         Masses      masses;                 ///< masses data

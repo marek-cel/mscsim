@@ -45,7 +45,7 @@ class P51_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    P51_Aerodynamics( const P51_Aircraft *aircraft );
+    P51_Aerodynamics( const P51_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~P51_Aerodynamics();

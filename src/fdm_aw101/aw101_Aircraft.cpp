@@ -31,11 +31,11 @@ using namespace fdm;
 AW101_Aircraft::AW101_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new AW101_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new AW101_Controls     ( this );
-    Aircraft::_gear = _gear = new AW101_LandingGear  ( this );
-    Aircraft::_mass = _mass = new AW101_Mass         ( this );
-    Aircraft::_prop = _prop = new AW101_Propulsion   ( this );
+    Aircraft::_aero = _aero = new AW101_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new AW101_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new AW101_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new AW101_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new AW101_Propulsion   ( this, _rootNode );
 
     readFile( Path::get( "data/fdm/aw101/aw101_fdm.xml" ).c_str() );
 }

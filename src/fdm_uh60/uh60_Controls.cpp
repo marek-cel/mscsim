@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Controls::UH60_Controls( const UH60_Aircraft *aircraft ) :
-    Controls( aircraft ),
+UH60_Controls::UH60_Controls( const UH60_Aircraft *aircraft, DataNode *rootNode ) :
+    Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _channelCyclicLat  ( FDM_NULLPTR ),

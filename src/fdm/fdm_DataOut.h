@@ -43,7 +43,6 @@ struct DataOut
         Initializing,                       ///< initializing
         Ready,                              ///< ready
         Working,                            ///< working
-        Frozen,                             ///< frozen
         Paused,                             ///< paused
         Stopped                             ///< stopped
     };

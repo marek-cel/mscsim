@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C130_Controls::C130_Controls( const C130_Aircraft *aircraft ) :
-    Controls( aircraft ),
+C130_Controls::C130_Controls( const C130_Aircraft *aircraft, DataNode *rootNode ) :
+    Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _channelAilerons     ( FDM_NULLPTR ),

@@ -41,7 +41,7 @@ class FDMEXPORT Propulsion : public Module
 public:
 
     /** Constructor. */
-    Propulsion( const Aircraft* aircraft );
+    Propulsion( const Aircraft* aircraft, DataNode *rootNode );
 
     /** Destructor. */
     virtual ~Propulsion();
@@ -72,7 +72,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Propulsion( const Propulsion & ) : Module( FDM_NULLPTR ) {}
+    Propulsion( const Propulsion & ) : Module( FDM_NULLPTR, FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

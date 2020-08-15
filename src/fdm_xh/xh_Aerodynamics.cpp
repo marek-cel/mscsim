@@ -33,8 +33,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XH_Aerodynamics::XH_Aerodynamics( const XH_Aircraft *aircraft ) :
-    Aerodynamics( aircraft ),
+XH_Aerodynamics::XH_Aerodynamics( const XH_Aircraft *aircraft, DataNode *rootNode ) :
+    Aerodynamics( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _mainRotor ( FDM_NULLPTR ),

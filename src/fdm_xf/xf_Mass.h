@@ -41,7 +41,7 @@ class XF_Mass : public Mass
 public:
 
     /** Constructor. */
-    XF_Mass( const XF_Aircraft *aircraft );
+    XF_Mass( const XF_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~XF_Mass();

@@ -12,6 +12,8 @@ set( CPP_FILES
     main/fdm_Aerodynamics.cpp
     main/fdm_Aircraft.cpp
     main/fdm_Controls.cpp
+    main/fdm_DataManager.cpp
+    main/fdm_DataNode.cpp
     main/fdm_Environment.cpp
     main/fdm_Intersections.cpp
     main/fdm_LandingGear.cpp

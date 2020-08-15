@@ -86,7 +86,7 @@ private:
 
     bool _camManipulatorInited;
 
-#   ifndef SIM_NEW_OSG_QT
+#   ifndef USE_OSGQOPENGL
     /** */
     QWidget* addViewWidget();
 #   endif

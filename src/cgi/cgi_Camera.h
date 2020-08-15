@@ -132,7 +132,7 @@ private:
 
     ViewType _viewType;     ///<
 
-    double _deltaPitch;
+    double _deltaPitch;     ///<
 };
 
 } // end of cgi namespace

@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Aerodynamics::XF_Aerodynamics( const XF_Aircraft *aircraft ) :
-    Aerodynamics( aircraft ),
+XF_Aerodynamics::XF_Aerodynamics( const XF_Aircraft *aircraft, DataNode *rootNode ) :
+    Aerodynamics( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _span ( 0.0 ),

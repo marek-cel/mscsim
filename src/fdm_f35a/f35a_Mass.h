@@ -41,7 +41,7 @@ class F35A_Mass : public Mass
 public:
 
     /** Constructor. */
-    F35A_Mass( const F35A_Aircraft *aircraft );
+    F35A_Mass( const F35A_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~F35A_Mass();

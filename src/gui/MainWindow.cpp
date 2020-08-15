@@ -322,7 +322,7 @@ void MainWindow::timerEvent( QTimerEvent *event )
         }
     }
 
-    if ( _stateOut == fdm::DataOut::Working || _stateOut == fdm::DataOut::Frozen )
+    if ( _stateOut == fdm::DataOut::Working )
     {
         ScreenSaver::reset();
     }
@@ -413,14 +413,6 @@ void MainWindow::setStateInit()
 void MainWindow::setStateWork()
 {
     _stateInp = fdm::DataInp::Work;
-    _dockMain->setStateInp( _stateInp );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void MainWindow::setStateFreeze()
-{
-    _stateInp = fdm::DataInp::Freeze;
     _dockMain->setStateInp( _stateInp );
 }
 
@@ -971,57 +963,43 @@ void MainWindow::updateMenu()
     {
     default:
     case fdm::DataOut::Idle:
-        _ui->actionStateInpIdle   ->setEnabled( true  );
-        _ui->actionStateInpInit   ->setEnabled( true  );
-        _ui->actionStateInpWork   ->setEnabled( false );
-        _ui->actionStateInpFreeze ->setEnabled( false );
-        _ui->actionStateInpPause  ->setEnabled( false );
-        _ui->actionStateInpStop   ->setEnabled( false );
+        _ui->actionStateInpIdle  ->setEnabled( true  );
+        _ui->actionStateInpInit  ->setEnabled( true  );
+        _ui->actionStateInpWork  ->setEnabled( false );
+        _ui->actionStateInpPause ->setEnabled( false );
+        _ui->actionStateInpStop  ->setEnabled( false );
         break;
 
     case fdm::DataOut::Ready:
-        _ui->actionStateInpIdle   ->setEnabled( false );
-        _ui->actionStateInpInit   ->setEnabled( true  );
-        _ui->actionStateInpWork   ->setEnabled( true  );
-        _ui->actionStateInpFreeze ->setEnabled( true  );
-        _ui->actionStateInpPause  ->setEnabled( true  );
-        _ui->actionStateInpStop   ->setEnabled( true  );
+        _ui->actionStateInpIdle  ->setEnabled( false );
+        _ui->actionStateInpInit  ->setEnabled( true  );
+        _ui->actionStateInpWork  ->setEnabled( true  );
+        _ui->actionStateInpPause ->setEnabled( true  );
+        _ui->actionStateInpStop  ->setEnabled( true  );
         break;
 
     case fdm::DataOut::Working:
-        _ui->actionStateInpIdle   ->setEnabled( false );
-        _ui->actionStateInpInit   ->setEnabled( false );
-        _ui->actionStateInpWork   ->setEnabled( true  );
-        _ui->actionStateInpFreeze ->setEnabled( true  );
-        _ui->actionStateInpPause  ->setEnabled( true  );
-        _ui->actionStateInpStop   ->setEnabled( true  );
-        break;
-
-    case fdm::DataOut::Frozen:
-        _ui->actionStateInpIdle   ->setEnabled( false );
-        _ui->actionStateInpInit   ->setEnabled( false );
-        _ui->actionStateInpWork   ->setEnabled( true  );
-        _ui->actionStateInpFreeze ->setEnabled( true  );
-        _ui->actionStateInpPause  ->setEnabled( true  );
-        _ui->actionStateInpStop   ->setEnabled( true  );
+        _ui->actionStateInpIdle  ->setEnabled( false );
+        _ui->actionStateInpInit  ->setEnabled( false );
+        _ui->actionStateInpWork  ->setEnabled( true  );
+        _ui->actionStateInpPause ->setEnabled( true  );
+        _ui->actionStateInpStop  ->setEnabled( true  );
         break;
 
     case fdm::DataOut::Paused:
-        _ui->actionStateInpIdle   ->setEnabled( false );
-        _ui->actionStateInpInit   ->setEnabled( false );
-        _ui->actionStateInpWork   ->setEnabled( true  );
-        _ui->actionStateInpFreeze ->setEnabled( true  );
-        _ui->actionStateInpPause  ->setEnabled( true  );
-        _ui->actionStateInpStop   ->setEnabled( true  );
+        _ui->actionStateInpIdle  ->setEnabled( false );
+        _ui->actionStateInpInit  ->setEnabled( false );
+        _ui->actionStateInpWork  ->setEnabled( true  );
+        _ui->actionStateInpPause ->setEnabled( true  );
+        _ui->actionStateInpStop  ->setEnabled( true  );
         break;
 
     case fdm::DataOut::Stopped:
-        _ui->actionStateInpIdle   ->setEnabled( true  );
-        _ui->actionStateInpInit   ->setEnabled( false );
-        _ui->actionStateInpWork   ->setEnabled( false );
-        _ui->actionStateInpFreeze ->setEnabled( false );
-        _ui->actionStateInpPause  ->setEnabled( false );
-        _ui->actionStateInpStop   ->setEnabled( true  );
+        _ui->actionStateInpIdle  ->setEnabled( true  );
+        _ui->actionStateInpInit  ->setEnabled( false );
+        _ui->actionStateInpWork  ->setEnabled( false );
+        _ui->actionStateInpPause ->setEnabled( false );
+        _ui->actionStateInpStop  ->setEnabled( true  );
         break;
     }
 
@@ -1056,7 +1034,7 @@ void MainWindow::updateStatusBar()
 {
     double frameRate = 1.0 / FDM_TIME_STEP;
 
-    if ( _stateOut == fdm::DataOut::Working || _stateOut == fdm::DataOut::Frozen )
+    if ( _stateOut == fdm::DataOut::Working )
     {
         frameRate = 1.0 / Data::get()->timeStep;
     }
@@ -1138,6 +1116,10 @@ void MainWindow::updateOutputData()
     Data::get()->environment.wind_speed     = _dialogEnvr->getWindSpeed();
     Data::get()->environment.turbulence     = _dialogEnvr->getTurbulence();
     Data::get()->environment.windShear      = _dialogEnvr->getWindShear();
+
+    Data::get()->freezes.position = _dockMain->getFreezePosition();
+    Data::get()->freezes.attitude = _dockMain->getFreezeAttitude();
+    Data::get()->freezes.velocity = _dockMain->getFreezeVelocity();
 
     // initial conditions
     Data::get()->initial.latitude     = _dialogInit->getLat();
@@ -1370,13 +1352,6 @@ void MainWindow::on_actionStateInpWork_triggered()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_actionStateInpFreeze_triggered()
-{
-    setStateFreeze();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void MainWindow::on_actionStateInpPause_triggered()
 {
     setStatePause();
@@ -1587,12 +1562,11 @@ void MainWindow::dockMain_stateInpChanged( fdm::DataInp::StateInp stateInp )
 {
     switch ( stateInp )
     {
-        case fdm::DataInp::Idle:   setStateIdle();   break;
-        case fdm::DataInp::Init:   setStateInit();   break;
-        case fdm::DataInp::Work:   setStateWork();   break;
-        case fdm::DataInp::Freeze: setStateFreeze(); break;
-        case fdm::DataInp::Pause:  setStatePause();  break;
-        case fdm::DataInp::Stop:   setStateStop();   break;
+        case fdm::DataInp::Idle:  setStateIdle();  break;
+        case fdm::DataInp::Init:  setStateInit();  break;
+        case fdm::DataInp::Work:  setStateWork();  break;
+        case fdm::DataInp::Pause: setStatePause(); break;
+        case fdm::DataInp::Stop:  setStateStop();  break;
     }
 }
 

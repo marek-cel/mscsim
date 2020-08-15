@@ -62,7 +62,7 @@ public:
     typedef Wheel::Wheels Wheels;
 
     /** Constructor. */
-    R44_LandingGear( const R44_Aircraft *aircraft );
+    R44_LandingGear( const R44_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~R44_LandingGear();

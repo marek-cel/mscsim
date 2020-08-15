@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Controls::XF_Controls( const XF_Aircraft *aircraft ) :
-    Controls( aircraft ),
+XF_Controls::XF_Controls( const XF_Aircraft *aircraft, DataNode *rootNode ) :
+    Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _channelRoll      ( FDM_NULLPTR ),

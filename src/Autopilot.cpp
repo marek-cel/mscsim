@@ -863,8 +863,7 @@ bool Autopilot::isInited() const
 
 bool Autopilot::isWorking() const
 {
-    return ( Data::get()->stateOut == fdm::DataOut::Working
-          || Data::get()->stateOut == fdm::DataOut::Frozen );
+    return ( Data::get()->stateOut == fdm::DataOut::Working );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

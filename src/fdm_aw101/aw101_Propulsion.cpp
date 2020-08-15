@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AW101_Propulsion::AW101_Propulsion( const AW101_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+AW101_Propulsion::AW101_Propulsion( const AW101_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _mainRotorPsi ( 0.0 ),

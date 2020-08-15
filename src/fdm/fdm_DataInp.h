@@ -49,9 +49,8 @@ struct DataInp
         UH60  = 8                           ///< UH-60
 
 #       ifdef FDM_TEST
-        ,
-        XF = 901,                           ///< eXperimental Fighter
-        XH = 902                            ///< eXperimental Helicopter
+        ,XF = 901                           ///< eXperimental jet Fighter
+        ,XH = 902                           ///< eXperimental Helicopter
 #       endif
 
     };
@@ -62,7 +61,6 @@ struct DataInp
         Idle = 0,                           ///< idle
         Init,                               ///< initialize
         Work,                               ///< work
-        Freeze,                             ///< freeze
         Pause,                              ///< pause
         Stop                                ///< stop
     };
@@ -111,6 +109,14 @@ struct DataInp
 
         Turbulence turbulence;              ///< turbulence intensity
         WindShear  windShear;               ///< active wind shear model
+    };
+
+    /** Simulation freezes data. */
+    struct Freezes
+    {
+        bool position;                      ///< specifies if aircraft position is to be frozen
+        bool attitude;                      ///< specifies if aircraft attitude is to be frozen
+        bool velocity;                      ///< specifies if aircraft velocity is to be frozen
     };
 
     /** Ground data. */
@@ -198,6 +204,7 @@ struct DataInp
 
     Initial     initial;                    ///< initial conditions
     Environment environment;                ///< environment data
+    Freezes     freezes;                    ///< freezes data
     Ground      ground;                     ///< ground data
     Controls    controls;                   ///< controls data
     Engine      engine[ FDM_MAX_ENGINES ];  ///< engines data

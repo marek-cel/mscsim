@@ -33,7 +33,7 @@
 
 #include <Defines.h>
 
-#ifdef SIM_NEW_OSG_QT
+#ifdef USE_OSGQOPENGL
 #   include <osgQOpenGL/osgQOpenGLWidget>
 #else
 #   include <gui/GraphicsWindowQt.h>
@@ -44,7 +44,7 @@
 /**
  * @brief OSG common widget class.
  */
-#ifdef SIM_NEW_OSG_QT
+#ifdef USE_OSGQOPENGL
 class WidgetOSG : public osgQOpenGLWidget
 #else
 class WidgetOSG : public QWidget, public osgViewer::Viewer
@@ -66,7 +66,7 @@ public:
 
 protected:
 
-#   ifndef SIM_NEW_OSG_QT
+#   ifndef USE_OSGQOPENGL
     QGridLayout *_layout;                   ///<
 
     osg::ref_ptr<GraphicsWindowQt> _gwin;   ///<
@@ -74,7 +74,7 @@ protected:
 
     bool _initialized;                      ///<
 
-#   ifndef SIM_NEW_OSG_QT
+#   ifndef USE_OSGQOPENGL
     /** */
     virtual void paintEvent( QPaintEvent *event );
 

@@ -81,10 +81,10 @@ private:
     fdm::DataInp _dataInp;          ///< flight dynamics model input data
     fdm::DataOut _dataOut;          ///< flight dynamics model output data
 
-    double _timeStep;
-    double _timeCoef;
+    double _timeStep;               ///<
+    double _timeCoef;               ///<
 
-    int _timerId;
+    int _timerId;                   ///<
 
 private slots:
 

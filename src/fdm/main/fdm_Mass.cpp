@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Mass::Mass( const Aircraft* aircraft ) :
-    Module ( aircraft ),
+Mass::Mass( const Aircraft* aircraft, DataNode *rootNode ) :
+    Module ( aircraft, rootNode ),
 
     _mass_e ( 0.0 ),
     _mass_t ( 0.0 )

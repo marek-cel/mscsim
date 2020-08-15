@@ -41,7 +41,7 @@ class F16_Mass : public Mass
 public:
 
     /** Constructor. */
-    F16_Mass( const F16_Aircraft *aircraft );
+    F16_Mass( const F16_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~F16_Mass();

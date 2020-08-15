@@ -43,7 +43,7 @@ class F16_Controls : public Controls
 public:
 
     /** Constructor. */
-    F16_Controls( const F16_Aircraft *aircraft );
+    F16_Controls( const F16_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~F16_Controls();

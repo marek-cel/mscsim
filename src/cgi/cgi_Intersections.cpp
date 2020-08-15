@@ -36,10 +36,10 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#if OPENSCENEGRAPH_SOVERSION > 131
-osg::ref_ptr<osg::Node> Intersections::ReadCallback::readNodeFile( const std::string& filename )
-#else
+#if OPENSCENEGRAPH_SOVERSION < 140
 osg::Node* Intersections::ReadCallback::readNodeFile( const std::string& filename )
+#else
+osg::ref_ptr<osg::Node> Intersections::ReadCallback::readNodeFile( const std::string& filename )
 #endif
 {
     return osgDB::readRefNodeFile( filename );
@@ -74,8 +74,11 @@ bool Intersections::findFirst( const osg::Vec3d &b, const osg::Vec3d &e,
 
     if ( _scenery.valid() )
     {
-        if ( ( e - b ).length2() > 0.0 )
+        if ( ( e - b ).length2() > 1.0e-6 )
         {
+            //osgUtil::LineSegmentIntersector tmp( b, e );
+            //osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector = &tmp;
+
             osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector =
                     new osgUtil::LineSegmentIntersector( b, e );
 

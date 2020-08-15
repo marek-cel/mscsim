@@ -43,7 +43,7 @@ class F16_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    F16_Propulsion( const F16_Aircraft *aircraft );
+    F16_Propulsion( const F16_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~F16_Propulsion();

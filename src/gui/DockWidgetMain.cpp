@@ -36,6 +36,10 @@ DockWidgetMain::DockWidgetMain( QWidget *parent ) :
     _stateInp ( fdm::DataInp::Idle ),
     _stateOut ( fdm::DataOut::Idle ),
 
+    _freeze_position ( false ),
+    _freeze_attitude ( false ),
+    _freeze_velocity ( false ),
+
     _timerId ( 0 ),
 
     _blink ( false )
@@ -68,7 +72,6 @@ void DockWidgetMain::setStateInp( fdm::DataInp::StateInp stateInp )
         case fdm::DataInp::Idle:   _ui->buttonStateInpIdle->setChecked( true );   break;
         case fdm::DataInp::Init:   _ui->buttonStateInpInit->setChecked( true );   break;
         case fdm::DataInp::Work:   _ui->buttonStateInpWork->setChecked( true );   break;
-        case fdm::DataInp::Freeze: _ui->buttonStateInpFreeze->setChecked( true ); break;
         case fdm::DataInp::Pause:  _ui->buttonStateInpPause->setChecked( true );  break;
         case fdm::DataInp::Stop:   _ui->buttonStateInpStop->setChecked( true );   break;
         default:                   _ui->buttonStateInpIdle->setChecked( true );   break;
@@ -90,112 +93,100 @@ void DockWidgetMain::setStateOut( fdm::DataOut::StateOut stateOut )
         _ui->buttonStateOutIdle    ->setChecked( true  );
         _ui->buttonStateOutReady   ->setChecked( false );
         _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( false );
         _ui->buttonStateOutStopped ->setChecked( false );
 
-        _ui->buttonStateInpIdle   ->setEnabled( true  );
-        _ui->buttonStateInpInit   ->setEnabled( true  );
-        _ui->buttonStateInpWork   ->setEnabled( false );
-        _ui->buttonStateInpFreeze ->setEnabled( false );
-        _ui->buttonStateInpPause  ->setEnabled( false );
-        _ui->buttonStateInpStop   ->setEnabled( false );
+        _ui->buttonStateInpIdle  ->setEnabled( true  );
+        _ui->buttonStateInpInit  ->setEnabled( true  );
+        _ui->buttonStateInpWork  ->setEnabled( false );
+        _ui->buttonStateInpPause ->setEnabled( false );
+        _ui->buttonStateInpStop  ->setEnabled( false );
+
+        _ui->buttonFreezePosition->setChecked( false );
+        _ui->buttonFreezeAttitude->setChecked( false );
+        _ui->buttonFreezeVelocity->setChecked( false );
+
+        _ui->groupBoxFreezes->setEnabled( false );
         break;
 
     case fdm::DataOut::Initializing:
         _ui->buttonStateOutIdle    ->setChecked( false );
         _ui->buttonStateOutReady   ->setChecked( _blink );
         _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( false );
         _ui->buttonStateOutStopped ->setChecked( false );
 
-        _ui->buttonStateInpIdle   ->setEnabled( false );
-        _ui->buttonStateInpInit   ->setEnabled( true  );
-        _ui->buttonStateInpWork   ->setEnabled( false );
-        _ui->buttonStateInpFreeze ->setEnabled( false );
-        _ui->buttonStateInpPause  ->setEnabled( false );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
+        _ui->buttonStateInpIdle  ->setEnabled( false );
+        _ui->buttonStateInpInit  ->setEnabled( true  );
+        _ui->buttonStateInpWork  ->setEnabled( false );
+        _ui->buttonStateInpPause ->setEnabled( false );
+        _ui->buttonStateInpStop  ->setEnabled( true  );
+
+        _ui->groupBoxFreezes->setEnabled( false );
         break;
 
     case fdm::DataOut::Ready:
         _ui->buttonStateOutIdle    ->setChecked( false );
         _ui->buttonStateOutReady   ->setChecked( true  );
         _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( false );
         _ui->buttonStateOutStopped ->setChecked( false );
 
-        _ui->buttonStateInpIdle   ->setEnabled( false );
-        _ui->buttonStateInpInit   ->setEnabled( true  );
-        _ui->buttonStateInpWork   ->setEnabled( true  );
-        _ui->buttonStateInpFreeze ->setEnabled( true  );
-        _ui->buttonStateInpPause  ->setEnabled( true  );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
+        _ui->buttonStateInpIdle  ->setEnabled( false );
+        _ui->buttonStateInpInit  ->setEnabled( true  );
+        _ui->buttonStateInpWork  ->setEnabled( true  );
+        _ui->buttonStateInpPause ->setEnabled( true  );
+        _ui->buttonStateInpStop  ->setEnabled( true  );
+
+        _ui->groupBoxFreezes->setEnabled( true );
         break;
 
     case fdm::DataOut::Working:
         _ui->buttonStateOutIdle    ->setChecked( false );
         _ui->buttonStateOutReady   ->setChecked( false );
         _ui->buttonStateOutWorking ->setChecked( true  );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( false );
         _ui->buttonStateOutStopped ->setChecked( false );
 
-        _ui->buttonStateInpIdle   ->setEnabled( false );
-        _ui->buttonStateInpInit   ->setEnabled( false );
-        _ui->buttonStateInpWork   ->setEnabled( true  );
-        _ui->buttonStateInpFreeze ->setEnabled( true  );
-        _ui->buttonStateInpPause  ->setEnabled( true  );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
-        break;
+        _ui->buttonStateInpIdle  ->setEnabled( false );
+        _ui->buttonStateInpInit  ->setEnabled( false );
+        _ui->buttonStateInpWork  ->setEnabled( true  );
+        _ui->buttonStateInpPause ->setEnabled( true  );
+        _ui->buttonStateInpStop  ->setEnabled( true  );
 
-    case fdm::DataOut::Frozen:
-        _ui->buttonStateOutIdle    ->setChecked( false );
-        _ui->buttonStateOutReady   ->setChecked( false );
-        _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( true  );
-        _ui->buttonStateOutPaused  ->setChecked( false );
-        _ui->buttonStateOutStopped ->setChecked( false );
-
-        _ui->buttonStateInpIdle   ->setEnabled( false );
-        _ui->buttonStateInpInit   ->setEnabled( false );
-        _ui->buttonStateInpWork   ->setEnabled( true  );
-        _ui->buttonStateInpFreeze ->setEnabled( true  );
-        _ui->buttonStateInpPause  ->setEnabled( true  );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
+        _ui->groupBoxFreezes->setEnabled( true );
         break;
 
     case fdm::DataOut::Paused:
         _ui->buttonStateOutIdle    ->setChecked( false );
         _ui->buttonStateOutReady   ->setChecked( false );
         _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( true  );
         _ui->buttonStateOutStopped ->setChecked( false );
 
-        _ui->buttonStateInpIdle   ->setEnabled( false );
-        _ui->buttonStateInpInit   ->setEnabled( false );
-        _ui->buttonStateInpWork   ->setEnabled( true  );
-        _ui->buttonStateInpFreeze ->setEnabled( true  );
-        _ui->buttonStateInpPause  ->setEnabled( true  );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
+        _ui->buttonStateInpIdle  ->setEnabled( false );
+        _ui->buttonStateInpInit  ->setEnabled( false );
+        _ui->buttonStateInpWork  ->setEnabled( true  );
+        _ui->buttonStateInpPause ->setEnabled( true  );
+        _ui->buttonStateInpStop  ->setEnabled( true  );
+
+        _ui->groupBoxFreezes->setEnabled( true );
         break;
 
     case fdm::DataOut::Stopped:
         _ui->buttonStateOutIdle    ->setChecked( false );
         _ui->buttonStateOutReady   ->setChecked( false );
         _ui->buttonStateOutWorking ->setChecked( false );
-        _ui->buttonStateOutFrozen  ->setChecked( false );
         _ui->buttonStateOutPaused  ->setChecked( false );
         _ui->buttonStateOutStopped ->setChecked( true  );
 
-        _ui->buttonStateInpIdle   ->setEnabled( true  );
-        _ui->buttonStateInpInit   ->setEnabled( false );
-        _ui->buttonStateInpWork   ->setEnabled( false );
-        _ui->buttonStateInpFreeze ->setEnabled( false );
-        _ui->buttonStateInpPause  ->setEnabled( false );
-        _ui->buttonStateInpStop   ->setEnabled( true  );
+        _ui->buttonStateInpIdle  ->setEnabled( true  );
+        _ui->buttonStateInpInit  ->setEnabled( false );
+        _ui->buttonStateInpWork  ->setEnabled( false );
+        _ui->buttonStateInpPause ->setEnabled( false );
+        _ui->buttonStateInpStop  ->setEnabled( true  );
+
+        _ui->groupBoxFreezes->setEnabled( true );
         break;
     }
 }
@@ -268,14 +259,6 @@ void DockWidgetMain::on_buttonStateInpWork_clicked()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetMain::on_buttonStateInpFreeze_clicked()
-{
-    _stateInp = fdm::DataInp::Freeze;
-    emit stateInpChanged( _stateInp );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void DockWidgetMain::on_buttonStateInpPause_clicked()
 {
     _stateInp = fdm::DataInp::Pause;
@@ -288,4 +271,25 @@ void DockWidgetMain::on_buttonStateInpStop_clicked()
 {
     _stateInp = fdm::DataInp::Stop;
     emit stateInpChanged( _stateInp );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetMain::on_buttonFreezePosition_toggled( bool checked )
+{
+    _freeze_position = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetMain::on_buttonFreezeAttitude_toggled( bool checked )
+{
+    _freeze_attitude = checked;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DockWidgetMain::on_buttonFreezeVelocity_toggled( bool checked )
+{
+    _freeze_velocity = checked;
 }

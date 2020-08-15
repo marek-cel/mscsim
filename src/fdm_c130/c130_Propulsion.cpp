@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C130_Propulsion::C130_Propulsion( const C130_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+C130_Propulsion::C130_Propulsion( const C130_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _enginesCount ( 4 )

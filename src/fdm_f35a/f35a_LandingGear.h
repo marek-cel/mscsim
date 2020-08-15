@@ -62,7 +62,7 @@ public:
     typedef Wheel::Wheels Wheels;
 
     /** Constructor. */
-    F35A_LandingGear( const F35A_Aircraft *aircraft );
+    F35A_LandingGear( const F35A_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~F35A_LandingGear();

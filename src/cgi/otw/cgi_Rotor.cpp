@@ -312,8 +312,7 @@ void Rotor::updatePaths()
             _switchPaths->removeChildren( 0, _switchPaths->getNumChildren() );
         }
     }
-    else if ( Data::get()->stateOut == fdm::DataOut::Working
-           || Data::get()->stateOut == fdm::DataOut::Frozen )
+    else if ( Data::get()->stateOut == fdm::DataOut::Working )
     {
         double azimuth = Data::get()->ownship.mainRotor.azimuth;
         double delta_psi = 2.0 * M_PI / (double)(_blades_count);

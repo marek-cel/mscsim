@@ -118,7 +118,7 @@ public:
     static Matrix3x3 getStab2BAS( double sinAlpha , double cosAlpha );
 
     /** Constructor. */
-    Aerodynamics( const Aircraft* aircraft );
+    Aerodynamics( const Aircraft* aircraft, DataNode *rootNode );
 
     /** Destructor. */
     virtual ~Aerodynamics();
@@ -169,7 +169,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Aerodynamics( const Aerodynamics & ) : Module( FDM_NULLPTR ) {}
+    Aerodynamics( const Aerodynamics & ) : Module( FDM_NULLPTR, FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace

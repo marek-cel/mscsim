@@ -162,8 +162,7 @@ void Manager::update( const Data::DataBuf *data )
 {
     _volume = data->sfx.volume;
 
-    if ( data->stateInp == fdm::DataInp::Work
-      || data->stateInp == fdm::DataInp::Freeze )
+    if ( data->stateInp == fdm::DataInp::Work )
     {
         // init
         if ( _prev_state != data->stateInp )

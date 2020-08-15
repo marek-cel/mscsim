@@ -37,11 +37,11 @@ F35A_Aircraft::F35A_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new F35A_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new F35A_Controls     ( this );
-    Aircraft::_gear = _gear = new F35A_LandingGear  ( this );
-    Aircraft::_mass = _mass = new F35A_Mass         ( this );
-    Aircraft::_prop = _prop = new F35A_Propulsion   ( this );
+    Aircraft::_aero = _aero = new F35A_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new F35A_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new F35A_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new F35A_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new F35A_Propulsion   ( this, _rootNode );
 
     readFile( Path::get( "data/fdm/f35a/f35a_fdm.xml" ).c_str() );
 }

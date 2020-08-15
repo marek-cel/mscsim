@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F35A_Propulsion::F35A_Propulsion( const F35A_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+F35A_Propulsion::F35A_Propulsion( const F35A_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _engine ( 0 )

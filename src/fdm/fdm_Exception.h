@@ -49,7 +49,8 @@ public:
         NullPointer         = 2,    ///< unexpected null pointer
         ArrayIndexOverLimit = 3,    ///< wrong value of array index
         UnexpectedNaN       = 4,    ///< unexpected Not-a-Number value
-        FileReadingError    = 5     ///< file reading error
+        FileReadingError    = 5,    ///< file reading error
+        DataRefInitError    = 6     ///< data reference initialization error
     };
 
     /** Constructor. */

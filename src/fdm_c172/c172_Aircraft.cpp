@@ -37,11 +37,11 @@ C172_Aircraft::C172_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new C172_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new C172_Controls     ( this );
-    Aircraft::_gear = _gear = new C172_LandingGear  ( this );
-    Aircraft::_mass = _mass = new C172_Mass         ( this );
-    Aircraft::_prop = _prop = new C172_Propulsion   ( this );
+    Aircraft::_aero = _aero = new C172_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new C172_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new C172_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new C172_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new C172_Propulsion   ( this, _rootNode );
 
     readFile( Path::get( "data/fdm/c172/c172_fdm.xml" ).c_str() );
 }

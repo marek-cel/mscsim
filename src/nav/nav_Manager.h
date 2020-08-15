@@ -37,6 +37,8 @@ namespace nav
 
 /**
  * @brief Navigation class.
+ *
+ * @see https://en.wikipedia.org/wiki/Great-circle_distance
  */
 class Manager
 {

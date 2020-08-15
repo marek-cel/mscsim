@@ -115,13 +115,12 @@ void Manager::step( double timeStep, const DataInp &dataInp, DataOut &dataOut )
 
     switch ( _stateInp )
     {
-        case DataInp::Idle:   updateStateIdle();   break;
-        case DataInp::Init:   updateStateInit();   break;
-        case DataInp::Work:   updateStateWork();   break;
-        case DataInp::Freeze: updateStateFreeze(); break;
-        case DataInp::Pause:  updateStatePause();  break;
+        case DataInp::Idle:  updateStateIdle();  break;
+        case DataInp::Init:  updateStateInit();  break;
+        case DataInp::Work:  updateStateWork();  break;
+        case DataInp::Pause: updateStatePause(); break;
         default:
-        case DataInp::Stop:   updateStateStop();   break;
+        case DataInp::Stop:  updateStateStop();  break;
     }
 
     _dataOut.stateOut = _stateOut;
@@ -474,7 +473,6 @@ void Manager::updateStateInp()
     case DataInp::Work:
         if ( _stateOut == DataOut::Ready
           || _stateOut == DataOut::Working
-          || _stateOut == DataOut::Frozen
           || _stateOut == DataOut::Paused )
         {
             _stateInp = DataInp::Work;
@@ -493,28 +491,9 @@ void Manager::updateStateInp()
         }
         break;
 
-    case DataInp::Freeze:
-        if ( _stateOut == DataOut::Ready
-          || _stateOut == DataOut::Working
-          || _stateOut == DataOut::Frozen
-          || _stateOut == DataOut::Paused )
-        {
-            _stateInp = DataInp::Freeze;
-        }
-        else if ( _stateOut == DataOut::Idle )
-        {
-            _stateInp = DataInp::Init;
-        }
-        else
-        {
-            _stateInp = DataInp::Idle;
-        }
-        break;
-
     case DataInp::Pause:
         if ( _stateOut == DataOut::Ready
           || _stateOut == DataOut::Working
-          || _stateOut == DataOut::Frozen
           || _stateOut == DataOut::Paused )
         {
             _stateInp = DataInp::Pause;
@@ -708,7 +687,7 @@ void Manager::updateStateInit()
 
                     if ( _dataInp.recording.mode == DataInp::Recording::Replay )
                     {
-                        _aircraft->updateFrozen( FDM_TIME_STEP );
+                        _aircraft->update( FDM_TIME_STEP );
                         _stateOut = DataOut::Ready;
 
                         if ( _verbose )
@@ -757,12 +736,13 @@ void Manager::updateStateWork()
 
             _recorder->step( _timeStep );
 
+            _aircraft->setIntegratePos( !_dataInp.freezes.position );
+            _aircraft->setIntegrateAtt( !_dataInp.freezes.attitude );
+            _aircraft->setIntegrateVel( !_dataInp.freezes.velocity );
+
             if ( _dataInp.recording.mode != DataInp::Recording::Replay || _recorder->isReplaying() )
             {
-                if ( _recorder->isReplaying() )
-                    _aircraft->updateFrozen( _timeStep );
-                else
-                    _aircraft->update( _timeStep );
+                _aircraft->update( _timeStep, !_recorder->isReplaying() );
             }
 
             _realTime += _timeStep;
@@ -803,44 +783,6 @@ void Manager::updateStateWork()
                     printFlightEndInfo();
                 }
             }
-
-            updateTimeStepStats( compTime_0 );
-        }
-        catch ( Exception &e )
-        {
-            Log::e() << e.getInfo() << std::endl;
-
-            while ( e.hasCause() )
-            {
-                e = e.getCause();
-                Log::e() << e.getInfo() << std::endl;
-            }
-
-            _stateOut = DataOut::Stopped;
-        }
-    }
-    else
-    {
-        _stateOut = DataOut::Stopped;
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Manager::updateStateFreeze()
-{
-    if ( _aircraft != 0 )
-    {
-        try
-        {
-            double compTime_0 = Time::get();
-
-            _aircraft->updateFrozen( _timeStep );
-
-            _realTime += _timeStep;
-            _timeSteps++;
-
-            _stateOut = DataOut::Frozen;
 
             updateTimeStepStats( compTime_0 );
         }
@@ -980,12 +922,12 @@ void Manager::printTimeStepStats()
     Log::out() << "          Min time step [s] : " << std::setprecision( 6 ) << _timeStepMin << std::endl;
     Log::out() << "          Max time step [s] : " << std::setprecision( 6 ) << _timeStepMax << std::endl;
     Log::out() << "  Max computations time [s] : " << std::setprecision( 6 ) << _compTimeMax << std::endl;
-    Log::out() << "   mean_ts + 3*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 3.0 * sdStep ) << " (96.65% is less than this value)"       << std::endl;
-    Log::out() << "   mean_ct + 3*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 3.0 * sdComp ) << " (96.65% is less than this value)"       << std::endl;
-    Log::out() << "   mean_ts + 6*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 6.0 * sdStep ) << " (99.99983% is less than this value)"   << std::endl;
-    Log::out() << "   mean_ct + 6*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 6.0 * sdComp ) << " (99.99983% is less than this value)"   << std::endl;
-    Log::out() << "   mean_ts + 7*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 7.0 * sdStep ) << " (99.99999905% is less than this value)" << std::endl;
-    Log::out() << "   mean_ct + 7*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 7.0 * sdComp ) << " (99.99999905% is less than this value)" << std::endl;
+    //Log::out() << "   mean_ts + 3*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 3.0 * sdStep ) << " (96.65% is less than this value)"       << std::endl;
+    //Log::out() << "   mean_ct + 3*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 3.0 * sdComp ) << " (96.65% is less than this value)"       << std::endl;
+    //Log::out() << "   mean_ts + 6*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 6.0 * sdStep ) << " (99.99983% is less than this value)"   << std::endl;
+    //Log::out() << "   mean_ct + 6*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 6.0 * sdComp ) << " (99.99983% is less than this value)"   << std::endl;
+    //Log::out() << "   mean_ts + 7*sigma_ts [s] : " << std::setprecision( 6 ) << ( meanStep + 7.0 * sdStep ) << " (99.99999905% is less than this value)" << std::endl;
+    //Log::out() << "   mean_ct + 7*sigma_ct [s] : " << std::setprecision( 6 ) << ( meanComp + 7.0 * sdComp ) << " (99.99999905% is less than this value)" << std::endl;
     Log::out() << "            Number of steps : " << _timeSteps << std::endl;
     Log::out() << "     Steps less than " << std::setprecision( 3 ) << FDM_TIME_STEP << "s : " << _stepsLT_def << std::endl;
     Log::out() << "  Steps greater than " << std::setprecision( 3 ) << FDM_TIME_STEP << "s : " << _stepsGT_def << std::endl;

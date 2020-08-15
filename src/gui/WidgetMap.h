@@ -81,7 +81,7 @@ private:
     bool _viewBorders;
     bool _viewTraces;
 
-#   ifndef SIM_NEW_OSG_QT
+#   ifndef USE_OSGQOPENGL
     /** */
     QWidget* addViewWidget();
 #   endif

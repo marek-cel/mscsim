@@ -41,7 +41,7 @@ class XH_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    XH_Propulsion( const XH_Aircraft *aircraft );
+    XH_Propulsion( const XH_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~XH_Propulsion();

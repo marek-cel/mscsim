@@ -41,7 +41,7 @@ class AW101_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    AW101_Propulsion( const AW101_Aircraft *aircraft );
+    AW101_Propulsion( const AW101_Aircraft *aircraft, DataNode *rootNode );
 
     /** Destructor. */
     ~AW101_Propulsion();

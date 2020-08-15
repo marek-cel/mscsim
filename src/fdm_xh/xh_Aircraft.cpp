@@ -31,11 +31,11 @@ using namespace fdm;
 XH_Aircraft::XH_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
     Aircraft( dataInp, dataOut )
 {
-    Aircraft::_aero = _aero = new XH_Aerodynamics ( this );
-    Aircraft::_ctrl = _ctrl = new XH_Controls     ( this );
-    Aircraft::_gear = _gear = new XH_LandingGear  ( this );
-    Aircraft::_mass = _mass = new XH_Mass         ( this );
-    Aircraft::_prop = _prop = new XH_Propulsion   ( this );
+    Aircraft::_aero = _aero = new XH_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new XH_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new XH_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new XH_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new XH_Propulsion   ( this, _rootNode );
 
     _stateVect = StateVector( FDM_STATE_DIMENSION + 1 );
     _statePrev = StateVector( FDM_STATE_DIMENSION + 1 );

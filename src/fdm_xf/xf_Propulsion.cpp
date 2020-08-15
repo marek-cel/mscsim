@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Propulsion::XF_Propulsion( const XF_Aircraft *aircraft ) :
-    Propulsion( aircraft ),
+XF_Propulsion::XF_Propulsion( const XF_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _engine ( 0 )

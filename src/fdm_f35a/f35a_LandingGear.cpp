@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F35A_LandingGear::F35A_LandingGear( const F35A_Aircraft *aircraft ) :
-    LandingGear( aircraft ),
+F35A_LandingGear::F35A_LandingGear( const F35A_Aircraft *aircraft, DataNode *rootNode ) :
+    LandingGear( aircraft, rootNode ),
     _aircraft ( aircraft )
 {}
 

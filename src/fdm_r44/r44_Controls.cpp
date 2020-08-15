@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-R44_Controls::R44_Controls( const R44_Aircraft *aircraft ) :
-    Controls( aircraft ),
+R44_Controls::R44_Controls( const R44_Aircraft *aircraft, DataNode *rootNode ) :
+    Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
     _channelCyclicLat  ( FDM_NULLPTR ),

@@ -48,10 +48,10 @@ public:
 
     struct ReadCallback : public osgUtil::IntersectionVisitor::ReadCallback
     {
-#       if OPENSCENEGRAPH_SOVERSION > 131
-        virtual osg::ref_ptr<osg::Node> readNodeFile( const std::string& filename );
-#       else
+#       if OPENSCENEGRAPH_SOVERSION < 140
         virtual osg::Node* readNodeFile( const std::string& filename );
+#       else
+        virtual osg::ref_ptr<osg::Node> readNodeFile( const std::string& filename );
 #       endif
     };
 
