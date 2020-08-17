@@ -12,21 +12,22 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 * [R44](https://en.wikipedia.org/wiki/Robinson_R44) - light helicopter
 * [UH-60](https://en.wikipedia.org/wiki/Sikorsky_UH-60_Black_Hawk) - medium helicopter
 
-Electronic Flight Instrument System and Head-up Display common for all aircraft types.
-
-![MScSim - GUI](mscsim_gui.jpg)
 ![MScSim - AW101](mscsim_aw101.jpg)
 
-High resolution photorealistic scenery based on aerial imagery of [Oahu](https://en.wikipedia.org/wiki/Oahu) island, low resolution scenery based on satellite imagery of the whole World.
+<div style="text-align:center">Electronic Flight Instrument System and Head-up Display common for all aircraft types. Built-in map with navigational radio aids, airports, etc..</div>
+
+![MScSim - GUI](mscsim_gui.jpg)
+
+<div style="text-align:center">High resolution photorealistic scenery based on aerial imagery of Oahu island, low resolution scenery based on satellite imagery of the whole World.</div>
 
 ![MScSim - Oahu](mscsim_oahu.jpg)
 ![MScSim - PHNL](mscsim_phnl.jpg)
 
-Accurate celestial bodies position with almost 1000 visible stars.
+<div style="text-align:center">Accurate celestial bodies position with almost 1000 visible stars.</div>
 
 ![MScSim - stars](mscsim_stars.jpg)
 
-Basic weather phenomena, such as clouds and fog.
+<div style="text-align:center">Weather phenomena, such as clouds and fog.</div>
 
 ![MScSim - clouds](mscsim_clouds.jpg)
 ![MScSim - fog](mscsim_fog.jpg)
