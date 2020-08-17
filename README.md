@@ -14,25 +14,25 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 * [R44](https://en.wikipedia.org/wiki/Robinson_R44) - light helicopter
 * [UH-60](https://en.wikipedia.org/wiki/Sikorsky_UH-60_Black_Hawk) - medium helicopter
 
-![MScSim - AW101](mscsim_aw101.jpg)
+![AW101](screenshot_aw101.jpg)
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types. Built-in map with navigational radio aids, airports, etc..
 
-![MScSim - GUI](mscsim_gui.jpg)
+![MScSim - GUI](screenshot_gui.jpg)
 
 High resolution photorealistic scenery based on aerial imagery of Oahu island, low resolution scenery based on satellite imagery of the whole World.
 
-![MScSim - Oahu](mscsim_oahu.jpg)
-![MScSim - PHNL](mscsim_phnl.jpg)
+![Scenery - Oahu](screenshot_oahu.jpg)
+![Scenery - PHNL](screenshot_phnl.jpg)
 
 Accurate celestial bodies position with almost 1000 visible stars.
 
-![MScSim - stars](mscsim_stars.jpg)
+![Stars](screenshot_stars.jpg)
 
 Weather phenomena, such as clouds and fog.
 
-![MScSim - clouds](mscsim_clouds.jpg)
-![MScSim - fog](mscsim_fog.jpg)
+![Clouds](screenshot_clouds.jpg)
+![Fog](screenshot_fog.jpg)
 
 ## See also:
 * [mscsim-cfd](https://github.com/marek-cel/mscsim-cfd)
