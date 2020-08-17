@@ -14,16 +14,22 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types.
 
-High resolution scenery based on aerial imagery of [Oahu](https://en.wikipedia.org/wiki/Oahu) island, low resolution scenery based on satellite imagery of the whole World.
+![MScSim - GUI](mscsim_gui.jpg)
+![MScSim - AW101](mscsim_aw101.jpg)
 
-![MScSim O'ahu](mscsim_oahu.jpg)
+High resolution photorealistic scenery based on aerial imagery of [Oahu](https://en.wikipedia.org/wiki/Oahu) island, low resolution scenery based on satellite imagery of the whole World.
+
+![MScSim - Oahu](mscsim_oahu.jpg)
+![MScSim - PHNL](mscsim_phnl.jpg)
 
 Accurate celestial bodies position with almost 1000 visible stars.
 
+![MScSim - stars](mscsim_stars.jpg)
+
 Basic weather phenomena, such as clouds and fog.
 
-![MScSim clouds](mscsim_clouds.jpg)
-![MScSim fog](mscsim_fog.jpg)
+![MScSim - clouds](mscsim_clouds.jpg)
+![MScSim - fog](mscsim_fog.jpg)
 
 Visit [http://marekcel.pl/mscsim](http://marekcel.pl/mscsim) for more information.
 
