@@ -1,7 +1,7 @@
 # mscsim
 Flight simulation software.
 
-High fidelity flight dynamics model based on available wind tunnel data and/or CFD simulations including following aircraft types:
+High fidelity flight dynamics model based on available wind tunnel data and/or [CFD](https://en.wikipedia.org/wiki/Computational_fluid_dynamics) simulations including following aircraft types:
 
 * [AW101](https://en.wikipedia.org/wiki/AgustaWestland_AW101) - medium helicopter
 * [C-130](https://en.wikipedia.org/wiki/Lockheed_C-130_Hercules) - turboprop transport aircraft
@@ -14,9 +14,16 @@ High fidelity flight dynamics model based on available wind tunnel data and/or C
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types.
 
-High resolution scenery based on aerial imagery of O'ahu island, low resolution scenery based on satellite imagery of the whole World.
+High resolution scenery based on aerial imagery of [Oahu](https://en.wikipedia.org/wiki/Oahu) island, low resolution scenery based on satellite imagery of the whole World.
 
-Accurate celestial bodies position with more than 900 visible stars. Basic weather phenomena, such as clouds and fog.
+![MScSim O'ahu](mscsim_oahu.jpg)
+
+Accurate celestial bodies position with almost 1000 visible stars.
+
+Basic weather phenomena, such as clouds and fog.
+
+![MScSim clouds](mscsim_clouds.jpg)
+![MScSim fog](mscsim_fog.jpg)
 
 Visit [http://marekcel.pl/mscsim](http://marekcel.pl/mscsim) for more information.
 
