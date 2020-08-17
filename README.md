@@ -34,10 +34,10 @@ Weather phenomena, such as clouds and fog.
 ![MScSim - clouds](mscsim_clouds.jpg)
 ![MScSim - fog](mscsim_fog.jpg)
 
-Visit [http://marekcel.pl/mscsim](http://marekcel.pl/mscsim) for more information.
-
 ## See also:
-- [mscsim-cfd](https://github.com/marek-cel/mscsim-cfd)
-- [mscsim-data](https://github.com/marek-cel/mscsim-data)
-- [mscsim-docs](https://github.com/marek-cel/mscsim-docs)
-- [mscsim-tools](https://github.com/marek-cel/mscsim-tools)
+* [mscsim-cfd](https://github.com/marek-cel/mscsim-cfd)
+* [mscsim-data](https://github.com/marek-cel/mscsim-data)
+* [mscsim-docs](https://github.com/marek-cel/mscsim-docs)
+* [mscsim-tools](https://github.com/marek-cel/mscsim-tools)
+
+Visit [http://marekcel.pl/mscsim](http://marekcel.pl/mscsim) for more information.
