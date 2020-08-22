@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <osg/CoordinateSystemNode>
+#include <osg/PositionAttitudeTransform>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,6 +66,9 @@ public:
     static osg::Vec3d r_ned2wgs( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_ned );
 
     static osg::Vec3d r_wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_wgs );
+
+    static void setLatLonAltHdg( osg::PositionAttitudeTransform *pat,
+                                 double lat, double lon, double alt, double hdg = 0.0 );
 
     /** Constructor. */
     WGS84();

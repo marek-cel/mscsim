@@ -140,8 +140,8 @@ HEADERS += \
     $$PWD/utils/fdm_Random.h \
     $$PWD/utils/fdm_RungeKutta4.h \
     $$PWD/utils/fdm_String.h \
-    $$PWD/utils/fdm_Table.h \
-    $$PWD/utils/fdm_Table2D.h \
+    $$PWD/utils/fdm_Table1.h \
+    $$PWD/utils/fdm_Table2.h \
     $$PWD/utils/fdm_Time.h \
     $$PWD/utils/fdm_Units.h \
     $$PWD/utils/fdm_Vector.h \
@@ -160,8 +160,8 @@ SOURCES += \
     $$PWD/utils/fdm_Quaternion.cpp \
     $$PWD/utils/fdm_Random.cpp \
     $$PWD/utils/fdm_String.cpp \
-    $$PWD/utils/fdm_Table.cpp \
-    $$PWD/utils/fdm_Table2D.cpp \
+    $$PWD/utils/fdm_Table1.cpp \
+    $$PWD/utils/fdm_Table2.cpp \
     $$PWD/utils/fdm_Units.cpp \
     $$PWD/utils/fdm_Vector3.cpp \
     $$PWD/utils/fdm_Vector4.cpp \

@@ -71,8 +71,10 @@ HEADERS += \
     $$PWD/otw/cgi_CloudsLayer.h \
     $$PWD/otw/cgi_Entities.h \
     $$PWD/otw/cgi_FogScene.h \
+    $$PWD/otw/cgi_Landmark.h \
     $$PWD/otw/cgi_OTW.h \
     $$PWD/otw/cgi_Ownship.h \
+    $$PWD/otw/cgi_Reflection.h \
     $$PWD/otw/cgi_Rotor.h \
     $$PWD/otw/cgi_Scenery.h \
     $$PWD/otw/cgi_SkyDome.h \
@@ -86,8 +88,10 @@ SOURCES += \
     $$PWD/otw/cgi_CloudsLayer.cpp \
     $$PWD/otw/cgi_Entities.cpp \
     $$PWD/otw/cgi_FogScene.cpp \
+    $$PWD/otw/cgi_Landmark.cpp \
     $$PWD/otw/cgi_OTW.cpp \
     $$PWD/otw/cgi_Ownship.cpp \
+    $$PWD/otw/cgi_Reflection.cpp \
     $$PWD/otw/cgi_Rotor.cpp \
     $$PWD/otw/cgi_Scenery.cpp \
     $$PWD/otw/cgi_SkyDome.cpp \

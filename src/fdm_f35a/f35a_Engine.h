@@ -26,8 +26,8 @@
 
 #include <fdm/models/fdm_Engine.h>
 
-#include <fdm/utils/fdm_Table.h>
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table1.h>
+#include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -192,19 +192,19 @@ protected:
 
     Vector3 _pos_bas;       ///< [m] nozzle position expressed in BAS
 
-    Table _n1_throttle;     ///< low  pressure compressor rpm vs throttle position
-    Table _n2_throttle;     ///< high pressure compressor rpm vs throttle position
+    Table1 _n1_throttle;    ///< low  pressure compressor rpm vs throttle position
+    Table1 _n2_throttle;    ///< high pressure compressor rpm vs throttle position
 
-    Table _tit_n2;          ///< turbine inlet temperature (TIT) vs high pressure compressor rpm
+    Table1 _tit_n2;         ///< turbine inlet temperature (TIT) vs high pressure compressor rpm
 
-    Table2D _tf_idle;       ///< [-] idle thrust factor
-    Table2D _tf_mil;        ///< [-] military thrust factor
-    Table2D _tf_ab;         ///< [-] afterburner thrust factor
+    Table2 _tf_idle;        ///< [-] idle thrust factor
+    Table2 _tf_mil;         ///< [-] military thrust factor
+    Table2 _tf_ab;          ///< [-] afterburner thrust factor
 
-    Table _tc_n1;           ///<
-    Table _tc_n2;           ///<
+    Table1 _tc_n1;          ///<
+    Table1 _tc_n2;          ///<
 
-    Table _tc_thrust;       ///< thrust time constant [s] vs difference of normalized engine power command and engine power [-]
+    Table1 _tc_thrust;      ///< thrust time constant [s] vs difference of normalized engine power command and engine power [-]
 
     double _thrust_mil;     ///< [N] specific maximum military thrust
     double _thrust_ab;      ///< [N] specific maximum afterburner thrust

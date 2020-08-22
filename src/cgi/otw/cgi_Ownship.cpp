@@ -24,6 +24,9 @@
 
 #include <sstream>
 
+#include <osg/AlphaFunc>
+#include <osg/BlendFunc>
+#include <osg/Depth>
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/LineWidth>
@@ -52,7 +55,9 @@ Ownship::Ownship( const Module *parent, Scenery *scenery ) :
     _scenery ( scenery ),
 
     _rotor  ( NULLPTR ),
-    _vector ( NULLPTR )
+    _vector ( NULLPTR ),
+
+    _ab_angle ( 0.0 )
 {
     _vector = new Vector();
 
@@ -243,6 +248,7 @@ void Ownship::loadModel( const char *modelFile )
             }
         }
 
+        // propellers
         _propeller1 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller1" ) );
         _propeller2 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller2" ) );
         _propeller3 = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Propeller3" ) );
@@ -281,6 +287,28 @@ void Ownship::loadModel( const char *modelFile )
             }
         }
 
+        // afterburner
+        _afterburner1 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "Afterburner1" ) );
+        _afterburner2 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "Afterburner2" ) );
+        _afterburner3 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "Afterburner3" ) );
+        _afterburner4 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "Afterburner4" ) );
+
+        if ( !_afterburner1.valid() || !_afterburner2.valid() )
+        {
+            _afterburner1 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "AfterburnerL" ) );
+            _afterburner2 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "AfterburnerR" ) );
+        }
+
+        if ( !_afterburner1.valid() )
+        {
+            _afterburner1 = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "Afterburner" ) );
+        }
+
+        _exhaust1 = initAfterburnerAndGetExhaust( _afterburner1.get() );
+        _exhaust2 = initAfterburnerAndGetExhaust( _afterburner2.get() );
+        _exhaust3 = initAfterburnerAndGetExhaust( _afterburner3.get() );
+        _exhaust4 = initAfterburnerAndGetExhaust( _afterburner4.get() );
+
         if ( _helicopter )
         {
             _rotor = new Rotor( _rotor_center, _rotorBlades.size(),
@@ -288,6 +316,54 @@ void Ownship::loadModel( const char *modelFile )
             _switch->addChild( _rotor->getNode() );
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::PositionAttitudeTransform* Ownship::initAfterburnerAndGetExhaust( osg::Switch *afterburer )
+{
+    if ( afterburer )
+    {
+        osg::PositionAttitudeTransform *exhaust =
+                dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( afterburer, "Exhaust" ) );
+
+        osg::Node *parent = afterburer->getParent( 0 );
+
+        if ( parent )
+        {
+
+        }
+
+        osg::ref_ptr<osg::StateSet> stateSet = afterburer->getOrCreateStateSet();
+
+        stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
+        stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+        stateSet->setMode( GL_CULL_FACE      , osg::StateAttribute::OFF );
+
+        osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
+        osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
+        blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
+        stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+        stateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
+        stateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
+        stateSet->setMode( GL_ALPHA_TEST , osg::StateAttribute::ON );
+        stateSet->setMode( GL_BLEND      , osg::StateAttribute::ON );
+        stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_EFFECTS, "DepthSortedBin" );
+
+        osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+        depth->setWriteMask( false );
+        stateSet->setAttributeAndModes( depth.get(), osg::StateAttribute::ON );
+
+        return exhaust;
+    }
+
+    return NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -501,6 +577,8 @@ void Ownship::reset()
     _trace_1->clear();
     _trace_2->clear();
 
+    _ab_angle = 0.0;
+
     _hinge_offset = 0.0;
     _rotor_radius = 0.0;
     _inclination  = 0.0;
@@ -678,6 +756,45 @@ void Ownship::updateModel()
         _rotorBlades[ i ]->setAttitude( osg::Quat( feathering, osg::X_AXIS,
                                                      flapping, osg::Y_AXIS,
                                                           0.0, osg::Z_AXIS ) );
+    }
+
+    // afterburner
+    if ( Data::get()->stateOut == Data::DataBuf::StateOut::Working )
+    {
+        _ab_angle += 20.0 * M_PI * CGI_TIME_STEP;
+    }
+    while ( _ab_angle > 2.0 * M_PI ) _ab_angle -= 2.0 * M_PI;
+
+    updateAfterburner( Data::get()->ownship.afterburner[ 0 ], _afterburner1.get(), _exhaust1.get() );
+    updateAfterburner( Data::get()->ownship.afterburner[ 1 ], _afterburner2.get(), _exhaust2.get() );
+    updateAfterburner( Data::get()->ownship.afterburner[ 2 ], _afterburner3.get(), _exhaust3.get() );
+    updateAfterburner( Data::get()->ownship.afterburner[ 3 ], _afterburner4.get(), _exhaust4.get() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Ownship::updateAfterburner( double value, osg::Switch *afterburner,
+                                 osg::PositionAttitudeTransform *exhaust )
+{
+    if ( afterburner )
+    {
+        if ( value > 0.2 )
+        {
+            afterburner->setAllChildrenOn();
+
+            if ( exhaust )
+            {
+                //double scale = 0.05 * sin( _ab_angle ) * value + value;
+                double scale = value;
+
+                exhaust->setScale( osg::Vec3( scale, 1.0, 1.0 ) );
+                exhaust->setAttitude( osg::Quat( _ab_angle, osg::X_AXIS ) );
+            }
+        }
+        else
+        {
+            afterburner->setAllChildrenOff();
+        }
     }
 }
 

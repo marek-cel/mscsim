@@ -26,7 +26,7 @@
 
 #include <fdm/main/fdm_Module.h>
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +61,7 @@ public:
     struct Channel
     {
         const double *input;    ///< channel input
-        Table table;            ///< channel input vs output data
+        Table1 table;           ///< channel input vs output data
         double output;          ///< channel output
     };
 

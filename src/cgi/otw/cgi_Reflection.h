@@ -19,58 +19,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <cgi/otw/cgi_Entities.h>
-
-#include <cgi/cgi_Models.h>
-#include <cgi/cgi_WGS84.h>
-
-#include <cgi/otw/cgi_Reflection.h>
+#ifndef CGI_REFLECTION_H
+#define CGI_REFLECTION_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace cgi;
+#include <osg/Group>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Entities::Entities( const Module *parent ) :
-    Module( parent )
+namespace cgi
 {
-    _patLCS = new osg::PositionAttitudeTransform();
-    _patCVN = new osg::PositionAttitudeTransform();
 
-    _root->addChild( _patLCS.get() );
-    _root->addChild( _patCVN.get() );
-
-    addEntity( _patLCS.get(), "data/cgi/entities/lcs1.osgb"  );
-    //addEntity( _patCVN.get(), "data/cgi/entities/cvn78.osgb" );
-
-    WGS84::setLatLonAltHdg( _patLCS.get(), osg::DegreesToRadians( 21.3529540 ), osg::DegreesToRadians( -157.9685000 ), 0.0, osg::DegreesToRadians( 180.0 ) );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Entities::~Entities() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Entities::update()
+/**
+ * @brief Reflection.
+ */
+class Reflection
 {
-    /////////////////
-    Module::update();
-    /////////////////
-}
+public:
+
+    static const char _frag[];      ///<
+    static const char _vert[];      ///<
+
+    static void create( osg::Node *model, osg::Group *parent );
+};
+
+} // end of cgi namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Entities::addEntity( osg::PositionAttitudeTransform *pat, const char *file )
-{
-    osg::ref_ptr<osg::Node> node = Models::get( file );
-
-    if ( node.valid() )
-    {
-        pat->addChild( node.get() );
-
-        Reflection::create( node.get(), pat );
-    }
-}
+#endif // CGI_REFLECTION_H

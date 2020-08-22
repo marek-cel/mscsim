@@ -24,8 +24,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/utils/fdm_Table.h>
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table1.h>
+#include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -149,20 +149,20 @@ private:
 
     Vector3 _r_ac_bas;          ///< [m] fuselage aerodynamic center expressed in BAS
 
-    Table2D _ekxwf;             ///< [-] rotor wash interference factor (inplane)
-    Table2D _ekzwf;             ///< [-] rotor wash interference factor (downwash)
+    Table2 _ekxwf;              ///< [-] rotor wash interference factor (inplane)
+    Table2 _ekzwf;              ///< [-] rotor wash interference factor (downwash)
 
-    Table _dqfmp;               ///< [m^2] drag coefficient due to angle of attack
-    Table _lqfmp;               ///< [m^2] lift coefficient vs [rad] angle of attack
-    Table _mqfmp;               ///< [m^3] pitching moment coefficient vs [rad] angle of attack
+    Table1 _dqfmp;              ///< [m^2] drag coefficient due to angle of attack
+    Table1 _lqfmp;              ///< [m^2] lift coefficient vs [rad] angle of attack
+    Table1 _mqfmp;              ///< [m^3] pitching moment coefficient vs [rad] angle of attack
 
-    Table _yqfmp;               ///< [m^2] sideforce coefficient vs [rad] angle of sideslip
-    Table _rqfmp;               ///< [m^3] rolling moment coefficient vs [rad] angle of sideslip
-    Table _nqfmp;               ///< [m^3] yawing moment coefficient vs [rad] angle of sideslip
+    Table1 _yqfmp;              ///< [m^2] sideforce coefficient vs [rad] angle of sideslip
+    Table1 _rqfmp;              ///< [m^3] rolling moment coefficient vs [rad] angle of sideslip
+    Table1 _nqfmp;              ///< [m^3] yawing moment coefficient vs [rad] angle of sideslip
 
-    Table _ddqfmp;              ///< [m^2] incremental drag coefficient vs [rad] angle of sideslip
-    Table _dlqfmp;              ///< [m^2] incremental lift coefficient vs [rad] angle of sideslip
-    Table _dmqfmp;              ///< [m^3] incremental pitching moment coefficient vs [rad] angle of sideslip
+    Table1 _ddqfmp;             ///< [m^2] incremental drag coefficient vs [rad] angle of sideslip
+    Table1 _dlqfmp;             ///< [m^2] incremental lift coefficient vs [rad] angle of sideslip
+    Table1 _dmqfmp;             ///< [m^3] incremental pitching moment coefficient vs [rad] angle of sideslip
 
     /**
      * Computes drag coefficient.

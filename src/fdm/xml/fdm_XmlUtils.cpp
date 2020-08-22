@@ -237,7 +237,7 @@ int XmlUtils::read( const XmlNode &node, Vector3 &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Table &table )
+int XmlUtils::read( const XmlNode &node, Table1 &table )
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -299,7 +299,7 @@ int XmlUtils::read( const XmlNode &node, Table &table )
 
             if ( keyValues.size() == tableData.size() && keyValues.size() )
             {
-                table = Table( keyValues, tableData );
+                table = Table1( keyValues, tableData );
 
                 return FDM_SUCCESS;
             }
@@ -311,7 +311,7 @@ int XmlUtils::read( const XmlNode &node, Table &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Table2D &table )
+int XmlUtils::read( const XmlNode &node, Table2 &table )
 {
     std::vector< double > colValues;
     std::vector< double > rowValues;
@@ -430,7 +430,7 @@ int XmlUtils::read( const XmlNode &node, Table2D &table )
 
             if ( rowValues.size() * colValues.size() == tableData.size() )
             {
-                table = Table2D( rowValues, colValues, tableData );
+                table = Table2( rowValues, colValues, tableData );
                 return FDM_SUCCESS;
             }
         }

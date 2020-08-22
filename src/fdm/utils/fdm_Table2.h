@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_TABLE_H
-#define FDM_TABLE_H
+#ifndef FDM_TABLE2_H
+#define FDM_TABLE2_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,15 +29,17 @@
 
 #include <fdm/fdm_Defines.h>
 
+#include <fdm/utils/fdm_Table1.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
 /**
- * @brief Table and linear interpolation class.
+ * @brief 2D table and bilinear interpolation class.
  */
-class FDMEXPORT Table
+class FDMEXPORT Table2
 {
 public:
 
@@ -45,81 +47,48 @@ public:
      * @brief Creates table with only one record.
      * @param val record value
      */
-    static Table createOneRecordTable( double val = 0.0 );
+    static Table2 createOneRecordTable( double val = 0.0 );
 
     /** Constructor. */
-    Table();
+    Table2();
 
     /** Constructor. */
-    Table( const std::vector< double > &keyValues,
-           const std::vector< double > &tableData );
+    Table2( const std::vector< double > &rowValues,
+            const std::vector< double > &colValues,
+            const std::vector< double > &tableData );
 
     /** Copy constructor. */
-    Table( const Table &table );
+    Table2( const Table2 &table );
 
     /** Destructor. */
-    virtual ~Table();
+    virtual ~Table2();
+
+    inline unsigned int getCols() const { return _cols; }
+    inline unsigned int getRows() const { return _rows; }
 
     /**
-     * Returns key value for the given key index.
-     * @param keyIndex key index
-     * @return key value on success or NaN on failure
+     * Returns 1-dimensional table for the given col value.
+     * @param colValue column key value
+     * @return 1-dimensional table
      */
-    double getIndexValue( unsigned int keyIndex ) const;
-
-    /** */
-    inline unsigned int getSize() const { return _size; }
+    Table1 getTable( double colValue ) const;
 
     /**
-     * Returns key of minimum table value.
-     * @return key of minimum table value
-     */
-    double getKeyOfValueMin() const;
-
-    /**
-     * Returns key of maximum table value.
-     * @return key of maximum table value
-     */
-    double getKeyOfValueMax() const;
-
-    /**
-     * Returns table value for the given key value using linear
+     * Returns table value for the given keys values using bilinear
      * interpolation algorithm.
-     * @param keysValue key value
+     * @param rowValue row key value
+     * @param colValue column key value
      * @return interpolated value on success or NaN on failure
      */
-    double getValue( double keyValue ) const;
+    double getValue( double rowValue, double colValue ) const;
 
     /**
      * Returns table value for the given key index.
-     * @param keyIndex key index
+     * @param rowIndex row index
+     * @param colIndex col index
      * @return value on success or NaN on failure
      */
-    double getValueByIndex( unsigned int keyIndex ) const;
-
-    /**
-     * Returns table first value.
-     * @return value on success or NaN on failure
-     */
-    double getFirstValue() const;
-
-    /**
-     * Returns table last value.
-     * @return value on success or NaN on failure
-     */
-    double getLastValue() const;
-
-    /**
-     * Returns minimum table value.
-     * @return minimum table value
-     */
-    double getValueMin() const;
-
-    /**
-     * Returns maximum table value.
-     * @return maximum table value
-     */
-    double getValueMax() const;
+    double getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const;
 
     /**
      * Checks if table is valid.
@@ -133,19 +102,16 @@ public:
     std::string toString();
 
     /** Assignment operator. */
-    const Table& operator= ( const Table &table );
-
-    /** Addition operator. */
-    Table operator+ ( const Table &table ) const;
-
-    /** Multiplication operator (by scalar). */
-    Table operator* ( double val ) const;
+    const Table2& operator= ( const Table2 &table );
 
 private:
 
+    unsigned int _rows;     ///< number of rows
+    unsigned int _cols;     ///< number of columns
     unsigned int _size;     ///< number of table elements
 
-    double *_keyValues;     ///< key values
+    double *_rowValues;     ///< rows keys values
+    double *_colValues;     ///< columns keys values
     double *_tableData;     ///< table data
 
     double *_interpolData;  ///< interpolation data matrix
@@ -158,12 +124,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
-inline fdm::Table operator* ( double val, const fdm::Table &table )
-{
-    return ( table * val );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // FDM_TABLE_H
+#endif // FDM_TABLE2_H

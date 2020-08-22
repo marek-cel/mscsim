@@ -58,8 +58,8 @@ set( CPP_FILES
     utils/fdm_Period.cpp
     utils/fdm_Random.cpp
     utils/fdm_String.cpp
-    utils/fdm_Table.cpp
-    utils/fdm_Table2D.cpp
+    utils/fdm_Table1.cpp
+    utils/fdm_Table2.cpp
     utils/fdm_Units.cpp
     utils/fdm_Vector3.cpp
     utils/fdm_Vector4.cpp

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 
 #include <cmath>
 #include <limits>
@@ -35,7 +35,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table Table::createOneRecordTable( double val )
+Table1 Table1::createOneRecordTable( double val )
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -43,12 +43,12 @@ Table Table::createOneRecordTable( double val )
     keyValues.push_back( 0.0 );
     tableData.push_back( val );
 
-    return Table( keyValues, tableData );
+    return Table1( keyValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table::Table() :
+Table1::Table1() :
     _size ( 0 ),
     _keyValues ( FDM_NULLPTR ),
     _tableData ( FDM_NULLPTR ),
@@ -57,8 +57,8 @@ Table::Table() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table::Table( const std::vector< double > &keyValues,
-              const std::vector< double > &tableData ) :
+Table1::Table1( const std::vector< double > &keyValues,
+                const std::vector< double > &tableData ) :
     _size ( 0 ),
     _keyValues ( FDM_NULLPTR ),
     _tableData ( FDM_NULLPTR ),
@@ -99,7 +99,7 @@ Table::Table( const std::vector< double > &keyValues,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table::Table( const Table &table ) :
+Table1::Table1( const Table1 &table ) :
     _size ( table._size ),
     _keyValues ( FDM_NULLPTR ),
     _tableData ( FDM_NULLPTR ),
@@ -122,7 +122,7 @@ Table::Table( const Table &table ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table::~Table()
+Table1::~Table1()
 {
     FDM_DELTAB( _keyValues );
     FDM_DELTAB( _tableData );
@@ -131,7 +131,7 @@ Table::~Table()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getIndexValue( unsigned int keyIndex ) const
+double Table1::getIndexValue( unsigned int keyIndex ) const
 {
     if ( _size > 0 && keyIndex < _size )
     {
@@ -143,7 +143,7 @@ double Table::getIndexValue( unsigned int keyIndex ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getKeyOfValueMin() const
+double Table1::getKeyOfValueMin() const
 {
     double result = std::numeric_limits< double >::quiet_NaN();
     double min_value = std::numeric_limits< double >::max();
@@ -162,7 +162,7 @@ double Table::getKeyOfValueMin() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getKeyOfValueMax() const
+double Table1::getKeyOfValueMax() const
 {
     double result = std::numeric_limits< double >::quiet_NaN();
     double max_value = std::numeric_limits< double >::min();
@@ -181,7 +181,7 @@ double Table::getKeyOfValueMax() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getValue( double keyValue ) const
+double Table1::getValue( double keyValue ) const
 {
     if ( _size > 0 )
     {
@@ -224,7 +224,7 @@ double Table::getValue( double keyValue ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getValueByIndex( unsigned int keyIndex ) const
+double Table1::getValueByIndex( unsigned int keyIndex ) const
 {
     if ( _size > 0 && keyIndex < _size )
     {
@@ -236,21 +236,21 @@ double Table::getValueByIndex( unsigned int keyIndex ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getFirstValue() const
+double Table1::getFirstValue() const
 {
     return getValueByIndex( 0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getLastValue() const
+double Table1::getLastValue() const
 {
     return getValueByIndex( _size - 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getValueMin() const
+double Table1::getValueMin() const
 {
     double result = std::numeric_limits< double >::max();
 
@@ -267,7 +267,7 @@ double Table::getValueMin() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table::getValueMax() const
+double Table1::getValueMax() const
 {
     double result = std::numeric_limits< double >::min();
 
@@ -284,7 +284,7 @@ double Table::getValueMax() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Table::isValid() const
+bool Table1::isValid() const
 {
     bool result = ( _size > 0 ) ? true : false;
 
@@ -307,7 +307,7 @@ bool Table::isValid() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string Table::toString()
+std::string Table1::toString()
 {
     std::stringstream ss;
 
@@ -321,7 +321,7 @@ std::string Table::toString()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const Table& Table::operator= ( const Table &table )
+const Table1& Table1::operator= ( const Table1 &table )
 {
     FDM_DELTAB( _keyValues );
     FDM_DELTAB( _tableData );
@@ -349,7 +349,7 @@ const Table& Table::operator= ( const Table &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table Table::operator+ ( const Table &table ) const
+Table1 Table1::operator+ ( const Table1 &table ) const
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -362,12 +362,12 @@ Table Table::operator+ ( const Table &table ) const
         tableData.push_back( getValue( keyValue ) + table.getValue( keyValue ) );
     }
 
-    return Table( keyValues, tableData );
+    return Table1( keyValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table Table::operator* ( double val ) const
+Table1 Table1::operator* ( double val ) const
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -378,12 +378,12 @@ Table Table::operator* ( double val ) const
         tableData.push_back( _tableData[ i ] * val );
     }
 
-    return Table( keyValues, tableData );
+    return Table1( keyValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Table::updateInterpolationData()
+void Table1::updateInterpolationData()
 {
     for ( unsigned int i = 0; i < _size - 1; i++ )
     {

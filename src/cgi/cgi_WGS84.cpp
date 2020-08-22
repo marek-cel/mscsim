@@ -172,6 +172,17 @@ osg::Vec3d WGS84::r_wgs2ned( const osg::Vec3d &r0_wgs, const osg::Vec3d &r_wgs )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void WGS84::setLatLonAltHdg( osg::PositionAttitudeTransform *pat,
+                             double lat, double lon, double alt, double hdg )
+{
+    WGS84 wgs( lat, lon, alt );
+
+    pat->setPosition( wgs.getPosition() );
+    pat->setAttitude( osg::Quat( hdg, osg::Z_AXIS ) * wgs.getAttitude() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 WGS84::WGS84()
 {
     set( 0.0, 0.0, 0.0 );

@@ -26,7 +26,7 @@
 
 #include <fdm/models/fdm_Engine.h>
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -186,13 +186,13 @@ public:
 
 protected:
 
-    Table _power_rpm;           ///< [W] power vs engine rpm
-    Table _power_throttle;      ///< [-] power coefficient vs throttle
-    Table _power_altitude;      ///< [-] power coefficient vs altitude
-    Table _mixture;             ///< [-] mixture vs mixture lever position
-    Table _power_factor;        ///< [-] power factor vs fuel to air ratio
-    Table _map_throttle;        ///< [-] manifold absolute pressure ratio due to throttle
-    Table _map_rpm;             ///< [-] manifold absolute pressure ratio due to engine rpm
+    Table1 _power_rpm;          ///< [W] power vs engine rpm
+    Table1 _power_throttle;     ///< [-] power coefficient vs throttle
+    Table1 _power_altitude;     ///< [-] power coefficient vs altitude
+    Table1 _mixture;            ///< [-] mixture vs mixture lever position
+    Table1 _power_factor;       ///< [-] power factor vs fuel to air ratio
+    Table1 _map_throttle;       ///< [-] manifold absolute pressure ratio due to throttle
+    Table1 _map_rpm;            ///< [-] manifold absolute pressure ratio due to engine rpm
 
     double _rpm_min;            ///< [rpm] engine minimum rpm
     double _rpm_max;            ///< [rpm] engine maximum rpm

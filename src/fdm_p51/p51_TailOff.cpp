@@ -42,9 +42,9 @@ P51_TailOff::P51_TailOff() :
     _dcz_dgear ( 0.0 ),
     _dcm_dgear ( 0.0 )
 {
-    _dcx_dflaps = Table::createOneRecordTable( 0.0 );
-    _dcz_dflaps = Table::createOneRecordTable( 0.0 );
-    _dcm_dflaps = Table::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table1::createOneRecordTable( 0.0 );
+    _dcz_dflaps = Table1::createOneRecordTable( 0.0 );
+    _dcm_dflaps = Table1::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ void P51_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
-    Table cz_total = _cz + _flaps * _dcz_dflaps;
+    Table1 cz_total = _cz + _flaps * _dcz_dflaps;
 
     _aoa_critical_neg = cz_total.getKeyOfValueMin();
     _aoa_critical_pos = cz_total.getKeyOfValueMax();

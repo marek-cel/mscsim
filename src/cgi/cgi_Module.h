@@ -57,7 +57,7 @@ public:
     /** Updates module and all its children. */
     virtual void update();
 
-    /** Returns module OSG root node.  */
+    /** Returns module root node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 protected:

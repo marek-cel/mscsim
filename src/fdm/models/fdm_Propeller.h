@@ -26,8 +26,8 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/utils/fdm_Table.h>
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table1.h>
+#include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -205,10 +205,10 @@ protected:
 
     Vector3 _pos_bas;           ///< [m] propeller position expressed in BAS
 
-    Table _propPitch;           ///< [rad] propeller pitch vs [-] normalized pitch
+    Table1 _propPitch;          ///< [rad] propeller pitch vs [-] normalized pitch
 
-    Table2D _coefThrust;        ///< [-] thrust coefficient
-    Table2D _coefPower;         ///< [-] power coefficient
+    Table2 _coefThrust;         ///< [-] thrust coefficient
+    Table2 _coefPower;          ///< [-] power coefficient
 
     Direction _direction;       ///< propeller direction looking from cockpit
 

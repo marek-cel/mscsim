@@ -27,7 +27,7 @@
 #include <fdm/fdm_Defines.h>
 
 #include <fdm/sys/fdm_PID.h>
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
 #include <fdm/auto/fdm_FlightDirector.h>
@@ -134,9 +134,9 @@ protected:
     PID _pid_p;             ///< pitch PID controller
     PID _pid_y;             ///< yaw PID controller
 
-    Table _gain_ias_r;      ///< roll gain schedule due to airspeed
-    Table _gain_ias_p;      ///< pitch gain schedule due to airspeed
-    Table _gain_ias_y;      ///< yaw gain schedule due to airspeed
+    Table1 _gain_ias_r;     ///< roll gain schedule due to airspeed
+    Table1 _gain_ias_p;     ///< pitch gain schedule due to airspeed
+    Table1 _gain_ias_y;     ///< yaw gain schedule due to airspeed
 
     double _max_rate_roll;  ///< [1/s] max control roll rate
     double _max_rate_pitch; ///< [1/s] max control pitch rate
@@ -163,7 +163,7 @@ protected:
     bool _engaged;          ///< specifies if autopilot is engaged
 
     virtual void readChannel( const XmlNode &dataNode, double &max_rate,
-                              PID &pid, Table &gain_ias );
+                              PID &pid, Table1 &gain_ias );
 };
 
 } // end of fdm namespace

@@ -40,6 +40,7 @@
 
 #include <cgi/otw/cgi_Airport.h>
 #include <cgi/otw/cgi_Entities.h>
+#include <cgi/otw/cgi_Landmark.h>
 #include <cgi/otw/cgi_Terrain.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,13 +95,14 @@ Scenery::Scenery( const Module *parent ) :
         {
             if ( 0 == fdm::String::icompare( rootNode.getName(), "scenery" ) )
             {
-                readTerrain( rootNode );
-                readAirports( rootNode );
+                readAirports  ( rootNode );
+                readTerrain   ( rootNode );
+                readLandmarks ( rootNode ); // landmarks after terrain!
             }
         }
     }
 
-    addChild( new Entities( this ) );
+    addChild( new Entities( this ) ); // entities after terrain!
 
     Intersections::instance()->setScenery( _root.get() );
 }
@@ -244,6 +246,60 @@ void Scenery::readAirports( const fdm::XmlNode &node )
             }
 
             airportNode = airportNode.getNextSiblingElement( "airport" );
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Scenery::readLandmarks( const fdm::XmlNode &node )
+{
+    fdm::XmlNode landmarksNode = node.getFirstChildElement( "landmarks" );
+
+    if ( landmarksNode.isValid() )
+    {
+        fdm::XmlNode landmarkNode = landmarksNode.getFirstChildElement( "landmark" );
+
+        while ( landmarkNode.isValid() )
+        {
+            fdm::XmlNode fileNode = landmarkNode.getFirstChildElement( "file" );
+
+            fdm::XmlNode latNode = landmarkNode.getFirstChildElement( "lat" );
+            fdm::XmlNode lonNode = landmarkNode.getFirstChildElement( "lon" );
+            fdm::XmlNode altNode = landmarkNode.getFirstChildElement( "alt" );
+            fdm::XmlNode hdgNode = landmarkNode.getFirstChildElement( "hdg" );
+
+            if ( fileNode.isValid()
+              && latNode.isValid() && lonNode.isValid()
+              && altNode.isValid() && hdgNode.isValid() )
+            {
+                fdm::XmlNode fileTextNode = fileNode.getFirstChild();
+
+                fdm::XmlNode latTextNode = latNode.getFirstChild();
+                fdm::XmlNode lonTextNode = lonNode.getFirstChild();
+                fdm::XmlNode altTextNode = altNode.getFirstChild();
+                fdm::XmlNode hdgTextNode = hdgNode.getFirstChild();
+
+                if ( fileTextNode.isValid() && fileTextNode.isText()
+                  && latTextNode.isValid() && latTextNode.isText()
+                  && lonTextNode.isValid() && lonTextNode.isText()
+                  && altTextNode.isValid() && altTextNode.isText()
+                  && hdgTextNode.isValid() && hdgTextNode.isText() )
+                {
+                    std::string file = fileTextNode.getText();
+
+                    double lat = osg::DegreesToRadians( fdm::String::toDouble( latTextNode.getText() ) );
+                    double lon = osg::DegreesToRadians( fdm::String::toDouble( lonTextNode.getText() ) );
+                    double alt = fdm::String::toDouble( altTextNode.getText() );
+                    double hdg = osg::DegreesToRadians( fdm::String::toDouble( hdgTextNode.getText() ) );
+
+                    bool reflection = fdm::String::toBool( landmarkNode.getAttribute( "reflection" ), false );
+
+                    addChild( new Landmark( file.c_str(), lat, lon, alt, hdg, reflection, this ) );
+                }
+            }
+
+            landmarkNode = landmarkNode.getNextSiblingElement( "landmark" );
         }
     }
 }

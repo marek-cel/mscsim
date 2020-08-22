@@ -26,7 +26,7 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -129,12 +129,12 @@ protected:
     Vector3 _r_ac_l_bas;        ///< [m] left half wing aerodynamic center expressed in BAS
     Vector3 _r_ac_r_bas;        ///< [m] right half wing aerodynamic center expressed in BAS
 
-    Table _cx;                  ///< [-] drag coefficient vs [rad] angle of attack
-    Table _cy;                  ///< [-] sideforce coefficient vs [rad] angle of sideslip
-    Table _cz;                  ///< [-] lift coefficient vs [rad] angle of attack
-    Table _cl;                  ///< [-] rolling moment coefficient vs [rad] angle of sideslip
-    Table _cm;                  ///< [-] pitching moment coefficient vs [rad] angle of attack
-    Table _cn;                  ///< [-] yawing moment coefficient vs [rad] angle of sideslip
+    Table1 _cx;                 ///< [-] drag coefficient vs [rad] angle of attack
+    Table1 _cy;                 ///< [-] sideforce coefficient vs [rad] angle of sideslip
+    Table1 _cz;                 ///< [-] lift coefficient vs [rad] angle of attack
+    Table1 _cl;                 ///< [-] rolling moment coefficient vs [rad] angle of sideslip
+    Table1 _cm;                 ///< [-] pitching moment coefficient vs [rad] angle of attack
+    Table1 _cn;                 ///< [-] yawing moment coefficient vs [rad] angle of sideslip
 
     double _mac;                ///< [m] wing mean aerodynamic chord
     double _area;               ///< [m^2] wing reference area

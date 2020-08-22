@@ -85,9 +85,9 @@ private:
     double _dcz_dgear;              ///< [-/-]
     double _dcm_dgear;              ///< [-/-]
 
-    Table _dcx_dflaps;              ///< [1/rad]
-    Table _dcz_dflaps;              ///< [1/rad]
-    Table _dcm_dflaps;              ///< [1/rad]
+    Table1 _dcx_dflaps;             ///< [1/rad]
+    Table1 _dcz_dflaps;             ///< [1/rad]
+    Table1 _dcm_dflaps;             ///< [1/rad]
 
     /**
      * Computes drag coefficient.

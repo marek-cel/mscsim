@@ -52,7 +52,9 @@ Manager::Manager() :
 
     _g1000_ifd ( NULLPTR ),
 
-    _timer ( 0 ),
+    _timerSim ( NULLPTR ),
+    _timerOut ( NULLPTR ),
+
     _timerId ( 0 ),
     _timeStep ( 0.0 )
 {
@@ -65,7 +67,8 @@ Manager::Manager() :
     _g1000_ifd = new g1000::IFD();
     memset( &_g1000_input, 0, sizeof( g1000::Input ) );
 
-    _timer = new QElapsedTimer();
+    _timerSim = new QElapsedTimer();
+    _timerOut = new QElapsedTimer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,8 +76,6 @@ Manager::Manager() :
 Manager::~Manager()
 {
     if ( _timerId != 0 ) killTimer( _timerId );
-
-    DELPTR( _timer );
 
     if ( _sfx )
     {
@@ -99,6 +100,9 @@ Manager::~Manager()
     DELPTR( _win );
 
     DELPTR( _g1000_ifd );
+
+    DELPTR( _timerSim );
+    DELPTR( _timerOut );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +146,8 @@ void Manager::init()
 
     _timerId = startTimer( 1000.0 * FDM_TIME_STEP );
 
-    _timer->start();
+    _timerSim->start();
+    _timerOut->start();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +158,7 @@ void Manager::timerEvent( QTimerEvent *event )
     QObject::timerEvent( event );
     /////////////////////////////
 
-    _timeStep = Data::get()->timeCoef * (double)_timer->restart() / 1000.0;
+    _timeStep = Data::get()->timeCoef * (double)_timerSim->restart() / 1000.0;
 
     if ( Data::get()->stateInp == fdm::DataInp::Idle )
     {
@@ -289,6 +294,8 @@ void Manager::updatedInputG1000( const fdm::DataOut &dataOut )
 
 void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 {
+    double dt = Data::get()->timeCoef * (double)_timerOut->restart() / 1000.0;
+
     updatedInputG1000( dataOut );
 
     // hud
@@ -393,19 +400,25 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     {
         for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
-            Data::get()->ownship.propeller[ i ] += _timeStep * M_PI * dataOut.engine[ i ].rpm / 30.0;
+            Data::get()->ownship.propeller[ i ] += dt * M_PI * dataOut.engine[ i ].rpm / 30.0;
 
             while ( Data::get()->ownship.propeller[ i ] > 2.0f * M_PI )
             {
                 Data::get()->ownship.propeller[ i ] -= (float)( 2.0f * M_PI );
             }
+
+            Data::get()->ownship.afterburner[ i ] =
+                    fdm::Misc::inertia( dataOut.engine[ i ].afterburner ? 1.0 : 0.0,
+                                        Data::get()->ownship.afterburner[ i ],
+                                        dt, 0.5 );
         }
     }
     else if ( dataOut.stateOut == fdm::DataOut::Idle )
     {
         for ( signed int i = 0; i < FDM_MAX_ENGINES; i++ )
         {
-            Data::get()->ownship.propeller[ i ] = 0.0;
+            Data::get()->ownship.propeller   [ i ] = 0.0;
+            Data::get()->ownship.afterburner [ i ] = 0.0;
         }
     }
 
@@ -416,7 +429,6 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
         Data::get()->propulsion.engine[ i ].state       = dataOut.engine[ i ].state;
-        Data::get()->propulsion.engine[ i ].afterburner = dataOut.engine[ i ].afterburner;
 
         Data::get()->propulsion.engine[ i ].rpm  = dataOut.engine[ i ].rpm;
         Data::get()->propulsion.engine[ i ].prop = dataOut.engine[ i ].prop;
@@ -429,6 +441,8 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
         Data::get()->propulsion.engine[ i ].egt  = dataOut.engine[ i ].egt;
         Data::get()->propulsion.engine[ i ].itt  = dataOut.engine[ i ].itt;
         Data::get()->propulsion.engine[ i ].tit  = dataOut.engine[ i ].tit;
+
+        Data::get()->propulsion.engine[ i ].afterburner = dataOut.engine[ i ].afterburner;
 
         Data::get()->propulsion.engine[ i ].fuelFlow = dataOut.engine[ i ].fuelFlow;
     }

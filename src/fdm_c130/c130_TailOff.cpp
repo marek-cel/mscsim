@@ -42,9 +42,9 @@ C130_TailOff::C130_TailOff() :
     _dcz_dgear ( 0.0 ),
     _dcm_dgear ( 0.0 )
 {
-    _dcx_dflaps = Table2D::createOneRecordTable( 0.0 );
-    _dcz_dflaps = Table2D::createOneRecordTable( 0.0 );
-    _dcm_dflaps = Table2D::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table2::createOneRecordTable( 0.0 );
+    _dcz_dflaps = Table2::createOneRecordTable( 0.0 );
+    _dcm_dflaps = Table2::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ void C130_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
-    Table cz_total = _cz + _dcz_dflaps.getTable( _flaps );
+    Table1 cz_total = _cz + _dcz_dflaps.getTable( _flaps );
 
     _aoa_critical_neg = cz_total.getKeyOfValueMin();
     _aoa_critical_pos = cz_total.getKeyOfValueMax();

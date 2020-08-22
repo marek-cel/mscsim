@@ -29,6 +29,7 @@
 #include <osg/AlphaFunc>
 #include <osg/Billboard>
 #include <osg/BlendFunc>
+#include <osg/Depth>
 #include <osg/Geometry>
 #include <osg/Material>
 
@@ -56,6 +57,22 @@ CloudsBlock::CloudsBlock( const Module *parent ) :
     _framesCounter ( 0 ),
     _created ( false )
 {
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
+
+    osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
+    osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
+    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
+    blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+    depth->setWriteMask( false );
+    stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
+    stateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
+    stateSet->setAttributeAndModes( depth.get(), osg::StateAttribute::ON );
+    stateSet->setMode( GL_BLEND     , osg::StateAttribute::ON  | osg::StateAttribute::OVERRIDE );
+    stateSet->setMode( GL_CULL_FACE , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE  );
+    stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_CLOUDS, "DepthSortedBin" );
+
     _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_1.png" ) );
     _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_2.png" ) );
     _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_3.png" ) );
@@ -233,19 +250,9 @@ void CloudsBlock::createSprite( osg::Group *parent )
     // material
     osg::ref_ptr<osg::Material> material = new osg::Material();
     material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
-    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4f( 0.8f, 0.8f, 0.8f, 1.0f ) );
+    material->setDiffuse( osg::Material::FRONT_AND_BACK, osg::Vec4f( 1.0f, 1.0f, 1.0f, 1.0f ) );
     billboardStateSet->setAttribute( material.get() );
-
-    // alpha blending
-    osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
-    osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
-    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
-    billboardStateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-    billboardStateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
-    billboardStateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
-    billboardStateSet->setMode( GL_BLEND, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE );
-    billboardStateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_CLOUDS, "DepthSortedBin" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

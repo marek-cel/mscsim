@@ -27,8 +27,8 @@
 #include <fdm/sys/fdm_PID.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
-#include <fdm/utils/fdm_Table.h>
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table1.h>
+#include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -131,7 +131,7 @@ public:
      *
      * @see fdm::Units::getConverter(const char *)
      */
-    static int read( const XmlNode &node, Table &table );
+    static int read( const XmlNode &node, Table1 &table );
 
     /**
      * @brief Reads table data from XML file.
@@ -149,7 +149,7 @@ public:
      *
      * @see fdm::Units::getConverter(const char *)
      */
-    static int read( const XmlNode &node, Table2D &table );
+    static int read( const XmlNode &node, Table2 &table );
 
     /**
      * @brief Reads PID controller data from XML file.

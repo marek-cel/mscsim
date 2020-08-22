@@ -26,7 +26,7 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ public:
 
 protected:
 
-    Table _prop_rpm;    ///< [rpm] propeller setpoint RPM vs [-] propeller RPM lever position
+    Table1 _prop_rpm;   ///< [rpm] propeller setpoint RPM vs [-] propeller RPM lever position
 
     double _gain_1;     ///<
     double _gain_2;     ///<

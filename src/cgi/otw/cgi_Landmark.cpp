@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <cgi/otw/cgi_Entities.h>
+#include <cgi/otw/cgi_Landmark.h>
 
 #include <cgi/cgi_Models.h>
 #include <cgi/cgi_WGS84.h>
@@ -33,44 +33,38 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Entities::Entities( const Module *parent ) :
+Landmark::Landmark( const char *file, double lat, double lon, double alt,
+                    double hdg, bool reflection,
+                    const Module *parent ) :
     Module( parent )
 {
-    _patLCS = new osg::PositionAttitudeTransform();
-    _patCVN = new osg::PositionAttitudeTransform();
+    _pat = new osg::PositionAttitudeTransform();
+    _root->addChild( _pat.get() );
 
-    _root->addChild( _patLCS.get() );
-    _root->addChild( _patCVN.get() );
-
-    addEntity( _patLCS.get(), "data/cgi/entities/lcs1.osgb"  );
-    //addEntity( _patCVN.get(), "data/cgi/entities/cvn78.osgb" );
-
-    WGS84::setLatLonAltHdg( _patLCS.get(), osg::DegreesToRadians( 21.3529540 ), osg::DegreesToRadians( -157.9685000 ), 0.0, osg::DegreesToRadians( 180.0 ) );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Entities::~Entities() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Entities::update()
-{
-    /////////////////
-    Module::update();
-    /////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Entities::addEntity( osg::PositionAttitudeTransform *pat, const char *file )
-{
     osg::ref_ptr<osg::Node> node = Models::get( file );
 
     if ( node.valid() )
     {
-        pat->addChild( node.get() );
+        _pat->addChild( node.get() );
 
-        Reflection::create( node.get(), pat );
+        WGS84::setLatLonAltHdg( _pat.get(), lat, lon, alt, hdg );
+
+        if ( reflection )
+        {
+            Reflection::create( node.get(), _pat.get() );
+        }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Landmark::~Landmark() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Landmark::update()
+{
+    /////////////////
+    Module::update();
+    /////////////////
 }

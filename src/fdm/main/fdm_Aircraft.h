@@ -491,7 +491,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Aircraft( const Aircraft & ) {}
+    Aircraft( const Aircraft & ) : DataManager() {}
 
     /** Initializes data tree. */
     void initDataTree();

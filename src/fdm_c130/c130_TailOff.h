@@ -26,7 +26,7 @@
 
 #include <fdm/models/fdm_TailOff.h>
 
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -87,9 +87,9 @@ private:
     double _dcz_dgear;              ///< [-/-]
     double _dcm_dgear;              ///< [-/-]
 
-    Table2D _dcx_dflaps;            ///< [1/rad]
-    Table2D _dcz_dflaps;            ///< [1/rad]
-    Table2D _dcm_dflaps;            ///< [1/rad]
+    Table2 _dcx_dflaps;             ///< [1/rad]
+    Table2 _dcz_dflaps;             ///< [1/rad]
+    Table2 _dcm_dflaps;             ///< [1/rad]
 
     /**
      * Computes drag coefficient.

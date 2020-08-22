@@ -91,15 +91,6 @@ public:
         (*vect) = (*vect) + ( _k1 + _k2 * 2.0 + _k3 * 2.0 + _k4 ) * ( step / 6.0 );
     }
 
-    /**
-     * Sets vectot size.
-     * @param size
-     */
-    void setSize( unsigned int size )
-    {
-
-    }
-
 private:
 
     VectorN _k1;        ///< auxiliary vector

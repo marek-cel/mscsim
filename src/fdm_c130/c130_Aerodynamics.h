@@ -76,8 +76,8 @@ private:
     C130_StabilizerHor *_stabHor;       ///< horizontal stabilizer model
     C130_StabilizerVer *_stabVer;       ///< vertical stabilizer model
 
-    Table _drag_ground_effect;          ///< [-] drag factor due to ground effect vs [m] altitude AGL
-    Table _lift_ground_effect;          ///< [-] lift factor due to ground effect vs [m] altitude AGL
+    Table1 _drag_ground_effect;         ///< [-] drag factor due to ground effect vs [m] altitude AGL
+    Table1 _lift_ground_effect;         ///< [-] lift factor due to ground effect vs [m] altitude AGL
 };
 
 } // end of fdm namespace

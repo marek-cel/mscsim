@@ -39,12 +39,12 @@ Fuselage::Fuselage() :
     _angleOfAttack ( 0.0 ),
     _sideslipAngle ( 0.0 )
 {
-    _cx = Table::createOneRecordTable( 0.0 );
-    _cy = Table::createOneRecordTable( 0.0 );
-    _cz = Table::createOneRecordTable( 0.0 );
-    _cl = Table::createOneRecordTable( 0.0 );
-    _cm = Table::createOneRecordTable( 0.0 );
-    _cn = Table::createOneRecordTable( 0.0 );
+    _cx = Table1::createOneRecordTable( 0.0 );
+    _cy = Table1::createOneRecordTable( 0.0 );
+    _cz = Table1::createOneRecordTable( 0.0 );
+    _cl = Table1::createOneRecordTable( 0.0 );
+    _cm = Table1::createOneRecordTable( 0.0 );
+    _cn = Table1::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,12 +59,12 @@ void Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        _cx = Table::createOneRecordTable( 0.0 );
-        _cy = Table::createOneRecordTable( 0.0 );
-        _cz = Table::createOneRecordTable( 0.0 );
-        _cl = Table::createOneRecordTable( 0.0 );
-        _cm = Table::createOneRecordTable( 0.0 );
-        _cn = Table::createOneRecordTable( 0.0 );
+        _cx = Table1::createOneRecordTable( 0.0 );
+        _cy = Table1::createOneRecordTable( 0.0 );
+        _cz = Table1::createOneRecordTable( 0.0 );
+        _cl = Table1::createOneRecordTable( 0.0 );
+        _cm = Table1::createOneRecordTable( 0.0 );
+        _cn = Table1::createOneRecordTable( 0.0 );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
 

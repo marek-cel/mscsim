@@ -41,35 +41,31 @@ Airport::Airport( const char *file, double lat, double lon, double alt,
     _pat = new osg::PositionAttitudeTransform();
     _root->addChild( _pat.get() );
 
-    osg::ref_ptr<osg::Node> airportNode = Models::get( file );
+    osg::ref_ptr<osg::Node> node = Models::get( file );
 
-    if ( airportNode.valid() )
+    if ( node.valid() )
     {
-        _pat->addChild( airportNode.get() );
+        _pat->addChild( node.get() );
 
-        // position
-        WGS84 wgs( lat, lon, alt );
+        WGS84::setLatLonAltHdg( _pat.get(), lat, lon, alt );
 
-        _pat->setPosition( wgs.getPosition() );
-        _pat->setAttitude( wgs.getAttitude() );
+        _switchLightsRALS_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RALS_L" ) );
+        _switchLightsTDZL_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TDZL_L" ) );
+        _switchLightsVGSI_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "VGSI_L" ) );
 
-        _switchLightsRALS_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RALS_L" ) );
-        _switchLightsTDZL_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TDZL_L" ) );
-        _switchLightsVGSI_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "VGSI_L" ) );
+        _switchLightsRALS_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RALS_H" ) );
+        _switchLightsTDZL_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TDZL_H" ) );
+        _switchLightsVGSI_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "VGSI_H" ) );
 
-        _switchLightsRALS_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RALS_H" ) );
-        _switchLightsTDZL_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TDZL_H" ) );
-        _switchLightsVGSI_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "VGSI_H" ) );
+        _switchLightsRCLS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RCLS" ) );
+        _switchLightsRELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RELS" ) );
 
-        _switchLightsRCLS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RCLS" ) );
-        _switchLightsRELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "RELS" ) );
+        _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "HELI" ) );
+        _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TELS" ) );
+        _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TWRL" ) );
 
-        _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "HELI" ) );
-        _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TELS" ) );
-        _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "TWRL" ) );
-
-        _switchGatesRwyL = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGatesL" ) );
-        _switchGatesRwyH = dynamic_cast<osg::Switch*>( FindNode::findFirst( airportNode, "ApproachGatesH" ) );
+        _switchGatesRwyL = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "ApproachGatesL" ) );
+        _switchGatesRwyH = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "ApproachGatesH" ) );
     }
 }
 

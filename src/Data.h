@@ -374,7 +374,8 @@ public:
         double norm_flaps;                  ///< [0.0,1.0] flaps normalized position
         double norm_landingGear;            ///< [0.0,1.0] landing gear normalized position
 
-        double propeller[ FDM_MAX_ENGINES ];///< [rad] propeller angle
+        double propeller   [ FDM_MAX_ENGINES ]; ///< [rad] propeller angle
+        double afterburner [ FDM_MAX_ENGINES ]; ///< [-] normalized afterburner
 
         bool onGround;                      ///< specifies if aircraft is on ground
         bool stall;                         ///< specifies if aircraft is stalling

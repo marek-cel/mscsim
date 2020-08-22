@@ -37,9 +37,9 @@ C172_TailOff::C172_TailOff() :
 
     _dcl_dailerons ( 0.0 )
 {
-    _dcx_dflaps = Table::createOneRecordTable( 0.0 );
-    _dcz_dflaps = Table::createOneRecordTable( 0.0 );
-    _dcm_dflaps = Table::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table1::createOneRecordTable( 0.0 );
+    _dcz_dflaps = Table1::createOneRecordTable( 0.0 );
+    _dcm_dflaps = Table1::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ void C172_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
     TailOff::update( vel_air_bas, omg_air_bas );
     ////////////////////////////////////////////
 
-    Table cz_total = _cz + _flaps * _dcz_dflaps;
+    Table1 cz_total = _cz + _flaps * _dcz_dflaps;
 
     _aoa_critical_neg = cz_total.getKeyOfValueMin();
     _aoa_critical_pos = cz_total.getKeyOfValueMax();

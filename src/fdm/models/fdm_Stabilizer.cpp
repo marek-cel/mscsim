@@ -37,11 +37,11 @@ Stabilizer::Stabilizer( Type type ) :
     _area ( 0.0 ),
     _incidence ( 0.0 )
 {
-    _cx = Table::createOneRecordTable( 0.0 );
-    _cy = Table::createOneRecordTable( 0.0 );
-    _cz = Table::createOneRecordTable( 0.0 );
+    _cx = Table1::createOneRecordTable( 0.0 );
+    _cy = Table1::createOneRecordTable( 0.0 );
+    _cz = Table1::createOneRecordTable( 0.0 );
 
-    _downwash = Table::createOneRecordTable( 0.0 );
+    _downwash = Table1::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

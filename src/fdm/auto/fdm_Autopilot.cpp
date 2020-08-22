@@ -70,9 +70,9 @@ Autopilot::Autopilot( FlightDirector *fd ) :
     _pid_p.setAntiWindup( PID::Calculation );
     _pid_y.setAntiWindup( PID::Calculation );
 
-    _gain_ias_r = Table::createOneRecordTable( 1.0 );
-    _gain_ias_p = Table::createOneRecordTable( 1.0 );
-    _gain_ias_y = Table::createOneRecordTable( 1.0 );
+    _gain_ias_r = Table1::createOneRecordTable( 1.0 );
+    _gain_ias_p = Table1::createOneRecordTable( 1.0 );
+    _gain_ias_y = Table1::createOneRecordTable( 1.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -242,7 +242,7 @@ void Autopilot::setPitch( double pitch )
 ////////////////////////////////////////////////////////////////////////////////
 
 void Autopilot::readChannel( const XmlNode &dataNode, double &max_rate,
-                             PID &pid, Table &gain_ias )
+                             PID &pid, Table1 &gain_ias )
 {
     if ( dataNode.isValid() )
     {

@@ -42,13 +42,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_WORLD  0
-#define CGI_DEPTH_SORTED_BIN_SKY    1
-#define CGI_DEPTH_SORTED_BIN_MOON   2
-#define CGI_DEPTH_SORTED_BIN_SUN    2
-#define CGI_DEPTH_SORTED_BIN_STARS  2
-#define CGI_DEPTH_SORTED_BIN_CLOUDS 3
-#define CGI_DEPTH_SORTED_BIN_HUD    4
+#define CGI_DEPTH_SORTED_BIN_WORLD   0
+#define CGI_DEPTH_SORTED_BIN_SKY     1
+#define CGI_DEPTH_SORTED_BIN_MOON    2
+#define CGI_DEPTH_SORTED_BIN_SUN     2
+#define CGI_DEPTH_SORTED_BIN_STARS   2
+#define CGI_DEPTH_SORTED_BIN_CLOUDS  3
+#define CGI_DEPTH_SORTED_BIN_HUD     4
+#define CGI_DEPTH_SORTED_BIN_EFFECTS 5
 
 ////////////////////////////////////////////////////////////////////////////////
 

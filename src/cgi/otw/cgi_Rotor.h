@@ -51,7 +51,7 @@ public:
     /** Updates rotor. */
     void update();
 
-    /** Returns module OSG root node.  */
+    /** Returns root node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 private:

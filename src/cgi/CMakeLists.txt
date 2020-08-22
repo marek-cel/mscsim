@@ -12,8 +12,10 @@ set( CPP_FILES
     otw/cgi_CloudsLayer.cpp
     otw/cgi_Entities.cpp
     otw/cgi_FogScene.cpp
+    otw/cgi_Landmark.cpp
     otw/cgi_OTW.cpp
     otw/cgi_Ownship.cpp
+    otw/cgi_Reflection.cpp
     otw/cgi_Rotor.cpp
     otw/cgi_Scenery.cpp
     otw/cgi_SkyDome.cpp

@@ -28,7 +28,7 @@
 #include <fdm/utils/fdm_Vector3.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -125,11 +125,11 @@ protected:
 
     Vector3 _r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
 
-    Table _cx;                  ///< [-] drag coefficient vs "angle of attack"
-    Table _cy;                  ///< [-] sideforce coefficient vs "angle of attack"
-    Table _cz;                  ///< [-] lift coefficient vs "angle of attack"
+    Table1 _cx;                 ///< [-] drag coefficient vs "angle of attack"
+    Table1 _cy;                 ///< [-] sideforce coefficient vs "angle of attack"
+    Table1 _cz;                 ///< [-] lift coefficient vs "angle of attack"
 
-    Table _downwash;            ///< [rad] downwash angle vs wing angle of attack
+    Table1 _downwash;           ///< [rad] downwash angle vs wing angle of attack
 
     double _area;               ///< [m^2] stabilizer reference area
 

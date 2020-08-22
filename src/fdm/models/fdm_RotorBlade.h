@@ -29,7 +29,7 @@
 #include <fdm/models/fdm_MainRotor.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
-#include <fdm/utils/fdm_Table.h>
+#include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -221,10 +221,10 @@ protected:
 
     Vector3 _pos_fh_sra;        ///< [m] flapping hinge coordinates expressed SRA
 
-    Table _twist;               ///< [rad] spanwise blade twist vs spanwise coordinate
+    Table1 _twist;              ///< [rad] spanwise blade twist vs spanwise coordinate
 
-    Table _cd;                  ///< [-] blade section drag coefficient vs angle of attack
-    Table _cl;                  ///< [-] blade section lift coefficient vs angle of attack
+    Table1 _cd;                 ///< [-] blade section drag coefficient vs angle of attack
+    Table1 _cl;                 ///< [-] blade section lift coefficient vs angle of attack
 
     double _m;                  ///< [kg] blage mass
     double _b;                  ///< [m] blade length

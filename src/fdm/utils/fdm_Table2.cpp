@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table2.h>
 
 #include <cmath>
 #include <limits>
@@ -35,7 +35,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2D Table2D::createOneRecordTable( double val )
+Table2 Table2::createOneRecordTable( double val )
 {
     std::vector< double > rowValues;
     std::vector< double > colValues;
@@ -45,12 +45,12 @@ Table2D Table2D::createOneRecordTable( double val )
     colValues.push_back( 0.0 );
     tableData.push_back( val );
 
-    return Table2D( rowValues, colValues, tableData );
+    return Table2( rowValues, colValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2D::Table2D() :
+Table2::Table2() :
     _rows ( 0 ),
     _cols ( 0 ),
     _size ( 0 ),
@@ -62,9 +62,9 @@ Table2D::Table2D() :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2D::Table2D( const std::vector< double > &rowValues,
-                  const std::vector< double > &colValues,
-                  const std::vector< double > &tableData ) :
+Table2::Table2( const std::vector< double > &rowValues,
+                const std::vector< double > &colValues,
+                const std::vector< double > &tableData ) :
     _rows ( 0 ),
     _cols ( 0 ),
     _size ( 0 ),
@@ -113,7 +113,7 @@ Table2D::Table2D( const std::vector< double > &rowValues,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2D::Table2D( const Table2D &table ) :
+Table2::Table2( const Table2 &table ) :
     _rows ( table._rows ),
     _cols ( table._cols ),
     _size ( table._size ),
@@ -143,7 +143,7 @@ Table2D::Table2D( const Table2D &table ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2D::~Table2D()
+Table2::~Table2()
 {
     FDM_DELTAB( _rowValues );
     FDM_DELTAB( _colValues );
@@ -153,7 +153,7 @@ Table2D::~Table2D()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table Table2D::getTable( double colValue ) const
+Table1 Table2::getTable( double colValue ) const
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -164,12 +164,12 @@ Table Table2D::getTable( double colValue ) const
         tableData.push_back( getValue( _rowValues[ i ], colValue ) );
     }
 
-    return Table( keyValues, tableData );
+    return Table1( keyValues, tableData );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table2D::getValue( double rowValue, double colValue ) const
+double Table2::getValue( double rowValue, double colValue ) const
 {
     if ( _size > 0 )
     {
@@ -232,7 +232,7 @@ double Table2D::getValue( double rowValue, double colValue ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table2D::getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const
+double Table2::getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const
 {
     if ( _rows > 0 && rowIndex < _rows
       && _cols > 0 && colIndex < _cols )
@@ -245,7 +245,7 @@ double Table2D::getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Table2D::isValid() const
+bool Table2::isValid() const
 {
     bool result = ( _size > 0 ) ? true : false;
 
@@ -289,7 +289,7 @@ bool Table2D::isValid() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-std::string Table2D::toString()
+std::string Table2::toString()
 {
     std::stringstream ss;
 
@@ -319,7 +319,7 @@ std::string Table2D::toString()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const Table2D& Table2D::operator= ( const Table2D &table )
+const Table2& Table2::operator= ( const Table2 &table )
 {
     FDM_DELTAB( _rowValues );
     FDM_DELTAB( _colValues );
@@ -353,7 +353,7 @@ const Table2D& Table2D::operator= ( const Table2D &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Table2D::updateInterpolationData()
+void Table2::updateInterpolationData()
 {
     for ( unsigned int r = 0; r < _rows; r++ )
     {

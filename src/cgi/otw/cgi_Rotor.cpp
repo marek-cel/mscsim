@@ -22,6 +22,9 @@
 
 #include <cgi/otw/cgi_Rotor.h>
 
+#include <osg/AlphaFunc>
+#include <osg/BlendFunc>
+#include <osg/Depth>
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/LineWidth>
@@ -266,11 +269,21 @@ void Rotor::updateBlur()
         geometry->setColorArray( c.get() );
         geometry->setColorBinding( osg::Geometry::BIND_OVERALL );
 
-        osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
-        stateSet->setMode( GL_BLEND, osg::StateAttribute::ON );
-        stateSet->setMode( GL_DEPTH_TEST, osg::StateAttribute::OFF|osg::StateAttribute::OVERRIDE );
+        osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
+
+        osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
+        osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
+        alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
+        blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+        depth->setWriteMask( false );
         stateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-        stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_WORLD + 11, "RenderBin" );
+        stateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );
+        stateSet->setAttributeAndModes( alphaFunc.get(), osg::StateAttribute::ON );
+        stateSet->setAttributeAndModes( depth.get(), osg::StateAttribute::ON );
+        stateSet->setMode( GL_BLEND     , osg::StateAttribute::ON  | osg::StateAttribute::OVERRIDE );
+        stateSet->setMode( GL_CULL_FACE , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE  );
+        stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_EFFECTS, "DepthSortedBin" );
     }
 }
 

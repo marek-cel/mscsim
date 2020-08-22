@@ -52,9 +52,9 @@ public:
 
 private:
 
-    Table _cx_beta;             ///< [-] incremental drag coefficient vs [rad] angle of sideslip
-    Table _cz_beta;             ///< [-] incremental lift coefficient vs [rad] angle of sideslip
-    Table _cm_beta;             ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
+    Table1 _cx_beta;            ///< [-] incremental drag coefficient vs [rad] angle of sideslip
+    Table1 _cz_beta;            ///< [-] incremental lift coefficient vs [rad] angle of sideslip
+    Table1 _cm_beta;            ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
 
     /**
      * Computes drag coefficient.

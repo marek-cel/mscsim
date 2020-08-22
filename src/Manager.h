@@ -70,7 +70,8 @@ private:
     g1000::IFD *_g1000_ifd;     ///< G1000 Integrated Flight Deck
     g1000::Input _g1000_input;  ///< G1000 Integrated Flight Deck input data
 
-    QElapsedTimer *_timer;      ///< elapsed timer
+    QElapsedTimer *_timerSim;   ///< elapsed timer
+    QElapsedTimer *_timerOut;   ///< elapsed timer
 
     int _timerId;               ///< timer Id
 

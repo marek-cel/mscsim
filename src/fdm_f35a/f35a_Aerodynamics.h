@@ -26,8 +26,8 @@
 
 #include <fdm/main/fdm_Aerodynamics.h>
 
-#include <fdm/utils/fdm_Table.h>
-#include <fdm/utils/fdm_Table2D.h>
+#include <fdm/utils/fdm_Table1.h>
+#include <fdm/utils/fdm_Table2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -71,81 +71,81 @@ private:
 
     const F35A_Aircraft *_aircraft; ///< aircraft model main object
 
-    Table2D _cx_dh_n25;             ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-25)
-    Table2D _cx_dh_n10;             ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-10)
-    Table2D _cx_dh_0;               ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=0)
-    Table2D _cx_dh_p10;             ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=10)
-    Table2D _cx_dh_p25;             ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=25)
-    Table2D _cx_lef;                ///<
-    Table _delta_cx_sb;             ///<
-    Table _cx_q;                    ///<
-    Table _delta_cx_q_lef;          ///<
-    Table _delta_cx_tef;            ///<
-    Table _delta_cx_gear;           ///<
+    Table2 _cx_dh_n25;              ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2 _cx_dh_n10;              ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2 _cx_dh_0;                ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2 _cx_dh_p10;              ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2 _cx_dh_p25;              ///< [-] body x-force coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2 _cx_lef;                 ///<
+    Table1 _delta_cx_sb;            ///<
+    Table1 _cx_q;                   ///<
+    Table1 _delta_cx_q_lef;         ///<
+    Table1 _delta_cx_tef;           ///<
+    Table1 _delta_cx_gear;          ///<
 
-    Table2D _cy;                    ///< [-] sideforce coefficient vs angle of attack and sideslip
-    Table2D _cy_lef;                ///<
-    Table2D _cy_da_20;              ///<
-    Table2D _cy_da_20_lef;          ///<
-    Table2D _cy_dr_30;              ///<
-    Table _cy_r;                    ///<
-    Table _delta_cy_r_lef;          ///<
-    Table _cy_p;                    ///<
-    Table _delta_cy_p_lef;          ///<
+    Table2 _cy;                     ///< [-] sideforce coefficient vs angle of attack and sideslip
+    Table2 _cy_lef;                 ///<
+    Table2 _cy_da_20;               ///<
+    Table2 _cy_da_20_lef;           ///<
+    Table2 _cy_dr_30;               ///<
+    Table1 _cy_r;                   ///<
+    Table1 _delta_cy_r_lef;         ///<
+    Table1 _cy_p;                   ///<
+    Table1 _delta_cy_p_lef;         ///<
 
-    Table2D _cz_dh_n25;             ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-25)
-    Table2D _cz_dh_n10;             ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-10)
-    Table2D _cz_dh_0;               ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=0)
-    Table2D _cz_dh_p10;             ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=10)
-    Table2D _cz_dh_p25;             ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=25)
-    Table2D _cz_lef;                ///<
-    Table _delta_cz_sb;             ///<
-    Table _cz_q;                    ///<
-    Table _delta_cz_q_lef;          ///<
-    Table _delta_cz_tef;            ///<
-    Table _delta_cz_gear;           ///<
+    Table2 _cz_dh_n25;              ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2 _cz_dh_n10;              ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2 _cz_dh_0;                ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2 _cz_dh_p10;              ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2 _cz_dh_p25;              ///< [-] body z-force coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2 _cz_lef;                 ///<
+    Table1 _delta_cz_sb;            ///<
+    Table1 _cz_q;                   ///<
+    Table1 _delta_cz_q_lef;         ///<
+    Table1 _delta_cz_tef;           ///<
+    Table1 _delta_cz_gear;          ///<
 
-    Table2D _cl_dh_n25;             ///<
-    Table2D _cl_dh_0;               ///<
-    Table2D _cl_dh_p25;             ///<
-    Table2D _cl_lef;                ///<
-    Table2D _cl_da_20;              ///<
-    Table2D _cl_da_20_lef;          ///<
-    Table2D _cl_dr_30;              ///<
-    Table _cl_r;                    ///<
-    Table _delta_cl_beta;           ///<
-    Table _delta_cl_r_lef;          ///<
-    Table _cl_p;                    ///<
-    Table _delta_cl_p_lef;          ///<
+    Table2 _cl_dh_n25;              ///<
+    Table2 _cl_dh_0;                ///<
+    Table2 _cl_dh_p25;              ///<
+    Table2 _cl_lef;                 ///<
+    Table2 _cl_da_20;               ///<
+    Table2 _cl_da_20_lef;           ///<
+    Table2 _cl_dr_30;               ///<
+    Table1 _cl_r;                   ///<
+    Table1 _delta_cl_beta;          ///<
+    Table1 _delta_cl_r_lef;         ///<
+    Table1 _cl_p;                   ///<
+    Table1 _delta_cl_p_lef;         ///<
 
-    Table2D _cm_dh_n25;             ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-25)
-    Table2D _cm_dh_n10;             ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-10)
-    Table2D _cm_dh_0;               ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=0)
-    Table2D _cm_dh_p10;             ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=10)
-    Table2D _cm_dh_p25;             ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=25)
-    Table2D _cm_lef;                ///<
-    Table _delta_cm_sb;             ///<
-    Table _cm_q;                    ///<
-    Table _delta_cm_q_lef;          ///<
-    Table _delta_cm;                ///<
-    Table2D _delta_cm_ds;           ///< (deep stall)
-    Table _delta_cm_tef;            ///<
-    Table _eta_delta_h;             ///< horizontal stabilator effectiveness factor
+    Table2 _cm_dh_n25;              ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2 _cm_dh_n10;              ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=-10)
+    Table2 _cm_dh_0;                ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2 _cm_dh_p10;              ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=10)
+    Table2 _cm_dh_p25;              ///< [-] body pitching moment coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2 _cm_lef;                 ///<
+    Table1 _delta_cm_sb;            ///<
+    Table1 _cm_q;                   ///<
+    Table1 _delta_cm_q_lef;         ///<
+    Table1 _delta_cm;               ///<
+    Table2 _delta_cm_ds;            ///< (deep stall)
+    Table1 _delta_cm_tef;           ///<
+    Table1 _eta_delta_h;            ///< horizontal stabilator effectiveness factor
 
-    Table2D _cn_dh_n25;             ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=-25)
-    Table2D _cn_dh_0;               ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=0)
-    Table2D _cn_dh_p25;             ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=25)
-    Table2D _cn_lef;                ///<
-    Table2D _cn_da_20;              ///<
-    Table2D _cn_da_20_lef;          ///<
-    Table2D _cn_dr_30;              ///<
-    Table _cn_r;                    ///<
-    Table _delta_cn_beta;           ///<
-    Table _delta_cn_r_lef;          ///<
-    Table _cn_p;                    ///<
-    Table _delta_cn_p_lef;          ///<
+    Table2 _cn_dh_n25;              ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=-25)
+    Table2 _cn_dh_0;                ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=0)
+    Table2 _cn_dh_p25;              ///< [-] body yawing moment coefficient vs angle of attack and sideslip (delta_h=25)
+    Table2 _cn_lef;                 ///<
+    Table2 _cn_da_20;               ///<
+    Table2 _cn_da_20_lef;           ///<
+    Table2 _cn_dr_30;               ///<
+    Table1 _cn_r;                   ///<
+    Table1 _delta_cn_beta;          ///<
+    Table1 _delta_cn_r_lef;         ///<
+    Table1 _cn_p;                   ///<
+    Table1 _delta_cn_p_lef;         ///<
 
-    Table _wave_drag;               ///< wave drag coefficient
+    Table1 _wave_drag;              ///< wave drag coefficient
 
     double _span;                   ///< [m] wing span
     double _mac;                    ///< [m] wing mean aerodynamic chord
