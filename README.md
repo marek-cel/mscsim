@@ -16,6 +16,7 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 
 ![AW101](screenshot_cfd_01.jpg)
 ![AW101](screenshot_cfd_02.jpg)
+![AW101](screenshot_aw101.jpg)
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types. Built-in map with navigational radio aids, airports, etc..
 
