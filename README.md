@@ -14,7 +14,7 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 * [R44](https://en.wikipedia.org/wiki/Robinson_R44) - light helicopter
 * [UH-60](https://en.wikipedia.org/wiki/Sikorsky_UH-60_Black_Hawk) - medium helicopter
 
-![AW101](screenshot_cfd_03.jpg)
+![AW101](screenshot_cfd.jpg)
 ![AW101](screenshot_aw101.jpg)
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types. Built-in map with navigational radio aids, airports, etc..
