@@ -28,10 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_StabilizerVer::TEST_StabilizerVer() :
-    Stabilizer( Vertical )
-{}
+XH_StabilizerVer::XH_StabilizerVer() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST_StabilizerVer::~TEST_StabilizerVer() {}
+XH_StabilizerVer::~XH_StabilizerVer() {}

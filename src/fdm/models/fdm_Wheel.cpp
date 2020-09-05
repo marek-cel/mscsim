@@ -31,43 +31,6 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wheel::Wheels::Wheels() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Wheel::Wheels::~Wheels() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-int Wheel::Wheels::addWheel( const char *name, Wheel wheel )
-{
-    std::pair< std::map< std::string, Wheel >::iterator, bool > temp =
-            _wheels.insert( std::pair< std::string, Wheel >( name, wheel ) );
-
-    if ( temp.second == true )
-    {
-        return FDM_SUCCESS;
-    }
-
-    return FDM_FAILURE;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Wheel* Wheel::Wheels::getWheelByName( const char *name )
-{
-    std::map< std::string, Wheel >::iterator it = _wheels.find( name );
-
-    if ( it != _wheels.end() )
-    {
-        return &(it->second);
-    }
-
-    return FDM_NULLPTR;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 Vector3 Wheel::getIntersection( const Vector3 &b, const Vector3 &e,
                                 const Vector3 &r, const Vector3 &n )
 {
@@ -102,17 +65,7 @@ Vector3 Wheel::getIntersection( const Vector3 &b, const Vector3 &e,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Wheel::getPacejkaCoef( double kappa,
-                              double b, double c, double d, double e )
-{
-    return d * sin( c * atan( b*( 1.0 - e )*kappa + e*atan( b*kappa ) ) );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Wheel::Wheel() :
-    _input ( FDM_NULLPTR ),
-
+Wheel::Wheel( bool coupled ) :
     _k ( 0.0 ),
     _c ( 0.0 ),
 
@@ -133,8 +86,12 @@ Wheel::Wheel() :
     _d_roll ( 0.0 ),
     _d_slip ( 0.0 ),
 
+    _position ( 1.0 ),
+
     _delta ( 0.0 ),
-    _brake ( 0.0 )
+    _brake ( 0.0 ),
+
+    _coupled ( coupled )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +129,7 @@ void Wheel::readData( XmlNode &dataNode )
             result = XmlUtils::read( dataNode, _delta_max, "max_angle", true );
         }
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _d_max, "d_max"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _d_max, "d_max" , true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _v_max, "v_max" , true );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
@@ -238,9 +195,19 @@ void Wheel::computeForceAndMoment( const Vector3 &vel_bas,
 
         if ( fabs( _d_roll ) < _d_max && fabs( _d_slip ) < _d_max )
         {
-            // spring-like model of static friction
-            coef_roll += ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_roll ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_roll );
-            coef_slip += ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_slip ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_slip );
+            // spring-like model of static friction as a logistic function
+            double cr = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_roll ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_roll );
+            double cs = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_slip ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_slip );
+
+            if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
+            else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
+            else
+                coef_roll += cr;
+
+            if      ( coef_slip < 0.0 && cs < 0.0 ) { if ( cs < coef_slip ) coef_slip = cs; }
+            else if ( coef_slip > 0.0 && cs > 0.0 ) { if ( cs > coef_slip ) coef_slip = cs; }
+            else
+                coef_slip += cs;
         }
 
         coef_roll = Misc::satur( -1.0, 1.0, coef_roll );
@@ -323,15 +290,30 @@ void Wheel::integrate( double timeStep,
         _d_roll += v_roll * timeStep;
         _d_slip += v_slip * timeStep;
 
-        if ( fabs( _d_roll ) > _d_max || fabs( v_roll ) > _v_max ) _d_roll = 0.0;
-        if ( fabs( _d_slip ) > _d_max || fabs( v_slip ) > _v_max ) _d_slip = 0.0;
+        if ( _coupled )
+        {
+            if ( fabs( v_roll ) > _v_max || fabs( v_slip ) > _v_max )
+            {
+                _d_roll = 0.0;
+                _d_slip = 0.0;
+            }
+        }
+        else
+        {
+            if ( fabs( v_roll ) > _v_max ) _d_roll = 0.0;
+            if ( fabs( v_slip ) > _v_max ) _d_slip = 0.0;
+        }
+
+        if ( fabs( _d_roll ) > _d_max ) _d_roll = 0.0;
+        if ( fabs( _d_slip ) > _d_max ) _d_slip = 0.0;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Wheel::update( double delta, double brake )
+void Wheel::update( double position, double delta, double brake )
 {
+    _position = position;
     _delta = delta;
     _brake = brake;
 }

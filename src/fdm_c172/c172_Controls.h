@@ -70,8 +70,8 @@ private:
     Channel *_channelRudder;            ///< rudder channel
     Channel *_channelElevatorTrim;      ///< elevator trim channel
     Channel *_channelFlaps;             ///< flaps channel
-    Channel *_channelBrakeL;            ///< left brake channel
-    Channel *_channelBrakeR;            ///< right brake channel
+    Channel *_channelBrakeLeft;         ///< left brake channel
+    Channel *_channelBrakeRight;        ///< right brake channel
     Channel *_channelNoseWheel;         ///< nose wheel channel
 
     double _ailerons;                   ///< [rad] ailerons deflection

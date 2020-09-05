@@ -3,6 +3,7 @@ HEADERS += \
     $$PWD/aw101_AFCS.h \
     $$PWD/aw101_Aircraft.h \
     $$PWD/aw101_Controls.h \
+    $$PWD/aw101_FDM.h \
     $$PWD/aw101_Fuselage.h \
     $$PWD/aw101_LandingGear.h \
     $$PWD/aw101_MainRotor.h \
@@ -17,6 +18,7 @@ SOURCES += \
     $$PWD/aw101_AFCS.cpp \
     $$PWD/aw101_Aircraft.cpp \
     $$PWD/aw101_Controls.cpp \
+    $$PWD/aw101_FDM.cpp \
     $$PWD/aw101_Fuselage.cpp \
     $$PWD/aw101_LandingGear.cpp \
     $$PWD/aw101_MainRotor.cpp \

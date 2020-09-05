@@ -49,16 +49,16 @@ public:
     /** Gas species indeces. */
     enum GasSpeciesIndeces
     {
-        N2 = 0,                         ///< index of Nitrogen in tables m_m_i and m_f_i
-        O2,                             ///< index of Oxygen in tables m_m_i and m_f_i
-        Ar,                             ///< index of Argon in tables m_m_i and m_f_i
-        CO2,                            ///< index of Carbon Dioxide in tables m_m_i and m_f_i
-        Ne,                             ///< index of Neon in tables m_m_i and m_f_i
-        He,                             ///< index of Helium in tables m_m_i and m_f_i
-        Kr,                             ///< index of Krypton in tables m_m_i and m_f_i
-        Xe,                             ///< index of Xenon in tables m_m_i and m_f_i
-        CH4,                            ///< index of Methane in tables m_m_i and m_f_i
-        H2                              ///< index of Hydrogen in tables m_m_i and m_f_i
+        N2 = 0,                         ///< index of Nitrogen       (N2)  in tables m_m_i and m_f_i
+        O2,                             ///< index of Oxygen         (O2)  in tables m_m_i and m_f_i
+        Ar,                             ///< index of Argon          (Ar)  in tables m_m_i and m_f_i
+        CO2,                            ///< index of Carbon Dioxide (C02) in tables m_m_i and m_f_i
+        Ne,                             ///< index of Neon           (Ne)  in tables m_m_i and m_f_i
+        He,                             ///< index of Helium         (He)  in tables m_m_i and m_f_i
+        Kr,                             ///< index of Krypton        (Kr)  in tables m_m_i and m_f_i
+        Xe,                             ///< index of Xenon          (Xe)  in tables m_m_i and m_f_i
+        CH4,                            ///< index of Methane        (CH4) in tables m_m_i and m_f_i
+        H2                              ///< index of Hydrogen       (H2)  in tables m_m_i and m_f_i
     };
 
     static const double _m_i[ 10 ];     ///< [kg/kmol] molecular weight

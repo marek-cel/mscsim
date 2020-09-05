@@ -48,7 +48,7 @@ class C130_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    C130_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    C130_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~C130_Aircraft();

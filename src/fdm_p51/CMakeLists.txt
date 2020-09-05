@@ -5,6 +5,7 @@ set( CPP_FILES
     p51_Aircraft.cpp
     p51_Controls.cpp
     p51_Engine.cpp
+    p51_FDM.cpp
     p51_Governor.cpp
     p51_LandingGear.cpp
     p51_Mass.cpp

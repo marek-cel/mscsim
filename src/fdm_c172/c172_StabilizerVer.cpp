@@ -31,8 +31,6 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C172_StabilizerVer::C172_StabilizerVer() :
-    Stabilizer( Vertical ),
-
     _dcx_drudder ( 0.0 ),
     _dcy_drudder ( 0.0 ),
     _rudder ( 0.0 )
@@ -46,9 +44,9 @@ C172_StabilizerVer::~C172_StabilizerVer() {}
 
 void C172_StabilizerVer::readData( XmlNode &dataNode )
 {
-    /////////////////////////////////
-    Stabilizer::readData( dataNode );
-    /////////////////////////////////
+    ////////////////////////////////////
+    StabilizerVer::readData( dataNode );
+    ////////////////////////////////////
 
     if ( dataNode.isValid() )
     {
@@ -74,15 +72,15 @@ void C172_StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
 {
     _rudder = rudder;
 
-    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
-                                       airDensity );
+    StabilizerVer::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                          airDensity );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double C172_StabilizerVer::getCx( double angle ) const
 {
-    return Stabilizer::getCx( angle )
+    return StabilizerVer::getCx( angle )
             + _dcx_drudder * _rudder;
 }
 
@@ -90,6 +88,6 @@ double C172_StabilizerVer::getCx( double angle ) const
 
 double C172_StabilizerVer::getCy( double angle ) const
 {
-    return Stabilizer::getCy( angle )
+    return StabilizerVer::getCy( angle )
             + _dcy_drudder * _rudder;
 }

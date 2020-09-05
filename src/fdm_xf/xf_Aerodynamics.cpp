@@ -246,7 +246,7 @@ double XF_Aerodynamics::getCx() const
 
     return _cx_delta_h + delta_cx_lef * _lef_factor
             + _delta_cx_sb.getValue( _alpha ) * _aircraft->getCtrl()->getAirbrakeNorm()
-            + _c_2v * cx_q * _aircraft->getOmg_air_BAS()( _iq )
+            + _c_2v * cx_q * _aircraft->getOmg_air_BAS().q()
             + _delta_cx_tef.getValue( _alpha ) * _aircraft->getCtrl()->getFlapsTENorm()
             + _delta_cx_gear.getValue( _alpha ) * _aircraft->getDataInp()->controls.landing_gear;
 }
@@ -267,8 +267,8 @@ double XF_Aerodynamics::getCy() const
     return cy + delta_cy_lef * _lef_factor
             + ( delta_cy_da_20 + delta_cy_da_20_lef * _lef_factor ) * _aircraft->getCtrl()->getAileronsNorm()
             + delta_cy_dr_30 * _aircraft->getCtrl()->getRudderNorm()
-            + _b_2v * ( _cy_r.getValue( _alpha ) * _delta_cy_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ir )
-            + _b_2v * ( _cy_p.getValue( _alpha ) * _delta_cy_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ip );
+            + _b_2v * ( _cy_r.getValue( _alpha ) * _delta_cy_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().r()
+            + _b_2v * ( _cy_p.getValue( _alpha ) * _delta_cy_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().p();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,7 +283,7 @@ double XF_Aerodynamics::getCz() const
 
     return _cz_delta_h + delta_cz_lef * _lef_factor
             + _delta_cz_sb.getValue( _alpha ) * _aircraft->getCtrl()->getAirbrakeNorm()
-            + _c_2v * cz_q * _aircraft->getOmg_air_BAS()( _iq )
+            + _c_2v * cz_q * _aircraft->getOmg_air_BAS().q()
             + _delta_cz_tef.getValue( _alpha ) * _aircraft->getCtrl()->getFlapsTENorm()
             + _delta_cz_gear.getValue( _alpha ) * _aircraft->getDataInp()->controls.landing_gear;
 }
@@ -306,8 +306,8 @@ double XF_Aerodynamics::getCl() const
     return _cl_delta_h + delta_cl_lef * _lef_factor
             + ( delta_cl_da_20 + delta_cl_da_20_lef * _lef_factor ) * _aircraft->getCtrl()->getAileronsNorm()
             + delta_cl_dr_30 * _aircraft->getCtrl()->getRudderNorm()
-            + _b_2v * ( _cl_r.getValue( _alpha ) + _delta_cl_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ir )
-            + _b_2v * ( _cl_p.getValue( _alpha ) + _delta_cl_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ip )
+            + _b_2v * ( _cl_r.getValue( _alpha ) + _delta_cl_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().r()
+            + _b_2v * ( _cl_p.getValue( _alpha ) + _delta_cl_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().p()
             + _delta_cl_beta.getValue( _alpha ) * _beta_deg;
 }
 
@@ -324,7 +324,7 @@ double XF_Aerodynamics::getCm() const
     return _cm_delta_h * _eta_delta_h.getValue( _aircraft->getCtrl()->getElevator() )
             + delta_cm_lef * _lef_factor
             + _delta_cm_sb.getValue( _alpha ) * _aircraft->getCtrl()->getAirbrakeNorm()
-            + _c_2v * cm_q * _aircraft->getOmg_air_BAS()( _iq )
+            + _c_2v * cm_q * _aircraft->getOmg_air_BAS().q()
             + _delta_cm.getValue( _alpha )
             + _delta_cm_ds.getValue( _alpha, _aircraft->getCtrl()->getElevator() )
             + _delta_cm_tef.getValue( _alpha ) * _aircraft->getCtrl()->getFlapsTENorm();
@@ -348,8 +348,8 @@ double XF_Aerodynamics::getCn() const
     return _cn_delta_h + delta_cn_lef * _lef_factor
             + ( delta_cn_da_20 + delta_cn_da_20_lef * _lef_factor ) * _aircraft->getCtrl()->getAileronsNorm()
             + delta_cn_dr_30 * _aircraft->getCtrl()->getRudderNorm()
-            + _b_2v * ( _cn_r.getValue( _alpha ) + _delta_cn_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ir )
-            + _b_2v * ( _cn_p.getValue( _alpha ) + _delta_cn_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS()( _ip )
+            + _b_2v * ( _cn_r.getValue( _alpha ) + _delta_cn_r_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().r()
+            + _b_2v * ( _cn_p.getValue( _alpha ) + _delta_cn_p_lef.getValue( _alpha ) * _lef_factor ) * _aircraft->getOmg_air_BAS().p()
             + _delta_cn_beta.getValue( _alpha ) * _beta_deg;
 }
 

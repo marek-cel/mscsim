@@ -5,6 +5,7 @@ set( CPP_FILES
     f35a_Aircraft.cpp
     f35a_Controls.cpp
     f35a_Engine.cpp
+    f35a_FDM.cpp
     f35a_FLCS.cpp
     f35a_LandingGear.cpp
     f35a_Mass.cpp

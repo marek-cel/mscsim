@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief C-130 vertical stabilizer class.
  */
-class C130_StabilizerVer : public Stabilizer
+class C130_StabilizerVer : public StabilizerVer
 {
 public:
 

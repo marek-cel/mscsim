@@ -15,7 +15,8 @@ HEADERS += \
     $$PWD/c172_Propulsion.h \
     $$PWD/c172_StabilizerHor.h \
     $$PWD/c172_StabilizerVer.h \
-    $$PWD/c172_TailOff.h
+    $$PWD/c172_TailOff.h \
+    $$PWD/c172_FDM.h
 
 SOURCES += \
     $$PWD/c172_Aerodynamics.cpp \
@@ -34,4 +35,5 @@ SOURCES += \
     $$PWD/c172_Propulsion.cpp \
     $$PWD/c172_StabilizerHor.cpp \
     $$PWD/c172_StabilizerVer.cpp \
-    $$PWD/c172_TailOff.cpp
+    $$PWD/c172_TailOff.cpp \
+    $$PWD/c172_FDM.cpp

@@ -52,22 +52,15 @@ R44_Controls::~R44_Controls() {}
 
 void R44_Controls::initialize()
 {
-    _channelCyclicLat  = getChannelByName( "cyclic_lat" );
-    _channelCyclicLon  = getChannelByName( "cyclic_lon" );
-    _channelCollective = getChannelByName( "collective" );
-    _channelTailPitch  = getChannelByName( "tail_pitch" );
+    _channelCyclicLat  = _channels.getItemByKey( "cyclic_lat" );
+    _channelCyclicLon  = _channels.getItemByKey( "cyclic_lon" );
+    _channelCollective = _channels.getItemByKey( "collective" );
+    _channelTailPitch  = _channels.getItemByKey( "tail_pitch" );
 
-    if ( FDM_NULLPTR != _channelCyclicLat
-      && FDM_NULLPTR != _channelCyclicLon
-      && FDM_NULLPTR != _channelCollective
-      && FDM_NULLPTR != _channelTailPitch )
-    {
-        _channelCyclicLat  ->input = &_aircraft->getDataInp()->controls.roll;
-        _channelCyclicLon  ->input = &_aircraft->getDataInp()->controls.pitch;
-        _channelCollective ->input = &_aircraft->getDataInp()->controls.collective;
-        _channelTailPitch  ->input = &_aircraft->getDataInp()->controls.yaw;
-    }
-    else
+    if ( FDM_NULLPTR == _channelCyclicLat
+      || FDM_NULLPTR == _channelCyclicLon
+      || FDM_NULLPTR == _channelCollective
+      || FDM_NULLPTR == _channelTailPitch )
     {
         Exception e;
 

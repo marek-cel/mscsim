@@ -38,14 +38,48 @@ const double MainRotorBE::_timeStepMax = 1.0e-2;
 ////////////////////////////////////////////////////////////////////////////////
 
 MainRotorBE::MainRotorBE() :
+    _direction ( CW ),
+
+    _blades_no ( 0 ),
+
+    _radius ( 0.0 ),
+
+    _omega   ( 0.0 ),
+    _azimuth ( 0.0 ),
+
+    _i_tot ( 0.0 ),
+    _d_psi ( 0.0 ),
+
+    _beta_0  ( 0.0 ),
+    _beta_1c ( 0.0 ),
+    _beta_1s ( 0.0 ),
+
+    _theta_0  ( 0.0 ),
+    _theta_1c ( 0.0 ),
+    _theta_1s ( 0.0 ),
+
+    _coningAngle ( 0.0 ),
+    _diskRoll    ( 0.0 ),
+    _diskPitch   ( 0.0 ),
+
+    _ct ( 0.0 ),
+    _cq ( 0.0 ),
+
+    _thrust ( 0.0 ),
+    _torque ( 0.0 ),
+
+    _vel_i ( 0.0 ),
+
+    _wakeSkew ( 0.0 ),
+
     _prev_azimuth  ( 0.0 ),
     _prev_theta_0  ( 0.0 ),
     _prev_theta_1c ( 0.0 ),
-    _prev_theta_1s ( 0.0 ),
-
-    _i_tot ( 0.0 ),
-    _d_psi ( 0.0 )
-{}
+    _prev_theta_1s ( 0.0 )
+{
+    _bas2ras = Matrix3x3::createIdentityMatrix();
+    _ras2bas = Matrix3x3::createIdentityMatrix();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -203,9 +237,12 @@ void MainRotorBE::update( double timeStep,
     _prev_theta_1c = _theta_1c;
     _prev_theta_1s = _theta_1s;
 
-    //////////////////////////////////////////////////////////////////////
-    MainRotor::update( omega, azimuth, collective, cyclicLat, cyclicLon );
-    //////////////////////////////////////////////////////////////////////
+    _omega   = omega;
+    _azimuth = azimuth;
+
+    _theta_0  = collective;
+    _theta_1c = _direction == CW ? cyclicLat : -cyclicLat;
+    _theta_1s = cyclicLon;
 
     Vector3 d_vel_air_ras = _vel_air_ras - _prev_vel_air_ras;
     Vector3 d_omg_air_ras = _omg_air_ras - _prev_omg_air_ras;

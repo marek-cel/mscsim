@@ -61,9 +61,10 @@ void Mass::readData( XmlNode &dataNode )
         {
             VarMass varMass;
 
-            varMass.input = FDM_NULLPTR;
+            std::string name  = varMassNode.getAttribute( "name"  );
+            std::string input = varMassNode.getAttribute( "input" );
 
-            std::string name = varMassNode.getAttribute( "name" );
+            varMass.dr_input = getDataRef( input );
 
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, varMass.mass_max , "mass_max"    );
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, varMass.r_bas    , "coordinates" );
@@ -129,8 +130,8 @@ void Mass::update()
     {
         VarMass &vm = (*it).second;
 
-        if ( vm.input )
-            vm.mass = Misc::satur( 0.0, vm.mass_max, *(vm.input) );
+        if ( vm.dr_input.isValid() )
+            vm.mass = Misc::satur( 0.0, vm.mass_max, vm.dr_input.getValue() );
         else
             vm.mass = Misc::satur( 0.0, vm.mass_max, 0.0 );
 
@@ -170,23 +171,23 @@ Matrix6x6 Mass::getInertiaMatrix() const
     mi_bas(3,0) =  0.0;
     mi_bas(3,1) = -_s_t_bas.z();
     mi_bas(3,2) =  _s_t_bas.y();
-    mi_bas(3,3) =  _i_t_bas(_ix,_ix);
-    mi_bas(3,4) =  _i_t_bas(_ix,_iy);
-    mi_bas(3,5) =  _i_t_bas(_ix,_iz);
+    mi_bas(3,3) =  _i_t_bas.xx();
+    mi_bas(3,4) =  _i_t_bas.xy();
+    mi_bas(3,5) =  _i_t_bas.xz();
 
     mi_bas(4,0) =  _s_t_bas.z();
     mi_bas(4,1) =  0.0;
     mi_bas(4,2) = -_s_t_bas.x();
-    mi_bas(4,3) =  _i_t_bas(_iy,_ix);
-    mi_bas(4,4) =  _i_t_bas(_iy,_iy);
-    mi_bas(4,5) =  _i_t_bas(_iy,_iz);
+    mi_bas(4,3) =  _i_t_bas.yx();
+    mi_bas(4,4) =  _i_t_bas.yy();
+    mi_bas(4,5) =  _i_t_bas.yz();
 
     mi_bas(5,0) = -_s_t_bas.y();
     mi_bas(5,1) =  _s_t_bas.x();
     mi_bas(5,2) =  0.0;
-    mi_bas(5,3) =  _i_t_bas(_iz,_ix);
-    mi_bas(5,4) =  _i_t_bas(_iz,_iy);
-    mi_bas(5,5) =  _i_t_bas(_iz,_iz);
+    mi_bas(5,3) =  _i_t_bas.zx();
+    mi_bas(5,4) =  _i_t_bas.zy();
+    mi_bas(5,5) =  _i_t_bas.zz();
 
     return mi_bas;
 }
@@ -207,17 +208,17 @@ void Mass::addVariableMass( const VarMass &varMass )
     double d_it_xz = varMass.mass * varMass.r_bas.x() * varMass.r_bas.z();
     double d_it_yz = varMass.mass * varMass.r_bas.y() * varMass.r_bas.z();
 
-    _i_t_bas(_ix,_ix) += varMass.mass * ( r_y2 + r_z2 );
-    _i_t_bas(_ix,_iy) -= d_it_xy;
-    _i_t_bas(_ix,_iz) -= d_it_xz;
+    _i_t_bas.xx() += varMass.mass * ( r_y2 + r_z2 );
+    _i_t_bas.xy() -= d_it_xy;
+    _i_t_bas.xz() -= d_it_xz;
 
-    _i_t_bas(_iy,_ix) -= d_it_xy;
-    _i_t_bas(_iy,_iy) += varMass.mass * ( r_x2 + r_z2 );
-    _i_t_bas(_iy,_iz) -= d_it_yz;
+    _i_t_bas.yx() -= d_it_xy;
+    _i_t_bas.yy() += varMass.mass * ( r_x2 + r_z2 );
+    _i_t_bas.yz() -= d_it_yz;
 
-    _i_t_bas(_iz,_ix) -= d_it_xz;
-    _i_t_bas(_iz,_iy) -= d_it_yz;
-    _i_t_bas(_iz,_iz) += varMass.mass * ( r_x2 + r_y2 );
+    _i_t_bas.zx() -= d_it_xz;
+    _i_t_bas.zy() -= d_it_yz;
+    _i_t_bas.zz() += varMass.mass * ( r_x2 + r_y2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

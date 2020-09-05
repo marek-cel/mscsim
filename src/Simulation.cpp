@@ -39,10 +39,10 @@ Simulation::Simulation() :
 
     _timerId ( 0 )
 {
-    _fdm = new fdm::Manager();
-
     memset( &_dataInp, 0, sizeof(fdm::DataInp) );
     memset( &_dataOut, 0, sizeof(fdm::DataOut) );
+
+    _fdm = new fdm::Manager( &_dataInp, &_dataOut );
 
 #   ifdef SIM_USE_THREADS
     moveToThread( this );
@@ -140,7 +140,7 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.controls.brake_l      = data->controls.brake_l;
     _dataInp.controls.brake_r      = data->controls.brake_r;
     _dataInp.controls.landing_gear = data->controls.landing_gear;
-    _dataInp.controls.nose_wheel   = data->controls.nose_wheel;
+    _dataInp.controls.wheel_nose   = data->controls.wheel_nose;
     _dataInp.controls.flaps        = data->controls.flaps;
     _dataInp.controls.airbrake     = data->controls.airbrake;
     _dataInp.controls.spoilers     = data->controls.spoilers;
@@ -160,11 +160,6 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
         _dataInp.engine[ i ].ignition  = data->propulsion.engine[ i ].ignition;
         _dataInp.engine[ i ].starter   = data->propulsion.engine[ i ].starter;
     }
-
-    // freezes
-    _dataInp.freezes.position = data->freezes.position;
-    _dataInp.freezes.attitude = data->freezes.attitude;
-    _dataInp.freezes.velocity = data->freezes.velocity;
 
     // masses
     for ( unsigned int i = 0; i < FDM_MAX_PILOTS; i++ )
@@ -190,6 +185,11 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
 
     // input state
     _dataInp.stateInp = data->stateInp;
+
+    // freezes
+    _dataInp.freezePosition = data->freezePosition;
+    _dataInp.freezeAttitude = data->freezeAttitude;
+    _dataInp.freezeVelocity = data->freezeVelocity;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -211,7 +211,7 @@ void Simulation::update()
 {
     _timeStep = _timeCoef * (double)_elapsedTimer->restart() / 1000.0;
 
-    _fdm->step( _timeStep, _dataInp, _dataOut );
+    _fdm->step( _timeStep );
 
     ////////////////////////////////
     emit dataOutUpdated( _dataOut );

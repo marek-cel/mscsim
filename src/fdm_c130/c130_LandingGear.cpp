@@ -53,13 +53,15 @@ void C130_LandingGear::readData( XmlNode &dataNode )
 
         while ( result == FDM_SUCCESS && wheelNode.isValid() )
         {
-            Wheel wheel;
+            WheelAndInput wheelAndInput;
 
-            std::string name = wheelNode.getAttribute( "name" );
+            std::string name  = wheelNode.getAttribute( "name"  );
+            std::string input = wheelNode.getAttribute( "input" );
 
-            wheel.readData( wheelNode );
+            wheelAndInput.input = getDataRef( input );
+            wheelAndInput.wheel.readData( wheelNode );
 
-            result = _wheels.addWheel( name.c_str(), wheel );
+            result = _wheels.addItem( name, wheelAndInput );
 
             wheelNode = wheelNode.getNextSiblingElement( "wheel" );
         }
@@ -74,39 +76,6 @@ void C130_LandingGear::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C130_LandingGear::initialize()
-{
-    Wheel *wheel_n  = _wheels.getWheelByName( "wheel_n"  );
-    Wheel *wheel_lf = _wheels.getWheelByName( "wheel_lf" );
-    Wheel *wheel_lr = _wheels.getWheelByName( "wheel_lr" );
-    Wheel *wheel_rf = _wheels.getWheelByName( "wheel_rf" );
-    Wheel *wheel_rr = _wheels.getWheelByName( "wheel_rr" );
-
-    if ( wheel_n && wheel_lf && wheel_lr && wheel_rf && wheel_rr )
-    {
-        wheel_n  ->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_lf ->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_lr ->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_rf ->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_rr ->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
-
-        FDM_THROW( e );
-    }
-
-    //////////////////////////
-    LandingGear::initialize();
-    //////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void C130_LandingGear::computeForceAndMoment()
 {
     _for_bas.zeroize();
@@ -114,15 +83,9 @@ void C130_LandingGear::computeForceAndMoment()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        Wheel &wheel = (*it).second.wheel;
 
-        double position = 1.0;
-        if ( wheel.isInputValid() )
-        {
-            position = wheel.getInputValue();
-        }
-
-        if ( position >= 1.0 )
+        if ( wheel.getPosition() >= 1.0 )
         {
             Vector3 r_c_bas;
             Vector3 n_c_bas;
@@ -169,7 +132,8 @@ void C130_LandingGear::update()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        DataRef &input = (*it).second.input;
+        Wheel   &wheel = (*it).second.wheel;
 
         Vector3 r_c_bas;
         Vector3 n_c_bas;
@@ -187,6 +151,6 @@ void C130_LandingGear::update()
         if      ( wheel.getBrakeGroup() == Wheel::Left  ) brake = _brake_l;
         else if ( wheel.getBrakeGroup() == Wheel::Right ) brake = _brake_r;
 
-        wheel.update( _ctrlAngle, brake );
+        wheel.update( input.isValid() ? input.getValue() : 1.0, _ctrlAngle, brake );
     }
 }

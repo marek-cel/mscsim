@@ -92,9 +92,10 @@ public:
      * Returns ground normal vector expressed in WGS.
      * @param lat [rad] input latitude
      * @param lon [rad] input longitude
+     * @param update specifies if ground intersection data should be updated
      * @return ground normal vector expressed in WGS
      */
-    virtual Vector3 getNormal( double lat, double lon ) const;
+    virtual Vector3 getNormal( double lat, double lon, bool update = false ) const;
 
     void setGroundWGS( const Vector3 &ground_wgs ) { _ground_wgs = ground_wgs; }
     void setNormalWGS( const Vector3 &normal_wgs ) { _normal_wgs = normal_wgs; }

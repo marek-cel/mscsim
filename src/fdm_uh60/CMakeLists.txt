@@ -5,6 +5,7 @@ set( CPP_FILES
     uh60_AFCS.cpp
     uh60_Aircraft.cpp
     uh60_Controls.cpp
+    uh60_FDM.cpp
     uh60_Fuselage.cpp
     uh60_LandingGear.cpp
     uh60_MainRotor.cpp

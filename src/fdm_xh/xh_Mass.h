@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     ~XH_Mass();
 
-    /** Initializes mass. */
-    void initialize();
-
 private:
 
     const XH_Aircraft *_aircraft;     ///< aircraft model main object

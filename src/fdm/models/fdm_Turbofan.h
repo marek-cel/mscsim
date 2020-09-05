@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Engine.h>
-
 #include <fdm/utils/fdm_Vector3.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
@@ -38,9 +36,17 @@ namespace fdm
 /**
  * @brief Twin-spool turbofan engine class.
  */
-class FDMEXPORT Turbofan : public Engine
+class FDMEXPORT Turbofan
 {
 public:
+
+    /** Engine state enum. */
+    enum State
+    {
+        Stopped  = 0,   ///< engine stopped
+        Starting = 1,   ///< engine starting
+        Running  = 2    ///< engine running
+    };
 
     /** Constructor. */
     Turbofan();
@@ -132,6 +138,8 @@ public:
     }
 
 protected:
+
+    State _state;           ///< engine state
 
     Vector3 _pos_bas;       ///< [m] nozzle position expressed in BAS
 

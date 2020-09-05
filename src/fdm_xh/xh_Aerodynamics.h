@@ -77,7 +77,7 @@ private:
     XH_TailRotor     *_tailRotor;     ///<
     XH_Fuselage      *_fuselage;      ///<
     XH_StabilizerHor *_stabHor;       ///<
-    TEST_StabilizerVer *_stabVer;       ///<
+    XH_StabilizerVer *_stabVer;       ///<
 };
 
 } // end of fdm namespace

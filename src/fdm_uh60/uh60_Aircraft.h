@@ -50,7 +50,7 @@ class UH60_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    UH60_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    UH60_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~UH60_Aircraft();

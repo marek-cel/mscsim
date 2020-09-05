@@ -28,8 +28,9 @@
 #include <iomanip>
 #include <vector>
 
-#include <fdm/fdm_Base.h>
+#include <fdm/fdm_Defines.h>
 #include <fdm/fdm_DataInp.h>
+#include <fdm/fdm_Types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +44,7 @@ namespace fdm
  *
  * @see Shafranovich Y.: Common Format and MIME Type for Comma-Separated Values (CSV) Files, RFC 4180, 2005
  */
-class FDMEXPORT Recorder : public Base
+class FDMEXPORT Recorder
 {
 public:
 

@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/xh_Propulsion.h \
     $$PWD/xh_StabilizerHor.h \
     $$PWD/xh_StabilizerVer.h \
-    $$PWD/xh_TailRotor.h
+    $$PWD/xh_TailRotor.h \
+    $$PWD/xh_FDM.h
 
 SOURCES += \
     $$PWD/xh_Aerodynamics.cpp \
@@ -26,4 +27,5 @@ SOURCES += \
     $$PWD/xh_Propulsion.cpp \
     $$PWD/xh_StabilizerHor.cpp \
     $$PWD/xh_StabilizerVer.cpp \
-    $$PWD/xh_TailRotor.cpp
+    $$PWD/xh_TailRotor.cpp \
+    $$PWD/xh_FDM.cpp

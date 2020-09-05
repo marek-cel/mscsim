@@ -80,43 +80,43 @@ public:
 
 private:
 
-    const F16_Aircraft *_aircraft;  ///< aircraft model main object
+    const F16_Aircraft *_aircraft;      ///< aircraft model main object
 
-    Channel *_channelRoll;          ///< roll channel
-    Channel *_channelPitch;         ///< pitch channel
-    Channel *_channelYaw;           ///< yaw channel
-    Channel *_channelRollTrim;      ///< roll trim channel
-    Channel *_channelPitchTrim;     ///< pitch trim channel
-    Channel *_channelYawTrim;       ///< yaw trim channel
-    Channel *_channelAirbrake;      ///< airbrake channel
-    Channel *_channelBrakeL;        ///< left brake channel
-    Channel *_channelBrakeR;        ///< right brake channel
-    Channel *_channelNoseWheel;     ///< nose wheel channel
+    Channel *_channelRoll;              ///< roll channel
+    Channel *_channelPitch;             ///< pitch channel
+    Channel *_channelYaw;               ///< yaw channel
+    Channel *_channelRollTrim;          ///< roll trim channel
+    Channel *_channelPitchTrim;         ///< pitch trim channel
+    Channel *_channelYawTrim;           ///< yaw trim channel
+    Channel *_channelAirbrake;          ///< airbrake channel
+    Channel *_channelBrakeLeft;         ///< left brake channel
+    Channel *_channelBrakeRight;        ///< right brake channel
+    Channel *_channelNoseWheel;         ///< nose wheel channel
 
-    F16_FLCS *_flcs;                ///< Fligt Control System
+    F16_FLCS *_flcs;                    ///< Fligt Control System
 
-    double _airbrake_max;           ///< [rad] airbrake deflection limit
+    double _airbrake_max;               ///< [rad] airbrake deflection limit
 
-    double _airbrake;               ///< [rad] airbrake deflection
-    double _airbrake_norm;          ///< [-] normalized airbrake deflection
-    double _brake_l;                ///< [-] normalized left brake force
-    double _brake_r;                ///< [-] normalized right brake force
-    double _nose_wheel;             ///< [rad] nose wheel turn angle
+    double _airbrake;                   ///< [rad] airbrake deflection
+    double _airbrake_norm;              ///< [-] normalized airbrake deflection
+    double _brake_l;                    ///< [-] normalized left brake force
+    double _brake_r;                    ///< [-] normalized right brake force
+    double _nose_wheel;                 ///< [rad] nose wheel turn angle
 
-    double _angleOfAttack;          ///<
-    double _g_y;                    ///<
-    double _g_z;                    ///<
-    double _rollRate;               ///<
-    double _pitchRate;              ///<
-    double _yawRate;                ///<
-    double _ctrlLat;                ///<
-    double _trimLat;                ///<
-    double _ctrlLon;                ///<
-    double _trimLon;                ///<
-    double _ctrlYaw;                ///<
-    double _trimYaw;                ///<
-    double _statPress;              ///<
-    double _dynPress;               ///<
+    double _angleOfAttack;              ///<
+    double _g_y;                        ///<
+    double _g_z;                        ///<
+    double _rollRate;                   ///<
+    double _pitchRate;                  ///<
+    double _yawRate;                    ///<
+    double _ctrlLat;                    ///<
+    double _trimLat;                    ///<
+    double _ctrlLon;                    ///<
+    double _trimLon;                    ///<
+    double _ctrlYaw;                    ///<
+    double _trimYaw;                    ///<
+    double _statPress;                  ///<
+    double _dynPress;                   ///<
 };
 
 } // end of fdm namespace

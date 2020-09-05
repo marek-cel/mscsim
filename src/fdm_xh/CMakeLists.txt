@@ -5,6 +5,7 @@ set( CPP_FILES
     xh_AFCS.cpp
     xh_Aircraft.cpp
     xh_Controls.cpp
+    xh_FDM.cpp
     xh_Fuselage.cpp
     xh_LandingGear.cpp
     xh_MainRotorAD.cpp

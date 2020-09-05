@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C130_Aircraft::C130_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( dataInp, dataOut ),
+C130_Aircraft::C130_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( rootNode, dataInp, dataOut ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -83,7 +83,7 @@ void C130_Aircraft::updateOutputData()
     // propulsion
     for ( int i = 0; i < _prop->getEnginesCount(); i++ )
     {
-        _dataOut->engine[ i ].state    = _prop->getEngine( i )->getState() == Engine::Running;
+        _dataOut->engine[ i ].state    = _prop->getEngine( i )->getState() == C130_Engine::Running;
         _dataOut->engine[ i ].rpm      = _prop->getEngine( i )->getRPM();
         _dataOut->engine[ i ].prop     = _prop->getPropeller( i )->getRPM();
         _dataOut->engine[ i ].map      = _prop->getEngine( i )->getMAP();

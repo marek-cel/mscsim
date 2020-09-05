@@ -75,6 +75,26 @@ public:
     /** Creates passive (alias) rotation matrix. */
     Matrix3x3( const Quaternion &qtrn );
 
+    inline double xx() const { return _xx; }
+    inline double xy() const { return _xy; }
+    inline double xz() const { return _xz; }
+    inline double yx() const { return _yx; }
+    inline double yy() const { return _yy; }
+    inline double yz() const { return _yz; }
+    inline double zx() const { return _zx; }
+    inline double zy() const { return _zy; }
+    inline double zz() const { return _zz; }
+
+    inline double& xx() { return _xx; }
+    inline double& xy() { return _xy; }
+    inline double& xz() { return _xz; }
+    inline double& yx() { return _yx; }
+    inline double& yy() { return _yy; }
+    inline double& yz() { return _yz; }
+    inline double& zx() { return _zx; }
+    inline double& zy() { return _zy; }
+    inline double& zz() { return _zz; }
+
     /** Transposes matrix. */
     void transpose();
 
@@ -119,6 +139,20 @@ public:
 
     /** Unary division operator (by scalar). */
     Matrix3x3& operator/= ( double value );
+
+private:
+
+    double &_xx;    ///< xx element
+    double &_xy;    ///< xy element
+    double &_xz;    ///< xz element
+
+    double &_yx;    ///< yx element
+    double &_yy;    ///< yy element
+    double &_yz;    ///< yz element
+
+    double &_zx;    ///< zx element
+    double &_zy;    ///< zy element
+    double &_zz;    ///< zz element
 };
 
 } // end of fdm namespace

@@ -19,12 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_STABILIZER_H
-#define FDM_STABILIZER_H
+#ifndef FDM_STABILIZERHOR_H
+#define FDM_STABILIZERHOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
 #include <fdm/utils/fdm_Vector3.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
@@ -36,18 +35,11 @@ namespace fdm
 {
 
 /**
- * @brief Generic stabilizer base class.
- *
- * This is generalized stabilizator class intended to represent both
- * horizontal and vertical stabilizers. For verical stabilizer angle of attack
- * becomes angle of sideslip.
- *
- * Type of stabilizer is determined by XML tag name "horizontal_stabilizer"
- * or "vertical_stabilizer".
+ * @brief Horizontal stabilizer base class.
  *
  * XML configuration file format:
  * @code
- * <stabilizer type="[horizontal|vertical]">
+ * <stab_hor>
  *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
  *   <area> { [m^2] area } </area>
  *   [<incidence> { [rad] incidence } </incidence>]
@@ -59,41 +51,27 @@ namespace fdm
  *     { [rad] angle } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
- *   [<cy>
- *     { [rad] angle } { [-] sideforce coefficient }
- *     ... { more entries }
- *   </cy>]
- *   [<cz>
+ *   <cz>
  *     { [rad] angle } { [-] lift coefficient }
  *     ... { more entries }
- *   </cz>]
- * </stabilizer>
+ *   </cz>
+ * </stab_hor>
  * @endcode
  *
- * Specify "cy" for vertical and "cz" for horizontal stabilizer.
- *
- * Optional elements: "incidence", "downwash", "cy" for horizontal stabilizer,
- * "cz" for vertical stabilizer
+ * Optional elements: "incidence", "downwash"
  */
-class FDMEXPORT Stabilizer : public Base
+class FDMEXPORT StabilizerHor
 {
 public:
-
-    /** Stabilizer type. */
-    enum Type
-    {
-        Horizontal = 0,     ///< horizontal stabilizer
-        Vertical   = 1      ///< vertical stabilizer
-    };
 
     /**
      * Constructor.
      * @param type stabilizer type
      */
-    Stabilizer( Type type = Horizontal );
+    StabilizerHor();
 
     /** Destructor. */
-    virtual ~Stabilizer();
+    virtual ~StabilizerHor();
 
     /**
      * Reads data.
@@ -118,16 +96,13 @@ public:
 
 protected:
 
-    const Type _type;           ///< stabilizer type
-
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
 
     Vector3 _r_ac_bas;          ///< [m] stabilizer aerodynamic center expressed in BAS
 
-    Table1 _cx;                 ///< [-] drag coefficient vs "angle of attack"
-    Table1 _cy;                 ///< [-] sideforce coefficient vs "angle of attack"
-    Table1 _cz;                 ///< [-] lift coefficient vs "angle of attack"
+    Table1 _cx;                 ///< [-] drag coefficient vs angle of attack
+    Table1 _cz;                 ///< [-] lift coefficient vs angle of attack
 
     Table1 _downwash;           ///< [rad] downwash angle vs wing angle of attack
 
@@ -153,13 +128,6 @@ protected:
      * @return [-] drag coefficient
      */
     virtual double getCx( double angle ) const;
-
-    /**
-     * Computes sideforce coefficient.
-     * @param angle [rad] "angle of attack"
-     * @return [-] sideforce coefficient
-     */
-    virtual double getCy( double angle ) const;
 
     /**
      * Computes lift coefficient.

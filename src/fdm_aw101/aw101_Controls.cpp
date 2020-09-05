@@ -39,8 +39,8 @@ AW101_Controls::AW101_Controls( const AW101_Aircraft *aircraft, DataNode *rootNo
     _channelCyclicLon  ( FDM_NULLPTR ),
     _channelCollective ( FDM_NULLPTR ),
     _channelTailPitch  ( FDM_NULLPTR ),
-    _channelBrakeL     ( FDM_NULLPTR ),
-    _channelBrakeR     ( FDM_NULLPTR ),
+    _channelBrakeLeft  ( FDM_NULLPTR ),
+    _channelBrakeRight ( FDM_NULLPTR ),
 
     _afcs ( FDM_NULLPTR ),
 
@@ -84,33 +84,42 @@ void AW101_Controls::readData( XmlNode &dataNode )
 
 void AW101_Controls::initialize()
 {
-    _channelCyclicLat  = getChannelByName( "cyclic_lat" );
-    _channelCyclicLon  = getChannelByName( "cyclic_lon" );
-    _channelCollective = getChannelByName( "collective" );
-    _channelTailPitch  = getChannelByName( "tail_pitch" );
-    _channelBrakeL     = getChannelByName( "brake_l"    );
-    _channelBrakeR     = getChannelByName( "brake_r"    );
+    _channelCyclicLat  = _channels.getItemByKey( "cyclic_lat"  );
+    _channelCyclicLon  = _channels.getItemByKey( "cyclic_lon"  );
+    _channelCollective = _channels.getItemByKey( "collective"  );
+    _channelTailPitch  = _channels.getItemByKey( "tail_pitch"  );
+    _channelBrakeLeft  = _channels.getItemByKey( "brake_left"  );
+    _channelBrakeRight = _channels.getItemByKey( "brake_right" );
 
-    if ( FDM_NULLPTR != _channelCyclicLat
-      && FDM_NULLPTR != _channelCyclicLon
-      && FDM_NULLPTR != _channelCollective
-      && FDM_NULLPTR != _channelTailPitch
-      && FDM_NULLPTR != _channelBrakeL
-      && FDM_NULLPTR != _channelBrakeR )
-    {
-        _channelCyclicLat  ->input = FDM_NULLPTR;
-        _channelCyclicLon  ->input = FDM_NULLPTR;
-        _channelCollective ->input = &_aircraft->getDataInp()->controls.collective;
-        _channelTailPitch  ->input = FDM_NULLPTR;
-        _channelBrakeL     ->input = &_aircraft->getDataInp()->controls.brake_l;
-        _channelBrakeR     ->input = &_aircraft->getDataInp()->controls.brake_r;
-    }
-    else
+    if ( FDM_NULLPTR == _channelCyclicLat
+      || FDM_NULLPTR == _channelCyclicLon
+      || FDM_NULLPTR == _channelCollective
+      || FDM_NULLPTR == _channelTailPitch
+      || FDM_NULLPTR == _channelBrakeLeft
+      || FDM_NULLPTR == _channelBrakeRight )
     {
         Exception e;
 
         e.setType( Exception::UnknownException );
         e.setInfo( "Obtaining control channels failed." );
+
+        FDM_THROW( e );
+    }
+
+    _inputCtrlRoll       = getDataRef( "input.controls.roll"       );
+    _inputCtrlPitch      = getDataRef( "input.controls.pitch"      );
+    _inputCtrlYaw        = getDataRef( "input.controls.yaw"        );
+    _inputCtrlCollective = getDataRef( "input.controls.collective" );
+
+    if ( !_inputCtrlRoll       .isValid()
+      || !_inputCtrlPitch      .isValid()
+      || !_inputCtrlYaw        .isValid()
+      || !_inputCtrlCollective .isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs failed." );
 
         FDM_THROW( e );
     }
@@ -129,18 +138,18 @@ void AW101_Controls::update()
     ///////////////////
 
     _afcs->update( _aircraft->getTimeStep(),
-                   _aircraft->getDataInp()->controls.roll  , 0.0,
-                   _aircraft->getDataInp()->controls.pitch , 0.0,
-                   _aircraft->getDataInp()->controls.yaw   , 0.0,
+                   _inputCtrlRoll  .getValue() , 0.0,
+                   _inputCtrlPitch .getValue() , 0.0,
+                   _inputCtrlYaw   .getValue() , 0.0,
                    _aircraft->getClimbRate(),
                    _aircraft->getAngles_NED(),
                    _aircraft->getOmg_BAS() );
 
-    double cyclic_lat = _aircraft->getDataInp()->controls.roll  + _afcs->getCyclicLat();
-    double cyclic_lon = _aircraft->getDataInp()->controls.pitch + _afcs->getCyclicLon();
-    double tail_pitch = _aircraft->getDataInp()->controls.yaw   + _afcs->getTailPitch()
-                      - 0.2 * _aircraft->getDataInp()->controls.collective;
-    double collective = _aircraft->getDataInp()->controls.collective + _afcs->getCollective();
+    double cyclic_lat = _inputCtrlRoll  .getValue() + _afcs->getCyclicLat();
+    double cyclic_lon = _inputCtrlPitch .getValue() + _afcs->getCyclicLon();
+    double tail_pitch = _inputCtrlYaw   .getValue() + _afcs->getTailPitch()
+                      - 0.2 * _inputCtrlCollective.getValue();
+    double collective = _inputCtrlCollective.getValue() + _afcs->getCollective();
 
     cyclic_lat = Misc::satur( -1.0, 1.0, cyclic_lat );
     cyclic_lon = Misc::satur( -1.0, 1.0, cyclic_lon );
@@ -157,6 +166,6 @@ void AW101_Controls::update()
     _collective = _channelCollective ->output;
     _tail_pitch = _channelTailPitch  ->output;
 
-    _brake_l = _channelBrakeL->output;
-    _brake_r = _channelBrakeR->output;
+    _brake_l = _channelBrakeLeft  ->output;
+    _brake_r = _channelBrakeRight ->output;
 }

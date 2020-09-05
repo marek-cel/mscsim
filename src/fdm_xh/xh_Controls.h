@@ -77,8 +77,8 @@ private:
     Channel *_channelCollective;        ///<
     Channel *_channelTailPitch;         ///<
     Channel *_channelElevator;          ///<
-    Channel *_channelBrakeL;            ///<
-    Channel *_channelBrakeR;            ///<
+    Channel *_channelBrakeLeft;         ///< left brake channel
+    Channel *_channelBrakeRight;        ///< right brake channel
 
     XH_AFCS *_afcs;                   ///< Automatic Flight Control System
 

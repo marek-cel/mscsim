@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     ~AW101_Mass();
 
-    /** Initializes mass. */
-    void initialize();
-
 private:
 
     const AW101_Aircraft *_aircraft;    ///< aircraft model main object

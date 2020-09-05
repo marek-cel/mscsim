@@ -40,8 +40,8 @@ XH_Controls::XH_Controls( const XH_Aircraft *aircraft, DataNode *rootNode ) :
     _channelCollective ( FDM_NULLPTR ),
     _channelTailPitch  ( FDM_NULLPTR ),
     _channelElevator   ( FDM_NULLPTR ),
-    _channelBrakeL     ( FDM_NULLPTR ),
-    _channelBrakeR     ( FDM_NULLPTR ),
+    _channelBrakeLeft  ( FDM_NULLPTR ),
+    _channelBrakeRight ( FDM_NULLPTR ),
 
     _afcs ( FDM_NULLPTR ),
 
@@ -86,31 +86,21 @@ void XH_Controls::readData( XmlNode &dataNode )
 
 void XH_Controls::initialize()
 {
-    _channelCyclicLat  = getChannelByName( "cyclic_lat" );
-    _channelCyclicLon  = getChannelByName( "cyclic_lon" );
-    _channelCollective = getChannelByName( "collective" );
-    _channelTailPitch  = getChannelByName( "tail_pitch" );
-    _channelElevator   = getChannelByName( "elevator"   );
-    _channelBrakeL     = getChannelByName( "brake_l"    );
-    _channelBrakeR     = getChannelByName( "brake_r"    );
+    _channelCyclicLat  = _channels.getItemByKey( "cyclic_lat"  );
+    _channelCyclicLon  = _channels.getItemByKey( "cyclic_lon"  );
+    _channelCollective = _channels.getItemByKey( "collective"  );
+    _channelTailPitch  = _channels.getItemByKey( "tail_pitch"  );
+    _channelElevator   = _channels.getItemByKey( "elevator"    );
+    _channelBrakeLeft  = _channels.getItemByKey( "brake_left"  );
+    _channelBrakeRight = _channels.getItemByKey( "brake_right" );
 
-    if ( FDM_NULLPTR != _channelCyclicLat
-      && FDM_NULLPTR != _channelCyclicLon
-      && FDM_NULLPTR != _channelCollective
-      && FDM_NULLPTR != _channelTailPitch
-      && FDM_NULLPTR != _channelElevator
-      && FDM_NULLPTR != _channelBrakeL
-      && FDM_NULLPTR != _channelBrakeR )
-    {
-        _channelCyclicLat  ->input = &_aircraft->getDataInp()->controls.roll;
-        _channelCyclicLon  ->input = &_aircraft->getDataInp()->controls.pitch;
-        _channelCollective ->input = &_aircraft->getDataInp()->controls.collective;
-        _channelTailPitch  ->input = &_aircraft->getDataInp()->controls.yaw;
-        _channelElevator   ->input = &_aircraft->getDataInp()->controls.pitch;
-        _channelBrakeL     ->input = &_aircraft->getDataInp()->controls.brake_l;
-        _channelBrakeR     ->input = &_aircraft->getDataInp()->controls.brake_r;
-    }
-    else
+    if ( FDM_NULLPTR == _channelCyclicLat
+      || FDM_NULLPTR == _channelCyclicLon
+      || FDM_NULLPTR == _channelCollective
+      || FDM_NULLPTR == _channelTailPitch
+      || FDM_NULLPTR == _channelElevator
+      || FDM_NULLPTR == _channelBrakeLeft
+      || FDM_NULLPTR == _channelBrakeRight )
     {
         Exception e;
 
@@ -158,6 +148,6 @@ void XH_Controls::update()
     _tail_pitch = _channelTailPitch->output;
     _elevator   = 0.0;//m_channelElevator->output; // TODO
 
-    _brake_l = _channelBrakeL->output;
-    _brake_r = _channelBrakeR->output;
+    _brake_l = _channelBrakeLeft  ->output;
+    _brake_r = _channelBrakeRight ->output;
 }

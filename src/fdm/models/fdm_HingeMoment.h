@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
-
 #include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +48,7 @@ namespace fdm
  * @see Etkin B.: Dynamics of Atmosferic Flight, 1972, p.222
  * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-3. [in Polish]
  */
-class FDMEXPORT HingeMoment : public Base
+class FDMEXPORT HingeMoment
 {
 public:
 

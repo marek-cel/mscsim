@@ -53,7 +53,7 @@ class F16_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    F16_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    F16_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~F16_Aircraft();

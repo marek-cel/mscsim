@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerHor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief AW101 horizontal stabilizer class.
  */
-class AW101_StabilizerHor : public Stabilizer
+class AW101_StabilizerHor : public StabilizerHor
 {
 public:
 

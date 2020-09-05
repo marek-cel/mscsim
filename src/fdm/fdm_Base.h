@@ -28,6 +28,8 @@
 #include <fdm/fdm_Path.h>
 #include <fdm/fdm_Types.h>
 
+#include <fdm/utils/fdm_DataRef.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -40,31 +42,50 @@ class FDMEXPORT Base
 {
 public:
 
-    static const UInt8 _ix;     ///< index of vector x-coordinate
-    static const UInt8 _iy;     ///< index of vector x-coordinate
-    static const UInt8 _iz;     ///< index of vector x-coordinate
+    /** Constructor. */
+    Base( DataNode *rootNode = FDM_NULLPTR );
 
-    static const UInt8 _iu;     ///< index of vector u-coordinate (velocity)
-    static const UInt8 _iv;     ///< index of vector v-coordinate (velocity)
-    static const UInt8 _iw;     ///< index of vector w-coordinate (velocity)
+    /** Constructor. */
+    Base( const Base *base );
 
-    static const UInt8 _ip;     ///< index of vector p-coordinate (angular velocity)
-    static const UInt8 _iq;     ///< index of vector q-coordinate (angular velocity)
-    static const UInt8 _ir;     ///< index of vector r-coordinate (angular velocity)
+    /** Destructor. */
+    virtual ~Base();
 
-    static const UInt8 _is_x;   ///< index of aircraft location x-coordinate (origin of BAS axis system) expressed in WGS axis system
-    static const UInt8 _is_y;   ///< index of aircraft location y-coordinate (origin of BAS axis system) expressed in WGS axis system
-    static const UInt8 _is_z;   ///< index of aircraft location z-coordinate (origin of BAS axis system) expressed in WGS axis system
-    static const UInt8 _is_e0;  ///< index of aircraft attitude quaternion e0-coordinate
-    static const UInt8 _is_ex;  ///< index of aircraft attitude quaternion ex-coordinate
-    static const UInt8 _is_ey;  ///< index of aircraft attitude quaternion ey-coordinate
-    static const UInt8 _is_ez;  ///< index of aircraft attitude quaternion ez-coordinate
-    static const UInt8 _is_u;   ///< index of aircraft linear velocity x-coordinate expressed in BAS axis system
-    static const UInt8 _is_v;   ///< index of aircraft linear velocity y-coordinate expressed in BAS axis system
-    static const UInt8 _is_w;   ///< index of aircraft linear velocity z-coordinate expressed in BAS axis system
-    static const UInt8 _is_p;   ///< index of aircraft angular velocity x-coordinate expressed in BAS axis system
-    static const UInt8 _is_q;   ///< index of aircraft angular velocity y-coordinate expressed in BAS axis system
-    static const UInt8 _is_r;   ///< index of aircraft angular velocity z-coordinate expressed in BAS axis system
+    /**
+     * Adds data refernce.
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
+     */
+    int addDataRef( const char *path, DataNode::Type type );
+
+    /**
+     * Adds data refernce.
+     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
+     */
+    int addDataRef( const std::string &path, DataNode::Type type );
+
+    /**
+     * Returns data reference of the data node
+     * @param path data node path relative to the root node
+     * @return data reference of the data node
+     */
+    DataRef getDataRef( const char *path );
+
+    /**
+     * Returns data reference of the data node
+     * @param path data node path relative to the root node
+     * @return data reference of the data node
+     */
+    DataRef getDataRef( const std::string &path );
+
+    /**
+     * Returns pointer to data root node.
+     * @return pointer to data root node
+     */
+    DataNode* getDataRootNode() { return _rootNode; }
+
+private:
+
+    DataNode *_rootNode;    ///< data tree root node
 };
 
 } // end of fdm namespace

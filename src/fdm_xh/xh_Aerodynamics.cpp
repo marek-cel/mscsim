@@ -47,7 +47,7 @@ XH_Aerodynamics::XH_Aerodynamics( const XH_Aircraft *aircraft, DataNode *rootNod
     _tailRotor = new XH_TailRotor();
     _fuselage  = new XH_Fuselage();
     _stabHor   = new XH_StabilizerHor();
-    _stabVer   = new TEST_StabilizerVer();
+    _stabVer   = new XH_StabilizerVer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

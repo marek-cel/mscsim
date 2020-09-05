@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
-
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
@@ -69,7 +67,7 @@ namespace fdm
  * @see Torenbeek E.: Synthesis of Subsonic Airplane Design, 1982, p.191
  * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 5: Charakterystyki zespolu napedowego. [in Polish]
  */
-class FDMEXPORT Propeller : public Base
+class FDMEXPORT Propeller
 {
 public:
 

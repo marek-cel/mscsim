@@ -73,10 +73,10 @@ public:
     /** Variable mass component data. */
     struct VarMass
     {
-        const double *input;    ///< [kg] mass input
-        double mass;            ///< [kg] mass
-        double mass_max;        ///< [kg] maximum mass
-        Vector3 r_bas;          ///< [m] position expressed in BAS
+        DataRef dr_input;   ///< mass input data reference
+        double mass;        ///< [kg] mass
+        double mass_max;    ///< [kg] maximum mass
+        Vector3 r_bas;      ///< [m] position expressed in BAS
     };
 
     typedef std::map< std::string, VarMass > Masses;

@@ -37,34 +37,3 @@ XH_Mass::XH_Mass( const XH_Aircraft *aircraft, DataNode *rootNode ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 XH_Mass::~XH_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void XH_Mass::initialize()
-{
-    VarMass *pilot_l   = getVariableMassByName( "pilot_l" );
-    VarMass *pilot_r   = getVariableMassByName( "pilot_r" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-    VarMass *cabin     = getVariableMassByName( "cabin" );
-
-    if ( pilot_l && pilot_r && fuel_tank && cabin )
-    {
-        pilot_l->input   = &_aircraft->getDataInp()->masses.pilot[ 0 ];
-        pilot_r->input   = &_aircraft->getDataInp()->masses.pilot[ 1 ];
-        fuel_tank->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
-        cabin->input     = &_aircraft->getDataInp()->masses.cabin;
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
-    }
-
-    ///////////////////
-    Mass::initialize();
-    ///////////////////
-}

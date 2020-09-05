@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Aircraft::XF_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( dataInp, dataOut ),
+XF_Aircraft::XF_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( rootNode, dataInp, dataOut ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -84,7 +84,7 @@ void XF_Aircraft::updateOutputData()
     _dataOut->controls.airbrake  = _ctrl->getAirbrake();
 
     // propulsion
-    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == Engine::Running;
+    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == XF_Engine::Running;
     _dataOut->engine[ 0 ].afterburner = _prop->getEngine()->getAfterburner();
     _dataOut->engine[ 0 ].n2  = _prop->getEngine()->getN2();
     _dataOut->engine[ 0 ].tit = _prop->getEngine()->getTIT();

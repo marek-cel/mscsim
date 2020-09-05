@@ -26,6 +26,7 @@
 
 #include <fdm/main/fdm_Module.h>
 
+#include <fdm/utils/fdm_Map.h>
 #include <fdm/utils/fdm_Table1.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +44,7 @@ namespace fdm
  * @code
  * <controls>
  *   <control_channel input="{ channel input }">
- *     { channel input } { channel output }
+ *     { channel input value } { channel output value }
  *     ... { more entries }
  *   </control_channel>
  *   ... { more entries }
@@ -60,12 +61,12 @@ public:
     /** Control channel data. */
     struct Channel
     {
-        const double *input;    ///< channel input
-        Table1 table;           ///< channel input vs output data
-        double output;          ///< channel output
+        DataRef input;      ///< channel input data reference
+        Table1  table;      ///< channel input vs output data
+        double  output;     ///< channel output
     };
 
-    typedef std::map< std::string, Channel > Channels;
+    typedef Map< std::string, Channel > Channels;
 
     /** Constructor. */
     Controls( const Aircraft* aircraft, DataNode *rootNode );
@@ -88,13 +89,6 @@ public:
 protected:
 
     Channels _channels;         ///< control channels
-
-    /**
-     * Returns channel by name.
-     * @param name channel name
-     * @return channel
-     */
-    virtual Channel* getChannelByName( const char *name );
 
 private:
 

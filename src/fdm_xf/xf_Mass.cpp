@@ -37,31 +37,3 @@ XF_Mass::XF_Mass( const XF_Aircraft *aircraft, DataNode *rootNode ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 XF_Mass::~XF_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void XF_Mass::initialize()
-{
-    VarMass *pilot     = getVariableMassByName( "pilot" );
-    VarMass *fuel_tank = getVariableMassByName( "fuel_tank" );
-
-    if ( pilot && fuel_tank )
-    {
-        pilot->input = &_aircraft->getDataInp()->masses.pilot[ 0 ];
-
-        fuel_tank->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
-    }
-
-    ///////////////////
-    Mass::initialize();
-    ///////////////////
-}

@@ -24,11 +24,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <vector>
-
-#include <fdm/main/fdm_Module.h>
-
 #include <fdm/utils/fdm_Vector3.h>
+
+#include <fdm/xml/fdm_XmlNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -65,42 +63,6 @@ class FDMEXPORT Wheel
 {
 public:
 
-    /** Wheels container class. */
-    class Wheels
-    {
-    public:
-
-        typedef std::map< std::string, Wheel >::iterator iterator;
-
-        /** Constructor. */
-        Wheels();
-
-        /** Destructor. */
-        virtual ~Wheels();
-
-        /**
-         * Adds wheel.
-         * @param name
-         * @param wheel
-         * @return returns FDM_SUCCESS on success and FDM_FAILURE on failure
-         */
-        int addWheel( const char *name, Wheel wheel );
-
-        /**
-         * Returns wheel by name.
-         * @param name wheel name
-         * @return channel
-         */
-        Wheel* getWheelByName( const char *name );
-
-        inline iterator begin() { return _wheels.begin(); }
-        inline iterator end()   { return _wheels.end();   }
-
-    private:
-
-        std::map< std::string, Wheel > _wheels;
-    };
-
     /** Brake group. */
     enum BrakeGroup
     {
@@ -122,23 +84,8 @@ public:
     static Vector3 getIntersection( const Vector3 &b, const Vector3 &e,
                                     const Vector3 &r, const Vector3 &n );
 
-    /**
-     * Returns Pacejka "Magic Formula" coefficient.
-     * @see https://en.wikipedia.org/wiki/Hans_B._Pacejka#The_Pacejka_%22Magic_Formula%22_tire_models
-     * @see https://www.mathworks.com/help/physmod/sdl/ref/tireroadinteractionmagicformula.html
-     * @param kappa [-] slip parameter (v_slip/v_roll)
-     * @param b b coefficient
-     * @param c c coefficient
-     * @param d d coefficient
-     * @param e e coefficient
-     * @return Pacejka "Magic Formula" coefficient
-     */
-    static double getPacejkaCoef( double kappa,
-                                  double b = 10.0, double c = 1.9,
-                                  double d = 1.0,  double e = 0.97 );
-
     /** Constructor. */
-    Wheel();
+    Wheel( bool coupled = false );
 
     /** Destructor. */
     virtual ~Wheel();
@@ -184,10 +131,11 @@ public:
 
     /**
      * Update wheel model.
-     * @param delta
-     * @param brake
+     * @param position [-] normalized position (0.0 - retracted, 1.0 - extended)
+     * @param delta [rad] wheel steering angle
+     * @param brake [-] normalized brake force
      */
-    virtual void update( double delta, double brake );
+    virtual void update( double position, double delta, double brake );
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
@@ -197,15 +145,9 @@ public:
 
     inline BrakeGroup getBrakeGroup() const { return _brakeGroup; }
 
-    inline void setInput( const double *input ) { _input = input; }
-
-    inline bool isInputValid() const { return _input != FDM_NULLPTR; }
-
-    inline double getInputValue() const { return (*_input); }
+    inline double getPosition() const { return _position; }
 
 protected:
-
-    const double *_input;   ///< wheel input (0.0 - retracted, 1.0 - extended)
 
     Vector3 _for_bas;       ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;       ///< [N*m] total moment vector expressed in BAS
@@ -213,7 +155,7 @@ protected:
     Vector3 _r_a_bas;       ///< [m] strut attachment point coordinates expressed in BAS
     Vector3 _r_u_bas;       ///< [m] unloaded wheel coordinates expressed in BAS
 
-    Vector3 _r_0_wgs;
+    Vector3 _r_0_wgs;       ///< [m]
 
     double _k;              ///< [N/m] strut stiffness (linear spring) coefficient
     double _c;              ///< [N/(m/s)] strut damping coefficient
@@ -235,15 +177,18 @@ protected:
     double _d_roll;         ///< [m] roll direction distance for static friction spring like model
     double _d_slip;         ///< [m] slip direction distance for static friction spring like model
 
+    double _position;       ///< [0.0,1.0] normalized position (0.0 - retracted, 1.0 - extended)
     double _delta;          ///< [rad] wheel turn angle
     double _brake;          ///< [0.0,1.0] normalized brake force
 
+    bool _coupled;          ///< specifies if roll and slip movement are coupled due to static friction break
+
     /**
      * Calculates wheel variables.
-     * @param vel_bas
-     * @param omg_bas
-     * @param r_c_bas
-     * @param n_c_bas
+     * @param vel_bas [m/s]
+     * @param omg_bas [rad/s]
+     * @param r_c_bas [m]
+     * @param n_c_bas [-]
      * @param steering
      * @param dir_lon_bas
      * @param dir_lat_bas

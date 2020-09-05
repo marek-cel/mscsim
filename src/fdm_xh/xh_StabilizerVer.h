@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef TEST_STABILIZERVER_H
-#define TEST_STABILIZERVER_H
+#ifndef XH_STABILIZERVER_H
+#define XH_STABILIZERVER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,19 +34,19 @@ namespace fdm
 /**
  * @brief X/H vertical stabilizer class.
  */
-class TEST_StabilizerVer : public Stabilizer
+class XH_StabilizerVer : public StabilizerVer
 {
 public:
 
     /** Constructor. */
-    TEST_StabilizerVer();
+    XH_StabilizerVer();
 
     /** Destructor. */
-    ~TEST_StabilizerVer();
+    ~XH_StabilizerVer();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // TEST_STABILIZERVER_H
+#endif // XH_STABILIZERVER_H

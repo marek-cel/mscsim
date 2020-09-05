@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerHor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief UH-60 horizontal stabilizer class.
  */
-class UH60_StabilizerHor : public Stabilizer
+class UH60_StabilizerHor : public StabilizerHor
 {
 public:
 

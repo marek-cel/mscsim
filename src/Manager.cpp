@@ -115,7 +115,7 @@ void Manager::init()
     splash.showMessage( QString( SIM_APP_NAME ) + " " + QString( SIM_APP_VER ) );
     qApp->processEvents();
 #   ifdef SIM_TEST
-    QTimer::singleShot(  100, &splash, SLOT(close()) );
+    QTimer::singleShot(  500, &splash, SLOT(close()) );
 #   else
     QTimer::singleShot( 2000, &splash, SLOT(close()) );
 #   endif
@@ -208,7 +208,7 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.brake_l      =  hid::Manager::instance()->getBrakeLeft();
     Data::get()->controls.brake_r      =  hid::Manager::instance()->getBrakeRight();
     Data::get()->controls.landing_gear =  hid::Manager::instance()->getLandingGear();
-    Data::get()->controls.nose_wheel   =  hid::Manager::instance()->getCtrlYaw();
+    Data::get()->controls.wheel_nose   =  hid::Manager::instance()->getCtrlYaw();
     Data::get()->controls.flaps        =  hid::Manager::instance()->getFlaps();
     Data::get()->controls.airbrake     =  hid::Manager::instance()->getAirbrake();
     Data::get()->controls.spoilers     =  hid::Manager::instance()->getSpoilers();
@@ -439,6 +439,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
         Data::get()->propulsion.engine[ i ].epr  = dataOut.engine[ i ].epr;
         Data::get()->propulsion.engine[ i ].map  = dataOut.engine[ i ].map;
         Data::get()->propulsion.engine[ i ].egt  = dataOut.engine[ i ].egt;
+        Data::get()->propulsion.engine[ i ].cht  = dataOut.engine[ i ].cht;
         Data::get()->propulsion.engine[ i ].itt  = dataOut.engine[ i ].itt;
         Data::get()->propulsion.engine[ i ].tit  = dataOut.engine[ i ].tit;
 

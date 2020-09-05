@@ -127,6 +127,7 @@ double Intersections::getElevation( double lat, double lon ) const
 int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
                                     Vector3 *r, Vector3 *n, bool update ) const
 {
+#   ifdef SIM_INTERSECTIONS
     if ( update )
     {
         osg::Vec3d b_tmp( b.x(), b.y(), b.z() );
@@ -143,6 +144,7 @@ int Intersections::getIntersection( const Vector3 &b, const Vector3 &e,
         }
     }
     else
+#   endif
     {
         if ( _inited )
         {
@@ -194,7 +196,7 @@ bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3 Intersections::getNormal( double lat, double lon ) const
+Vector3 Intersections::getNormal( double lat, double lon, bool update ) const
 {
     WGS84::Geo b_geo;
     WGS84::Geo e_geo;
@@ -212,7 +214,7 @@ Vector3 Intersections::getNormal( double lat, double lon ) const
     Vector3 r_wgs;
     Vector3 n_wgs;
 
-    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, &r_wgs, &n_wgs ) )
+    if ( FDM_SUCCESS == getIntersection( b_wgs, e_wgs, &r_wgs, &n_wgs, update ) )
     {
         return n_wgs;
     }

@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
-
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
@@ -44,7 +42,7 @@ namespace fdm
  * </governor>
  * @endcode
  */
-class FDMEXPORT Governor : public Base
+class FDMEXPORT Governor
 {
 public:
 

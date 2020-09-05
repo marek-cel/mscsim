@@ -22,34 +22,83 @@
 
 #include <fdm/fdm_Base.h>
 
+#include <fdm/fdm_Exception.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const UInt8 Base::_ix = 0;
-const UInt8 Base::_iy = 1;
-const UInt8 Base::_iz = 2;
+Base::Base( DataNode *rootNode ) :
+    _rootNode( rootNode )
+{
+    if ( _rootNode == 0 )
+    {
+        Exception e;
 
-const UInt8 Base::_iu = 0;
-const UInt8 Base::_iv = 1;
-const UInt8 Base::_iw = 2;
+        e.setType( Exception::NullPointer );
+        e.setInfo( "Data root node pointer NULL." );
 
-const UInt8 Base::_ip = 0;
-const UInt8 Base::_iq = 1;
-const UInt8 Base::_ir = 2;
+        FDM_THROW( e );
+    }
+}
 
-const UInt8 Base::_is_x  = 0;
-const UInt8 Base::_is_y  = 1;
-const UInt8 Base::_is_z  = 2;
-const UInt8 Base::_is_e0 = 3;
-const UInt8 Base::_is_ex = 4;
-const UInt8 Base::_is_ey = 5;
-const UInt8 Base::_is_ez = 6;
-const UInt8 Base::_is_u  = 7;
-const UInt8 Base::_is_v  = 8;
-const UInt8 Base::_is_w  = 9;
-const UInt8 Base::_is_p  = 10;
-const UInt8 Base::_is_q  = 11;
-const UInt8 Base::_is_r  = 12;
+////////////////////////////////////////////////////////////////////////////////
+
+Base::Base( const Base *base ) :
+    _rootNode( base->_rootNode )
+{
+    if ( _rootNode == 0 )
+    {
+        Exception e;
+
+        e.setType( Exception::NullPointer );
+        e.setInfo( "Data root node pointer NULL." );
+
+        FDM_THROW( e );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+Base::~Base() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int Base::addDataRef( const char *path, DataNode::Type type )
+{
+    return _rootNode->addNode( path, type );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int Base::addDataRef( const std::string &path, DataNode::Type type )
+{
+    return _rootNode->addNode( path.c_str(), type );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DataRef Base::getDataRef( const char *path )
+{
+    DataNode *dataNode = _rootNode->getNode( path );
+
+    if ( dataNode != 0 )
+    {
+        if ( dataNode->getType() == DataNode::Group )
+        {
+            dataNode = 0;
+        }
+    }
+
+    return DataRef( dataNode );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+DataRef Base::getDataRef( const std::string &path )
+{
+    return getDataRef( path.c_str() );
+}
+

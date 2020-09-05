@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_MainRotorAD.h>
+#include <fdm/models/fdm_MainRotor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief AW101 main rotor base class.
  */
-class AW101_MainRotor : public MainRotorAD
+class AW101_MainRotor : public MainRotor
 {
 public:
 

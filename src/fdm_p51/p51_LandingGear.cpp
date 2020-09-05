@@ -53,13 +53,15 @@ void P51_LandingGear::readData( XmlNode &dataNode )
 
         while ( result == FDM_SUCCESS && wheelNode.isValid() )
         {
-            Wheel wheel;
+            WheelAndInput wheelAndInput;
 
-            std::string name = wheelNode.getAttribute( "name" );
+            std::string name  = wheelNode.getAttribute( "name"  );
+            std::string input = wheelNode.getAttribute( "input" );
 
-            wheel.readData( wheelNode );
+            wheelAndInput.input = getDataRef( input );
+            wheelAndInput.wheel.readData( wheelNode );
 
-            result = _wheels.addWheel( name.c_str(), wheel );
+            result = _wheels.addItem( name, wheelAndInput );
 
             wheelNode = wheelNode.getNextSiblingElement( "wheel" );
         }
@@ -74,35 +76,6 @@ void P51_LandingGear::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void P51_LandingGear::initialize()
-{
-    Wheel *wheel_l = _wheels.getWheelByName( "wheel_l" );
-    Wheel *wheel_r = _wheels.getWheelByName( "wheel_r" );
-    Wheel *wheel_t = _wheels.getWheelByName( "wheel_t" );
-
-    if ( wheel_l && wheel_r && wheel_t )
-    {
-        wheel_l->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_r->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-        wheel_t->setInput( &_aircraft->getDataInp()->controls.landing_gear );
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining wheels failed." );
-
-        FDM_THROW( e );
-    }
-
-    //////////////////////////
-    LandingGear::initialize();
-    //////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void P51_LandingGear::computeForceAndMoment()
 {
     _for_bas.zeroize();
@@ -110,15 +83,9 @@ void P51_LandingGear::computeForceAndMoment()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        Wheel &wheel = (*it).second.wheel;
 
-        double position = 1.0;
-        if ( wheel.isInputValid() )
-        {
-            position = wheel.getInputValue();
-        }
-
-        if ( position >= 1.0 )
+        if ( wheel.getPosition() >= 1.0 )
         {
             Vector3 r_c_bas;
             Vector3 n_c_bas;
@@ -165,7 +132,8 @@ void P51_LandingGear::update()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        DataRef &input = (*it).second.input;
+        Wheel   &wheel = (*it).second.wheel;
 
         Vector3 r_c_bas;
         Vector3 n_c_bas;
@@ -183,6 +151,6 @@ void P51_LandingGear::update()
         if      ( wheel.getBrakeGroup() == Wheel::Left  ) brake = _brake_l;
         else if ( wheel.getBrakeGroup() == Wheel::Right ) brake = _brake_r;
 
-        wheel.update( _ctrlAngle, brake );
+        wheel.update( input.isValid() ? input.getValue() : 1.0, _ctrlAngle, brake );
     }
 }

@@ -33,7 +33,7 @@ double Aerodynamics::getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
 {
     double uv = vel_bas.getLengthXY();
 
-    return getAngleOfAttack( uv, vel_bas( _iw ), vel_min );
+    return getAngleOfAttack( uv, vel_bas.w(), vel_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,10 +56,10 @@ double Aerodynamics::getSideslipAngle( const Vector3 &vel_bas, double vel_min )
 {
     double sideslipAngle = 0.0;
 
-    if ( fabs( vel_bas( _iu ) ) > vel_min || fabs( vel_bas( _iv ) ) > vel_min )
+    if ( fabs( vel_bas.u() ) > vel_min || fabs( vel_bas.v() ) > vel_min )
     {
         double vw = vel_bas.getLength();
-        double v_vw = ( vw > vel_min ) ? ( vel_bas( _iv ) / vw ) : 0.0;
+        double v_vw = ( vw > vel_min ) ? ( vel_bas.v() / vw ) : 0.0;
 
         if ( v_vw >  1.0 ) v_vw =  1.0;
         if ( v_vw < -1.0 ) v_vw = -1.0;
@@ -82,7 +82,7 @@ double Aerodynamics::getPrandtlGlauertCoef( double machNumber, double max )
     }
     else
     {
-        prandtlGlauertCoef = 1.0 / sqrt( fabs( 1.0 - Misc::pow2( machNumber ) ) );
+        prandtlGlauertCoef = 1.0 / sqrt( fabs( Misc::pow2( machNumber ) - 1.0 ) );
     }
 
     if ( prandtlGlauertCoef > max || !Misc::isValid( prandtlGlauertCoef ) )

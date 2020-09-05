@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/uh60_Propulsion.h \
     $$PWD/uh60_StabilizerHor.h \
     $$PWD/uh60_StabilizerVer.h \
-    $$PWD/uh60_TailRotor.h
+    $$PWD/uh60_TailRotor.h \
+    $$PWD/uh60_FDM.h
 
 SOURCES += \
     $$PWD/uh60_Aerodynamics.cpp \
@@ -24,4 +25,5 @@ SOURCES += \
     $$PWD/uh60_Propulsion.cpp \
     $$PWD/uh60_StabilizerHor.cpp \
     $$PWD/uh60_StabilizerVer.cpp \
-    $$PWD/uh60_TailRotor.cpp
+    $$PWD/uh60_TailRotor.cpp \
+    $$PWD/uh60_FDM.cpp

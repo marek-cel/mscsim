@@ -38,8 +38,8 @@ P51_Controls::P51_Controls( const P51_Aircraft *aircraft, DataNode *rootNode ) :
     _channelRudder       ( FDM_NULLPTR ),
     _channelElevatorTrim ( FDM_NULLPTR ),
     _channelFlaps        ( FDM_NULLPTR ),
-    _channelBrakeL       ( FDM_NULLPTR ),
-    _channelBrakeR       ( FDM_NULLPTR ),
+    _channelBrakeLeft    ( FDM_NULLPTR ),
+    _channelBrakeRight   ( FDM_NULLPTR ),
 
     _ailerons      ( 0.0 ),
     _elevator      ( 0.0 ),
@@ -58,31 +58,21 @@ P51_Controls::~P51_Controls() {}
 
 void P51_Controls::initialize()
 {
-    _channelAilerons     = getChannelByName( "ailerons"      );
-    _channelElevator     = getChannelByName( "elevator"      );
-    _channelRudder       = getChannelByName( "rudder"        );
-    _channelElevatorTrim = getChannelByName( "elevator_trim" );
-    _channelFlaps        = getChannelByName( "flaps"         );
-    _channelBrakeL       = getChannelByName( "brake_l"       );
-    _channelBrakeR       = getChannelByName( "brake_r"       );
+    _channelAilerons     = _channels.getItemByKey( "ailerons"      );
+    _channelElevator     = _channels.getItemByKey( "elevator"      );
+    _channelRudder       = _channels.getItemByKey( "rudder"        );
+    _channelElevatorTrim = _channels.getItemByKey( "elevator_trim" );
+    _channelFlaps        = _channels.getItemByKey( "flaps"         );
+    _channelBrakeLeft    = _channels.getItemByKey( "brake_left"    );
+    _channelBrakeRight   = _channels.getItemByKey( "brake_right"   );
 
-    if ( FDM_NULLPTR != _channelAilerons
-      && FDM_NULLPTR != _channelElevator
-      && FDM_NULLPTR != _channelRudder
-      && FDM_NULLPTR != _channelElevatorTrim
-      && FDM_NULLPTR != _channelFlaps
-      && FDM_NULLPTR != _channelBrakeL
-      && FDM_NULLPTR != _channelBrakeR )
-    {
-        _channelAilerons     ->input = &_aircraft->getDataInp()->controls.roll;
-        _channelElevator     ->input = &_aircraft->getDataInp()->controls.pitch;
-        _channelRudder       ->input = &_aircraft->getDataInp()->controls.yaw;
-        _channelElevatorTrim ->input = &_aircraft->getDataInp()->controls.trim_pitch;
-        _channelFlaps        ->input = &_aircraft->getDataInp()->controls.flaps;
-        _channelBrakeL       ->input = &_aircraft->getDataInp()->controls.brake_l;
-        _channelBrakeR       ->input = &_aircraft->getDataInp()->controls.brake_r;
-    }
-    else
+    if ( FDM_NULLPTR == _channelAilerons
+      || FDM_NULLPTR == _channelElevator
+      || FDM_NULLPTR == _channelRudder
+      || FDM_NULLPTR == _channelElevatorTrim
+      || FDM_NULLPTR == _channelFlaps
+      || FDM_NULLPTR == _channelBrakeLeft
+      || FDM_NULLPTR == _channelBrakeRight )
     {
         Exception e;
 
@@ -113,6 +103,6 @@ void P51_Controls::update()
 
     _flaps = _channelFlaps->output;
 
-    _brake_l = _channelBrakeL->output;
-    _brake_r = _channelBrakeR->output;
+    _brake_l = _channelBrakeLeft  ->output;
+    _brake_r = _channelBrakeRight ->output;
 }

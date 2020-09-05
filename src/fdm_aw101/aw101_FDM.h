@@ -1,4 +1,9 @@
-/****************************************************************************//*
+/***************************************************************************//**
+ *
+ * @author Marek M. Cel <marekcel@marekcel.pl>
+ *
+ * @section LICENSE
+ *
  * Copyright (C) 2020 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -19,75 +24,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_DATAMANAGER_H
-#define FDM_DATAMANAGER_H
+#ifndef AW101_FDM_H
+#define AW101_FDM_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_Base.h>
+#include <fdm/fdm_FDM.h>
 
-#include <fdm/main/fdm_DataRef.h>
+#include <fdm_aw101/aw101_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
 {
 
-/**
- * @brief Data manager class.
- */
-class FDMEXPORT DataManager : public Base
+/** AW101 flight dynamics model wrapper class. */
+class AW101_FDM : public FDM
 {
 public:
 
     /** Constructor. */
-    DataManager( DataNode *rootNode = FDM_NULLPTR );
-
-    /** Constructor. */
-    DataManager( const DataManager *dataManager );
+    AW101_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose = false );
 
     /** Destructor. */
-    virtual ~DataManager();
-
-    /**
-     * Adds data refernce.
-     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
-     */
-    int addDataRef( const char *path, DataNode::Type type );
-
-    /**
-     * Adds data refernce.
-     * @return FDM_SUCCESS on success or FDM_FAILURE on failure
-     */
-    int addDataRef( const std::string &path, DataNode::Type type );
-
-    /**
-     * Returns data reference of the data node
-     * @param path data node path relative to the root node
-     * @return data reference of the data node
-     */
-    DataRef getDataRef( const char *path );
-
-    /**
-     * Returns data reference of the data node
-     * @param path data node path relative to the root node
-     * @return data reference of the data node
-     */
-    DataRef getDataRef( const std::string &path );
-
-    /**
-     * Returns pointer to data root node.
-     * @return pointer to data root node
-     */
-    DataNode* getDataRootNode() { return _rootNode; }
+    virtual ~AW101_FDM();
 
 private:
 
-    DataNode *_rootNode;    ///< data tree root node
+    AW101_Aircraft *_aircraft;      ///< aircraft model
+
+    virtual void updateDataOut();
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_DATAMANAGER_H
+#endif // AW101_FDM_H

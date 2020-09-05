@@ -1,3 +1,25 @@
+2020-09-05 Marek M. Cel <marekcel@marekcel.pl>
+
+    * cylinder head temperature
+    
+    * FDM wrapper
+    
+    * Matrix3x3 items referneces
+    
+    * input data as data referneces
+    
+    * static friction model fix
+    
+    * custom map container
+    
+    * FDM manager moved to the fdm directory
+    
+    * stabilizer base model separated into horizontal and vertical stabilizer models
+    
+    * main rotor default model based on momentum theory, blade element model as auxiliary
+
+
+
 2020-08-22 Marek M. Cel <marekcel@marekcel.pl>
 
     * Table1 and Table2 renamed

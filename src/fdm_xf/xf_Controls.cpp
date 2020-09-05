@@ -36,16 +36,16 @@ XF_Controls::XF_Controls( const XF_Aircraft *aircraft, DataNode *rootNode ) :
     Controls( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
-    _channelRoll      ( FDM_NULLPTR ),
-    _channelPitch     ( FDM_NULLPTR ),
-    _channelYaw       ( FDM_NULLPTR ),
-    _channelRollTrim  ( FDM_NULLPTR ),
-    _channelPitchTrim ( FDM_NULLPTR ),
-    _channelYawTrim   ( FDM_NULLPTR ),
-    _channelAirbrake  ( FDM_NULLPTR ),
-    _channelBrakeL    ( FDM_NULLPTR ),
-    _channelBrakeR    ( FDM_NULLPTR ),
-    _channelNoseWheel ( FDM_NULLPTR ),
+    _channelRoll       ( FDM_NULLPTR ),
+    _channelPitch      ( FDM_NULLPTR ),
+    _channelYaw        ( FDM_NULLPTR ),
+    _channelRollTrim   ( FDM_NULLPTR ),
+    _channelPitchTrim  ( FDM_NULLPTR ),
+    _channelYawTrim    ( FDM_NULLPTR ),
+    _channelAirbrake   ( FDM_NULLPTR ),
+    _channelBrakeLeft  ( FDM_NULLPTR ),
+    _channelBrakeRight ( FDM_NULLPTR ),
+    _channelNoseWheel  ( FDM_NULLPTR ),
 
     _flcs ( FDM_NULLPTR ),
 
@@ -128,40 +128,27 @@ void XF_Controls::readData( XmlNode &dataNode )
 
 void XF_Controls::initialize()
 {
-    _channelRoll      = getChannelByName( "roll"       );
-    _channelPitch     = getChannelByName( "pitch"      );
-    _channelYaw       = getChannelByName( "yaw"        );
-    _channelRollTrim  = getChannelByName( "roll_trim"  );
-    _channelPitchTrim = getChannelByName( "pitch_trim" );
-    _channelYawTrim   = getChannelByName( "yaw_trim"   );
-    _channelAirbrake  = getChannelByName( "airbrake"   );
-    _channelBrakeL    = getChannelByName( "brake_l"    );
-    _channelBrakeR    = getChannelByName( "brake_r"    );
-    _channelNoseWheel = getChannelByName( "nose_wheel" );
+    _channelRoll       = _channels.getItemByKey( "roll"        );
+    _channelPitch      = _channels.getItemByKey( "pitch"       );
+    _channelYaw        = _channels.getItemByKey( "yaw"         );
+    _channelRollTrim   = _channels.getItemByKey( "roll_trim"   );
+    _channelPitchTrim  = _channels.getItemByKey( "pitch_trim"  );
+    _channelYawTrim    = _channels.getItemByKey( "yaw_trim"    );
+    _channelAirbrake   = _channels.getItemByKey( "airbrake"    );
+    _channelBrakeLeft  = _channels.getItemByKey( "brake_left"  );
+    _channelBrakeRight = _channels.getItemByKey( "brake_right" );
+    _channelNoseWheel  = _channels.getItemByKey( "nose_wheel"  );
 
-    if ( FDM_NULLPTR != _channelRoll
-      && FDM_NULLPTR != _channelPitch
-      && FDM_NULLPTR != _channelYaw
-      && FDM_NULLPTR != _channelRollTrim
-      && FDM_NULLPTR != _channelPitchTrim
-      && FDM_NULLPTR != _channelYawTrim
-      && FDM_NULLPTR != _channelAirbrake
-      && FDM_NULLPTR != _channelBrakeL
-      && FDM_NULLPTR != _channelBrakeR
-      && FDM_NULLPTR != _channelNoseWheel )
-    {
-        _channelRoll      ->input = &_aircraft->getDataInp()->controls.roll;
-        _channelPitch     ->input = &_aircraft->getDataInp()->controls.pitch;
-        _channelYaw       ->input = &_aircraft->getDataInp()->controls.yaw;
-        _channelRollTrim  ->input = &_aircraft->getDataInp()->controls.trim_roll;
-        _channelPitchTrim ->input = &_aircraft->getDataInp()->controls.trim_pitch;
-        _channelYawTrim   ->input = &_aircraft->getDataInp()->controls.trim_yaw;
-        _channelAirbrake  ->input = &_aircraft->getDataInp()->controls.airbrake;
-        _channelBrakeL    ->input = &_aircraft->getDataInp()->controls.brake_l;
-        _channelBrakeR    ->input = &_aircraft->getDataInp()->controls.brake_r;
-        _channelNoseWheel ->input = &_aircraft->getDataInp()->controls.nose_wheel;
-    }
-    else
+    if ( FDM_NULLPTR == _channelRoll
+      || FDM_NULLPTR == _channelPitch
+      || FDM_NULLPTR == _channelYaw
+      || FDM_NULLPTR == _channelRollTrim
+      || FDM_NULLPTR == _channelPitchTrim
+      || FDM_NULLPTR == _channelYawTrim
+      || FDM_NULLPTR == _channelAirbrake
+      || FDM_NULLPTR == _channelBrakeLeft
+      || FDM_NULLPTR == _channelBrakeRight
+      || FDM_NULLPTR == _channelNoseWheel )
     {
         Exception e;
 
@@ -187,8 +174,8 @@ void XF_Controls::update()
     _airbrake_norm = _channelAirbrake->output;
     _airbrake = _airbrake_norm * _airbrake_max;
 
-    _brake_l = _channelBrakeL->output;
-    _brake_r = _channelBrakeR->output;
+    _brake_l = _channelBrakeLeft  ->output;
+    _brake_r = _channelBrakeRight ->output;
 
     _nose_wheel = _channelNoseWheel->output;
 
@@ -199,9 +186,9 @@ void XF_Controls::update()
     const double delta_angleOfAttack = _aircraft->getAngleOfAttack() - _angleOfAttack;
     const double delta_g_y = _aircraft->getGForce().y() - _g_y;
     const double delta_g_z = _aircraft->getGForce().z() - _g_z;
-    const double delta_rollRate  = _aircraft->getOmg_BAS()( _ip ) - _rollRate;
-    const double delta_pitchRate = _aircraft->getOmg_BAS()( _iq ) - _pitchRate;
-    const double delta_yawRate   = _aircraft->getOmg_BAS()( _ir ) - _yawRate;
+    const double delta_rollRate  = _aircraft->getOmg_BAS().p() - _rollRate;
+    const double delta_pitchRate = _aircraft->getOmg_BAS().q() - _pitchRate;
+    const double delta_yawRate   = _aircraft->getOmg_BAS().r() - _yawRate;
     const double delta_ctrlLat = _channelRoll->output      - _ctrlLat;
     const double delta_trimLat = _channelRollTrim->output  - _trimLat;
     const double delta_ctrlLon = _channelPitch->output     - _ctrlLon;
@@ -255,9 +242,9 @@ void XF_Controls::update()
     _angleOfAttack = _aircraft->getAngleOfAttack();
     _g_y = _aircraft->getGForce().y();
     _g_z = _aircraft->getGForce().z();
-    _rollRate  = _aircraft->getOmg_BAS()( _ip );
-    _pitchRate = _aircraft->getOmg_BAS()( _iq );
-    _yawRate   = _aircraft->getOmg_BAS()( _ir );
+    _rollRate  = _aircraft->getOmg_BAS().p();
+    _pitchRate = _aircraft->getOmg_BAS().q();
+    _yawRate   = _aircraft->getOmg_BAS().r();
     _ctrlLat = _channelRoll->output;
     _trimLat = _channelRollTrim->output;
     _ctrlLon = _channelPitch->output;

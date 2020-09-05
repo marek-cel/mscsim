@@ -47,8 +47,7 @@ class EulerRect : public Integrator< TYPE >
 public:
 
     /** Constructor. */
-    //EulerRect( unsigned int size, TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
-    EulerRect( TYPE *obj = 0, fptr fun = 0 ) :
+    EulerRect( TYPE *obj = FDM_NULLPTR, void (TYPE::*fun)(const VectorN &, VectorN *) = FDM_NULLPTR ) :
         Integrator< TYPE > ( obj, fun )
     {}
 

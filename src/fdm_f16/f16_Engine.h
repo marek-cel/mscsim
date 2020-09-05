@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Engine.h>
-
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Table2.h>
 #include <fdm/utils/fdm_Vector3.h>
@@ -95,9 +93,17 @@ namespace fdm
  * </turbofan_ab>
  * @endcode
  */
-class F16_Engine : public Engine
+class F16_Engine
 {
 public:
+
+    /** Engine state enum. */
+    enum State
+    {
+        Stopped  = 0,   ///< engine stopped
+        Starting = 1,   ///< engine starting
+        Running  = 2    ///< engine running
+    };
 
     /** Constructor. */
     F16_Engine();
@@ -139,6 +145,15 @@ public:
     void update( double throttle, double temperature,
                  double machNumber, double densityAltitude,
                  bool fuel, bool starter );
+
+    /**
+     * Returns engine state.
+     * @return engine state
+     */
+    inline State getState() const
+    {
+        return _state;
+    }
 
     /**
      * Returns propeller position expressed in BAS.
@@ -192,6 +207,8 @@ public:
     }
 
 protected:
+
+    State _state;           ///< engine state
 
     Vector3 _pos_bas;       ///< [m] nozzle position expressed in BAS
 

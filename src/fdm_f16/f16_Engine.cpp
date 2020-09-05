@@ -37,6 +37,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 F16_Engine::F16_Engine() :
+    _state ( Stopped ),
+
     _thrust_mil ( 0.0 ),
     _thrust_ab  ( 0.0 ),
 

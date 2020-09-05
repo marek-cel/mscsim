@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief Wing Schrenk approximation class.
  *
- * @see A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA, TM-948
+ * @see Schrenk O.: A Simple Approximation Method for Obtaining the Spanwise Lift Distribution, NACA, TM-948
  * @see Galinski C.: Wybrane zagadnienia projektowania samolotow, 2016, p.118. [in Polish]
  */
 class FDMEXPORT Schrenk

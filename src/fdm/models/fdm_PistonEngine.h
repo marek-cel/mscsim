@@ -24,8 +24,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Engine.h>
-
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/xml/fdm_XmlNode.h>
 
@@ -79,9 +77,17 @@ namespace fdm
  *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.128
  */
-class FDMEXPORT PistonEngine : public Engine
+class FDMEXPORT PistonEngine
 {
 public:
+
+    /** Engine state enum. */
+    enum State
+    {
+        Stopped  = 0,   ///< engine stopped
+        Starting = 1,   ///< engine starting
+        Running  = 2    ///< engine running
+    };
 
     /** Constructor. */
     PistonEngine();
@@ -118,6 +124,15 @@ public:
                          bool starter,
                          bool magneto_l = true,
                          bool magneto_r = true );
+
+    /**
+     * Returns engine state.
+     * @return engine state
+     */
+    inline State getState() const
+    {
+        return _state;
+    }
 
     /**
      * Returns engine air flow.
@@ -185,6 +200,8 @@ public:
     void setRPM( double rpm );
 
 protected:
+
+    State _state;               ///< engine state
 
     Table1 _power_rpm;          ///< [W] power vs engine rpm
     Table1 _power_throttle;     ///< [-] power coefficient vs throttle

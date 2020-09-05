@@ -28,6 +28,8 @@
 
 #include <fdm/models/fdm_Wheel.h>
 
+#include <fdm/utils/fdm_Map.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -59,7 +61,14 @@ class C130_LandingGear : public LandingGear
 {
 public:
 
-    typedef Wheel::Wheels Wheels;
+    /** Wheel and input data reference struct. */
+    struct WheelAndInput
+    {
+        DataRef input;      ///< input data reference
+        Wheel   wheel;      ///< wheel model object
+    };
+
+    typedef Map< std::string, WheelAndInput > Wheels;
 
     /** Constructor. */
     C130_LandingGear( const C130_Aircraft *aircraft, DataNode *rootNode );
@@ -72,9 +81,6 @@ public:
      * @param dataNode XML node
      */
     void readData( XmlNode &dataNode );
-
-    /** Initializes landing gear. */
-    void initialize();
 
     /** Computes force and moment. */
     void computeForceAndMoment();

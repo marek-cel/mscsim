@@ -45,7 +45,7 @@ class AW101_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    AW101_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    AW101_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~AW101_Aircraft();

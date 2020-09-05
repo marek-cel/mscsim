@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief AW101 vertical stabilizer class.
  */
-class AW101_StabilizerVer : public Stabilizer
+class AW101_StabilizerVer : public StabilizerVer
 {
 public:
 

@@ -31,8 +31,6 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 UH60_StabilizerHor::UH60_StabilizerHor() :
-    Stabilizer( Horizontal ),
-
     _elevator ( 0.0 )
 {}
 
@@ -49,7 +47,7 @@ void UH60_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
 {
     _elevator = elevator;
 
-    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
+    StabilizerHor::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,5 +55,6 @@ void UH60_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
 double UH60_StabilizerHor::getAngleOfAttack( const Vector3 &vel_air_bas,
                                              double wingAngleOfAttack )
 {
-    return Stabilizer::getAngleOfAttack( vel_air_bas, wingAngleOfAttack ) + _elevator;
+    return StabilizerHor::getAngleOfAttack( vel_air_bas, wingAngleOfAttack )
+            + _elevator;
 }

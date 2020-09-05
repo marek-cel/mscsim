@@ -45,7 +45,7 @@ class F35A_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    F35A_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    F35A_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~F35A_Aircraft();

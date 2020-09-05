@@ -4,7 +4,9 @@ HEADERS += \
     $$PWD/fdm_DataOut.h \
     $$PWD/fdm_Defines.h \
     $$PWD/fdm_Exception.h \
+    $$PWD/fdm_FDM.h \
     $$PWD/fdm_Log.h \
+    $$PWD/fdm_Manager.h \
     $$PWD/fdm_Path.h \
     $$PWD/fdm_Recorder.h \
     $$PWD/fdm_Test.h \
@@ -12,7 +14,9 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/fdm_Base.cpp \
+    $$PWD/fdm_FDM.cpp \
     $$PWD/fdm_Log.cpp \
+    $$PWD/fdm_Manager.cpp \
     $$PWD/fdm_Recorder.cpp \
     $$PWD/fdm_Test.cpp
 
@@ -32,9 +36,6 @@ HEADERS += \
     $$PWD/main/fdm_Aerodynamics.h \
     $$PWD/main/fdm_Aircraft.h \
     $$PWD/main/fdm_Controls.h \
-    $$PWD/main/fdm_DataManager.h \
-    $$PWD/main/fdm_DataNode.h \
-    $$PWD/main/fdm_DataRef.h \
     $$PWD/main/fdm_Environment.h \
     $$PWD/main/fdm_Intersections.h \
     $$PWD/main/fdm_LandingGear.h \
@@ -46,8 +47,6 @@ SOURCES += \
     $$PWD/main/fdm_Aerodynamics.cpp \
     $$PWD/main/fdm_Aircraft.cpp \
     $$PWD/main/fdm_Controls.cpp \
-    $$PWD/main/fdm_DataManager.cpp \
-    $$PWD/main/fdm_DataNode.cpp \
     $$PWD/main/fdm_Environment.cpp \
     $$PWD/main/fdm_Intersections.cpp \
     $$PWD/main/fdm_LandingGear.cpp \
@@ -58,19 +57,18 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/models/fdm_Atmosphere.h \
-    $$PWD/models/fdm_Engine.h \
     $$PWD/models/fdm_Fuselage.h \
     $$PWD/models/fdm_Governor.h \
     $$PWD/models/fdm_HingeMoment.h \
     $$PWD/models/fdm_MainRotor.h \
-    $$PWD/models/fdm_MainRotorAD.h \
     $$PWD/models/fdm_MainRotorBE.h \
     $$PWD/models/fdm_PistonEngine.h \
     $$PWD/models/fdm_Propeller.h \
     $$PWD/models/fdm_RotorBlade.h \
     $$PWD/models/fdm_Schrenk.h \
     $$PWD/models/fdm_SimpleRotor.h \
-    $$PWD/models/fdm_Stabilizer.h \
+    $$PWD/models/fdm_StabilizerHor.h \
+    $$PWD/models/fdm_StabilizerVer.h \
     $$PWD/models/fdm_TailOff.h \
     $$PWD/models/fdm_TailRotor.h \
     $$PWD/models/fdm_Turbofan.h \
@@ -83,14 +81,14 @@ SOURCES += \
     $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \
     $$PWD/models/fdm_MainRotor.cpp \
-    $$PWD/models/fdm_MainRotorAD.cpp \
     $$PWD/models/fdm_MainRotorBE.cpp \
     $$PWD/models/fdm_PistonEngine.cpp \
     $$PWD/models/fdm_Propeller.cpp \
     $$PWD/models/fdm_RotorBlade.cpp \
     $$PWD/models/fdm_Schrenk.cpp \
     $$PWD/models/fdm_SimpleRotor.cpp \
-    $$PWD/models/fdm_Stabilizer.cpp \
+    $$PWD/models/fdm_StabilizerHor.cpp \
+    $$PWD/models/fdm_StabilizerVer.cpp \
     $$PWD/models/fdm_TailOff.cpp \
     $$PWD/models/fdm_TailRotor.cpp \
     $$PWD/models/fdm_Turbofan.cpp \
@@ -127,9 +125,12 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/utils/fdm_Angles.h \
+    $$PWD/utils/fdm_DataNode.h \
+    $$PWD/utils/fdm_DataRef.h \
     $$PWD/utils/fdm_EulerRect.h \
     $$PWD/utils/fdm_GaussJordan.h \
     $$PWD/utils/fdm_Integrator.h \
+    $$PWD/utils/fdm_Map.h \
     $$PWD/utils/fdm_Matrix.h \
     $$PWD/utils/fdm_Matrix3x3.h \
     $$PWD/utils/fdm_Matrix4x4.h \
@@ -153,6 +154,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/utils/fdm_Angles.cpp \
+    $$PWD/utils/fdm_DataNode.cpp \
     $$PWD/utils/fdm_Matrix3x3.cpp \
     $$PWD/utils/fdm_Matrix4x4.cpp \
     $$PWD/utils/fdm_Matrix6x6.cpp \

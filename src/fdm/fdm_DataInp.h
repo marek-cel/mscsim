@@ -111,14 +111,6 @@ struct DataInp
         WindShear  windShear;               ///< active wind shear model
     };
 
-    /** Simulation freezes data. */
-    struct Freezes
-    {
-        bool position;                      ///< specifies if aircraft position is to be frozen
-        bool attitude;                      ///< specifies if aircraft attitude is to be frozen
-        bool velocity;                      ///< specifies if aircraft velocity is to be frozen
-    };
-
     /** Ground data. */
     struct Ground
     {
@@ -152,7 +144,7 @@ struct DataInp
         double brake_r;                     ///< [0.0,1.0] right brake
 
         double landing_gear;                ///< [0.0,1.0] landing gear
-        double nose_wheel;                  ///< [-1.0,1.0] nose wheel steering (positive when the left foot moves in the forward direction)
+        double wheel_nose;                  ///< [-1.0,1.0] nose wheel steering (positive when the left foot moves in the forward direction)
 
         double flaps;                       ///< [0.0,1.0] flaps
         double airbrake;                    ///< [0.0,1.0] airbrake
@@ -204,7 +196,6 @@ struct DataInp
 
     Initial     initial;                    ///< initial conditions
     Environment environment;                ///< environment data
-    Freezes     freezes;                    ///< freezes data
     Ground      ground;                     ///< ground data
     Controls    controls;                   ///< controls data
     Engine      engine[ FDM_MAX_ENGINES ];  ///< engines data
@@ -213,6 +204,10 @@ struct DataInp
 
     AircraftType aircraftType;              ///< input aircraft type
     StateInp stateInp;                      ///< input state
+
+    bool freezePosition;                    ///< specifies if aircraft position is to be frozen
+    bool freezeAttitude;                    ///< specifies if aircraft attitude is to be frozen
+    bool freezeVelocity;                    ///< specifies if aircraft velocity is to be frozen
 };
 
 } // end of fdm namespace

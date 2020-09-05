@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     ~C130_Mass();
 
-    /** Initializes mass. */
-    void initialize();
-
 private:
 
     const C130_Aircraft *_aircraft;     ///< aircraft model main object

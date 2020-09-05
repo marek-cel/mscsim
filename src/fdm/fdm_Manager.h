@@ -19,17 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef MANAGER_FDM_H
-#define MANAGER_FDM_H
+#ifndef FDM_MANAGER_H
+#define FDM_MANAGER_H
 
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <fdm/main/fdm_Aircraft.h>
 
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
-#include <fdm/fdm_Recorder.h>
+#include <fdm/fdm_FDM.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -39,12 +37,12 @@ namespace fdm
 /**
  * @brief Simulation manager class.
  */
-class Manager : public Base
+class Manager
 {
 public:
 
     /** Constructor. */
-    Manager();
+    Manager( const DataInp *dataInpPtr, DataOut *dataOutPtr );
 
     /** Destructor. */
     virtual ~Manager();
@@ -52,10 +50,8 @@ public:
     /**
      * Performs manager step.
      * @param timeStep [s] simulation time step
-     * @param dataInp
-     * @param dataOut
      */
-    void step( double timeStep, const DataInp &dataInp, DataOut &dataOut );
+    void step( double timeStep );
 
     inline bool getVerbose() const { return _verbose; }
 
@@ -68,25 +64,15 @@ private:
     typedef DataInp::StateInp StateInp;
     typedef DataOut::StateOut StateOut;
 
-    Aircraft *_aircraft;            ///< aircraft simulation object
-    Recorder *_recorder;            ///< recorder object
+    const DataInp *_dataInpPtr;     ///< input data pointer
+    DataOut       *_dataOutPtr;     ///< output data pointer
 
-    DataInp _dataInp;               ///< input data
-    DataOut _dataOut;               ///< output data
+    FDM *_fdm;                      ///< flight dynamics model object
 
     AircraftType _aircraftType;     ///< aircraft type
 
     StateInp _stateInp;             ///< internal state input
     StateOut _stateOut;             ///< internal state output
-
-    Vector3    _init_pos_wgs;       ///< [m] initial position expressed in WGS
-    Quaternion _init_att_wgs;       ///< initial attitude expressed as quaternion of rotation from WGS to BAS
-
-    UInt32 _initStep;               ///< initialization step number
-
-    double _init_phi;               ///< [rad] initial roll angle
-    double _init_tht;               ///< [rad] initial pitch angle
-    double _init_alt;               ///< [m] initial altitude above ground level
 
     double _timeStep;               ///< [s] simulation time step
     double _realTime;               ///< [s] simulation real time
@@ -108,31 +94,11 @@ private:
     bool _verbose;                  ///< specifies if extra information should be printed
 
     /**
-     * Creates aircraft object.
+     * Creates flight dynamics model object.
      * @param aircraftType aircraft type
      * @return aircraft object on success null pointer on failure
      */
-    Aircraft* createAircraft( AircraftType aircraftType );
-
-    /**
-     * Computes aircraft equilibrium in flight.
-     */
-    void initInFlight();
-
-    /**
-     * Computes aircraft equilibrium on ground.
-     */
-    void initOnGround();
-
-    /**
-     * Initializes recorder.
-     */
-    void initRecorder();
-
-    /**
-     * Updates initial position and attitude.
-     */
-    void updateInitialPositionAndAttitude();
+    FDM* createFDM( AircraftType aircraftType );
 
     /**
      * Updates internal state input.
@@ -156,8 +122,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef fdm::Manager ManagerFDM;
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // MANAGER_FDM_H
+#endif // FDM_MANAGER_H

@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 #include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/utils/fdm_String.h>
@@ -32,25 +32,20 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Stabilizer::Stabilizer( Type type ) :
-    _type ( type ),
-    _area ( 0.0 ),
-    _incidence ( 0.0 )
+StabilizerVer::StabilizerVer() :
+    _area ( 0.0 )
 {
     _cx = Table1::createOneRecordTable( 0.0 );
     _cy = Table1::createOneRecordTable( 0.0 );
-    _cz = Table1::createOneRecordTable( 0.0 );
-
-    _downwash = Table1::createOneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Stabilizer::~Stabilizer() {}
+StabilizerVer::~StabilizerVer() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Stabilizer::readData( XmlNode &dataNode )
+void StabilizerVer::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
@@ -60,13 +55,8 @@ void Stabilizer::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area, "area" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _incidence, "incidence", true );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _downwash, "downwash", true );
-
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", _type == Horizontal );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz", _type == Vertical   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
@@ -78,29 +68,23 @@ void Stabilizer::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
-                                        const Vector3 &omg_air_bas,
-                                        double airDensity,
-                                        double wingAngleOfAttack )
+void StabilizerVer::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                           const Vector3 &omg_air_bas,
+                                           double airDensity )
 {
     // stabilizer velocity
     Vector3 vel_stab_bas = vel_air_bas + ( omg_air_bas % _r_ac_bas );
 
-    // TODO: main rotor downwash according to:
-    // [NASA-TM-84281, p.26] and [NASA-MEMO-4-15-59L]
-
     // stabilizer angle of attack and sideslip angle
-    double angleOfAttack = getAngleOfAttack( vel_stab_bas, wingAngleOfAttack );
+    double angleOfAttack = Aerodynamics::getAngleOfAttack( vel_stab_bas );
     double sideslipAngle = Aerodynamics::getSideslipAngle( vel_stab_bas );
-
-    double angle = ( _type == Horizontal ) ? angleOfAttack : sideslipAngle;
 
     // dynamic pressure
     double dynPress = 0.5 * airDensity * vel_stab_bas.getLength2();
 
-    Vector3 for_aero( dynPress * getCx( angle ) * _area,
-                      dynPress * getCy( angle ) * _area,
-                      dynPress * getCz( angle ) * _area );
+    Vector3 for_aero( dynPress * getCx( sideslipAngle ) * _area,
+                      dynPress * getCy( sideslipAngle ) * _area,
+                      0.0 );
 
     _for_bas = Aerodynamics::getAero2BAS( angleOfAttack, sideslipAngle ) * for_aero;
     _mom_bas = _r_ac_bas % _for_bas;
@@ -118,30 +102,14 @@ void Stabilizer::computeForceAndMoment( const Vector3 &vel_air_bas,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getAngleOfAttack( const Vector3 &vel_air_bas,
-                                     double wingAngleOfAttack )
-{
-    return Aerodynamics::getAngleOfAttack( vel_air_bas )
-         + _incidence - _downwash.getValue( wingAngleOfAttack );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Stabilizer::getCx( double angle ) const
+double StabilizerVer::getCx( double angle ) const
 {
     return _cx.getValue( angle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Stabilizer::getCy( double angle ) const
+double StabilizerVer::getCy( double angle ) const
 {
     return _cy.getValue( angle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double Stabilizer::getCz( double angle ) const
-{
-    return _cz.getValue( angle );
 }

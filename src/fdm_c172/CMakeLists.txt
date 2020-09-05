@@ -5,6 +5,7 @@ set( CPP_FILES
     c172_Aircraft.cpp
     c172_Controls.cpp
     c172_Engine.cpp
+    c172_FDM.cpp
     c172_GFC700_AP.cpp
     c172_GFC700_FD.cpp
     c172_KAP140_AP.cpp

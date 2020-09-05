@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief R44 vertical stabilizer class.
  */
-class R44_StabilizerVer : public Stabilizer
+class R44_StabilizerVer : public StabilizerVer
 {
 public:
 

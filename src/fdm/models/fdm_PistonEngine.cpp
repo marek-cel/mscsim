@@ -32,6 +32,8 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 PistonEngine::PistonEngine() :
+    _state ( Stopped ),
+
     _rpm_min      ( 0.0 ),
     _rpm_max      ( 0.0 ),
     _starter      ( 0.0 ),

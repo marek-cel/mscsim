@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     ~UH60_Mass();
 
-    /** Initializes mass. */
-    void initialize();
-
 private:
 
     const UH60_Aircraft *_aircraft;     ///< aircraft model main object

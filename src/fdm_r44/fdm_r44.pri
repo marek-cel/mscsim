@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/r44_Propulsion.h \
     $$PWD/r44_StabilizerHor.h \
     $$PWD/r44_StabilizerVer.h \
-    $$PWD/r44_TailRotor.h
+    $$PWD/r44_TailRotor.h \
+    $$PWD/r44_FDM.h
 
 SOURCES += \
     $$PWD/r44_Aerodynamics.cpp \
@@ -22,4 +23,5 @@ SOURCES += \
     $$PWD/r44_Propulsion.cpp \
     $$PWD/r44_StabilizerHor.cpp \
     $$PWD/r44_StabilizerVer.cpp \
-    $$PWD/r44_TailRotor.cpp
+    $$PWD/r44_TailRotor.cpp \
+    $$PWD/r44_FDM.cpp

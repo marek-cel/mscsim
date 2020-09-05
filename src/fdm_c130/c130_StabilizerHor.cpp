@@ -31,8 +31,6 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 C130_StabilizerHor::C130_StabilizerHor() :
-    Stabilizer( Horizontal ),
-
     _dcx_delevator ( 0.0 ),
     _dcz_delevator ( 0.0 ),
     _dcz_delevator_trim ( 0.0 ),
@@ -48,9 +46,9 @@ C130_StabilizerHor::~C130_StabilizerHor() {}
 
 void C130_StabilizerHor::readData( XmlNode &dataNode )
 {
-    /////////////////////////////////
-    Stabilizer::readData( dataNode );
-    /////////////////////////////////
+    ////////////////////////////////////
+    StabilizerHor::readData( dataNode );
+    ////////////////////////////////////
 
     if ( dataNode.isValid() )
     {
@@ -81,15 +79,15 @@ void C130_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
     _elevator     = elevator;
     _elevatorTrim = elevatorTrim;
 
-    Stabilizer::computeForceAndMoment( vel_air_bas, omg_air_bas,
-                                       airDensity, wingAngleOfAttack );
+    StabilizerHor::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                          airDensity, wingAngleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double C130_StabilizerHor::getCx( double angle ) const
 {
-    return Stabilizer::getCx( angle )
+    return StabilizerHor::getCx( angle )
             + _dcx_delevator * _elevator;
 }
 
@@ -97,7 +95,7 @@ double C130_StabilizerHor::getCx( double angle ) const
 
 double C130_StabilizerHor::getCz( double angle ) const
 {
-    return Stabilizer::getCz( angle )
+    return StabilizerHor::getCz( angle )
             + _dcz_delevator      * _elevator
             + _dcz_delevator_trim * _elevatorTrim;
 }

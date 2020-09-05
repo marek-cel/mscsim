@@ -72,6 +72,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     _spinEPR  [ 0 ] = _ui->spinEPR_1;
     _spinMAP  [ 0 ] = _ui->spinMAP_1;
     _spinEGT  [ 0 ] = _ui->spinEGT_1;
+    _spinCHT  [ 0 ] = _ui->spinCHT_1;
     _spinTIT  [ 0 ] = _ui->spinTIT_1;
     _spinTOT  [ 0 ] = _ui->spinTOT_1;
     _spinITT  [ 0 ] = _ui->spinITT_1;
@@ -86,6 +87,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     _spinEPR  [ 1 ] = _ui->spinEPR_2;
     _spinMAP  [ 1 ] = _ui->spinMAP_2;
     _spinEGT  [ 1 ] = _ui->spinEGT_2;
+    _spinCHT  [ 1 ] = _ui->spinCHT_2;
     _spinTIT  [ 1 ] = _ui->spinTIT_2;
     _spinTOT  [ 1 ] = _ui->spinTOT_2;
     _spinITT  [ 1 ] = _ui->spinITT_2;
@@ -100,6 +102,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     _spinEPR  [ 2 ] = _ui->spinEPR_3;
     _spinMAP  [ 2 ] = _ui->spinMAP_3;
     _spinEGT  [ 2 ] = _ui->spinEGT_3;
+    _spinCHT  [ 2 ] = _ui->spinCHT_3;
     _spinTIT  [ 2 ] = _ui->spinTIT_3;
     _spinTOT  [ 2 ] = _ui->spinTOT_3;
     _spinITT  [ 2 ] = _ui->spinITT_3;
@@ -114,6 +117,7 @@ DockWidgetProp::DockWidgetProp( QWidget *parent ) :
     _spinEPR  [ 3 ] = _ui->spinEPR_4;
     _spinMAP  [ 3 ] = _ui->spinMAP_4;
     _spinEGT  [ 3 ] = _ui->spinEGT_4;
+    _spinCHT  [ 3 ] = _ui->spinCHT_4;
     _spinTIT  [ 3 ] = _ui->spinTIT_4;
     _spinTOT  [ 3 ] = _ui->spinTOT_4;
     _spinITT  [ 3 ] = _ui->spinITT_4;
@@ -195,6 +199,7 @@ void DockWidgetProp::setAircraftType( int typeIndex )
         _ui->labelEPR  ->setVisible( propulsion.epr  );
         _ui->labelMAP  ->setVisible( propulsion.map  );
         _ui->labelEGT  ->setVisible( propulsion.egt  );
+        _ui->labelCHT  ->setVisible( propulsion.cht  );
         _ui->labelTIT  ->setVisible( propulsion.tit  );
         _ui->labelTOT  ->setVisible( propulsion.tot  );
         _ui->labelITT  ->setVisible( propulsion.itt  );
@@ -209,6 +214,7 @@ void DockWidgetProp::setAircraftType( int typeIndex )
         _ui->comboEPR  ->setVisible( propulsion.epr  );
         _ui->comboMAP  ->setVisible( propulsion.map  );
         _ui->comboEGT  ->setVisible( propulsion.egt  );
+        _ui->comboCHT  ->setVisible( propulsion.cht  );
         _ui->comboTIT  ->setVisible( propulsion.tit  );
         _ui->comboTOT  ->setVisible( propulsion.tot  );
         _ui->comboITT  ->setVisible( propulsion.itt  );
@@ -232,6 +238,7 @@ void DockWidgetProp::setAircraftType( int typeIndex )
             _spinEPR  [ i ]->setVisible( visible[ i ] && propulsion.epr );
             _spinMAP  [ i ]->setVisible( visible[ i ] && propulsion.map );
             _spinEGT  [ i ]->setVisible( visible[ i ] && propulsion.egt );
+            _spinCHT  [ i ]->setVisible( visible[ i ] && propulsion.cht );
             _spinTIT  [ i ]->setVisible( visible[ i ] && propulsion.tit );
             _spinTOT  [ i ]->setVisible( visible[ i ] && propulsion.tot );
             _spinITT  [ i ]->setVisible( visible[ i ] && propulsion.itt );
@@ -356,6 +363,16 @@ void DockWidgetProp::setEGT( unsigned int index, float val )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DockWidgetProp::setCHT( unsigned int index, float val )
+{
+    if ( index < FDM_MAX_ENGINES )
+    {
+        _spinCHT[ index ]->setValue( _ui->comboCHT->convert( val ) );
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DockWidgetProp::setTIT( unsigned int index, float val )
 {
     if ( index < FDM_MAX_ENGINES )
@@ -433,6 +450,7 @@ void DockWidgetProp::settingsRead_UnitCombos( QSettings &settings )
     _ui->comboEPR->setCurrentIndex( settings.value( "epr", 1 ).toInt() );
     _ui->comboMAP->setCurrentIndex( settings.value( "map", 1 ).toInt() );
     _ui->comboEGT->setCurrentIndex( settings.value( "egt", 1 ).toInt() );
+    _ui->comboCHT->setCurrentIndex( settings.value( "cht", 1 ).toInt() );
     _ui->comboTIT->setCurrentIndex( settings.value( "tit", 1 ).toInt() );
     _ui->comboTOT->setCurrentIndex( settings.value( "tot", 1 ).toInt() );
     _ui->comboITT->setCurrentIndex( settings.value( "itt", 1 ).toInt() );
@@ -469,6 +487,7 @@ void DockWidgetProp::settingsSave_UnitCombos( QSettings &settings )
     settings.setValue( "epr"  , _ui->comboEPR->currentIndex() );
     settings.setValue( "map"  , _ui->comboMAP->currentIndex() );
     settings.setValue( "egt"  , _ui->comboEGT->currentIndex() );
+    settings.setValue( "cht"  , _ui->comboCHT->currentIndex() );
     settings.setValue( "tit"  , _ui->comboTIT->currentIndex() );
     settings.setValue( "tot"  , _ui->comboTOT->currentIndex() );
     settings.setValue( "itt"  , _ui->comboITT->currentIndex() );

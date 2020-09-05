@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <QDomElement>
+#include <QList>
 #include <QVector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,21 +71,22 @@ public:
     /** Aircraft propulsion data struct. */
     struct Propulsion
     {
-        int engines;            ///<
+        int engines;            ///< number of engines
 
-        bool ab;                ///<
-        bool rpm;               ///<
-        bool prop;              ///<
-        bool ng;                ///<
-        bool n1;                ///<
-        bool n2;                ///<
-        bool trq;               ///<
-        bool epr;               ///<
-        bool map;               ///<
-        bool egt;               ///<
-        bool tit;               ///<
-        bool tot;               ///<
-        bool itt;               ///<
+        bool ab;                ///< afterburner
+        bool rpm;               ///< engine rpm
+        bool prop;              ///< propeller rpm
+        bool ng;                ///< gas generator rotational speed
+        bool n1;                ///< low pressure engine spool rotational speed
+        bool n2;                ///< high pressure engine spool rotational speed
+        bool trq;               ///< torque
+        bool epr;               ///< engine pressure ratio
+        bool map;               ///< manifold absolute pressure
+        bool egt;               ///< exhaust gas temperature
+        bool cht;               ///< cylinder head temperature
+        bool tit;               ///< turbine inlet temperature
+        bool tot;               ///< turbine outlet temperature
+        bool itt;               ///< interstage turbine temperature
     };
 
     /** Aircraft variable masses data struct. */

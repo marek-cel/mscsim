@@ -45,7 +45,7 @@ class RungeKutta4 : public Integrator< TYPE >
 public:
 
     /** Constructor. */
-    RungeKutta4( TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
+    RungeKutta4( TYPE *obj = FDM_NULLPTR, void (TYPE::*fun)(const VectorN &, VectorN *) = FDM_NULLPTR ) :
         Integrator< TYPE > ( obj, fun )
     {}
 

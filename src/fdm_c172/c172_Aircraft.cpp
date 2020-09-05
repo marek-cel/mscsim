@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Aircraft::C172_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( dataInp, dataOut ),
+C172_Aircraft::C172_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( rootNode, dataInp, dataOut ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -81,7 +81,7 @@ void C172_Aircraft::updateOutputData()
     _dataOut->controls.flaps    = _ctrl->getFlaps();
 
     // propulsion
-    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == Engine::Running;
+    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == C172_Engine::Running;
     _dataOut->engine[ 0 ].rpm = _prop->getEngine()->getRPM();
     _dataOut->engine[ 0 ].map = _prop->getEngine()->getMAP();
     _dataOut->engine[ 0 ].fuelFlow = _prop->getEngine()->getFuelFlow();

@@ -37,7 +37,7 @@ namespace fdm
 /**
  * @brief Data node class.
  */
-class DataNode
+class FDMEXPORT DataNode
 {
 public:
 

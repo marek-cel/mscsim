@@ -137,14 +137,12 @@ HEADERS += \
     $$PWD/Data.h \
     $$PWD/Defines.h \
     $$PWD/Manager.h \
-    $$PWD/ManagerFDM.h \
     $$PWD/Simulation.h
 
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/Autopilot.cpp \
     $$PWD/Manager.cpp \
-    $$PWD/ManagerFDM.cpp \
     $$PWD/Simulation.cpp
 
 RESOURCES += \

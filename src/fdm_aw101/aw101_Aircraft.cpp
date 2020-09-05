@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AW101_Aircraft::AW101_Aircraft( const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( dataInp, dataOut )
+AW101_Aircraft::AW101_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( rootNode, dataInp, dataOut )
 {
     Aircraft::_aero = _aero = new AW101_Aerodynamics ( this, _rootNode );
     Aircraft::_ctrl = _ctrl = new AW101_Controls     ( this, _rootNode );

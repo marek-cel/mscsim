@@ -37,33 +37,3 @@ P51_Mass::P51_Mass( const P51_Aircraft *aircraft, DataNode *rootNode ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 P51_Mass::~P51_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void P51_Mass::initialize()
-{
-    VarMass *pilot       = getVariableMassByName( "pilot" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-
-    if ( pilot && fuel_tank_l && fuel_tank_r )
-    {
-        pilot->input = &_aircraft->getDataInp()->masses.pilot[ 0 ];
-
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.tank[ 1 ];
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
-    }
-
-    ///////////////////
-    Mass::initialize();
-    ///////////////////
-}

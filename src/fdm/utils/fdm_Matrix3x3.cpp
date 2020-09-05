@@ -42,19 +42,49 @@ Matrix3x3 Matrix3x3::createIdentityMatrix()
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3::Matrix3x3() :
-    Matrix< 3,3 >()
+    Matrix< 3,3 >(),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3::Matrix3x3( const Matrix3x3 &mtrx ) :
-    Matrix< 3,3 >( mtrx )
+    Matrix< 3,3 >( mtrx ),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3::Matrix3x3( const double items[] ) :
-    Matrix< 3,3 >( items )
+    Matrix< 3,3 >( items ),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,25 +92,45 @@ Matrix3x3::Matrix3x3( const double items[] ) :
 Matrix3x3::Matrix3x3( double xx, double xy, double xz,
                       double yx, double yy, double yz,
                       double zx, double zy, double zz ) :
-    Matrix< 3,3 >()
+    Matrix< 3,3 >(),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {
-    _items[ 0 ] = xx;
-    _items[ 1 ] = xy;
-    _items[ 2 ] = xz;
+    _xx = xx;
+    _xy = xy;
+    _xz = xz;
 
-    _items[ 3 ] = yx;
-    _items[ 4 ] = yy;
-    _items[ 5 ] = yz;
+    _yx = yx;
+    _yy = yy;
+    _yz = yz;
 
-    _items[ 6 ] = zx;
-    _items[ 7 ] = zy;
-    _items[ 8 ] = zz;
+    _zx = zx;
+    _zy = zy;
+    _zz = zz;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3::Matrix3x3( const Angles &angl ) :
-    Matrix< 3,3 >()
+    Matrix< 3,3 >(),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {
     double sinPhi = sin( angl.phi() );
     double cosPhi = cos( angl.phi() );
@@ -94,23 +144,33 @@ Matrix3x3::Matrix3x3( const Angles &angl ) :
     double sinPhiSinTht = sinPhi * sinTht;
     double cosPhiSinTht = cosPhi * sinTht;
 
-    _items[ 0 ] =  cosTht * cosPsi;
-    _items[ 1 ] =  cosTht * sinPsi;
-    _items[ 2 ] = -sinTht;
+    _xx =  cosTht * cosPsi;
+    _xy =  cosTht * sinPsi;
+    _xz = -sinTht;
 
-    _items[ 3 ] = -( cosPhi * sinPsi ) + ( sinPhiSinTht * cosPsi );
-    _items[ 4 ] =  ( cosPhi * cosPsi ) + ( sinPhiSinTht * sinPsi );
-    _items[ 5 ] =  ( sinPhi * cosTht );
+    _yx = -( cosPhi * sinPsi ) + ( sinPhiSinTht * cosPsi );
+    _yy =  ( cosPhi * cosPsi ) + ( sinPhiSinTht * sinPsi );
+    _yz =  ( sinPhi * cosTht );
 
-    _items[ 6 ] =  ( sinPhi * sinPsi ) + ( cosPhiSinTht * cosPsi );
-    _items[ 7 ] = -( sinPhi * cosPsi ) + ( cosPhiSinTht * sinPsi );
-    _items[ 8 ] =  ( cosPhi * cosTht );
+    _zx =  ( sinPhi * sinPsi ) + ( cosPhiSinTht * cosPsi );
+    _zy = -( sinPhi * cosPsi ) + ( cosPhiSinTht * sinPsi );
+    _zz =  ( cosPhi * cosTht );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Matrix3x3::Matrix3x3( const Quaternion &qtrn ) :
-    Matrix< 3,3 >()
+    Matrix< 3,3 >(),
+
+    _xx ( _items[ 0 ] ),
+    _xy ( _items[ 1 ] ),
+    _xz ( _items[ 2 ] ),
+    _yx ( _items[ 3 ] ),
+    _yy ( _items[ 4 ] ),
+    _yz ( _items[ 5 ] ),
+    _zx ( _items[ 6 ] ),
+    _zy ( _items[ 7 ] ),
+    _zz ( _items[ 8 ] )
 {
     double e0 = qtrn.e0();
     double ex = qtrn.ex();
@@ -122,17 +182,17 @@ Matrix3x3::Matrix3x3( const Quaternion &qtrn ) :
     double ey2 = ey*ey;
     double ez2 = ez*ez;
 
-    _items[ 0 ] = e02 + ex2 - ey2 - ez2;
-    _items[ 1 ] = 2.0 * ( e0*ez + ex*ey );
-    _items[ 2 ] = 2.0 * ( ex*ez - e0*ey );
+    _xx = e02 + ex2 - ey2 - ez2;
+    _xy = 2.0 * ( e0*ez + ex*ey );
+    _xz = 2.0 * ( ex*ez - e0*ey );
 
-    _items[ 3 ] = 2.0 * ( ex*ey - e0*ez );
-    _items[ 4 ] = e02 - ex2 + ey2 - ez2;
-    _items[ 5 ] = 2.0 * ( e0*ex + ey*ez );
+    _yx = 2.0 * ( ex*ey - e0*ez );
+    _yy = e02 - ex2 + ey2 - ez2;
+    _yz = 2.0 * ( e0*ex + ey*ez );
 
-    _items[ 6 ] = 2.0 * ( e0*ey + ex*ez );
-    _items[ 7 ] = 2.0 * ( ey*ez - e0*ex );
-    _items[ 8 ] = e02 - ex2 - ey2 + ez2;
+    _zx = 2.0 * ( e0*ey + ex*ez );
+    _zy = 2.0 * ( ey*ez - e0*ex );
+    _zz = e02 - ex2 - ey2 + ez2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,19 +216,19 @@ Angles Matrix3x3::getAngles() const
 {
     Angles result;
 
-    double sinTht = -_items[ 2 ];
+    double sinTht = -_xz;
     double cosTht = sqrt( 1.0 - std::min( 1.0, sinTht*sinTht ) );
 
     result.tht() = atan2( sinTht, cosTht );
 
     if ( cosTht > 0.0 )
     {
-        result.phi() = atan2( _items[ 5 ],  _items[ 8 ] );
-        result.psi() = atan2( _items[ 1 ],  _items[ 0 ] );
+        result.phi() = atan2( _yz,  _zz );
+        result.psi() = atan2( _xy,  _xx );
     }
     else
     {
-        result.phi() = atan2( _items[ 3 ], -_items[ 6 ] );
+        result.phi() = atan2( _yx, -_zx );
         result.psi() = 0.0;
     }
 
@@ -186,10 +246,10 @@ Quaternion Matrix3x3::getQuaternion() const
     // traces
     double tr[ 4 ];
 
-    tr[ 0 ] = 1.0 + _items[ 0 ] + _items[ 4 ] + _items[ 8 ];
-    tr[ 1 ] = 1.0 + _items[ 0 ] - _items[ 4 ] - _items[ 8 ];
-    tr[ 2 ] = 1.0 - _items[ 0 ] + _items[ 4 ] - _items[ 8 ];
-    tr[ 3 ] = 1.0 - _items[ 0 ] - _items[ 4 ] + _items[ 8 ];
+    tr[ 0 ] = 1.0 + _xx + _yy + _zz;
+    tr[ 1 ] = 1.0 + _xx - _yy - _zz;
+    tr[ 2 ] = 1.0 - _xx + _yy - _zz;
+    tr[ 3 ] = 1.0 - _xx - _yy + _zz;
 
     int index = 0;
     for ( int i = 1; i < 4; i++ ) index = ( tr[ i ] > tr[ index ] ) ? i : index;
@@ -197,29 +257,29 @@ Quaternion Matrix3x3::getQuaternion() const
     if ( index == 0 )
     {
         result.e0() = tr[ 0 ];
-        result.ex() = _items[ 5 ] - _items[ 7 ];
-        result.ey() = _items[ 6 ] - _items[ 2 ];
-        result.ez() = _items[ 1 ] - _items[ 3 ];
+        result.ex() = _yz - _zy;
+        result.ey() = _zx - _xz;
+        result.ez() = _xy - _yx;
     }
     else if ( index == 1 )
     {
-        result.e0() = _items[ 5 ] - _items[ 7 ];
+        result.e0() = _yz - _zy;
         result.ex() = tr[ 1 ];
-        result.ey() = _items[ 1 ] + _items[ 3 ];
-        result.ez() = _items[ 6 ] + _items[ 2 ];
+        result.ey() = _xy + _yx;
+        result.ez() = _zx + _xz;
     }
     else if ( index == 2 )
     {
-        result.e0() = _items[ 6 ] - _items[ 2 ];
-        result.ex() = _items[ 1 ] + _items[ 3 ];
+        result.e0() = _zx - _xz;
+        result.ex() = _xy + _yx;
         result.ey() = tr[ 2 ];
-        result.ez() = _items[ 5 ] + _items[ 7 ];
+        result.ez() = _yz + _zy;
     }
     else
     {
-        result.e0() = _items[ 1 ] - _items[ 3 ];
-        result.ex() = _items[ 6 ] + _items[ 2 ];
-        result.ey() = _items[ 5 ] + _items[ 7 ];
+        result.e0() = _xy - _yx;
+        result.ex() = _zx + _xz;
+        result.ey() = _yz + _zy;
         result.ez() = tr[ 3 ];
     }
 

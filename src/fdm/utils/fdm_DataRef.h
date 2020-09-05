@@ -26,7 +26,7 @@
 
 #include <limits>
 
-#include <fdm/main/fdm_DataNode.h>
+#include <fdm/utils/fdm_DataNode.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -220,6 +220,15 @@ public:
      * Resets data reference.
      */
     inline void reset() { _dataNode = 0; }
+
+    /**
+     * Assignment operator.
+     */
+    const DataRef& operator= ( const DataRef &dataRef )
+    {
+        _dataNode = dataRef._dataNode;
+        return (*this);
+    }
 
 private:
 

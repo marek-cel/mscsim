@@ -46,9 +46,6 @@ public:
     /** Destructor. */
     ~P51_Mass();
 
-    /** Initializes mass. */
-    void initialize();
-
 private:
 
     const P51_Aircraft *_aircraft;      ///< aircraft model main object

@@ -53,13 +53,15 @@ void R44_LandingGear::readData( XmlNode &dataNode )
 
         while ( result == FDM_SUCCESS && wheelNode.isValid() )
         {
-            Wheel wheel;
+            WheelAndInput wheelAndInput;
 
-            std::string name = wheelNode.getAttribute( "name" );
+            std::string name  = wheelNode.getAttribute( "name"  );
+            std::string input = wheelNode.getAttribute( "input" );
 
-            wheel.readData( wheelNode );
+            wheelAndInput.input = getDataRef( input );
+            wheelAndInput.wheel.readData( wheelNode );
 
-            result = _wheels.addWheel( name.c_str(), wheel );
+            result = _wheels.addItem( name, wheelAndInput );
 
             wheelNode = wheelNode.getNextSiblingElement( "wheel" );
         }
@@ -81,15 +83,9 @@ void R44_LandingGear::computeForceAndMoment()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        Wheel &wheel = (*it).second.wheel;
 
-        double position = 1.0;
-        if ( wheel.isInputValid() )
-        {
-            position = wheel.getInputValue();
-        }
-
-        if ( position >= 1.0 )
+        if ( wheel.getPosition() >= 1.0 )
         {
             Vector3 r_c_bas;
             Vector3 n_c_bas;
@@ -136,7 +132,7 @@ void R44_LandingGear::update()
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {
-        Wheel &wheel = (*it).second;
+        Wheel &wheel = (*it).second.wheel;
 
         Vector3 r_c_bas;
         Vector3 n_c_bas;

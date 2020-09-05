@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_DataManager.h>
+#include <fdm/fdm_Base.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
 
@@ -38,13 +38,13 @@ class Aircraft; ///< aircraft class forward declaration
 /**
  * @brief Module base class.
  */
-class FDMEXPORT Module : public DataManager
+class FDMEXPORT Module : public Base
 {
 public:
 
     /** Constructor. */
     Module( const Aircraft* aircraft, DataNode *rootNode ) :
-        DataManager ( rootNode ),
+        Base ( rootNode ),
         _aircraft ( aircraft )
     {}
 
@@ -70,7 +70,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Module( const Module & ) : DataManager() {}
+    Module( const Module & ) : Base() {}
 };
 
 } // end of fdm namespace

@@ -152,8 +152,8 @@ struct DataOut
         bool state;                         ///< specifies if engine is working
         bool afterburner;                   ///< afterburner
 
-        double rpm;                         ///< [rpm] engine rotational speed
-        double prop;                        ///< [rpm] propeller rotational speed
+        double rpm;                         ///< [rpm] engine rpm
+        double prop;                        ///< [rpm] propeller rpm
         double ng;                          ///< [%] gas generator rotational speed
         double n1;                          ///< [%] low pressure spool rotational speed
         double n2;                          ///< [%] high pressure spool rotational speed
@@ -161,6 +161,7 @@ struct DataOut
         double epr;                         ///< [-] engine pressure ratio
         double map;                         ///< [Pa] manifold absolute pressure
         double egt;                         ///< [deg C] exhaust gas temperature
+        double cht;                         ///< [deg C] cylinder head temperature
         double itt;                         ///< [deg C] interstage turbine temperature
         double tit;                         ///< [deg C] turbine inlet temperature
 

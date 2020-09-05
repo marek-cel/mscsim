@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/f16_FLCS.h \
     $$PWD/f16_LandingGear.h \
     $$PWD/f16_Mass.h \
-    $$PWD/f16_Propulsion.h
+    $$PWD/f16_Propulsion.h \
+    $$PWD/f16_FDM.h
 
 SOURCES += \
     $$PWD/f16_Aerodynamics.cpp \
@@ -16,4 +17,5 @@ SOURCES += \
     $$PWD/f16_FLCS.cpp \
     $$PWD/f16_LandingGear.cpp \
     $$PWD/f16_Mass.cpp \
-    $$PWD/f16_Propulsion.cpp
+    $$PWD/f16_Propulsion.cpp \
+    $$PWD/f16_FDM.cpp

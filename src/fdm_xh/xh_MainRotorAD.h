@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_MainRotorAD.h>
+#include <fdm/models/fdm_MainRotor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief X/H main rotor class.
  */
-class XH_MainRotorAD : public MainRotorAD
+class XH_MainRotorAD : public MainRotor
 {
 public:
 

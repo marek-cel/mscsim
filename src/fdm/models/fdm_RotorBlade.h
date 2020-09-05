@@ -26,8 +26,6 @@
 
 #include <fdm/fdm_Defines.h>
 
-#include <fdm/models/fdm_MainRotor.h>
-
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Vector3.h>
@@ -111,14 +109,12 @@ public:
     Vect span[ VECT_SPAN ];
 #   endif
 
-    typedef MainRotor::Direction Direction;
+    static Matrix3x3 getRAS2SRA( double psi, bool ccw = false );
 
-    static Matrix3x3 getRAS2SRA( double psi, Direction direction = MainRotor::CW );
-
-    static Matrix3x3 getSRA2BSA( double beta, Direction direction = MainRotor::CW );
+    static Matrix3x3 getSRA2BSA( double beta, bool ccw = false );
 
     /** Constructor. */
-    RotorBlade( Direction direction = MainRotor::CW );
+    RotorBlade( bool ccw = false );
 
     /** Destructor. */
     virtual ~RotorBlade();
@@ -203,7 +199,7 @@ public:
 
 protected:
 
-    const Direction _direction; ///< rotor direction
+    const bool _ccw;            ///< specifies if rotor direction is counter clockwise
 
     const double _dirFactor;    ///< factor due to direction
 

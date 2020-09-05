@@ -5,6 +5,7 @@ set( CPP_FILES
     c130_Aircraft.cpp
     c130_Controls.cpp
     c130_Engine.cpp
+    c130_FDM.cpp
     c130_Governor.cpp
     c130_LandingGear.cpp
     c130_Mass.cpp

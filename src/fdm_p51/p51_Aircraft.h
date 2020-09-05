@@ -47,7 +47,7 @@ class P51_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    P51_Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    P51_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     ~P51_Aircraft();

@@ -54,23 +54,15 @@ void Controls::readData( XmlNode &dataNode )
         {
             Channel channel;
 
-            channel.input = FDM_NULLPTR;
             channel.output = 0.0;
 
-            std::string name = channelNode.getAttribute( "name" );
+            std::string name  = channelNode.getAttribute( "name"  );
+            std::string input = channelNode.getAttribute( "input" );
+
+            channel.input = getDataRef( input );
 
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( channelNode, channel.table );
-
-            if ( result == FDM_SUCCESS )
-            {
-                std::pair<Channels::iterator,bool> temp =
-                        _channels.insert( std::pair<std::string,Channel>( name, channel ) );
-
-                if ( temp.second != true )
-                {
-                    result = FDM_FAILURE;
-                }
-            }
+            if ( result == FDM_SUCCESS ) result = _channels.addItem( name, channel );
 
             if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, channelNode );
 
@@ -100,23 +92,9 @@ void Controls::update()
     {
         Channel &ch = (*it).second;
 
-        if ( ch.input )
-            ch.output = ch.table.getValue( *(ch.input) );
+        if ( ch.input.isValid() )
+            ch.output = ch.table.getValue( ch.input.getValue() );
         else
             ch.output = ch.table.getValue( 0.0 );
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-Controls::Channel* Controls::getChannelByName( const char *name )
-{
-    Channels::iterator it = _channels.find( name );
-
-    if ( it != _channels.end() )
-    {
-        return &(it->second);
-    }
-
-    return 0;
 }

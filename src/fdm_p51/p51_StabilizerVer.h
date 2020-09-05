@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Stabilizer.h>
+#include <fdm/models/fdm_StabilizerVer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief P-51 vertical stabilizer class.
  */
-class P51_StabilizerVer : public Stabilizer
+class P51_StabilizerVer : public StabilizerVer
 {
 public:
 

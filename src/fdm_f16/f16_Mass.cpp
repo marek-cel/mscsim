@@ -37,37 +37,3 @@ F16_Mass::F16_Mass( const F16_Aircraft *aircraft, DataNode *rootNode ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 F16_Mass::~F16_Mass() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F16_Mass::initialize()
-{
-    VarMass *pilot       = getVariableMassByName( "pilot" );
-    VarMass *fuel_tank_l = getVariableMassByName( "fuel_tank_l" );
-    VarMass *fuel_tank_r = getVariableMassByName( "fuel_tank_r" );
-    VarMass *fuel_tank_f = getVariableMassByName( "fuel_tank_f" );
-    VarMass *fuel_tank_a = getVariableMassByName( "fuel_tank_a" );
-
-    if ( pilot && fuel_tank_l && fuel_tank_r && fuel_tank_f && fuel_tank_a )
-    {
-        pilot->input = &_aircraft->getDataInp()->masses.pilot[ 0 ];
-
-        fuel_tank_l->input = &_aircraft->getDataInp()->masses.tank[ 0 ];
-        fuel_tank_r->input = &_aircraft->getDataInp()->masses.tank[ 1 ];
-        fuel_tank_f->input = &_aircraft->getDataInp()->masses.tank[ 2 ];
-        fuel_tank_a->input = &_aircraft->getDataInp()->masses.tank[ 3 ];
-    }
-    else
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining variable masses failed." );
-
-        FDM_THROW( e );
-    }
-
-    ///////////////////
-    Mass::initialize();
-    ///////////////////
-}

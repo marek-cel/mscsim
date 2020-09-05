@@ -3,6 +3,7 @@ HEADERS += \
     $$PWD/c130_Aircraft.h \
     $$PWD/c130_Controls.h \
     $$PWD/c130_Engine.h \
+    $$PWD/c130_FDM.h \
     $$PWD/c130_Governor.h \
     $$PWD/c130_LandingGear.h \
     $$PWD/c130_Mass.h \
@@ -17,6 +18,7 @@ SOURCES += \
     $$PWD/c130_Aircraft.cpp \
     $$PWD/c130_Controls.cpp \
     $$PWD/c130_Engine.cpp \
+    $$PWD/c130_FDM.cpp \
     $$PWD/c130_Governor.cpp \
     $$PWD/c130_LandingGear.cpp \
     $$PWD/c130_Mass.cpp \

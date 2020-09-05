@@ -28,7 +28,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 
-#include <ManagerFDM.h>
+#include <fdm/fdm_Manager.h>
 
 #include <Data.h>
 #include <Defines.h>
@@ -76,7 +76,7 @@ private:
     QTimer        *_timeoutTimer;   ///<
     QElapsedTimer *_elapsedTimer;   ///<
 
-    ManagerFDM *_fdm;               ///< flight dynamics model
+    fdm::Manager *_fdm;             ///< flight dynamics model
 
     fdm::DataInp _dataInp;          ///< flight dynamics model input data
     fdm::DataOut _dataOut;          ///< flight dynamics model output data

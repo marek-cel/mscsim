@@ -45,11 +45,11 @@ public:
      * @param object pointer
      * @param pointer to function which calculates vector derivative and takes current vector as first argument and resulting vector derivative as second
      */
-    Integrator( TYPE *obj = 0, void (TYPE::*fun)(const VectorN &, VectorN *) = 0 ) :
+    Integrator( TYPE *obj = FDM_NULLPTR, void (TYPE::*fun)(const VectorN &, VectorN *) = FDM_NULLPTR ) :
         _obj ( obj ),
         _fun ( fun )
     {
-        if ( _obj == 0 )
+        if ( _obj == FDM_NULLPTR )
         {
             Exception e;
 
@@ -59,7 +59,7 @@ public:
             FDM_THROW( e );
         }
 
-        if ( _fun == 0 )
+        if ( _fun == FDM_NULLPTR )
         {
             Exception e;
 

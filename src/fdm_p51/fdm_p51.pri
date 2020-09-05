@@ -10,7 +10,8 @@ HEADERS += \
     $$PWD/p51_Propulsion.h \
     $$PWD/p51_StabilizerHor.h \
     $$PWD/p51_StabilizerVer.h \
-    $$PWD/p51_TailOff.h
+    $$PWD/p51_TailOff.h \
+    $$PWD/p51_FDM.h
 
 SOURCES += \
     $$PWD/p51_Aerodynamics.cpp \
@@ -24,4 +25,5 @@ SOURCES += \
     $$PWD/p51_Propulsion.cpp \
     $$PWD/p51_StabilizerHor.cpp \
     $$PWD/p51_StabilizerVer.cpp \
-    $$PWD/p51_TailOff.cpp
+    $$PWD/p51_TailOff.cpp \
+    $$PWD/p51_FDM.cpp

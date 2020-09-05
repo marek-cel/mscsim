@@ -135,10 +135,10 @@ void Aircrafts::parseAircraft(const QDomElement &node )
                 aircraft.vne = ( *converter )( aircraft.vne );
         }
 
-        parseAircraftAxes( node, aircraft.axes );
-        parseAircraftControls( node, aircraft.controls );
-        parseAircraftPropulsion( node, aircraft.propulsion );
-        parseAircraftMasses( node, aircraft.masses );
+        parseAircraftAxes       ( node, aircraft.axes       );
+        parseAircraftControls   ( node, aircraft.controls   );
+        parseAircraftPropulsion ( node, aircraft.propulsion );
+        parseAircraftMasses     ( node, aircraft.masses     );
 
         aircraft.mainRotorCoef = 1.0f;
         aircraft.tailRotorCoef = 1.0f;
@@ -283,9 +283,10 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
     propulsion.epr  = false;
     propulsion.map  = false;
     propulsion.egt  = false;
+    propulsion.cht  = false;
+    propulsion.tit  = false;
     propulsion.tot  = false;
     propulsion.itt  = false;
-    propulsion.tit  = false;
 
     QDomElement nodePropulsion = node.firstChildElement( "propulsion" );
 
@@ -303,9 +304,10 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
         QDomElement nodeEPR  = nodePropulsion.firstChildElement( "epr"  );
         QDomElement nodeMAP  = nodePropulsion.firstChildElement( "map"  );
         QDomElement nodeEGT  = nodePropulsion.firstChildElement( "egt"  );
+        QDomElement nodeCHT  = nodePropulsion.firstChildElement( "cht"  );
+        QDomElement nodeTIT  = nodePropulsion.firstChildElement( "tit"  );
         QDomElement nodeTOT  = nodePropulsion.firstChildElement( "tot"  );
         QDomElement nodeITT  = nodePropulsion.firstChildElement( "itt"  );
-        QDomElement nodeTIT  = nodePropulsion.firstChildElement( "tit"  );
 
         propulsion.ab   = !nodeAB   .isNull();
         propulsion.rpm  = !nodeRPM  .isNull();
@@ -317,9 +319,10 @@ void Aircrafts::parseAircraftPropulsion( const QDomElement &node, Propulsion &pr
         propulsion.epr  = !nodeEPR  .isNull();
         propulsion.map  = !nodeMAP  .isNull();
         propulsion.egt  = !nodeEGT  .isNull();
+        propulsion.cht  = !nodeCHT  .isNull();
+        propulsion.tit  = !nodeTIT  .isNull();
         propulsion.tot  = !nodeTOT  .isNull();
         propulsion.itt  = !nodeITT  .isNull();
-        propulsion.tit  = !nodeTIT  .isNull();
     }
 }
 

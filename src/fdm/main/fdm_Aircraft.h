@@ -34,8 +34,6 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/main/fdm_DataManager.h>
-
 #include <fdm/main/fdm_Environment.h>
 #include <fdm/main/fdm_Intersections.h>
 
@@ -55,6 +53,8 @@ namespace fdm
 
 /**
  * @brief Aircraft model base class.
+ *
+ * Aircraft flight dynamics model base class.
  *
  * Conventions and Units
  *
@@ -133,7 +133,7 @@ namespace fdm
  * @see https://en.wikipedia.org/wiki/Rotating_reference_frame
  * @see https://en.wikipedia.org/wiki/Centrifugal_force#Derivation
  */
-class FDMEXPORT Aircraft : public DataManager
+class FDMEXPORT Aircraft : public Base
 {
 public:
 
@@ -147,68 +147,22 @@ public:
         Running  = 1    ///< running
     };
 
-    /** Data references. */
-    struct DataRefs
-    {
-        struct Input
-        {
-            struct Controls
-            {
-                DataRef roll;                       ///< roll controls data reference
-                DataRef pitch;                      ///< pitch control data reference
-                DataRef yaw;                        ///< yaw control data reference
-
-                DataRef trim_roll;                  ///< roll trim data reference
-                DataRef trim_pitch;                 ///< pitch trim data reference
-                DataRef trim_yaw;                   ///< yaw trim data reference
-
-                DataRef brake_l;                    ///< left brake data reference
-                DataRef brake_r;                    ///< right brake data reference
-
-                DataRef landing_gear;               ///< landing gear data reference
-                DataRef nose_wheel;                 ///< nose wheel steering data reference
-
-                DataRef flaps;                      ///< flaps data reference
-                DataRef airbrake;                   ///< airbrake data reference
-                DataRef spoilers;                   ///< spoilers data reference
-
-                DataRef collective;                 ///< collective data reference
-
-                DataRef lgh;                        ///< landing gear handle data reference
-                DataRef nws;                        ///< nose wheel steering data reference
-                DataRef abs;                        ///< anti-skid braking system data reference
-            };
-
-            struct Engine
-            {
-                DataRef  throttle;                  ///< throttle data reference
-                DataRef  mixture;                   ///< mixture lever data reference
-                DataRef  propeller;                 ///< propeller lever data reference
-
-                DataRef  fuel;                      ///< fuel state data reference
-                DataRef  ignition;                  ///< ignition state data reference
-                DataRef  starter;                   ///< starter state data reference
-            };
-
-            struct Masses
-            {
-                DataRef pilot[ FDM_MAX_PILOTS ];     ///< pilots data reference
-                DataRef tank[ FDM_MAX_TANKS ];       ///< fuel tanks data reference
-                DataRef cabin;                       ///< cabin data reference
-                DataRef trunk;                       ///< cargo trunk data reference
-                DataRef slung;                       ///< slung load data reference
-            };
-
-            Controls controls;
-            Engine   engine[ FDM_MAX_ENGINES ];
-            Masses   masses;
-        };
-
-        Input input;
-    };
+    static const UInt8 _i_x;    ///< index of aircraft location x-coordinate (origin of BAS axis system) expressed in WGS axis system
+    static const UInt8 _i_y;    ///< index of aircraft location y-coordinate (origin of BAS axis system) expressed in WGS axis system
+    static const UInt8 _i_z;    ///< index of aircraft location z-coordinate (origin of BAS axis system) expressed in WGS axis system
+    static const UInt8 _i_e0;   ///< index of aircraft attitude quaternion e0-coordinate
+    static const UInt8 _i_ex;   ///< index of aircraft attitude quaternion ex-coordinate
+    static const UInt8 _i_ey;   ///< index of aircraft attitude quaternion ey-coordinate
+    static const UInt8 _i_ez;   ///< index of aircraft attitude quaternion ez-coordinate
+    static const UInt8 _i_u;    ///< index of aircraft linear velocity x-coordinate expressed in BAS axis system
+    static const UInt8 _i_v;    ///< index of aircraft linear velocity y-coordinate expressed in BAS axis system
+    static const UInt8 _i_w;    ///< index of aircraft linear velocity z-coordinate expressed in BAS axis system
+    static const UInt8 _i_p;    ///< index of aircraft angular velocity x-coordinate expressed in BAS axis system
+    static const UInt8 _i_q;    ///< index of aircraft angular velocity y-coordinate expressed in BAS axis system
+    static const UInt8 _i_r;    ///< index of aircraft angular velocity z-coordinate expressed in BAS axis system
 
     /** Constructor. */
-    Aircraft( const DataInp *dataInp, DataOut *dataOut );
+    Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
 
     /** Destructor. */
     virtual ~Aircraft();
@@ -319,9 +273,9 @@ public:
      */
     virtual void setStateVector( const StateVector &stateVector );
 
-    inline void setIntegratePos( bool integrate_pos ) { _integrate_pos = integrate_pos; }
-    inline void setIntegrateAtt( bool integrate_att ) { _integrate_att = integrate_att; }
-    inline void setIntegrateVel( bool integrate_vel ) { _integrate_vel = integrate_vel; }
+    inline void setFreezePosition( bool freeze_position ) { _freeze_position = freeze_position; }
+    inline void setFreezeAttitude( bool freeze_attitude ) { _freeze_attitude = freeze_attitude; }
+    inline void setFreezeVelocity( bool freeze_velocity ) { _freeze_velocity = freeze_velocity; }
 
 protected:
 
@@ -349,8 +303,6 @@ protected:
 
     const DataInp *_dataInp;    ///< input data
     DataOut *_dataOut;          ///< output data
-
-    DataRefs _dataRefs;         ///< data references
 
     DataNode *_rootNode;        ///< data tree root node
 
@@ -444,9 +396,9 @@ protected:
     double _turnRate;           ///< [rad/s] turn rate
     double _headingPrev;        ///< [rad] previous heading
 
-    bool _integrate_pos;        ///< specifies if position is being integrated
-    bool _integrate_att;        ///< specifies if attitude is being integrated
-    bool _integrate_vel;        ///< specifies if velocity is being integrated
+    bool _freeze_position;      ///< specifies if position is to be frozen (is not integrating)
+    bool _freeze_attitude;      ///< specifies if attitude is to be frozen (is not integrating)
+    bool _freeze_velocity;      ///< specifies if velocity is to be frozen (is not integrating)
 
     /**
      * Reads data.
@@ -491,10 +443,7 @@ protected:
 private:
 
     /** Using this constructor is forbidden. */
-    Aircraft( const Aircraft & ) : DataManager() {}
-
-    /** Initializes data tree. */
-    void initDataTree();
+    Aircraft( const Aircraft & ) : Base() {}
 };
 
 } // end of fdm namespace

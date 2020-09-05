@@ -247,6 +247,24 @@ public:
     }
 
     /**
+     * Returns Pacejka "Magic Formula" coefficient.
+     * @see https://en.wikipedia.org/wiki/Hans_B._Pacejka#The_Pacejka_%22Magic_Formula%22_tire_models
+     * @see https://www.mathworks.com/help/physmod/sdl/ref/tireroadinteractionmagicformula.html
+     * @param kappa [-] slip parameter (v_slip/v_roll)
+     * @param b b coefficient
+     * @param c c coefficient
+     * @param d d coefficient
+     * @param e e coefficient
+     * @return Pacejka "Magic Formula" coefficient
+     */
+    static double pacejka( double kappa,
+                           double b = 10.0, double c = 1.9,
+                           double d = 1.0,  double e = 0.97 )
+    {
+        return d * sin( c * atan( b*( 1.0 - e )*kappa + e*atan( b*kappa ) ) );
+    }
+
+    /**
      * Signum function.
      * @param val input value
      * @return 1 if val is possitive, -1 when val is negative, 0 if val is zero

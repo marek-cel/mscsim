@@ -5,6 +5,7 @@ set( CPP_FILES
     aw101_AFCS.cpp
     aw101_Aircraft.cpp
     aw101_Controls.cpp
+    aw101_FDM.cpp
     aw101_Fuselage.cpp
     aw101_LandingGear.cpp
     aw101_MainRotor.cpp
