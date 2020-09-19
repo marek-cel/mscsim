@@ -45,8 +45,9 @@ struct DataInp
         F16   = 4,                          ///< F-16
         F35A  = 5,                          ///< F-35A
         P51   = 6,                          ///< P-51
-        R44   = 7,                          ///< R44
-        UH60  = 8                           ///< UH-60
+        PW5   = 7,                          ///< PW-5
+        R44   = 8,                          ///< R44
+        UH60  = 9                           ///< UH-60
 
 #       ifdef FDM_TEST
         ,XF = 901                           ///< eXperimental jet Fighter

@@ -35,8 +35,8 @@ C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft, DataNode *rootN
     Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
-    _engine ( 0 ),
-    _propeller ( 0 )
+    _engine    ( FDM_NULLPTR ),
+    _propeller ( FDM_NULLPTR )
 {
     _engine    = new C172_Engine();
     _propeller = new C172_Propeller();
@@ -46,7 +46,7 @@ C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft, DataNode *rootN
 
 C172_Propulsion::~C172_Propulsion()
 {
-    FDM_DELPTR( _engine );
+    FDM_DELPTR( _engine    );
     FDM_DELPTR( _propeller );
 }
 

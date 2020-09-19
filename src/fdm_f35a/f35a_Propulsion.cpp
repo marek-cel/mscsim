@@ -36,7 +36,7 @@ F35A_Propulsion::F35A_Propulsion( const F35A_Aircraft *aircraft, DataNode *rootN
     Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
-    _engine ( 0 )
+    _engine ( FDM_NULLPTR )
 {
     _engine = new F35A_Engine();
 }

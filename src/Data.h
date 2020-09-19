@@ -363,6 +363,7 @@ public:
         double lef;                         ///< [rad] leading edge flaps deflection
         double airbrake;                    ///< [rad] airbrake deflection
 
+        double norm_airbrake;               ///< [0.0,1.0] airbrakes normalized position
         double norm_flaps;                  ///< [0.0,1.0] flaps normalized position
         double norm_landingGear;            ///< [0.0,1.0] landing gear normalized position
 

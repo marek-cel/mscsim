@@ -19,73 +19,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_DEFINES_H
-#define CGI_DEFINES_H
+
+#include <fdm_pw5/pw5_Aircraft.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Defines.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_TIME_STEP 0.017 /*  60 Hz */
+PW5_Aircraft::PW5_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+    Aircraft( rootNode, dataInp, dataOut ),
+
+    _aero ( 0 ),
+    _ctrl ( 0 ),
+    _gear ( 0 ),
+    _mass ( 0 ),
+    _prop ( 0 )
+{
+    Aircraft::_aero = _aero = new PW5_Aerodynamics ( this, _rootNode );
+    Aircraft::_ctrl = _ctrl = new PW5_Controls     ( this, _rootNode );
+    Aircraft::_gear = _gear = new PW5_LandingGear  ( this, _rootNode );
+    Aircraft::_mass = _mass = new PW5_Mass         ( this, _rootNode );
+    Aircraft::_prop = _prop = new PW5_Propulsion   ( this, _rootNode );
+
+    readFile( Path::get( "data/fdm/pw5/pw5_fdm.xml" ).c_str() );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_FOV_Y 30.0
-
-#define CGI_HUD_Y 200.0
-#define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
-
-#define CGI_MAP_FOV_Y 15.0
-#define CGI_MAP_Y_2 1.0e7
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_DEPTH_SORTED_BIN_WORLD   0
-#define CGI_DEPTH_SORTED_BIN_SKY     1
-#define CGI_DEPTH_SORTED_BIN_MOON    2
-#define CGI_DEPTH_SORTED_BIN_SUN     2
-#define CGI_DEPTH_SORTED_BIN_STARS   2
-#define CGI_DEPTH_SORTED_BIN_CLOUDS  3
-#define CGI_DEPTH_SORTED_BIN_HUD     4
-#define CGI_DEPTH_SORTED_BIN_EFFECTS 5
+PW5_Aircraft::~PW5_Aircraft()
+{
+    FDM_DELPTR( _aero );
+    FDM_DELPTR( _ctrl );
+    FDM_DELPTR( _gear );
+    FDM_DELPTR( _mass );
+    FDM_DELPTR( _prop );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_MAP   0
-#define CGI_DEPTH_SORTED_BIN_ICONS 1
+void PW5_Aircraft::initialize( bool engineOn )
+{
+    /////////////////////////////////
+    Aircraft::initialize( engineOn );
+    /////////////////////////////////
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_CLOUDS_MAX_COUNT 2048
-#define CGI_CLOUDS_MAX_SPRITES 64
+void PW5_Aircraft::updateOutputData()
+{
+    /////////////////////////////
+    Aircraft::updateOutputData();
+    /////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_FOG_LIMIT 10000.0f
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_SKYDOME_RADIUS 25000.0f
-
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN  10.0f
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MAX 100.0f
-
-#define CGI_SKYDOME_DIAMETER_SUN  0.54f
-#define CGI_SKYDOME_DIAMETER_MOON 0.53f
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_LIGHT_SUN_NUM  0
-#define CGI_LIGHT_MOON_NUM 1
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_MAX_AIRBARKE_ELEMENTS 10
-#define CGI_MAX_FLAPS_ELEMENTS 10
-#define CGI_MAX_LANDING_GEAR_ELEMENTS 30
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // CGI_DEFINES_H
+    // controls
+    _dataOut->controls.ailerons = _ctrl->getAilerons();
+    _dataOut->controls.elevator = _ctrl->getElevator();
+    _dataOut->controls.rudder   = _ctrl->getRudder();
+}

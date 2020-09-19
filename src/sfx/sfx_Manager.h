@@ -109,6 +109,7 @@ private:
     void updateAircraft_F16   ( const Data::DataBuf *data );
     void updateAircraft_F35A  ( const Data::DataBuf *data );
     void updateAircraft_P51   ( const Data::DataBuf *data );
+    void updateAircraft_PW5   ( const Data::DataBuf *data );
     void updateAircraft_R44   ( const Data::DataBuf *data );
     void updateAircraft_UH60  ( const Data::DataBuf *data );
 

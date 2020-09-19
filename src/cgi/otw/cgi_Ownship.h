@@ -1,4 +1,4 @@
-/****************************************************************************//*
+﻿/****************************************************************************//*
  * Copyright (C) 2020 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -111,8 +111,6 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _flapR;        ///< right trailing edge flap deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> _lefL;         ///< left leading edge flap deflection
     osg::ref_ptr<osg::PositionAttitudeTransform> _lefR;         ///< right leading edge flap deflection
-    osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeP;    ///< positive airbrake
-    osg::ref_ptr<osg::PositionAttitudeTransform> _airbrakeN;    ///< negative airbrake
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _propeller1;   ///<
     osg::ref_ptr<osg::PositionAttitudeTransform> _propeller2;   ///<
@@ -134,12 +132,14 @@ private:
 
     osg::ref_ptr<osg::Switch> _landingGear;                     ///<
 
-    Elements _gearElements;                                     ///<
-    Elements _flapElements;                                     ///<
+    Elements _gearElements;                                     ///< landing gear elements
+    Elements _flapElements;                                     ///< flaps elements
+    Elements _abrkElements;                                     ///< airbrake elements
     Elements _rotorBlades;                                      ///< main rotor blades
 
     ElementsData _gearData;                                     ///< landing gear elements data
     ElementsData _flapData;                                     ///< flap elements data
+    ElementsData _abrkData;                                     ///< airbrake elements data
 
     std::string _aircraftFile;                                  ///< aircraft file
 

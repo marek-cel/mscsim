@@ -178,6 +178,7 @@ void Manager::update( const Data::DataBuf *data )
             case fdm::DataInp::F16:   updateAircraft_F16   ( data ); break;
             case fdm::DataInp::F35A:  updateAircraft_F35A  ( data ); break;
             case fdm::DataInp::P51:   updateAircraft_P51   ( data ); break;
+            case fdm::DataInp::PW5:   updateAircraft_PW5   ( data ); break;
             case fdm::DataInp::R44:   updateAircraft_R44   ( data ); break;
             case fdm::DataInp::UH60:  updateAircraft_UH60  ( data ); break;
 #           ifdef FDM_TEST
@@ -416,6 +417,14 @@ void Manager::updateAircraft_P51( const Data::DataBuf *data )
     _prop_p51->play();
     _prop_p51->setVolume( _volume * coef );
     _prop_p51->setPitch( coef );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Manager::updateAircraft_PW5( const Data::DataBuf *data )
+{
+    updateTouchdown( data, 30.0 );
+    updateWarning( data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

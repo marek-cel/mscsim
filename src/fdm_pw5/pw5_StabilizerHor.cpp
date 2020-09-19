@@ -20,10 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_xf/xf_Propulsion.h>
-#include <fdm_xf/xf_Aircraft.h>
+#include <fdm_pw5/pw5_StabilizerHor.h>
 
-#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,31 +30,36 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Propulsion::XF_Propulsion( const XF_Aircraft *aircraft, DataNode *rootNode ) :
-    Propulsion( aircraft, rootNode ),
-    _aircraft ( aircraft ),
-
-    _engine ( FDM_NULLPTR )
-{
-    _engine = new XF_Engine();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-XF_Propulsion::~XF_Propulsion()
-{
-    FDM_DELPTR( _engine );
-}
+PW5_StabilizerHor::PW5_StabilizerHor() :
+    _dcx_delevator ( 0.0 ),
+    _dcz_delevator ( 0.0 ),
+    _dcz_delevator_trim ( 0.0 ),
+    _elevator ( 0.0 ),
+    _elevatorTrim ( 0.0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Propulsion::readData( XmlNode &dataNode )
+PW5_StabilizerHor::~PW5_StabilizerHor() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void PW5_StabilizerHor::readData( XmlNode &dataNode )
 {
+    ////////////////////////////////////
+    StabilizerHor::readData( dataNode );
+    ////////////////////////////////////
+
     if ( dataNode.isValid() )
     {
-        XmlNode nodeEngine = dataNode.getFirstChildElement( "engine" );
+        int result = FDM_SUCCESS;
 
-        _engine->readData( nodeEngine );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_delevator, "dcx_delevator" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator, "dcz_delevator" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator_trim, "dcz_delevator_trim" );
+
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
@@ -66,51 +69,33 @@ void XF_Propulsion::readData( XmlNode &dataNode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Propulsion::initialize()
+void PW5_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                                const Vector3 &omg_air_bas,
+                                                double airDensity,
+                                                double wingAngleOfAttack,
+                                                double elevator,
+                                                double elevatorTrim )
 {
-    /////////////////////////
-    Propulsion::initialize();
-    /////////////////////////
+    _elevator     = elevator;
+    _elevatorTrim = elevatorTrim;
 
-    bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
-
-    _engine->initialize( engineOn );
+    StabilizerHor::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                          airDensity, wingAngleOfAttack );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Propulsion::computeForceAndMoment()
+double PW5_StabilizerHor::getCx( double angle ) const
 {
-    _engine->computeThrust( _aircraft->getMachNumber(),
-                            _aircraft->getAltitude_ASL() );
-
-    // thrust and moment due to thrust
-    Vector3 for_bas( _engine->getThrust(), 0.0, 0.0 );
-    Vector3 mom_bas = _engine->getPos_BAS() % for_bas;
-
-    _for_bas = for_bas;
-    _mom_bas = mom_bas;
-
-    if ( !_for_bas.isValid() || !_mom_bas.isValid() )
-    {
-        Exception e;
-
-        e.setType( Exception::UnexpectedNaN );
-        e.setInfo( "NaN detected in the propulsion model." );
-
-        FDM_THROW( e );
-    }
+    return StabilizerHor::getCx( angle )
+            + _dcx_delevator * _elevator;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Propulsion::update()
+double PW5_StabilizerHor::getCz( double angle ) const
 {
-    _engine->integrate( _aircraft->getTimeStep() );
-    _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
-                      Units::k2c( _aircraft->getEnvir()->getTemperature() ),
-                      _aircraft->getMachNumber(),
-                      _aircraft->getEnvir()->getDensityAltitude(),
-                      _aircraft->getDataInp()->engine[ 0 ].fuel,
-                      _aircraft->getDataInp()->engine[ 0 ].starter );
+    return StabilizerHor::getCz( angle )
+            + _dcz_delevator      * _elevator
+            + _dcz_delevator_trim * _elevatorTrim;
 }

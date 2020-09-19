@@ -393,6 +393,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
     Data::get()->ownship.lef         = dataOut.controls.lef;
     Data::get()->ownship.airbrake    = dataOut.controls.airbrake;
 
+    Data::get()->ownship.norm_airbrake    = hid::Manager::instance()->getAirbrake();
     Data::get()->ownship.norm_flaps       = hid::Manager::instance()->getFlaps();
     Data::get()->ownship.norm_landingGear = hid::Manager::instance()->getLandingGear();
 

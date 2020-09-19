@@ -36,6 +36,7 @@
 #include <fdm_f16/f16_FDM.h>
 #include <fdm_f35a/f35a_FDM.h>
 #include <fdm_p51/p51_FDM.h>
+#include <fdm_pw5/pw5_FDM.h>
 #include <fdm_r44/r44_FDM.h>
 #include <fdm_uh60/uh60_FDM.h>
 
@@ -130,6 +131,7 @@ FDM* Manager::createFDM( AircraftType aircraftType )
         case DataInp::F16:   fdm = new F16_FDM   ( _dataInpPtr, _dataOutPtr, _verbose ); break;
         case DataInp::F35A:  fdm = new F35A_FDM  ( _dataInpPtr, _dataOutPtr, _verbose ); break;
         case DataInp::P51:   fdm = new P51_FDM   ( _dataInpPtr, _dataOutPtr, _verbose ); break;
+        case DataInp::PW5:   fdm = new PW5_FDM   ( _dataInpPtr, _dataOutPtr, _verbose ); break;
         case DataInp::R44:   fdm = new R44_FDM   ( _dataInpPtr, _dataOutPtr, _verbose ); break;
         case DataInp::UH60:  fdm = new UH60_FDM  ( _dataInpPtr, _dataOutPtr, _verbose ); break;
 #       ifdef FDM_TEST

@@ -39,8 +39,8 @@ C130_Propulsion::C130_Propulsion( const C130_Aircraft *aircraft, DataNode *rootN
 {
     for ( int i = 0; i < _enginesCount; i++ )
     {
-        _engine[ i ]    = new C130_Engine();
-        _propeller[ i ] = new C130_Propeller();
+        _engine    [ i ] = new C130_Engine();
+        _propeller [ i ] = new C130_Propeller();
     }
 }
 
@@ -50,8 +50,8 @@ C130_Propulsion::~C130_Propulsion()
 {
     for ( int i = 0; i < _enginesCount; i++ )
     {
-        FDM_DELPTR( _engine[ i ] );
-        FDM_DELPTR( _propeller[ i ] );
+        FDM_DELPTR( _engine    [ i ] );
+        FDM_DELPTR( _propeller [ i ] );
     }
 }
 

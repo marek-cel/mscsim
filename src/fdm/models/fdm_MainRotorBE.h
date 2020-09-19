@@ -34,7 +34,7 @@ namespace fdm
 /**
  * @brief Helicopter main rotor model class.
  *
- * This model is based on blade element theory.
+ * Articulated blades dynamic model based on blade element theory.
  *
  * Flapping angle is positive upwards.
  *

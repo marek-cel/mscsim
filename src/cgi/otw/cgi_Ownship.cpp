@@ -200,14 +200,6 @@ void Ownship::loadModel( const char *modelFile )
             _lefR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "LEFR" ) );
         }
 
-        _airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeP" ) );
-        _airbrakeN = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AirbrakeN" ) );
-
-        if ( !_airbrakeP.valid() )
-        {
-            _airbrakeP = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "Airbrake" ) );
-        }
-
         // landing gear
         _landingGear = dynamic_cast<osg::Switch*>( FindNode::findFirst( model, "LandingGear" ) );
 
@@ -241,6 +233,25 @@ void Ownship::loadModel( const char *modelFile )
             if ( flapElement.valid() )
             {
                 _flapElements.push_back( flapElement.get() );
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        // airbrake
+        for ( unsigned int i = 0; i < CGI_MAX_AIRBARKE_ELEMENTS; i++ )
+        {
+            std::stringstream ss;
+            ss << "Airbrake" << ( i + 1 );
+
+            osg::ref_ptr<osg::PositionAttitudeTransform> abrkElement =
+                    dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, ss.str().c_str() ) );
+
+            if ( abrkElement.valid() )
+            {
+                _abrkElements.push_back( abrkElement.get() );
             }
             else
             {
@@ -508,6 +519,9 @@ void Ownship::reload()
             fdm::XmlNode nodeFlaps = rootNode.getFirstChildElement( "flaps" );
             if ( nodeFlaps.isValid() ) readElementsData( nodeFlaps, &_flapData );
 
+            fdm::XmlNode nodeAirbrake = rootNode.getFirstChildElement( "airbrake" );
+            if ( nodeAirbrake.isValid() ) readElementsData( nodeAirbrake, &_abrkData );
+
             fdm::XmlNode nodeLandingGear = rootNode.getFirstChildElement( "landing_gear" );
             if ( nodeLandingGear.isValid() ) readElementsData( nodeLandingGear, &_gearData );
 
@@ -562,10 +576,12 @@ void Ownship::reset()
 
     _gearElements.clear();
     _flapElements.clear();
+    _abrkElements.clear();
     _rotorBlades.clear();
 
     _gearData.clear();
     _flapData.clear();
+    _abrkData.clear();
 
     _pos_0_wgs = osg::Vec3d( 0.0, 0.0, 0.0 );
 
@@ -671,14 +687,19 @@ void Ownship::updateModel()
     }
 
     // airbrake
-    if ( _airbrakeP.valid() )
+    for ( unsigned int i = 0; i < _abrkElements.size() && i < _abrkData.size(); i++ )
     {
-        _airbrakeP->setAttitude( osg::Quat(  Data::get()->ownship.airbrake, osg::Y_AXIS ) );
-    }
+        updateAxis( Data::get()->ownship.norm_airbrake, &(_abrkData[ i ].x) );
+        updateAxis( Data::get()->ownship.norm_airbrake, &(_abrkData[ i ].y) );
+        updateAxis( Data::get()->ownship.norm_airbrake, &(_abrkData[ i ].z) );
 
-    if ( _airbrakeN.valid() )
-    {
-        _airbrakeN->setAttitude( osg::Quat( -Data::get()->ownship.airbrake, osg::Y_AXIS ) );
+        _abrkElements[ i ]->setAttitude( osg::Quat( _abrkData[ i ].x.angle, osg::X_AXIS,
+                                                    _abrkData[ i ].y.angle, osg::Y_AXIS,
+                                                    _abrkData[ i ].z.angle, osg::Z_AXIS ) );
+
+        _abrkElements[ i ]->setPosition( osg::Vec3( _abrkData[ i ].x.shift,
+                                                    _abrkData[ i ].y.shift,
+                                                    _abrkData[ i ].z.shift ) );
     }
 
     // landing gear

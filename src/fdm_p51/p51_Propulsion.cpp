@@ -35,8 +35,8 @@ P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft, DataNode *rootNode
     Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
-    _engine    ( 0 ),
-    _propeller ( 0 )
+    _engine    ( FDM_NULLPTR ),
+    _propeller ( FDM_NULLPTR )
 {
     _engine    = new P51_Engine();
     _propeller = new P51_Propeller();
@@ -46,7 +46,7 @@ P51_Propulsion::P51_Propulsion( const P51_Aircraft *aircraft, DataNode *rootNode
 
 P51_Propulsion::~P51_Propulsion()
 {
-    FDM_DELPTR( _engine );
+    FDM_DELPTR( _engine    );
     FDM_DELPTR( _propeller );
 }
 

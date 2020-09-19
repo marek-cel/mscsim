@@ -36,7 +36,7 @@ F16_Propulsion::F16_Propulsion( const F16_Aircraft *aircraft, DataNode *rootNode
     Propulsion( aircraft, rootNode ),
     _aircraft ( aircraft ),
 
-    _engine ( 0 )
+    _engine ( FDM_NULLPTR )
 {
     _engine = new F16_Engine();
 }

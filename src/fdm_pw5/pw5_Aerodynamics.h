@@ -1,0 +1,87 @@
+/****************************************************************************//*
+ * Copyright (C) 2020 Marek M. Cel
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom
+ * the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included
+ * in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ ******************************************************************************/
+#ifndef PW5_AERODYNAMICS_H
+#define PW5_AERODYNAMICS_H
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdm/main/fdm_Aerodynamics.h>
+
+#include <fdm_pw5/pw5_TailOff.h>
+#include <fdm_pw5/pw5_StabilizerHor.h>
+#include <fdm_pw5/pw5_StabilizerVer.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
+
+class PW5_Aircraft;    ///< aircraft class forward declaration
+
+/**
+ * @brief PW-5 aerodynamics class.
+ */
+class PW5_Aerodynamics : public Aerodynamics
+{
+public:
+
+    /** Constructor. */
+    PW5_Aerodynamics( const PW5_Aircraft *aircraft, DataNode *rootNode );
+
+    /** Destructor. */
+    ~PW5_Aerodynamics();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /** Computes force and moment. */
+    void computeForceAndMoment();
+
+    /** Updates aerodynamics. */
+    void update();
+
+    /**
+     * Returns true if aircraft is stalling, otherwise returns false.
+     * @return true if aircraft is stalling, false otherwise
+     */
+    inline bool getStall() const { return _tailOff->getStall(); }
+
+private:
+
+    const PW5_Aircraft *_aircraft;      ///< aircraft model main object
+
+    PW5_TailOff       *_tailOff;        ///< wing model
+    PW5_StabilizerHor *_stabHor;        ///< horizontal stabilizer model
+    PW5_StabilizerVer *_stabVer;        ///< vertical stabilizer model
+
+    Table1 _drag_ground_effect;         ///< [-] drag factor due to ground effect vs [m] altitude AGL
+    Table1 _lift_ground_effect;         ///< [-] lift factor due to ground effect vs [m] altitude AGL
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // PW5_AERODYNAMICS_H

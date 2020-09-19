@@ -35,7 +35,8 @@ namespace fdm
 /**
  * @brief Helicopter main rotor model class.
  *
- * This model is based on momentum theory and blades flapping equations.
+ * This model combines induced velocity calculated using momentum theory and
+ * flapping equations developed analytically using blade element theory.
  *
  * Flapping angle is positive upwards.
  *

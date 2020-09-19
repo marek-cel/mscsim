@@ -19,73 +19,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_DEFINES_H
-#define CGI_DEFINES_H
+
+#include <fdm_pw5/pw5_Propulsion.h>
+#include <fdm_pw5/pw5_Aircraft.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Defines.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_TIME_STEP 0.017 /*  60 Hz */
+PW5_Propulsion::PW5_Propulsion( const PW5_Aircraft *aircraft, DataNode *rootNode ) :
+    Propulsion( aircraft, rootNode ),
+    _aircraft ( aircraft )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_FOV_Y 30.0
-
-#define CGI_HUD_Y 200.0
-#define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
-
-#define CGI_MAP_FOV_Y 15.0
-#define CGI_MAP_Y_2 1.0e7
+PW5_Propulsion::~PW5_Propulsion() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_WORLD   0
-#define CGI_DEPTH_SORTED_BIN_SKY     1
-#define CGI_DEPTH_SORTED_BIN_MOON    2
-#define CGI_DEPTH_SORTED_BIN_SUN     2
-#define CGI_DEPTH_SORTED_BIN_STARS   2
-#define CGI_DEPTH_SORTED_BIN_CLOUDS  3
-#define CGI_DEPTH_SORTED_BIN_HUD     4
-#define CGI_DEPTH_SORTED_BIN_EFFECTS 5
+void PW5_Propulsion::readData( XmlNode & /*dataNode*/ ) {}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_MAP   0
-#define CGI_DEPTH_SORTED_BIN_ICONS 1
+void PW5_Propulsion::computeForceAndMoment()
+{
+    _for_bas.zeroize();
+    _mom_bas.zeroize();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_CLOUDS_MAX_COUNT 2048
-#define CGI_CLOUDS_MAX_SPRITES 64
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_FOG_LIMIT 10000.0f
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_SKYDOME_RADIUS 25000.0f
-
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN  10.0f
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MAX 100.0f
-
-#define CGI_SKYDOME_DIAMETER_SUN  0.54f
-#define CGI_SKYDOME_DIAMETER_MOON 0.53f
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_LIGHT_SUN_NUM  0
-#define CGI_LIGHT_MOON_NUM 1
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_MAX_AIRBARKE_ELEMENTS 10
-#define CGI_MAX_FLAPS_ELEMENTS 10
-#define CGI_MAX_LANDING_GEAR_ELEMENTS 30
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // CGI_DEFINES_H
+void PW5_Propulsion::update() {}
