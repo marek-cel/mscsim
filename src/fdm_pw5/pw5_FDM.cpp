@@ -37,6 +37,10 @@ PW5_FDM::PW5_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose )
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
     FDM::_aircraft = _aircraft = new PW5_Aircraft( _rootNode, &_dataInp, &_dataOut );
+
+    _init_g_coef_p = 0.001;
+    _init_g_coef_q = 0.001;
+    _init_g_coef_n = 0.002;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

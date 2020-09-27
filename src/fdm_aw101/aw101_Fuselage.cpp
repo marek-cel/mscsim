@@ -30,58 +30,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AW101_Fuselage::AW101_Fuselage()
-{
-    _cx_beta = Table1::createOneRecordTable( 0.0 );
-    _cz_beta = Table1::createOneRecordTable( 0.0 );
-    _cm_beta = Table1::createOneRecordTable( 0.0 );
-}
+AW101_Fuselage::AW101_Fuselage() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 AW101_Fuselage::~AW101_Fuselage() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void AW101_Fuselage::readData( XmlNode &dataNode )
-{
-    ///////////////////////////////
-    Fuselage::readData( dataNode );
-    ///////////////////////////////
-
-    if ( dataNode.isValid() )
-    {
-        int result = FDM_SUCCESS;
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
-
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-    else
-    {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double AW101_Fuselage::getCx( double angleOfAttack ) const
-{
-    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double AW101_Fuselage::getCz( double angleOfAttack ) const
-{
-    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-double AW101_Fuselage::getCm( double angleOfAttack ) const
-{
-    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
-}

@@ -153,6 +153,10 @@ protected:
 
     UInt32 _initStep;                               ///< initialization step number
 
+    double _init_g_coef_p;                          ///< initialization iteration coefficient
+    double _init_g_coef_q;                          ///< initialization iteration coefficient
+    double _init_g_coef_n;                          ///< initialization iteration coefficient
+
     double _init_phi;                               ///< [rad] initial roll angle
     double _init_tht;                               ///< [rad] initial pitch angle
     double _init_alt;                               ///< [m] initial altitude above ground level

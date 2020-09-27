@@ -38,17 +38,6 @@ class FDMEXPORT Intersections
 {
 public:
 
-    /**
-     * Checks intersection.
-     * @param b [m] beginning of intersection line expressed in WGS
-     * @param e [m] end of intersection line expressed in WGS
-     * @param r [m] ground coordinates expressed in WGS
-     * @param n [-] ground normal vector expressed in WGS
-     * @return true if there is an intersection, false otherwise
-     */
-    static bool isIntersection( const Vector3 &b, const Vector3 &e,
-                                const Vector3 &r, const Vector3 &n );
-
     /** Constructor. */
     Intersections();
 

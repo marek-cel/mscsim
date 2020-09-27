@@ -27,31 +27,12 @@
 #   include <cgi/cgi_WGS84.h>
 #endif
 
+#include <fdm/utils/fdm_Geom.h>
 #include <fdm/utils/fdm_WGS84.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
-
-////////////////////////////////////////////////////////////////////////////////
-
-bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
-                                    const Vector3 &r, const Vector3 &n )
-{
-    double num = n * ( r - b );
-    double den = n * ( e - b );
-
-    double u = 0.0;
-
-    if ( fabs( den ) > 10e-14 ) u = num / den;
-
-    if ( 0.0 < u && u < 1.0 )
-    {
-        return true;
-    }
-
-    return false;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -180,14 +161,14 @@ bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
 
         if ( FDM_SUCCESS == getIntersection( b, e, &r, &n, true ) )
         {
-            return isIntersection( b, e, r, n );
+            return Geom::isIsect( b, e, r, n );
         }
     }
     else
     {
         if ( _inited )
         {
-            return isIntersection( b, e, _ground_wgs, _normal_wgs );
+            return Geom::isIsect( b, e, _ground_wgs, _normal_wgs );
         }
     }
 

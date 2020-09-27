@@ -62,21 +62,15 @@ public:
 
     inline const F35A_FLCS* getFLCS() const { return _flcs; }
 
-    inline double getAilerons()     const { return _flcs->getAilerons();     }
-    inline double getAileronsNorm() const { return _flcs->getAileronsNorm(); }
-    inline double getElevator()     const { return _flcs->getElevator();     }
-    inline double getElevatorNorm() const { return _flcs->getElevatorNorm(); }
-    inline double getRudder()       const { return _flcs->getRudder();       }
-    inline double getRudderNorm()   const { return _flcs->getRudderNorm();   }
-    inline double getFlapsLE()      const { return _flcs->getFlapsLE();      }
-    inline double getFlapsLENorm()  const { return _flcs->getFlapsLENorm();  }
-    inline double getFlapsTE()      const { return _flcs->getFlapsTE();      }
-    inline double getFlapsTENorm()  const { return _flcs->getFlapsTENorm();  }
-    inline double getAirbrake()     const { return _airbrake;      }
-    inline double getAirbrakeNorm() const { return _airbrake_norm; }
-    inline double getBrakeL()       const { return _brake_l;       }
-    inline double getBrakeR()       const { return _brake_r;       }
-    inline double getNoseWheel()    const { return _nose_wheel;    }
+    inline double getAilerons()  const { return _ailerons;   }
+    inline double getElevator()  const { return _elevator;   }
+    inline double getRudder()    const { return _rudder;     }
+    inline double getFlapsLE()   const { return _flaps_le;   }
+    inline double getFlapsTE()   const { return _flaps_te;   }
+    inline double getAirbrake()  const { return _airbrake;   }
+    inline double getBrakeL()    const { return _brake_l;    }
+    inline double getBrakeR()    const { return _brake_r;    }
+    inline double getNoseWheel() const { return _nose_wheel; }
 
 private:
 
@@ -95,28 +89,21 @@ private:
 
     F35A_FLCS *_flcs;                   ///< Fligt Control System
 
-    double _airbrake_max;               ///< [rad] airbrake deflection limit
+    double _ailerons_max;               ///< [rad]
+    double _elevator_max;               ///< [rad]
+    double _rudder_max;                 ///< [rad]
+    double _flaps_le_max;               ///< [rad]
+    double _flaps_te_max;               ///< [rad]
 
-    double _airbrake;                   ///< [rad] airbrake deflection
-    double _airbrake_norm;              ///< [-] normalized airbrake deflection
+    double _ailerons;                   ///< [rad]
+    double _elevator;                   ///< [rad]
+    double _rudder;                     ///< [rad]
+    double _flaps_le;                   ///< [rad]
+    double _flaps_te;                   ///< [rad]
+    double _airbrake;                   ///< [-] normalized airbrake deflection
     double _brake_l;                    ///< [-] normalized left brake force
     double _brake_r;                    ///< [-] normalized right brake force
     double _nose_wheel;                 ///< [rad] nose wheel turn angle
-
-    double _angleOfAttack;              ///<
-    double _g_y;                        ///<
-    double _g_z;                        ///<
-    double _rollRate;                   ///<
-    double _pitchRate;                  ///<
-    double _yawRate;                    ///<
-    double _ctrlLat;                    ///<
-    double _trimLat;                    ///<
-    double _ctrlLon;                    ///<
-    double _trimLon;                    ///<
-    double _ctrlYaw;                    ///<
-    double _trimYaw;                    ///<
-    double _statPress;                  ///<
-    double _dynPress;                   ///<
 };
 
 } // end of fdm namespace

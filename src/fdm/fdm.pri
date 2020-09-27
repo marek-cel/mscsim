@@ -1,3 +1,8 @@
+!fdm_test: {
+HEADERS += $$PWD/fdm_Manager.h
+SOURCES += $$PWD/fdm_Manager.cpp
+}
+
 HEADERS += \
     $$PWD/fdm_Base.h \
     $$PWD/fdm_DataInp.h \
@@ -6,7 +11,6 @@ HEADERS += \
     $$PWD/fdm_Exception.h \
     $$PWD/fdm_FDM.h \
     $$PWD/fdm_Log.h \
-    $$PWD/fdm_Manager.h \
     $$PWD/fdm_Path.h \
     $$PWD/fdm_Recorder.h \
     $$PWD/fdm_Test.h \
@@ -16,7 +20,6 @@ SOURCES += \
     $$PWD/fdm_Base.cpp \
     $$PWD/fdm_FDM.cpp \
     $$PWD/fdm_Log.cpp \
-    $$PWD/fdm_Manager.cpp \
     $$PWD/fdm_Recorder.cpp \
     $$PWD/fdm_Test.cpp
 
@@ -73,7 +76,8 @@ HEADERS += \
     $$PWD/models/fdm_TailRotor.h \
     $$PWD/models/fdm_Turbofan.h \
     $$PWD/models/fdm_Wheel.h \
-    $$PWD/models/fdm_WindShear.h
+    $$PWD/models/fdm_WindShear.h \
+    $$PWD/models/fdm_WingRunner.h
 
 SOURCES += \
     $$PWD/models/fdm_Atmosphere.cpp \
@@ -93,7 +97,8 @@ SOURCES += \
     $$PWD/models/fdm_TailRotor.cpp \
     $$PWD/models/fdm_Turbofan.cpp \
     $$PWD/models/fdm_Wheel.cpp \
-    $$PWD/models/fdm_WindShear.cpp
+    $$PWD/models/fdm_WindShear.cpp \
+    $$PWD/models/fdm_WingRunner.cpp
 
 ################################################################################
 
@@ -129,6 +134,7 @@ HEADERS += \
     $$PWD/utils/fdm_DataRef.h \
     $$PWD/utils/fdm_EulerRect.h \
     $$PWD/utils/fdm_GaussJordan.h \
+    $$PWD/utils/fdm_Geom.h \
     $$PWD/utils/fdm_Integrator.h \
     $$PWD/utils/fdm_Map.h \
     $$PWD/utils/fdm_Matrix.h \
@@ -155,6 +161,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/utils/fdm_Angles.cpp \
     $$PWD/utils/fdm_DataNode.cpp \
+    $$PWD/utils/fdm_Geom.cpp \
     $$PWD/utils/fdm_Matrix3x3.cpp \
     $$PWD/utils/fdm_Matrix4x4.cpp \
     $$PWD/utils/fdm_Matrix6x6.cpp \

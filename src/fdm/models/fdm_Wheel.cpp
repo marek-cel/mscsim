@@ -31,40 +31,6 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Vector3 Wheel::getIntersection( const Vector3 &b, const Vector3 &e,
-                                const Vector3 &r, const Vector3 &n )
-{
-    Vector3 r_i = e;
-
-    double num = n * ( r - b );
-    double den = n * ( e - b );
-
-    double u = 0.0;
-
-    if ( fabs( den ) < 10e-15 )
-    {
-        // segment is parallel to the plane
-        if ( fabs( num ) < 10e-15 )
-        {
-            // segment beginning is on the plane
-            r_i = b;
-        }
-    }
-    else
-    {
-        u = num / den;
-
-        if ( 0.0 <= u && u <= 1.0 )
-        {
-            r_i = b + u * ( e - b );
-        }
-    }
-
-    return r_i;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 Wheel::Wheel( bool coupled ) :
     _k ( 0.0 ),
     _c ( 0.0 ),

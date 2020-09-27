@@ -19,14 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F35A_FLCS_H
-#define F35A_FLCS_H
+#ifndef F35A_STABILIZERHOR_H
+#define F35A_STABILIZERHOR_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_Filter2.h>
-#include <fdm/sys/fdm_Lag.h>
-#include <fdm/sys/fdm_LeadLag.h>
+#include <fdm/models/fdm_StabilizerHor.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,28 +32,59 @@ namespace fdm
 {
 
 /**
- * @brief F-35A Flight Control System class.
+ * @brief F-35A horizontal stabilizer class.
  */
-class F35A_FLCS
+class F35A_StabilizerHor : public StabilizerHor
 {
 public:
 
     /** Constructor. */
-    F35A_FLCS();
+    F35A_StabilizerHor();
 
     /** Destructor. */
-    ~F35A_FLCS();
+    ~F35A_StabilizerHor();
 
-    /** Updates model. */
-    void update( double timeStep );
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * Computes force and moment.
+     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
+     * @param airDensity [kg/m^3] air density
+     * @param angleOfAttackWing [rad] wing angle of attack
+     * @param elevator [rad] elevator deflection
+     */
+    void computeForceAndMoment( const Vector3 &vel_air_bas,
+                                const Vector3 &omg_air_bas,
+                                double airDensity,
+                                double wingAngleOfAttack,
+                                double elevator );
 
 private:
 
-    double _timeStep;                   ///< [s] time step
+    double _elevator;               ///< [rad] elevator deflection
+
+    /**
+     * Computes drag coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] drag coefficient
+     */
+    virtual double getCx( double angle ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angle [rad] "angle of attack"
+     * @return [-] lift coefficient
+     */
+    virtual double getCz( double angle ) const;
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F35A_FLCS_H
+#endif // F35A_STABILIZERHOR_H

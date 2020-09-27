@@ -11,6 +11,7 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 * [F-16](https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon) - 4th generation jet fighter
 * [F-35A](https://en.wikipedia.org/wiki/Lockheed_Martin_F-35_Lightning_II) - 5th generation jet fighter
 * [Mustang Mk III](https://en.wikipedia.org/wiki/North_American_P-51_Mustang) - World War II era fighter
+* [PW-5](https://en.wikipedia.org/wiki/PW-5) - World Class glider
 * [R44](https://en.wikipedia.org/wiki/Robinson_R44) - light helicopter
 * [UH-60](https://en.wikipedia.org/wiki/Sikorsky_UH-60_Black_Hawk) - medium helicopter
 

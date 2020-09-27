@@ -66,6 +66,17 @@ void PW5_LandingGear::readData( XmlNode &dataNode )
             wheelNode = wheelNode.getNextSiblingElement( "wheel" );
         }
 
+        XmlNode wingRunnerNode = dataNode.getFirstChildElement( "wing_runner" );
+
+        while ( result == FDM_SUCCESS && wingRunnerNode.isValid() )
+        {
+            WingRunner runner;
+            runner.readData( wingRunnerNode );
+            _runners.push_back( runner );
+
+            wingRunnerNode = wingRunnerNode.getNextSiblingElement( "wing_runner" );
+        }
+
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
@@ -101,6 +112,23 @@ void PW5_LandingGear::computeForceAndMoment()
             _for_bas += wheel.getFor_BAS();
             _mom_bas += wheel.getMom_BAS();
         }
+    }
+
+    for ( WingRunners::iterator it = _runners.begin(); it != _runners.end(); ++it )
+    {
+        WingRunner &runner = (*it);
+
+        Vector3 r_c_bas;
+        Vector3 n_c_bas;
+
+        getIsect( runner.getRw_BAS(), runner.getRf_BAS(), &r_c_bas, &n_c_bas );
+
+        runner.computeForceAndMoment( _aircraft->getVel_BAS(),
+                                      _aircraft->getOmg_BAS(),
+                                      r_c_bas, n_c_bas );
+
+        _for_bas += runner.getFor_BAS();
+        _mom_bas += runner.getMom_BAS();
     }
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
@@ -152,5 +180,10 @@ void PW5_LandingGear::update()
         else if ( wheel.getBrakeGroup() == Wheel::Right ) brake = _brake_r;
 
         wheel.update( input.isValid() ? input.getValue() : 1.0, _ctrlAngle, brake );
+    }
+
+    for ( WingRunners::iterator it = _runners.begin(); it != _runners.end(); ++it )
+    {
+        (*it).update( _aircraft->getTimeStep(), _aircraft->getVel_BAS(), _onGround );
     }
 }

@@ -19,43 +19,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F35A_FLCS_H
-#define F35A_FLCS_H
+
+#include <fdm_f35a/f35a_StabilizerHor.h>
+
+#include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_Filter2.h>
-#include <fdm/sys/fdm_Lag.h>
-#include <fdm/sys/fdm_LeadLag.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+F35A_StabilizerHor::F35A_StabilizerHor() :
+    _elevator ( 0.0 )
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+
+F35A_StabilizerHor::~F35A_StabilizerHor() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void F35A_StabilizerHor::readData( XmlNode &dataNode )
 {
-
-/**
- * @brief F-35A Flight Control System class.
- */
-class F35A_FLCS
-{
-public:
-
-    /** Constructor. */
-    F35A_FLCS();
-
-    /** Destructor. */
-    ~F35A_FLCS();
-
-    /** Updates model. */
-    void update( double timeStep );
-
-private:
-
-    double _timeStep;                   ///< [s] time step
-};
-
-} // end of fdm namespace
+    ////////////////////////////////////
+    StabilizerHor::readData( dataNode );
+    ////////////////////////////////////
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F35A_FLCS_H
+void F35A_StabilizerHor::computeForceAndMoment( const Vector3 &vel_air_bas,
+                                                const Vector3 &omg_air_bas,
+                                                double airDensity,
+                                                double wingAngleOfAttack,
+                                                double elevator )
+{
+    _elevator = elevator;
+
+    StabilizerHor::computeForceAndMoment( vel_air_bas, omg_air_bas,
+                                          airDensity, wingAngleOfAttack );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double F35A_StabilizerHor::getCx( double angle ) const
+{
+    return StabilizerHor::getCx( angle + _elevator );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+double F35A_StabilizerHor::getCz( double angle ) const
+{
+    return StabilizerHor::getCz( angle + _elevator );
+}

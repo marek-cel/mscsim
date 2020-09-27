@@ -5,6 +5,7 @@ QT -= gui
 
 CONFIG += console
 CONFIG -= app_bundle
+CONFIG += fdm_test
 
 TEMPLATE = app
 

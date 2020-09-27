@@ -19,14 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F35A_FLCS_H
-#define F35A_FLCS_H
+#ifndef FDM_GEOM_H
+#define FDM_GEOM_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_Filter2.h>
-#include <fdm/sys/fdm_Lag.h>
-#include <fdm/sys/fdm_LeadLag.h>
+#include <fdm/utils/fdm_Vector3.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,28 +32,40 @@ namespace fdm
 {
 
 /**
- * @brief F-35A Flight Control System class.
+ * @brief Geometric utilities.
  */
-class F35A_FLCS
+class FDMEXPORT Geom
 {
 public:
 
-    /** Constructor. */
-    F35A_FLCS();
+    /**
+     * Checks if intersection occurs.
+     * @param b segment beginning
+     * @param e segment end
+     * @param r any point on the plane coordinates
+     * @param n plane normal vector
+     * @return true if there is an intersection, false otherwise
+     */
+    static bool isIsect( const Vector3 &b, const Vector3 &e,
+                         const Vector3 &r, const Vector3 &n );
 
-    /** Destructor. */
-    ~F35A_FLCS();
+    /**
+     * Returns segment and plane intersection point.
+     * @see O'Rourke J.: Computational Geometry in C, 1998, p.226
+     * @see http://paulbourke.net/geometry/pointlineplane/
+     * @param b segment beginning
+     * @param e segment end
+     * @param r any point on the plane coordinates
+     * @param n plane normal vector
+     * @return intersection point
+     */
+    static Vector3 getIsect( const Vector3 &b, const Vector3 &e,
+                             const Vector3 &r, const Vector3 &n );
 
-    /** Updates model. */
-    void update( double timeStep );
-
-private:
-
-    double _timeStep;                   ///< [s] time step
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F35A_FLCS_H
+#endif // FDM_GEOM_H

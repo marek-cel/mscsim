@@ -19,43 +19,63 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef F35A_FLCS_H
-#define F35A_FLCS_H
+
+#include <fdm/utils/fdm_Geom.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_Filter2.h>
-#include <fdm/sys/fdm_Lag.h>
-#include <fdm/sys/fdm_LeadLag.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+bool Geom::isIsect( const Vector3 &b, const Vector3 &e,
+                    const Vector3 &r, const Vector3 &n )
 {
+    double num = n * ( r - b );
+    double den = n * ( e - b );
 
-/**
- * @brief F-35A Flight Control System class.
- */
-class F35A_FLCS
-{
-public:
+    double u = 0.0;
 
-    /** Constructor. */
-    F35A_FLCS();
+    if ( fabs( den ) > 10e-14 ) u = num / den;
 
-    /** Destructor. */
-    ~F35A_FLCS();
+    if ( 0.0 < u && u < 1.0 )
+    {
+        return true;
+    }
 
-    /** Updates model. */
-    void update( double timeStep );
-
-private:
-
-    double _timeStep;                   ///< [s] time step
-};
-
-} // end of fdm namespace
+    return false;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // F35A_FLCS_H
+Vector3 Geom::getIsect( const Vector3 &b, const Vector3 &e,
+                        const Vector3 &r, const Vector3 &n )
+{
+    Vector3 r_i = e;
+
+    double num = n * ( r - b );
+    double den = n * ( e - b );
+
+    double u = 0.0;
+
+    if ( fabs( den ) < 10e-15 )
+    {
+        // segment is parallel to the plane
+        if ( fabs( num ) < 10e-15 )
+        {
+            // segment beginning is on the plane
+            r_i = b;
+        }
+    }
+    else
+    {
+        u = num / den;
+
+        if ( 0.0 <= u && u <= 1.0 )
+        {
+            r_i = b + u * ( e - b );
+        }
+    }
+
+    return r_i;
+}

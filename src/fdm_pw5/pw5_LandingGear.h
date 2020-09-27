@@ -27,6 +27,7 @@
 #include <fdm/main/fdm_LandingGear.h>
 
 #include <fdm/models/fdm_Wheel.h>
+#include <fdm/models/fdm_WingRunner.h>
 
 #include <fdm/utils/fdm_Map.h>
 
@@ -54,6 +55,13 @@ class PW5_Aircraft;    ///< aircraft class forward declaration
  *     [<max_angle> { [rad] max steering angle } </max_angle>]
  *   </wheel>
  *   ... { more wheels }
+ *   <wing_runner>
+ *     <wing> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </wing>
+ *     <feet> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </feet>
+ *     <stiffness> { [N/m] stiffness (linear spring) coefficient } </stiffness>
+ *     <damping> { [N/(m/s)] damping coefficient  } </damping>
+ *   </wing_runner>
+ *   ... { more wing runners }
  * </landing_gear>
  * @endcode
  */
@@ -69,6 +77,7 @@ public:
     };
 
     typedef Map< std::string, WheelAndInput > Wheels;
+    typedef std::vector< WingRunner > WingRunners;
 
     /** Constructor. */
     PW5_LandingGear( const PW5_Aircraft *aircraft, DataNode *rootNode );
@@ -93,6 +102,7 @@ private:
     const PW5_Aircraft *_aircraft;      ///< aircraft model main object
 
     Wheels _wheels;                     ///< wheels container
+    WingRunners _runners;               ///< wing runners conatiner
 };
 
 } // end of fdm namespace

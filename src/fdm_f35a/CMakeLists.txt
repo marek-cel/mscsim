@@ -10,6 +10,9 @@ set( CPP_FILES
     f35a_LandingGear.cpp
     f35a_Mass.cpp
     f35a_Propulsion.cpp
+    f35a_StabilizerHor.cpp
+    f35a_StabilizerVer.cpp
+    f35a_TailOff.cpp
 )
 
 add_library( ${MODULE_NAME} STATIC ${CPP_FILES} )

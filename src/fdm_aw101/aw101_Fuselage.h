@@ -43,39 +43,6 @@ public:
 
     /** Destructor. */
     ~AW101_Fuselage();
-
-    /**
-     * Reads data.
-     * @param dataNode XML node
-     */
-    void readData( XmlNode &dataNode );
-
-private:
-
-    Table1 _cx_beta;            ///< [-] incremental drag coefficient vs [rad] angle of sideslip
-    Table1 _cz_beta;            ///< [-] incremental lift coefficient vs [rad] angle of sideslip
-    Table1 _cm_beta;            ///< [-] incremental pitching moment coefficient vs [rad] angle of sideslip
-
-    /**
-     * Computes drag coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] drag coefficient
-     */
-    double getCx( double angleOfAttack ) const;
-
-    /**
-     * Computes lift coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] lift coefficient
-     */
-    double getCz( double angleOfAttack ) const;
-
-    /**
-     * Computes pitching moment coefficient.
-     * @param angleOfAttack [rad] angle of attack
-     * @return [-] pitching moment coefficient
-     */
-    double getCm( double angleOfAttack ) const;
 };
 
 } // end of fdm namespace

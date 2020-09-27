@@ -71,19 +71,6 @@ public:
         Right                   ///< right brake group
     };
 
-    /**
-     * Returns landing gear strut and ground plane intersection point.
-     * @see O'Rourke J.: Computational Geometry in C, 1998, p.226
-     * @see http://paulbourke.net/geometry/pointlineplane/
-     * @param b [m] landing gear strut attachment point coordinates (beginning)
-     * @param e [m] landing gear unloaded wheel coordinates (end)
-     * @param r [m] point on the ground plane coordinates
-     * @param n [-] ground plane normal vector
-     * @return [m] landing gear strut and ground plane intersection point
-     */
-    static Vector3 getIntersection( const Vector3 &b, const Vector3 &e,
-                                    const Vector3 &r, const Vector3 &n );
-
     /** Constructor. */
     Wheel( bool coupled = false );
 

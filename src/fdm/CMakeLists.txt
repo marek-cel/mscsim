@@ -38,6 +38,7 @@ set( CPP_FILES
     models/fdm_Turbofan.cpp
     models/fdm_Wheel.cpp
     models/fdm_WindShear.cpp
+    models/fdm_WingRunner.cpp
     
     sys/fdm_BPF.cpp
     sys/fdm_BSF.cpp
@@ -52,6 +53,7 @@ set( CPP_FILES
     
     utils/fdm_Angles.cpp
     utils/fdm_DataNode.cpp
+    utils/fdm_Geom.cpp
     utils/fdm_Matrix3x3.cpp
     utils/fdm_Matrix4x4.cpp
     utils/fdm_Matrix6x6.cpp

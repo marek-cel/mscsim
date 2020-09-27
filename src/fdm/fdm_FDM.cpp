@@ -53,6 +53,10 @@ FDM::FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
 
     _initStep ( 0 ),
 
+    _init_g_coef_p ( 0.001 ),
+    _init_g_coef_q ( 0.001 ),
+    _init_g_coef_n ( 0.010 ),
+
     _init_phi ( 0.0 ),
     _init_tht ( 0.0 ),
     _init_alt ( 0.0 ),
@@ -198,86 +202,99 @@ void FDM::initializeOnGround()
         _init_alt = FDM_MIN_INIT_ALTITUDE + _dataInp.ground.elevation;
     }
 
-    for ( UInt32 i = 0; i < 1000 && _initStep < FDM_MAX_INIT_STEPS && !_ready; i++  )
+    if ( _initStep < FDM_MAX_INIT_STEPS )
     {
-        Vector3 n_wgs = _aircraft->getIsect()->getNormal( _dataInp.initial.latitude,
-                                                          _dataInp.initial.longitude,
-                                                          true );
-
-        WGS84::Geo pos_geo;
-
-        pos_geo.lat = _dataInp.initial.latitude;
-        pos_geo.lon = _dataInp.initial.longitude;
-        pos_geo.alt = _init_alt;
-
-        Quaternion ned2bas( Angles( _init_phi,
-                                    _init_tht,
-                                    _dataInp.initial.heading ) );
-
-        WGS84 wgs( pos_geo );
-
-        _init_pos_wgs = wgs.getPos_WGS();
-        _init_att_wgs = wgs.getWGS2BAS( ned2bas );
-
-        Aircraft::StateVector stateVector( _aircraft->getStateVect() );
-        Aircraft::StateVector derivVector( _aircraft->getDerivVect() );
-
-        stateVector( Aircraft::_i_x  ) = _init_pos_wgs.x();
-        stateVector( Aircraft::_i_y  ) = _init_pos_wgs.y();
-        stateVector( Aircraft::_i_z  ) = _init_pos_wgs.z();
-        stateVector( Aircraft::_i_e0 ) = _init_att_wgs.e0();
-        stateVector( Aircraft::_i_ex ) = _init_att_wgs.ex();
-        stateVector( Aircraft::_i_ey ) = _init_att_wgs.ey();
-        stateVector( Aircraft::_i_ez ) = _init_att_wgs.ez();
-        stateVector( Aircraft::_i_u  ) = 0.0;
-        stateVector( Aircraft::_i_v  ) = 0.0;
-        stateVector( Aircraft::_i_w  ) = 0.0;
-        stateVector( Aircraft::_i_p  ) = 0.0;
-        stateVector( Aircraft::_i_q  ) = 0.0;
-        stateVector( Aircraft::_i_r  ) = 0.0;
-
-        _aircraft->setStateVector( stateVector );
-        derivVector = _aircraft->getDerivVect();
-
-        const double coef_p = 0.001;
-        const double coef_q = 0.001;
-        const double coef_n = 0.01;
-
-        double dp_dt = derivVector( Aircraft::_i_p );
-        double dq_dt = derivVector( Aircraft::_i_q );
-        double dn_dt = ( _aircraft->getWGS2BAS() * n_wgs )
-                     * Vector3( derivVector( Aircraft::_i_u ),
-                                derivVector( Aircraft::_i_v ),
-                                derivVector( Aircraft::_i_w ) );
-
-        // attitude updating only on the ground
-        if ( _aircraft->getGear()->getFor_BAS().getLength2() > 0.0 )
+        for ( UInt32 i = 0; i < 1000 && !_ready; i++  )
         {
-            _init_phi += dp_dt * coef_p;
-            _init_tht += dq_dt * coef_q;
-            _init_alt += dn_dt * coef_n;
-        }
-        else
-        {
-            _init_alt += dn_dt * coef_n;
-        }
+            Vector3 n_wgs = _aircraft->getIsect()->getNormal( _dataInp.initial.latitude,
+                                                              _dataInp.initial.longitude,
+                                                              true );
 
-        if ( _init_alt > 0.0
-          && fabs( dp_dt ) < 1.0e-3
-          && fabs( dq_dt ) < 1.0e-3
-          && fabs( dn_dt ) < 1.0e-3 )
-        {
-            _ready = true;
+            WGS84::Geo pos_geo;
 
-            if ( _verbose )
+            pos_geo.lat = _dataInp.initial.latitude;
+            pos_geo.lon = _dataInp.initial.longitude;
+            pos_geo.alt = _init_alt;
+
+            Quaternion ned2bas( Angles( _init_phi,
+                                        _init_tht,
+                                        _dataInp.initial.heading ) );
+
+            WGS84 wgs( pos_geo );
+
+            _init_pos_wgs = wgs.getPos_WGS();
+            _init_att_wgs = wgs.getWGS2BAS( ned2bas );
+
+            Aircraft::StateVector stateVector( _aircraft->getStateVect() );
+            Aircraft::StateVector derivVector( _aircraft->getDerivVect() );
+
+            stateVector( Aircraft::_i_x  ) = _init_pos_wgs.x();
+            stateVector( Aircraft::_i_y  ) = _init_pos_wgs.y();
+            stateVector( Aircraft::_i_z  ) = _init_pos_wgs.z();
+            stateVector( Aircraft::_i_e0 ) = _init_att_wgs.e0();
+            stateVector( Aircraft::_i_ex ) = _init_att_wgs.ex();
+            stateVector( Aircraft::_i_ey ) = _init_att_wgs.ey();
+            stateVector( Aircraft::_i_ez ) = _init_att_wgs.ez();
+            stateVector( Aircraft::_i_u  ) = 0.0;
+            stateVector( Aircraft::_i_v  ) = 0.0;
+            stateVector( Aircraft::_i_w  ) = 0.0;
+            stateVector( Aircraft::_i_p  ) = 0.0;
+            stateVector( Aircraft::_i_q  ) = 0.0;
+            stateVector( Aircraft::_i_r  ) = 0.0;
+
+            _aircraft->setStateVector( stateVector );
+            derivVector = _aircraft->getDerivVect();
+
+            const double coef_p = 0.001;
+            const double coef_q = 0.001;
+            const double coef_n = 0.01;
+
+            double dp_dt = derivVector( Aircraft::_i_p );
+            double dq_dt = derivVector( Aircraft::_i_q );
+            double dn_dt = ( _aircraft->getWGS2BAS() * n_wgs )
+                         * Vector3( derivVector( Aircraft::_i_u ),
+                                    derivVector( Aircraft::_i_v ),
+                                    derivVector( Aircraft::_i_w ) );
+
+            // attitude updating only on the ground
+            if ( _aircraft->getGear()->getFor_BAS().getLength2() > 0.0 )
             {
-                Log::i() << "On-ground initialization finished in " << _initStep << " steps" << std::endl;
-                printState();
+                _init_phi += dp_dt * _init_g_coef_p;
+                _init_tht += dq_dt * _init_g_coef_q;
+                _init_alt += dn_dt * _init_g_coef_n;
+            }
+            else
+            {
+                _init_alt += dn_dt * coef_n;
+            }
+
+            if ( _init_alt > 0.0
+              && fabs( dp_dt ) < 1.0e-3
+              && fabs( dq_dt ) < 1.0e-3
+              && fabs( dn_dt ) < 1.0e-3 )
+            {
+                _ready = true;
+
+                if ( _verbose )
+                {
+                    Log::i() << "On-ground initialization finished in " << _initStep << " steps" << std::endl;
+                    printState();
+                }
+            }
+            else
+            {
+                _initStep++;
             }
         }
-        else
+    }
+    else
+    {
+        _ready = true;
+
+        if ( _verbose )
         {
-            _initStep++;
+            Log::i() << "On-ground initialization failed." << std::endl;
+            printState();
         }
     }
 }
