@@ -26,10 +26,6 @@
 
 #include <fdm/main/fdm_LandingGear.h>
 
-#include <fdm/models/fdm_Wheel.h>
-
-#include <fdm/utils/fdm_Map.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -60,15 +56,6 @@ class C172_Aircraft;    ///< aircraft class forward declaration
 class C172_LandingGear : public LandingGear
 {
 public:
-
-    /** Wheel and input data reference struct. */
-    struct WheelAndInput
-    {
-        DataRef input;      ///< input data reference
-        Wheel   wheel;      ///< wheel model object
-    };
-
-    typedef Map< std::string, WheelAndInput > Wheels;
 
     /** Constructor. */
     C172_LandingGear( const C172_Aircraft *aircraft, DataNode *rootNode );

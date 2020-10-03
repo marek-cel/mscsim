@@ -69,10 +69,17 @@ public:
 
 private:
 
-    const C172_Aircraft *_aircraft;     ///< aircraft model main object
+    const C172_Aircraft *_aircraft; ///< aircraft model main object
 
-    C172_Engine    *_engine;            ///< engine model
-    C172_Propeller *_propeller;         ///< propeller model
+    C172_Engine    *_engine;        ///< engine model
+    C172_Propeller *_propeller;     ///< propeller model
+
+    DataRef _inputThrottle;         ///< throttle input data reference
+    DataRef _inputMixture;          ///< mixture input data reference
+    DataRef _inputPropeller;        ///< propeller input data reference
+    DataRef _inputFuel;             ///< fuel input data reference
+    DataRef _inputIgnition;         ///< ignition input data reference
+    DataRef _inputStarter;          ///< starter input data reference
 };
 
 } // end of fdm namespace

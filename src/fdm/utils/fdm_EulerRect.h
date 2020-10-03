@@ -62,16 +62,16 @@ public:
      */
     void integrate( double step, VectorN *vect )
     {
-        _xt = vect;
+        _xt = (*vect);
 
         _k0.resize( vect->getSize() );
         _k0.zeroize();
 
         // derivatives calculation
-        this->fun( _xt, _k0 );
+        this->fun( _xt, &_k0 );
 
         // integration
-        vect = vect + _k0 * step;
+        (*vect) = (*vect) + _k0 * step;
     }
 
 private:

@@ -38,7 +38,7 @@ namespace fdm
  *
  * XML configuration file format:
  * @code
- * <wheel [steerable="{ 0|1 }"] [caster="{ 0|1 }"] [brake_group="{ 0|1|2 }]">
+ * <wheel [steerable="{ 0|1 }"] [caster="{ 0|1 }"] [brake_group="{ 0|1|2|3 }]">
  *   <attachment_point> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </attachment_point>
  *   <unloaded_wheel> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </unloaded_wheel>
  *   <stiffness> { [N/m] strut stiffness (linear spring) coefficient } </stiffness>
@@ -66,9 +66,10 @@ public:
     /** Brake group. */
     enum BrakeGroup
     {
-        None = 0,               ///< none
-        Left,                   ///< left brake group
-        Right                   ///< right brake group
+        None = 0,               ///< 0: none
+        Left,                   ///< 1: left brake group
+        Right,                  ///< 2: right brake group
+        Both                    ///< 3: both brake groups
     };
 
     /** Constructor. */
@@ -164,9 +165,9 @@ protected:
     double _d_roll;         ///< [m] roll direction distance for static friction spring like model
     double _d_slip;         ///< [m] slip direction distance for static friction spring like model
 
-    double _position;       ///< [0.0,1.0] normalized position (0.0 - retracted, 1.0 - extended)
+    double _position;       ///< <0.0;1.0> normalized position (0.0 - retracted, 1.0 - extended)
     double _delta;          ///< [rad] wheel turn angle
-    double _brake;          ///< [0.0,1.0] normalized brake force
+    double _brake;          ///< <0.0;1.0> normalized brake force
 
     bool _coupled;          ///< specifies if roll and slip movement are coupled due to static friction break
 

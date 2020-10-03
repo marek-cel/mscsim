@@ -75,6 +75,22 @@ void XF_Propulsion::initialize()
     bool engineOn = _aircraft->getInitPropState() == Aircraft::Running;
 
     _engine->initialize( engineOn );
+
+    _inputThrottle  = getDataRef( "input.engine_1.throttle" );
+    _inputFuel      = getDataRef( "input.engine_1.fuel"     );
+    _inputStarter   = getDataRef( "input.engine_1.starter"  );
+
+    if ( !_inputThrottle .isValid()
+      || !_inputFuel     .isValid()
+      || !_inputStarter  .isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the propulsion module failed." );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -106,11 +122,14 @@ void XF_Propulsion::computeForceAndMoment()
 
 void XF_Propulsion::update()
 {
+    double throttle = _inputThrottle.getDatad();
+
+    bool fuel    = _inputFuel    .getDatab();
+    bool starter = _inputStarter .getDatab();
+
     _engine->integrate( _aircraft->getTimeStep() );
-    _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
-                      Units::k2c( _aircraft->getEnvir()->getTemperature() ),
-                      _aircraft->getMachNumber(),
-                      _aircraft->getEnvir()->getDensityAltitude(),
-                      _aircraft->getDataInp()->engine[ 0 ].fuel,
-                      _aircraft->getDataInp()->engine[ 0 ].starter );
+    _engine->update( throttle, Units::k2c( _aircraft->getEnvir()->getTemperature() ),
+                     _aircraft->getMachNumber(),
+                     _aircraft->getEnvir()->getDensity(),
+                     fuel, starter );
 }

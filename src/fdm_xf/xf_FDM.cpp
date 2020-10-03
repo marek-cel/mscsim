@@ -36,7 +36,7 @@ using namespace fdm;
 XF_FDM::XF_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
-    FDM::_aircraft = _aircraft = new XF_Aircraft( _rootNode, &_dataInp, &_dataOut );
+    FDM::_aircraft = _aircraft = new XF_Aircraft( _rootNode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

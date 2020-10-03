@@ -162,7 +162,7 @@ public:
     static const UInt8 _i_r;    ///< index of aircraft angular velocity z-coordinate expressed in BAS axis system
 
     /** Constructor. */
-    Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     virtual ~Aircraft();
@@ -179,9 +179,6 @@ public:
      * @param integrate specifies integration is enabled
      */
     virtual void update( double timeStep, bool integrate = true );
-
-    inline const DataInp* getDataInp() const { return _dataInp; }
-    inline const DataOut* getDataOut() const { return _dataOut; }
 
     inline Environment*   getEnvir() { return _envir; }
     inline Intersections* getIsect() { return _isect; }
@@ -301,9 +298,6 @@ protected:
 
     friend class Aircraft::Integrator;
 
-    const DataInp *_dataInp;    ///< input data
-    DataOut *_dataOut;          ///< output data
-
     DataNode *_rootNode;        ///< data tree root node
 
     Environment   *_envir;      ///< environment interface
@@ -420,9 +414,6 @@ protected:
 
     /** This function checks collisions. */
     virtual void detectCrash();
-
-    /** Updates output data. */
-    virtual void updateOutputData();
 
     /**
      * Computes state vector derivatives due to given state vector.

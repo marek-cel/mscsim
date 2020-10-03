@@ -45,7 +45,7 @@ class F35A_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    F35A_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    F35A_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~F35A_Aircraft();
@@ -75,9 +75,6 @@ private:
     F35A_LandingGear  *_gear;  ///< landing gear model
     F35A_Mass         *_mass;  ///< mass and inertia model
     F35A_Propulsion   *_prop;  ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

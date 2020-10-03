@@ -36,7 +36,7 @@ using namespace fdm;
 R44_FDM::R44_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
-    FDM::_aircraft = _aircraft = new R44_Aircraft( _rootNode, &_dataInp, &_dataOut );
+    FDM::_aircraft = _aircraft = new R44_Aircraft( _rootNode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -106,7 +106,7 @@ public:
 
     /**
      * Updates propeller.
-     * @param normPitch    [0.0,1.0] normalized propeller lever position
+     * @param normPitch    <0.0;1.0> normalized propeller lever position
      * @param engineTorque [N]       engine torque
      * @param airspeed     [m/s]     airspeed
      * @param airDensity   [kg/m^3]  air density
@@ -236,7 +236,7 @@ protected:
 
     /**
      * Computes propeller pitch.
-     * @param propellerLever [0.0,1.0] normalized propeller lever position
+     * @param propellerLever <0.0;1.0> normalized propeller lever position
      */
     virtual double getPropellerPitch( double propellerLever );
 };

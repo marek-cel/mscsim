@@ -78,12 +78,12 @@ private:
     Channel *_channelBrakeLeft;         ///< left brake channel
     Channel *_channelBrakeRight;        ///< right brake channel
 
+    AW101_AFCS *_afcs;                  ///< Automatic Flight Control System
+
     DataRef _inputCtrlRoll;             ///<
     DataRef _inputCtrlPitch;            ///<
     DataRef _inputCtrlYaw;              ///<
     DataRef _inputCtrlCollective;       ///<
-
-    AW101_AFCS *_afcs;                  ///< Automatic Flight Control System
 
     double _cyclic_lat;                 ///< [rad]
     double _cyclic_lon;                 ///< [rad]

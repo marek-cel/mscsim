@@ -143,6 +143,7 @@ struct DataInp
 
         double brake_l;                     ///< [0.0,1.0] left brake
         double brake_r;                     ///< [0.0,1.0] right brake
+        double wheel_brake;                 ///< [0.0,1.0] wheel brake
 
         double landing_gear;                ///< [0.0,1.0] landing gear
         double wheel_nose;                  ///< [-1.0,1.0] nose wheel steering (positive when the left foot moves in the forward direction)

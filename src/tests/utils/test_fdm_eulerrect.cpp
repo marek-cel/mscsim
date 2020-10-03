@@ -96,13 +96,13 @@ class EulerRectTest : public QObject
 
 public:
 
-    typedef fdm::EulerRect< 2, EulerRectTest > Integrator;
+    typedef fdm::EulerRect< EulerRectTest > Integrator;
 
     EulerRectTest();
 
 
-    void computeStateDeriv( const fdm::Vector< 2 > &state,
-                                  fdm::Vector< 2 > &deriv );
+    void computeStateDeriv( const fdm::VectorN &state,
+                                  fdm::VectorN *deriv );
 
 private:
 
@@ -143,11 +143,11 @@ double calcDelta( double a, double b, double c )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void EulerRectTest::computeStateDeriv( const fdm::Vector< 2 > &state,
-                                             fdm::Vector< 2 > &deriv )
+void EulerRectTest::computeStateDeriv( const fdm::VectorN &state,
+                                             fdm::VectorN *deriv )
 {
-    deriv( 0 ) = state( 1 );
-    deriv( 1 ) = -_k * state( 0 ) - _c * state( 1 );
+    (*deriv)( 0 ) = state( 1 );
+    (*deriv)( 1 ) = -_k * state( 0 ) - _c * state( 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ bool EulerRectTest::solve( double m,
     // state vector
     // index 0: x
     // index 1: dx/dt
-    fdm::Vector< 2 > s;
+    fdm::VectorN s( 2 );
 
     // initial conditions
     s( 0 ) = x_0;
@@ -215,7 +215,7 @@ bool EulerRectTest::solve( double m,
 
             t += T_STEP;
 
-            integrator->integrate( T_STEP, s );
+            integrator->integrate( T_STEP, &s );
         }
     }
     else if ( delta > ZERO ) // numerical zero
@@ -252,7 +252,7 @@ bool EulerRectTest::solve( double m,
 
             t += T_STEP;
 
-            integrator->integrate( T_STEP, s );
+            integrator->integrate( T_STEP, &s );
         }
     }
     else // delta == numerical zero
@@ -286,7 +286,7 @@ bool EulerRectTest::solve( double m,
 
             t += T_STEP;
 
-            integrator->integrate( T_STEP, s );
+            integrator->integrate( T_STEP, &s );
         }
     }
 

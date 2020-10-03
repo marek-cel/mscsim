@@ -207,6 +207,7 @@ void Manager::timerEvent( QTimerEvent *event )
     Data::get()->controls.trim_yaw     = -hid::Manager::instance()->getTrimYaw();
     Data::get()->controls.brake_l      =  hid::Manager::instance()->getBrakeLeft();
     Data::get()->controls.brake_r      =  hid::Manager::instance()->getBrakeRight();
+    Data::get()->controls.wheel_brake  =  std::max( hid::Manager::instance()->getBrakeLeft(), hid::Manager::instance()->getBrakeRight() );
     Data::get()->controls.landing_gear =  hid::Manager::instance()->getLandingGear();
     Data::get()->controls.wheel_nose   =  hid::Manager::instance()->getCtrlYaw();
     Data::get()->controls.flaps        =  hid::Manager::instance()->getFlaps();

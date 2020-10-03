@@ -77,6 +77,13 @@ private:
 
     C130_Engine    *_engine    [ 4 ];   ///< engine model
     C130_Propeller *_propeller [ 4 ];   ///< propeller model
+
+    DataRef _inputThrottle  [ 4 ];      ///< throttle input data reference
+    DataRef _inputMixture   [ 4 ];      ///< mixture input data reference
+    DataRef _inputPropeller [ 4 ];      ///< propeller input data reference
+    DataRef _inputFuel      [ 4 ];      ///< fuel input data reference
+    DataRef _inputIgnition  [ 4 ];      ///< ignition input data reference
+    DataRef _inputStarter   [ 4 ];      ///< starter input data reference
 };
 
 } // end of fdm namespace

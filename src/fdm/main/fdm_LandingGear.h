@@ -28,7 +28,9 @@
 
 #include <fdm/main/fdm_Module.h>
 
-#include <fdm/utils/fdm_Vector3.h>
+#include <fdm/models/fdm_Wheel.h>
+
+#include <fdm/utils/fdm_Map.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +43,15 @@ namespace fdm
 class FDMEXPORT LandingGear : public Module
 {
 public:
+
+    /** Wheel and input data reference struct. */
+    struct WheelAndInput
+    {
+        DataRef input;      ///< input data reference
+        Wheel   wheel;      ///< wheel model object
+    };
+
+    typedef Map< std::string, WheelAndInput > Wheels;
 
     /** Constructor. */
     LandingGear( const Aircraft* aircraft, DataNode *rootNode );
@@ -66,6 +77,8 @@ public:
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
+    inline double getPosition() const { return _position; }
+
     inline bool getOnGround() const { return _onGround; }
 
 protected:
@@ -75,13 +88,18 @@ protected:
 
     double _ctrlAngle;          ///< [rad] wheel turn angle
 
-    double _brake_l;            ///< [0.0,1.0] normalized brake force (left brake group)
-    double _brake_r;            ///< [0.0,1.0] normalized brake force (right brake group)
+    double _brake_l;            ///< <0.0;1.0> normalized brake force (left brake group)
+    double _brake_r;            ///< <0.0;1.0> normalized brake force (right brake group)
+
+    double _position;           ///< <0.0;1.0> normalized landing gear position
 
     bool _antiskid;             ///< specifies if antiskid is enabled
     bool _steering;             ///< specifies if steering is enabled
 
     bool _onGround;             ///< specifies if aircraft is on the ground
+
+    DataRef _inputABS;          ///< ABS input data reference
+    DataRef _inputNWS;          ///< NWS input data reference
 
     /**
      * Returns landing gear strut and ground plane intersection point expressed in BAS.
@@ -98,6 +116,8 @@ protected:
      */
     virtual bool getIsect( const Vector3 &r_a_bas, const Vector3 &r_u_bas,
                            Vector3 *r_c_bas, Vector3 *n_c_bas );
+
+    virtual int readWheelsData( XmlNode &dataNode, Wheels &wheels );
 
 private:
 

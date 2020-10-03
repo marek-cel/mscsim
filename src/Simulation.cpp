@@ -139,6 +139,7 @@ void Simulation::onDataInpUpdated( const Data::DataBuf *data )
     _dataInp.controls.trim_yaw     = data->controls.trim_yaw;
     _dataInp.controls.brake_l      = data->controls.brake_l;
     _dataInp.controls.brake_r      = data->controls.brake_r;
+    _dataInp.controls.wheel_brake  = data->controls.wheel_brake;
     _dataInp.controls.landing_gear = data->controls.landing_gear;
     _dataInp.controls.wheel_nose   = data->controls.wheel_nose;
     _dataInp.controls.flaps        = data->controls.flaps;

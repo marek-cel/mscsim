@@ -110,6 +110,24 @@ void XH_Controls::initialize()
         FDM_THROW( e );
     }
 
+    _inputCtrlRoll       = getDataRef( "input.controls.roll"       );
+    _inputCtrlPitch      = getDataRef( "input.controls.pitch"      );
+    _inputCtrlYaw        = getDataRef( "input.controls.yaw"        );
+    _inputCtrlCollective = getDataRef( "input.controls.collective" );
+
+    if ( !_inputCtrlRoll       .isValid()
+      || !_inputCtrlPitch      .isValid()
+      || !_inputCtrlYaw        .isValid()
+      || !_inputCtrlCollective .isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the controls module failed." );
+
+        FDM_THROW( e );
+    }
+
     ///////////////////////
     Controls::initialize();
     ///////////////////////
@@ -124,15 +142,15 @@ void XH_Controls::update()
     ///////////////////
 
     _afcs->update( _aircraft->getTimeStep(),
-                   _aircraft->getDataInp()->controls.roll  , 0.0,
-                   _aircraft->getDataInp()->controls.pitch , 0.0,
-                   _aircraft->getDataInp()->controls.yaw   , 0.0,
+                   _inputCtrlRoll  .getValue() , 0.0,
+                   _inputCtrlPitch .getValue() , 0.0,
+                   _inputCtrlYaw   .getValue() , 0.0,
                    _aircraft->getAngles_NED(),
                    _aircraft->getOmg_BAS() );
 
-    double cyclic_lat = _aircraft->getDataInp()->controls.roll  + _afcs->getCyclicLat();
-    double cyclic_lon = _aircraft->getDataInp()->controls.pitch + _afcs->getCyclicLon();
-    double tail_pitch = _aircraft->getDataInp()->controls.yaw   + _afcs->getTailPitch();
+    double cyclic_lat = _inputCtrlRoll  .getValue() + _afcs->getCyclicLat();
+    double cyclic_lon = _inputCtrlPitch .getValue() + _afcs->getCyclicLon();
+    double tail_pitch = _inputCtrlYaw   .getValue() + _afcs->getTailPitch();
 
     cyclic_lat = Misc::satur( -1.0, 1.0, cyclic_lat );
     cyclic_lon = Misc::satur( -1.0, 1.0, cyclic_lon );

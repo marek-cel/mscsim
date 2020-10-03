@@ -596,23 +596,91 @@ void Vector3Test::operator_vector_cross_product()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector3Test::operator_unary_add() {}
+void Vector3Test::operator_unary_add()
+{
+    fdm::Vector3 v0( 1.0, 2.0, 3.0 );
+    fdm::Vector3 v1( 2.0, 3.0, 4.0 );
+
+    v0 += v1;
+
+    QVERIFY2( fabs( v0.x() - 3.0 ) < 1.0e-9, "Failure x v0" );
+    QVERIFY2( fabs( v0.y() - 5.0 ) < 1.0e-9, "Failure y v0" );
+    QVERIFY2( fabs( v0.z() - 7.0 ) < 1.0e-9, "Failure z v0" );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector3Test::operator_unary_substract() {}
+void Vector3Test::operator_unary_substract()
+{
+    fdm::Vector3 v0( 3.0, 5.0, 7.0 );
+    fdm::Vector3 v1( 2.0, 3.0, 4.0 );
+
+    v0 -= v1;
+
+    QVERIFY2( fabs( v0.x() - 1.0 ) < 1.0e-9, "Failure x v0" );
+    QVERIFY2( fabs( v0.y() - 2.0 ) < 1.0e-9, "Failure y v0" );
+    QVERIFY2( fabs( v0.z() - 3.0 ) < 1.0e-9, "Failure z v0" );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector3Test::operator_unary_multiply_by_scalar() {}
+void Vector3Test::operator_unary_multiply_by_scalar()
+{
+    fdm::Vector3 v0( 2.0, 4.0, 6.0 );
+
+    v0 *= 0.5;
+
+    QVERIFY2( fabs( v0.x() - 1.0 ) < 1.0e-9, "Failure x v0" );
+    QVERIFY2( fabs( v0.y() - 2.0 ) < 1.0e-9, "Failure y v0" );
+    QVERIFY2( fabs( v0.z() - 3.0 ) < 1.0e-9, "Failure z v0" );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector3Test::operator_unary_divide_by_scalar() {}
+void Vector3Test::operator_unary_divide_by_scalar()
+{
+    fdm::Vector3 v0( 2.0, 4.0, 6.0 );
+
+    v0 /= 2.0;
+
+    QVERIFY2( fabs( v0.x() - 1.0 ) < 1.0e-9, "Failure x v0" );
+    QVERIFY2( fabs( v0.y() - 2.0 ) < 1.0e-9, "Failure y v0" );
+    QVERIFY2( fabs( v0.z() - 3.0 ) < 1.0e-9, "Failure z v0" );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Vector3Test::operator_unary_vector_cross_product() {}
+void Vector3Test::operator_unary_vector_cross_product()
+{
+    fdm::Vector3 v0( 1.0, 2.0, 3.0 );
+
+    fdm::Vector3 v1( 1.0, 0.0, 0.0 );
+    fdm::Vector3 v2( 0.0, 1.0, 0.0 );
+    fdm::Vector3 v3( 0.0, 0.0, 1.0 );
+
+    fdm::Vector3 vt;
+
+    vt = v0;
+    vt %= v1;
+
+    QVERIFY2( fabs( vt.x() - 0.0 ) < 1.0e-9, "Failure x vt %= v1" );
+    QVERIFY2( fabs( vt.y() - 3.0 ) < 1.0e-9, "Failure y vt %= v1" );
+    QVERIFY2( fabs( vt.z() + 2.0 ) < 1.0e-9, "Failure z vt %= v1" );
+
+    vt = v0;
+    vt %= v2;
+
+    QVERIFY2( fabs( vt.x() + 3.0 ) < 1.0e-9, "Failure x vt %= v2" );
+    QVERIFY2( fabs( vt.y() - 0.0 ) < 1.0e-9, "Failure y vt %= v2" );
+    QVERIFY2( fabs( vt.z() - 1.0 ) < 1.0e-9, "Failure z vt %= v2" );
+
+    vt = v0;
+    vt %= v3;
+
+    QVERIFY2( fabs( vt.x() - 2.0 ) < 1.0e-9, "Failure x vt %= v3" );
+    QVERIFY2( fabs( vt.y() + 1.0 ) < 1.0e-9, "Failure y vt %= v3" );
+    QVERIFY2( fabs( vt.z() - 0.0 ) < 1.0e-9, "Failure z vt %= v3" );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 

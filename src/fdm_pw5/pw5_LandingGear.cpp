@@ -23,7 +23,6 @@
 #include <fdm_pw5/pw5_LandingGear.h>
 #include <fdm_pw5/pw5_Aircraft.h>
 
-#include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,22 +48,7 @@ void PW5_LandingGear::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        XmlNode wheelNode = dataNode.getFirstChildElement( "wheel" );
-
-        while ( result == FDM_SUCCESS && wheelNode.isValid() )
-        {
-            WheelAndInput wheelAndInput;
-
-            std::string name  = wheelNode.getAttribute( "name"  );
-            std::string input = wheelNode.getAttribute( "input" );
-
-            wheelAndInput.input = getDataRef( input );
-            wheelAndInput.wheel.readData( wheelNode );
-
-            result = _wheels.addItem( name, wheelAndInput );
-
-            wheelNode = wheelNode.getNextSiblingElement( "wheel" );
-        }
+        if ( result == FDM_SUCCESS) result = readWheelsData( dataNode, _wheels );
 
         XmlNode wingRunnerNode = dataNode.getFirstChildElement( "wing_runner" );
 
@@ -150,8 +134,8 @@ void PW5_LandingGear::update()
     LandingGear::update();
     //////////////////////
 
-    _brake_l = 0.0;
-    _brake_r = 0.0;
+    _brake_l = _aircraft->getCtrl()->getWheelBrake();
+    _brake_r = _aircraft->getCtrl()->getWheelBrake();
 
     _ctrlAngle = 0.0;
 
@@ -176,7 +160,8 @@ void PW5_LandingGear::update()
                          _steering );
 
         double brake = 0.0;
-        if      ( wheel.getBrakeGroup() == Wheel::Left  ) brake = _brake_l;
+        if      ( wheel.getBrakeGroup() == Wheel::Both  ) brake = 0.5 * ( _brake_l + _brake_r );
+        else if ( wheel.getBrakeGroup() == Wheel::Left  ) brake = _brake_l;
         else if ( wheel.getBrakeGroup() == Wheel::Right ) brake = _brake_r;
 
         wheel.update( input.isValid() ? input.getValue() : 1.0, _ctrlAngle, brake );

@@ -23,6 +23,8 @@
 #include <fdm/main/fdm_Controls.h>
 #include <fdm/main/fdm_Aircraft.h>
 
+#include <fdm/fdm_Log.h>
+
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
@@ -60,6 +62,11 @@ void Controls::readData( XmlNode &dataNode )
             std::string input = channelNode.getAttribute( "input" );
 
             channel.input = getDataRef( input );
+
+            if ( !channel.input.isValid() )
+            {
+                Log::w() << "Wrong control channel input: \"" << input << "\"" << std::endl;
+            }
 
             if ( result == FDM_SUCCESS ) result = XmlUtils::read( channelNode, channel.table );
             if ( result == FDM_SUCCESS ) result = _channels.addItem( name, channel );

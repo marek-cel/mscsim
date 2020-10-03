@@ -23,7 +23,6 @@
 #include <fdm_r44/r44_LandingGear.h>
 #include <fdm_r44/r44_Aircraft.h>
 
-#include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,26 +46,10 @@ void R44_LandingGear::readData( XmlNode &dataNode )
 {
     if ( dataNode.isValid() )
     {
-        int result = FDM_SUCCESS;
-
-        XmlNode wheelNode = dataNode.getFirstChildElement( "wheel" );
-
-        while ( result == FDM_SUCCESS && wheelNode.isValid() )
+        if ( FDM_SUCCESS != readWheelsData( dataNode, _wheels ) )
         {
-            WheelAndInput wheelAndInput;
-
-            std::string name  = wheelNode.getAttribute( "name"  );
-            std::string input = wheelNode.getAttribute( "input" );
-
-            wheelAndInput.input = getDataRef( input );
-            wheelAndInput.wheel.readData( wheelNode );
-
-            result = _wheels.addItem( name, wheelAndInput );
-
-            wheelNode = wheelNode.getNextSiblingElement( "wheel" );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
-
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
@@ -126,9 +109,6 @@ void R44_LandingGear::update()
     _brake_r = 0.0;
 
     _ctrlAngle = 0.0;
-
-    _antiskid = _aircraft->getDataInp()->controls.abs;
-    _steering = false;
 
     for ( Wheels::iterator it = _wheels.begin(); it != _wheels.end(); ++it )
     {

@@ -76,6 +76,7 @@ HEADERS += \
     $$PWD/models/fdm_TailRotor.h \
     $$PWD/models/fdm_Turbofan.h \
     $$PWD/models/fdm_Wheel.h \
+    $$PWD/models/fdm_WinchLauncher.h \
     $$PWD/models/fdm_WindShear.h \
     $$PWD/models/fdm_WingRunner.h
 
@@ -97,6 +98,7 @@ SOURCES += \
     $$PWD/models/fdm_TailRotor.cpp \
     $$PWD/models/fdm_Turbofan.cpp \
     $$PWD/models/fdm_Wheel.cpp \
+    $$PWD/models/fdm_WinchLauncher.cpp \
     $$PWD/models/fdm_WindShear.cpp \
     $$PWD/models/fdm_WingRunner.cpp
 

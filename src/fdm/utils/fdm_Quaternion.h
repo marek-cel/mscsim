@@ -52,6 +52,9 @@ class FDMEXPORT Quaternion
 {
 public:
 
+    /** Creates zero rotation quaternion. */
+    static Quaternion createZeroRotationQuaternion();
+
     /** Constructor. */
     Quaternion();
 

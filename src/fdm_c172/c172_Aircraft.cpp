@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Aircraft::C172_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( rootNode, dataInp, dataOut ),
+C172_Aircraft::C172_Aircraft( DataNode *rootNode ) :
+    Aircraft( rootNode ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -64,25 +64,4 @@ void C172_Aircraft::initialize( bool engineOn )
     /////////////////////////////////
     Aircraft::initialize( engineOn );
     /////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void C172_Aircraft::updateOutputData()
-{
-    /////////////////////////////
-    Aircraft::updateOutputData();
-    /////////////////////////////
-
-    // controls
-    _dataOut->controls.ailerons = _ctrl->getAilerons();
-    _dataOut->controls.elevator = _ctrl->getElevator();
-    _dataOut->controls.rudder   = _ctrl->getRudder();
-    _dataOut->controls.flaps    = _ctrl->getFlaps();
-
-    // propulsion
-    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == C172_Engine::Running;
-    _dataOut->engine[ 0 ].rpm = _prop->getEngine()->getRPM();
-    _dataOut->engine[ 0 ].map = _prop->getEngine()->getMAP();
-    _dataOut->engine[ 0 ].fuelFlow = _prop->getEngine()->getFuelFlow();
 }

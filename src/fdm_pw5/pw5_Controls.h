@@ -57,6 +57,7 @@ public:
     inline double getRudder()       const { return _rudder;        }
     inline double getElevatorTrim() const { return _elevator_trim; }
     inline double getAirbrake()     const { return _airbrake;      }
+    inline double getWheelBrake()   const { return _wheelBrake;    }
 
 private:
 
@@ -67,12 +68,14 @@ private:
     Channel *_channelRudder;            ///< rudder channel
     Channel *_channelElevatorTrim;      ///< elevator trim channel
     Channel *_channelAirbrake;          ///< airbrake channel
+    Channel *_channelWheelBrake;        ///< wheel brake channel
 
     double _ailerons;                   ///< [rad] ailerons deflection
     double _elevator;                   ///< [rad] elevator deflection
     double _rudder;                     ///< [rad] rudder deflection
     double _elevator_trim;              ///< [rad] elevator trim deflection
     double _airbrake;                   ///< [-] normalized airbrake deflection
+    double _wheelBrake;                 ///< [-] normalized wheel brake force
 };
 
 } // end of fdm namespace

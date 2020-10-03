@@ -53,7 +53,7 @@ class F16_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    F16_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    F16_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~F16_Aircraft();
@@ -83,9 +83,6 @@ private:
     F16_LandingGear  *_gear;    ///< landing gear model
     F16_Mass         *_mass;    ///< mass and inertia model
     F16_Propulsion   *_prop;    ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

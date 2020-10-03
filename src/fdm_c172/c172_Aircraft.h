@@ -48,7 +48,7 @@ class C172_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    C172_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    C172_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~C172_Aircraft();
@@ -78,9 +78,6 @@ private:
     C172_LandingGear  *_gear;   ///< landing gear model
     C172_Mass         *_mass;   ///< mass and inertia model
     C172_Propulsion   *_prop;   ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

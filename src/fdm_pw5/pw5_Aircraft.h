@@ -50,7 +50,7 @@ class PW5_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    PW5_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    PW5_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~PW5_Aircraft();
@@ -80,9 +80,6 @@ private:
     PW5_LandingGear  *_gear;    ///< landing gear model
     PW5_Mass         *_mass;    ///< mass and inertia model
     PW5_Propulsion   *_prop;    ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

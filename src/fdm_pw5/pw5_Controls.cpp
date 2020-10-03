@@ -38,12 +38,14 @@ PW5_Controls::PW5_Controls( const PW5_Aircraft *aircraft, DataNode *rootNode ) :
     _channelRudder       ( FDM_NULLPTR ),
     _channelElevatorTrim ( FDM_NULLPTR ),
     _channelAirbrake     ( FDM_NULLPTR ),
+    _channelWheelBrake   ( FDM_NULLPTR ),
 
     _ailerons      ( 0.0 ),
     _elevator      ( 0.0 ),
     _rudder        ( 0.0 ),
     _elevator_trim ( 0.0 ),
-    _airbrake      ( 0.0 )
+    _airbrake      ( 0.0 ),
+    _wheelBrake    ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,12 +61,14 @@ void PW5_Controls::initialize()
     _channelRudder       = _channels.getItemByKey( "rudder"        );
     _channelElevatorTrim = _channels.getItemByKey( "elevator_trim" );
     _channelAirbrake     = _channels.getItemByKey( "airbrake"      );
+    _channelWheelBrake   = _channels.getItemByKey( "wheel_brake"   );
 
     if ( FDM_NULLPTR == _channelAilerons
       || FDM_NULLPTR == _channelElevator
       || FDM_NULLPTR == _channelRudder
       || FDM_NULLPTR == _channelElevatorTrim
-      || FDM_NULLPTR == _channelAirbrake )
+      || FDM_NULLPTR == _channelAirbrake
+      || FDM_NULLPTR == _channelWheelBrake )
     {
         Exception e;
 
@@ -94,4 +98,6 @@ void PW5_Controls::update()
     _elevator_trim = _channelElevatorTrim->output;
 
     _airbrake = _channelAirbrake->output;
+
+    _wheelBrake = _channelWheelBrake->output;
 }

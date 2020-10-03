@@ -35,7 +35,10 @@ Environment::Environment() :
     _pressure        ( 0.0 ),
     _density         ( 0.0 ),
     _speedOfSound    ( 0.0 ),
-    _densityAltitude ( 0.0 )
+    _densityAltitude ( 0.0 ),
+
+    _wind_direction ( 0.0 ),
+    _wind_speed     ( 0.0 )
 {
     _atmosphere = new Atmosphere();
 }
@@ -60,4 +63,7 @@ void Environment::update( double altitude_asl )
 
     _densityAltitude = Atmosphere::getDensityAltitude( _pressure, _temperature,
                                                        altitude_asl );
+
+    _wind_ned.x() = -cos( _wind_direction ) * _wind_speed;
+    _wind_ned.y() = -sin( _wind_direction ) * _wind_speed;
 }

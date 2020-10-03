@@ -120,9 +120,9 @@ public:
     /**
      * Computes thrust.
      * @param machNumber [-] Mach number
-     * @param densityAltitude [m] air density altitude
+     * @param airDensity [kg/m^3] air density
      */
-    void computeThrust( double machNumber, double densityAltitude );
+    void computeThrust( double machNumber, double airDensity );
 
     /**
      * Integrates model.
@@ -135,12 +135,12 @@ public:
      * @param throttle [0.0,1.0] throttle lever position
      * @param temperature [deg C] air temperature
      * @param machNumber [-] Mach number
-     * @param densityAltitude [m] air density altitude
+     * @param airDensity [kg/m^3] air density
      * @param fuel specifies if fuel is provided
      * @param starter specifies if starter is enabled
      */
     void update( double throttle, double temperature,
-                 double machNumber, double densityAltitude,
+                 double machNumber, double airDensity,
                  bool fuel, bool starter );
 
     /**

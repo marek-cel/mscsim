@@ -23,6 +23,8 @@
 #include <fdm_c130/c130_Propulsion.h>
 #include <fdm_c130/c130_Aircraft.h>
 
+#include <fdm/utils/fdm_String.h>
+
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +92,37 @@ void C130_Propulsion::initialize()
     {
         _propeller[ i ]->setRPM( engineOn ? 600.0 : 0.0 );
         _engine[ i ]->setRPM( _propeller[ i ]->getEngineRPM() );
+
+        std::string number = String::toString( i + 1 );
+
+        std::string idstr_throttle  = "input.engine_" + number + ".throttle";
+        std::string idstr_mixture   = "input.engine_" + number + ".mixture";
+        std::string idstr_propeller = "input.engine_" + number + ".propeller";
+        std::string idstr_fuel      = "input.engine_" + number + ".fuel";
+        std::string idstr_ignition  = "input.engine_" + number + ".ignition";
+        std::string idstr_starter   = "input.engine_" + number + ".starter";
+
+        _inputThrottle  [ i ] = getDataRef( idstr_throttle  );
+        _inputMixture   [ i ] = getDataRef( idstr_mixture   );
+        _inputPropeller [ i ] = getDataRef( idstr_propeller );
+        _inputFuel      [ i ] = getDataRef( idstr_fuel      );
+        _inputIgnition  [ i ] = getDataRef( idstr_ignition  );
+        _inputStarter   [ i ] = getDataRef( idstr_starter   );
+
+        if ( !_inputThrottle  [ i ].isValid()
+          || !_inputMixture   [ i ].isValid()
+          || !_inputPropeller [ i ].isValid()
+          || !_inputFuel      [ i ].isValid()
+          || !_inputIgnition  [ i ].isValid()
+          || !_inputStarter   [ i ].isValid() )
+        {
+            Exception e;
+
+            e.setType( Exception::UnknownException );
+            e.setInfo( "Obtaining input data refs in the propulsion module failed." );
+
+            FDM_THROW( e );
+        }
     }
 }
 
@@ -147,19 +180,21 @@ void C130_Propulsion::update()
     {
         _propeller[ i ]->integrate( _aircraft->getTimeStep(), _engine[ i ]->getInertia() );
 
-        _engine[ i ]->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
-                              _aircraft->getDataInp()->engine[ 0 ].mixture,
-                              _propeller[ i ]->getEngineRPM(),
+        double throttle  = _inputThrottle  [ i ].getDatad();
+        double mixture   = _inputMixture   [ i ].getDatad();
+        double propeller = _inputPropeller [ i ].getDatad();
+
+        bool fuel     = _inputFuel     [ i ].getDatab();
+        bool ignition = _inputIgnition [ i ].getDatab();
+        bool starter  = _inputStarter  [ i ].getDatab();
+
+        _engine[ i ]->update( throttle, mixture, _propeller[ i ]->getEngineRPM(),
                               _aircraft->getEnvir()->getPressure(),
                               _aircraft->getEnvir()->getDensity(),
                               _aircraft->getEnvir()->getDensityAltitude(),
-                              _aircraft->getDataInp()->engine[ 0 ].fuel,
-                              _aircraft->getDataInp()->engine[ 0 ].starter,
-                              _aircraft->getDataInp()->engine[ 0 ].ignition,
-                              _aircraft->getDataInp()->engine[ 0 ].ignition );
+                              fuel, starter, ignition, ignition );
 
-        _propeller[ i ]->update( _aircraft->getDataInp()->engine[ 0 ].propeller,
-                                 _engine[ i ]->getTorque(),
+        _propeller[ i ]->update( propeller, _engine[ i ]->getTorque(),
                                  _aircraft->getAirspeed(),
                                  _aircraft->getEnvir()->getDensity() );
     }

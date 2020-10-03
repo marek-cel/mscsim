@@ -36,7 +36,7 @@ using namespace fdm;
 P51_FDM::P51_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
-    FDM::_aircraft = _aircraft = new P51_Aircraft( _rootNode, &_dataInp, &_dataOut );
+    FDM::_aircraft = _aircraft = new P51_Aircraft( _rootNode );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

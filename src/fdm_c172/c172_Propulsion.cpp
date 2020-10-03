@@ -80,6 +80,28 @@ void C172_Propulsion::initialize()
 
     _propeller->setRPM( engineOn ? 600.0 : 0.0 );
     _engine->setRPM( _propeller->getEngineRPM() );
+
+    _inputThrottle  = getDataRef( "input.engine_1.throttle"  );
+    _inputMixture   = getDataRef( "input.engine_1.mixture"   );
+    _inputPropeller = getDataRef( "input.engine_1.propeller" );
+    _inputFuel      = getDataRef( "input.engine_1.fuel"      );
+    _inputIgnition  = getDataRef( "input.engine_1.ignition"  );
+    _inputStarter   = getDataRef( "input.engine_1.starter"   );
+
+    if ( !_inputThrottle  .isValid()
+      || !_inputMixture   .isValid()
+      || !_inputPropeller .isValid()
+      || !_inputFuel      .isValid()
+      || !_inputIgnition  .isValid()
+      || !_inputStarter   .isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the propulsion module failed." );
+
+        FDM_THROW( e );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,19 +149,21 @@ void C172_Propulsion::update()
 {
     _propeller->integrate( _aircraft->getTimeStep(), _engine->getInertia() );
 
-    _engine->update( _aircraft->getDataInp()->engine[ 0 ].throttle,
-                     _aircraft->getDataInp()->engine[ 0 ].mixture,
-                     _propeller->getEngineRPM(),
+    double throttle  = _inputThrottle  .getDatad();
+    double mixture   = _inputMixture   .getDatad();
+    double propeller = _inputPropeller .getDatad();
+
+    bool fuel     = _inputFuel     .getDatab();
+    bool ignition = _inputIgnition .getDatab();
+    bool starter  = _inputStarter  .getDatab();
+
+    _engine->update( throttle, mixture, _propeller->getEngineRPM(),
                      _aircraft->getEnvir()->getPressure(),
                      _aircraft->getEnvir()->getDensity(),
                      _aircraft->getEnvir()->getDensityAltitude(),
-                     _aircraft->getDataInp()->engine[ 0 ].fuel,
-                     _aircraft->getDataInp()->engine[ 0 ].starter,
-                     _aircraft->getDataInp()->engine[ 0 ].ignition,
-                     _aircraft->getDataInp()->engine[ 0 ].ignition );
+                     fuel, starter, ignition, ignition );
 
-    _propeller->update( _aircraft->getDataInp()->engine[ 0 ].propeller,
-                        _engine->getTorque(),
+    _propeller->update( propeller, _engine->getTorque(),
                         _aircraft->getAirspeed(),
                         _aircraft->getEnvir()->getDensity() );
 }

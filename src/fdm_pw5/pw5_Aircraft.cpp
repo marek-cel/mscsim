@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PW5_Aircraft::PW5_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( rootNode, dataInp, dataOut ),
+PW5_Aircraft::PW5_Aircraft( DataNode *rootNode ) :
+    Aircraft( rootNode ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -64,18 +64,4 @@ void PW5_Aircraft::initialize( bool engineOn )
     /////////////////////////////////
     Aircraft::initialize( engineOn );
     /////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void PW5_Aircraft::updateOutputData()
-{
-    /////////////////////////////
-    Aircraft::updateOutputData();
-    /////////////////////////////
-
-    // controls
-    _dataOut->controls.ailerons = _ctrl->getAilerons();
-    _dataOut->controls.elevator = _ctrl->getElevator();
-    _dataOut->controls.rudder   = _ctrl->getRudder();
 }

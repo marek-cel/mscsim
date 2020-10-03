@@ -26,10 +26,7 @@
 
 #include <fdm/main/fdm_LandingGear.h>
 
-#include <fdm/models/fdm_Wheel.h>
 #include <fdm/models/fdm_WingRunner.h>
-
-#include <fdm/utils/fdm_Map.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -69,14 +66,6 @@ class PW5_LandingGear : public LandingGear
 {
 public:
 
-    /** Wheel and input data reference struct. */
-    struct WheelAndInput
-    {
-        DataRef input;      ///< input data reference
-        Wheel   wheel;      ///< wheel model object
-    };
-
-    typedef Map< std::string, WheelAndInput > Wheels;
     typedef std::vector< WingRunner > WingRunners;
 
     /** Constructor. */

@@ -91,6 +91,7 @@ protected:
 
                 DataRef brake_l;                    ///< left brake data reference
                 DataRef brake_r;                    ///< right brake data reference
+                DataRef wheel_brake;                ///< wheel brake data reference
 
                 DataRef landing_gear;               ///< landing gear data reference
                 DataRef wheel_nose;                 ///< nose wheel steering data reference
@@ -175,6 +176,8 @@ protected:
 
     virtual void updateAndSetDataInp();
     virtual void updateAndSetDataOut();
+
+    virtual void updateEnvironment();
 
     virtual void updateInitialPositionAndAttitude();
 

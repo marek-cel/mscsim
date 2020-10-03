@@ -73,6 +73,13 @@ private:
 
     P51_Engine    *_engine;         ///< engine model
     P51_Propeller *_propeller;      ///< propeller model
+
+    DataRef _inputThrottle;         ///< throttle input data reference
+    DataRef _inputMixture;          ///< mixture input data reference
+    DataRef _inputPropeller;        ///< propeller input data reference
+    DataRef _inputFuel;             ///< fuel input data reference
+    DataRef _inputIgnition;         ///< ignition input data reference
+    DataRef _inputStarter;          ///< starter input data reference
 };
 
 } // end of fdm namespace

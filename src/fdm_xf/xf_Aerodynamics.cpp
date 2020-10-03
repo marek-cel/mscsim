@@ -248,7 +248,7 @@ double XF_Aerodynamics::getCx() const
             + _delta_cx_sb.getValue( _alpha ) * _aircraft->getCtrl()->getAirbrakeNorm()
             + _c_2v * cx_q * _aircraft->getOmg_air_BAS().q()
             + _delta_cx_tef.getValue( _alpha ) * _aircraft->getCtrl()->getFlapsTENorm()
-            + _delta_cx_gear.getValue( _alpha ) * _aircraft->getDataInp()->controls.landing_gear;
+            + _delta_cx_gear.getValue( _alpha ) * _aircraft->getGear()->getPosition();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -285,7 +285,7 @@ double XF_Aerodynamics::getCz() const
             + _delta_cz_sb.getValue( _alpha ) * _aircraft->getCtrl()->getAirbrakeNorm()
             + _c_2v * cz_q * _aircraft->getOmg_air_BAS().q()
             + _delta_cz_tef.getValue( _alpha ) * _aircraft->getCtrl()->getFlapsTENorm()
-            + _delta_cz_gear.getValue( _alpha ) * _aircraft->getDataInp()->controls.landing_gear;
+            + _delta_cz_gear.getValue( _alpha ) * _aircraft->getGear()->getPosition();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

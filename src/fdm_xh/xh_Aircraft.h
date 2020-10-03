@@ -45,7 +45,7 @@ class XH_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    XH_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    XH_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~XH_Aircraft();
@@ -77,9 +77,6 @@ private:
     XH_LandingGear  *_gear;   ///< landing gear model
     XH_Mass         *_mass;   ///< mass and inertia model
     XH_Propulsion   *_prop;   ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 
     /**
      * Computes state vector derivatives due to given state vector.

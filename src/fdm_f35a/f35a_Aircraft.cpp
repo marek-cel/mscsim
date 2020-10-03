@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F35A_Aircraft::F35A_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( rootNode, dataInp, dataOut ),
+F35A_Aircraft::F35A_Aircraft( DataNode *rootNode ) :
+    Aircraft( rootNode ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -64,29 +64,4 @@ void F35A_Aircraft::initialize( bool engineOn )
     /////////////////////////////////
     Aircraft::initialize( engineOn );
     /////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void F35A_Aircraft::updateOutputData()
-{
-    /////////////////////////////
-    Aircraft::updateOutputData();
-    /////////////////////////////
-
-    // controls
-    _dataOut->controls.elevator  = _ctrl->getElevator();
-    _dataOut->controls.elevons   = 0.0;//_ctrl->getElevons();
-    _dataOut->controls.rudder    = _ctrl->getRudder();
-    _dataOut->controls.flaps     = _ctrl->getFlapsTE();
-    _dataOut->controls.flaperons = _ctrl->getAilerons(); // sic!
-    _dataOut->controls.lef       = _ctrl->getFlapsLE();
-    _dataOut->controls.airbrake  = _ctrl->getAirbrake();
-
-    // propulsion
-    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == F35A_Engine::Running;
-    _dataOut->engine[ 0 ].afterburner = _prop->getEngine()->getAfterburner();
-    _dataOut->engine[ 0 ].n2  = _prop->getEngine()->getN2();
-    _dataOut->engine[ 0 ].tit = _prop->getEngine()->getTIT();
-    _dataOut->engine[ 0 ].fuelFlow = _prop->getEngine()->getFuelFlow();
 }

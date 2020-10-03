@@ -52,11 +52,8 @@ const UInt8 Aircraft::_i_r  = 12;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircraft::Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
+Aircraft::Aircraft( DataNode *rootNode ) :
     Base( rootNode ),
-
-    _dataInp ( dataInp ),
-    _dataOut ( dataOut ),
 
     _rootNode ( rootNode ),
 
@@ -113,8 +110,6 @@ Aircraft::Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut
     _freeze_attitude ( false ),
     _freeze_velocity ( false )
 {
-    memset( _dataOut, 0, sizeof(DataOut) );
-
     _envir = new Environment();
     _isect = new Intersections();
 
@@ -175,8 +170,6 @@ void Aircraft::update( double timeStep, bool integrate )
 
         FDM_THROW( e );
     }
-
-    updateOutputData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,8 +181,6 @@ void Aircraft::setStateVector( const StateVector &stateVector )
 
     anteIntegration();
     computeStateDeriv( _stateVect, &_derivVect );
-
-    updateOutputData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -387,93 +378,6 @@ void Aircraft::detectCrash()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Aircraft::updateOutputData()
-{
-    // flight data
-    _dataOut->flight.latitude  = _wgs.getPos_Geo().lat;
-    _dataOut->flight.longitude = _wgs.getPos_Geo().lon;
-
-    _dataOut->flight.altitude_asl = _altitude_asl;
-    _dataOut->flight.altitude_agl = _altitude_agl;
-
-    _dataOut->flight.roll    = _roll;
-    _dataOut->flight.pitch   = _pitch;
-    _dataOut->flight.heading = _heading;
-
-    _dataOut->flight.angleOfAttack = _angleOfAttack;
-    _dataOut->flight.sideslipAngle = _sideslipAngle;
-
-    _dataOut->flight.climbAngle = _climbAngle;
-    _dataOut->flight.trackAngle = _trackAngle;
-
-    _dataOut->flight.slipSkidAngle = _slipSkidAngle;
-
-    _dataOut->flight.airspeed    = _airspeed;
-    _dataOut->flight.ias         = _ias;
-    _dataOut->flight.tas         = _tas;
-    _dataOut->flight.groundSpeed = _groundSpeed;
-    _dataOut->flight.machNumber  = _machNumber;
-    _dataOut->flight.climbRate   = _climbRate;
-
-    _dataOut->flight.rollRate  = _omg_bas.p();
-    _dataOut->flight.pitchRate = _omg_bas.q();
-    _dataOut->flight.yawRate   = _omg_bas.r();
-    _dataOut->flight.turnRate  = _turnRate;
-
-    _dataOut->flight.pos_x_wgs = _pos_wgs.x();
-    _dataOut->flight.pos_y_wgs = _pos_wgs.y();
-    _dataOut->flight.pos_z_wgs = _pos_wgs.z();
-
-    _dataOut->flight.att_e0_wgs = _att_wgs.e0();
-    _dataOut->flight.att_ex_wgs = _att_wgs.ex();
-    _dataOut->flight.att_ey_wgs = _att_wgs.ey();
-    _dataOut->flight.att_ez_wgs = _att_wgs.ez();
-
-    _dataOut->flight.vel_u_bas = _vel_bas.u();
-    _dataOut->flight.vel_v_bas = _vel_bas.v();
-    _dataOut->flight.vel_w_bas = _vel_bas.w();
-
-    _dataOut->flight.omg_p_bas = _omg_bas.p();
-    _dataOut->flight.omg_q_bas = _omg_bas.q();
-    _dataOut->flight.omg_r_bas = _omg_bas.r();
-
-    _dataOut->flight.phi_wgs = _angles_wgs.phi();
-    _dataOut->flight.tht_wgs = _angles_wgs.tht();
-    _dataOut->flight.psi_wgs = _angles_wgs.psi();
-
-    _dataOut->flight.airspeed_u_bas = _vel_air_bas.u();
-    _dataOut->flight.airspeed_v_bas = _vel_air_bas.v();
-    _dataOut->flight.airspeed_w_bas = _vel_air_bas.w();
-
-    _dataOut->flight.vel_north = _vel_ned.x();
-    _dataOut->flight.vel_east  = _vel_ned.y();
-
-    _dataOut->flight.acc_x_bas = _acc_bas.x();
-    _dataOut->flight.acc_y_bas = _acc_bas.y();
-    _dataOut->flight.acc_z_bas = _acc_bas.z();
-
-    _dataOut->flight.g_force_x = _g_force.x();
-    _dataOut->flight.g_force_y = _g_force.y();
-    _dataOut->flight.g_force_z = _g_force.z();
-
-    _dataOut->flight.g_pilot_x = _g_pilot.x();
-    _dataOut->flight.g_pilot_y = _g_pilot.y();
-    _dataOut->flight.g_pilot_z = _g_pilot.z();
-
-    _dataOut->flight.onGround = _gear->getOnGround();
-    _dataOut->flight.stall    = _aero->getStall();
-
-    // environment data
-    _dataOut->environment.air_pressure    = _envir->getPressure();
-    _dataOut->environment.air_density     = _envir->getDensity();
-    _dataOut->environment.air_temperature = _envir->getTemperature();
-
-    // crash
-    _dataOut->crash = _crash;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
 void Aircraft::computeStateDeriv( const StateVector &stateVect,
                                   StateVector *derivVect )
 {
@@ -628,7 +532,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _vel_ned = _bas2ned * _vel_bas;
 
-    _vel_air_bas = _vel_bas - _envir->getWind_BAS();
+    _vel_air_bas = _vel_bas - _ned2bas * _envir->getWind_NED();
     _omg_air_bas = _omg_bas;
 
     _acc_bas.u() = derivVect( _i_u );

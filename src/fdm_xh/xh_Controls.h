@@ -82,6 +82,11 @@ private:
 
     XH_AFCS *_afcs;                   ///< Automatic Flight Control System
 
+    DataRef _inputCtrlRoll;             ///<
+    DataRef _inputCtrlPitch;            ///<
+    DataRef _inputCtrlYaw;              ///<
+    DataRef _inputCtrlCollective;       ///<
+
     double _cyclic_lat;                 ///< [rad]
     double _cyclic_lon;                 ///< [rad]
     double _collective;                 ///< [rad]

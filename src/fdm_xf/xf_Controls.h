@@ -95,6 +95,8 @@ private:
 
     XF_FLCS *_flcs;                     ///< Fligt Control System
 
+    DataRef _inputLGH;                  ///< LGH input data reference
+
     double _airbrake_max;               ///< [rad] airbrake deflection limit
 
     double _airbrake;                   ///< [rad] airbrake deflection

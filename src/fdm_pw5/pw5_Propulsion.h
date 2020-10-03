@@ -26,6 +26,8 @@
 
 #include <fdm/main/fdm_Propulsion.h>
 
+#include <fdm/models/fdm_WinchLauncher.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -61,6 +63,8 @@ public:
 private:
 
     const PW5_Aircraft *_aircraft;  ///< aircraft model main object
+
+    WinchLauncher *_winchLauncher;  ///< winch launcher
 };
 
 } // end of fdm namespace

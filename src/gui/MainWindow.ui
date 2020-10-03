@@ -57,7 +57,11 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="WidgetOTW" name="widgetOTW" native="true"/>
+         <widget class="WidgetOTW" name="widgetOTW" native="true">
+          <property name="focusPolicy">
+           <enum>Qt::StrongFocus</enum>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

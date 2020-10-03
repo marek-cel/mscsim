@@ -45,7 +45,7 @@ class AW101_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    AW101_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    AW101_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~AW101_Aircraft();
@@ -75,9 +75,6 @@ private:
     AW101_LandingGear  *_gear;  ///< landing gear model
     AW101_Mass         *_mass;  ///< mass and inertia model
     AW101_Propulsion   *_prop;  ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

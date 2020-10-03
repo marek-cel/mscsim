@@ -165,7 +165,7 @@ void XF_Engine::initialize( bool engineOn )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Engine::computeThrust( double machNumber, double densityAltitude )
+void XF_Engine::computeThrust( double machNumber, double airDensity )
 {
     if ( _state == Running )
     {
@@ -173,15 +173,15 @@ void XF_Engine::computeThrust( double machNumber, double densityAltitude )
         // (NASA-TN-D-8176, p.152)
         if ( _afterburner )
         {
-            double t_mil = _thrust_mil * _tf_mil .getValue( machNumber, densityAltitude );
-            double t_ab  = _thrust_ab  * _tf_ab  .getValue( machNumber, densityAltitude );
+            double t_mil = _thrust_mil * _tf_mil .getValue( machNumber, airDensity );
+            double t_ab  = _thrust_ab  * _tf_ab  .getValue( machNumber, airDensity );
 
             _thrust = t_mil + ( t_ab - t_mil ) * ( _pow - 0.5 ) / 0.5;
         }
         else
         {
-            double t_idle = _thrust_mil * _tf_idle .getValue( machNumber, densityAltitude );
-            double t_mil  = _thrust_mil * _tf_mil  .getValue( machNumber, densityAltitude );
+            double t_idle = _thrust_mil * _tf_idle .getValue( machNumber, airDensity );
+            double t_mil  = _thrust_mil * _tf_mil  .getValue( machNumber, airDensity );
 
             _thrust = t_idle + ( t_mil - t_idle ) * std::min( 0.5, _pow ) / 0.5;
         }
@@ -214,10 +214,10 @@ void XF_Engine::integrate( double timeStep )
 ////////////////////////////////////////////////////////////////////////////////
 
 void XF_Engine::update( double throttle, double temperature,
-                         double machNumber, double densityAltitude,
+                         double machNumber, double airDensity,
                          bool fuel, bool starter )
 {
-    computeThrust( machNumber, densityAltitude );
+    computeThrust( machNumber, airDensity );
 
     _temperature = temperature;
 

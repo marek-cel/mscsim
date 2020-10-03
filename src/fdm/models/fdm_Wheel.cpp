@@ -79,6 +79,7 @@ void Wheel::readData( XmlNode &dataNode )
         {
             case 1:  _brakeGroup = Left;  break;
             case 2:  _brakeGroup = Right; break;
+            case 3:  _brakeGroup = Both;  break;
             default: _brakeGroup = None;  break;
         }
 

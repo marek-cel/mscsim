@@ -70,6 +70,10 @@ private:
     const F16_Aircraft *_aircraft;  ///< aircraft model main object
 
     F16_Engine *_engine;            ///< engine model
+
+    DataRef _inputThrottle;         ///< throttle input data reference
+    DataRef _inputFuel;             ///< fuel input data reference
+    DataRef _inputStarter;          ///< starter input data reference
 };
 
 } // end of fdm namespace

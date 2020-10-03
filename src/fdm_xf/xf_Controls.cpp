@@ -158,6 +158,18 @@ void XF_Controls::initialize()
         FDM_THROW( e );
     }
 
+    _inputLGH = getDataRef( "input.controls.lgh" );
+
+    if ( !_inputLGH.isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the controls module failed." );
+
+        FDM_THROW( e );
+    }
+
     ///////////////////////
     Controls::initialize();
     ///////////////////////
@@ -225,7 +237,7 @@ void XF_Controls::update()
                        ctrlYaw, trimYaw,
                        statPress, dynPress,
                        false, false,
-                       _aircraft->getDataInp()->controls.lgh,
+                       _inputLGH.getDatab(),
                        _aircraft->getGear()->getOnGround() );
 
 //        _flcs->update( _aircraft->getTimeStep(),

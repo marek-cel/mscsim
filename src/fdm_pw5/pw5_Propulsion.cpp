@@ -33,16 +33,35 @@ using namespace fdm;
 
 PW5_Propulsion::PW5_Propulsion( const PW5_Aircraft *aircraft, DataNode *rootNode ) :
     Propulsion( aircraft, rootNode ),
-    _aircraft ( aircraft )
-{}
+    _aircraft ( aircraft ),
+
+    _winchLauncher ( FDM_NULLPTR )
+{
+    _winchLauncher = new WinchLauncher();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PW5_Propulsion::~PW5_Propulsion() {}
+PW5_Propulsion::~PW5_Propulsion()
+{
+    FDM_DELPTR( _winchLauncher );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PW5_Propulsion::readData( XmlNode & /*dataNode*/ ) {}
+void PW5_Propulsion::readData( XmlNode &dataNode )
+{
+    if ( dataNode.isValid() )
+    {
+        XmlNode winchLauncherNode = dataNode.getFirstChildElement( "winch_launcher" );
+
+        _winchLauncher->readData( winchLauncherNode );
+    }
+    else
+    {
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+    }
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,8 +70,21 @@ void PW5_Propulsion::computeForceAndMoment()
 {
     _for_bas.zeroize();
     _mom_bas.zeroize();
+
+    _winchLauncher->computeForceAndMoment( _aircraft->getWGS2BAS(),
+                                           _aircraft->getPos_WGS() );
+
+    _for_bas += _winchLauncher->getFor_BAS();
+    _mom_bas += _winchLauncher->getMom_BAS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PW5_Propulsion::update() {}
+void PW5_Propulsion::update()
+{
+    _winchLauncher->update( _aircraft->getTimeStep(),
+                            _aircraft->getBAS2WGS(),
+                            _aircraft->getWGS2NED(),
+                            _aircraft->getPos_WGS(),
+                            _aircraft->getAltitude_AGL() );
+}

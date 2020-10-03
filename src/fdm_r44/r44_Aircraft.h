@@ -45,7 +45,7 @@ class R44_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    R44_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut );
+    R44_Aircraft( DataNode *rootNode );
 
     /** Destructor. */
     ~R44_Aircraft();
@@ -75,9 +75,6 @@ private:
     R44_LandingGear  *_gear;    ///< landing gear model
     R44_Mass         *_mass;    ///< mass and inertia model
     R44_Propulsion   *_prop;    ///< propulsion model
-
-    /** Updates output data. */
-    void updateOutputData();
 };
 
 } // end of fdm namespace

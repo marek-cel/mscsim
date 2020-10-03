@@ -23,6 +23,9 @@
 #include <fdm/main/fdm_LandingGear.h>
 #include <fdm/main/fdm_Aircraft.h>
 
+#include <fdm/utils/fdm_String.h>
+#include <fdm/xml/fdm_XmlUtils.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -37,6 +40,8 @@ LandingGear::LandingGear( const Aircraft* aircraft, DataNode *rootNode ) :
     _brake_l ( 0.0 ),
     _brake_r ( 0.0 ),
 
+    _position ( 0.0 ),
+
     _antiskid ( false ),
     _steering ( false ),
 
@@ -49,13 +54,30 @@ LandingGear::~LandingGear() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LandingGear::initialize() {}
+void LandingGear::initialize()
+{
+    _inputABS = getDataRef( "input.controls.abs" );
+    _inputNWS = getDataRef( "input.controls.nws" );
+
+    if ( !_inputABS.isValid() || !_inputNWS.isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the landing gear module failed." );
+
+        FDM_THROW( e );
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void LandingGear::update()
 {
     _onGround = _for_bas.getLength2() > 0.0;
+
+    _antiskid = _inputABS.getDatab();
+    _steering = _inputNWS.getDatab();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,4 +104,30 @@ bool LandingGear::getIsect( const Vector3 &r_a_bas, const Vector3 &r_u_bas,
     }
 
     return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int LandingGear::readWheelsData( XmlNode &dataNode, Wheels &wheels )
+{
+    int result = FDM_SUCCESS;
+
+    XmlNode wheelNode = dataNode.getFirstChildElement( "wheel" );
+
+    while ( result == FDM_SUCCESS && wheelNode.isValid() )
+    {
+        WheelAndInput wheelAndInput;
+
+        std::string name  = wheelNode.getAttribute( "name"  );
+        std::string input = wheelNode.getAttribute( "input" );
+
+        wheelAndInput.input = getDataRef( input );
+        wheelAndInput.wheel.readData( wheelNode );
+
+        result = wheels.addItem( name, wheelAndInput );
+
+        wheelNode = wheelNode.getNextSiblingElement( "wheel" );
+    }
+
+    return result;
 }

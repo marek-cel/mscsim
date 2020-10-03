@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-R44_Aircraft::R44_Aircraft( DataNode *rootNode, const DataInp *dataInp, DataOut *dataOut ) :
-    Aircraft( rootNode, dataInp, dataOut )
+R44_Aircraft::R44_Aircraft( DataNode *rootNode ) :
+    Aircraft( rootNode )
 {
     Aircraft::_aero = _aero = new R44_Aerodynamics ( this, _rootNode );
     Aircraft::_ctrl = _ctrl = new R44_Controls     ( this, _rootNode );
@@ -58,51 +58,4 @@ void R44_Aircraft::initialize( bool engineOn )
     /////////////////////////////////
     Aircraft::initialize( engineOn );
     /////////////////////////////////
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void R44_Aircraft::updateOutputData()
-{
-    /////////////////////////////
-    Aircraft::updateOutputData();
-    /////////////////////////////
-
-//    // propulsion
-//    _dataOut->engine[ 0 ].state = _prop->getEngine()->getState() == Engine::Running;
-//    _dataOut->engine[ 0 ].rpm = _prop->getEngine()->getRPM();
-//    _dataOut->engine[ 0 ].map = _prop->getEngine()->getMAP();
-//    _dataOut->engine[ 0 ].ff  = _prop->getEngine()->getFuelFlow();
-
-    // rotor
-    _dataOut->rotor.mainRotor_omega       = _prop->getMainRotorOmega();
-    _dataOut->rotor.mainRotor_azimuth     = _prop->getMainRotorPsi();
-    _dataOut->rotor.mainRotor_coningAngle = _aero->getMainRotor()->getConingAngle();
-    _dataOut->rotor.mainRotor_diskRoll    = _aero->getMainRotor()->getDiskRoll();
-    _dataOut->rotor.mainRotor_diskPitch   = _aero->getMainRotor()->getDiskPitch();
-    _dataOut->rotor.mainRotor_collective  = _ctrl->getCollective();
-    _dataOut->rotor.mainRotor_cyclicLon   = _ctrl->getCyclicLon();
-    _dataOut->rotor.mainRotor_cyclicLat   = _ctrl->getCyclicLat();
-    _dataOut->rotor.tailRotor_azimuth     = _prop->getTailRotorPsi();
-
-    // blades
-    double delta_psi = 2.0 * M_PI / (double)( _aero->getMainRotor()->getNumberOfBlades() );
-    for ( int i = 0; i < _aero->getMainRotor()->getNumberOfBlades(); i++ )
-    {
-        double psi = _prop->getMainRotorPsi() + i * delta_psi;
-
-        double sinPsi = sin( psi );
-        double cosPsi = cos( psi );
-
-        double beta  = _aero->getMainRotor()->getBeta0()
-                     + _aero->getMainRotor()->getBeta1c() * cosPsi
-                     + _aero->getMainRotor()->getBeta1s() * sinPsi;
-
-        double theta = _aero->getMainRotor()->getTheta0()
-                     + _aero->getMainRotor()->getTheta1c() * cosPsi
-                     + _aero->getMainRotor()->getTheta1s() * sinPsi;
-
-        _dataOut->blade[ i ].flapping   = beta;
-        _dataOut->blade[ i ].feathering = theta;
-    }
 }
