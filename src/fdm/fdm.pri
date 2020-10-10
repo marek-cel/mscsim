@@ -144,7 +144,7 @@ HEADERS += \
     $$PWD/utils/fdm_Matrix4x4.h \
     $$PWD/utils/fdm_Matrix6x6.h \
     $$PWD/utils/fdm_Misc.h \
-    $$PWD/utils/fdm_Period.h \
+    $$PWD/utils/fdm_Oscillation.h \
     $$PWD/utils/fdm_Quaternion.h \
     $$PWD/utils/fdm_Random.h \
     $$PWD/utils/fdm_RungeKutta4.h \
@@ -167,7 +167,7 @@ SOURCES += \
     $$PWD/utils/fdm_Matrix3x3.cpp \
     $$PWD/utils/fdm_Matrix4x4.cpp \
     $$PWD/utils/fdm_Matrix6x6.cpp \
-    $$PWD/utils/fdm_Period.cpp \
+    $$PWD/utils/fdm_Oscillation.cpp \
     $$PWD/utils/fdm_Quaternion.cpp \
     $$PWD/utils/fdm_Random.cpp \
     $$PWD/utils/fdm_String.cpp \

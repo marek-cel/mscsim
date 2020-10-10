@@ -171,7 +171,7 @@ void Recorder::headerWrite()
 
     for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
-        _fstream << ",\"" << (*it)->name() << "\"";
+        _fstream << ";\"" << (*it)->name() << "\"";
     }
 
     _fstream << "\n";
@@ -183,11 +183,11 @@ void Recorder::recordRead( double &time )
 {
     _fstream >> time;
 
-    char comma;
+    char separator;
 
     for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
-        _fstream >> comma;
+        _fstream >> separator;
         (*it)->read( _fstream );
     }
 }
@@ -201,7 +201,7 @@ void Recorder::recordWrite( double time )
 
     for ( Variables::iterator it = _variables.begin(); it != _variables.end(); ++it )
     {
-        _fstream << ",";
+        _fstream << ";";
         (*it)->write( _fstream );
     }
 
