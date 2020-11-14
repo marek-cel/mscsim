@@ -1,9 +1,4 @@
-/***************************************************************************//**
- *
- * @author Marek M. Cel <marekcel@marekcel.pl>
- *
- * @section LICENSE
- *
+/****************************************************************************//*
  * Copyright (C) 2020 Marek M. Cel
  *
  * Permission is hereby granted, free of charge, to any person obtaining
@@ -249,10 +244,6 @@ void FDM::initializeOnGround()
             _aircraft->setStateVector( stateVector );
             derivVector = _aircraft->getDerivVect();
 
-            const double coef_p = 0.001;
-            const double coef_q = 0.001;
-            const double coef_n = 0.01;
-
             double dp_dt = derivVector( Aircraft::_i_p );
             double dq_dt = derivVector( Aircraft::_i_q );
             double dn_dt = ( _aircraft->getWGS2BAS() * n_wgs )
@@ -269,7 +260,7 @@ void FDM::initializeOnGround()
             }
             else
             {
-                _init_alt += dn_dt * coef_n;
+                _init_alt += dn_dt * _init_g_coef_n;
             }
 
             if ( _init_alt > 0.0
