@@ -32,10 +32,16 @@ namespace fdm
 {
 
 /**
- * @brief First-order lag class.
+ * @brief First-order lag (inertia) class.
  *
  * Transfer function:
  * G(s)  =  1 / ( Tc*s + 1 )
+ *
+ * @see Oledzki A., et al.: Zarys dynamiki i automatyki ukladow, 1991, p.74. [in Polish]
+ * @see Skup Z.: Podstawy automatyki i sterowania, 2012, p.54. [in Polish]
+ * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.48. [in Polish]
+ * @see Kaczorek T., et al.: Podstawy teorii sterowania, 2005, p.102. [in Polish]
+ * @see https://www.mathworks.com/help/physmod/sps/powersys/ref/firstorderfilter.html
  */
 class FDMEXPORT Lag
 {
@@ -51,22 +57,42 @@ public:
      */
     static double update( double u, double y, double dt, double tc );
 
+    /** Constructor. */
     Lag();
 
+    /**
+     * Constructor.
+     * @param tc time constant
+     * @param y initial output value
+     */
     Lag( double tc, double y = 0.0 );
 
     inline double getValue() const { return _y;  }
-    inline double getTimeConstant() const { return _tc; }
+    inline double getTimeConst() const { return _tc; }
 
+    /**
+     * Sets output value
+     * @param youtput value
+     */
     void setValue( double y );
-    void setTimeConstant( double tc );
 
+    /**
+     * Sets time constant.
+     * @param tc time constant
+     */
+    void setTimeConst( double tc );
+
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    double _tc;         ///< time constant
-    double _y;          ///< current value
+    double _tc;             ///< time constant
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

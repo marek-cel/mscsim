@@ -24,8 +24,13 @@
 #include <fdm/main/fdm_Aerodynamics.h>
 
 #include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Units.h>
 
 #include <fdm/xml/fdm_XmlUtils.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include <fdm/fdm_Test.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +39,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 MainRotor::MainRotor() :
-    _direction ( CW ),
+    _ccw ( false ),
 
     _nb ( 0 ),
 
@@ -50,10 +55,12 @@ MainRotor::MainRotor() :
 
     _beta_max ( 0.0 ),
 
-    _ct_max ( 0.0 ),
-    _cq_max ( 0.0 ),
+    _ct_max ( DBL_MAX ),
+    _ch_max ( DBL_MAX ),
+    _cq_max ( DBL_MAX ),
 
     _thrust_factor ( 1.0 ),
+    _hforce_factor ( 1.0 ),
     _torque_factor ( 1.0 ),
     _vel_i_factor  ( 1.0 ),
 
@@ -84,9 +91,11 @@ MainRotor::MainRotor() :
     _diskPitch   ( 0.0 ),
 
     _ct ( 0.0 ),
+    _ch ( 0.0 ),
     _cq ( 0.0 ),
 
     _thrust ( 0.0 ),
+    _hforce ( 0.0 ),
     _torque ( 0.0 ),
 
     _vel_i ( 0.0 ),
@@ -103,6 +112,7 @@ MainRotor::MainRotor() :
     _cas2cwas = Matrix3x3::createIdentityMatrix();
     _cwas2cas = Matrix3x3::createIdentityMatrix();
     _bas2cwas = Matrix3x3::createIdentityMatrix();
+    _cwas2bas = Matrix3x3::createIdentityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -117,19 +127,17 @@ void MainRotor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( String::toBool( dataNode.getAttribute( "counter-clockwise" ), false ) )
-        {
-            _direction = CCW;
-        }
-        else
-        {
-            _direction = CW;
-        }
+        _ccw = String::toBool( dataNode.getAttribute( "counter-clockwise" ), false );
 
         double blade_mass  = 0.0;
         double inclination = 0.0;
 
+        _ct_max = DBL_MAX;
+        _ch_max = DBL_MAX;
+        _cq_max = DBL_MAX;
+
         _thrust_factor = 1.0;
+        _hforce_factor = 1.0;
         _torque_factor = 1.0;
         _vel_i_factor  = 1.0;
 
@@ -151,10 +159,12 @@ void MainRotor::readData( XmlNode &dataNode )
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _beta_max, "beta_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ch_max, "ch_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max", true );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_factor , "thrust_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _hforce_factor , "hforce_factor" , true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _torque_factor , "torque_factor" , true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _vel_i_factor  , "vel_i_factor"  , true );
 
@@ -221,6 +231,8 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
     double beta_cas = Aerodynamics::getSideslipAngle( vel_air_cas );
     double beta_ras = Aerodynamics::getSideslipAngle( vel_air_ras );
 
+    //std::cout << Units::rad2deg( beta_cas )  << "  " << vel_air_cas.toString() << std::endl;
+
     // RAS -> RWAS
     _ras2rwas = Matrix3x3( Angles( 0.0, 0.0, beta_ras ) );
     _rwas2ras = _ras2rwas.getTransposed();
@@ -231,6 +243,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
 
     // BAS -> CWAS
     _bas2cwas = _bas2cas * _cas2cwas;
+    _cwas2bas = _bas2cwas.getTransposed();
 
     // velocity transformations
     Vector3 vel_air_rwas = _ras2rwas * vel_air_ras;
@@ -282,18 +295,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
         lambda = mu_z - lambda_i;
 
         // flapping coefficients
-        if ( _direction == CW )
-        {
-            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
-                    - a_z * _sb / ( _ib * omega2 );
-
-            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
-                    - ( _b4 * p / _omega + 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
-
-            beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
-                    + ( _b4 * q / _omega - 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
-        }
-        else
+        if ( _ccw )
         {
             _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
                     - a_z * _sb / ( _ib * omega2 );
@@ -303,6 +305,17 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
 
             beta_1s_cwas = - 4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
                     + ( _b4 * q / _omega + 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
+        }
+        else
+        {
+            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
+                    - a_z * _sb / ( _ib * omega2 );
+
+            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+                    - ( _b4 * p / _omega + 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
+
+            beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
+                    + ( _b4 * q / _omega - 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
         }
 
         // limits
@@ -337,31 +350,49 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
         if ( Misc::isValid( lambda_i_new ) ) lambda_i = lambda_i_new;
     }
 
-    // drag coefficient
-    double cd = _delta_0 + _delta_2 * _ct*_ct;
-
-    // moment of resistance coefficient (Bramwell p.102)
-    _cq = cd * _s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * _ct;
-    if ( _cq > _cq_max ) _cq = _cq_max;
-
     // flapping in axes with sideslip
-    double cosBeta = cos( beta_cas );
-    double sinBeta = sin( beta_cas );
+    double cosBetaCAS = cos( beta_cas );
+    double sinBetaCAS = sin( beta_cas );
 
-    double beta_1c_cas = beta_1c_cwas * cosBeta - beta_1s_cwas * sinBeta * ( _direction == CW ? 1.0 : -1.0 );
-    double beta_1s_cas = beta_1s_cwas * cosBeta + beta_1c_cwas * sinBeta * ( _direction == CW ? 1.0 : -1.0 );
+    double beta_1c_cas = beta_1c_cwas * cosBetaCAS - beta_1s_cwas * sinBetaCAS * ( _ccw ? -1.0 : 1.0 );
+    double beta_1s_cas = beta_1s_cwas * cosBetaCAS + beta_1c_cwas * sinBetaCAS * ( _ccw ? -1.0 : 1.0 );
 
     // flapping coefficients
     _beta_1c = Misc::satur( -_beta_max, _beta_max, beta_1c_cas - _theta_1s );
     _beta_1s = Misc::satur( -_beta_max, _beta_max, beta_1s_cas + _theta_1c );
 
     _coningAngle =  _beta_0;
-    _diskRoll    =  _direction == CW ? _beta_1s : -_beta_1s;
+    _diskRoll    =  _ccw ? -_beta_1s : _beta_1s;
     _diskPitch   = -_beta_1c;
 
     // DAS <-> BAS
     _das2bas = Matrix3x3( Angles( _diskRoll, _diskPitch, 0.0 ) ).getTransposed() * _ras2bas;
     _bas2das = _das2bas.getTransposed();
+
+    // drag coefficient (Padfield p.98)
+    double cd = _delta_0 + _delta_2 * _ct*_ct;
+
+    // H-force coefficient (Bramwell p.100)
+    _ch = 0.5 * _a * _s * ( 0.5 * mu * cd / _a
+                          + beta_1c_cwas * _theta_0 / 3.0
+                          + 0.75 * lambda * beta_1c_cwas
+                          - 0.5 * mu * _theta_0 * lambda
+                          + 0.25 * mu * beta_1c_cwas * beta_1c_cwas );
+
+//    std::cout << Units::rad2deg( beta_cas ) << std::endl;
+
+//    std::cout << _ch;
+//    std::cout << " / " << ( 0.5 * _a * _s );
+//    std::cout << " = " << ( 0.5 * mu * cd / _a );
+//    std::cout << " + " << ( beta_1c_cwas * _theta_0 / 3.0 );
+//    std::cout << " + " << ( 0.75 * lambda * beta_1c_cwas );
+//    std::cout << " - " << ( 0.5 * mu * _theta_0 * lambda );
+//    std::cout << " + " << ( 0.25 * mu * beta_1c_cwas * beta_1c_cwas );
+//    std::cout << std::endl;
+
+    // moment of resistance coefficient (Bramwell p.102)
+    _cq = cd * _s * ( 1.0 + 3.0 * mu2 ) / 8.0 - lambda * _ct - mu * _ch;
+    if ( _cq > _cq_max ) _cq = _cq_max;
 
     //Vector3 vel_air_das = _bas2das * ( vel_air_bas + ( omg_air_bas % _r_hub_bas ) );
     //double beta_das = Aerodynamics::getSideslipAngle( vel_air_das );
@@ -374,13 +405,22 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
     _wakeSkew = atan2( mu, lambda_i - mu_z );
 
     _thrust = _thrust_factor * airDensity * _ad * _r2 * omega2 * _ct;
+    _hforce = _hforce_factor * airDensity * _ad * _r2 * omega2 * _ch;
     _torque = _torque_factor * airDensity * _ad * _r3 * omega2 * _cq;
 
-    // TODO H-Force
+//    Vector3 hforce_bas = _cwas2bas * Vector3( _hforce, 0.0, 0.0 );
+
+//    Vector3 b = _r_hub_bas;
+//    Vector3 v = hforce_bas;
+//    v.normalize();
+//    Test::setVector( b, 5.0 * v );
+
+    //std::cout << _hforce << "   " << hforce_ras.toString() << std::endl;
 
     _for_bas = _das2bas * Vector3( 0.0, 0.0, -_thrust );
+             //+ _ras2bas * hforce_ras;
     _mom_bas = ( _r_hub_bas % _for_bas )
-             + _ras2bas * Vector3( 0.0, 0.0, _direction == CW ? -_torque : _torque );
+             + _ras2bas * Vector3( 0.0, 0.0, _ccw ? _torque : -_torque );
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
@@ -405,7 +445,7 @@ void MainRotor::update( double omega,
     _azimuth = azimuth;
 
     _theta_0  = collective;
-    _theta_1c = _direction == CW ? cyclicLat : -cyclicLat;
+    _theta_1c = _ccw ? -cyclicLat : cyclicLat;
     _theta_1s = cyclicLon;
 }
 

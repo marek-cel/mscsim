@@ -51,8 +51,8 @@ namespace fdm
  *   <tip_losses> { [-] tip losses coefficient } </tip_losses>
  *   <delta_0> { [-] drag coefficient constant component } </delta_0>
  *   <delta_2> { [-] drag coefficient quadratic component } </delta_2>
- *   <ct_max> { [-] maximum thrust coefficient } </ct_max>
- *   <cq_max> { [-] maximum thrust coefficient } </cq_max>
+ *   [<ct_max> { [-] maximum thrust coefficient } </ct_max>]
+ *   [<cq_max> { [-] maximum thrust coefficient } </cq_max>]
  *   [<thrust_factor> { [-] thrust scaling factor } </thrust_factor>]
  *   [<torque_factor> { [-] torque scaling factor } </torque_factor>]
  *   [<vel_i_factor> { [-] induced velocity scaling factor } </vel_i_factor>]

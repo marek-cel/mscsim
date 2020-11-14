@@ -42,8 +42,8 @@ TailRotor::TailRotor() :
     _delta_0 ( 0.0 ),
     _delta_2 ( 0.0 ),
 
-    _ct_max ( 0.0 ),
-    _cq_max ( 0.0 ),
+    _ct_max ( DBL_MAX ),
+    _cq_max ( DBL_MAX ),
 
     _thrust_factor ( 1.0 ),
     _torque_factor ( 1.0 ),
@@ -81,6 +81,9 @@ void TailRotor::readData( XmlNode &dataNode )
         double cant_angle = 0.0;
         double blade_mass = 0.0;
 
+        _ct_max = DBL_MAX;
+        _cq_max = DBL_MAX;
+
         _thrust_factor = 1.0;
         _torque_factor = 1.0;
         _vel_i_factor  = 1.0;
@@ -102,8 +105,8 @@ void TailRotor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_0, "delta_0" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_2, "delta_2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max", true );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_factor , "thrust_factor" , true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _torque_factor , "torque_factor" , true );

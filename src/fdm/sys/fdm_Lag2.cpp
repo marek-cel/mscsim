@@ -61,14 +61,14 @@ void Lag2::setValue( double y )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag2::setTimeConstant1( double tc1 )
+void Lag2::setTimeConst1( double tc1 )
 {
-    _lag1->setTimeConstant( tc1 );
+    _lag1->setTimeConst( tc1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag2::setTimeConstant2( double tc2 )
+void Lag2::setTimeConst2( double tc2 )
 {
     _tc2 = tc2;
 }

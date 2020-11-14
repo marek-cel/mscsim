@@ -36,29 +36,47 @@ namespace fdm
  *
  * Transfer function:
  * G(s)  =  Tc*s + 1
+ *
+ * @see Boulet B.: Fundamentals of Signals and Systems, 2006, p.298
+ * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.224. [in Polish]
  */
 class FDMEXPORT Lead
 {
 public:
 
+    /** Constructor. */
     Lead();
 
     Lead( double tc, double y = 0.0 );
 
     inline double getValue() const { return _y;  }
-    inline double getTimeConstant() const { return _tc; }
+    inline double getTimeConst() const { return _tc; }
 
+    /**
+     * Sets output value
+     * @param youtput value
+     */
     void setValue( double y );
-    void setTimeConstant( double tc );
 
+    /**
+     * Sets time constant.
+     * @param tc time constant
+     */
+    void setTimeConst( double tc );
+
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    double _tc;         ///< time constant
+    double _tc;             ///< time constant
 
-    double _u;          ///< current input
-    double _y;          ///< current value
+    double _u;              ///< current input
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

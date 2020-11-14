@@ -36,13 +36,25 @@ namespace fdm
  *
  * Transfer function:
  * G(s)  =  ( c1*s + c2 ) / ( c3*s + c4 )
+ *
+ * @see Boulet B.: Fundamentals of Signals and Systems, 2006, p.300
+ * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.228. [in Polish]
  */
 class FDMEXPORT LeadLag
 {
 public:
 
+    /** Constructor. */
     LeadLag();
 
+    /**
+     * Constructor.
+     * @param c1 coefficient of the transfer function
+     * @param c2 coefficient of the transfer function
+     * @param c3 coefficient of the transfer function
+     * @param c4 coefficient of the transfer function
+     * @param y initial output value
+     */
     LeadLag( double c1, double c2, double c3, double c4, double y = 0.0 );
 
     inline double getValue() const { return _y;  }
@@ -59,19 +71,24 @@ public:
     void setC3( double c3 );
     void setC4( double c4 );
 
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    double _c1;         ///< c1 coefficient
-    double _c2;         ///< c2 coefficient
-    double _c3;         ///< c3 coefficient
-    double _c4;         ///< c4 coefficient
+    double _c1;             ///< c1 coefficient of the transfer function
+    double _c2;             ///< c2 coefficient of the transfer function
+    double _c3;             ///< c3 coefficient of the transfer function
+    double _c4;             ///< c4 coefficient of the transfer function
 
-    double _u_prev;     ///<
-    double _y_prev;     ///<
+    double _u_prev;         ///< previous input value
+    double _y_prev;         ///< previous output value
 
-    double _y;          ///< current value
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

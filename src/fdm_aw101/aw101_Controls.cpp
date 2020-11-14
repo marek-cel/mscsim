@@ -153,8 +153,13 @@ void AW101_Controls::update()
 
     cyclic_lat = Misc::satur( -1.0, 1.0, cyclic_lat );
     cyclic_lon = Misc::satur( -1.0, 1.0, cyclic_lon );
-    collective = Misc::satur(  0.0, 1.0, collective );
     tail_pitch = Misc::satur( -1.0, 1.0, tail_pitch );
+    collective = Misc::satur(  0.0, 1.0, collective );
+
+//    cyclic_lat = _inputCtrlRoll       .getValue();
+//    cyclic_lon = _inputCtrlPitch      .getValue();
+//    tail_pitch = _inputCtrlYaw        .getValue();
+//    collective = _inputCtrlCollective .getValue();
 
     _channelCyclicLat  ->output = _channelCyclicLat  ->table.getValue( cyclic_lat );
     _channelCyclicLon  ->output = _channelCyclicLon  ->table.getValue( cyclic_lon );

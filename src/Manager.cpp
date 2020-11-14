@@ -237,9 +237,9 @@ void Manager::timerEvent( QTimerEvent *event )
     // engines
     for ( unsigned int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        Data::get()->propulsion.engine[ i ].throttle  = hid::Manager::instance()->getThrottle( i );
-        Data::get()->propulsion.engine[ i ].mixture   = hid::Manager::instance()->getMixture( i );
-        Data::get()->propulsion.engine[ i ].propeller = hid::Manager::instance()->getPropeller( i );
+        Data::get()->propulsion.engine[ i ].throttle  = hid::Manager::instance()->getThrottle  ( i );
+        Data::get()->propulsion.engine[ i ].mixture   = hid::Manager::instance()->getMixture   ( i );
+        Data::get()->propulsion.engine[ i ].propeller = hid::Manager::instance()->getPropeller ( i );
     }
 
     ///////////////////////////////////

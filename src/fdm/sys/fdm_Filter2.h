@@ -41,6 +41,7 @@ class FDMEXPORT Filter2
 {
 public:
 
+    /** Constructor. */
     Filter2();
 
     Filter2( double c1, double c2, double c3, double c4, double c5, double c6,
@@ -64,24 +65,29 @@ public:
     void setC5( double c5 );
     void setC6( double c6 );
 
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    double _c1;         ///< c1 coefficient
-    double _c2;         ///< c2 coefficient
-    double _c3;         ///< c3 coefficient
-    double _c4;         ///< c4 coefficient
-    double _c5;         ///< c5 coefficient
-    double _c6;         ///< c6 coefficient
+    double _c1;             ///< c1 coefficient
+    double _c2;             ///< c2 coefficient
+    double _c3;             ///< c3 coefficient
+    double _c4;             ///< c4 coefficient
+    double _c5;             ///< c5 coefficient
+    double _c6;             ///< c6 coefficient
 
-    double _u_prev_1;   ///<
-    double _u_prev_2;   ///<
+    double _u_prev_1;       ///<
+    double _u_prev_2;       ///<
 
-    double _y_prev_1;   ///<
-    double _y_prev_2;   ///<
+    double _y_prev_1;       ///<
+    double _y_prev_2;       ///<
 
-    double _y;          ///< current value
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

@@ -41,7 +41,7 @@
 namespace fdm
 {
 
-/** Flight dynamics modelflight dynamics model wrapper class. */
+/** Fight dynamics model wrapper class. */
 class FDMEXPORT FDM : public Base
 {
 public:

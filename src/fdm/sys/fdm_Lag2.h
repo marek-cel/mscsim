@@ -41,6 +41,7 @@ class FDMEXPORT Lag2
 {
 public:
 
+    /** Constructor. */
     Lag2();
 
     Lag2( double tc1, double tc2, double y = 0.0 );
@@ -50,17 +51,22 @@ public:
     inline double getValue() const { return _y; }
 
     void setValue( double y );
-    void setTimeConstant1( double tc1 );
-    void setTimeConstant2( double tc2 );
+    void setTimeConst1( double tc1 );
+    void setTimeConst2( double tc2 );
 
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    Lag *_lag1;
+    Lag *_lag1;             ///< first-order lag element
 
-    double _tc2;    ///< time constant
-    double _y;      ///< current value
+    double _tc2;            ///< time constant
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

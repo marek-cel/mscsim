@@ -72,6 +72,6 @@ void UH60_MainRotor::update( double omega,
     double mu_tot = sqrt( mu_xs*mu_xs + mu_ys*mu_ys + lambda_0t*lambda_0t );
 
     // NASA-CR-166309, p.5.1-21 (PDF p.41)
-    _downwashLag->setTimeConstant( t_dwo / mu_tot );
+    _downwashLag->setTimeConst( t_dwo / mu_tot );
     _downwashLag->update( k_ct * _ct / ( 2.0 * mu_tot ), timeStep );
 }

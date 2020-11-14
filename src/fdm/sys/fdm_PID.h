@@ -37,12 +37,14 @@ namespace fdm
  * Transfer function (parallel):
  * G(s)  =  kp + ki*( 1/s ) + kd*s
  *
- * Transfer function (series):
+ * Transfer function (serial):
  * G(s)  =  k*( 1 + 1/( s*tau_i ) )*( 1 + s*tau_d )
  *
- * Transfer function (ideal - standard):
+ * Transfer function (standard/ideal):
  * G(s)  =  Kp*( 1 + 1/( s*Ti ) + s*Td )
  *
+ * @see Skup Z.: Podstawy automatyki i sterowania, 2012, p.118. [in Polish]
+ * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.280. [in Polish]
  * @see McCormack A., Godfrey K.: Rule-Based Autotuning Based on Frequency Domain Identification, 1998
  * @see Duzinkiewicz K., et al.: Zadania do cwiczen laboratoryjnych T10: Sterowanie predkoscia obrotowa silnika pradu stalego, 2016. [in Polish]
  * @see Brdys M., et al.: Silnik pradu stalego (NI Elvis 2) - Dobieranie nastaw regulatorow P, PI, PI. Filtr przeciwnasyceniowy Anti-windup, 2010. [in Polish]
@@ -65,10 +67,22 @@ public:
         Filtering       ///< feedback filtering
     };
 
-    /** Constructor. */
+    /**
+     * Constructor. Disables saturation.
+     * @param kp proportional gain
+     * @param ki integral gain
+     * @param kd derivative gain
+     */
     PID( double kp, double ki, double kd );
 
-    /** Constructor. */
+    /**
+     * Constructor. Enables saturation.
+     * @param kp proportional gain
+     * @param ki integral gain
+     * @param kd derivative gain
+     * @param min minimal value for saturation
+     * @param max maximal value for saturation
+     */
     PID( double kp, double ki, double kd, double min, double max );
 
     /** Destructor. */
@@ -98,7 +112,10 @@ public:
 
     virtual void setError( double error );
 
-    /** Sets controller output (resets error integral sum). */
+    /**
+     * Sets controller output (resets error integral sum).
+     * @param value output value
+     */
     virtual void setValue( double value );
 
     virtual void setValue( double timeStep, double error, double value );

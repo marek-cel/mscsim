@@ -58,6 +58,7 @@ double Aerodynamics::getSideslipAngle( const Vector3 &vel_bas, double vel_min )
 
     if ( fabs( vel_bas.u() ) > vel_min || fabs( vel_bas.v() ) > vel_min )
     {
+        //double vw = vel_bas.getLengthYZ();
         double vw = vel_bas.getLength();
         double v_vw = ( vw > vel_min ) ? ( vel_bas.v() / vw ) : 0.0;
 

@@ -41,28 +41,52 @@ class FDMEXPORT HPF
 {
 public:
 
+    /** Constructor. */
     HPF();
 
+    /**
+     * Constructor.
+     * @param omega [rad/s] cutoff angular frequency
+     * @param y initial output value
+     */
     HPF( double omega, double y = 0.0 );
 
     inline double getValue() const { return _y;  }
     inline double getOmega() const { return _omega; }
 
+    /**
+     * Sets output value
+     * @param youtput value
+     */
     void setValue( double y );
+
+    /**
+     * Sets cutoff angular frequency.
+     * @param omega [rad/s] cutoff angular frequency
+     */
     void setOmega( double omega );
 
+    /**
+     * Sets cutoff frequency.
+     * @param freq [Hz] cutoff frequency
+     */
     void setCutoffFreq( double freq );
 
+    /**
+     * Updates element due to time step and input value
+     * @param u input value
+     * @param dt [s] time step
+     */
     void update( double u, double dt );
 
 protected:
 
-    double _omega;      ///< [rad/s]
-    double _tc;         ///< time constant
+    double _omega;          ///< [rad/s] cutoff angular frequency
+    double _tc;             ///< time constant
 
-    double _u_prev;     ///<
+    double _u_prev;         ///< previous input value
 
-    double _y;          ///< current value
+    double _y;              ///< current value
 };
 
 } // end of fdm namespace

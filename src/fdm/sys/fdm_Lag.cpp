@@ -58,7 +58,7 @@ void Lag::setValue( double y )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag::setTimeConstant( double tc )
+void Lag::setTimeConst( double tc )
 {
     if ( tc > 0.0 )
     {

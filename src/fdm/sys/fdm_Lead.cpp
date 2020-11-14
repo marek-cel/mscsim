@@ -52,7 +52,7 @@ void Lead::setValue( double y )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lead::setTimeConstant( double tc )
+void Lead::setTimeConst( double tc )
 {
     if ( tc > 0.0 )
     {

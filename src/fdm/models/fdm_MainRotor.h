@@ -87,9 +87,11 @@ namespace fdm
  *   <delta_0> { [-] drag coefficient constant component } </delta_0>
  *   <delta_2> { [-] drag coefficient quadratic component } </delta_2>
  *   <beta_max> { [rad] maximum flapping angle } </beta_max>
- *   <ct_max> { [-] maximum thrust coefficient } </ct_max>
- *   <cq_max> { [-] maximum thrust coefficient } </cq_max>
+ *   [<ct_max> { [-] maximum thrust coefficient } </ct_max>]
+ *   [<ch_max> { [-] maximum hforce coefficient } </ch_max>]
+ *   [<cq_max> { [-] maximum thrust coefficient } </cq_max>]
  *   [<thrust_factor> { [-] thrust scaling factor } </thrust_factor>]
+ *   [<hforce_factor> { [-] hforce scaling factor } </hforce_factor>]
  *   [<torque_factor> { [-] torque scaling factor } </torque_factor>]
  *   [<vel_i_factor> { [-] induced velocity scaling factor } </vel_i_factor>]
  * </main_rotor>
@@ -107,13 +109,6 @@ namespace fdm
 class FDMEXPORT MainRotor
 {
 public:
-
-    /** Rotor direction. */
-    enum Direction
-    {
-        CW  = 0,    ///< clockwise (looking from above)
-        CCW = 1     ///< counter-clockwise (looking from above)
-    };
 
     /** Constructor. */
     MainRotor();
@@ -161,8 +156,6 @@ public:
                          double cyclicLat,
                          double cyclicLon );
 
-    inline Direction getDirection() const { return _direction; }
-
     inline const Vector3& getFor_BAS() const { return _for_bas; }
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
@@ -173,6 +166,8 @@ public:
     inline double getInertia() const { return _nb * _ib; }
 
     inline const Vector3& getR_hub_BAS() const { return _r_hub_bas; }
+
+    inline bool getCCW() const { return _ccw; }
 
     inline int getNumberOfBlades() const { return _nb; }
 
@@ -191,6 +186,7 @@ public:
     inline double getDiskPitch()   const { return _diskPitch;   }
 
     inline double getThrust() const { return _thrust; }
+    inline double getHForce() const { return _hforce; }
     inline double getTorque() const { return _torque; }
 
     inline double getVel_i() const { return _vel_i; }
@@ -198,8 +194,6 @@ public:
     inline double getWakeSkew() const { return _wakeSkew; }
 
 protected:
-
-    Direction _direction;       ///< rotor rotation direction (clockwise or counter-clockwise)
 
     Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
     Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
@@ -224,6 +218,9 @@ protected:
     Matrix3x3 _cwas2cas;        ///< matrix of rotation from CWAS to CAS
 
     Matrix3x3 _bas2cwas;        ///< matrix of rotation from BAS to CWAS
+    Matrix3x3 _cwas2bas;        ///< matrix of rotation from CWAS to BAS
+
+    bool _ccw;                  ///< specifies if rotor rotation direction is counter-clockwise
 
     int _nb;                    ///< number of rotor blades
 
@@ -240,9 +237,11 @@ protected:
     double _beta_max;           ///< [rad] maximum flapping angle
 
     double _ct_max;             ///< [-] maximum thrust coefficient
+    double _ch_max;             ///< [-] maximum hforce coefficient
     double _cq_max;             ///< [-] maximum torque coefficient
 
     double _thrust_factor;      ///< [-] thrust scaling factor
+    double _hforce_factor;      ///< [-] hforce scaling factor
     double _torque_factor;      ///< [-] torque scaling factor
     double _vel_i_factor;       ///< [-] induced velocity scaling factor
 
@@ -274,9 +273,11 @@ protected:
     double _diskPitch;          ///< [rad] rotor disk pitch angle
 
     double _ct;                 ///< [-] thrust coefficient
+    double _ch;                 ///< [-] hforce coefficient
     double _cq;                 ///< [-] torque coefficient
 
     double _thrust;             ///< [N] rotor thrust
+    double _hforce;             ///< [N] rotor hforce
     double _torque;             ///< [N*m] rotor torque
 
     double _vel_i;              ///< [m/s] rotor induced velocity

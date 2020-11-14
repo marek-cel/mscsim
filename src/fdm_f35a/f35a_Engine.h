@@ -263,7 +263,7 @@ protected:
 
     bool _afterburner;      ///< specifies if afterburner is engaged
 
-    double getTimeConstant( double delta_n, double n_max, double tc );
+    double getTimeConst( double delta_n, double n_max, double tc );
 };
 
 } // end of fdm namespace
