@@ -43,8 +43,8 @@ class FDMEXPORT Module : public Base
 public:
 
     /** Constructor. */
-    Module( const Aircraft* aircraft, DataNode *rootNode ) :
-        Base ( rootNode ),
+    Module( const Aircraft *aircraft, Input *input ) :
+        Base ( input ),
         _aircraft ( aircraft )
     {}
 

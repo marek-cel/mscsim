@@ -58,7 +58,7 @@ class F35A_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    F35A_LandingGear( const F35A_Aircraft *aircraft, DataNode *rootNode );
+    F35A_LandingGear( const F35A_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~F35A_LandingGear();

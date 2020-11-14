@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-R44_Propulsion::R44_Propulsion( const R44_Aircraft *aircraft, DataNode *rootNode ) :
-    Propulsion( aircraft, rootNode ),
+R44_Propulsion::R44_Propulsion( const R44_Aircraft *aircraft, Input *input ) :
+    Propulsion( aircraft, input ),
     _aircraft ( aircraft ),
 
     _mainRotorPsi ( 0.0 ),

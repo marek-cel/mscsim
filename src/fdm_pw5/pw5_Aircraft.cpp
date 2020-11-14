@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PW5_Aircraft::PW5_Aircraft( DataNode *rootNode ) :
-    Aircraft( rootNode ),
+PW5_Aircraft::PW5_Aircraft( Input *input ) :
+    Aircraft( input ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -37,11 +37,11 @@ PW5_Aircraft::PW5_Aircraft( DataNode *rootNode ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new PW5_Aerodynamics ( this, _rootNode );
-    Aircraft::_ctrl = _ctrl = new PW5_Controls     ( this, _rootNode );
-    Aircraft::_gear = _gear = new PW5_LandingGear  ( this, _rootNode );
-    Aircraft::_mass = _mass = new PW5_Mass         ( this, _rootNode );
-    Aircraft::_prop = _prop = new PW5_Propulsion   ( this, _rootNode );
+    Aircraft::_aero = _aero = new PW5_Aerodynamics ( this, _input );
+    Aircraft::_ctrl = _ctrl = new PW5_Controls     ( this, _input );
+    Aircraft::_gear = _gear = new PW5_LandingGear  ( this, _input );
+    Aircraft::_mass = _mass = new PW5_Mass         ( this, _input );
+    Aircraft::_prop = _prop = new PW5_Propulsion   ( this, _input );
 
     readFile( Path::get( "data/fdm/pw5/pw5_fdm.xml" ).c_str() );
 }

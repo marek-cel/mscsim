@@ -58,7 +58,7 @@ class C172_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    C172_LandingGear( const C172_Aircraft *aircraft, DataNode *rootNode );
+    C172_LandingGear( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C172_LandingGear();

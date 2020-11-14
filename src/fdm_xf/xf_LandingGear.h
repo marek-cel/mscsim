@@ -58,7 +58,7 @@ class XF_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    XF_LandingGear( const XF_Aircraft *aircraft, DataNode *rootNode );
+    XF_LandingGear( const XF_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~XF_LandingGear();

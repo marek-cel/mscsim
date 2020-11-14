@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AW101_Aerodynamics::AW101_Aerodynamics( const AW101_Aircraft *aircraft, DataNode *rootNode ) :
-    Aerodynamics( aircraft, rootNode ),
+AW101_Aerodynamics::AW101_Aerodynamics( const AW101_Aircraft *aircraft, Input *input ) :
+    Aerodynamics( aircraft, input ),
     _aircraft ( aircraft ),
 
     _mainRotor ( FDM_NULLPTR ),

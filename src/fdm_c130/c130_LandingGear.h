@@ -58,7 +58,7 @@ class C130_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    C130_LandingGear( const C130_Aircraft *aircraft, DataNode *rootNode );
+    C130_LandingGear( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C130_LandingGear();

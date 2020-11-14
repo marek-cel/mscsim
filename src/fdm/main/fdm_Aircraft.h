@@ -37,6 +37,8 @@
 #include <fdm/main/fdm_Environment.h>
 #include <fdm/main/fdm_Intersections.h>
 
+#include <fdm/main/fdm_Input.h>
+
 #include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/main/fdm_Controls.h>
 #include <fdm/main/fdm_LandingGear.h>
@@ -162,7 +164,7 @@ public:
     static const UInt8 _i_r;    ///< index of aircraft angular velocity z-coordinate expressed in BAS axis system
 
     /** Constructor. */
-    Aircraft( DataNode *rootNode );
+    Aircraft( Input *input );
 
     /** Destructor. */
     virtual ~Aircraft();
@@ -298,7 +300,7 @@ protected:
 
     friend class Aircraft::Integrator;
 
-    DataNode *_rootNode;        ///< data tree root node
+    Input *_input;              ///< input data tree root node
 
     Environment   *_envir;      ///< environment interface
     Intersections *_isect;      ///< intersections interface

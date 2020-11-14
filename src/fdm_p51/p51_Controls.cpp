@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Controls::P51_Controls( const P51_Aircraft *aircraft, DataNode *rootNode ) :
-    Controls( aircraft, rootNode ),
+P51_Controls::P51_Controls( const P51_Aircraft *aircraft, Input *input ) :
+    Controls( aircraft, input ),
     _aircraft ( aircraft ),
 
     _channelAilerons     ( FDM_NULLPTR ),

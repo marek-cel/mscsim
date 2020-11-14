@@ -58,7 +58,7 @@ class R44_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    R44_LandingGear( const R44_Aircraft *aircraft, DataNode *rootNode );
+    R44_LandingGear( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~R44_LandingGear();

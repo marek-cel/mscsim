@@ -69,7 +69,7 @@ public:
     typedef std::vector< WingRunner > WingRunners;
 
     /** Constructor. */
-    PW5_LandingGear( const PW5_Aircraft *aircraft, DataNode *rootNode );
+    PW5_LandingGear( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~PW5_LandingGear();

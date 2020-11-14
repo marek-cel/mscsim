@@ -32,8 +32,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LandingGear::LandingGear( const Aircraft* aircraft, DataNode *rootNode ) :
-    Module ( aircraft, rootNode ),
+LandingGear::LandingGear( const Aircraft *aircraft, Input *input ) :
+    Module ( aircraft, input ),
 
     _ctrlAngle ( 0.0 ),
 

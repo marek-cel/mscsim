@@ -41,7 +41,7 @@ class R44_Mass : public Mass
 public:
 
     /** Constructor. */
-    R44_Mass( const R44_Aircraft *aircraft, DataNode *rootNode );
+    R44_Mass( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~R44_Mass();

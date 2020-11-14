@@ -82,7 +82,7 @@ public:
     typedef std::map< std::string, VarMass > Masses;
 
     /** Constructor. */
-    Mass( const Aircraft* aircraft, DataNode *rootNode );
+    Mass( const Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     virtual ~Mass();

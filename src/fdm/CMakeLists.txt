@@ -2,10 +2,8 @@ set( MODULE_NAME fdm )
 
 set( CPP_FILES
     fdm_Base.cpp
-    fdm_FDM.cpp
     fdm_Log.cpp
     fdm_Manager.cpp
-    fdm_Recorder.cpp
     fdm_Test.cpp
 
     auto/fdm_Autopilot.cpp
@@ -15,10 +13,13 @@ set( CPP_FILES
     main/fdm_Aircraft.cpp
     main/fdm_Controls.cpp
     main/fdm_Environment.cpp
+    main/fdm_FDM.cpp
+    main/fdm_Input.cpp
     main/fdm_Intersections.cpp
     main/fdm_LandingGear.cpp
     main/fdm_Mass.cpp
     main/fdm_Propulsion.cpp
+    main/fdm_Recorder.cpp
     
     models/fdm_Atmosphere.cpp
     models/fdm_Fuselage.cpp

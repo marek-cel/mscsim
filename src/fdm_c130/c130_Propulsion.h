@@ -44,7 +44,7 @@ class C130_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    C130_Propulsion( const C130_Aircraft *aircraft, DataNode *rootNode );
+    C130_Propulsion( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C130_Propulsion();

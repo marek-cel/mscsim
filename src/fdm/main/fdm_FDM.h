@@ -32,9 +32,8 @@
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
-#include <fdm/fdm_Recorder.h>
-
 #include <fdm/main/fdm_Aircraft.h>
+#include <fdm/main/fdm_Recorder.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -144,7 +143,7 @@ protected:
     DataInp _dataInp;                               ///< input data (internal)
     DataOut _dataOut;                               ///< output data (internal)
 
-    DataNode *_rootNode;                            ///< data tree root node
+    Input *_input;                                  ///< input data tree root node
 
     Aircraft *_aircraft;                            ///< aircraft model
     Recorder *_recorder;                            ///< recorder object

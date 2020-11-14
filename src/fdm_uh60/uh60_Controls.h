@@ -43,7 +43,7 @@ class UH60_Controls : public Controls
 public:
 
     /** Constructor. */
-    UH60_Controls( const UH60_Aircraft *aircraft, DataNode *rootNode );
+    UH60_Controls( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~UH60_Controls();

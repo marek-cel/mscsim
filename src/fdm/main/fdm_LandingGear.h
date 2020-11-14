@@ -54,7 +54,7 @@ public:
     typedef Map< std::string, WheelAndInput > Wheels;
 
     /** Constructor. */
-    LandingGear( const Aircraft* aircraft, DataNode *rootNode );
+    LandingGear( const Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     virtual ~LandingGear();

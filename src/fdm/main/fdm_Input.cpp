@@ -20,8 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm_xf/xf_Mass.h>
-#include <fdm_xf/xf_Aircraft.h>
+#include <fdm/main/fdm_Input.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,11 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Mass::XF_Mass( const XF_Aircraft *aircraft, Input *input ) :
-    Mass( aircraft, input ),
-    _aircraft ( aircraft )
-{}
+Input::Input() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Mass::~XF_Mass() {}
+Input::~Input() {}

@@ -45,7 +45,7 @@ class PW5_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    PW5_Aerodynamics( const PW5_Aircraft *aircraft, DataNode *rootNode );
+    PW5_Aerodynamics( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~PW5_Aerodynamics();

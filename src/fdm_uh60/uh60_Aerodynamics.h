@@ -50,7 +50,7 @@ class UH60_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    UH60_Aerodynamics( const UH60_Aircraft *aircraft, DataNode *rootNode );
+    UH60_Aerodynamics( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~UH60_Aerodynamics();

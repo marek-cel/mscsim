@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XH_Controls::XH_Controls( const XH_Aircraft *aircraft, DataNode *rootNode ) :
-    Controls( aircraft, rootNode ),
+XH_Controls::XH_Controls( const XH_Aircraft *aircraft, Input *input ) :
+    Controls( aircraft, input ),
     _aircraft ( aircraft ),
 
     _channelCyclicLat  ( FDM_NULLPTR ),

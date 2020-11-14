@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-AW101_Controls::AW101_Controls( const AW101_Aircraft *aircraft, DataNode *rootNode ) :
-    Controls( aircraft, rootNode ),
+AW101_Controls::AW101_Controls( const AW101_Aircraft *aircraft, Input *input ) :
+    Controls( aircraft, input ),
     _aircraft ( aircraft ),
 
     _channelCyclicLat  ( FDM_NULLPTR ),

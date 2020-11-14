@@ -36,7 +36,7 @@ using namespace fdm;
 UH60_FDM::UH60_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
-    FDM::_aircraft = _aircraft = new UH60_Aircraft( _rootNode );
+    FDM::_aircraft = _aircraft = new UH60_Aircraft( _input );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

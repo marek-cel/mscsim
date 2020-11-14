@@ -69,7 +69,7 @@ public:
     typedef Map< std::string, Channel > Channels;
 
     /** Constructor. */
-    Controls( const Aircraft* aircraft, DataNode *rootNode );
+    Controls( const Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     virtual ~Controls();

@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Aerodynamics::P51_Aerodynamics( const P51_Aircraft *aircraft, DataNode *rootNode ) :
-    Aerodynamics( aircraft, rootNode ),
+P51_Aerodynamics::P51_Aerodynamics( const P51_Aircraft *aircraft, Input *input ) :
+    Aerodynamics( aircraft, input ),
     _aircraft ( aircraft ),
 
     _tailOff ( FDM_NULLPTR ),

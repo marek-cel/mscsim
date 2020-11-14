@@ -43,7 +43,7 @@ class PW5_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    PW5_Propulsion( const PW5_Aircraft *aircraft, DataNode *rootNode );
+    PW5_Propulsion( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~PW5_Propulsion();

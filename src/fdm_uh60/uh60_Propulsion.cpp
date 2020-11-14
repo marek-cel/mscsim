@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Propulsion::UH60_Propulsion( const UH60_Aircraft *aircraft, DataNode *rootNode ) :
-    Propulsion( aircraft, rootNode ),
+UH60_Propulsion::UH60_Propulsion( const UH60_Aircraft *aircraft, Input *input ) :
+    Propulsion( aircraft, input ),
     _aircraft ( aircraft ),
 
     _mainRotorPsi ( 0.0 ),

@@ -154,8 +154,8 @@ Matrix3x3 Aerodynamics::getStab2BAS( double sinAlpha, double cosAlpha )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aerodynamics::Aerodynamics( const Aircraft* aircraft, DataNode *rootNode ) :
-    Module ( aircraft, rootNode )
+Aerodynamics::Aerodynamics( const Aircraft *aircraft, Input *input ) :
+    Module ( aircraft, input )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

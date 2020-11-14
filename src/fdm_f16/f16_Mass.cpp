@@ -29,8 +29,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-F16_Mass::F16_Mass( const F16_Aircraft *aircraft, DataNode *rootNode ) :
-    Mass( aircraft, rootNode ),
+F16_Mass::F16_Mass( const F16_Aircraft *aircraft, Input *input ) :
+    Mass( aircraft, input ),
     _aircraft ( aircraft )
 {}
 

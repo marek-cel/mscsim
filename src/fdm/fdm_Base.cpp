@@ -30,15 +30,15 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Base::Base( DataNode *rootNode ) :
-    _rootNode( rootNode )
+Base::Base( Input *input ) :
+    _input( input )
 {
-    if ( _rootNode == 0 )
+    if ( _input == 0 )
     {
         Exception e;
 
         e.setType( Exception::NullPointer );
-        e.setInfo( "Data root node pointer NULL." );
+        e.setInfo( "Input data root node pointer NULL." );
 
         FDM_THROW( e );
     }
@@ -47,14 +47,14 @@ Base::Base( DataNode *rootNode ) :
 ////////////////////////////////////////////////////////////////////////////////
 
 Base::Base( const Base *base ) :
-    _rootNode( base->_rootNode )
+    _input( base->_input )
 {
-    if ( _rootNode == 0 )
+    if ( _input == 0 )
     {
         Exception e;
 
         e.setType( Exception::NullPointer );
-        e.setInfo( "Data root node pointer NULL." );
+        e.setInfo( "Input data root node pointer NULL." );
 
         FDM_THROW( e );
     }
@@ -68,21 +68,21 @@ Base::~Base() {}
 
 int Base::addDataRef( const char *path, DataNode::Type type )
 {
-    return _rootNode->addNode( path, type );
+    return _input->addNode( path, type );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 int Base::addDataRef( const std::string &path, DataNode::Type type )
 {
-    return _rootNode->addNode( path.c_str(), type );
+    return _input->addNode( path.c_str(), type );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 DataRef Base::getDataRef( const char *path )
 {
-    DataNode *dataNode = _rootNode->getNode( path );
+    DataNode *dataNode = _input->getNode( path );
 
     if ( dataNode != 0 )
     {

@@ -41,7 +41,7 @@ class PW5_Controls : public Controls
 public:
 
     /** Constructor. */
-    PW5_Controls( const PW5_Aircraft *aircraft, DataNode *rootNode );
+    PW5_Controls( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~PW5_Controls();

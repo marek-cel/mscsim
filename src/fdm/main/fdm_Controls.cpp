@@ -34,8 +34,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Controls::Controls( const Aircraft* aircraft, DataNode *rootNode ) :
-    Module ( aircraft, rootNode )
+Controls::Controls( const Aircraft *aircraft, Input *input ) :
+    Module ( aircraft, input )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

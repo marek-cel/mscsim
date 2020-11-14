@@ -58,7 +58,7 @@ class UH60_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    UH60_LandingGear( const UH60_Aircraft *aircraft, DataNode *rootNode );
+    UH60_LandingGear( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~UH60_LandingGear();

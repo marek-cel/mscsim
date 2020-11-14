@@ -41,7 +41,7 @@ class AW101_Mass : public Mass
 public:
 
     /** Constructor. */
-    AW101_Mass( const AW101_Aircraft *aircraft, DataNode *rootNode );
+    AW101_Mass( const AW101_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~AW101_Mass();

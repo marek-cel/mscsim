@@ -45,7 +45,7 @@ class F35A_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    F35A_Aerodynamics( const F35A_Aircraft *aircraft, DataNode *rootNode );
+    F35A_Aerodynamics( const F35A_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~F35A_Aerodynamics();

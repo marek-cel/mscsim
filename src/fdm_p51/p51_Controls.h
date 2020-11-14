@@ -41,7 +41,7 @@ class P51_Controls : public Controls
 public:
 
     /** Constructor. */
-    P51_Controls( const P51_Aircraft *aircraft, DataNode *rootNode );
+    P51_Controls( const P51_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~P51_Controls();

@@ -52,10 +52,10 @@ const UInt8 Aircraft::_i_r  = 12;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircraft::Aircraft( DataNode *rootNode ) :
-    Base( rootNode ),
+Aircraft::Aircraft( Input *input ) :
+    Base( input ),
 
-    _rootNode ( rootNode ),
+    _input ( input ),
 
     _envir ( FDM_NULLPTR ),
     _isect ( FDM_NULLPTR ),

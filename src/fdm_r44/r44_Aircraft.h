@@ -45,7 +45,7 @@ class R44_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    R44_Aircraft( DataNode *rootNode );
+    R44_Aircraft( Input *input );
 
     /** Destructor. */
     ~R44_Aircraft();

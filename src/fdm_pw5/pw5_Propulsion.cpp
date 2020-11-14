@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-PW5_Propulsion::PW5_Propulsion( const PW5_Aircraft *aircraft, DataNode *rootNode ) :
-    Propulsion( aircraft, rootNode ),
+PW5_Propulsion::PW5_Propulsion( const PW5_Aircraft *aircraft, Input *input ) :
+    Propulsion( aircraft, input ),
     _aircraft ( aircraft ),
 
     _winchLauncher ( FDM_NULLPTR )

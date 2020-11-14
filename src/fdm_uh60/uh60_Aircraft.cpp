@@ -28,14 +28,14 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-UH60_Aircraft::UH60_Aircraft( DataNode *rootNode ) :
-    Aircraft( rootNode )
+UH60_Aircraft::UH60_Aircraft( Input *input ) :
+    Aircraft( input )
 {
-    Aircraft::_aero = _aero = new UH60_Aerodynamics ( this, _rootNode );
-    Aircraft::_ctrl = _ctrl = new UH60_Controls     ( this, _rootNode );
-    Aircraft::_gear = _gear = new UH60_LandingGear  ( this, _rootNode );
-    Aircraft::_mass = _mass = new UH60_Mass         ( this, _rootNode );
-    Aircraft::_prop = _prop = new UH60_Propulsion   ( this, _rootNode );
+    Aircraft::_aero = _aero = new UH60_Aerodynamics ( this, _input );
+    Aircraft::_ctrl = _ctrl = new UH60_Controls     ( this, _input );
+    Aircraft::_gear = _gear = new UH60_LandingGear  ( this, _input );
+    Aircraft::_mass = _mass = new UH60_Mass         ( this, _input );
+    Aircraft::_prop = _prop = new UH60_Propulsion   ( this, _input );
 
     readFile( Path::get( "data/fdm/uh60/uh60_fdm.xml" ).c_str() );
 }

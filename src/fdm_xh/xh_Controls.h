@@ -43,7 +43,7 @@ class XH_Controls : public Controls
 public:
 
     /** Constructor. */
-    XH_Controls( const XH_Aircraft *aircraft, DataNode *rootNode );
+    XH_Controls( const XH_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~XH_Controls();

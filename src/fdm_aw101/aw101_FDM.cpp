@@ -36,7 +36,7 @@ using namespace fdm;
 AW101_FDM::AW101_FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose ) :
     FDM( dataInpPtr, dataOutPtr, verbose )
 {
-    FDM::_aircraft = _aircraft = new AW101_Aircraft( _rootNode );
+    FDM::_aircraft = _aircraft = new AW101_Aircraft( _input );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

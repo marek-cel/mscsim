@@ -31,8 +31,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft, DataNode *rootNode ) :
-    Propulsion( aircraft, rootNode ),
+C172_Propulsion::C172_Propulsion( const C172_Aircraft *aircraft, Input *input ) :
+    Propulsion( aircraft, input ),
     _aircraft ( aircraft ),
 
     _engine    ( FDM_NULLPTR ),

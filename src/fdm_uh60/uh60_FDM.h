@@ -29,7 +29,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/fdm_FDM.h>
+#include <fdm/main/fdm_FDM.h>
 
 #include <fdm_uh60/uh60_Aircraft.h>
 

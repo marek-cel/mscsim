@@ -58,7 +58,7 @@ class P51_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    P51_LandingGear( const P51_Aircraft *aircraft, DataNode *rootNode );
+    P51_LandingGear( const P51_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~P51_LandingGear();

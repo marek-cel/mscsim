@@ -47,7 +47,7 @@ class P51_Aircraft : public Aircraft
 public:
 
     /** Constructor. */
-    P51_Aircraft( DataNode *rootNode );
+    P51_Aircraft( Input *input );
 
     /** Destructor. */
     ~P51_Aircraft();

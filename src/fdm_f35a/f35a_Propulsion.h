@@ -43,7 +43,7 @@ class F35A_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    F35A_Propulsion( const F35A_Aircraft *aircraft, DataNode *rootNode );
+    F35A_Propulsion( const F35A_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~F35A_Propulsion();

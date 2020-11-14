@@ -28,14 +28,14 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-R44_Aircraft::R44_Aircraft( DataNode *rootNode ) :
-    Aircraft( rootNode )
+R44_Aircraft::R44_Aircraft( Input *input ) :
+    Aircraft( input )
 {
-    Aircraft::_aero = _aero = new R44_Aerodynamics ( this, _rootNode );
-    Aircraft::_ctrl = _ctrl = new R44_Controls     ( this, _rootNode );
-    Aircraft::_gear = _gear = new R44_LandingGear  ( this, _rootNode );
-    Aircraft::_mass = _mass = new R44_Mass         ( this, _rootNode );
-    Aircraft::_prop = _prop = new R44_Propulsion   ( this, _rootNode );
+    Aircraft::_aero = _aero = new R44_Aerodynamics ( this, _input );
+    Aircraft::_ctrl = _ctrl = new R44_Controls     ( this, _input );
+    Aircraft::_gear = _gear = new R44_LandingGear  ( this, _input );
+    Aircraft::_mass = _mass = new R44_Mass         ( this, _input );
+    Aircraft::_prop = _prop = new R44_Propulsion   ( this, _input );
 
     readFile( Path::get( "data/fdm/r44/r44_fdm.xml" ).c_str() );
 }

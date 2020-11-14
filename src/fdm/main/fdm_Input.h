@@ -19,21 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm_xf/xf_Mass.h>
-#include <fdm_xf/xf_Aircraft.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef FDM_INPUT_H
+#define FDM_INPUT_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Mass::XF_Mass( const XF_Aircraft *aircraft, Input *input ) :
-    Mass( aircraft, input ),
-    _aircraft ( aircraft )
-{}
+#include <fdm/utils/fdm_DataRef.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-XF_Mass::~XF_Mass() {}
+namespace fdm
+{
+
+/**
+ * @brief Input class.
+ */
+class FDMEXPORT Input : public DataNode
+{
+public:
+
+    /** Constructor. */
+    Input();
+
+    /** Destructor. */
+    virtual ~Input();
+};
+
+} // end of fdm namespace
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // FDM_INPUT_H

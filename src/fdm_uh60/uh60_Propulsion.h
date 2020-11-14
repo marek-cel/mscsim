@@ -41,7 +41,7 @@ class UH60_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    UH60_Propulsion( const UH60_Aircraft *aircraft, DataNode *rootNode );
+    UH60_Propulsion( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~UH60_Propulsion();

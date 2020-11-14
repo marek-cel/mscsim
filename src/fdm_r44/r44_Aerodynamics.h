@@ -47,7 +47,7 @@ class R44_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    R44_Aerodynamics( const R44_Aircraft *aircraft, DataNode *rootNode );
+    R44_Aerodynamics( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~R44_Aerodynamics();

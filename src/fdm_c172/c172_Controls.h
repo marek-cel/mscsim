@@ -41,7 +41,7 @@ class C172_Controls : public Controls
 public:
 
     /** Constructor. */
-    C172_Controls( const C172_Aircraft *aircraft, DataNode *rootNode );
+    C172_Controls( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C172_Controls();

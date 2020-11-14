@@ -41,7 +41,7 @@ class R44_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    R44_Propulsion( const R44_Aircraft *aircraft, DataNode *rootNode );
+    R44_Propulsion( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~R44_Propulsion();

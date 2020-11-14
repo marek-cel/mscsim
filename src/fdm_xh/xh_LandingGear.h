@@ -58,7 +58,7 @@ class XH_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    XH_LandingGear( const XH_Aircraft *aircraft, DataNode *rootNode );
+    XH_LandingGear( const XH_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~XH_LandingGear();

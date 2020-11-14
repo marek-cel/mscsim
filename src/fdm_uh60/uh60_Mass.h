@@ -41,7 +41,7 @@ class UH60_Mass : public Mass
 public:
 
     /** Constructor. */
-    UH60_Mass( const UH60_Aircraft *aircraft, DataNode *rootNode );
+    UH60_Mass( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~UH60_Mass();

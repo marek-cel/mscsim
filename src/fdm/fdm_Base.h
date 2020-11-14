@@ -28,7 +28,7 @@
 #include <fdm/fdm_Path.h>
 #include <fdm/fdm_Types.h>
 
-#include <fdm/utils/fdm_DataRef.h>
+#include <fdm/main/fdm_Input.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +43,7 @@ class FDMEXPORT Base
 public:
 
     /** Constructor. */
-    Base( DataNode *rootNode = FDM_NULLPTR );
+    Base( Input *input = FDM_NULLPTR );
 
     /** Constructor. */
     Base( const Base *base );
@@ -78,14 +78,14 @@ public:
     DataRef getDataRef( const std::string &path );
 
     /**
-     * Returns pointer to data root node.
-     * @return pointer to data root node
+     * Returns pointer to input data root node.
+     * @return pointer to input data root node
      */
-    DataNode* getDataRootNode() { return _rootNode; }
+    Input* getInput() { return _input; }
 
 private:
 
-    DataNode *_rootNode;    ///< data tree root node
+    Input *_input;          ///< input data tree root node
 };
 
 } // end of fdm namespace

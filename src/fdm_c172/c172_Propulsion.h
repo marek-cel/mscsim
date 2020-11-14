@@ -44,7 +44,7 @@ class C172_Propulsion : public Propulsion
 public:
 
     /** Constructor. */
-    C172_Propulsion( const C172_Aircraft *aircraft, DataNode *rootNode );
+    C172_Propulsion( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C172_Propulsion();

@@ -47,7 +47,7 @@ class AW101_Aerodynamics : public Aerodynamics
 public:
 
     /** Constructor. */
-    AW101_Aerodynamics( const AW101_Aircraft *aircraft, DataNode *rootNode );
+    AW101_Aerodynamics( const AW101_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~AW101_Aerodynamics();

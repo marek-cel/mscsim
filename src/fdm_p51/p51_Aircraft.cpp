@@ -28,8 +28,8 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-P51_Aircraft::P51_Aircraft( DataNode *rootNode ) :
-    Aircraft( rootNode ),
+P51_Aircraft::P51_Aircraft( Input *input ) :
+    Aircraft( input ),
 
     _aero ( 0 ),
     _ctrl ( 0 ),
@@ -37,11 +37,11 @@ P51_Aircraft::P51_Aircraft( DataNode *rootNode ) :
     _mass ( 0 ),
     _prop ( 0 )
 {
-    Aircraft::_aero = _aero = new P51_Aerodynamics ( this, _rootNode );
-    Aircraft::_ctrl = _ctrl = new P51_Controls     ( this, _rootNode );
-    Aircraft::_gear = _gear = new P51_LandingGear  ( this, _rootNode );
-    Aircraft::_mass = _mass = new P51_Mass         ( this, _rootNode );
-    Aircraft::_prop = _prop = new P51_Propulsion   ( this, _rootNode );
+    Aircraft::_aero = _aero = new P51_Aerodynamics ( this, _input );
+    Aircraft::_ctrl = _ctrl = new P51_Controls     ( this, _input );
+    Aircraft::_gear = _gear = new P51_LandingGear  ( this, _input );
+    Aircraft::_mass = _mass = new P51_Mass         ( this, _input );
+    Aircraft::_prop = _prop = new P51_Propulsion   ( this, _input );
 
     readFile( Path::get( "data/fdm/p51/p51_fdm.xml" ).c_str() );
 }

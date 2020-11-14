@@ -27,7 +27,7 @@
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
-#include <fdm/fdm_FDM.h>
+#include <fdm/main/fdm_FDM.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

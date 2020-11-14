@@ -41,7 +41,7 @@ class C172_Mass : public Mass
 public:
 
     /** Constructor. */
-    C172_Mass( const C172_Aircraft *aircraft, DataNode *rootNode );
+    C172_Mass( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~C172_Mass();

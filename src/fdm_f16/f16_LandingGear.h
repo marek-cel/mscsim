@@ -58,7 +58,7 @@ class F16_LandingGear : public LandingGear
 public:
 
     /** Constructor. */
-    F16_LandingGear( const F16_Aircraft *aircraft, DataNode *rootNode );
+    F16_LandingGear( const F16_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     ~F16_LandingGear();

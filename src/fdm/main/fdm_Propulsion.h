@@ -41,7 +41,7 @@ class FDMEXPORT Propulsion : public Module
 public:
 
     /** Constructor. */
-    Propulsion( const Aircraft* aircraft, DataNode *rootNode );
+    Propulsion( const Aircraft *aircraft, Input *input );
 
     /** Destructor. */
     virtual ~Propulsion();
