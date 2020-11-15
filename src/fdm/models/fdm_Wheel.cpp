@@ -31,7 +31,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Wheel::Wheel( bool coupled ) :
+Wheel::Wheel( bool staticFriction ) :
     _k ( 0.0 ),
     _c ( 0.0 ),
 
@@ -57,7 +57,7 @@ Wheel::Wheel( bool coupled ) :
     _delta ( 0.0 ),
     _brake ( 0.0 ),
 
-    _coupled ( coupled )
+    _staticFriction ( staticFriction )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,21 +160,24 @@ void Wheel::computeForceAndMoment( const Vector3 &vel_bas,
             coef_slip = Misc::sign( v_slip );
         }
 
-        if ( fabs( _d_roll ) < _d_max && fabs( _d_slip ) < _d_max )
+        if ( _staticFriction )
         {
-            // spring-like model of static friction as a logistic function
-            double cr = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_roll ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_roll );
-            double cs = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_slip ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_slip );
+            if ( fabs( _d_roll ) < _d_max && fabs( _d_slip ) < _d_max )
+            {
+                // spring-like model of static friction as a logistic function
+                double cr = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_roll ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_roll );
+                double cs = ( 2.0 / ( 1.0 + exp( -3.0 * Misc::satur( 0.0, 1.0, fabs( _d_slip ) / _d_max ) ) ) - 1.0 ) * Misc::sign( _d_slip );
 
-            if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
-            else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
-            else
-                coef_roll += cr;
+                if      ( coef_roll < 0.0 && cr < 0.0 ) { if ( cr < coef_roll ) coef_roll = cr; }
+                else if ( coef_roll > 0.0 && cr > 0.0 ) { if ( cr > coef_roll ) coef_roll = cr; }
+                else
+                    coef_roll += cr;
 
-            if      ( coef_slip < 0.0 && cs < 0.0 ) { if ( cs < coef_slip ) coef_slip = cs; }
-            else if ( coef_slip > 0.0 && cs > 0.0 ) { if ( cs > coef_slip ) coef_slip = cs; }
-            else
-                coef_slip += cs;
+                if      ( coef_slip < 0.0 && cs < 0.0 ) { if ( cs < coef_slip ) coef_slip = cs; }
+                else if ( coef_slip > 0.0 && cs > 0.0 ) { if ( cs > coef_slip ) coef_slip = cs; }
+                else
+                    coef_slip += cs;
+            }
         }
 
         coef_roll = Misc::satur( -1.0, 1.0, coef_roll );
@@ -236,43 +239,38 @@ void Wheel::integrate( double timeStep,
                        const Vector3 &n_c_bas,
                        bool steering )
 {
-    double deflection_norm = n_c_bas * ( r_c_bas - _r_u_bas );
-
-    if ( deflection_norm > 1.0e-6 )
+    if ( _staticFriction )
     {
-        Vector3 dir_lon_bas;
-        Vector3 dir_lat_bas;
+        double deflection_norm = n_c_bas * ( r_c_bas - _r_u_bas );
 
-        double cosDelta = 1.0;
-        double sinDelta = 0.0;
-
-        double v_norm = 0.0;
-        double v_roll = 0.0;
-        double v_slip = 0.0;
-
-        calculateVariables( vel_bas, omg_bas, r_c_bas, n_c_bas, steering,
-                            &dir_lon_bas, &dir_lat_bas,
-                            &cosDelta, &sinDelta, &v_norm, &v_roll, &v_slip );
-
-        _d_roll += v_roll * timeStep;
-        _d_slip += v_slip * timeStep;
-
-        if ( _coupled )
+        if ( deflection_norm > 1.0e-6 )
         {
+            Vector3 dir_lon_bas;
+            Vector3 dir_lat_bas;
+
+            double cosDelta = 1.0;
+            double sinDelta = 0.0;
+
+            double v_norm = 0.0;
+            double v_roll = 0.0;
+            double v_slip = 0.0;
+
+            calculateVariables( vel_bas, omg_bas, r_c_bas, n_c_bas, steering,
+                                &dir_lon_bas, &dir_lat_bas,
+                                &cosDelta, &sinDelta, &v_norm, &v_roll, &v_slip );
+
+            _d_roll += v_roll * timeStep;
+            _d_slip += v_slip * timeStep;
+
             if ( fabs( v_roll ) > _v_max || fabs( v_slip ) > _v_max )
             {
                 _d_roll = 0.0;
                 _d_slip = 0.0;
             }
-        }
-        else
-        {
-            if ( fabs( v_roll ) > _v_max ) _d_roll = 0.0;
-            if ( fabs( v_slip ) > _v_max ) _d_slip = 0.0;
-        }
 
-        if ( fabs( _d_roll ) > _d_max ) _d_roll = 0.0;
-        if ( fabs( _d_slip ) > _d_max ) _d_slip = 0.0;
+            if ( fabs( _d_roll ) > _d_max ) _d_roll = 0.0;
+            if ( fabs( _d_slip ) > _d_max ) _d_slip = 0.0;
+        }
     }
 }
 
