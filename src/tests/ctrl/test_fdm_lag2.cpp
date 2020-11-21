@@ -3,12 +3,14 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdm/sys/fdm_Lead.h>
+#include <fdm/ctrl/fdm_Lag2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TIME_STEP 0.1
-#define TIME_CONSTANT 0.3
+
+#define TIME_CONSTANT_1 2.0
+#define TIME_CONSTANT_2 3.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,19 +18,19 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class LeadTest : public QObject
+class Lag2Test : public QObject
 {
     Q_OBJECT
 
 public:
 
-    LeadTest();
+    Lag2Test();
 
 private:
 
     std::vector< double > _y;
 
-    fdm::Lead *_lead;
+    fdm::Lag2 *_lag;
 
 private Q_SLOTS:
 
@@ -40,15 +42,15 @@ private Q_SLOTS:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LeadTest::LeadTest() {}
+Lag2Test::Lag2Test() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadTest::initTestCase()
+void Lag2Test::initTestCase()
 {
-    _lead = new fdm::Lead( TIME_CONSTANT );
+    _lag = new fdm::Lag2( TIME_CONSTANT_1, TIME_CONSTANT_2 );
 
-    FILE *file = fopen( "../sys/data/test_fdm_lead.bin", "r" );
+    FILE *file = fopen( "../ctrl/data/test_fdm_lag2.bin", "r" );
 
     if ( file )
     {
@@ -70,55 +72,34 @@ void LeadTest::initTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadTest::cleanupTestCase()
+void Lag2Test::cleanupTestCase()
 {
-    if ( _lead ) delete _lead;
-    _lead = 0;
+    if ( _lag ) delete _lag;
+    _lag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadTest::testUpdate()
+void Lag2Test::testUpdate()
 {
     double t = 0.0;
     double y = 0.0;
 
-    double u_prev = 0.0;
-    double y_prev = 0.0;
-
     for ( unsigned int i = 0; i < _y.size(); i++ )
     {
-        //double u = sin( t );
+        double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
         int steps = 10;
         for ( int j = 0; j < steps; j++ )
         {
             double dt = TIME_STEP / (double)steps;
-            double tt = t + (double)j * dt;
-
-            double u = sin( tt );
-
-            _lead->update( u, dt );
-            y = _lead->getValue();
-
-            //std::cout << sin( t ) << " " << sin( tt ) << " y= " << y << std::endl;
-
-            if ( 0 )
-            {
-                double c1 = 1.0 / TIME_CONSTANT;
-                double denom = 2.0 + dt * c1;
-                double ca = dt * c1 / denom;
-                double cb = ( 2.0 - dt * c1 ) / denom;
-
-                y = ( u + u_prev ) * ca + y_prev * cb;
-
-                u_prev = u;
-                y_prev = y;
-            }
+            _lag->update( u, dt );
+            y = _lag->getValue();
         }
 
         cout << y << " " << _y.at( i ) << endl;
-        QVERIFY2( fabs( y - _y.at( i ) ) < 2.0e-2, "Failure" );
+
+        QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-3, "Failure" );
 
         t += TIME_STEP;
     }
@@ -126,8 +107,8 @@ void LeadTest::testUpdate()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(LeadTest)
+QTEST_APPLESS_MAIN(Lag2Test)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "test_fdm_lead.moc"
+#include "test_fdm_lag2.moc"

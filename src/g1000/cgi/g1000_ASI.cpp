@@ -396,7 +396,7 @@ void ASI::createBox()
     _switchIAS->addChild( geode_t2.get() );
 
     _textIAS_10 = new osgText::Text();
-    _textIAS_10->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textIAS_10->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textIAS_10->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textIAS_10->setCharacterSize( 5.0 );
     _textIAS_10->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -407,7 +407,7 @@ void ASI::createBox()
     geode_t1->addDrawable( _textIAS_10 );
 
     osg::ref_ptr<osgText::Text> textIAS = new osgText::Text();
-    textIAS->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textIAS->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textIAS->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textIAS->setCharacterSize( 5.0 );
     textIAS->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -476,7 +476,7 @@ void ASI::createBoxSelect()
     geode_f->addDrawable( geom_f.get() );
 
     _textSelect = new osgText::Text();
-    _textSelect->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textSelect->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textSelect->setColor( osg::Vec4( Colors::_cyan, 1.0 ) );
     _textSelect->setCharacterSize( 4.0 );
     _textSelect->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -545,7 +545,7 @@ void ASI::createBoxTAS()
     geode_f->addDrawable( geom_f.get() );
 
     osg::ref_ptr<osgText::Text> textLabel = new osgText::Text();
-    textLabel->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textLabel->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textLabel->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textLabel->setCharacterSize( 2.7 );
     textLabel->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -556,7 +556,7 @@ void ASI::createBoxTAS()
     geode_t->addDrawable( textLabel );
 
     _textTAS = new osgText::Text();
-    _textTAS->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textTAS->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textTAS->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textTAS->setCharacterSize( 3.5 );
     _textTAS->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -594,7 +594,7 @@ void ASI::createDisk()
         sprintf( digit, "%d", i );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+        text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
         text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
         text->setCharacterSize( 5.0 );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -737,7 +737,7 @@ void ASI::createScale()
             ias_str << ias;
 
             osg::ref_ptr<osgText::Text> text = new osgText::Text();
-            text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+            text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
             text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
             text->setCharacterSize( 4.0 );
             text->setAxisAlignment( osgText::TextBase::XY_PLANE );

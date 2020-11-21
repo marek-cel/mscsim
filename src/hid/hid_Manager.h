@@ -29,6 +29,8 @@
 
 #include <fdm/fdm_Defines.h>
 
+#include <sim/Singleton.h>
+
 #include <hid/hid_Assignment.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +41,10 @@ namespace hid
 /**
  * @brief HID manager class.
  */
-class Manager
+class Manager : public Singleton< Manager >
 {
+    friend class Singleton< Manager >;
+
 public:
 
     static const std::string _actionNames[ HID_MAX_ACTIONS ];   ///<
@@ -59,20 +63,22 @@ public:
     static const double _speedPropeller;    ///< [1/s]
 
     /** */
-    static inline Manager* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new Manager();
-        }
-
-        return _instance;
-    }
-
-    /** */
     static Assignment::POVs getPOV( short pov_deg );
 
     static bool isAxis( Assignment::Action action );
+
+private:
+
+    /**
+     * You should use static function instance() due to get refernce
+     * to Manager class instance.
+     */
+    Manager();
+
+    /** Using this constructor is forbidden. */
+    Manager( const Manager & ) {}
+
+public:
 
     /** Destructor. */
     virtual ~Manager();
@@ -127,8 +133,6 @@ public:
 
 private:
 
-    static Manager *_instance;                  ///<  instance of Manager singleton class
-
     Assignment _assignments[ HID_MAX_ACTIONS ]; ///<
 
     bool _keysState[ HID_MAX_KEYS ];            ///<
@@ -180,15 +184,6 @@ private:
     int _notch;                                 ///< current flaps notch
 
     std::vector< double > _notches;             ///< flaps notches
-
-    /**
-     * You should use static function instance() due to get refernce
-     * to Manager class instance.
-     */
-    Manager();
-
-    /** Using this constructor is forbidden. */
-    Manager( const Manager & ) {}
 
     /** */
     void getAxisValue( const Assignment &assignment, double *value, int absolute = 0 );

@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_PID.h>
+#include <fdm/ctrl/fdm_PID.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Table1.h>

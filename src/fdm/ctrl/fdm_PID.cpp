@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/sys/fdm_PID.h>
+#include <fdm/ctrl/fdm_PID.h>
 
 #include <algorithm>
 #include <limits>

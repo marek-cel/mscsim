@@ -43,7 +43,7 @@ F35A_Aircraft::F35A_Aircraft( Input *input ) :
     Aircraft::_mass = _mass = new F35A_Mass         ( this, _input );
     Aircraft::_prop = _prop = new F35A_Propulsion   ( this, _input );
 
-    readFile( Path::get( "data/fdm/f35a/f35a_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/f35a/f35a_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

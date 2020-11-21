@@ -42,8 +42,8 @@ Entities::Entities( const Module *parent ) :
     _root->addChild( _patLCS.get() );
     _root->addChild( _patCVN.get() );
 
-    addEntity( _patLCS.get(), "data/cgi/entities/lcs.osgb"  );
-    //addEntity( _patCVN.get(), "data/cgi/entities/cvn.osgb" );
+    addEntity( _patLCS.get(), "cgi/entities/lcs.osgb"  );
+    //addEntity( _patCVN.get(), "cgi/entities/cvn.osgb" );
 
     WGS84::setLatLonAltHdg( _patLCS.get(), osg::DegreesToRadians( 21.3529540 ), osg::DegreesToRadians( -157.9685000 ), 0.0, osg::DegreesToRadians( 180.0 ) );
 }

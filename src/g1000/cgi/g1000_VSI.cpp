@@ -210,7 +210,7 @@ void VSI::createBoxSelect()
     geode_f->addDrawable( geom_f.get() );
 
     _textSelect = new osgText::Text();
-    _textSelect->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textSelect->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textSelect->setColor( osg::Vec4( Colors::_cyan, 1.0 ) );
     _textSelect->setCharacterSize( 4.0 );
     _textSelect->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -375,7 +375,7 @@ void VSI::createPointer()
     _patPointer->addChild( geode_t.get() );
 
     _textVS = new osgText::Text();
-    _textVS->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textVS->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textVS->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textVS->setCharacterSize( 4.0 );
     _textVS->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -426,7 +426,7 @@ void VSI::createScale()
                 alt_str << floor( fabs( vs / 1000 ) );
 
                 osg::ref_ptr<osgText::Text> text = new osgText::Text();
-                text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+                text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
                 text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
                 text->setCharacterSize( 4.0 );
                 text->setAxisAlignment( osgText::TextBase::XY_PLANE );

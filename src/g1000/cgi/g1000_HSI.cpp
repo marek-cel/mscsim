@@ -247,7 +247,7 @@ void HSI::createBoxCRS()
     geode_f->addDrawable( geom_f.get() );
 
     osg::ref_ptr<osgText::Text> textLabel = new osgText::Text();
-    textLabel->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textLabel->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textLabel->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textLabel->setCharacterSize( 2.9 );
     textLabel->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -258,7 +258,7 @@ void HSI::createBoxCRS()
     geode_t->addDrawable( textLabel );
 
     _textCRS = new osgText::Text();
-    _textCRS->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textCRS->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textCRS->setColor( osg::Vec4( Colors::_magenta, 1.0 ) );
     _textCRS->setCharacterSize( 4.0 );
     _textCRS->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -327,7 +327,7 @@ void HSI::createBoxHDG()
     geode_f->addDrawable( geom_f.get() );
 
     osg::ref_ptr<osgText::Text> textLabel = new osgText::Text();
-    textLabel->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textLabel->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textLabel->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textLabel->setCharacterSize( 2.9 );
     textLabel->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -338,7 +338,7 @@ void HSI::createBoxHDG()
     geode_t->addDrawable( textLabel );
 
     _textHDG = new osgText::Text();
-    _textHDG->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textHDG->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textHDG->setColor( osg::Vec4( Colors::_cyan, 1.0 ) );
     _textHDG->setCharacterSize( 4.0 );
     _textHDG->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -448,7 +448,7 @@ void HSI::createCompass()
                 pat->setAttitude( osg::Quat( -a, osg::Z_AXIS ) );
 
                 osg::ref_ptr<osgText::Text> text = new osgText::Text();
-                text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+                text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
                 text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
                 text->setCharacterSize( charSize );
                 text->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -573,7 +573,7 @@ void HSI::createHeadingBox()
     geode->addDrawable( geometry.get() );
 
     _headingText = new osgText::Text();
-    _headingText->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _headingText->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _headingText->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _headingText->setCharacterSize( 6.0 );
     _headingText->setAxisAlignment( osgText::TextBase::XY_PLANE );

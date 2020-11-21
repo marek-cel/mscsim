@@ -166,6 +166,7 @@ include($$PWD/gui/gui.pri)
 include($$PWD/hid/hid.pri)
 include($$PWD/nav/nav.pri)
 include($$PWD/sfx/sfx.pri)
+include($$PWD/sim/sim.pri)
 
 include($$PWD/fdm_xh/fdm_xh.pri)
 include($$PWD/fdm_xf/fdm_xf.pri)

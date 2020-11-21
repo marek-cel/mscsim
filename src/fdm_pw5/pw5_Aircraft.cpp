@@ -43,7 +43,7 @@ PW5_Aircraft::PW5_Aircraft( Input *input ) :
     Aircraft::_mass = _mass = new PW5_Mass         ( this, _input );
     Aircraft::_prop = _prop = new PW5_Propulsion   ( this, _input );
 
-    readFile( Path::get( "data/fdm/pw5/pw5_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/pw5/pw5_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

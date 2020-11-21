@@ -56,7 +56,7 @@ public:
     XmlNode( xmlNodePtr node, const char *file );
 
     /** Destrcutor. */
-    virtual ~XmlNode() {}
+    virtual ~XmlNode();
 
     /**
      * Returns the value of the attribute or an empty string if the attribute

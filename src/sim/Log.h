@@ -19,62 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <g1000/cgi/g1000_WYPT.h>
-
-#include <g1000/cgi/g1000_Colors.h>
-#include <g1000/cgi/g1000_Fonts.h>
+#ifndef LOG_H
+#define LOG_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace g1000;
+#include <fdm/fdm_Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const double WYPT::_z_text = -40.0;
+typedef fdm::Log Log;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-WYPT::WYPT( IFD *ifd ) :
-    Module( ifd )
-{
-    create();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-WYPT::~WYPT() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WYPT::update()
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WYPT::create()
-{
-    const double h = 11.0;
-
-    const double dx_freq = 51.0;
-
-    const double x_ap = -G1000_GDU_WIDTH_2 + dx_freq + 25.0;
-
-    const double y = G1000_GDU_HEIGHT_2 - 0.4 * h;
-
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _root->addChild( geode.get() );
-
-    _textWYPT = new osgText::Text();
-    _textWYPT->setFont( Fonts::get( "fonts/g1000.ttf" ) );
-    _textWYPT->setColor( osg::Vec4( Colors::_magenta, 1.0 ) );
-    _textWYPT->setCharacterSize( 5.0 );
-    _textWYPT->setAxisAlignment( osgText::TextBase::XY_PLANE );
-    _textWYPT->setPosition( osg::Vec3( x_ap, y, _z_text ) );
-    _textWYPT->setLayout( osgText::Text::LEFT_TO_RIGHT );
-    _textWYPT->setAlignment( osgText::Text::LEFT_BOTTOM );
-    _textWYPT->setText( "D" );
-    geode->addDrawable( _textWYPT );
-}
+#endif // LOG_H

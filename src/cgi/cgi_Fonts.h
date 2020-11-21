@@ -26,7 +26,7 @@
 
 #include <osgText/Font>
 
-#include <cgi/cgi_Singleton.h>
+#include <sim/Singleton.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -50,13 +50,7 @@ public:
     /** Resets fonts list. */
     static void reset();
 
-    /** Destructor. */
-    virtual ~Fonts();
-
 private:
-
-    List _fonts;                            ///<
-    std::vector< std::string > _fileNames;  ///<
 
     /**
      * You should use static function instance() due to get refernce
@@ -66,6 +60,16 @@ private:
 
     /** Using this constructor is forbidden. */
     Fonts( const Fonts & ) : Singleton< Fonts >() {}
+
+public:
+
+    /** Destructor. */
+    virtual ~Fonts();
+
+private:
+
+    List _fonts;                            ///<
+    std::vector< std::string > _fileNames;  ///<
 };
 
 } // end of cgi namespace

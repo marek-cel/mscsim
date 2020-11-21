@@ -49,16 +49,16 @@ public:
     /** Gas species indeces. */
     enum GasSpeciesIndeces
     {
-        N2 = 0,                         ///< index of Nitrogen       (N2)  in tables m_m_i and m_f_i
-        O2,                             ///< index of Oxygen         (O2)  in tables m_m_i and m_f_i
-        Ar,                             ///< index of Argon          (Ar)  in tables m_m_i and m_f_i
-        CO2,                            ///< index of Carbon Dioxide (C02) in tables m_m_i and m_f_i
-        Ne,                             ///< index of Neon           (Ne)  in tables m_m_i and m_f_i
-        He,                             ///< index of Helium         (He)  in tables m_m_i and m_f_i
-        Kr,                             ///< index of Krypton        (Kr)  in tables m_m_i and m_f_i
-        Xe,                             ///< index of Xenon          (Xe)  in tables m_m_i and m_f_i
-        CH4,                            ///< index of Methane        (CH4) in tables m_m_i and m_f_i
-        H2                              ///< index of Hydrogen       (H2)  in tables m_m_i and m_f_i
+        N2 = 0,                         ///< index of Nitrogen       (N2)  in tables _m_i and _f_i
+        O2,                             ///< index of Oxygen         (O2)  in tables _m_i and _f_i
+        Ar,                             ///< index of Argon          (Ar)  in tables _m_i and _f_i
+        CO2,                            ///< index of Carbon Dioxide (C02) in tables _m_i and _f_i
+        Ne,                             ///< index of Neon           (Ne)  in tables _m_i and _f_i
+        He,                             ///< index of Helium         (He)  in tables _m_i and _f_i
+        Kr,                             ///< index of Krypton        (Kr)  in tables _m_i and _f_i
+        Xe,                             ///< index of Xenon          (Xe)  in tables _m_i and _f_i
+        CH4,                            ///< index of Methane        (CH4) in tables _m_i and _f_i
+        H2                              ///< index of Hydrogen       (H2)  in tables _m_i and _f_i
     };
 
     static const double _m_i[ 10 ];     ///< [kg/kmol] molecular weight
@@ -73,9 +73,9 @@ public:
     static const double _r;             ///< [J/(kmol*K)] universal gas constant
     static const double _s;             ///< [K] Sutherland constant
     static const double _beta;          ///< [kg/(s*m*K^0.5)] a constant used in computing dynamic viscosity
-    static const double _gamma;         ///< [-] a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume
+    static const double _gamma;         ///< [-] a constant taken to represent the ratio of specific heat at constant pressure to the specific heat at constant volume (cp/cv)
 
-    static const double _std_sl_t;      ///< [K]  standard sea level temperature (15 deg C)
+    static const double _std_sl_t;      ///< [K]  standard sea level temperature (288.15 K or 15 deg C)
     static const double _std_sl_p;      ///< [Pa] standard sea level pressure (1013.25 hPa)
     static const double _std_sl_rho;    ///< [kg/m^3] standard sea level density (1.225 kg/m^3)
 

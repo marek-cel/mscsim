@@ -29,6 +29,8 @@
 
 #include <fdm/utils/fdm_Vector3.h>
 
+#include <sim/Singleton.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace nav
@@ -37,8 +39,10 @@ namespace nav
 /**
  * @brief Navigation data base class.
  */
-class DataBase
+class DataBase : public Singleton< DataBase >
 {
+    friend class Singleton< DataBase >;
+
 public:
 
     /** */
@@ -132,17 +136,6 @@ public:
     typedef std::vector< NAV > ListNAV;
     typedef std::vector< RWY > ListRWY;
 
-    /** */
-    static inline DataBase* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new DataBase();
-        }
-
-        return _instance;
-    }
-
     static double getTrueBearing( const char *str_bear, const char *str_magvar );
 
     /** Destructor. */
@@ -154,8 +147,6 @@ public:
     const ListRWY& getListRWY() const { return _list_rwy; }
 
 private:
-
-    static DataBase *_instance; ///< instance of DataBase singleton class
 
     ListAPT _list_apt;          ///<
     ListILS _list_ils;          ///<

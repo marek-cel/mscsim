@@ -26,7 +26,7 @@
 
 #include <fdm/fdm_Defines.h>
 
-#include <fdm/sys/fdm_PID.h>
+#include <fdm/ctrl/fdm_PID.h>
 
 #include <fdm/xml/fdm_XmlNode.h>
 

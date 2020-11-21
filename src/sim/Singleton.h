@@ -19,61 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_LPF_H
-#define FDM_LPF_H
+#ifndef SINGLETON_H
+#define SINGLETON_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/sys/fdm_Lag.h>
+#include <Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-
-namespace fdm
-{
 
 /**
- * @brief First-order low-pass filter (LPF) class.
- *
- * Transfer function:
- * G(s)  =  1 / ( Tc*s + 1 )  =  omega / ( s + omega )  =  1 / ( s/omega + 1 )
- *
- * First-order low-pass filter is based on a first-order lag element.
+ * @brief Singleton class template.
  */
-class FDMEXPORT LPF : public Lag
+template < class TYPE >
+class Singleton
 {
 public:
 
-    /** Constructor. */
-    LPF();
-
     /**
-     * Constructor.
-     * @param omega [rad/s] cutoff angular frequency
-     * @param y initial output value
+     * Returns singleton object instance pointer, creates it if necessary.
+     * @return singleton object instance pointer
      */
-    LPF( double omega, double y = 0.0 );
+    static TYPE* instance()
+    {
+        if ( !_instance )
+        {
+            _instance = new TYPE();
+        }
 
-    /**
-     * Returns cutoff angular frequency.
-     * @return cutoff angular frequency
-     */
-    inline double getOmega() const { return 1.0 / _tc; }
+        return _instance;
+    }
 
-    /**
-     * Sets cutoff angular frequency.
-     * @param omega [rad/s] cutoff angular frequency
-     */
-    void setOmega( double omega );
+private:
 
-    /**
-     * Sets cutoff frequency.
-     * @param freq [Hz] cutoff frequency
-     */
-    void setCutoffFreq( double freq );
+    static TYPE *_instance;     ///< singleton object instance pointer
 };
-
-} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_LPF_H
+template < class TYPE > TYPE* Singleton< TYPE >::_instance = NULLPTR;
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // SINGLETON_H

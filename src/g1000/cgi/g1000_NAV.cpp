@@ -72,7 +72,7 @@ void NAV::create()
     _root->addChild( geode.get() );
 
     osg::ref_ptr<osgText::Text> textLabel1 = new osgText::Text();
-    textLabel1->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textLabel1->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textLabel1->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textLabel1->setCharacterSize( 3.0 );
     textLabel1->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -83,7 +83,7 @@ void NAV::create()
     geode->addDrawable( textLabel1 );
 
     osg::ref_ptr<osgText::Text> textLabel2 = new osgText::Text();
-    textLabel2->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    textLabel2->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     textLabel2->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     textLabel2->setCharacterSize( 3.0 );
     textLabel2->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -94,7 +94,7 @@ void NAV::create()
     geode->addDrawable( textLabel2 );
 
     _textNavActive1 = new osgText::Text();
-    _textNavActive1->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textNavActive1->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textNavActive1->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textNavActive1->setCharacterSize( 4.0 );
     _textNavActive1->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -105,7 +105,7 @@ void NAV::create()
     geode->addDrawable( _textNavActive1 );
 
     _textNavActive2 = new osgText::Text();
-    _textNavActive2->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textNavActive2->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textNavActive2->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textNavActive2->setCharacterSize( 4.0 );
     _textNavActive2->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -116,7 +116,7 @@ void NAV::create()
     geode->addDrawable( _textNavActive2 );
 
     _textNavStandby1 = new osgText::Text();
-    _textNavStandby1->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textNavStandby1->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textNavStandby1->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textNavStandby1->setCharacterSize( 4.0 );
     _textNavStandby1->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -127,7 +127,7 @@ void NAV::create()
     geode->addDrawable( _textNavStandby1 );
 
     _textNavStandby2 = new osgText::Text();
-    _textNavStandby2->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textNavStandby2->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textNavStandby2->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textNavStandby2->setCharacterSize( 4.0 );
     _textNavStandby2->setAxisAlignment( osgText::TextBase::XY_PLANE );

@@ -32,13 +32,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Aircrafts* Aircrafts::_instance = NULLPTR;
-
-////////////////////////////////////////////////////////////////////////////////
-
 Aircrafts::Aircrafts()
 {
-    QFile file( Path::get( "data/gui/aircrafts.xml" ).c_str() );
+    QFile file( Path::get( "gui/aircrafts.xml" ).c_str() );
 
     if ( file.open(QFile::ReadOnly | QFile::Text) )
     {

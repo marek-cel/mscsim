@@ -35,10 +35,6 @@ using namespace hid;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Joysticks* Joysticks::_instance = NULLPTR;
-
-////////////////////////////////////////////////////////////////////////////////
-
 #ifdef HID_LINUX_JOYSTICK
 const std::string Joysticks::_axisNames[] = { "X", "Y", "Z",
                                               "RX", "RY", "RZ",

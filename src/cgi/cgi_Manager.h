@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <cgi/cgi_Singleton.h>
+#include <sim/Singleton.h>
 
 #include <cgi/hud/cgi_HUD.h>
 #include <cgi/map/cgi_Map.h>
@@ -44,6 +44,17 @@ class Manager : public Singleton< Manager >
 {
     friend class Singleton< Manager >;
 
+private:
+
+    /**
+     * You should use static function instance() due to get refernce
+     * to Manager class instance.
+     */
+    Manager();
+
+    /** Using this constructor is forbidden. */
+    Manager( const Manager & ) {}
+
 public:
 
     /** Destructor. */
@@ -51,13 +62,13 @@ public:
 
     inline void resetTraces() { _map->resetTraces(); }
 
-    /** */
+    /** Updates HUD. */
     void updateHUD();
 
-    /** */
+    /** Updates Map. */
     void updateMap();
 
-    /** */
+    /** Updates OTW. */
     void updateOTW();
 
     /** */
@@ -78,19 +89,19 @@ public:
         return _camera->getAttitude();
     }
 
-    /** */
+    /** Returns HUD root node. */
     inline osg::Node* getNodeHUD()
     {
         return _hud->getNode();
     }
 
-    /** */
+    /** Returns map root node. */
     inline osg::Node* getNodeMap()
     {
         return _map->getNode();
     }
 
-    /** */
+    /** Returns OTW root node. */
     inline osg::Node* getNodeOTW()
     {
         return _otw->getNode();
@@ -114,7 +125,7 @@ public:
     /** */
     void setDistanceMin( double distance_min );
 
-    /** */
+    /** Sets map scale factor. */
     void setMapScale( double scale );
 
     inline void setVisibilityCrops     ( bool visible ) { _map->setVisibilityCrops     ( visible ); }
@@ -130,20 +141,11 @@ public:
 
 private:
 
-    HUD *_hud;                  ///<
-    Map *_map;                  ///<
-    OTW *_otw;                  ///<
+    HUD *_hud;                  ///< HUD object
+    Map *_map;                  ///< map object
+    OTW *_otw;                  ///< OTW object
 
-    Camera *_camera;            ///<
-
-    /**
-     * You should use static function instance() due to get refernce
-     * to Manager class instance.
-     */
-    Manager();
-
-    /** Using this constructor is forbidden. */
-    Manager( const Manager & ) {}
+    Camera *_camera;            ///< camera object
 
     /** */
     void updateGround();

@@ -73,12 +73,12 @@ CloudsBlock::CloudsBlock( const Module *parent ) :
     stateSet->setMode( GL_CULL_FACE , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE  );
     stateSet->setRenderBinDetails( CGI_DEPTH_SORTED_BIN_CLOUDS, "DepthSortedBin" );
 
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_1.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_2.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_3.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_4.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_5.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_cu_6.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_1.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_2.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_3.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_4.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_5.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_cu_6.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

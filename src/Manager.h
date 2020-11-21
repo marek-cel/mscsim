@@ -73,9 +73,9 @@ private:
     QElapsedTimer *_timerSim;   ///< elapsed timer
     QElapsedTimer *_timerOut;   ///< elapsed timer
 
-    int _timerId;               ///< timer Id
-
     double _timeStep;           ///< [s] time step
+
+    int _timerId;               ///< timer Id
 
     void updatedInputG1000();
     void updatedInputG1000( const fdm::DataOut &dataOut );

@@ -3,18 +3,13 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdm/sys/fdm_Filter2.h>
+#include <fdm/ctrl/fdm_HPF.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TIME_STEP 0.1
 
-#define C_1 2.0
-#define C_2 2.0
-#define C_3 2.0
-#define C_4 1.0
-#define C_5 2.0
-#define C_6 4.0
+#define OMEGA 2.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -22,19 +17,21 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class Filter2Test : public QObject
+class HPFTest : public QObject
 {
     Q_OBJECT
 
 public:
 
-    Filter2Test();
+    HPFTest();
 
 private:
 
     std::vector< double > _y;
+    std::vector< double > _y2;
 
-    fdm::Filter2 *_filter;
+    fdm::HPF *_hpf;
+    fdm::HPF *_hpf2;
 
 private Q_SLOTS:
 
@@ -42,19 +39,24 @@ private Q_SLOTS:
     void cleanupTestCase();
 
     void sampleTest();
+    void sampleTest2();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Filter2Test::Filter2Test() : _filter ( 0 ) {}
+HPFTest::HPFTest() :
+    _hpf ( 0 ),
+    _hpf2 ( 0 )
+{}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Filter2Test::initTestCase()
+void HPFTest::initTestCase()
 {
-    _filter = new fdm::Filter2( C_1, C_2, C_3, C_4, C_5, C_6 );
+    _hpf = new fdm::HPF( OMEGA );
+    _hpf2 = new fdm::HPF( OMEGA );
 
-    FILE *file = fopen( "../sys/data/test_fdm_filter2.bin", "r" );
+    FILE *file = fopen( "../ctrl/data/test_fdm_hpf.bin", "r" );
 
     if ( file )
     {
@@ -72,19 +74,41 @@ void Filter2Test::initTestCase()
     {
         QFAIL( "Cannot open file" );
     }
+
+    FILE *file2 = fopen( "../ctrl/data/test_fdm_hpf_2.bin", "r" );
+
+    if ( file2 )
+    {
+        char buffer[4];
+
+        while ( fread( buffer, 1, 4, file2 ) == 4 )
+        {
+            float *y = (float*)(buffer);
+            _y2.push_back( *y );
+        }
+
+        fclose( file2 );
+    }
+    else
+    {
+        QFAIL( "Cannot open file" );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Filter2Test::cleanupTestCase()
+void HPFTest::cleanupTestCase()
 {
-    if ( _filter ) delete _filter;
-    _filter = 0;
+    if ( _hpf ) delete _hpf;
+    _hpf = 0;
+
+    if ( _hpf2 ) delete _hpf2;
+    _hpf2 = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Filter2Test::sampleTest()
+void HPFTest::sampleTest()
 {
     double t = 0.0;
     double y = 0.0;
@@ -97,8 +121,8 @@ void Filter2Test::sampleTest()
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        _filter->update( u, dt );
-        y = _filter->getValue();
+        _hpf->update( u, dt );
+        y = _hpf->getValue();
 
         if ( i % devider == 0 )
         {
@@ -117,8 +141,41 @@ void Filter2Test::sampleTest()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(Filter2Test)
+void HPFTest::sampleTest2()
+{
+    double t = 0.0;
+    double y = 0.0;
+
+    int devider = 10;
+    int index = 0;
+    double dt = TIME_STEP / (double)devider;
+
+    for ( unsigned int i = 0; i < devider * _y2.size(); i++ )
+    {
+        double u = sin( t );
+
+        _hpf2->update( u, dt );
+        y = _hpf2->getValue();
+
+        if ( i % devider == 0 )
+        {
+            if ( index > 0 )
+            {
+                cout << y << " " << _y2.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y2.at( index - 1 ) ) < 1.0e-1, "Failure" );
+            }
+
+            index++;
+        }
+
+        t += dt;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "test_fdm_filter2.moc"
+QTEST_APPLESS_MAIN(HPFTest)
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include "test_fdm_hpf.moc"

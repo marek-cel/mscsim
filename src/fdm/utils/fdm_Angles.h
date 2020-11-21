@@ -36,8 +36,8 @@ namespace fdm
 /**
  * @brief Tait-Bryant angles class.
  *
- * This class represents three angles of rotation about three axes in ZYX
- * convention.
+ * This class represents three angles of rotation about three axes in Z-Y-X
+ * (yaw-pitch-roll) convention.
  *
  * @see https://en.wikipedia.org/wiki/Euler_angles
  */
@@ -91,12 +91,12 @@ public:
      */
     void normalize();
 
-    inline double   phi() const { return _phi; }
-    inline double   tht() const { return _tht; }
-    inline double   psi() const { return _psi; }
-    inline double & phi()       { return _phi; }
-    inline double & tht()       { return _tht; }
-    inline double & psi()       { return _psi; }
+    inline double  phi() const { return _phi; }
+    inline double  tht() const { return _tht; }
+    inline double  psi() const { return _psi; }
+    inline double& phi()       { return _phi; }
+    inline double& tht()       { return _tht; }
+    inline double& psi()       { return _psi; }
 
     /** Sets angles values. */
     void set( double phi, double tht, double psi );

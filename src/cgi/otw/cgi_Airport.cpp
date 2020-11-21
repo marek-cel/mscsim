@@ -63,9 +63,6 @@ Airport::Airport( const char *file, double lat, double lon, double alt,
         _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "HELI" ) );
         _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TELS" ) );
         _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TWRL" ) );
-
-        _switchGatesRwyL = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "ApproachGatesL" ) );
-        _switchGatesRwyH = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "ApproachGatesH" ) );
     }
 }
 
@@ -167,21 +164,5 @@ void Airport::update()
             _switchLightsTWRL->setAllChildrenOn();
         else
             _switchLightsTWRL->setAllChildrenOff();
-    }
-
-    if ( _switchGatesRwyL.valid() )
-    {
-        if ( Data::get()->cgi.airport.gatesRwy36 )
-            _switchGatesRwyL->setAllChildrenOn();
-        else
-            _switchGatesRwyL->setAllChildrenOff();
-    }
-
-    if ( _switchGatesRwyH.valid() )
-    {
-        if ( Data::get()->cgi.airport.gatesRwy18 )
-            _switchGatesRwyH->setAllChildrenOn();
-        else
-            _switchGatesRwyH->setAllChildrenOff();
     }
 }

@@ -37,7 +37,7 @@ R44_Aircraft::R44_Aircraft( Input *input ) :
     Aircraft::_mass = _mass = new R44_Mass         ( this, _input );
     Aircraft::_prop = _prop = new R44_Propulsion   ( this, _input );
 
-    readFile( Path::get( "data/fdm/r44/r44_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/r44/r44_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

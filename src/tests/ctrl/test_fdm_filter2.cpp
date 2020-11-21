@@ -3,16 +3,18 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdm/sys/fdm_Lag.h>
-#include <fdm/sys/fdm_PID.h>
+#include <fdm/ctrl/fdm_Filter2.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define DT 0.1
-#define TC 1.0
-#define KP 5.0
-#define KI 0.5
-#define KD 0.1
+#define TIME_STEP 0.1
+
+#define C_1 2.0
+#define C_2 2.0
+#define C_3 2.0
+#define C_4 1.0
+#define C_5 2.0
+#define C_6 4.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -20,35 +22,39 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class TestPID : public QObject
+class Filter2Test : public QObject
 {
     Q_OBJECT
 
 public:
 
-    TestPID();
+    Filter2Test();
 
 private:
 
     std::vector< double > _y;
+
+    fdm::Filter2 *_filter;
 
 private Q_SLOTS:
 
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void sampleTest();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TestPID::TestPID() {}
+Filter2Test::Filter2Test() : _filter ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TestPID::initTestCase()
+void Filter2Test::initTestCase()
 {
-    FILE *file = fopen( "../sys/data/test_fdm_pid.bin", "r" );
+    _filter = new fdm::Filter2( C_1, C_2, C_3, C_4, C_5, C_6 );
+
+    FILE *file = fopen( "../ctrl/data/test_fdm_filter2.bin", "r" );
 
     if ( file )
     {
@@ -70,46 +76,49 @@ void TestPID::initTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TestPID::cleanupTestCase() {}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void TestPID::testUpdate()
+void Filter2Test::cleanupTestCase()
 {
-    double t = 0.0;
-    double y = 0.0;
-
-    fdm::PID *pid = new fdm::PID( KP, KI, KD );
-
-    for ( unsigned int i = 0; i < _y.size(); i++ )
-    {
-        double u = ( t < 4.99 ) ? 0.0 : 1.0;
-
-        int steps = 10;
-        for ( int j = 0; j < steps; j++ )
-        {
-            double dt = DT / (double)steps;
-            double e = u - y;
-            pid->update( dt, e );
-            y = fdm::Lag::update( pid->getValue(), y, dt, TC );
-        }
-
-        if ( t >= 5.0 )
-        {
-            cout << y << " " << _y.at( i ) << endl;
-            QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-1, "Failure" );
-        }
-
-        t += DT;
-    }
-
-    delete pid; pid = 0;
+    if ( _filter ) delete _filter;
+    _filter = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(TestPID)
+void Filter2Test::sampleTest()
+{
+    double t = 0.0;
+    double y = 0.0;
+
+    int devider = 10;
+    int index = 0;
+    double dt = TIME_STEP / (double)devider;
+
+    for ( unsigned int i = 0; i < devider * _y.size(); i++ )
+    {
+        double u = ( t < 0.99 ) ? 0.0 : 1.0;
+
+        _filter->update( u, dt );
+        y = _filter->getValue();
+
+        if ( i % devider == 0 )
+        {
+            if ( index > 0 )
+            {
+                cout << y << " " << _y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
+            }
+
+            index++;
+        }
+
+        t += dt;
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "test_fdm_pid.moc"
+QTEST_APPLESS_MAIN(Filter2Test)
+
+////////////////////////////////////////////////////////////////////////////////
+
+#include "test_fdm_filter2.moc"

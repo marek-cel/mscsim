@@ -43,7 +43,7 @@ XF_Aircraft::XF_Aircraft( Input *input ) :
     Aircraft::_mass = _mass = new XF_Mass         ( this, _input );
     Aircraft::_prop = _prop = new XF_Propulsion   ( this, _input );
 
-    readFile( Path::get( "data/fdm/xf/xf_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/xf/xf_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

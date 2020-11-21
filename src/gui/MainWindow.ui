@@ -139,13 +139,6 @@
     <property name="title">
      <string>Airport</string>
     </property>
-    <widget class="QMenu" name="menuGates">
-     <property name="title">
-      <string>Gates</string>
-     </property>
-     <addaction name="actionAirportGatesRwy18"/>
-     <addaction name="actionAirportGatesRwy36"/>
-    </widget>
     <widget class="QMenu" name="menuLights">
      <property name="title">
       <string>Lights</string>
@@ -159,7 +152,6 @@
      <addaction name="actionAirportLightsHELI"/>
      <addaction name="actionAirportLightsTWRL"/>
     </widget>
-    <addaction name="menuGates"/>
     <addaction name="menuLights"/>
    </widget>
    <widget class="QMenu" name="menuTime">
@@ -381,22 +373,6 @@
    </property>
    <property name="text">
     <string>Show HUD</string>
-   </property>
-  </action>
-  <action name="actionAirportGatesRwy18">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Runway 18</string>
-   </property>
-  </action>
-  <action name="actionAirportGatesRwy36">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Runway 36</string>
    </property>
   </action>
   <action name="actionAirportLightsRALS">

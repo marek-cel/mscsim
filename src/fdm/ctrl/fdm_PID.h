@@ -62,7 +62,7 @@ public:
     enum AntiWindup
     {
         None = 0,       ///< anti-windup innactive
-        Calculation,    ///< back calculation
+        Calculation,    ///< back calculation of integral term
         Conditional,    ///< conditional integration
         Filtering       ///< feedback filtering
     };
@@ -106,10 +106,34 @@ public:
     inline double getMin() const { return _min; }
     inline double getMax() const { return _max; }
 
+    /**
+     * Sets parameters of parallel form.
+     * @param kp
+     * @param ki
+     * @param kd
+     */
     virtual void setParallel( double kp, double ki, double kd );
+
+    /**
+     * Sets parameters of serial form.
+     * @param k
+     * @param tau_i
+     * @param tau_d
+     */
     virtual void setSerial( double k, double tau_i, double tau_d );
+
+    /**
+     * Sets parameters of standard (ideal) form.
+     * @param Kp
+     * @param Ti
+     * @param Td
+     */
     virtual void setStandard( double Kp, double Ti, double Td );
 
+    /**
+     * Sets controller current error.
+     * @param error current error value
+     */
     virtual void setError( double error );
 
     /**

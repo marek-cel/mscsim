@@ -69,7 +69,7 @@ public:
 
     /**
      * This function is bound-checked which may affect performance.
-     * Throws FDM_Exception when index is out of range.
+     * Throws an exception when index is out of range.
      * @return vector item of given indicies.
      */
     virtual double getItem( unsigned int index ) const;
@@ -80,7 +80,7 @@ public:
     /**
      * This function sets vector item of given indicies.
      * This function is bound-checked which may affect performance.
-     * Throws FDM_Exception when index is out of range.
+     * Throws an exception when index is out of range.
      */
     virtual void setItem( unsigned int index, double val );
 

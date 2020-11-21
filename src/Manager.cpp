@@ -55,8 +55,9 @@ Manager::Manager() :
     _timerSim ( NULLPTR ),
     _timerOut ( NULLPTR ),
 
-    _timerId ( 0 ),
-    _timeStep ( 0.0 )
+    _timeStep ( 0.0 ),
+
+    _timerId ( 0 )
 {
     _ap  = new Autopilot();
     _nav = new nav::Manager();

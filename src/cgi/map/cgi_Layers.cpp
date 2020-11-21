@@ -267,7 +267,7 @@ void Layers::initLayer( osg::Node* layer, osg::Vec3 color, float width )
 
 void Layers::readLayers()
 {
-    fdm::XmlDoc doc( Path::get( "data/map/layers/layers.xml" ).c_str() );
+    fdm::XmlDoc doc( Path::get( "map/layers/layers.xml" ).c_str() );
 
     if ( doc.isOpen() )
     {

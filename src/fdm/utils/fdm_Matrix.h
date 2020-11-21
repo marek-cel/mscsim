@@ -88,7 +88,7 @@ public:
 
     /**
      * This function is bound-checked which may affect performance.
-     * Throws FDM_Exception when row or column index is out of range.
+     * Throws an exception when row or column index is out of range.
      * @return matrix item of given indicies.
      */
     virtual double getItem( unsigned int row, unsigned int col ) const
@@ -122,7 +122,7 @@ public:
     /**
      * This function sets matrix item of given indicies.
      * This function is bound-checked which may affect performance.
-     * Throws FDM_Exception when row or column index is out of range.
+     * Throws an exception when row or column index is out of range.
      */
     virtual void setItem( unsigned int row, unsigned int col, double value )
     {
@@ -198,8 +198,6 @@ public:
 
             e.setType( Exception::ArrayIndexOverLimit );
             e.setInfo( "Index over limit." );
-            e.setFile( __FILE__ );
-            e.setLine( __LINE__ );
 
             throw e;
         }
@@ -222,8 +220,6 @@ public:
 
             e.setType( Exception::ArrayIndexOverLimit );
             e.setInfo( "Index over limit." );
-            e.setFile( __FILE__ );
-            e.setLine( __LINE__ );
 
             throw e;
         }

@@ -19,39 +19,61 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm/sys/fdm_LPF.h>
-
-#include <algorithm>
-#include <cmath>
+#ifndef FDM_LPF_H
+#define FDM_LPF_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace fdm;
+#include <fdm/ctrl/fdm_Lag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LPF::LPF() :
-    Lag( 1.0, 0.0 )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-LPF::LPF( double omega, double y ) :
-    Lag( 1.0 / omega, y )
-{}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void LPF::setOmega( double omega )
+namespace fdm
 {
-    _tc = 1.0 / std::max( 0.0, omega );
-}
+
+/**
+ * @brief First-order low-pass filter (LPF) class.
+ *
+ * Transfer function:
+ * G(s)  =  1 / ( Tc*s + 1 )  =  omega / ( s + omega )  =  1 / ( s/omega + 1 )
+ *
+ * First-order low-pass filter is based on a first-order lag element.
+ */
+class FDMEXPORT LPF : public Lag
+{
+public:
+
+    /** Constructor. */
+    LPF();
+
+    /**
+     * Constructor.
+     * @param omega [rad/s] cutoff angular frequency
+     * @param y initial output value
+     */
+    LPF( double omega, double y = 0.0 );
+
+    /**
+     * Returns cutoff angular frequency.
+     * @return cutoff angular frequency
+     */
+    inline double getOmega() const { return 1.0 / _tc; }
+
+    /**
+     * Sets cutoff angular frequency.
+     * @param omega [rad/s] cutoff angular frequency
+     */
+    void setOmega( double omega );
+
+    /**
+     * Sets cutoff frequency.
+     * @param freq [Hz] cutoff frequency
+     */
+    void setCutoffFreq( double freq );
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LPF::setCutoffFreq( double freq )
-{
-    double omega = 2.0 * M_PI * std::max( 0.0, freq );
-    _tc = 1.0 / omega;
-}
+#endif // FDM_LPF_H

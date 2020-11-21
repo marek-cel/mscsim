@@ -87,7 +87,7 @@ void C172_KFC325_AP::readData( XmlNode &dataNode )
 
 void C172_KFC325_AP::initialize()
 {
-    std::string dataFile = Path::get( "data/fdm/c172/c172_ap_kfc325.xml" );
+    std::string dataFile = Path::get( "fdm/c172/c172_ap_kfc325.xml" );
     fdm::XmlDoc doc( dataFile.c_str() );
 
     if ( doc.isOpen() )

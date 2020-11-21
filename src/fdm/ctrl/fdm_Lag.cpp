@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/sys/fdm_Lag.h>
+#include <fdm/ctrl/fdm_Lag.h>
 
 #include <cmath>
 

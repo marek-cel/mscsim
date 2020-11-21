@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/sys/fdm_HPF.h>
+#include <fdm/ctrl/fdm_LPF.h>
 
 #include <algorithm>
 #include <cmath>
@@ -31,53 +31,27 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-HPF::HPF() :
-    _omega ( 1.0 ),
-    _tc ( 1.0 ),
-    _u_prev ( 0.0 ),
-    _y ( 0.0 )
+LPF::LPF() :
+    Lag( 1.0, 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-HPF::HPF( double omega, double y ) :
-    _omega ( omega ),
-    _tc ( 1.0 / _omega ),
-    _u_prev ( 0.0 ),
-    _y ( y )
+LPF::LPF( double omega, double y ) :
+    Lag( 1.0 / omega, y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HPF::setValue( double y )
+void LPF::setOmega( double omega )
 {
-    _y = y;
+    _tc = 1.0 / std::max( 0.0, omega );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HPF::setOmega( double omega )
+void LPF::setCutoffFreq( double freq )
 {
-    _omega = std::max( 0.0, omega );
-    _tc = 1.0 / _omega;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void HPF::setCutoffFreq( double freq )
-{
-    _omega = 2.0 * M_PI * std::max( 0.0, freq );
-    _tc = 1.0 / _omega;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void HPF::update( double u, double dt )
-{
-    if ( dt > 0.0 )
-    {
-        double u_dif = ( dt > 0.0 ) ? ( u - _u_prev ) / dt : 0.0;
-        _y = _y + ( 1.0 - exp( -dt / _tc ) ) * ( _tc * u_dif - _y );
-        _u_prev = u;
-    }
+    double omega = 2.0 * M_PI * std::max( 0.0, freq );
+    _tc = 1.0 / omega;
 }

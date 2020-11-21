@@ -47,10 +47,10 @@ using namespace cgi;
 Icons::Icons( const Module *parent ) :
     Module( parent )
 {
-    _symbolAerodrome    = Models::get( "data/map/icons/aerodrome.stl" );
-    _symbolNavaidVOR    = Models::get( "data/map/icons/vor.stl" );
-    _symbolNavaidVORTAC = Models::get( "data/map/icons/vortac.stl" );
-    _symbolNavaidVORDME = Models::get( "data/map/icons/vor_dme.stl" );
+    _symbolAerodrome    = Models::get( "map/icons/aerodrome.stl" );
+    _symbolNavaidVOR    = Models::get( "map/icons/vor.stl" );
+    _symbolNavaidVORTAC = Models::get( "map/icons/vortac.stl" );
+    _symbolNavaidVORDME = Models::get( "map/icons/vor_dme.stl" );
     _symbolNavaidILSLOC = createSymbolILS();
 
     osg::ref_ptr<osg::Material> material = new osg::Material();
@@ -157,7 +157,7 @@ void Icons::createOwnship()
     _ownship.speedLeader = new osg::Group();
     _ownship.pat->addChild( _ownship.speedLeader.get() );
 
-    createIcon( _ownship.pat.get(), Map::_zOwnship, "data/map/icons/air_friend.png" );
+    createIcon( _ownship.pat.get(), Map::_zOwnship, "map/icons/air_friend.png" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

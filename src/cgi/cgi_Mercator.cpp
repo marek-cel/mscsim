@@ -69,8 +69,7 @@ double Mercator::y( double lat )
 double Mercator::k0( double lat_ts )
 {
     double sinLat = sin( lat_ts );
-    return WGS84::getRadiusEquatorial() * cos( lat_ts )
-            / sqrt( 1.0 - WGS84::_e2 * sinLat*sinLat );
+    return WGS84::_a * cos( lat_ts ) / sqrt( 1.0 - WGS84::_e2 * sinLat*sinLat );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

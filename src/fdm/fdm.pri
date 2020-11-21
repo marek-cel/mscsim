@@ -32,6 +32,32 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
+    $$PWD/ctrl/fdm_BPF.h \
+    $$PWD/ctrl/fdm_BSF.h \
+    $$PWD/ctrl/fdm_Filter2.h \
+    $$PWD/ctrl/fdm_HPF.h \
+    $$PWD/ctrl/fdm_Lag.h \
+    $$PWD/ctrl/fdm_Lag2.h \
+    $$PWD/ctrl/fdm_Lead.h \
+    $$PWD/ctrl/fdm_LeadLag.h \
+    $$PWD/ctrl/fdm_LPF.h \
+    $$PWD/ctrl/fdm_PID.h
+
+SOURCES += \
+    $$PWD/ctrl/fdm_BPF.cpp \
+    $$PWD/ctrl/fdm_BSF.cpp \
+    $$PWD/ctrl/fdm_Filter2.cpp \
+    $$PWD/ctrl/fdm_HPF.cpp \
+    $$PWD/ctrl/fdm_Lag.cpp \
+    $$PWD/ctrl/fdm_Lag2.cpp \
+    $$PWD/ctrl/fdm_Lead.cpp \
+    $$PWD/ctrl/fdm_LeadLag.cpp \
+    $$PWD/ctrl/fdm_LPF.cpp \
+    $$PWD/ctrl/fdm_PID.cpp
+
+################################################################################
+
+HEADERS += \
     $$PWD/main/fdm_Aerodynamics.h \
     $$PWD/main/fdm_Aircraft.h \
     $$PWD/main/fdm_Controls.h \
@@ -107,32 +133,6 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/sys/fdm_BPF.h \
-    $$PWD/sys/fdm_BSF.h \
-    $$PWD/sys/fdm_Filter2.h \
-    $$PWD/sys/fdm_HPF.h \
-    $$PWD/sys/fdm_Lag.h \
-    $$PWD/sys/fdm_Lag2.h \
-    $$PWD/sys/fdm_Lead.h \
-    $$PWD/sys/fdm_LeadLag.h \
-    $$PWD/sys/fdm_LPF.h \
-    $$PWD/sys/fdm_PID.h
-
-SOURCES += \
-    $$PWD/sys/fdm_BPF.cpp \
-    $$PWD/sys/fdm_BSF.cpp \
-    $$PWD/sys/fdm_Filter2.cpp \
-    $$PWD/sys/fdm_HPF.cpp \
-    $$PWD/sys/fdm_Lag.cpp \
-    $$PWD/sys/fdm_Lag2.cpp \
-    $$PWD/sys/fdm_Lead.cpp \
-    $$PWD/sys/fdm_LeadLag.cpp \
-    $$PWD/sys/fdm_LPF.cpp \
-    $$PWD/sys/fdm_PID.cpp
-
-################################################################################
-
-HEADERS += \
     $$PWD/utils/fdm_Angles.h \
     $$PWD/utils/fdm_DataNode.h \
     $$PWD/utils/fdm_DataRef.h \
@@ -150,6 +150,7 @@ HEADERS += \
     $$PWD/utils/fdm_Quaternion.h \
     $$PWD/utils/fdm_Random.h \
     $$PWD/utils/fdm_RungeKutta4.h \
+    $$PWD/utils/fdm_Singleton.h \
     $$PWD/utils/fdm_String.h \
     $$PWD/utils/fdm_Table1.h \
     $$PWD/utils/fdm_Table2.h \

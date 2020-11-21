@@ -46,6 +46,8 @@
 #   include <Windows.h>
 #endif
 
+#include <sim/Singleton.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef HID_LINUX_JOYSTICK
@@ -79,8 +81,10 @@ namespace hid
  * @see https://www.kernel.org/doc/html/v4.14/input/joydev/index.html
  * @see https://docs.microsoft.com/en-us/windows/desktop/multimedia/joysticks
  */
-class Joysticks
+class Joysticks : public Singleton< Joysticks >
 {
+    friend class Singleton< Joysticks >;
+
 public:
 
     /** */
@@ -137,31 +141,33 @@ public:
 
         bool active;                    ///< specifies active device
 
-        bool hasAxis[ HID_MAX_AXES ];   ///<
+        bool hasAxis[ HID_MAX_AXES ];   ///< specifies if joystick has an axis
 
 #       ifdef HID_LINUX_JOYSTICK
-        bool hasPOV[ HID_MAX_POVS ];    ///<
+        bool hasPOV[ HID_MAX_POVS ];    ///< specifies if joystick has a POV
 
-        Axes axesMap[ HID_MAX_AXES + 2*HID_MAX_POVS ];  ///<
+        Axes axesMap[ HID_MAX_AXES + 2*HID_MAX_POVS ];  ///< axes map
 #       endif
 
 #       ifdef HID_WINMM_JOYSTICK
-        bool hasPOV;                    ///<
+        bool hasPOV;                    ///< specifies if joystick has a POV
 #       endif
     };
 
-    static const std::string _axisNames[ HID_MAX_AXES ];    ///<
+    static const std::string _axisNames[ HID_MAX_AXES ];    ///< axes names
 
-    /** */
-    static inline Joysticks* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new Joysticks();
-        }
+private:
 
-        return _instance;
-    }
+    /**
+     * You should use static function instance() due to get refernce
+     * to Joytsicks class instance.
+     */
+    Joysticks();
+
+    /** Using this constructor is forbidden. */
+    Joysticks( const Joysticks & ) {}
+
+public:
 
     /** Destructor. */
     virtual ~Joysticks();
@@ -183,29 +189,18 @@ public:
 
 private:
 
-    static Joysticks *_instance;                ///< instance of Joysticks singleton class
-
     short _count;                               ///< number of active joysticks
 
-    Joysticks::Data _data[ HID_MAX_JOYS ];      ///<
+    Joysticks::Data _data[ HID_MAX_JOYS ];      ///< joysticks data
 
 #   ifdef HID_LINUX_JOYSTICK
     int _fd[ HID_MAX_JOYS ];                    ///<
-    js_event _event;                            ///<
+    js_event _event;                            ///< joystick event
 #   endif
 
 #   ifdef HID_WINMM_JOYSTICK
-    DWORD _buttons[ HID_MAX_BUTT ];             ///<
+    DWORD _buttons[ HID_MAX_BUTT ];             ///< buttons state
 #   endif
-
-    /**
-     * You should use static function instance() due to get refernce
-     * to Joytsicks class instance.
-     */
-    Joysticks();
-
-    /** Using this constructor is forbidden. */
-    Joysticks( const Joysticks & ) {}
 };
 
 } // end of hid namepsace

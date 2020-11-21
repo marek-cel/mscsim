@@ -421,48 +421,48 @@ void SkyDome::update()
 
 void SkyDome::createTextures()
 {
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_0.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_1.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_2.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_3.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_4.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_5.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_6.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_7.png" ) );
-    _texturesSky.push_back( Textures::get( "data/cgi/textures/sky_clear_8.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_0.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_1.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_2.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_3.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_4.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_5.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_6.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_7.png" ) );
+    _texturesSky.push_back( Textures::get( "cgi/textures/sky_clear_8.png" ) );
 
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_0.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_1.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_2.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_3.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_4.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_5.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_6.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_7.png" ) );
-    _texturesFog.push_back( Textures::get( "data/cgi/textures/sky_foggy_8.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_0.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_1.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_2.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_3.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_4.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_5.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_6.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_7.png" ) );
+    _texturesFog.push_back( Textures::get( "cgi/textures/sky_foggy_8.png" ) );
 
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_000.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_010.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_020.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_030.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_040.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_050.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_060.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_070.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_080.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_090.png" ) );
-    _texturesSun.push_back( Textures::get( "data/cgi/textures/sun_100.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_000.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_010.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_020.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_030.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_040.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_050.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_060.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_070.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_080.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_090.png" ) );
+    _texturesSun.push_back( Textures::get( "cgi/textures/sun_100.png" ) );
 
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_0.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_1.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_2.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_3.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_4.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_5.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_6.png" ) );
-    _texturesMoon.push_back( Textures::get( "data/cgi/textures/moon_7.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_0.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_1.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_2.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_3.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_4.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_5.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_6.png" ) );
+    _texturesMoon.push_back( Textures::get( "cgi/textures/moon_7.png" ) );
 
-    _texturesStars.push_back( Textures::get( "data/cgi/textures/star.png" ) );
+    _texturesStars.push_back( Textures::get( "cgi/textures/star.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -644,7 +644,7 @@ void SkyDome::createStars()
 
     float magLimit = 4.5f;
 
-    FILE *file = fopen( Path::get( "data/cgi/stars.csv" ).c_str(), "r" );
+    FILE *file = fopen( Path::get( "cgi/stars.csv" ).c_str(), "r" );
 
     if ( file )
     {

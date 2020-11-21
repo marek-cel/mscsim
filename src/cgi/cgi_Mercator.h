@@ -28,7 +28,7 @@ namespace cgi
 {
 
 /**
- * @brief Mercator coordinates computation class.
+ * @brief Mercator projection coordinates computation class.
  *
  * @see Evenden G.: libproj4: A Comprehensive Library of Cartographic Projection Functions (Preliminary Draft), 2005
  */

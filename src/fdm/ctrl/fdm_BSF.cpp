@@ -19,21 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef COMMON_H
-#define COMMON_H
+
+#include <fdm/ctrl/fdm_BSF.h>
+
+#include <algorithm>
+#include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <Defines.h>
-
-#include <fdm/fdm_Log.h>
-#include <fdm/fdm_Path.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-typedef fdm::Log  Log;
-typedef fdm::Path Path;
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // COMMON_H
+BSF::BSF() {}

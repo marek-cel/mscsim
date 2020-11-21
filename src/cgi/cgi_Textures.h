@@ -26,7 +26,7 @@
 
 #include <osg/Texture2D>
 
-#include <cgi/cgi_Singleton.h>
+#include <sim/Singleton.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -48,13 +48,7 @@ public:
     static osg::Texture2D* get( const char *textureFile, float maxAnisotropy = 1.0f,
                                 osg::Texture::WrapMode mode = osg::Texture::MIRROR );
 
-    /** Destructor. */
-    virtual ~Textures();
-
 private:
-
-    List _textures;                         ///<
-    std::vector< std::string > _fileNames;  ///<
 
     /**
      * You should use static function instance() due to get refernce
@@ -64,6 +58,16 @@ private:
 
     /** Using this constructor is forbidden. */
     Textures( const Textures & ) : Singleton< Textures >() {}
+
+public:
+
+    /** Destructor. */
+    virtual ~Textures();
+
+private:
+
+    List _textures;                         ///<
+    std::vector< std::string > _fileNames;  ///<
 };
 
 } // end of cgi namespace

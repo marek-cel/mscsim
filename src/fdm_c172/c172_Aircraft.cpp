@@ -43,7 +43,7 @@ C172_Aircraft::C172_Aircraft( Input *input ) :
     Aircraft::_mass = _mass = new C172_Mass         ( this, _input );
     Aircraft::_prop = _prop = new C172_Propulsion   ( this, _input );
 
-    readFile( Path::get( "data/fdm/c172/c172_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/c172/c172_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,7 +15,6 @@ HEADERS += \
     $$PWD/cgi_Mercator.h \
     $$PWD/cgi_Models.h \
     $$PWD/cgi_Module.h \
-    $$PWD/cgi_Singleton.h \
     $$PWD/cgi_Textures.h \
     $$PWD/cgi_Utils.h \
     $$PWD/cgi_WGS84.h

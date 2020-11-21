@@ -27,8 +27,6 @@
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
-#include <fdm/utils/fdm_WGS84.h>
-
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_Manager.h>
 #include <cgi/cgi_WGS84.h>

@@ -26,6 +26,8 @@
 
 #include <fdm/fdm_Defines.h>
 
+#include <fdm/utils/fdm_Singleton.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace fdm
@@ -34,23 +36,11 @@ namespace fdm
 /**
  * @brief Random number generator.
  */
-class FDMEXPORT Random
+class FDMEXPORT Random : public Singleton< Random >
 {
+    friend class Singleton< Random >;
+
 public:
-
-    /**
-     * @brief Gets Random class instance.
-     * @return Random class instance
-     */
-    static inline Random* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new Random();
-        }
-
-        return _instance;
-    }
 
     /**
      * @brief Gets random number from the given range.
@@ -113,8 +103,6 @@ public:
     double getRandom( double min, double max );
 
 private:
-
-    static Random *_instance;   ///< class instance
 
     /**
      * You should use static function instance() due to get refernce

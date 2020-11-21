@@ -3,12 +3,16 @@
 #include <QString>
 #include <QtTest>
 
-#include <fdm/sys/fdm_Lag.h>
+#include <fdm/ctrl/fdm_LeadLag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #define TIME_STEP 0.1
-#define TIME_CONSTANT 2.0
+
+#define C_1 1.0
+#define C_2 0.0
+#define C_3 1.0
+#define C_4 1.0
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,39 +20,39 @@ using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class LagTest : public QObject
+class LeadLagTest : public QObject
 {
     Q_OBJECT
 
 public:
 
-    LagTest();
+    LeadLagTest();
 
 private:
 
     std::vector< double > _y;
 
-    fdm::Lag *_lag;
+    fdm::LeadLag *_leadLag;
 
 private Q_SLOTS:
 
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void sampleTest();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
-LagTest::LagTest() {}
+LeadLagTest::LeadLagTest() : _leadLag ( 0 ) {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LagTest::initTestCase()
+void LeadLagTest::initTestCase()
 {
-    _lag = new fdm::Lag( TIME_CONSTANT );
+    _leadLag = new fdm::LeadLag( C_1, C_2, C_3, C_4 );
 
-    FILE *file = fopen( "../sys/data/test_fdm_lag.bin", "r" );
+    FILE *file = fopen( "../ctrl/data/test_fdm_lead_lag.bin", "r" );
 
     if ( file )
     {
@@ -70,59 +74,49 @@ void LagTest::initTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LagTest::cleanupTestCase()
+void LeadLagTest::cleanupTestCase()
 {
-    if ( _lag ) delete _lag;
-    _lag = 0;
+    if ( _leadLag ) delete _leadLag;
+    _leadLag = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LagTest::testUpdate()
+void LeadLagTest::sampleTest()
 {
     double t = 0.0;
     double y = 0.0;
 
-    double u_prev = 0.0;
-    double y_prev = 0.0;
+    int devider = 10;
+    int index = 0;
+    double dt = TIME_STEP / (double)devider;
 
-    for ( unsigned int i = 0; i < _y.size(); i++ )
+    for ( unsigned int i = 0; i < devider * _y.size(); i++ )
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        int steps = 10;
-        for ( int j = 0; j < steps; j++ )
+        _leadLag->update( u, dt );
+        y = _leadLag->getValue();
+
+        if ( i % devider == 0 )
         {
-            double dt = TIME_STEP / (double)steps;
-            _lag->update( u, dt );
-            y = _lag->getValue();
-
-            if ( 0 )
+            if ( index > 0 )
             {
-                double c1 = 1.0 / TIME_CONSTANT;
-                double denom = 2.0 + dt * c1;
-                double ca = dt * c1 / denom;
-                double cb = ( 2.0 - dt * c1 ) / denom;
-
-                y = ( u + u_prev ) * ca + y_prev * cb;
-
-                u_prev = u;
-                y_prev = y;
+                cout << y << " " << _y.at( index - 1 ) << endl;
+                QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
+
+            index++;
         }
 
-        cout << y << " " << _y.at( i ) << endl;
-
-        QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-3, "Failure" );
-
-        t += TIME_STEP;
+        t += dt;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-QTEST_APPLESS_MAIN(LagTest)
+QTEST_APPLESS_MAIN(LeadLagTest)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "test_fdm_lag.moc"
+#include "test_fdm_lead_lag.moc"

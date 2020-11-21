@@ -85,7 +85,7 @@ Scenery::Scenery( const Module *parent ) :
 
     createShadow();
 
-    fdm::XmlDoc doc( Path::get( "data/cgi/scenery/scenery.xml" ).c_str() );
+    fdm::XmlDoc doc( Path::get( "cgi/scenery/scenery.xml" ).c_str() );
 
     if ( doc.isOpen() )
     {
@@ -157,7 +157,7 @@ void Scenery::setShadow( const char *shadowFile )
 
     if ( !texture.valid() )
     {
-        texture = Textures::get( "data/cgi/textures/shadow.png" );
+        texture = Textures::get( "cgi/textures/shadow.png" );
     }
 
     _geodeShadow->getOrCreateStateSet()->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );

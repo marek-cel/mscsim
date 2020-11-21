@@ -41,7 +41,7 @@ XH_Aircraft::XH_Aircraft( Input *input ) :
     _statePrev = StateVector( FDM_STATE_DIMENSION + 1 );
     _derivVect = StateVector( FDM_STATE_DIMENSION + 1 );
 
-    readFile( Path::get( "data/fdm/xh/xh_fdm.xml" ).c_str() );
+    readFile( Path::get( "fdm/xh/xh_fdm.xml" ).c_str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

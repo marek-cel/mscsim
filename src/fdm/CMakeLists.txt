@@ -9,6 +9,17 @@ set( CPP_FILES
     auto/fdm_Autopilot.cpp
     auto/fdm_FlightDirector.cpp
     
+    ctrl/fdm_BPF.cpp
+    ctrl/fdm_BSF.cpp
+    ctrl/fdm_Filter2.cpp
+    ctrl/fdm_HPF.cpp
+    ctrl/fdm_Lag.cpp
+    ctrl/fdm_Lag2.cpp
+    ctrl/fdm_Lead.cpp
+    ctrl/fdm_LeadLag.cpp
+    ctrl/fdm_LPF.cpp
+    ctrl/fdm_PID.cpp
+    
     main/fdm_Aerodynamics.cpp
     main/fdm_Aircraft.cpp
     main/fdm_Controls.cpp
@@ -41,17 +52,6 @@ set( CPP_FILES
     models/fdm_WinchLauncher.cpp \
     models/fdm_WindShear.cpp
     models/fdm_WingRunner.cpp
-    
-    sys/fdm_BPF.cpp
-    sys/fdm_BSF.cpp
-    sys/fdm_Filter2.cpp
-    sys/fdm_HPF.cpp
-    sys/fdm_Lag.cpp
-    sys/fdm_Lag2.cpp
-    sys/fdm_Lead.cpp
-    sys/fdm_LeadLag.cpp
-    sys/fdm_LPF.cpp
-    sys/fdm_PID.cpp
     
     utils/fdm_Angles.cpp
     utils/fdm_DataNode.cpp

@@ -28,13 +28,17 @@
 #include <QList>
 #include <QVector>
 
+#include <sim/Singleton.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief Aircrafts class.
  */
-class Aircrafts
+class Aircrafts : public Singleton< Aircrafts >
 {
+    friend class Singleton< Aircrafts >;
+
 public:
 
     /** Axis tuning data. */
@@ -146,17 +150,6 @@ public:
         float tailRotorCoef;    ///< [-] tail rotor rotation coefficient (sign)
     };
 
-    /** */
-    static inline Aircrafts* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new Aircrafts();
-        }
-
-        return _instance;
-    }
-
     /** Destructor. */
     virtual ~Aircrafts();
 
@@ -168,8 +161,6 @@ public:
     inline int getCount() const { return _aircrafts.size(); }
 
 private:
-
-    static Aircrafts *_instance;        ///< instance of Aircrafts singleton class
 
     QVector< Aircraft > _aircrafts;     ///<
 

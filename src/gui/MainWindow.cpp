@@ -577,8 +577,6 @@ void MainWindow::settingsRead_Airport( QSettings &settings )
     bool lightsTELS = settings.value( "lightsTELS", 1 ).toBool();
     bool lightsTWRL = settings.value( "lightsTWRL", 1 ).toBool();
     bool lightsVGSI = settings.value( "lightsVGSI", 1 ).toBool();
-    bool gatesRwy18 = settings.value( "gatesRwy18", 0 ).toBool();
-    bool gatesRwy36 = settings.value( "gatesRwy36", 0 ).toBool();
 
     _ui->actionAirportLightsHELI->setChecked( lightsHELI );
     _ui->actionAirportLightsRALS->setChecked( lightsRALS );
@@ -588,8 +586,6 @@ void MainWindow::settingsRead_Airport( QSettings &settings )
     _ui->actionAirportLightsTELS->setChecked( lightsTELS );
     _ui->actionAirportLightsTWRL->setChecked( lightsTWRL );
     _ui->actionAirportLightsVGSI->setChecked( lightsVGSI );
-    _ui->actionAirportGatesRwy18->setChecked( gatesRwy18 );
-    _ui->actionAirportGatesRwy36->setChecked( gatesRwy36 );
 
     settings.endGroup();
 }
@@ -693,8 +689,6 @@ void MainWindow::settingsSave_Airport( QSettings &settings )
     settings.setValue( "lightsTELS", (int)_ui->actionAirportLightsTELS->isChecked() );
     settings.setValue( "lightsTWRL", (int)_ui->actionAirportLightsTWRL->isChecked() );
     settings.setValue( "lightsVGSI", (int)_ui->actionAirportLightsVGSI->isChecked() );
-    settings.setValue( "gatesRwy18", (int)_ui->actionAirportGatesRwy18->isChecked() );
-    settings.setValue( "gatesRwy36", (int)_ui->actionAirportGatesRwy36->isChecked() );
 
     settings.endGroup();
 }
@@ -1068,8 +1062,6 @@ void MainWindow::updateOutputData()
     Data::get()->cgi.airport.lightsTELS = _ui->actionAirportLightsTELS->isChecked();
     Data::get()->cgi.airport.lightsTWRL = _ui->actionAirportLightsTWRL->isChecked();
     Data::get()->cgi.airport.lightsVGSI = _ui->actionAirportLightsVGSI->isChecked();
-    Data::get()->cgi.airport.gatesRwy18 = _ui->actionAirportGatesRwy18->isChecked();
-    Data::get()->cgi.airport.gatesRwy36 = _ui->actionAirportGatesRwy36->isChecked();
 
     // CGI - camera
     Data::get()->cgi.camera.offset_x = aircraft.offset_x;

@@ -47,10 +47,10 @@ CloudsLayer::CloudsLayer( const Module *parent ) :
     _framesCounter ( 0 ),
     _created ( false )
 {
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_few.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_sct.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_bkn.png" ) );
-    _textures.push_back( Textures::get( "data/cgi/textures/cloud_st_ovc.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_st_few.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_st_sct.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_st_bkn.png" ) );
+    _textures.push_back( Textures::get( "cgi/textures/cloud_st_ovc.png" ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

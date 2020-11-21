@@ -260,7 +260,7 @@ void ALT::createBox()
     _pat->addChild( geode_t.get() );
 
     _textAlt_100 = new osgText::Text();
-    _textAlt_100->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textAlt_100->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textAlt_100->setColor( osg::Vec4( Colors::_white, 1.0 ) );
     _textAlt_100->setCharacterSize( 5.0 );
     _textAlt_100->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -329,7 +329,7 @@ void ALT::createBoxSelect()
     geode_f->addDrawable( geom_f.get() );
 
     _textSelect = new osgText::Text();
-    _textSelect->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textSelect->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textSelect->setColor( osg::Vec4( Colors::_cyan, 1.0 ) );
     _textSelect->setCharacterSize( 4.0 );
     _textSelect->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -397,7 +397,7 @@ void ALT::createBoxPress()
     geode_f->addDrawable( geom_f.get() );
 
     _textPress = new osgText::Text();
-    _textPress->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+    _textPress->setFont( Fonts::get( "fonts/g1000.ttf" ) );
     _textPress->setColor( osg::Vec4( Colors::_cyan, 1.0 ) );
     _textPress->setCharacterSize( 3.5 );
     _textPress->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -442,7 +442,7 @@ void ALT::createDisk()
             sprintf( digit, "%d", d );
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
-        text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+        text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
         text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
         text->setCharacterSize( 5.0 );
         text->setAxisAlignment( osgText::TextBase::XY_PLANE );
@@ -591,7 +591,7 @@ void ALT::createScale()
             alt_str << alt;
 
             osg::ref_ptr<osgText::Text> text = new osgText::Text();
-            text->setFont( Fonts::get( "data/fonts/g1000.ttf" ) );
+            text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
             text->setColor( osg::Vec4( Colors::_white, 1.0 ) );
             text->setCharacterSize( 4.0 );
             text->setAxisAlignment( osgText::TextBase::XY_PLANE );

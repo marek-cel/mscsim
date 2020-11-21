@@ -59,7 +59,7 @@ void WidgetPFD::init( Autopilot *ap, g1000::IFD *ifd )
 {
     _ui->widgetPFD->setAutopilot( ap );
 
-    _pfd = new g1000::PFD( ifd, Path::get( "data/g1000/pfd.xml" ).c_str() );
+    _pfd = new g1000::PFD( ifd, Path::get( "g1000/pfd.xml" ).c_str() );
     _ui->widgetPFD->setSceneRoot( _pfd->getRoot() );
 
     _timerId = startTimer( 1000.0 * GUI_TIME_STEP );

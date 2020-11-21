@@ -56,15 +56,15 @@ public:
     inline static std::string get( const std::string &path )
     {
 #       ifdef SIM_TEST
-        return "../" + path;
+        return "../data/" + path;
 #       else
 
 #       ifdef _LINUX_
-        return "/usr/share/mscsim/" + path;
+        return "/usr/share/mscsim/data/" + path;
 #       endif
 
 #       ifdef WIN32
-        return "../" + path;
+        return "../data/" + path;
 #       endif
 
 #       endif // SIM_TEST

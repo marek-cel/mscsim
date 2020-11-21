@@ -20,8 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/sys/fdm_Lead.h>
+#include <fdm/ctrl/fdm_HPF.h>
 
+#include <algorithm>
 #include <cmath>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,44 +31,53 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Lead::Lead() :
-    _tc( 1.0 ),
-    _u ( 0.0 ),
+HPF::HPF() :
+    _omega ( 1.0 ),
+    _tc ( 1.0 ),
+    _u_prev ( 0.0 ),
     _y ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Lead::Lead( double tc, double y ) :
-    _tc ( tc ),
+HPF::HPF( double omega, double y ) :
+    _omega ( omega ),
+    _tc ( 1.0 / _omega ),
+    _u_prev ( 0.0 ),
     _y ( y )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lead::setValue( double y )
+void HPF::setValue( double y )
 {
     _y = y;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lead::setTimeConst( double tc )
+void HPF::setOmega( double omega )
 {
-    if ( tc > 0.0 )
-    {
-        _tc = tc;
-    }
+    _omega = std::max( 0.0, omega );
+    _tc = 1.0 / _omega;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lead::update( double u, double dt )
+void HPF::setCutoffFreq( double freq )
+{
+    _omega = 2.0 * M_PI * std::max( 0.0, freq );
+    _tc = 1.0 / _omega;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void HPF::update( double u, double dt )
 {
     if ( dt > 0.0 )
     {
-        double du_dt = ( u - _u ) / dt;
-        _y = _tc * du_dt + u;
-        _u = u;
+        double u_dif = ( dt > 0.0 ) ? ( u - _u_prev ) / dt : 0.0;
+        _y = _y + ( 1.0 - exp( -dt / _tc ) ) * ( _tc * u_dif - _y );
+        _u_prev = u;
     }
 }

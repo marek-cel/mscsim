@@ -19,16 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm/sys/fdm_BSF.h>
-
-#include <algorithm>
-#include <cmath>
+#ifndef PATH_H
+#define PATH_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-using namespace fdm;
+#include <fdm/fdm_Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-BSF::BSF() {}
+typedef fdm::Path Path;
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // PATH_H
