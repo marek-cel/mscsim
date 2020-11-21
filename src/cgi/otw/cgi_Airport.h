@@ -42,6 +42,8 @@ class Airport : public Module
 {
 public:
 
+    typedef std::vector< osg::ref_ptr<osg::Switch> > Switches;
+
     /** Constructor. */
     Airport( const char *file, double lat, double lon, double alt,
              const Module *parent = NULLPTR );
@@ -56,20 +58,20 @@ private:
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 
-    osg::ref_ptr<osg::Switch> _switchLightsRALS_L;
-    osg::ref_ptr<osg::Switch> _switchLightsTDZL_L;
-    osg::ref_ptr<osg::Switch> _switchLightsVGSI_L;
+    Switches _lightsRALS;   ///<
+    Switches _lightsTDZL;   ///<
+    Switches _lightsVGSI;   ///<
 
-    osg::ref_ptr<osg::Switch> _switchLightsRALS_H;
-    osg::ref_ptr<osg::Switch> _switchLightsTDZL_H;
-    osg::ref_ptr<osg::Switch> _switchLightsVGSI_H;
+    Switches _lightsRCLS;   ///<
+    Switches _lightsRELS;   ///<
 
-    osg::ref_ptr<osg::Switch> _switchLightsRCLS;
-    osg::ref_ptr<osg::Switch> _switchLightsRELS;
+    Switches _lightsHELI;   ///<
+    Switches _lightsTELS;   ///<
+    Switches _lightsTWRL;   ///<
 
-    osg::ref_ptr<osg::Switch> _switchLightsHELI;
-    osg::ref_ptr<osg::Switch> _switchLightsTELS;
-    osg::ref_ptr<osg::Switch> _switchLightsTWRL;
+    void switchesAdd( Switches *switches, osg::Node *node, const char *name );
+
+    void switchesSet( Switches *switches, bool enabled );
 };
 
 } // end of cgi namespace

@@ -49,20 +49,20 @@ Airport::Airport( const char *file, double lat, double lon, double alt,
 
         WGS84::setLatLonAltHdg( _pat.get(), lat, lon, alt );
 
-        _switchLightsRALS_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RALS_L" ) );
-        _switchLightsTDZL_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TDZL_L" ) );
-        _switchLightsVGSI_L = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "VGSI_L" ) );
+        switchesAdd( &_lightsRALS, node.get(), "RALS_L" );
+        switchesAdd( &_lightsTDZL, node.get(), "TDZL_L" );
+        switchesAdd( &_lightsVGSI, node.get(), "VGSI_L" );
 
-        _switchLightsRALS_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RALS_H" ) );
-        _switchLightsTDZL_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TDZL_H" ) );
-        _switchLightsVGSI_H = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "VGSI_H" ) );
+        switchesAdd( &_lightsRALS, node.get(), "RALS_H" );
+        switchesAdd( &_lightsTDZL, node.get(), "TDZL_H" );
+        switchesAdd( &_lightsVGSI, node.get(), "VGSI_H" );
 
-        _switchLightsRCLS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RCLS" ) );
-        _switchLightsRELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "RELS" ) );
+        switchesAdd( &_lightsRCLS, node.get(), "RCLS" );
+        switchesAdd( &_lightsRELS, node.get(), "RELS" );
 
-        _switchLightsHELI = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "HELI" ) );
-        _switchLightsTELS = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TELS" ) );
-        _switchLightsTWRL = dynamic_cast<osg::Switch*>( FindNode::findFirst( node, "TWRL" ) );
+        switchesAdd( &_lightsHELI, node.get(), "HELI" );
+        switchesAdd( &_lightsTELS, node.get(), "TELS" );
+        switchesAdd( &_lightsTWRL, node.get(), "TWRL" );
     }
 }
 
@@ -78,91 +78,41 @@ void Airport::update()
     Module::update();
     /////////////////
 
-    if ( _switchLightsRALS_L.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsRALS )
-            _switchLightsRALS_L->setAllChildrenOn();
-        else
-            _switchLightsRALS_L->setAllChildrenOff();
-    }
+    switchesSet( &_lightsRALS, Data::get()->cgi.airport.lightsRALS );
+    switchesSet( &_lightsTDZL, Data::get()->cgi.airport.lightsTDZL );
+    switchesSet( &_lightsVGSI, Data::get()->cgi.airport.lightsVGSI );
 
-    if ( _switchLightsRALS_H.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsRALS )
-            _switchLightsRALS_H->setAllChildrenOn();
-        else
-            _switchLightsRALS_H->setAllChildrenOff();
-    }
+    switchesSet( &_lightsRCLS, Data::get()->cgi.airport.lightsRCLS );
+    switchesSet( &_lightsRELS, Data::get()->cgi.airport.lightsRELS );
 
-    if ( _switchLightsTDZL_L.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsTDZL )
-            _switchLightsTDZL_L->setAllChildrenOn();
-        else
-            _switchLightsTDZL_L->setAllChildrenOff();
-    }
+    switchesSet( &_lightsHELI, Data::get()->cgi.airport.lightsHELI );
+    switchesSet( &_lightsTELS, Data::get()->cgi.airport.lightsTELS );
+    switchesSet( &_lightsTWRL, Data::get()->cgi.airport.lightsTWRL );
+}
 
-    if ( _switchLightsTDZL_H.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsTDZL )
-            _switchLightsTDZL_H->setAllChildrenOn();
-        else
-            _switchLightsTDZL_H->setAllChildrenOff();
-    }
+////////////////////////////////////////////////////////////////////////////////
 
-    if ( _switchLightsVGSI_L.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsVGSI )
-            _switchLightsVGSI_L->setAllChildrenOn();
-        else
-            _switchLightsVGSI_L->setAllChildrenOff();
-    }
+void Airport::switchesAdd( Switches *switches, osg::Node *node, const char *name )
+{
+    FindNode::Nodes nodes = FindNode::findNodes( node, name );
 
-    if ( _switchLightsVGSI_H.valid() )
+    for ( FindNode::Nodes::iterator it = nodes.begin(); it != nodes.end(); it++ )
     {
-        if ( Data::get()->cgi.airport.lightsVGSI )
-            _switchLightsVGSI_H->setAllChildrenOn();
-        else
-            _switchLightsVGSI_H->setAllChildrenOff();
-    }
+        osg::ref_ptr<osg::Switch> sw = dynamic_cast<osg::Switch*>( (*it).get() );
 
-    if ( _switchLightsHELI.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsHELI )
-            _switchLightsHELI->setAllChildrenOn();
-        else
-            _switchLightsHELI->setAllChildrenOff();
+        if ( sw.valid() ) switches->push_back( sw.get() );
     }
+}
 
-    if ( _switchLightsRCLS.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsRCLS )
-            _switchLightsRCLS->setAllChildrenOn();
-        else
-            _switchLightsRCLS->setAllChildrenOff();
-    }
+////////////////////////////////////////////////////////////////////////////////
 
-    if ( _switchLightsRELS.valid() )
+void Airport::switchesSet( Switches *switches, bool enabled )
+{
+    for ( Switches::iterator it = switches->begin(); it != switches->end(); it++ )
     {
-        if ( Data::get()->cgi.airport.lightsRELS )
-            _switchLightsRELS->setAllChildrenOn();
+        if ( enabled )
+            (*it)->setAllChildrenOn();
         else
-            _switchLightsRELS->setAllChildrenOff();
-    }
-
-    if ( _switchLightsTELS.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsTELS )
-            _switchLightsTELS->setAllChildrenOn();
-        else
-            _switchLightsTELS->setAllChildrenOff();
-    }
-
-    if ( _switchLightsTWRL.valid() )
-    {
-        if ( Data::get()->cgi.airport.lightsTWRL )
-            _switchLightsTWRL->setAllChildrenOn();
-        else
-            _switchLightsTWRL->setAllChildrenOff();
+            (*it)->setAllChildrenOff();
     }
 }
