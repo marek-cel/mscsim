@@ -36,7 +36,7 @@
 namespace cgi
 {
 
-/** */
+/** Layers class. */
 class Layers : public Module
 {
 public:

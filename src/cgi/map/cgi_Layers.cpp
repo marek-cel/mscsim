@@ -28,8 +28,6 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/Material>
 
-#include <Common.h>
-
 #include <cgi/cgi_Geometry.h>
 #include <cgi/cgi_Mercator.h>
 #include <cgi/cgi_Models.h>
@@ -38,6 +36,8 @@
 
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlDoc.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

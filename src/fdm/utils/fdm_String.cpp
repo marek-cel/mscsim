@@ -90,9 +90,49 @@ std::string String::stripLeadingSpaces( const std::string &str )
         offset++;
     }
 
-    std::string result = &( str.c_str()[ offset ] );
+    return str.substr( offset );
+}
 
-    return result;
+////////////////////////////////////////////////////////////////////////////////
+
+std::string String::stripTrailingSpaces( const std::string &str )
+{
+    unsigned int offset = 0;
+
+    for ( unsigned int i = 0; i < str.size(); i++ )
+    {
+        if ( !isspace( str.c_str()[ i ] ) )
+        {
+            offset = i;
+        }
+    }
+
+    return str.substr( 0, offset + 1 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+std::string String::stripSpaces( const std::string &str )
+{
+    unsigned int offset_l = 0;
+    unsigned int offset_t = 0;
+
+    bool l_passed = false;
+
+    for ( unsigned int i = 0; i < str.size(); i++ )
+    {
+        if ( !isspace( str.c_str()[ i ] ) )
+        {
+            offset_t = i;
+            l_passed = true;
+        }
+        else
+        {
+            if ( !l_passed ) offset_l++;
+        }
+    }
+
+    return str.substr( offset_l, offset_t - offset_l + 1 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

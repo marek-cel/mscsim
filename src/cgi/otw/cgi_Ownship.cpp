@@ -35,13 +35,14 @@
 #include <fdm/xml/fdm_XmlDoc.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
-#include <Common.h>
 #include <Data.h>
 
 #include <cgi/cgi_Colors.h>
 #include <cgi/cgi_Defines.h>
 #include <cgi/cgi_FindNode.h>
 #include <cgi/cgi_Models.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -67,6 +68,9 @@ Ownship::Ownship( const Module *parent, Scenery *scenery ) :
     _switch = new osg::Switch();
     _switch->setName( "Ownship" );
     _pat->addChild( _switch.get() );
+
+    _patOffset = new osg::PositionAttitudeTransform();
+    _switch->addChild( _patOffset.get() );
 
     _patRibbons = new osg::PositionAttitudeTransform();
     _root->addChild( _patRibbons.get() );
@@ -155,7 +159,7 @@ void Ownship::loadModel( const char *modelFile )
 
     if ( model.valid() )
     {
-        _switch->addChild( model.get() );
+        _patOffset->addChild( model.get() );
 
         _aileronL = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronL" ) );
         _aileronR = dynamic_cast<osg::PositionAttitudeTransform*>( FindNode::findFirst( model, "AileronR" ) );
@@ -324,7 +328,7 @@ void Ownship::loadModel( const char *modelFile )
         {
             _rotor = new Rotor( _rotor_center, _rotorBlades.size(),
                                 _rotor_radius, _hinge_offset, _inclination );
-            _switch->addChild( _rotor->getNode() );
+            _patOffset->addChild( _rotor->getNode() );
         }
     }
 }
@@ -487,8 +491,47 @@ void Ownship::reload()
             std::string model;
             std::string shadow;
 
-            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, model  , "model"   );
+            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, model  , "model"  );
             if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, shadow , "shadow" );
+
+            if ( result == FDM_SUCCESS )
+            {
+                fdm::XmlNode nodeOffset = rootNode.getFirstChildElement( "offset" );
+
+                if ( nodeOffset.isValid() )
+                {
+                    fdm::XmlNode nodeShift = nodeOffset.getFirstChildElement( "shift" );
+                    fdm::XmlNode nodeAngle = nodeOffset.getFirstChildElement( "angle" );
+
+                    if ( nodeShift.isValid() )
+                    {
+                        double x = 0.0;
+                        double y = 0.0;
+                        double z = 0.0;
+
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, x, "x"  );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, y, "y" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, z, "z" );
+
+                        _patOffset->setPosition( osg::Vec3( x, y, z ) );
+                    }
+
+                    if ( nodeAngle.isValid() )
+                    {
+                        double x = 0.0;
+                        double y = 0.0;
+                        double z = 0.0;
+
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, x, "x"  );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, y, "y" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, z, "z" );
+
+                        _patOffset->setAttitude( osg::Quat( x, osg::X_AXIS,
+                                                            y, osg::Y_AXIS,
+                                                            z, osg::Z_AXIS ) );
+                    }
+                }
+            }
 
             fdm::XmlNode wingTipNodeL = rootNode.getFirstChildElement( "wing_tip_l" );
             fdm::XmlNode wingTipNodeR = rootNode.getFirstChildElement( "wing_tip_r" );
@@ -541,10 +584,13 @@ void Ownship::reset()
 {
     DELPTR( _rotor );
 
-    if ( _switch->getNumChildren() > 0 )
+    if ( _patOffset->getNumChildren() > 0 )
     {
-        _switch->removeChildren( 0, _switch->getNumChildren() );
+        _patOffset->removeChildren( 0, _patOffset->getNumChildren() );
     }
+
+    _patOffset->setPosition( osg::Vec3() );
+    _patOffset->setAttitude( osg::Quat() );
 
     if ( _switchRibbons->getNumChildren() > 0 )
     {

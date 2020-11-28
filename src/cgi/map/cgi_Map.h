@@ -43,41 +43,41 @@ class Map : public Module
 {
 public:
 
-    static const osg::Vec3 _colorOceans;
-    static const osg::Vec3 _colorLandmass;
-    static const osg::Vec3 _colorCoastline;
-    static const osg::Vec3 _colorCrops;
-    static const osg::Vec3 _colorGrassland;
-    static const osg::Vec3 _colorWoodland;
-    static const osg::Vec3 _colorBuiltup;
-    static const osg::Vec3 _colorRailroads;
-    static const osg::Vec3 _colorRoads;
-    static const osg::Vec3 _colorAirports;
-    static const osg::Vec3 _colorWaterInland;
-    static const osg::Vec3 _colorWaterCourse;
-    static const osg::Vec3 _colorBorders;
-    static const osg::Vec3 _colorAeroData;
+    static const osg::Vec3 _colorOceans;        ///< color
+    static const osg::Vec3 _colorLandmass;      ///< color
+    static const osg::Vec3 _colorCoastline;     ///< color
+    static const osg::Vec3 _colorCrops;         ///< color
+    static const osg::Vec3 _colorGrassland;     ///< color
+    static const osg::Vec3 _colorWoodland;      ///< color
+    static const osg::Vec3 _colorBuiltup;       ///< color
+    static const osg::Vec3 _colorRailroads;     ///< color
+    static const osg::Vec3 _colorRoads;         ///< color
+    static const osg::Vec3 _colorAirports;      ///< color
+    static const osg::Vec3 _colorWaterInland;   ///< color
+    static const osg::Vec3 _colorWaterCourse;   ///< color
+    static const osg::Vec3 _colorBorders;       ///< color
+    static const osg::Vec3 _colorAeroData;      ///< color
 
-    static const double _zOceans;
-    static const double _zLandmass;
-    static const double _zCoastline;
-    static const double _zCrops;
-    static const double _zGrassland;
-    static const double _zWoodland;
-    static const double _zBuiltup;
-    static const double _zRailroads;
-    static const double _zRoads;
-    static const double _zAirports;
-    static const double _zWaterCourse;
-    static const double _zWaterInland;
-    static const double _zSatellite;
-    static const double _zBorders;
+    static const double _zOceans;               ///< z-ccordinate
+    static const double _zLandmass;             ///< z-ccordinate
+    static const double _zCoastline;            ///< z-ccordinate
+    static const double _zCrops;                ///< z-ccordinate
+    static const double _zGrassland;            ///< z-ccordinate
+    static const double _zWoodland;             ///< z-ccordinate
+    static const double _zBuiltup;              ///< z-ccordinate
+    static const double _zRailroads;            ///< z-ccordinate
+    static const double _zRoads;                ///< z-ccordinate
+    static const double _zAirports;             ///< z-ccordinate
+    static const double _zWaterCourse;          ///< z-ccordinate
+    static const double _zWaterInland;          ///< z-ccordinate
+    static const double _zSatellite;            ///< z-ccordinate
+    static const double _zBorders;              ///< z-ccordinate
 
-    static const double _zAerodromes;
-    static const double _zNavaids;
-    static const double _zTraces;
-    static const double _zSpeedLeader;
-    static const double _zOwnship;
+    static const double _zAerodromes;           ///< z-ccordinate
+    static const double _zNavaids;              ///< z-ccordinate
+    static const double _zTraces;               ///< z-ccordinate
+    static const double _zSpeedLeader;          ///< z-ccordinate
+    static const double _zOwnship;              ///< z-ccordinate
 
     /** Constructor. */
     Map( const Module *parent = NULLPTR );
@@ -103,9 +103,9 @@ public:
 
 private:
 
-    Icons  *_icons;
-    Layers *_layers;
-    Traces *_traces;
+    Icons  *_icons;         ///< icons
+    Layers *_layers;        ///< layers
+    Traces *_traces;        ///< traces
 };
 
 } // end of cgi namespace

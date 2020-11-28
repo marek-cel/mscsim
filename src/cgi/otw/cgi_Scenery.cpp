@@ -27,7 +27,6 @@
 #include <osg/Material>
 #include <osg/TexEnv>
 
-#include <Common.h>
 #include <Data.h>
 
 #include <fdm/utils/fdm_String.h>
@@ -42,6 +41,8 @@
 #include <cgi/otw/cgi_Entities.h>
 #include <cgi/otw/cgi_Landmark.h>
 #include <cgi/otw/cgi_Terrain.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

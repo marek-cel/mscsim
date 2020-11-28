@@ -25,13 +25,13 @@
 
 #include <QSettings>
 
-#include <Common.h>
-
 #include <hid/hid_Manager.h>
 #include <hid/hid_Joysticks.h>
 
 #include <gui/DialogAction.h>
 #include <gui/gui_Defines.h>
+
+#include <sim/Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

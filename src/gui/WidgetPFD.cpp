@@ -25,9 +25,9 @@
 
 #include <QSettings>
 
-#include <Common.h>
-
 #include <gui/gui_Defines.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

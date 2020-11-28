@@ -167,17 +167,17 @@ int XmlUtils::read( const XmlNode &node, Matrix3x3 &data )
 
             if ( valRead == 9 )
             {
-                data(0,0) = xx;
-                data(0,1) = xy;
-                data(0,2) = xz;
+                data.xx() = xx;
+                data.xy() = xy;
+                data.xz() = xz;
 
-                data(1,0) = yx;
-                data(1,1) = yy;
-                data(1,2) = yz;
+                data.yx() = yx;
+                data.yy() = yy;
+                data.yz() = yz;
 
-                data(2,0) = zx;
-                data(2,1) = zy;
-                data(2,2) = zz;
+                data.zx() = zx;
+                data.zy() = zy;
+                data.zz() = zz;
 
                 return FDM_SUCCESS;
             }

@@ -133,7 +133,6 @@ unix: LIBS += \
 
 HEADERS += \
     $$PWD/Autopilot.h \
-    $$PWD/Common.h \
     $$PWD/Data.h \
     $$PWD/Defines.h \
     $$PWD/Manager.h \

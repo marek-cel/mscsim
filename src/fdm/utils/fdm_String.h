@@ -73,6 +73,20 @@ public:
     static std::string stripLeadingSpaces( const std::string &str );
 
     /**
+     * Returns string with trailing white spaces removed.
+     * @param str string to be processed
+     * @return string with trailing white spaces removed
+     */
+    static std::string stripTrailingSpaces( const std::string &str );
+
+    /**
+     * Returns string with both leading and trailing white spaces removed.
+     * @param str string to be processed
+     * @return string with leading and trailing white spaces removed
+     */
+    static std::string stripSpaces( const std::string &str );
+
+    /**
      * Converts string into variable.
      * @param str string to be processed
      * @param def default value

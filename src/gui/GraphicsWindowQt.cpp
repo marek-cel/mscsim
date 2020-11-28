@@ -22,9 +22,9 @@
 
 #include <gui/GraphicsWindowQt.h>
 
-#include <Common.h>
-
 #include <gui/KeyMap.h>
+
+#include <sim/Log.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

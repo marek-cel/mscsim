@@ -113,7 +113,7 @@ private:
 
     typedef Data::CGI::ViewType ViewType;
 
-    Ui::MainWindow *_ui;                ///<
+    Ui::MainWindow *_ui;                ///< UI object
 
     Autopilot *_ap;                     ///< autopilot object
     g1000::IFD *_ifd;                   ///< G1000 IFD object
@@ -126,15 +126,15 @@ private:
     DialogInit *_dialogInit;            ///< initial conditions dialog
     DialogMass *_dialogMass;            ///< mass configuration dialog
 
-    DockWidgetAuto *_dockAuto;          ///<
-    DockWidgetCtrl *_dockCtrl;          ///<
-    DockWidgetData *_dockData;          ///<
-    DockWidgetEFIS *_dockEFIS;          ///<
-    DockWidgetMain *_dockMain;          ///<
-    DockWidgetMap  *_dockMap;           ///<
-    DockWidgetProp *_dockProp;          ///<
+    DockWidgetAuto *_dockAuto;          ///< autopilot dock widget
+    DockWidgetCtrl *_dockCtrl;          ///< controls dock widget
+    DockWidgetData *_dockData;          ///< data dock widget
+    DockWidgetEFIS *_dockEFIS;          ///< EFIS dock widget
+    DockWidgetMain *_dockMain;          ///< main dock widget
+    DockWidgetMap  *_dockMap;           ///< map dock widget
+    DockWidgetProp *_dockProp;          ///< propulsion dock widget
 
-    WidgetPFD *_widgetPFD;              ///<
+    WidgetPFD *_widgetPFD;              ///< PFD widget
 
     QShortcut *_scCycleViews;           ///< key shortcut
     QShortcut *_scToggleHud;            ///< key shortcut
@@ -150,9 +150,9 @@ private:
     bool _showHUD;                      ///< specifies if HUD is visible
     bool _showTraces;                   ///< specifies if traces are visible
 
-    bool _showRotorBlur;                ///<
-    bool _showBladesDatum;              ///<
-    bool _showBladesPaths;              ///<
+    bool _showRotorBlur;                ///< specifies if rotor blur is visible
+    bool _showBladesDatum;              ///< specifies if blades datum plane is visible
+    bool _showBladesPaths;              ///< specifies if blades tips paths are visible
 
     double _timeCoef;                   ///< [-] time compression coefficient
 

@@ -58,10 +58,10 @@ public:
 
     static const osg::Vec3 _amber;      ///< amber
 
-    static const osg::Vec3 _hud;        ///<
+    static const osg::Vec3 _hud;        ///< HUD color
 
-    static const osg::Vec3 _sky[ 9 ];   ///<
-    static const osg::Vec3 _fog[ 9 ];   ///<
+    static const osg::Vec3 _sky[ 9 ];   ///< clear sky horizon color
+    static const osg::Vec3 _fog[ 9 ];   ///< foggy sky horizon color
 
     static const osg::Vec3 _sun[ 11 ];  ///< sun light color
     static const osg::Vec3 _moon;       ///< moon light color

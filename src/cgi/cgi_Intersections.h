@@ -59,7 +59,7 @@ private:
 
     /**
      * You should use static function instance() due to get refernce
-     * to Random class instance.
+     * to Intersections class instance.
      */
     Intersections();
 

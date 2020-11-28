@@ -75,6 +75,7 @@ MainWindow::MainWindow( QWidget *parent ) :
     _ifd ( NULLPTR ),
 
     _dateTime( QDateTime::currentDateTimeUtc() ),
+    _flightTime(),
     
     _dialogConf ( NULLPTR ),
     _dialogEnvr ( NULLPTR ),
@@ -125,21 +126,21 @@ MainWindow::MainWindow( QWidget *parent ) :
 
     setWidescreenDockLayout( _dialogConf->getWidescreen() );
 
-    _dockAuto = new DockWidgetAuto( this );
-    _dockCtrl = new DockWidgetCtrl( this );
-    _dockData = new DockWidgetData( this );
-    _dockEFIS = new DockWidgetEFIS( this );
-    _dockMain = new DockWidgetMain( this );
-    _dockMap  = new DockWidgetMap( this );
-    _dockProp = new DockWidgetProp( this );
+    _dockAuto = new DockWidgetAuto ( this );
+    _dockCtrl = new DockWidgetCtrl ( this );
+    _dockData = new DockWidgetData ( this );
+    _dockEFIS = new DockWidgetEFIS ( this );
+    _dockMain = new DockWidgetMain ( this );
+    _dockMap  = new DockWidgetMap  ( this );
+    _dockProp = new DockWidgetProp ( this );
 
-    _dockAuto->setObjectName( "DockAuto" );
-    _dockCtrl->setObjectName( "DockCtrl" );
-    _dockData->setObjectName( "DockData" );
-    _dockEFIS->setObjectName( "DockEFIS" );
-    _dockMain->setObjectName( "DockMain" );
-    _dockMap->setObjectName( "DockMap" );
-    _dockProp->setObjectName( "DockProp" );
+    _dockAuto->setObjectName ( "DockAuto" );
+    _dockCtrl->setObjectName ( "DockCtrl" );
+    _dockData->setObjectName ( "DockData" );
+    _dockEFIS->setObjectName ( "DockEFIS" );
+    _dockMain->setObjectName ( "DockMain" );
+    _dockMap->setObjectName  ( "DockMap"  );
+    _dockProp->setObjectName ( "DockProp" );
 
     addDockWidget( Qt::TopDockWidgetArea    , _dockAuto );
     addDockWidget( Qt::BottomDockWidgetArea , _dockCtrl );
@@ -149,13 +150,13 @@ MainWindow::MainWindow( QWidget *parent ) :
     addDockWidget( Qt::BottomDockWidgetArea , _dockMap  );
     addDockWidget( Qt::LeftDockWidgetArea   , _dockProp );
 
-    _dockAuto->setVisible( false );
-    _dockCtrl->setVisible( false );
-    _dockData->setVisible( false );
-    _dockEFIS->setVisible( false );
-    _dockMain->setVisible( false );
-    _dockMap->setVisible( false );
-    _dockProp->setVisible( false );
+    _dockAuto ->setVisible( false );
+    _dockCtrl ->setVisible( false );
+    _dockData ->setVisible( false );
+    _dockEFIS ->setVisible( false );
+    _dockMain ->setVisible( false );
+    _dockMap  ->setVisible( false );
+    _dockProp ->setVisible( false );
 
     _scCycleViews = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V)     , this, SLOT(shorcutCycleViews_activated())   );
     _scToggleHud  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_H)     , this, SLOT(shorcutToggleHud_activated())    );
@@ -549,13 +550,13 @@ void MainWindow::settingsRead()
     bool visibleMap  = settings.value( "dock_map_visible"  , 0 ).toBool();
     bool visibleProp = settings.value( "dock_prop_visible" , 0 ).toBool();
 
-    _ui->actionDockAuto->setChecked( visibleAuto );
-    _ui->actionDockCtrl->setChecked( visibleCtrl );
-    _ui->actionDockData->setChecked( visibleData );
-    _ui->actionDockEFIS->setChecked( visibleEFIS );
-    _ui->actionDockMain->setChecked( visibleMain );
-    _ui->actionDockMap->setChecked( visibleMap );
-    _ui->actionDockProp->setChecked( visibleProp );
+    _ui->actionDockAuto ->setChecked( visibleAuto );
+    _ui->actionDockCtrl ->setChecked( visibleCtrl );
+    _ui->actionDockData ->setChecked( visibleData );
+    _ui->actionDockEFIS ->setChecked( visibleEFIS );
+    _ui->actionDockMain ->setChecked( visibleMain );
+    _ui->actionDockMap  ->setChecked( visibleMap  );
+    _ui->actionDockProp ->setChecked( visibleProp );
 
     settingsRead_Airport( settings );
     settingsRead_View( settings );
@@ -661,16 +662,16 @@ void MainWindow::settingsSave()
     settings.setValue( "state", saveState() );
     settings.setValue( "geometry", saveGeometry() );
 
+    settings.setValue( "dock_auto_visible" , _ui->actionDockAuto ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_ctrl_visible" , _ui->actionDockCtrl ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_data_visible" , _ui->actionDockData ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_efis_visible" , _ui->actionDockEFIS ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_main_visible" , _ui->actionDockMain ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_map_visible"  , _ui->actionDockMap  ->isChecked() ? 1 : 0 );
+    settings.setValue( "dock_prop_visible" , _ui->actionDockProp ->isChecked() ? 1 : 0 );
+
     settingsSave_Airport( settings );
     settingsSave_View( settings );
-
-    settings.setValue( "dock_auto_visible" , _ui->actionDockAuto->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_ctrl_visible" , _ui->actionDockCtrl->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_data_visible" , _ui->actionDockData->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_efis_visible" , _ui->actionDockEFIS->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_main_visible" , _ui->actionDockMain->isChecked() ? 1 : 0 );
-    settings.setValue( "dock_map_visible"  , _ui->actionDockMap->isChecked()  ? 1 : 0 );
-    settings.setValue( "dock_prop_visible" , _ui->actionDockProp->isChecked() ? 1 : 0 );
 
     settings.endGroup();
 }

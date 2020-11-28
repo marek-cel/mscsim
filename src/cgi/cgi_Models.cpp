@@ -28,7 +28,8 @@
 
 #include <osgDB/ReadFile>
 
-#include <Common.h>
+#include <sim/Log.h>
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

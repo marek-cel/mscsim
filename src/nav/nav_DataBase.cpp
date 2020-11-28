@@ -28,13 +28,13 @@
 #include <QDomElement>
 #include <QFile>
 
-#include <Common.h>
-
 #include <fdm/utils/fdm_String.h>
 #include <fdm/utils/fdm_Units.h>
 #include <fdm/utils/fdm_WGS84.h>
 
 #include <nav/nav_Frequency.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

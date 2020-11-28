@@ -23,8 +23,6 @@
 #include <gui/DockWidgetMain.h>
 #include <ui_DockWidgetMain.h>
 
-#include <fdm/utils/fdm_Units.h>
-
 #include <gui/gui_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////

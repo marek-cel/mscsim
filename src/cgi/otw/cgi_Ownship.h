@@ -91,8 +91,9 @@ private:
     osg::Quat  _att_wgs;    ///< aircraft attitude
     osg::Vec3d _pos_wgs;    ///< aircraft position
 
-    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;          ///<
-    osg::ref_ptr<osg::PositionAttitudeTransform> _patRibbons;   ///<
+    osg::ref_ptr<osg::PositionAttitudeTransform> _pat;          ///< aircraft position and attitude
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patOffset;    ///< model offset
+    osg::ref_ptr<osg::PositionAttitudeTransform> _patRibbons;   ///< ribbons
 
     osg::ref_ptr<osg::Switch> _switch;                          ///<
     osg::ref_ptr<osg::Switch> _switchRibbons;                   ///<

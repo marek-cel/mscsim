@@ -62,24 +62,24 @@ protected:
 
 private:
 
-    osg::ref_ptr<cgi::ManipulatorMap> _manipulator;
+    osg::ref_ptr<cgi::ManipulatorMap> _manipulator; ///< map camera manipulator
 
-    QString _mouseGeoPositionStr;
+    QString _mouseGeoPositionStr;   ///<
 
     int _timerId;                   ///< timer ID
 
-    bool _camManipulatorInited;
+    bool _camManipulatorInited;     ///<
 
-    bool _viewCrops;
-    bool _viewGrassland;
-    bool _viewWoodland;
-    bool _viewBuiltup;
-    bool _viewRailroads;
-    bool _viewRoads;
-    bool _viewAirports;
-    bool _viewSatellite;
-    bool _viewBorders;
-    bool _viewTraces;
+    bool _viewCrops;                ///<
+    bool _viewGrassland;            ///<
+    bool _viewWoodland;             ///<
+    bool _viewBuiltup;              ///<
+    bool _viewRailroads;            ///<
+    bool _viewRoads;                ///<
+    bool _viewAirports;             ///<
+    bool _viewSatellite;            ///<
+    bool _viewBorders;              ///<
+    bool _viewTraces;               ///<
 
 #   ifndef USE_OSGQOPENGL
     /** */

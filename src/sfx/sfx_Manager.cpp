@@ -22,9 +22,10 @@
 
 #include <sfx/sfx_Manager.h>
 
-#include <Common.h>
-
 #include <fdm/utils/fdm_Misc.h>
+
+#include <sim/Log.h>
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

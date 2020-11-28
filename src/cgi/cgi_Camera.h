@@ -127,12 +127,12 @@ private:
     osg::ref_ptr<osg::Node> _trackNode;     ///< orbit manipulator track node
     osg::ref_ptr<osg::Node> _worldNode;     ///< world manipulator node
 
-    osg::Vec3d _position;   ///<
-    osg::Quat  _attitude;   ///<
+    osg::Vec3d _position;   ///< [-] camera position expressed in WGS84
+    osg::Quat  _attitude;   ///< camera attitude expressed as quaternion of rotation from WGS84 to camera axis frame
 
-    ViewType _viewType;     ///<
+    ViewType _viewType;     ///< view type
 
-    double _deltaPitch;     ///<
+    double _deltaPitch;     ///< [rad] pitch difference
 };
 
 } // end of cgi namespace

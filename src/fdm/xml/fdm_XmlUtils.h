@@ -90,9 +90,9 @@ public:
      *
      * @code
      * <tag_name [factor="{ value }"] [unit="{ unit string }"]>
-     *   { i_xx } { i_xy } { i_xz }
-     *   { i_yx } { i_yy } { i_yz }
-     *   { i_zx } { i_zy } { i_zz }
+     *   { xx } { xy } { xz }
+     *   { yx } { yy } { yz }
+     *   { zx } { zy } { zz }
      * </tag_name>
      * @endcode
      *

@@ -38,12 +38,12 @@ public:
 
     struct DateTime
     {
-        unsigned short year;
-        unsigned char  month;
-        unsigned char  day;
-        unsigned char  hour;
-        unsigned char  minute;
-        unsigned char  second;
+        unsigned short year;        ///< year
+        unsigned char  month;       ///< month
+        unsigned char  day;         ///< day
+        unsigned char  hour;        ///< hour
+        unsigned char  minute;      ///< minute
+        unsigned char  second;      ///< second
     };
 
     static double dayOfYear( DateTime dateTime );

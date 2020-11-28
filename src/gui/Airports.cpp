@@ -24,11 +24,11 @@
 
 #include <QFile>
 
-#include <Common.h>
-
 #include <fdm/utils/fdm_Units.h>
 
 #include <gui/gui_Defines.h>
+
+#include <sim/Path.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

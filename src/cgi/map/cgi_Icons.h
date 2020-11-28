@@ -33,7 +33,7 @@
 namespace cgi
 {
 
-/** */
+/** Icons class. */
 class Icons : public Module
 {
 public:
