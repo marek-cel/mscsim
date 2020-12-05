@@ -42,7 +42,7 @@ class FDMEXPORT Schrenk
 public:
 
     /**
-     * Returns mean aerodynamic chord.
+     * @brief Returns mean aerodynamic chord.
      * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.49
      * @param cr [m] chord at wing root
      * @param ct [m] chord at wing tip
@@ -51,19 +51,20 @@ public:
     static double getMeanAerodynamicChord( double cr, double ct );
 
     /**
-     * Returns mean aerodynamic chord.
+     * @brief Returns mean aerodynamic chord.
      * @param chord [m] wing chord vs [m] spanwise coordinate
      * @return [m] mean aerodynamic chord
      */
     static double getMeanAerodynamicChord( const Table1 &chord );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Schrenk();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Schrenk();
 
     /**
+     * @brief Computes approximation of drag coefficient.
      * Computes simple approximation of normalized spanwise drag coefficient
      * distribution.
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
@@ -72,6 +73,7 @@ public:
     virtual double getDragCoefDist( double y ) const;
 
     /**
+     * @brief Computes approximation of lift coefficient.
      * Computes Schrenk approximation of normalized spanwise lift coefficient
      * distribution.
      * @param y [m] spanwise coordinate where 0: wing root (plane of symmetry)
@@ -80,19 +82,19 @@ public:
     virtual double getLiftCoefDist( double y ) const;
 
     /**
-     * Sets wing area.
+     * @brief Sets wing area.
      * @param area [m^2] wing area
      */
     void setArea( double area );
 
     /**
-     * Sets wing span.
+     * @brief Sets wing span.
      * @param span [m] wing span
      */
     void setSpan( double span );
 
     /**
-     * Sets wing chord.
+     * @brief Sets wing chord.
      * @param chord [m] wing chord vs [m] spanwise coordinate
      */
     void setChord( const Table1 &chord );

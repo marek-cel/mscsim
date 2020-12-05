@@ -70,20 +70,20 @@ class FDMEXPORT TailRotor
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     TailRotor();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~TailRotor();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_air_bas [m/s]    aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s]  aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity  [kg/m^3] air density

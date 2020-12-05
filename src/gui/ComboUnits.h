@@ -41,10 +41,10 @@ class ComboUnits : public QComboBox
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit ComboUnits( QWidget *parent = NULLPTR );
     
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~ComboUnits();
 
     virtual double convert( double value ) const;

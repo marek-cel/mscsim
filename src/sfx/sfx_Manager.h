@@ -44,13 +44,13 @@ class Manager
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Manager();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
-    /** Updates SFX. */
+    /** @brief Updates SFX. */
     void update( const Data::DataBuf *data );
 
 private:

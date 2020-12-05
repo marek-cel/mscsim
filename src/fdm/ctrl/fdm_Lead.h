@@ -39,33 +39,35 @@ namespace fdm
  *
  * @see Boulet B.: Fundamentals of Signals and Systems, 2006, p.298
  * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.224. [in Polish]
+ * @see https://pages.mtu.edu/~tbco/cm416/TFBODE.html
  */
 class FDMEXPORT Lead
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Lead();
 
+    /** @brief Constructor. */
     Lead( double tc, double y = 0.0 );
 
     inline double getValue() const { return _y;  }
     inline double getTimeConst() const { return _tc; }
 
     /**
-     * Sets output value
+     * @brief Sets output value
      * @param youtput value
      */
     void setValue( double y );
 
     /**
-     * Sets time constant.
+     * @brief Sets time constant.
      * @param tc time constant
      */
     void setTimeConst( double tc );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

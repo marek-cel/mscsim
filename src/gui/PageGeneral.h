@@ -46,10 +46,10 @@ class PageGeneral : public QWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit PageGeneral( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~PageGeneral();
 
     void readData();

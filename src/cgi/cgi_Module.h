@@ -43,21 +43,21 @@ public:
     typedef std::vector< Module* > List;
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param parent parent module
      */
     Module( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Module();
 
-    /** Adds child to the module. */
+    /** @brief Adds child to the module. */
     virtual void addChild( Module *child );
 
-    /** Updates module and all its children. */
+    /** @brief Updates module and all its children. */
     virtual void update();
 
-    /** Returns module root node.  */
+    /** @brief Returns module root node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 protected:

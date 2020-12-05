@@ -54,10 +54,10 @@ public:
         Double = 5      ///< double type
     };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     DataNode();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DataNode();
 
     /**
@@ -99,16 +99,16 @@ public:
     }
 
     /**
-     * Returns node of the given path on success and NULL on failure.
+     * @brief Returns node of the given path on success and NULL on failure.
      * @param path Path relative to the node.
      * @return returns node of the given path on success and NULL on failure
      */
     DataNode* getNode( const char *path );
 
-    /** Returns node path string. */
+    /** @brief Returns node path string. */
     std::string getPath() const;
 
-    /** Returns node's root node. */
+    /** @brief Returns node's root node. */
     DataNode* getRoot();
 
     /** @return Data node type. */
@@ -174,7 +174,7 @@ private:
     DataNode( const DataNode & ) {}
 
     /**
-     * Breaks path string apart.
+     * @brief Breaks path string apart.
      * @param path path string to be broken
      * @param pathLead name of the first node in the path string
      * @param pathRest path relative to the first node in the unbroken path string
@@ -182,7 +182,7 @@ private:
     void breakPath( const char *path, std::string &pathLead, std::string &pathRest );
 
     /**
-     * Creates node of the given name, type and parent.
+     * @brief Creates node of the given name, type and parent.
      * @param name node name
      * @param type node type
      * @param parent node parent
@@ -191,14 +191,14 @@ private:
     DataNode* createNode( const char *name, Type type, DataNode *parent );
 
     /**
-     * Returns node of the given path on success and NULL on failure.
+     * @brief Returns node of the given path on success and NULL on failure.
      * This function is case sensitive.
      * @param path Path relative to the node.
      * @return returns node of the given path on success and NULL on failure
      */
     DataNode* findNode( const char *path );
 
-    /** Strips path string dots. */
+    /** @brief Strips path string dots. */
     std::string stripPathDots( const char *path );
 };
 

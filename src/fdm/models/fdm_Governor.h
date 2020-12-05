@@ -46,14 +46,14 @@ class FDMEXPORT Governor
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Governor();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Governor();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );

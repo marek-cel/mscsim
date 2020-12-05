@@ -89,20 +89,20 @@ public:
         Running  = 2    ///< engine running
     };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     PistonEngine();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~PistonEngine();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Updates engine.
+     * @brief Updates engine.
      * @param throttleLever [0.0,1.0] throttle lever position
      * @param mixtureLever  [0.0,1.0] mixture lever position
      * @param rpm           [rpm]     engine rpm
@@ -126,7 +126,7 @@ public:
                          bool magneto_r = true );
 
     /**
-     * Returns engine state.
+     * @brief Returns engine state.
      * @return engine state
      */
     inline State getState() const
@@ -135,7 +135,7 @@ public:
     }
 
     /**
-     * Returns engine air flow.
+     * @brief Returns engine air flow.
      * @return [kg/s] engine air flow
      */
     inline double getAirFlow() const
@@ -144,7 +144,7 @@ public:
     }
 
     /**
-     * Returns engine fuel consumption.
+     * @brief Returns engine fuel consumption.
      * @return [kg/s] engine fuel consumption
      */
     inline double getFuelFlow() const
@@ -153,7 +153,7 @@ public:
     }
 
     /**
-     * Returns engine polar moment of inertia.
+     * @brief Returns engine polar moment of inertia.
      * @return [kg*m^2] engine polar moment of inertia
      */
     inline double getInertia() const
@@ -162,7 +162,7 @@ public:
     }
 
     /**
-     * Returns engine manifold absolute pressure.
+     * @brief Returns engine manifold absolute pressure.
      * @return [Pa] engine manifold absolute pressure
      */
     inline double getMAP() const
@@ -171,7 +171,7 @@ public:
     }
 
     /**
-     * Returns engine net power.
+     * @brief Returns engine net power.
      * @return [W] engine net power
      */
     inline double getPower()  const
@@ -180,7 +180,7 @@ public:
     }
 
     /**
-     * Returns engine rpm.
+     * @brief Returns engine rpm.
      * @return [rpm] engine rpm
      */
     inline double getRPM() const
@@ -189,7 +189,7 @@ public:
     }
 
     /**
-     * Returns engine torque.
+     * @brief Returns engine torque.
      * @return [N*m] engine torque
      */
     inline double getTorque() const
@@ -226,7 +226,7 @@ protected:
     double _fuelFlow;           ///< [kg/s] fuel flow
 
     /**
-     * Computes manifold absolute pressure.
+     * @brief Computes manifold absolute pressure.
      * @param throttleLever [0.0,1.0] throttle lever position
      * @param rpm [rpm] engine rpm
      * @param airPressure [Pa] air pressure
@@ -236,7 +236,7 @@ protected:
                                                 double rpm, double airPressure );
 
     /**
-     * Computes fuel to air ratio.
+     * @brief Computes fuel to air ratio.
      * @param mixture [-] mixture
      * @param airDensity [kg/m^3] air density
      * @return [-] fuel to air ratio
@@ -244,7 +244,7 @@ protected:
     virtual double getFuelToAirRatio( double mixture, double airDensity );
 
     /**
-     * Computes engine power factor.
+     * @brief Computes engine power factor.
      * @param fuel specifies if fuel is provided
      * @param mixture [-] mixture
      * @param airDensity [kg/m^3] air density
@@ -256,7 +256,7 @@ protected:
                                    bool magneto_l = true, bool magneto_r = true );
 
     /**
-     * Computes engine net power.
+     * @brief Computes engine net power.
      * @param throttleLever [0.0,1.0] throttle lever position
      * @param mixtureLever [0.0,1.0] mixture lever position
      * @param rpm [rpm] engine rpm

@@ -42,10 +42,10 @@ class FDMEXPORT XmlDoc
 {
 public:
 
-    /** Constrcutor. */
+    /** @brief Constrcutor. */
     XmlDoc( const char *fileName = "" );
 
-    /** Destrcutor. */
+    /** @brief Destructor. */
     virtual ~XmlDoc();
 
     /**

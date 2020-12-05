@@ -43,10 +43,10 @@ public:
     /** CDI indicator. */
     enum CDI { NONE = 0, TO, FROM };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit GraphicsEHSI( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~GraphicsEHSI();
 
     /** */

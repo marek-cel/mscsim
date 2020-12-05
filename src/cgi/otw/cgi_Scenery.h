@@ -42,16 +42,16 @@ class Scenery : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Scenery( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Scenery();
 
-    /** Adds child to the module. */
+    /** @brief Adds child to the module. */
     void addChild( Module *child );
 
-    /** Updates scenery. */
+    /** @brief Updates scenery. */
     void update();
 
     void setShadow( const char *shadowFile );

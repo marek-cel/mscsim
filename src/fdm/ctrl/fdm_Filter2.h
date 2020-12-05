@@ -41,9 +41,10 @@ class FDMEXPORT Filter2
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Filter2();
 
+    /** @brief Constructor. */
     Filter2( double c1, double c2, double c3, double c4, double c5, double c6,
              double y = 0.0 );
 
@@ -66,7 +67,7 @@ public:
     void setC6( double c6 );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

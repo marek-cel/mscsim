@@ -51,16 +51,16 @@ public:
     inline static const Vector3& j() { return _ey; }
     inline static const Vector3& k() { return _ez; }
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector3();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Vector3( const Vector3 &vect );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector3( const double items[] );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector3( double x, double y, double z );
 
     /** @return vector length squared */
@@ -102,46 +102,46 @@ public:
     inline double& v()       { return _y; }
     inline double& w()       { return _z; }
 
-    /** Sets vector values. */
+    /** @brief Sets vector values. */
     void set( double x, double y, double z );
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Vector3& operator= ( const Vector3 &vect );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Vector3 operator+ ( const Vector3 &vect ) const;
 
-    /** Negation operator. */
+    /** @brief Negation operator. */
     Vector3 operator- () const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Vector3 operator- ( const Vector3 &vect ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Vector3 operator* ( double val ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Vector3 operator/ ( double val ) const;
 
-    /** Dot product operator. */
+    /** @brief Dot product operator. */
     double operator* ( const Vector3 &vect ) const;
 
-    /** Cross product operator. */
+    /** @brief Cross product operator. */
     Vector3 operator% ( const Vector3 &vect ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Vector3& operator+= ( const Vector3 &vect );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Vector3& operator-= ( const Vector3 &vect );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Vector3& operator*= ( double val );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Vector3& operator/= ( double val );
 
-    /** Unary cross product operator. */
+    /** @brief Unary cross product operator. */
     Vector3& operator%= ( const Vector3 &vect );
 
 private:
@@ -155,7 +155,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Vector3 operator* ( double val, const fdm::Vector3 &vect )
 {
     return ( vect * val );

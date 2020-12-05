@@ -68,7 +68,8 @@ public:
     };
 
     /**
-     * Constructor. Disables saturation.
+     * @brief Constructor.
+     * Disables saturation.
      * @param kp proportional gain
      * @param ki integral gain
      * @param kd derivative gain
@@ -76,7 +77,8 @@ public:
     PID( double kp, double ki, double kd );
 
     /**
-     * Constructor. Enables saturation.
+     * @brief Constructor.
+     * Enables saturation.
      * @param kp proportional gain
      * @param ki integral gain
      * @param kd derivative gain
@@ -85,16 +87,16 @@ public:
      */
     PID( double kp, double ki, double kd, double min, double max );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~PID();
 
-    /** Updates controller. */
+    /** @brief Updates controller. */
     virtual void update( double timeStep, double error );
 
-    /** Resets controller. */
+    /** @brief Resets controller. */
     virtual void reset();
 
-    /** Returns controller output. */
+    /** @brief Returns controller output. */
     inline double getValue() const { return _value; }
 
     inline double getKp() const { return _kp; }
@@ -107,7 +109,7 @@ public:
     inline double getMax() const { return _max; }
 
     /**
-     * Sets parameters of parallel form.
+     * @brief Sets parameters of parallel form.
      * @param kp
      * @param ki
      * @param kd
@@ -115,7 +117,7 @@ public:
     virtual void setParallel( double kp, double ki, double kd );
 
     /**
-     * Sets parameters of serial form.
+     * @brief Sets parameters of serial form.
      * @param k
      * @param tau_i
      * @param tau_d
@@ -123,7 +125,7 @@ public:
     virtual void setSerial( double k, double tau_i, double tau_d );
 
     /**
-     * Sets parameters of standard (ideal) form.
+     * @brief Sets parameters of standard (ideal) form.
      * @param Kp
      * @param Ti
      * @param Td
@@ -131,7 +133,7 @@ public:
     virtual void setStandard( double Kp, double Ti, double Td );
 
     /**
-     * Sets controller current error.
+     * @brief Sets controller current error.
      * @param error current error value
      */
     virtual void setError( double error );

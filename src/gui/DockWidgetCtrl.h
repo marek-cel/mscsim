@@ -46,10 +46,10 @@ class DockWidgetCtrl : public QDockWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DockWidgetCtrl( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     ~DockWidgetCtrl();
 
     bool getABS() const;

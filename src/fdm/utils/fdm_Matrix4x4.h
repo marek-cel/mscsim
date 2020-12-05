@@ -39,52 +39,52 @@ class FDMEXPORT Matrix4x4 : public Matrix< 4,4 >
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix4x4();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Matrix4x4( const Matrix4x4 &mtrx );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix4x4( const double items[] );
 
-    /** Transposes matrix. */
+    /** @brief Transposes matrix. */
     void transpose();
 
-    /** Returns transposed matrix. */
+    /** @brief Returns transposed matrix. */
     Matrix4x4 getTransposed() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Matrix4x4& operator= ( const Matrix4x4 &mtrx );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Matrix4x4 operator+ ( const Matrix4x4 &mtrx ) const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Matrix4x4 operator- ( const Matrix4x4 &mtrx ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Matrix4x4 operator* ( double value ) const;
 
-    /** Multiplication operator (by matrix). */
+    /** @brief Multiplication operator (by matrix). */
     Matrix4x4 operator* ( const Matrix4x4 &mtrx ) const;
 
-    /** Multiplication operator (by vector). */
+    /** @brief Multiplication operator (by vector). */
     Vector4 operator* ( const Vector4 &vect ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Matrix4x4 operator/ ( double value ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Matrix4x4& operator+= ( const Matrix4x4 &mtrx );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Matrix4x4& operator-= ( const Matrix4x4 &mtrx );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Matrix4x4& operator*= ( double value );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Matrix4x4& operator/= ( double value );
 };
 
@@ -92,7 +92,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Matrix4x4 operator* ( double value, const fdm::Matrix4x4 &mtrx )
 {
     return ( mtrx * value );

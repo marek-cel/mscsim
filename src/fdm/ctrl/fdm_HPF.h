@@ -41,11 +41,11 @@ class FDMEXPORT HPF
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     HPF();
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param omega [rad/s] cutoff angular frequency
      * @param y initial output value
      */
@@ -55,25 +55,25 @@ public:
     inline double getOmega() const { return _omega; }
 
     /**
-     * Sets output value
+     * @brief Sets output value
      * @param youtput value
      */
     void setValue( double y );
 
     /**
-     * Sets cutoff angular frequency.
+     * @brief Sets cutoff angular frequency.
      * @param omega [rad/s] cutoff angular frequency
      */
     void setOmega( double omega );
 
     /**
-     * Sets cutoff frequency.
+     * @brief Sets cutoff frequency.
      * @param freq [Hz] cutoff frequency
      */
     void setCutoffFreq( double freq );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

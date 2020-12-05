@@ -138,7 +138,7 @@ public:
 
     static double getTrueBearing( const char *str_bear, const char *str_magvar );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DataBase();
 
     const ListAPT& getListAPT() const { return _list_apt; }

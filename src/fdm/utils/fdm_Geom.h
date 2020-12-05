@@ -39,7 +39,7 @@ class FDMEXPORT Geom
 public:
 
     /**
-     * Checks if intersection occurs.
+     * @brief Checks if intersection occurs.
      * @param b segment beginning
      * @param e segment end
      * @param r any point on the plane coordinates
@@ -50,7 +50,7 @@ public:
                          const Vector3 &r, const Vector3 &n );
 
     /**
-     * Returns segment and plane intersection point.
+     * @brief Returns segment and plane intersection point.
      * @see O'Rourke J.: Computational Geometry in C, 1998, p.226
      * @see http://paulbourke.net/geometry/pointlineplane/
      * @param b segment beginning

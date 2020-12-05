@@ -34,20 +34,20 @@
 namespace cgi
 {
 
-/** Layer clouds. */
+/** @brief Layer clouds class. */
 class CloudsLayer : public Module
 {
 public:
 
     typedef Data::CGI::Environment::Clouds::Data::Layer::Cover Cover;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     CloudsLayer( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~CloudsLayer();
 
-    /** Updates clouds. */
+    /** @brief Updates clouds. */
     void update();
 
 private:

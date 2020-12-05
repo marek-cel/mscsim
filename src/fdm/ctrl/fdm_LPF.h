@@ -43,30 +43,30 @@ class FDMEXPORT LPF : public Lag
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     LPF();
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param omega [rad/s] cutoff angular frequency
      * @param y initial output value
      */
     LPF( double omega, double y = 0.0 );
 
     /**
-     * Returns cutoff angular frequency.
+     * @brief Returns cutoff angular frequency.
      * @return cutoff angular frequency
      */
     inline double getOmega() const { return 1.0 / _tc; }
 
     /**
-     * Sets cutoff angular frequency.
+     * @brief Sets cutoff angular frequency.
      * @param omega [rad/s] cutoff angular frequency
      */
     void setOmega( double omega );
 
     /**
-     * Sets cutoff frequency.
+     * @brief Sets cutoff frequency.
      * @param freq [Hz] cutoff frequency
      */
     void setCutoffFreq( double freq );

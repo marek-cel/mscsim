@@ -47,7 +47,7 @@ class FDMEXPORT Aerodynamics : public Module
 public:
 
     /**
-     * Returns angle of attack.
+     * @brief Returns angle of attack.
      * @param vel_bas [m/s] airspeed vector
      * @param vel_min [m/s] minimum airspeed of calculations
      * @return [rad] angle of attack
@@ -55,7 +55,7 @@ public:
     static double getAngleOfAttack( const Vector3 &vel_bas, double vel_min = 1.0e-2 );
 
     /**
-     * Returns angle of attack.
+     * @brief Returns angle of attack.
      * @param uv [m/s] airspeed on aircraft xy-plane
      * @param w  [m/s] airspeed along aircraft z-axis
      * @param vel_min [m/s] minimum airspeed of calculations
@@ -64,7 +64,7 @@ public:
     static double getAngleOfAttack( double uv, double w, double vel_min = 1.0e-2 );
 
     /**
-     * Returns sideslip angle.
+     * @brief Returns sideslip angle.
      * It is positive when the aircraft velocity component along the transverse
      * axis is positive.
      * @see ISO 1151-1:1988
@@ -75,7 +75,7 @@ public:
     static double getSideslipAngle( const Vector3 &vel_bas, double vel_min = 1.0e-2 );
 
     /**
-     * Returns Prandtl-Glauert coefficient.
+     * @brief Returns Prandtl-Glauert coefficient.
      * @see https://en.wikipedia.org/wiki/Prandtl%E2%80%93Glauert_singularity
      * @param machNumber Mach number
      * @param max maximum value
@@ -84,7 +84,7 @@ public:
     static double getPrandtlGlauertCoef( double machNumber, double max = 5.0 );
 
     /**
-     * Returns rotation matrix from aerodynamic axes system to BAS.
+     * @brief Returns rotation matrix from aerodynamic axes system to BAS.
      * @param alpha [rad] angle of attack cosine
      * @param beta [rad] sideslip angle cosine
      * @return rotation matrix from WAS to BAS
@@ -92,7 +92,7 @@ public:
     static Matrix3x3 getAero2BAS( double alpha, double beta );
 
     /**
-     * Returns rotation matrix from aerodynamic axes system to BAS.
+     * @brief Returns rotation matrix from aerodynamic axes system to BAS.
      * @param sinAlpha [-] sine of angle of attack cosine
      * @param cosAlpha [-] cosine of angle of attack cosine
      * @param sinBeta  [-] sine of sideslip angle cosine
@@ -103,39 +103,39 @@ public:
                                   double sinBeta  , double cosBeta );
 
     /**
-     * Returns rotation matrix from stability axes system to BAS.
+     * @brief Returns rotation matrix from stability axes system to BAS.
      * @param alpha [rad] angle of attack cosine
      * @return rotation matrix from WAS to BAS
      */
     static Matrix3x3 getStab2BAS( double alpha );
 
     /**
-     * Returns rotation matrix from stability axes system to BAS.
+     * @brief Returns rotation matrix from stability axes system to BAS.
      * @param sinAlpha [-] sine of angle of attack cosine
      * @param cosAlpha [-] cosine of angle of attack cosine
      * @return rotation matrix from WAS to BAS
      */
     static Matrix3x3 getStab2BAS( double sinAlpha , double cosAlpha );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Aerodynamics( const Aircraft *aircraft, Input *input );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Aerodynamics();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /** Initializes aerodynamics. */
+    /** @brief Initializes aerodynamics. */
     virtual void initialize();
 
-    /** Computes force and moment. */
+    /** @brief Computes force and moment. */
     virtual void computeForceAndMoment() = 0;
 
-    /** Updates aerodynamics. */
+    /** @brief Updates aerodynamics. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
@@ -145,7 +145,7 @@ public:
     inline const Vector3& getMom_stab() const { return _mom_stab; }
 
     /**
-     * Returns true if aircraft is stalling, otherwise returns false.
+     * @brief Returns true if aircraft is stalling, otherwise returns false.
      * @return true if aircraft is stalling, false otherwise
      */
     virtual inline bool getStall() const { return false; }

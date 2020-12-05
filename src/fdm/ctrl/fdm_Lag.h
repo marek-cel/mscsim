@@ -42,6 +42,7 @@ namespace fdm
  * @see Kaczorek T.: Teoria ukladow regulacji automatycznej, 1970, p.48. [in Polish]
  * @see Kaczorek T., et al.: Podstawy teorii sterowania, 2005, p.102. [in Polish]
  * @see https://www.mathworks.com/help/physmod/sps/powersys/ref/firstorderfilter.html
+ * @see https://pages.mtu.edu/~tbco/cm416/TFBODE.html
  */
 class FDMEXPORT Lag
 {
@@ -57,11 +58,11 @@ public:
      */
     static double update( double u, double y, double dt, double tc );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Lag();
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param tc time constant
      * @param y initial output value
      */
@@ -71,19 +72,19 @@ public:
     inline double getTimeConst() const { return _tc; }
 
     /**
-     * Sets output value
+     * @brief Sets output value
      * @param youtput value
      */
     void setValue( double y );
 
     /**
-     * Sets time constant.
+     * @brief Sets time constant.
      * @param tc time constant
      */
     void setTimeConst( double tc );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

@@ -40,19 +40,19 @@ class FDMEXPORT VectorN
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     VectorN();
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param size vector size
      */
     VectorN( unsigned int size );
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     VectorN( const VectorN &vect );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~VectorN();
 
     /** @return TRUE if all items are valid */
@@ -61,24 +61,25 @@ public:
     /** @return vector length */
     virtual double getLength() const;
 
-    /** This function normalizes vector. */
+    /** @brief This function normalizes vector. */
     virtual void normalize();
 
-    /** Puts vector items into given array. */
+    /** @brief uts vector items into given array. */
     virtual void getArray( double items[] ) const;
 
     /**
+     * @brief Gets vector item of given indicies.
      * This function is bound-checked which may affect performance.
      * Throws an exception when index is out of range.
      * @return vector item of given indicies.
      */
     virtual double getItem( unsigned int index ) const;
 
-    /** Sets vector items from given array. */
+    /** @brief Sets vector items from given array. */
     virtual void setArray( const double items[] );
 
     /**
-     * This function sets vector item of given indicies.
+     * @brief Sets vector item of given indicies.
      * This function is bound-checked which may affect performance.
      * Throws an exception when index is out of range.
      */
@@ -87,22 +88,23 @@ public:
     virtual void setValue( double val );
 
     /**
-     * Returns vector size (number of elements)
+     * @brief Returns vector size (number of elements)
      * @return vector size (number of elements)
      */
     inline unsigned int getSize() const { return _size; }
 
-    /** Returns string representation of the vector. */
+    /** @brief Returns string representation of the vector. */
     virtual std::string toString() const;
 
-    /** Resizes vector if needed. */
+    /** @brief Resizes vector if needed. */
     virtual void resize( unsigned int size );
 
-    /** Sets all vector items to zero. */
+    /** @brief Sets all vector items to zero. */
     virtual void zeroize();
 
     /**
-     * Items accessor. Please notice that this operator is NOT bound-checked.
+     * @brief Items accessor.
+     * Please notice that this operator is NOT bound-checked.
      * If you want bound-checked item accessor use getItem(int) or
      * setItem(int,double) functions.
      */
@@ -124,7 +126,8 @@ public:
     }
 
     /**
-     * Items accessor. Please notice that this operator is NOT bound-checked.
+     * @brief Items accessor.
+     * Please notice that this operator is NOT bound-checked.
      * If you want bound-checked item accessor use getItem(int) or
      * setItem(int,double) functions.
      */
@@ -145,34 +148,34 @@ public:
         return _items[ index ];
     }
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const VectorN& operator= ( const VectorN &vect );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     VectorN operator+ ( const VectorN &vect ) const;
 
-    /** Negation operator. */
+    /** @brief Negation operator. */
     VectorN operator- () const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     VectorN operator- ( const VectorN &vect ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     VectorN operator* ( double val ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     VectorN operator/ ( double val ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     VectorN& operator+= ( const VectorN &vect );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     VectorN& operator-= ( const VectorN &vect );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     VectorN& operator*= ( double val );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     VectorN& operator/= ( double val );
 
 protected:
@@ -186,7 +189,7 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::VectorN operator* ( double val, const fdm::VectorN & vect )
 {
     return ( vect * val );

@@ -31,7 +31,7 @@
 namespace g1000
 {
 
-class IFD; ///< IFD class forward declaration
+class IFD; // IFD class forward declaration
 
 /**
  * @brief Garmin GEA 71 Engine/Airframe Unit class.

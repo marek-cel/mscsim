@@ -54,7 +54,7 @@ public:
     };
 
     /**
-     * Normalizes angle within [min,min+2*pi] range.
+     * @brief Normalizes angle within [min,min+2*pi] range.
      * @param val angle to be normalized
      * @param min minimum value
      * @return normalized angle
@@ -68,14 +68,14 @@ public:
      */
     static DegMinSec toDegMinSec( double val );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Angles();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Angles( const Angles &angl );
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param [rad] angle of rotation about x-axis
      * @param [rad] angle of rotation about y-axis
      * @param [rad] angle of rotation about z-axis
@@ -98,19 +98,19 @@ public:
     inline double& tht()       { return _tht; }
     inline double& psi()       { return _psi; }
 
-    /** Sets angles values. */
+    /** @brief Sets angles values. */
     void set( double phi, double tht, double psi );
 
-    /** This function returns string represtation of the angles. */
+    /** @brief Returns string represtation of the angles. */
     std::string toString() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Angles& operator= ( const Angles &angl );
 
-    /** Equality operator. */
+    /** @brief Equality operator. */
     bool operator== ( const Angles &angl ) const;
 
-    /** Inequality operator. */
+    /** @brief Inequality operator. */
     bool operator!= ( const Angles &angl ) const;
 
 private:

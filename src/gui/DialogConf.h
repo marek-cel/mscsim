@@ -48,10 +48,10 @@ class DialogConf : public QDialog
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DialogConf( QWidget *parent = NULLPTR );
     
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DialogConf();
 
     void readData();

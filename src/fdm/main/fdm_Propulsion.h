@@ -40,25 +40,25 @@ class FDMEXPORT Propulsion : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Propulsion( const Aircraft *aircraft, Input *input );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Propulsion();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /** Initializes propulsion. */
+    /** @brief Initializes propulsion. */
     virtual void initialize();
 
-    /** Computes force and moment. */
+    /** @brief Computes force and moment. */
     virtual void computeForceAndMoment() = 0;
 
-    /** Updates propulsion. */
+    /** @brief Updates propulsion. */
     virtual void update() = 0;
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }

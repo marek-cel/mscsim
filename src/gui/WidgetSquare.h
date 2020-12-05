@@ -41,10 +41,10 @@ class WidgetSquare : public QWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit WidgetSquare( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetSquare();
 
     /** */

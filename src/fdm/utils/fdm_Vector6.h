@@ -38,46 +38,46 @@ class FDMEXPORT Vector6 : public Vector< 6 >
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector6();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Vector6( const Vector6 &vect );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector6( const double items[] );
 
     /** @return normalized vector */
     Vector6 getNormalized() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Vector6& operator= ( const Vector6 &vect );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Vector6 operator+ ( const Vector6 &vect ) const;
 
-    /** Negation operator. */
+    /** @brief Negation operator. */
     Vector6 operator- () const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Vector6 operator- ( const Vector6 &vect ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Vector6 operator* ( double val ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Vector6 operator/ ( double val ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Vector6& operator+= ( const Vector6 &vect );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Vector6& operator-= ( const Vector6 &vect );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Vector6& operator*= ( double val );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Vector6& operator/= ( double val );
 
 };
@@ -86,7 +86,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Vector6 operator* ( double val, const fdm::Vector6 & vect )
 {
     return ( vect * val );

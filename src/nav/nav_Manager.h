@@ -55,13 +55,13 @@ public:
 
     static const double _vor_max;       ///< [rad] VOR full deflection
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Manager();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
-    /** Updates navigation. */
+    /** @brief Updates navigation. */
     void update();
 
     inline void setCourse( double course )   { _course  = course;  }

@@ -169,13 +169,13 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Joysticks();
 
-    /** This function initiate Joystick object. */
+    /** @brief Initializes Joystick object. */
     void init();
     
-    /** This function updates Joystick object. */
+    /** @brief Updates Joystick object. */
     void update();
 
     /** @return number of active joysticks */

@@ -48,34 +48,34 @@ class FDMEXPORT Recorder
 {
 public:
 
-    /** Variable base class. */
+    /** @brief Variable base class. */
     class VariableBase
     {
     public:
 
-        /** Constructor. */
+        /** @brief Constructor. */
         VariableBase() {}
 
-        /** Destructor. */
+        /** @brief Destructor. */
         virtual ~VariableBase() {}
 
-        /** Initializes variable. */
+        /** @brief Initializes variable. */
         virtual void initialize() = 0;
 
-        /** Interpolates variable value. */
+        /** @brief Interpolates variable value. */
         virtual void interpolate( double coef ) = 0;
 
-        /** Returns variable name. */
+        /** @brief Returns variable name. */
         virtual const char* name() const = 0;
 
-        /** Reads variable from stream. */
+        /** @brief Reads variable from stream. */
         virtual void read( std::fstream &fstream ) = 0;
 
-        /** Writes variable into stream. */
+        /** @brief Writes variable into stream. */
         virtual void write( std::fstream &fstream ) = 0;
     };
 
-    /** Variable class implementation. */
+    /** @brief Variable class implementation. */
     template < class TYPE >
     class Variable : public VariableBase
     {
@@ -90,35 +90,35 @@ public:
             _value_prev ( 0.0 )
         {}
 
-        /** Destructor. */
+        
         virtual ~Variable() {}
 
-        /** Initializes variable. */
+        /** @brief Initializes variable. */
         virtual void initialize()
         {
             ( *_ptr ) = _value;
         }
 
-        /** Interpolates variable value. */
+        /** @brief Interpolates variable value. */
         virtual void interpolate( double coef )
         {
             ( *_ptr ) = _value_prev + (TYPE)coef * ( _value - _value_prev );
         }
 
-        /** Returns variable name. */
+        /** @brief Returns variable name. */
         virtual const char* name() const
         {
             return _name.c_str();
         }
 
-        /** Reads variable from stream. */
+        /** @brief Reads variable from stream. */
         virtual void read( std::fstream &fstream )
         {
             _value_prev = _value;
             fstream >> _value;
         }
 
-        /** Writes variable into stream. */
+        /** @brief Writes variable into stream. */
         virtual void write( std::fstream &fstream )
         {
             fstream << std::setprecision( _precision );
@@ -138,26 +138,26 @@ public:
     typedef std::vector< VariableBase* > Variables;
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param desiredTimeStep
      */
     Recorder( double desiredTimeStep = 0.0 );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Recorder();
 
     /** */
     void addVariable( VariableBase *var );
 
     /**
-     * Initializes recorder.
+     * @brief Initializes recorder.
      * @param mode
      * @param file
      */
     void initialize( Mode mode, const char *file );
 
     /**
-     * Performs recorder step.
+     * @brief Performs recorder step.
      * @param timeStep [s] simulation time step
      */
     void step( double timeStep );
@@ -197,10 +197,10 @@ private:
     void recordRead( double &time );
     void recordWrite( double time );
 
-    /** Performs recording step. */
+    /** @brief Performs recording step. */
     void stepRecord();
 
-    /** Performs replaying step. */
+    /** @brief Performs replaying step. */
     void stepReplay();
 };
 

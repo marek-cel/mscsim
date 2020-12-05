@@ -41,6 +41,7 @@ public:
 
     Autopilot();
 
+    /** @brief Autopilot class destructor. */
     virtual ~Autopilot();
 
     void init();

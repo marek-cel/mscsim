@@ -47,10 +47,10 @@ public:
     enum LNAV { LNAV_OFF = 0, LNAV_HDG, LNAV_NAV, LNAV_NAV_ARM, LNAV_APR, LNAV_APR_ARM, LNAV_BC, LNAV_BC_ARM };
     enum VNAV { VNAV_OFF = 0, VNAV_ALT, VNAV_IAS, VNAV_VS, VNAV_ALT_SEL, VNAV_GS, VNAV_GS_ARM };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit GraphicsEADI( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~GraphicsEADI();
 
     /** */

@@ -34,18 +34,18 @@
 namespace cgi
 {
 
-/** Block clouds. */
+/** @brief Block clouds class. */
 class CloudsBlock : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     CloudsBlock( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~CloudsBlock();
 
-    /** Updates clouds. */
+    /** @brief Updates clouds. */
     void update();
 
 private:

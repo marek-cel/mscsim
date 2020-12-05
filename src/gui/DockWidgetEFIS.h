@@ -49,10 +49,10 @@ class DockWidgetEFIS : public QDockWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DockWidgetEFIS( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DockWidgetEFIS();
 
     /** */

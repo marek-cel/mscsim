@@ -47,10 +47,10 @@ class DockWidgetData : public QDockWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DockWidgetData( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DockWidgetData();
 
     /** */

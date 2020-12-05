@@ -48,25 +48,21 @@ public:
      * @param name name of the unit
      * @return conversion function pointer
      *
-     * <h5>SI units of certain values types</h5>
-     * <ul>
-     * <li>Angle: radian [rad]</li>
-     * <li>Length: meter [m]</li>
-     * <li>Velocity: meter per second [m/s]</li>
-     * <li>Mass: kilogram [kg]</li>
-     * <li>Pressure: pascal [Pa]</li>
-     * <li>Temperature: kelvin [K]</li>
-     * </ul>
+     * SI units of certain values types:
+     *  - Angle: radian [rad]
+     *  - Length: meter [m]
+     *  - Velocity: meter per second [m/s]
+     *  - Mass: kilogram [kg]
+     *  - Pressure: pascal [Pa]
+     *  - Temperature: kelvin [K]
      *
-     * <h5>Unit names of certain values types</h5>
-     * <ul>
-     * <li>Angle: deg (degree)</li>
-     * <li>Length: ft (feet), km (kilometer), nmi (nautical mile)</li>
-     * <li>Velocity: fpm (feet per minute), fps (feet per second), kmh (kilemeter per hour), kts (knots)</li>
-     * <li>Mass: lb (pound)</li>
-     * <li>Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)</li>
-     * <li>Temperature: degC (degree Celsius), degF (degree Fahrenheit)</li>
-     * </ul>
+     * Unit names of certain values types:
+     *  - Angle: deg (degree)
+     *  - Length: ft (feet), km (kilometer), nmi (nautical mile)
+     *  - Velocity: fpm (feet per minute), fps (feet per second), kmh (kilemeter per hour), kts (knots)
+     *  - Mass: lb (pound)
+     *  - Pressure: psi (pound per square inch), inHg (inch of mercury), mb (millibar)
+     *  - Temperature: degC (degree Celsius), degF (degree Fahrenheit)
      */
     static fptr getConverter( const char *name );
 

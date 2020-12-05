@@ -79,10 +79,10 @@ public:
     static const double _zSpeedLeader;          ///< z-ccordinate
     static const double _zOwnship;              ///< z-ccordinate
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Map( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Map();
 
     void resetTraces();

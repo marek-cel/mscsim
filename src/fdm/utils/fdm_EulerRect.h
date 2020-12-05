@@ -46,17 +46,16 @@ class EulerRect : public Integrator< TYPE >
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     EulerRect( TYPE *obj = FDM_NULLPTR, void (TYPE::*fun)(const VectorN &, VectorN *) = FDM_NULLPTR ) :
         Integrator< TYPE > ( obj, fun )
     {}
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~EulerRect() {}
 
     /**
-     * Integrates given vector using
-     * Euler's rectangular integration algorithm.
+     * @brief Integrates given vector using Euler's rectangular integration algorithm.
      * @param step integration time step [s]
      * @param vect integrating vector
      */

@@ -38,17 +38,17 @@ class FDMEXPORT Intersections
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Intersections();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Intersections();
 
     /** */
     virtual void update( double lat, double lon );
 
     /**
-     * Returns ground elevation above mean sea level.
+     * @brief Returns ground elevation above mean sea level.
      * @param lat [rad] input latitude
      * @param lon [rad] input longitude
      * @return [m] ground elevation above mean sea level
@@ -56,7 +56,7 @@ public:
     virtual double getElevation( double lat, double lon ) const;
 
     /**
-     * Gets intersection.
+     * @brief Gets intersection.
      * @param b [m] beginning of intersection line expressed in WGS
      * @param e [m] end of intersection line expressed in WGS
      * @param r [m] intersection point coordinates expressed in WGS
@@ -68,7 +68,7 @@ public:
                                  Vector3 *r, Vector3 *n, bool update = false ) const;
 
     /**
-     * Checks intersection.
+     * @brief Checks intersection.
      * @param b [m] beginning of intersection line expressed in WGS
      * @param e [m] end of intersection line expressed in WGS
      * @param update specifies if ground intersection data should be updated
@@ -78,7 +78,7 @@ public:
                                  bool update = false ) const;
 
     /**
-     * Returns ground normal vector expressed in WGS.
+     * @brief Returns ground normal vector expressed in WGS.
      * @param lat [rad] input latitude
      * @param lon [rad] input longitude
      * @param update specifies if ground intersection data should be updated

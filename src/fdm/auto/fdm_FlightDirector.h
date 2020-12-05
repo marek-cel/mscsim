@@ -44,20 +44,20 @@ class FDMEXPORT FlightDirector
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FlightDirector( const Autopilot *ap );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~FlightDirector();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
     /**
-     * Updates flight director.
+     * @brief Updates flight director.
      */
     virtual void update( double timeStep,
                          double heading,

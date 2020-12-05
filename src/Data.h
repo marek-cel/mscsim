@@ -468,7 +468,7 @@ public:
     /** Returns pointer to the common data object. */
     static inline DataBuf* get() { return &_data; }
 
-    /** Destructor. */
+    /** @brief Data class destructor. */
     virtual ~Data() {}
 
 private:

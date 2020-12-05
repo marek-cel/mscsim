@@ -43,14 +43,14 @@ class FDMEXPORT String
 public:
 
     /**
-     * Returns string first line;
+     * @brief Returns string first line;
      * @param str string to be processed
      * @return string first line
      */
     static std::string getFirstLine( const std::string &str );
 
     /**
-     * Compares strings. This function is case insensitive.
+     * @brief Compares strings. This function is case insensitive.
      * @param str_1 1st string to compare
      * @param str_2 2nd string to compare
      * @return integer result of the comparison (returns 0 if strings are equal)
@@ -58,7 +58,7 @@ public:
     static int icompare( const std::string &str_1, const std::string &str_2 );
 
     /**
-     * Splits string with the given delimeter.
+     * @brief Splits string with the given delimeter.
      * @param str string to be splitted
      * @param sep string separator
      * @return vector of strings
@@ -66,28 +66,28 @@ public:
     static std::vector< std::string > split( const std::string &str, const std::string &sep );
 
     /**
-     * Returns string with leading white spaces removed.
+     * @brief Returns string with leading white spaces removed.
      * @param str string to be processed
      * @return string with leading white spaces removed
      */
     static std::string stripLeadingSpaces( const std::string &str );
 
     /**
-     * Returns string with trailing white spaces removed.
+     * @brief Returns string with trailing white spaces removed.
      * @param str string to be processed
      * @return string with trailing white spaces removed
      */
     static std::string stripTrailingSpaces( const std::string &str );
 
     /**
-     * Returns string with both leading and trailing white spaces removed.
+     * @brief Returns string with both leading and trailing white spaces removed.
      * @param str string to be processed
      * @return string with leading and trailing white spaces removed
      */
     static std::string stripSpaces( const std::string &str );
 
     /**
-     * Converts string into variable.
+     * @brief Converts string into variable.
      * @param str string to be processed
      * @param def default value
      * @return result value
@@ -96,7 +96,7 @@ public:
                         bool def = std::numeric_limits< bool >::quiet_NaN() );
 
     /**
-     * Converts string into variable.
+     * @brief Converts string into variable.
      * @param str string to be processed
      * @param def default value
      * @return result value
@@ -105,7 +105,7 @@ public:
                       int def = std::numeric_limits< int >::quiet_NaN() );
 
     /**
-     * Converts string into variable.
+     * @brief Converts string into variable.
      * @param str string to be processed
      * @param def default value
      * @return result value
@@ -114,35 +114,35 @@ public:
                             double def = std::numeric_limits< double >::quiet_NaN() );
 
     /**
-     * Converts variable into string.
+     * @brief Converts variable into string.
      * @param val value to be processed
      * @return result string
      */
     static std::string toString( int val );
 
     /**
-     * Converts variable into string.
+     * @brief Converts variable into string.
      * @param val value to be processed
      * @return result string
      */
     static std::string toString( float val );
 
     /**
-     * Converts variable into string.
+     * @brief Converts variable into string.
      * @param val value to be processed
      * @return result string
      */
     static std::string toString( double val );
 
     /**
-     * Converts string to lower case.
+     * @brief Converts string to lower case.
      * @param str string to be processed
      * @return result string
      */
     static std::string toLower( const std::string &str );
 
     /**
-     * Converts string to upper case.
+     * @brief Converts string to upper case.
      * @param str string to be processed
      * @return result string
      */

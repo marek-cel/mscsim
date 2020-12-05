@@ -49,19 +49,19 @@ class FDMEXPORT Autopilot
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Autopilot( FlightDirector *fd );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Autopilot();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /** Initializes autopilot. */
+    /** @brief Initializes autopilot. */
     virtual void initialize();
 
     /**

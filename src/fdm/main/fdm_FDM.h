@@ -40,10 +40,10 @@ class FDMEXPORT FDM : public Base
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FDM( const DataInp *dataInpPtr, DataOut *dataOutPtr, bool verbose = false );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~FDM();
 
     /** */

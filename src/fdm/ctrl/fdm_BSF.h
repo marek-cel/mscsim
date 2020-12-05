@@ -40,6 +40,7 @@ class FDMEXPORT BSF
 {
 public:
 
+    /** @brief Constructor. */
     BSF();
 };
 

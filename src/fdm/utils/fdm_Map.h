@@ -43,17 +43,17 @@ public:
 
     typedef typename std::map< TYPE_KEY, TYPE_ITEM >::iterator iterator;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Map() {}
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Map( const Map &map )
     {
         _map = map._map;
     }
 
     /**
-     * Adds item.
+     * @brief Adds item.
      * @param key
      * @param item
      * @return returns FDM_SUCCESS on success and FDM_FAILURE on failure
@@ -72,7 +72,7 @@ public:
     }
 
     /**
-     * Returns pinter of item by key value.
+     * @brief Returns pinter of item by key value.
      * @param key
      * @return pinter of item or NULL
      */

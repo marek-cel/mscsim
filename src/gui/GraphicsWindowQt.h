@@ -59,12 +59,12 @@ public:
     };
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param traits
      */
     GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~GraphicsWindowQt();
 
     virtual bool setWindowRectangleImplementation( int x, int y, int w, int h );

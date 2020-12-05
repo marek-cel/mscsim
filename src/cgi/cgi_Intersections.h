@@ -68,11 +68,11 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Intersections();
 
     /**
-     * Finds intersections.
+     * @brief Finds intersections.
      * @param b segement line beginning coordinates
      * @param e segement line ending coordinates
      * @param r intersection coordinates

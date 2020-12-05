@@ -58,22 +58,22 @@ class FDMEXPORT StabilizerVer
 public:
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param type stabilizer type
      */
     StabilizerVer();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~StabilizerVer();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
@@ -96,15 +96,16 @@ protected:
     Table1 _cy;                 ///< [-] sideforce coefficient vs sideslip angle
 
     double _area;               ///< [m^2] stabilizer reference area
+
     /**
-     * Computes drag coefficient.
+     * @brief Computes drag coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] drag coefficient
      */
     virtual double getCx( double angle ) const;
 
     /**
-     * Computes sideforce coefficient.
+     * @brief Computes sideforce coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] sideforce coefficient
      */

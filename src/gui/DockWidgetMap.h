@@ -46,10 +46,10 @@ class DockWidgetMap : public QDockWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DockWidgetMap( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DockWidgetMap();
 
 signals:

@@ -40,7 +40,7 @@ class ManipulatorMap : public osgGA::CameraManipulator
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorMap();
 
     virtual ~ManipulatorMap();

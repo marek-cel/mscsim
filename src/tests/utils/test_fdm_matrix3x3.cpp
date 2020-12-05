@@ -25,6 +25,7 @@ private Q_SLOTS:
     void cleanupTestCase();
 
     void constructor();
+
     void xx();
     void xy();
     void xz();

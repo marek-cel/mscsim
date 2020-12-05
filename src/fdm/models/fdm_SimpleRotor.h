@@ -42,14 +42,14 @@ class FDMEXPORT SimpleRotor
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     SimpleRotor();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~SimpleRotor();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );

@@ -40,7 +40,7 @@ class Integrator
 public:
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param size of vector
      * @param object pointer
      * @param pointer to function which calculates vector derivative and takes current vector as first argument and resulting vector derivative as second
@@ -71,7 +71,7 @@ public:
     }
 
     /**
-     * Integrates given vector.
+     * @brief Integrates given vector.
      * This is interface abstract method.
      * @param step integration time step [s]
      * @param vect integrating vector
@@ -80,7 +80,7 @@ public:
 
 protected:
 
-    /** Calls function calculating derivative of the given vector. */
+    /** @brief Calls function calculating derivative of the given vector. */
     inline void fun( const VectorN &x_0, VectorN *x_dot )
     {
         (_obj->*_fun)( x_0, x_dot );

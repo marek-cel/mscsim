@@ -70,16 +70,16 @@ public:
     static void setLatLonAltHdg( osg::PositionAttitudeTransform *pat,
                                  double lat, double lon, double alt, double hdg = 0.0 );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84( double lat, double lon, double alt );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84( const osg::Vec3d &position );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WGS84();
 
     inline double getLat() const { return _lat; }

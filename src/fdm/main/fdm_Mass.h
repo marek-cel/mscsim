@@ -81,25 +81,25 @@ public:
 
     typedef std::map< std::string, VarMass > Masses;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Mass( const Aircraft *aircraft, Input *input );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Mass();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /** Initializes mass. */
+    /** @brief Initializes mass. */
     virtual void initialize();
 
-    /** Computes force and moment. */
+    /** @brief Computes force and moment. */
     virtual void computeForceAndMoment();
 
-    /** Updates mass. */
+    /** @brief Updates mass. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
@@ -108,25 +108,25 @@ public:
     inline const Vector3& getCenterOfMass() const { return _r_cm_t_bas; }
 
     /**
-     * Returns total mass.
+     * @brief Returns total mass.
      * @return [kg] total mass
      */
     inline double getMass() const { return _mass_t; }
 
     /**
-     * Returns inertia matrix.
+     * @brief Returns inertia matrix.
      * @return inertia matrix
      */
     virtual Matrix6x6 getInertiaMatrix() const;
 
     /**
-     * Returns inertia tensor for total mass.
+     * @brief Returns inertia tensor for total mass.
      * @return [kg*m^2] inertia tensor
      */
     inline Matrix3x3 getInertiaTensor() const { return _i_t_bas; }
 
     /**
-     * Returns first moment of mass (total).
+     * @brief Returns first moment of mass (total).
      * @return [kg*m] first moment of mass
      */
     Vector3 inline getFirstMomentOfMass() const { return _s_t_bas; }
@@ -150,13 +150,13 @@ protected:
     Matrix3x3 _i_t_bas;         ///< [kg*m^2] inertia tensor (total)
 
     /**
-     * Adds variable mass to the total aircraft mass.
+     * @brief Adds variable mass to the total aircraft mass.
      * @param variableMass variable mass component
      */
     virtual void addVariableMass( const VarMass &varMass );
 
     /**
-     * Returns variable mass by name.
+     * @brief Returns variable mass by name.
      * @param name variable mass name
      * @return channel
      */

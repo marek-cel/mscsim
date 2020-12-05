@@ -78,34 +78,34 @@ public:
         CCW = 1     ///< counter-clockwise (looking from cockpit)
     };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Propeller();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Propeller();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes thrust.
+     * @brief Computes thrust.
      * @param airspeed [m/s] airspeed
      * @param airDensity [kg/m^3] air density
      */
     virtual void computeThrust( double airspeed, double airDensity );
 
     /**
-     * Integrates model.
+     * @brief Integrates model.
      * @param timeStep [s] time step
      * @param engineInertia [kg*m^2] engine polar moment of inertia
      */
     virtual void integrate( double timeStep, double engineInertia );
 
     /**
-     * Updates propeller.
+     * @brief Updates propeller.
      * @param normPitch    <0.0;1.0> normalized propeller lever position
      * @param engineTorque [N]       engine torque
      * @param airspeed     [m/s]     airspeed
@@ -117,7 +117,7 @@ public:
                          double airDensity );
 
     /**
-     * Returns propeller direction.
+     * @brief Returns propeller direction.
      * @return propeller direction
      */
     inline Direction getDirection() const
@@ -126,7 +126,7 @@ public:
     }
 
     /**
-     * Returns engine rpm.
+     * @brief Returns engine rpm.
      * @return [rpm] engine rpm
      */
     inline double getEngineRPM() const
@@ -135,7 +135,7 @@ public:
     }
 
     /**
-     * Returns propeller rpm.
+     * @brief Returns propeller rpm.
      * @return [rpm] propeller rpm
      */
     inline double getRPM() const
@@ -144,7 +144,7 @@ public:
     }
 
     /**
-     * Returns propeller polar moment of inertia.
+     * @brief Returns propeller polar moment of inertia.
      * @return [kg*m^2] propeller polar moment of inertia
      */
     inline double getInertia() const
@@ -153,7 +153,7 @@ public:
     }
 
     /**
-     * Returns propeller angular velocity.
+     * @brief Returns propeller angular velocity.
      * @return [rad/s] propeller angular velocity
      */
     inline double getOmega() const
@@ -162,7 +162,7 @@ public:
     }
 
     /**
-     * Returns propeller position expressed in BAS.
+     * @brief Returns propeller position expressed in BAS.
      * @return [m] propeller position expressed in BAS
      */
     inline const Vector3& getPos_BAS() const
@@ -171,7 +171,7 @@ public:
     }
 
     /**
-     * Returns propeller thrust.
+     * @brief Returns propeller thrust.
      * @return [N] propeller thrust
      */
     inline double getThrust() const
@@ -180,7 +180,7 @@ public:
     }
 
     /**
-     * Returns induced velocity.
+     * @brief Returns induced velocity.
      * @return [m/s] induced velocity
      */
     inline double getInducedVelocity() const
@@ -189,7 +189,7 @@ public:
     }
 
     /**
-     * Returns torque.
+     * @brief Returns torque.
      * @return [N*m] torque
      */
     inline double getTorque() const
@@ -228,14 +228,14 @@ protected:
     double _torqueRequired;     ///< [N*m] required torque
 
     /**
-     * Computes induced velocity.
+     * @brief Computes induced velocity.
      * @param airspeed [m/s] airspeed
      * @param airDensity [kg/m^3] air density
      */
     virtual double getInducedVelocity( double airspeed, double airDensity );
 
     /**
-     * Computes propeller pitch.
+     * @brief Computes propeller pitch.
      * @param propellerLever <0.0;1.0> normalized propeller lever position
      */
     virtual double getPropellerPitch( double propellerLever );

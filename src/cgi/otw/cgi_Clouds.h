@@ -31,15 +31,15 @@
 namespace cgi
 {
 
-/** Clouds. */
+/** @brief Clouds class. */
 class Clouds : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Clouds( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Clouds();
 };
 

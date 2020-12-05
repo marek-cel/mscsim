@@ -36,16 +36,16 @@ class Vector
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Vector();
 
-    /** Updates vector. */
+    /** @brief Updates vector. */
     void update();
 
-    /** Returns module OSG root node.  */
+    /** @brief Returns module OSG root node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 private:

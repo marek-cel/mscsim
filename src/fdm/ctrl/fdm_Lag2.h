@@ -32,7 +32,7 @@ namespace fdm
 {
 
 /**
- * @brief Second-order lag class.
+ * @brief Second-order lag (inertia) class.
  *
  * Transfer function:
  * G(s)  =  1 / ( Tc1*s + 1 )( Tc2*s + 1 )
@@ -41,35 +41,42 @@ class FDMEXPORT Lag2
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Lag2();
 
+    /**
+     * @brief Constructor.
+     * @param tc1
+     * @param tc2
+     * @param y
+     */
     Lag2( double tc1, double tc2, double y = 0.0 );
 
+    /** @brief Destructor. */
     virtual ~Lag2();
 
     inline double getValue() const { return _y; }
 
     /**
-     * Sets output value
+     * @brief Sets output value
      * @param youtput value
      */
     void setValue( double y );
 
     /**
-     * Sets time constant tc1.
+     * @brief Sets time constant tc1.
      * @param tc1 time constant tc1
      */
     void setTimeConst1( double tc1 );
 
     /**
-     * Sets time constant tc2.
+     * @brief Sets time constant tc2.
      * @param tc2 time constant tc2
      */
     void setTimeConst2( double tc2 );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

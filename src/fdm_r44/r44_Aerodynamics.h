@@ -37,7 +37,7 @@
 namespace fdm
 {
 
-class R44_Aircraft;     ///< aircraft class forward declaration
+class R44_Aircraft;     // aircraft class forward declaration
 
 /**
  * @brief R44 aerodynamics class.

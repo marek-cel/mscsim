@@ -49,19 +49,19 @@ public:
     /** */
     static Nodes findNodes( osg::Node *node, const char *name );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FindNode();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FindNode (const char *name, bool findAll = false );
 
     /** */
     virtual void apply( osg::Node &searchNode );
 
-    /** Returns first found node. */
+    /** @brief Returns first found node. */
     osg::ref_ptr<osg::Node> getFirst();
 
-    /** Returns list of found nodes. */
+    /** @brief Returns list of found nodes. */
     Nodes getNodes();
 
 private:

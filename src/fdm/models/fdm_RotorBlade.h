@@ -113,10 +113,10 @@ public:
 
     static Matrix3x3 getSRA2BSA( double beta, bool ccw = false );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     RotorBlade( bool ccw = false );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~RotorBlade();
 
     /**

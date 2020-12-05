@@ -40,7 +40,7 @@ class Singleton
 public:
 
     /**
-     * Returns singleton object instance pointer, creates it if necessary.
+     * @brief Returns singleton object instance pointer, creates it if necessary.
      * @return singleton object instance pointer
      */
     static TYPE* instance()

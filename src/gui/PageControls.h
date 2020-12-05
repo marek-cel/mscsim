@@ -50,10 +50,10 @@ class PageControls : public QWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit PageControls( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~PageControls();
 
     /** */

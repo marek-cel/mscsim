@@ -71,10 +71,10 @@ public:
 
     static const QString _tmp_file;     ///< temporary record file
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit MainWindow( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~MainWindow();
 
     /** */

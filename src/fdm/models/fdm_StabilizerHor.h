@@ -65,22 +65,22 @@ class FDMEXPORT StabilizerHor
 public:
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param type stabilizer type
      */
     StabilizerHor();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~StabilizerHor();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
@@ -111,7 +111,7 @@ protected:
     double _incidence;          ///< [rad] stabilizer incidence angle
 
     /**
-     * Computes stabilizer angle of attack.
+     * @brief Computes stabilizer angle of attack.
      * @see Etkin B.: Dynamics of Atmosferic Flight, 1972, p.210
      * @see Raymer D.: Aircraft Design: A Conceptual Approach, 1992, p.426
      * @see Paturski Z.: Przewodnik po projektach z Mechaniki Lotu, Projekt nr 9: Rownowaga podluzna samolotu i sily na sterownicy wysokosci, p.IX-4. [in Polish]
@@ -123,14 +123,14 @@ protected:
                                      double wingAngleOfAttack );
 
     /**
-     * Computes drag coefficient.
+     * @brief Computes drag coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] drag coefficient
      */
     virtual double getCx( double angle ) const;
 
     /**
-     * Computes lift coefficient.
+     * @brief Computes lift coefficient.
      * @param angle [rad] "angle of attack"
      * @return [-] lift coefficient
      */

@@ -41,14 +41,14 @@ class Manager
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Manager( const DataInp *dataInpPtr, DataOut *dataOutPtr );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
     /**
-     * Performs manager step.
+     * @brief Performs manager step.
      * @param timeStep [s] simulation time step
      */
     void step( double timeStep );
@@ -94,14 +94,14 @@ private:
     bool _verbose;                  ///< specifies if extra information should be printed
 
     /**
-     * Creates flight dynamics model object.
+     * @brief Creates flight dynamics model object.
      * @param aircraftType aircraft type
      * @return aircraft object on success null pointer on failure
      */
     FDM* createFDM( AircraftType aircraftType );
 
     /**
-     * Updates internal state input.
+     * @brief Updates internal state input.
      */
     void updateStateInp();
 

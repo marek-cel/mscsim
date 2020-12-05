@@ -48,7 +48,7 @@ public:
     };
 
     /**
-     * Creates dome.
+     * @brief Creates dome.
      * @param geom
      * @param radius
      * @param texCoords
@@ -61,7 +61,7 @@ public:
                             int lat_segments = 18, int lon_segments = 36 );
 
     /**
-     * Creates round face.
+     * @brief Creates round face.
      * @param geom
      * @param radius
      * @param texCoords
@@ -71,7 +71,7 @@ public:
                             int segments = 32 );
 
     /**
-     * Creates line.
+     * @brief Creates line.
      * @param geom
      * @param b
      * @param e
@@ -81,7 +81,7 @@ public:
                             const osg::Vec3 &color );
 
     /**
-     * Creates flat square plane.
+     * @brief Creates flat square plane.
      * @param geom
      * @param size
      * @param segments
@@ -95,7 +95,7 @@ public:
                              bool texCoords = false, int segmentsPerTexture = 1 );
 
     /**
-     * Creates quad.
+     * @brief Creates quad.
      * @param geom
      * @param v
      * @param texCoords
@@ -106,7 +106,7 @@ public:
                             float alpha = 1.0f );
 
     /**
-     * Creates ring.
+     * @brief Creates ring.
      * @param geom
      * @param radius_inner
      * @param radius_outer

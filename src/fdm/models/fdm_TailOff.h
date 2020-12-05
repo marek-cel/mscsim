@@ -82,20 +82,20 @@ class FDMEXPORT TailOff
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     TailOff();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~TailOff();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      * @param airDensity [kg/m^3] air density
@@ -105,7 +105,7 @@ public:
                                         double airDensity );
 
     /**
-     * Updates wing.
+     * @brief Updates wing.
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
      */
@@ -149,7 +149,7 @@ protected:
     bool _stall;                ///< specifies if wing is stalled
 
     /**
-     * Adds half wing force and moment to the total force and moment.
+     * @brief Adds half wing force and moment to the total force and moment.
      * @param r_ac_bas [m] half wing aerodynamic center expressed in BAS
      * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
      * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
@@ -161,42 +161,42 @@ protected:
                                     double airDensity );
 
     /**
-     * Computes drag coefficient.
+     * @brief Computes drag coefficient.
      * @param angleOfAttack [rad] angle of attack
      * @return [-] drag coefficient
      */
     virtual double getCx( double angleOfAttack ) const;
 
     /**
-     * Computes sideforce coefficient.
+     * @brief Computes sideforce coefficient.
      * @param sideslipAngle [rad] angle of sideslip
      * @return [-] sideforce coefficient
      */
     virtual double getCy( double sideslipAngle ) const;
 
     /**
-     * Computes lift coefficient.
+     * @brief Computes lift coefficient.
      * @param angleOfAttack [rad] angle of attack
      * @return [-] lift coefficient
      */
     virtual double getCz( double angleOfAttack ) const;
 
     /**
-     * Computes rolling moment coefficient.
+     * @brief Computes rolling moment coefficient.
      * @param sideslipAngle [rad] angle of sideslip
      * @return [-] rolling moment coefficient
      */
     virtual double getCl( double sideslipAngle ) const;
 
     /**
-     * Computes pitching moment coefficient.
+     * @brief Computes pitching moment coefficient.
      * @param angleOfAttack [rad] angle of attack
      * @return [-] pitching moment coefficient
      */
     virtual double getCm( double angleOfAttack ) const;
 
     /**
-     * Computes yawing moment coefficient.
+     * @brief Computes yawing moment coefficient.
      * @param sideslipAngle [rad] angle of sideslip
      * @return [-] yawing moment coefficient
      */

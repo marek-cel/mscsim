@@ -81,7 +81,7 @@ public:
     static fptr getConverter( const char *name );
 
     /**
-     * Converts given angle from degrees to radians.
+     * @brief Converts given angle from degrees to radians.
      * @param ang angle expressed in degrees
      * @return angle expressed in radians
      */
@@ -91,7 +91,7 @@ public:
     }
 
     /**
-     * Converts given angle from radians to degrees.
+     * @brief Converts given angle from radians to degrees.
      * @param ang angle expressed in radians
      * @return angle expressed in degrees
      */
@@ -101,7 +101,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to feet.
+     * @brief Converts given length from metres to feet.
      * @param len length expressed in metres
      * @return length expressed in feet
      */
@@ -111,7 +111,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to miles.
+     * @brief Converts given length from metres to miles.
      * @param len length expressed in metres
      * @return length expressed in miles
      */
@@ -121,7 +121,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to nautical miles.
+     * @brief Converts given length from metres to nautical miles.
      * @param len length expressed in metres
      * @return length expressed in nautical miles
      */
@@ -131,7 +131,7 @@ public:
     }
 
     /**
-     * Converts given length from metres to kilometres.
+     * @brief Converts given length from metres to kilometres.
      * @param len length expressed in metres
      * @return length expressed in kilometres
      */
@@ -141,7 +141,7 @@ public:
     }
 
     /**
-     * Converts given length from feet to metres.
+     * @brief Converts given length from feet to metres.
      * @param len length expressed in feet
      * @return length expressed in metres
      */
@@ -151,7 +151,7 @@ public:
     }
 
     /**
-     * Converts given length from feet to kilometres.
+     * @brief Converts given length from feet to kilometres.
      * @param len length expressed in feet
      * @return length expressed in kilometres
      */
@@ -161,7 +161,7 @@ public:
     }
 
     /**
-     * Converts given length from feet to miles.
+     * @brief Converts given length from feet to miles.
      * @param len length expressed in feet
      * @return length expressed in miles
      */
@@ -171,7 +171,7 @@ public:
     }
 
     /**
-     * Converts given length from feet to nautical miles.
+     * @brief Converts given length from feet to nautical miles.
      * @param len length expressed in feet
      * @return length expressed in nautical miles
      */
@@ -181,7 +181,7 @@ public:
     }
 
     /**
-     * Converts given length from kilometres to metres.
+     * @brief Converts given length from kilometres to metres.
      * @param len length expressed in kilometres
      * @return length expressed in metres
      */
@@ -191,7 +191,7 @@ public:
     }
 
     /**
-     * Converts given length from kilometres to feet.
+     * @brief Converts given length from kilometres to feet.
      * @param len length expressed in kilometres
      * @return length expressed in feet
      */
@@ -201,7 +201,7 @@ public:
     }
 
     /**
-     * Converts given length from kilometres to miles.
+     * @brief Converts given length from kilometres to miles.
      * @param len length expressed in kilometres
      * @return length expressed in miles
      */
@@ -211,7 +211,7 @@ public:
     }
 
     /**
-     * Converts given length from kilometres to nautical miles.
+     * @brief Converts given length from kilometres to nautical miles.
      * @param len length expressed in kilometres
      * @return length expressed in nautical miles
      */
@@ -221,7 +221,7 @@ public:
     }
 
     /**
-     * Converts given length from miles to metres.
+     * @brief Converts given length from miles to metres.
      * @param len length expressed in nautical miles
      * @return length expressed in metres
      */
@@ -231,7 +231,7 @@ public:
     }
 
     /**
-     * Converts given length from miles to feet.
+     * @brief Converts given length from miles to feet.
      * @param len length expressed in nautical miles
      * @return length expressed in feet
      */
@@ -241,7 +241,7 @@ public:
     }
 
     /**
-     * Converts given length from miles to kilometres.
+     * @brief Converts given length from miles to kilometres.
      * @param len length expressed in nautical miles
      * @return length expressed in kilometres
      */
@@ -251,7 +251,7 @@ public:
     }
 
     /**
-     * Converts given length from miles to nautical miles.
+     * @brief Converts given length from miles to nautical miles.
      * @param len length expressed in miles
      * @return length expressed in nautical miles
      */
@@ -261,7 +261,7 @@ public:
     }
 
     /**
-     * Converts given length from nautical miles to metres.
+     * @brief Converts given length from nautical miles to metres.
      * @param len length expressed in nautical miles
      * @return length expressed in metres
      */
@@ -271,7 +271,7 @@ public:
     }
 
     /**
-     * Converts given length from nautical miles to feet.
+     * @brief Converts given length from nautical miles to feet.
      * @param len length expressed in nautical miles
      * @return length expressed in feet
      */
@@ -281,7 +281,7 @@ public:
     }
 
     /**
-     * Converts given length from nautical miles to kilometres.
+     * @brief Converts given length from nautical miles to kilometres.
      * @param len length expressed in nautical miles
      * @return length expressed in kilometres
      */
@@ -291,7 +291,7 @@ public:
     }
 
     /**
-     * Converts given length from nautical miles to miles.
+     * @brief Converts given length from nautical miles to miles.
      * @param len length expressed in nautical miles
      * @return length expressed in miles
      */
@@ -301,7 +301,7 @@ public:
     }
 
     /**
-     * Converts given volume from cubic inches to cubic metres.
+     * @brief Converts given volume from cubic inches to cubic metres.
      * @param vol volume expressed in cubic inches
      * @return volume expressed in cubic metres
      */
@@ -311,7 +311,7 @@ public:
     }
 
     /**
-     * Converts given volume from litres to cubic metres.
+     * @brief Converts given volume from litres to cubic metres.
      * @param vol volume expressed in litress
      * @return volume expressed in cubic metres
      */
@@ -321,7 +321,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to ft/min.
+     * @brief Converts given velocity from m/s to ft/min.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/min
      */
@@ -331,7 +331,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to ft/s.
+     * @brief Converts given velocity from m/s to ft/s.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/s
      */
@@ -341,7 +341,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to km/h.
+     * @brief Converts given velocity from m/s to km/h.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in km/h
      */
@@ -351,7 +351,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to knots.
+     * @brief Converts given velocity from m/s to knots.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in knots
      */
@@ -361,7 +361,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to miles per hour.
+     * @brief Converts given velocity from m/s to miles per hour.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in miles per hour
      */
@@ -371,7 +371,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/min to ft/s.
+     * @brief Converts given velocity from ft/min to ft/s.
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in ft/s
      */
@@ -381,7 +381,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/min to km/h.
+     * @brief Converts given velocity from ft/min to km/h.
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in km/h
      */
@@ -391,7 +391,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/min to knots.
+     * @brief Converts given velocity from ft/min to knots.
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in knots
      */
@@ -401,7 +401,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/min to miles per hour.
+     * @brief Converts given velocity from ft/min to miles per hour.
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in miles per hour
      */
@@ -411,7 +411,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/min to m/s.
+     * @brief Converts given velocity from ft/min to m/s.
      * @param vel velocity expressed in ft/min
      * @return velocity expressed in m/s
      */
@@ -421,7 +421,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/s to ft/min.
+     * @brief Converts given velocity from ft/s to ft/min.
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in ft/min
      */
@@ -431,7 +431,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/s to km/h.
+     * @brief Converts given velocity from ft/s to km/h.
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in km/h
      */
@@ -441,7 +441,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/s to knots.
+     * @brief Converts given velocity from ft/s to knots.
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in knots
      */
@@ -451,7 +451,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/s to miles per hour.
+     * @brief Converts given velocity from ft/s to miles per hour.
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in miles per hour
      */
@@ -461,7 +461,7 @@ public:
     }
 
     /**
-     * Converts given velocity from ft/s to m/s.
+     * @brief Converts given velocity from ft/s to m/s.
      * @param vel velocity expressed in ft/s
      * @return velocity expressed in m/s
      */
@@ -471,7 +471,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to ft/min.
+     * @brief Converts given velocity from km/h to ft/min.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in ft/min
      */
@@ -481,7 +481,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to ft/s.
+     * @brief Converts given velocity from km/h to ft/s.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in ft/s
      */
@@ -491,7 +491,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to knots.
+     * @brief Converts given velocity from km/h to knots.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in knots
      */
@@ -501,7 +501,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to miles per hour.
+     * @brief Converts given velocity from km/h to miles per hour.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in miles per hour
      */
@@ -511,7 +511,7 @@ public:
     }
 
     /**
-     * Converts given velocity from km/h to m/s.
+     * @brief Converts given velocity from km/h to m/s.
      * @param vel velocity expressed in km/h
      * @return velocity expressed in m/s
      */
@@ -521,7 +521,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to ft/min.
+     * @brief Converts given velocity from kntos to ft/min.
      * @param vel velocity expressed in knots
      * @return velocity expressed in ft/min
      */
@@ -531,7 +531,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to ft/s.
+     * @brief Converts given velocity from kntos to ft/s.
      * @param vel velocity expressed in knots
      * @return velocity expressed in ft/s
      */
@@ -541,7 +541,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to km/h.
+     * @brief Converts given velocity from kntos to km/h.
      * @param vel velocity expressed in knots
      * @return velocity expressed in km/h
      */
@@ -551,7 +551,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to miles per hour.
+     * @brief Converts given velocity from kntos to miles per hour.
      * @param vel velocity expressed in knots
      * @return velocity expressed in miles per hour
      */
@@ -561,7 +561,7 @@ public:
     }
 
     /**
-     * Converts given velocity from kntos to m/s.
+     * @brief Converts given velocity from kntos to m/s.
      * @param vel velocity expressed in knots
      * @return velocity expressed in m/s
      */
@@ -571,7 +571,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to ft/min.
+     * @brief Converts given velocity from m/s to ft/min.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/min
      */
@@ -581,7 +581,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to ft/s.
+     * @brief Converts given velocity from m/s to ft/s.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in ft/s
      */
@@ -591,7 +591,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to km/h.
+     * @brief Converts given velocity from m/s to km/h.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in km/h
      */
@@ -601,7 +601,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to knots.
+     * @brief Converts given velocity from m/s to knots.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in knots
      */
@@ -611,7 +611,7 @@ public:
     }
 
     /**
-     * Converts given velocity from m/s to miles per hour.
+     * @brief Converts given velocity from m/s to miles per hour.
      * @param vel velocity expressed in m/s
      * @return velocity expressed in miles per hour
      */
@@ -621,7 +621,7 @@ public:
     }
 
     /**
-     * Converts given angular velocity from revolutions per minute to radians per second.
+     * @brief Converts given angular velocity from revolutions per minute to radians per second.
      * @param ang_vel angular velocity expressed in revolutions per minute
      * @return velocity expressed in radians per second
      */
@@ -631,7 +631,7 @@ public:
     }
 
     /**
-     * Converts given angular velocity from radians per second to revolutions per minute.
+     * @brief Converts given angular velocity from radians per second to revolutions per minute.
      * @param ang_vel angular velocity expressed in radians per second
      * @return velocity expressed in revolutions per minute
      */
@@ -641,7 +641,7 @@ public:
     }
 
     /**
-     * Converts given mass from kilograms to pounds.
+     * @brief Converts given mass from kilograms to pounds.
      * @param mass mass expressed in kilograms
      * @return mass expressed in pounds
      */
@@ -651,7 +651,7 @@ public:
     }
 
     /**
-     * Converts given mass from pounds to kilograms.
+     * @brief Converts given mass from pounds to kilograms.
      * @param mass mass expressed in pounds
      * @return mass expressed in kilograms
      */
@@ -661,7 +661,7 @@ public:
     }
 
     /**
-     * Converts given force from newtons to pounds.
+     * @brief Converts given force from newtons to pounds.
      * @param force force expressed in newtons
      * @return force expressed in pounds
      */
@@ -671,7 +671,7 @@ public:
     }
 
     /**
-     * Converts given force from pounds to newtons.
+     * @brief Converts given force from pounds to newtons.
      * @param force force expressed in pounds
      * @return force expressed in newtons
      */
@@ -681,7 +681,7 @@ public:
     }
 
     /**
-     * Converts given pressure from pascals to psi.
+     * @brief Converts given pressure from pascals to psi.
      * @param press pressure expressed in pascals
      * @return pressure expressed in psi
      */
@@ -691,7 +691,7 @@ public:
     }
 
     /**
-     * Converts given pressure from pascals to inches Hg.
+     * @brief Converts given pressure from pascals to inches Hg.
      * @param press pressure expressed in pascals
      * @return pressure expressed in inches Hg
      */
@@ -701,7 +701,7 @@ public:
     }
 
     /**
-     * Converts given pressure from pascals to millibars.
+     * @brief Converts given pressure from pascals to millibars.
      * @param press pressure expressed in pascals
      * @return pressure expressed in millibars
      */
@@ -711,7 +711,7 @@ public:
     }
 
     /**
-     * Converts given pressure from psi to pascals.
+     * @brief Converts given pressure from psi to pascals.
      * @param press pressure expressed in psi
      * @return pressure expressed in pascals
      */
@@ -721,7 +721,7 @@ public:
     }
 
     /**
-     * Converts given pressure from psi to inches Hg.
+     * @brief Converts given pressure from psi to inches Hg.
      * @param press pressure expressed in psi
      * @return pressure expressed in inches Hg
      */
@@ -731,7 +731,7 @@ public:
     }
 
     /**
-     * Converts given pressure from psi to millibars.
+     * @brief Converts given pressure from psi to millibars.
      * @param press pressure expressed in psi
      * @return pressure expressed in millibars
      */
@@ -741,7 +741,7 @@ public:
     }
 
     /**
-     * Converts given pressure from inches Hg to pascals.
+     * @brief Converts given pressure from inches Hg to pascals.
      * @param press pressure expressed in inches Hg
      * @return pressure expressed in pascals
      */
@@ -751,7 +751,7 @@ public:
     }
 
     /**
-     * Converts given pressure from inches Hg to psi.
+     * @brief Converts given pressure from inches Hg to psi.
      * @param press pressure expressed in inches Hg
      * @return pressure expressed in psi
      */
@@ -761,7 +761,7 @@ public:
     }
 
     /**
-     * Converts given pressure from inches Hg to millibars.
+     * @brief Converts given pressure from inches Hg to millibars.
      * @param press pressure expressed in inches Hg
      * @return pressure expressed in millibars
      */
@@ -771,7 +771,7 @@ public:
     }
 
     /**
-     * Converts given pressure from millibars to pascals.
+     * @brief Converts given pressure from millibars to pascals.
      * @param press pressure expressed in millibars
      * @return pressure expressed in pascals
      */
@@ -781,7 +781,7 @@ public:
     }
 
     /**
-     * Converts given pressure from millibars to psi.
+     * @brief Converts given pressure from millibars to psi.
      * @param press pressure expressed in millibars
      * @return pressure expressed in psi
      */
@@ -791,7 +791,7 @@ public:
     }
 
     /**
-     * Converts given pressure from millibars to inches Hg.
+     * @brief Converts given pressure from millibars to inches Hg.
      * @param press pressure expressed in millibars
      * @return pressure expressed in inches Hg
      */
@@ -801,7 +801,7 @@ public:
     }
 
     /**
-     * Converts given power from (metric) horsepower to (mechanical) horsepower.
+     * @brief Converts given power from (metric) horsepower to (mechanical) horsepower.
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in (mechanical) horsepower
      */
@@ -811,7 +811,7 @@ public:
     }
 
     /**
-     * Converts given power from (metric) horsepower to watts.
+     * @brief Converts given power from (metric) horsepower to watts.
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in watts
      */
@@ -821,7 +821,7 @@ public:
     }
 
     /**
-     * Converts given power from (metric) horsepower to kilowatts.
+     * @brief Converts given power from (metric) horsepower to kilowatts.
      * @param pwr power expressed in (metric) horsepower
      * @return power expressed in kilowatts
      */
@@ -831,7 +831,7 @@ public:
     }
 
     /**
-     * Converts given power from (mechanical) horsepower to (metric) horsepower.
+     * @brief Converts given power from (mechanical) horsepower to (metric) horsepower.
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in (metric) horsepower
      */
@@ -841,7 +841,7 @@ public:
     }
 
     /**
-     * Converts given power from (mechanical) horsepower to watts.
+     * @brief Converts given power from (mechanical) horsepower to watts.
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in watts
      */
@@ -851,7 +851,7 @@ public:
     }
 
     /**
-     * Converts given power from (mechanical) horsepower to kilowatts.
+     * @brief Converts given power from (mechanical) horsepower to kilowatts.
      * @param pwr power expressed in (mechanical) horsepower
      * @return power expressed in kilowatts
      */
@@ -861,7 +861,7 @@ public:
     }
 
     /**
-     * Converts given power from watts to (metric) horsepower.
+     * @brief Converts given power from watts to (metric) horsepower.
      * @param pwr power expressed in watts
      * @return power expressed in (metric) horsepower
      */
@@ -871,7 +871,7 @@ public:
     }
 
     /**
-     * Converts given power from watts to (mechanical) horsepower.
+     * @brief Converts given power from watts to (mechanical) horsepower.
      * @param pwr power expressed in watts
      * @return power expressed in (mechanical) horsepower
      */
@@ -881,7 +881,7 @@ public:
     }
 
     /**
-     * Converts given power from watts to kilowatts.
+     * @brief Converts given power from watts to kilowatts.
      * @param pwr power expressed in watts
      * @return power expressed in kilowatts
      */
@@ -891,7 +891,7 @@ public:
     }
 
     /**
-     * Converts given power from kilowatts to (metric) horsepower.
+     * @brief Converts given power from kilowatts to (metric) horsepower.
      * @param pwr power expressed in kilowatts
      * @return power expressed in (metric) horsepower
      */
@@ -901,7 +901,7 @@ public:
     }
 
     /**
-     * Converts given power from kilowatts to (mechanical) horsepower.
+     * @brief Converts given power from kilowatts to (mechanical) horsepower.
      * @param pwr power expressed in kilowatts
      * @return power expressed in (mechanical) horsepower
      */
@@ -911,7 +911,7 @@ public:
     }
 
     /**
-     * Converts given power from kilowatts to watts.
+     * @brief Converts given power from kilowatts to watts.
      * @param pwr power expressed in kilowatts
      * @return power expressed in watts
      */
@@ -921,7 +921,7 @@ public:
     }
 
     /**
-     * Converts given temperature from degrees Celsius to Fahrenheit.
+     * @brief Converts given temperature from degrees Celsius to Fahrenheit.
      * @param temp temperature expressed in degrees Celsius
      * @return temperature expressed in degrees Fehrenheit
      */
@@ -931,7 +931,7 @@ public:
     }
 
     /**
-     * Converts given temperature from degrees Celsius to Kelvins.
+     * @brief Converts given temperature from degrees Celsius to Kelvins.
      * @param temp temperature expressed in degrees Celsius
      * @return temperature expressed in Kelvins
      */
@@ -941,7 +941,7 @@ public:
     }
 
     /**
-     * Converts given temperature from degrees Fahrenheit to Celsius.
+     * @brief Converts given temperature from degrees Fahrenheit to Celsius.
      * @param temp temperature expressed in degrees Fahrenheit
      * @return temperature expressed in degrees Celsius
      */
@@ -951,7 +951,7 @@ public:
     }
 
     /**
-     * Converts given temperature from degrees Fahrenheit to Kelvins.
+     * @brief Converts given temperature from degrees Fahrenheit to Kelvins.
      * @param temp temperature expressed in degrees Fahrenheit
      * @return temperature expressed in Kelvins
      */
@@ -961,7 +961,7 @@ public:
     }
 
     /**
-     * Converts given temperature from Kelvins to degrees Celsius.
+     * @brief Converts given temperature from Kelvins to degrees Celsius.
      * @param temp temperature expressed in Kelvins
      * @return temperature expressed in degrees Celsius
      */
@@ -971,7 +971,7 @@ public:
     }
 
     /**
-     * Converts given temperature from Kelvins to degrees Fahrenheit.
+     * @brief Converts given temperature from Kelvins to degrees Fahrenheit.
      * @param temp temperature expressed in Kelvins
      * @return temperature expressed in degrees Fahrenheit
      */
@@ -981,7 +981,7 @@ public:
     }
 
     /**
-     * Converts given specific fuel consumption from g/kWh to kg/Ws.
+     * @brief Converts given specific fuel consumption from g/kWh to kg/Ws.
      * @param sfc specific fuel consumption expressed in g/kWh
      * @return specific fuel consumption expressed in kg/Ws
      */
@@ -991,7 +991,7 @@ public:
     }
 
     /**
-     * Converts given specific fuel consumption from g/kNs to kg/Ns.
+     * @brief Converts given specific fuel consumption from g/kNs to kg/Ns.
      * @param sfc specific fuel consumption expressed in g/kNs
      * @return specific fuel consumption expressed in kg/Ns
      */

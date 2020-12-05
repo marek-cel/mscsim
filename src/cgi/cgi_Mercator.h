@@ -42,8 +42,8 @@ public:
     /**
      * @brief Computes geodetic latitude.
      * @param y [m] Mercator y-coordinate
-     * @param max_error
-     * @param max_iterations
+     * @param max_error maximum error (solve condition)
+     * @param max_iterations maximum number of iterations
      * @return geodetic latitude [rad]
      */
     static double lat( double y, double max_error = 1.0e-9,
@@ -86,9 +86,9 @@ public:
 
     /**
      * @brief Computes geodetic latitude from the isometric latitude.
-     * @param t
-     * @param max_error
-     * @param max_iterations
+     * @param t isometric latitude
+     * @param max_error maximum error (solve condition)
+     * @param max_iterations maximum number of iterations
      * @return geodetic latitude [rad]
      */
     static double t_inv( double t, double max_error = 1.0e-9,

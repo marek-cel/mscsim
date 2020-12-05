@@ -47,21 +47,21 @@ public:
      */
     static Table1 createOneRecordTable( double val = 0.0 );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Table1();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Table1( const std::vector< double > &keyValues,
             const std::vector< double > &tableData );
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Table1( const Table1 &table );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Table1();
 
     /**
-     * Returns key value for the given key index.
+     * @brief Returns key value for the given key index.
      * @param keyIndex key index
      * @return key value on success or NaN on failure
      */
@@ -71,74 +71,75 @@ public:
     inline unsigned int getSize() const { return _size; }
 
     /**
-     * Returns key of minimum table value.
+     * @brief Returns key of minimum table value.
      * @return key of minimum table value
      */
     double getKeyOfValueMin() const;
 
     /**
-     * Returns key of maximum table value.
+     * @brief Returns key of maximum table value.
      * @return key of maximum table value
      */
     double getKeyOfValueMax() const;
 
     /**
-     * Returns table value for the given key value using linear
-     * interpolation algorithm.
+     * @brief Returns table value for the given key.
+     * Returns table value for the given key value using linear interpolation
+     * algorithm.
      * @param keysValue key value
      * @return interpolated value on success or NaN on failure
      */
     double getValue( double keyValue ) const;
 
     /**
-     * Returns table value for the given key index.
+     * @brief Returns table value for the given key index.
      * @param keyIndex key index
      * @return value on success or NaN on failure
      */
     double getValueByIndex( unsigned int keyIndex ) const;
 
     /**
-     * Returns table first value.
+     * @brief Returns table first value.
      * @return value on success or NaN on failure
      */
     double getFirstValue() const;
 
     /**
-     * Returns table last value.
+     * @brief Returns table last value.
      * @return value on success or NaN on failure
      */
     double getLastValue() const;
 
     /**
-     * Returns minimum table value.
+     * @brief Returns minimum table value.
      * @return minimum table value
      */
     double getValueMin() const;
 
     /**
-     * Returns maximum table value.
+     * @brief Returns maximum table value.
      * @return maximum table value
      */
     double getValueMax() const;
 
     /**
-     * Checks if table is valid.
+     * @brief Checks if table is valid.
      * @return returns true if size is greater than 0 and all data is valid
      */
     bool isValid() const;
 
     /**
-     * Returns string representation of the table.
+     * @brief Returns string representation of the table.
      */
     std::string toString();
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Table1& operator= ( const Table1 &table );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Table1 operator+ ( const Table1 &table ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Table1 operator* ( double val ) const;
 
 private:
@@ -158,7 +159,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Table1 operator* ( double val, const fdm::Table1 &table )
 {
     return ( table * val );

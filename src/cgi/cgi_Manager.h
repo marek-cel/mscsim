@@ -57,18 +57,18 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
     inline void resetTraces() { _map->resetTraces(); }
 
-    /** Updates HUD. */
+    /** @brief Updates HUD. */
     void updateHUD();
 
-    /** Updates map. */
+    /** @brief Updates map. */
     void updateMap();
 
-    /** Updates OTW. */
+    /** @brief Updates OTW. */
     void updateOTW();
 
     /** */
@@ -89,19 +89,19 @@ public:
         return _camera->getAttitude();
     }
 
-    /** Returns HUD root node. */
+    /** @brief Returns HUD root node. */
     inline osg::Node* getNodeHUD()
     {
         return _hud->getNode();
     }
 
-    /** Returns map root node. */
+    /** @brief Returns map root node. */
     inline osg::Node* getNodeMap()
     {
         return _map->getNode();
     }
 
-    /** Returns OTW root node. */
+    /** @brief Returns OTW root node. */
     inline osg::Node* getNodeOTW()
     {
         return _otw->getNode();
@@ -125,7 +125,7 @@ public:
     /** */
     void setDistanceMin( double distance_min );
 
-    /** Sets map scale factor. */
+    /** @brief Sets map scale factor. */
     void setMapScale( double scale );
 
     inline void setVisibilityCrops     ( bool visible ) { _map->setVisibilityCrops     ( visible ); }

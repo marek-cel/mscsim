@@ -42,43 +42,43 @@ class FDMEXPORT Base
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Base( Input *input = FDM_NULLPTR );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Base( const Base *base );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Base();
 
     /**
-     * Adds data refernce.
+     * @brief Adds data refernce.
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
     int addDataRef( const char *path, DataNode::Type type );
 
     /**
-     * Adds data refernce.
+     * @brief Adds data refernce.
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure
      */
     int addDataRef( const std::string &path, DataNode::Type type );
 
     /**
-     * Returns data reference of the data node
+     * @brief Returns data reference of the data node
      * @param path data node path relative to the root node
      * @return data reference of the data node
      */
     DataRef getDataRef( const char *path );
 
     /**
-     * Returns data reference of the data node
+     * @brief Returns data reference of the data node
      * @param path data node path relative to the root node
      * @return data reference of the data node
      */
     DataRef getDataRef( const std::string &path );
 
     /**
-     * Returns pointer to input data root node.
+     * @brief Returns pointer to input data root node.
      * @return pointer to input data root node
      */
     Input* getInput() { return _input; }

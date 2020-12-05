@@ -35,7 +35,7 @@
 namespace fdm
 {
 
-class C130_Aircraft;    ///< aircraft class forward declaration
+class C130_Aircraft;    // aircraft class forward declaration
 
 /**
  * @brief C-130 aerodynamics class.

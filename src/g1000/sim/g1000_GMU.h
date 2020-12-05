@@ -31,7 +31,7 @@
 namespace g1000
 {
 
-class IFD; ///< IFD class forward declaration
+class IFD; // IFD class forward declaration
 
 /**
  * @brief Garmin GMU 44 Magnetometer Unit class.

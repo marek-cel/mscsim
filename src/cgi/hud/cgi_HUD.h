@@ -47,16 +47,16 @@ public:
     static const float _angleCoef;      ///<
     static const float _rollLimit;      ///<
 
-    /** Constructor. */
+    /** @brief Constructor. */
     HUD();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~HUD();
 
-    /** Updates HUD. */
+    /** @brief Updates HUD. */
     void update();
 
-    /** Returns OSG node.  */
+    /** @brief Returns OSG node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 private:

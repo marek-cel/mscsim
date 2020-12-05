@@ -40,7 +40,7 @@ class ManipulatorWorld : public osgGA::TerrainManipulator
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     ManipulatorWorld();
 
 protected:

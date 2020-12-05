@@ -41,10 +41,10 @@ class Layers : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Layers( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Layers();
 
     void setVisibilityCrops     ( bool visible );

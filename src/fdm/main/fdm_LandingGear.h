@@ -53,25 +53,25 @@ public:
 
     typedef Map< std::string, WheelAndInput > Wheels;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     LandingGear( const Aircraft *aircraft, Input *input );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~LandingGear();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /** Initializes landing gear. */
+    /** @brief Initializes landing gear. */
     virtual void initialize();
 
-    /** Computes force and moment. */
+    /** @brief Computes force and moment. */
     virtual void computeForceAndMoment() = 0;
 
-    /** Updates landing gear. */
+    /** @brief Updates landing gear. */
     virtual void update();
 
     inline const Vector3& getFor_BAS() const { return _for_bas; }
@@ -102,12 +102,12 @@ protected:
     DataRef _inputNWS;          ///< NWS input data reference
 
     /**
-     * Returns landing gear strut and ground plane intersection point expressed in BAS.
+     * @brief Returns landing gear strut and ground plane intersection point expressed in BAS.
      * @return [m] landing gear strut and ground plane intersection point expressed in BAS
      */
 
     /**
-     * Returns landing gear strut and ground plane intersection point expressed in BAS.
+     * @brief Returns landing gear strut and ground plane intersection point expressed in BAS.
      * @param r_a_bas [m] landing gear strut attachment point expressed in BAS
      * @param r_u_bas [m] landing gear strut unloaded wheel expressed in BAS
      * @param r_c_bas [m] intersection coordinates expressed in BAS

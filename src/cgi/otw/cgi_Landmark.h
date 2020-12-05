@@ -40,15 +40,15 @@ class Landmark : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Landmark( const char *file, double lat, double lon, double alt,
               double hdg, bool reflection,
               const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Landmark();
 
-    /** Updates airport. */
+    /** @brief Updates landmark. */
     void update();
 
 private:

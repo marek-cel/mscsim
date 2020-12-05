@@ -37,10 +37,10 @@ class SpinBoxHighlight : public QDoubleSpinBox
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit SpinBoxHighlight( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~SpinBoxHighlight();
 
     inline bool isHighlighted() const { return _highlighted; }

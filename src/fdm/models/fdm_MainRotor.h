@@ -110,20 +110,20 @@ class FDMEXPORT MainRotor
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     MainRotor();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~MainRotor();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_bas     [m/s]     aircraft linear velocity vector expressed in BAS
      * @param omg_bas     [rad/s]   aircraft angular velocity expressed in BAS
      * @param acc_bas     [m/s^2]   aircraft linear acceleration vector expressed in BAS
@@ -160,7 +160,7 @@ public:
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
     /**
-     * Returns rotor total inartia about shaft axis.
+     * @brief Returns rotor total inartia about shaft axis.
      * @return [kg*m^2] rotor total inartia about shaft axis
      */
     inline double getInertia() const { return _nb * _ib; }

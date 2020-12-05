@@ -89,26 +89,26 @@ public:
     static double getDensityAltitude( double pressure, double temperature,
                                       double altitude );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Atmosphere();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Atmosphere();
 
     /**
-     * Updates atmosphere due to altitude.
+     * @brief Updates atmosphere due to altitude.
      * @param altitude [m] altitude above sea level
      */
     virtual void update( double altitude );
 
     /**
-     * Sets sea level air pressure value.
+     * @brief Sets sea level air pressure value.
      * @param pressure_0 [Pa] sea level air pressure
      */
     virtual void setPressureSL( double pressure_0 );
 
     /**
-     * Sets sea level air temperature value.
+     * @brief Sets sea level air temperature value.
      * @param temperature_0 [K] sea level air temperature
      */
     virtual void setTemperatureSL( double temperature_0 );

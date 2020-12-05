@@ -41,28 +41,28 @@ class FDMEXPORT Oscillation
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Oscillation();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Oscillation();
 
     /**
-     * Adds single data point and updates parameters.
+     * @brief Adds single data point and updates parameters.
      * @param x argument
      * @param y value
      */
     void add( double x, double y );
 
     /**
-     * Adds multiple data points and updates parameters.
+     * @brief Adds multiple data points and updates parameters.
      * @param x arguments array
      * @param y values array
      * @param n arrays size
      */
     void add( double *x, double *y, unsigned int n );
 
-    /** Updates parameters. */
+    /** @brief Updates parameters. */
     void update();
 
     inline double getY_max() const { return _y_max; }

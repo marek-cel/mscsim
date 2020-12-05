@@ -206,9 +206,9 @@ public:
 
     /**
      * @brief Throws FileReadingError error
-     * @param file
-     * @param line
-     * @param node
+     * @param file file
+     * @param line line
+     * @param node node
      */
     static void throwError( const char *file, int line, const XmlNode &node );
 };

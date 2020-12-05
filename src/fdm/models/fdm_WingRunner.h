@@ -50,20 +50,20 @@ class FDMEXPORT WingRunner
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WingRunner();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WingRunner();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_bas [m/s] aircraft linear velocity expressed in BAS
      * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
      * @param r_c_bas [m] contact point coordinates expressed in BAS
@@ -75,7 +75,7 @@ public:
                                         const Vector3 &n_c_bas );
 
     /**
-     * Update wing runner model.
+     * @brief Update wing runner model.
      * @param timeStep [s] time step
      */
     virtual void update( double timeStep, const Vector3 &vel_bas, bool onGround );

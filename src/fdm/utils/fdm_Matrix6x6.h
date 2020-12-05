@@ -39,52 +39,52 @@ class FDMEXPORT Matrix6x6 : public Matrix< 6,6 >
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix6x6();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Matrix6x6( const Matrix6x6 &mtrx );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix6x6( const double items[] );
 
-    /** Transposes matrix. */
+    /** @brief Transposes matrix. */
     void transpose();
 
-    /** Returns transposed matrix. */
+    /** @brief Returns transposed matrix. */
     Matrix6x6 getTransposed() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Matrix6x6& operator= ( const Matrix6x6 &mtrx );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Matrix6x6 operator+ ( const Matrix6x6 &mtrx ) const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Matrix6x6 operator- ( const Matrix6x6 &mtrx ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Matrix6x6 operator* ( double value ) const;
 
-    /** Multiplication operator (by matrix). */
+    /** @brief Multiplication operator (by matrix). */
     Matrix6x6 operator* ( const Matrix6x6 &mtrx ) const;
 
-    /** Multiplication operator (by vector). */
+    /** @brief Multiplication operator (by vector). */
     Vector6 operator* ( const Vector6 &vect ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Matrix6x6 operator/ ( double value ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Matrix6x6& operator+= ( const Matrix6x6 &mtrx );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Matrix6x6& operator-= ( const Matrix6x6 &mtrx );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Matrix6x6& operator*= ( double value );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Matrix6x6& operator/= ( double value );
 };
 
@@ -92,7 +92,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Binary multiplication by scalar operator. */
+/** @brief Binary multiplication by scalar operator. */
 inline fdm::Matrix6x6 operator* ( double value, const fdm::Matrix6x6 &mtrx )
 {
     return ( mtrx * value );

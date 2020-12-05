@@ -44,14 +44,14 @@ public:
 
     typedef std::vector< osg::ref_ptr<osg::Switch> > Switches;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Airport( const char *file, double lat, double lon, double alt,
              const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Airport();
 
-    /** Updates airport. */
+    /** @brief Updates airport. */
     void update();
 
 private:

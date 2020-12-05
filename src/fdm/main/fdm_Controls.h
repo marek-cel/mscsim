@@ -68,22 +68,22 @@ public:
 
     typedef Map< std::string, Channel > Channels;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Controls( const Aircraft *aircraft, Input *input );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Controls();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /** Initializes controls. */
+    /** @brief Initializes controls. */
     virtual void initialize();
 
-    /** Updates controls. */
+    /** @brief Updates controls. */
     virtual void update();
 
 protected:

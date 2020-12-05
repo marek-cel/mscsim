@@ -37,7 +37,7 @@
 namespace fdm
 {
 
-class XH_Aircraft;      ///< aircraft class forward declaration
+class XH_Aircraft;      // aircraft class forward declaration
 
 /**
  * @brief X/H aerodynamics class.

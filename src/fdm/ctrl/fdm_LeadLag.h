@@ -44,11 +44,11 @@ class FDMEXPORT LeadLag
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     LeadLag();
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param c1 coefficient of the transfer function
      * @param c2 coefficient of the transfer function
      * @param c3 coefficient of the transfer function
@@ -72,7 +72,7 @@ public:
     void setC4( double c4 );
 
     /**
-     * Updates element due to time step and input value
+     * @brief Updates element due to time step and input value
      * @param u input value
      * @param dt [s] time step
      */

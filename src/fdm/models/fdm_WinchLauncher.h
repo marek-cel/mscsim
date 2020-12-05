@@ -54,20 +54,20 @@ class FDMEXPORT WinchLauncher
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WinchLauncher();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WinchLauncher();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param wgs2bas matrix of rotation from WGS to BAS
      * @param pos_wgs [m] aircraft position expressed in WGS
      */
@@ -75,7 +75,7 @@ public:
                                         const Vector3 &pos_wgs );
 
     /**
-     * Update winch model.
+     * @brief Update winch model.
      * @param timeStep [s] time step
      * @param bas2wgs matrix of rotation from BAS to WGS
      * @param wgs2ned matrix of rotation from WGS to NED

@@ -33,7 +33,7 @@
 namespace fdm
 {
 
-class Aircraft; ///< aircraft class forward declaration
+class Aircraft; // aircraft class forward declaration
 
 /**
  * @brief Module base class.
@@ -42,25 +42,25 @@ class FDMEXPORT Module : public Base
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Module( const Aircraft *aircraft, Input *input ) :
         Base ( input ),
         _aircraft ( aircraft )
     {}
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Module() {}
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode ) = 0;
 
-    /** Initializes module. */
+    /** @brief Initializes module. */
     virtual void initialize() = 0;
 
-    /** Updates module. */
+    /** @brief Updates module. */
     virtual void update() = 0;
 
 protected:

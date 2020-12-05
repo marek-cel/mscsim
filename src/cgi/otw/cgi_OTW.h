@@ -41,10 +41,10 @@ class OTW : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     OTW( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~OTW();
 };
 

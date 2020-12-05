@@ -47,7 +47,7 @@ public:
     /** */
     static osgText::Font* get( const char *fontFile );
 
-    /** Resets fonts list. */
+    /** @brief Resets fonts list. */
     static void reset();
 
 private:
@@ -63,7 +63,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Fonts();
 
 private:

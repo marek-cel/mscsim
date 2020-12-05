@@ -72,13 +72,13 @@ public:
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > Elements;
     typedef std::vector< ElementData > ElementsData;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Ownship( const Module *parent = NULLPTR, Scenery *scenery = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Ownship();
 
-    /** Updates ownship. */
+    /** @brief Updates ownship. */
     void update();
 
 private:

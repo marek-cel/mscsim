@@ -37,10 +37,10 @@ class ComboUnitsVelocity : public ComboUnits
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit ComboUnitsVelocity( QWidget *parent = NULLPTR );
     
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~ComboUnitsVelocity();
 };
 

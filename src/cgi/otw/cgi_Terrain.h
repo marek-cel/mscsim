@@ -38,10 +38,10 @@ class Terrain : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Terrain( const char *file, const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Terrain();
 };
 

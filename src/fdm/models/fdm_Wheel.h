@@ -73,22 +73,22 @@ public:
     };
 
     /**
-     * Constructor.
+     * @brief Constructor.
      * @param staticFriction specifies if static friction model is enabled
      */
     Wheel( bool staticFriction = true );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Wheel();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes force and moment.
+     * @brief Computes force and moment.
      * @param vel_bas [m/s] aircraft linear velocity expressed in BAS
      * @param omg_bas [rad/s] aircraft angular velocity expressed in BAS
      * @param r_c_bas [m] contact point coordinates expressed in BAS
@@ -105,7 +105,7 @@ public:
                                         double surf_coef = 1.0 );
 
     /**
-     * Integrates wheel model.
+     * @brief Integrates wheel model.
      * @param timeStep [s] time step
      * @param vel_bas
      * @param omg_bas
@@ -121,7 +121,7 @@ public:
                             bool steering );
 
     /**
-     * Update wheel model.
+     * @brief Update wheel model.
      * @param position [-] normalized position (0.0 - retracted, 1.0 - extended)
      * @param delta [rad] wheel steering angle
      * @param brake [-] normalized brake force
@@ -175,7 +175,7 @@ protected:
     bool _staticFriction;   ///< specifies if static friction model is enabled
 
     /**
-     * Calculates wheel variables.
+     * @brief Calculates wheel variables.
      * @param vel_bas [m/s]
      * @param omg_bas [rad/s]
      * @param r_c_bas [m]

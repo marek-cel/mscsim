@@ -37,7 +37,7 @@
 namespace fdm
 {
 
-class AW101_Aircraft;   ///< aircraft class forward declaration
+class AW101_Aircraft;   // aircraft class forward declaration
 
 /**
  * @brief AW101 aerodynamics class.

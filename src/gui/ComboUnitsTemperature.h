@@ -37,10 +37,10 @@ class ComboUnitsTemperature : public ComboUnits
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit ComboUnitsTemperature( QWidget *parent = NULLPTR );
     
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~ComboUnitsTemperature();
 
     double convert( double value ) const;

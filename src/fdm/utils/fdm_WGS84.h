@@ -35,7 +35,9 @@ namespace fdm
 {
 
 /**
- * @brief US Department of Defense World Geodetic System 1984 (WGS) class.
+ * @brief World Geodetic System 1984 (WGS84) class.
+ *
+ * US Department of Defense World Geodetic System 1984 (WGS84) class.
  *
  * This class is used to store and calculate location expressed in World
  * Geodetic System 1984 (WGS). It also provides functions to calculate
@@ -83,7 +85,7 @@ public:
     static const Matrix3x3 _ned2enu;    ///< matrix of rotation from NED to ENU
 
     /**
-     * Calculates coordinates moved by the given offset.
+     * @brief Calculates coordinates moved by the given offset.
      * @param pos_geo geodetic coordinates
      * @param heading [rad] heading
      * @param offset_x [m] longitudinal offset
@@ -94,13 +96,13 @@ public:
                              double offset_x, double offset_y );
 
     /**
-     * Returns Earth angular velocity vector expressed in WGS axis system.
+     * @brief Returns Earth angular velocity vector expressed in WGS axis system.
      * @return [rad/s] Earth angular velocity vector expressed in WGS
      */
     static Vector3 getOmega_WGS();
 
     /**
-     * Converts geodetic coordinates into WGS coordinates.
+     * @brief Converts geodetic coordinates into WGS coordinates.
      * @param lat geodetic latitude [rad]
      * @param lon geodetic longitude [rad]
      * @param alt altitude above mean sea level [m]
@@ -112,7 +114,7 @@ public:
                          double &x, double &y, double &z );
 
     /**
-     * Converts geodetic coordinates into WGS coordinates.
+     * @brief Converts geodetic coordinates into WGS coordinates.
      * @param lat geodetic latitude [rad]
      * @param lon geodetic longitude [rad]
      * @param alt altitude above mean sea level [m]
@@ -121,21 +123,21 @@ public:
     static Vector3 geo2wgs( double lat, double lon, double alt );
 
     /**
-     * Converts geodetic coordinates into WGS coordinates.
+     * @brief Converts geodetic coordinates into WGS coordinates.
      * @param pos_geo geodetic coordinates
      * @return resulting WGS coordinates vector [m]
      */
     static Vector3 geo2wgs( const Geo &pos_geo );
 
     /**
-     * Converts geodetic coordinates into WGS coordinates.
+     * @brief Converts geodetic coordinates into WGS coordinates.
      * @param pos_geo geodetic coordinates
      * @param pos_wgs resulting WGS coordinates vector [m]
      */
     static void geo2wgs( const Geo &pos_geo, Vector3 &pos_wgs );
 
     /**
-     * Converts WGS coordinates into geodetic coordinates.
+     * @brief Converts WGS coordinates into geodetic coordinates.
      * @param x WGS x-coordinate [m]
      * @param y WGS y-coordinate [m]
      * @param z WGS z-coordinate [m]
@@ -147,7 +149,7 @@ public:
                          double &lat, double &lon, double &alt );
 
     /**
-     * Converts WGS coordinates into geodetic coordinates.
+     * @brief Converts WGS coordinates into geodetic coordinates.
      * @param x WGS x-coordinate [m]
      * @param y WGS y-coordinate [m]
      * @param z WGS z-coordinate [m]
@@ -156,29 +158,29 @@ public:
     static Geo wgs2geo( double x, double y, double z );
 
     /**
-     * Converts WGS coordinates into geodetic coordinates.
+     * @brief Converts WGS coordinates into geodetic coordinates.
      * @param pos_wgs WGS coordinates vector [m]
      * @return resulting geodetic coordinates
      */
     static Geo wgs2geo( const Vector3 &pos_wgs );
 
     /**
-     * Converts WGS coordinates into geodetic coordinates.
+     * @brief Converts WGS coordinates into geodetic coordinates.
      * @param pos_wgs WGS coordinates vector [m]
      * @param pos_geo resulting geodetic coordinates
      */
     static void wgs2geo( const Vector3 &pos_wgs, Geo &pos_geo );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     WGS84( const WGS84 &wgs );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84( const Geo &pos_geo );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WGS84( const Vector3 &pos_wgs );
 
     Angles getAngles_NED( const Angles &angles_wgs ) const;
@@ -221,6 +223,7 @@ private:
     Matrix3x3 _wgs2ned;     ///< rotation matrix from WGS to NED
 
     /**
+     * @brief Updates data due to position.
      * This function updates location (normal to ellipsoid vector, gravity
      * acceleration vector and rotation matricies) due to current WGS coordinates.
      */

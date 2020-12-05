@@ -40,16 +40,16 @@ class FDMEXPORT DataRef
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     DataRef( DataNode *dataNode = 0 ) : _dataNode( dataNode ) {}
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     DataRef( const DataRef &dataRef )
     {
         _dataNode = dataRef._dataNode;
     }
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DataRef() {}
 
     /**
@@ -217,12 +217,12 @@ public:
     }
 
     /**
-     * Resets data reference.
+     * @brief Resets data reference.
      */
     inline void reset() { _dataNode = 0; }
 
     /**
-     * Assignment operator.
+     * @brief Assignment operator.
      */
     const DataRef& operator= ( const DataRef &dataRef )
     {

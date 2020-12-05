@@ -40,13 +40,13 @@ class Entities : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Entities( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Entities();
 
-    /** Updates entities. */
+    /** @brief Updates entities. */
     void update();
 
 private:

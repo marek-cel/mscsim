@@ -41,17 +41,17 @@ public:
 
     typedef std::vector< osg::ref_ptr<osg::Vec3Array> > Paths;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Rotor( const osg::Vec3 &center, int blades_count,
            double radius, double offset, double inclination );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Rotor();
 
-    /** Updates rotor. */
+    /** @brief Updates rotor. */
     void update();
 
-    /** Returns root node.  */
+    /** @brief Returns root node.  */
     inline osg::Group* getNode() { return _root.get(); }
 
 private:

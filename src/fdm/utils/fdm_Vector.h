@@ -39,27 +39,34 @@ namespace fdm
 
 /**
  * @brief Column vector base class template.
+ *
+ * Column vector base class template which is using integer template parameters
+ * to specify vector size. Such an approach does not allow to perform
+ * mathematical operation between vectors which sizes do not match each other
+ * as they are of different types.
+ *
+ * @tparam SIZE vector size
  */
 template < unsigned int SIZE >
 class Vector
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector() :
         _size ( SIZE )
     {
         zeroize();
     }
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Vector( const Vector< SIZE > &vect ) :
         _size ( SIZE )
     {
         setArray( vect._items );
     }
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector( const double items[] ) :
         _size ( SIZE )
     {
@@ -91,7 +98,7 @@ public:
         return sqrt( getLength2() );
     }
 
-    /** This function normalizes vector. */
+    /** @brief Normalizes vector. */
     virtual void normalize()
     {
         double length = getLength();
@@ -107,7 +114,7 @@ public:
         }
     }
 
-    /** Puts vector items into given array. */
+    /** @brief Puts vector items into given array. */
     virtual void getArray( double items[] ) const
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -117,6 +124,7 @@ public:
     }
 
     /**
+     * @brief Gets vector item of given indicies.
      * This function is bound-checked which may affect performance.
      * Throws an exception when index is out of range.
      * @return vector item of given indicies.
@@ -140,7 +148,7 @@ public:
         return std::numeric_limits< double >::quiet_NaN();
     }
 
-    /** Sets vector items from given array. */
+    /** @brief Sets vector items from given array. */
     virtual void setArray( const double items[] )
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -150,7 +158,7 @@ public:
     }
 
     /**
-     * This function sets vector item of given indicies.
+     * @brief Sets vector item of given indicies.
      * This function is bound-checked which may affect performance.
      * Throws an exception when index is out of range.
      */
@@ -171,7 +179,7 @@ public:
         }
     }
 
-    /** Swaps vector rows. */
+    /** @brief Swaps vector rows. */
     virtual void swapRows( unsigned int row1, unsigned int row2 )
     {
         if ( row1 < _size && row2 < _size )
@@ -191,7 +199,7 @@ public:
         }
     }
 
-    /** Returns string representation of the vector. */
+    /** @brief Returns string representation of the vector. */
     virtual std::string toString() const
     {
         std::stringstream ss;
@@ -206,7 +214,7 @@ public:
         return ss.str();
     }
 
-    /** Sets all vector items to zero. */
+    /** @brief Sets all vector items to zero. */
     virtual void zeroize()
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -216,7 +224,8 @@ public:
     }
 
     /**
-     * Items accessor. Please notice that this operator is NOT bound-checked.
+     * @brief Items accessor.
+     * Please notice that this operator is NOT bound-checked.
      * If you want bound-checked item accessor use getItem(int) or
      * setItem(int,double) functions.
      */
@@ -238,7 +247,8 @@ public:
     }
 
     /**
-     * Items accessor. Please notice that this operator is NOT bound-checked.
+     * @brief Items accessor.
+     * Please notice that this operator is NOT bound-checked.
      * If you want bound-checked item accessor use getItem(int) or
      * setItem(int,double) functions.
      */
@@ -259,7 +269,7 @@ public:
         return _items[ index ];
     }
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Vector< SIZE >& operator= ( const Vector< SIZE > &vect )
     {
         setArray( vect._items );
@@ -267,7 +277,7 @@ public:
         return (*this);
     }
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Vector< SIZE > operator+ ( const Vector< SIZE > &vect ) const
     {
         Vector< SIZE > result;
@@ -280,7 +290,7 @@ public:
         return result;
     }
 
-    /** Negation operator. */
+    /** @brief Negation operator. */
     Vector< SIZE > operator- () const
     {
         Vector< SIZE > result;
@@ -293,7 +303,7 @@ public:
         return result;
     }
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Vector< SIZE > operator- ( const Vector< SIZE > &vect ) const
     {
         Vector< SIZE > result;
@@ -306,7 +316,7 @@ public:
         return result;
     }
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Vector< SIZE > operator* ( double val ) const
     {
         Vector< SIZE > result;
@@ -319,7 +329,7 @@ public:
         return result;
     }
 
-    /** Dot product operator. */
+    /** @brief Dot product operator. */
     double operator* ( const Vector< SIZE > &vect ) const
     {
         double result = 0.0;
@@ -332,7 +342,7 @@ public:
         return result;
     }
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Vector< SIZE > operator/ ( double val ) const
     {
         Vector< SIZE > result;
@@ -345,7 +355,7 @@ public:
         return result;
     }
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Vector< SIZE >& operator+= ( const Vector< SIZE > &vect )
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -356,7 +366,7 @@ public:
         return (*this);
     }
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Vector< SIZE >& operator-= ( const Vector< SIZE > &vect )
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -367,7 +377,7 @@ public:
         return (*this);
     }
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Vector< SIZE >& operator*= ( double val )
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -378,7 +388,7 @@ public:
         return (*this);
     }
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Vector< SIZE >& operator/= ( double val )
     {
         for ( unsigned int i = 0; i < _size; i++ )
@@ -389,7 +399,7 @@ public:
         return (*this);
     }
 
-    /** Equality operator. */
+    /** @brief Equality operator. */
     bool operator== ( const Vector< SIZE > &vect ) const
     {
         bool result = true;
@@ -402,7 +412,7 @@ public:
         return result;
     }
 
-    /** Inequality operator. */
+    /** @brief Inequality operator. */
     bool operator!= ( const Vector< SIZE > &vect ) const
     {
         return !( (*this) == vect );

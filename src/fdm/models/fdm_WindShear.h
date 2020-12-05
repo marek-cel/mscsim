@@ -32,7 +32,7 @@ namespace fdm
 {
 
 /**
- * @brief Wind shear class.
+ * @brief Windshear class.
  *
  * @see Windshear Training Aid, Volume 2 - Substantiating Data, FAA, 1990, p. 4.3-144 - 4.3-153
  */
@@ -41,7 +41,7 @@ class FDMEXPORT WindShear
 public:
 
     /**
-     * getWindModel1
+     * @brief Gets windshear model 1
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #1, p. 4.3-146
      * @param distance [m]
      * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
@@ -49,7 +49,7 @@ public:
     static Vector3 getWindModel1( double distance );
 
     /**
-     * getWindModel2
+     * @brief Gets windshear model 2
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #2, p. 4.3-148
      * @param distance [m]
      * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
@@ -57,7 +57,7 @@ public:
     static Vector3 getWindModel2( double distance );
 
     /**
-     * getWindModel3
+     * @brief Gets windshear model 3
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #3, p. 4.3-150
      * @param distance [m]
      * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention
@@ -65,7 +65,7 @@ public:
     static Vector3 getWindModel3( double distance );
 
     /**
-     * getWindModel4
+     * @brief Gets windshear model 4
      * @see FAA Windshear Training Aid Vol. 2, Reference Wind Model #4, p. 4.3-152
      * @param distance [m]
      * @return [m/s] wind speed vector expressed in Tailwind-Crosswind-Downdraft convention

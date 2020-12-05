@@ -31,7 +31,7 @@
 namespace g1000
 {
 
-class IFD; ///< IFD class forward declaration
+class IFD; // IFD class forward declaration
 
 /**
  * @brief Garmin GIA 63 Integrated Avionics Unit class.

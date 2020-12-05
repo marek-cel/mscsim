@@ -53,7 +53,7 @@ namespace fdm
  *
  * Aircraft flight dynamics model base class.
  *
- * Conventions and Units
+ * @section Conventions and Units
  *
  * Units:
  * Flight Dynamics Model uses International System of Units (SI) for all
@@ -65,7 +65,8 @@ namespace fdm
  * @see fdm::Units::getConverter()
  * @see fdm::XmlUtils
  *
- * Rotations:
+ * @subsection Rotations
+ *
  * Rotations angles are expressed as Bryant angles (Euler angles in z-y-x
  * convention).
  * All rotations and rotation related operations are considered to be
@@ -73,7 +74,7 @@ namespace fdm
  *
  * @see https://en.wikipedia.org/wiki/Active_and_passive_transformation
  *
- * Coordinate Systems:
+ * @subsection Coordinate Systems
  *
  * Body Axis System (BAS)
  * Body Axis System is the body-fixed coordinate system, with the x-axis
@@ -88,7 +89,8 @@ namespace fdm
  * World Geodetic System as described in [Department of Defense World
  * Geodetic System 1984. NIMA, Technical Report No. 8350.2, 2000].
  *
- * XML configuration file format:
+ * @subsection XML configuration file format
+ *
  * @code
  * <fdm>
  *   <collision_points>
@@ -158,20 +160,23 @@ public:
     static const UInt8 _i_q;    ///< index of aircraft angular velocity y-coordinate expressed in BAS axis system
     static const UInt8 _i_r;    ///< index of aircraft angular velocity z-coordinate expressed in BAS axis system
 
-    /** Constructor. */
+    /**
+     * @brief Class destructor.
+     * @param input
+     */
     Aircraft( Input *input );
 
-    /** Destructor. */
+    /** @brief Aircraft class destructor. */
     virtual ~Aircraft();
 
     /**
-     * Initializes aircraft.
+     * @brief Initializes aircraft.
      * @param engineOn specifies if engine is running on startup
      */
     virtual void initialize( bool engineOn = false );
 
     /**
-     * Updates aircraft due to simulation time step.
+     * @brief Updates aircraft due to simulation time step.
      * @param timeStep simulation time step [s]
      * @param integrate specifies integration is enabled
      */
@@ -260,7 +265,7 @@ public:
     inline PropState getInitPropState() const { return _initPropState; }
 
     /**
-     * Sets aircraft state vector.
+     * @brief Sets aircraft state vector.
      * This function is meant to set initial conditions at the beginning,
      * as well as to reposition aircraft during flight.
      * @param state state vector
@@ -392,28 +397,28 @@ protected:
     bool _freeze_velocity;      ///< specifies if velocity is to be frozen (is not integrating)
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataFile XML data file path
      */
     virtual void readFile( const char *dataFile );
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
-    /** This function is called just before time integration step. */
+    /** @brief This function is called just before time integration step. */
     virtual void anteIntegration();
 
-    /** This function is called just after time integration step. */
+    /** @brief This function is called just after time integration step. */
     virtual void postIntegration();
 
-    /** This function checks collisions. */
+    /** @brief This function checks collisions. */
     virtual void detectCrash();
 
     /**
-     * Computes state vector derivatives due to given state vector.
+     * @brief Computes state vector derivatives due to given state vector.
      * @param stateVect state vector
      * @param derivVect resulting state vector derivative
      */
@@ -421,7 +426,7 @@ protected:
                                     StateVector *derivVect );
 
     /**
-     * Updates aircraft state variables.
+     * @brief Updates aircraft state variables.
      * @param stateVect state vector
      * @param derivVect state vector derivative
      */

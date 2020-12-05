@@ -41,7 +41,7 @@ class FogScene : public Module
 public:
 
     /**
-     * getFogColor
+     * @brief Gets fog color.
      * @param sun_elev [deg] sun elevation
      * @param visibility [m] visibility
      * @return fog color
@@ -49,19 +49,19 @@ public:
     static osg::Vec4 getFogColor( float sun_elev , float visibility );
 
     /**
-     * getFogNumber
+     * @brief Gets fog number.
      * @param sun_elev [deg] sun elevation
      * @return
      */
     static int getFogNumber( float sun_elev );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     FogScene( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~FogScene();
 
-    /** Updates fog scene. */
+    /** @brief Updates fog scene. */
     void update();
 
 private:

@@ -55,7 +55,7 @@ public:
     static double julianDay( DateTime dateTime );
 
     /**
-     * Computes celestial object local elevation and azimuth.
+     * @brief Computes celestial object local elevation and azimuth.
      * @param alpha [rad] right ascension
      * @param delta [rad] declination
      * @param elev [rad] elevation (result)
@@ -69,7 +69,7 @@ public:
                                     double sinLat, double cosLat,
                                     double lst );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Ephemeris();
 
     void update( DateTime dateTime, double lat, double lon );

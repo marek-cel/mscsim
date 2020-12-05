@@ -54,10 +54,10 @@ class WidgetOSG : public QWidget, public osgViewer::Viewer
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WidgetOSG( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetOSG();
 
     virtual osgViewer::Viewer* getOsgViewer();

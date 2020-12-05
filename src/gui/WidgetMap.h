@@ -39,10 +39,10 @@ class WidgetMap : public WidgetOSG
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     WidgetMap( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~WidgetMap();
 
 signals:

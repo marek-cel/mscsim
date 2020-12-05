@@ -44,13 +44,13 @@ public:
 
     static const double _downAngle;     ///< [rad]
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Camera();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Camera();
 
-    /** Updates camera position and attitude. */
+    /** @brief Updates camera position and attitude. */
     void update();
 
     /** */
@@ -62,52 +62,52 @@ public:
     inline osg::Vec3d getPosition() const { return _position; }
     inline osg::Quat  getAttitude() const { return _attitude; }
 
-    /** Returns true if orbit manipulator track node is valid. */
+    /** @brief Returns true if orbit manipulator track node is valid. */
     inline bool isTrackNodeValid()
     {
         return _trackNode.valid();
     }
 
-    /** Returns true if world manipulator node is valid. */
+    /** @brief Returns true if world manipulator node is valid. */
     inline bool isWorldNodeValid()
     {
         return _worldNode.valid();
     }
 
-    /** Sets default distance to aircraft. */
+    /** @brief Sets default distance to aircraft. */
     void setDistanceDef( double distance_def );
 
-    /** Sets minimum distance to aircraft. */
+    /** @brief Sets minimum distance to aircraft. */
     void setDistanceMin( double distance_min );
 
-    /** Sets orbit manipulator track node. */
+    /** @brief Sets orbit manipulator track node. */
     void setTrackNode( osg::Node *node );
 
-    /** Sets world manipulator node. */
+    /** @brief Sets world manipulator node. */
     void setWorldNode( osg::Node *node );
 
-    /** Sets chase view. */
+    /** @brief Sets chase view. */
     inline void setViewChase()
     {
         _viewType = Data::CGI::ViewChase;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets orbit view. */
+    /** @brief Sets orbit view. */
     inline void setViewOrbit()
     {
         _viewType = Data::CGI::ViewOrbit;
         _manipulator = _manipulatorOrbit.get();
     }
 
-    /** Sets pilot view. */
+    /** @brief Sets pilot view. */
     inline void setViewPilot()
     {
         _viewType = Data::CGI::ViewPilot;
         _manipulator = _manipulatorShift.get();
     }
 
-    /** Sets world view. */
+    /** @brief Sets world view. */
     inline void setViewWorld()
     {
         _viewType = Data::CGI::ViewWorld;

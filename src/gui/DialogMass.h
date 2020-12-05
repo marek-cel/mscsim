@@ -47,10 +47,10 @@ class DialogMass : public QDialog
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DialogMass( QWidget *parent = NULLPTR );
     
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DialogMass();
 
     void readData();

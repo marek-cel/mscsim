@@ -52,20 +52,20 @@ class FDMEXPORT HingeMoment
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     HingeMoment();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~HingeMoment();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
 
     /**
-     * Computes hinge moment.
+     * @brief Computes hinge moment.
      * @param dynamicPress [Pa] dynamic pressure
      * @param alpha   [rad] angle of attack
      * @param delta   [rad] control surface deflection

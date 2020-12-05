@@ -80,7 +80,7 @@ private:
 
 public:
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Manager();
 
     /** */

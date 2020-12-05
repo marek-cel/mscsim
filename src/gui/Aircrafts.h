@@ -150,7 +150,7 @@ public:
         float tailRotorCoef;    ///< [-] tail rotor rotation coefficient (sign)
     };
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Aircrafts();
 
     inline Aircraft getAircraft( int index ) const

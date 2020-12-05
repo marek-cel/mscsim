@@ -38,43 +38,43 @@ class FDMEXPORT Vector4 : public Vector< 4 >
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector4();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Vector4( const Vector4 &vect );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Vector4( const double items[] );
 
     /** @return normalized vector */
     Vector4 getNormalized() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Vector4& operator= ( const Vector4 &vect );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Vector4 operator+ ( const Vector4 &vect ) const;
 
-    /** Negation operator. */
+    /** @brief Negation operator. */
     Vector4 operator- () const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Vector4 operator- ( const Vector4 &vect ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Vector4 operator* ( double val ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Vector4 operator/ ( double val ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Vector4& operator+= ( const Vector4 &vect );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Vector4& operator-= ( const Vector4 &vect );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Vector4& operator*= ( double val );
 
     /** Unary division operator (by scalar). */
@@ -86,7 +86,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Vector4 operator* ( double val, const fdm::Vector4 &vect )
 {
     return ( vect * val );

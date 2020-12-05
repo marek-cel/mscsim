@@ -50,10 +50,10 @@ class DockWidgetMain : public QDockWidget
 
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     explicit DockWidgetMain( QWidget *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~DockWidgetMain();
 
     /** */

@@ -31,7 +31,7 @@
 namespace fdm
 {
 
-class Vector3;  ///< forward declaration
+class Vector3;  // forward declaration
 
 /**
  * @brief Quaternion class.
@@ -52,34 +52,34 @@ class FDMEXPORT Quaternion
 {
 public:
 
-    /** Creates zero rotation quaternion. */
+    /** @brief Creates zero rotation quaternion. */
     static Quaternion createZeroRotationQuaternion();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Quaternion();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Quaternion( const Quaternion &quat );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Quaternion( double e0, double ex, double ey, double ez );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Quaternion( const Angles &angl );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Quaternion( double angl, const Vector3 &vect );
 
     /** @return TRUE if all items are valid */
     bool isValid() const;
 
-    /** Conjugates quaternion. */
+    /** @brief Conjugates quaternion. */
     void conjugate();
 
-    /** Inverts quaternion. */
+    /** @brief Inverts quaternion. */
     void invert();
 
-    /** Normalizes quaternion. */
+    /** @brief Normalizes quaternion. */
     void normalize();
 
     /** @return vector length squared */
@@ -88,19 +88,19 @@ public:
     /** @return vector length */
     double getLength() const;
 
-    /** Returns Bryant angles. */
+    /** @brief Returns Bryant angles. */
     Angles getAngles() const;
 
-    /** Returns conjugated quaternion. */
+    /** @brief Returns conjugated quaternion. */
     Quaternion getConjugated() const;
 
-    /** Returns quaternion derivative due to given angular velocity. */
+    /** @brief Returns quaternion derivative due to given angular velocity. */
     Quaternion getDerivative( const Vector3 &omega ) const;
 
-    /** Returns inverted quaternion. */
+    /** @brief Returns inverted quaternion. */
     Quaternion getInverted() const;
 
-    /** Returns normalized quaternion. */
+    /** @brief Returns normalized quaternion. */
     Quaternion getNormalized() const;
 
     inline double  e0() const { return _e0; }
@@ -112,46 +112,46 @@ public:
     inline double& ey()       { return _ey; }
     inline double& ez()       { return _ez; }
 
-    /** Sets quaternion values. */
+    /** @brief Sets quaternion values. */
     void set( double e0, double ex, double ey, double ez );
 
-    /** Returns string representation of the quaternion. */
+    /** @brief Returns string representation of the quaternion. */
     std::string toString() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Quaternion& operator= ( const Quaternion &quat );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Quaternion operator+ ( const Quaternion &quat ) const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Quaternion operator- ( const Quaternion &quat ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Quaternion operator* ( double val ) const;
 
-    /** Multiplication operator (by quaternion). */
+    /** @brief Multiplication operator (by quaternion). */
     Quaternion operator* ( const Quaternion &quat ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Quaternion operator/ ( double val ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Quaternion& operator+= ( const Quaternion &quat );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Quaternion& operator-= ( const Quaternion &quat );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Quaternion& operator*= ( double val );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Quaternion& operator/= ( double val );
 
-    /** Equality operator. */
+    /** @brief Equality operator. */
     bool operator== ( const Quaternion &quat ) const;
 
-    /** Inequality operator. */
+    /** @brief Inequality operator. */
     bool operator!= ( const Quaternion &quat ) const;
 
 private:
@@ -166,7 +166,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Quaternion operator* ( double val, const fdm::Quaternion &quat )
 {
     return quat * val;

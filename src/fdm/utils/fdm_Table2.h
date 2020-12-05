@@ -49,31 +49,32 @@ public:
      */
     static Table2 createOneRecordTable( double val = 0.0 );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Table2();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Table2( const std::vector< double > &rowValues,
             const std::vector< double > &colValues,
             const std::vector< double > &tableData );
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Table2( const Table2 &table );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Table2();
 
     inline unsigned int getCols() const { return _cols; }
     inline unsigned int getRows() const { return _rows; }
 
     /**
-     * Returns 1-dimensional table for the given col value.
+     * @brief Returns 1-dimensional table for the given col value.
      * @param colValue column key value
      * @return 1-dimensional table
      */
     Table1 getTable( double colValue ) const;
 
     /**
+     * @brief Returns table value for the given keys.
      * Returns table value for the given keys values using bilinear
      * interpolation algorithm.
      * @param rowValue row key value
@@ -83,7 +84,7 @@ public:
     double getValue( double rowValue, double colValue ) const;
 
     /**
-     * Returns table value for the given key index.
+     * @brief Returns table value for the given key index.
      * @param rowIndex row index
      * @param colIndex col index
      * @return value on success or NaN on failure
@@ -91,17 +92,17 @@ public:
     double getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const;
 
     /**
-     * Checks if table is valid.
+     * @brief Checks if table is valid.
      * @return returns true if size is greater than 0 and all data is valid
      */
     bool isValid() const;
 
     /**
-     * Returns string representation of the table.
+     * @brief Returns string representation of the table.
      */
     std::string toString();
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Table2& operator= ( const Table2 &table );
 
 private:
@@ -116,7 +117,7 @@ private:
 
     double *_interpolData;  ///< interpolation data matrix
 
-    /** Updates interpolation data due to table data. */
+    /** @brief Updates interpolation data due to table data. */
     void updateInterpolationData();
 };
 

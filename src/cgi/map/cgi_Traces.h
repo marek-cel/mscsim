@@ -40,10 +40,10 @@ class Traces : public Module
 {
 public:
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Traces( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Traces();
 
     /** */

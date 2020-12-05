@@ -46,10 +46,10 @@ public:
 
     typedef std::vector< osg::ref_ptr<osg::PositionAttitudeTransform> > PATs;
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Icons( const Module *parent = NULLPTR );
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Icons();
 
     /** */

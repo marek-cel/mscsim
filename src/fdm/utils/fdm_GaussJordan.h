@@ -33,7 +33,7 @@ namespace fdm
 {
 
 /**
- * @brief This class implements Gauss-Jordan method.
+ * @brief Gauss-Jordan numerical method of solving systems of linear equations.
  *
  * @see Press W., et al.: Numerical Recipes: The Art of Scientific Computing, 2007, p.41
  * @see Baron B., Piatek L.: Metody numeryczne w C++ Builder, 2004, p.34. [in Polish]
@@ -45,7 +45,7 @@ class GaussJordan
 public:
 
     /**
-     * Solves system of linear equations using Gauss-Jordan method.
+     * @brief Solves system of linear equations using Gauss-Jordan method.
      * @param mtr left hand side matrix
      * @param rhs right hand size vector
      * @param x result vector

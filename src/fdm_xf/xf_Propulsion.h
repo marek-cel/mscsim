@@ -33,7 +33,7 @@
 namespace fdm
 {
 
-class XF_Aircraft;     ///< aircraft class forward declaration
+class XF_Aircraft;     // aircraft class forward declaration
 
 /**
  * @brief X/F propulsion class.

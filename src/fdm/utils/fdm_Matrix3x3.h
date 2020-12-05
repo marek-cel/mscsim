@@ -52,27 +52,27 @@ class FDMEXPORT Matrix3x3 : public Matrix< 3,3 >
 {
 public:
 
-    /** Creates identity matrix. */
+    /** @brief Creates identity matrix. */
     static Matrix3x3 createIdentityMatrix();
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix3x3();
 
-    /** Copy constructor. */
+    /** @brief Copy constructor. */
     Matrix3x3( const Matrix3x3 &mtrx );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix3x3( const double items[] );
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Matrix3x3( double xx, double xy, double xz,
                double yx, double yy, double yz,
                double zx, double zy, double zz );
 
-    /** Creates passive (alias) rotation matrix. */
+    /** @brief Creates passive (alias) rotation matrix. */
     Matrix3x3( const Angles &angl );
 
-    /** Creates passive (alias) rotation matrix. */
+    /** @brief Creates passive (alias) rotation matrix. */
     Matrix3x3( const Quaternion &qtrn );
 
     inline double xx() const { return _xx; }
@@ -95,49 +95,49 @@ public:
     inline double& zy() { return _zy; }
     inline double& zz() { return _zz; }
 
-    /** Transposes matrix. */
+    /** @brief Transposes matrix. */
     void transpose();
 
-    /** Returns Bryant angles of rotation matrix. */
+    /** @brief Returns Bryant angles of rotation matrix. */
     Angles getAngles() const;
 
-    /** Returns quaternion of rotation matrix. */
+    /** @brief Returns quaternion of rotation matrix. */
     Quaternion getQuaternion() const;
 
-    /** Returns transposed matrix. */
+    /** @brief Returns transposed matrix. */
     Matrix3x3 getTransposed() const;
 
-    /** Assignment operator. */
+    /** @brief Assignment operator. */
     const Matrix3x3& operator= ( const Matrix3x3 &mtrx );
 
-    /** Addition operator. */
+    /** @brief Addition operator. */
     Matrix3x3 operator+ ( const Matrix3x3 &mtrx ) const;
 
-    /** Subtraction operator. */
+    /** @brief Subtraction operator. */
     Matrix3x3 operator- ( const Matrix3x3 &mtrx ) const;
 
-    /** Multiplication operator (by scalar). */
+    /** @brief Multiplication operator (by scalar). */
     Matrix3x3 operator* ( double value ) const;
 
-    /** Multiplication operator (by matrix). */
+    /** @brief Multiplication operator (by matrix). */
     Matrix3x3 operator* ( const Matrix3x3 &mtrx ) const;
 
-    /** Multiplication operator (by vector). */
+    /** @brief Multiplication operator (by vector). */
     Vector3 operator* ( const Vector3 &vect ) const;
 
-    /** Division operator (by scalar). */
+    /** @brief Division operator (by scalar). */
     Matrix3x3 operator/ ( double value ) const;
 
-    /** Unary addition operator. */
+    /** @brief Unary addition operator. */
     Matrix3x3& operator+= ( const Matrix3x3 &mtrx );
 
-    /** Unary subtraction operator. */
+    /** @brief Unary subtraction operator. */
     Matrix3x3& operator-= ( const Matrix3x3 &mtrx );
 
-    /** Unary multiplication operator (by scalar). */
+    /** @brief Unary multiplication operator (by scalar). */
     Matrix3x3& operator*= ( double value );
 
-    /** Unary division operator (by scalar). */
+    /** @brief Unary division operator (by scalar). */
     Matrix3x3& operator/= ( double value );
 
 private:
@@ -159,7 +159,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/** Multiplication operator (by scalar). */
+/** @brief Multiplication operator (by scalar). */
 inline fdm::Matrix3x3 operator* ( double value, const fdm::Matrix3x3 &mtrx )
 {
     return ( mtrx * value );

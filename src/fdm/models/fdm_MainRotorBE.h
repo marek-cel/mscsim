@@ -75,14 +75,14 @@ public:
 
     static const double _timeStepMax;       ///< [s] maximum integration time step
 
-    /** Constructor. */
+    /** @brief Constructor. */
     MainRotorBE();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~MainRotorBE();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
@@ -143,7 +143,7 @@ public:
     inline const Vector3& getMom_BAS() const { return _mom_bas; }
 
     /**
-     * Returns rotor total inartia about shaft axis.
+     * @brief Returns rotor total inartia about shaft axis.
      * @return [kg*m^2] rotor total inartia about shaft axis
      */
     inline double getInertia() const { return _i_tot; }

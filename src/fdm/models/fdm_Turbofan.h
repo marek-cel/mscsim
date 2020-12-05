@@ -48,14 +48,14 @@ public:
         Running  = 2    ///< engine running
     };
 
-    /** Constructor. */
+    /** @brief Constructor. */
     Turbofan();
 
-    /** Destructor. */
+    /** @brief Destructor. */
     virtual ~Turbofan();
 
     /**
-     * Reads data.
+     * @brief Reads data.
      * @param dataNode XML node
      */
     virtual void readData( XmlNode &dataNode );
@@ -64,20 +64,20 @@ public:
     virtual void initialize( bool engineOn );
 
     /**
-     * Computes thrust.
+     * @brief Computes thrust.
      * @param machNumber [-] Mach number
      * @param densityAltitude [m] air density altitude
      */
     virtual void computeThrust( double machNumber, double densityAltitude );
 
     /**
-     * Integrates model.
+     * @brief Integrates model.
      * @param timeStep [s] time step
      */
     virtual void integrate( double timeStep );
 
     /**
-     * Updates engine.
+     * @brief Updates engine.
      * @param throttle [0.0,1.0] throttle lever position
      * @param temperature [deg C] air temperature
      * @param machNumber [-] Mach number
@@ -93,7 +93,7 @@ public:
                          bool starter );
 
     /**
-     * Returns propeller position expressed in BAS.
+     * @brief Returns propeller position expressed in BAS.
      * @return [m] propeller position expressed in BAS
      */
     inline const Vector3& getPos_BAS() const
@@ -102,7 +102,7 @@ public:
     }
 
     /**
-     * Returns engine fuel consumption.
+     * @brief Returns engine fuel consumption.
      * @return [kg/s] engine fuel consumption
      */
     inline double getFuelFlow() const
@@ -129,7 +129,7 @@ public:
     }
 
     /**
-     * Returns engine thrust.
+     * @brief Returns engine thrust.
      * @return [N] propeller thrust
      */
     inline double getThrust() const

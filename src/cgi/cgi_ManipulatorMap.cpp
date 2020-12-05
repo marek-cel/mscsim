@@ -24,6 +24,8 @@
 
 #include <limits>
 
+#include <Defines.h>
+
 #include <cgi/cgi_Mercator.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +37,7 @@ using namespace cgi;
 ManipulatorMap::ManipulatorMap() :
     inherited(),
 
-    _scaleChangeCallback ( 0 ),
+    _scaleChangeCallback ( NULLPTR ),
 
     _map_height ( 1.0 ),
 
