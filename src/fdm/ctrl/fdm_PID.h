@@ -90,8 +90,12 @@ public:
     /** @brief Destructor. */
     virtual ~PID();
 
-    /** @brief Updates controller. */
-    virtual void update( double timeStep, double error );
+    /**
+     * @brief Updates controller.
+     * @param dt [s] time step
+     * @param u input value
+     */
+    virtual void update( double dt, double u );
 
     /** @brief Resets controller. */
     virtual void reset();

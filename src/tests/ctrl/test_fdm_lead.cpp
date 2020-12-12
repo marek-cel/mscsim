@@ -35,7 +35,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void test_update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ void LeadTest::cleanupTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadTest::testUpdate()
+void LeadTest::test_update()
 {
     double t = 0.0;
     double y = 0.0;
@@ -98,7 +98,7 @@ void LeadTest::testUpdate()
 
             double u = sin( tt );
 
-            _lead->update( u, dt );
+            _lead->update( dt, u );
             y = _lead->getValue();
 
             //std::cout << sin( t ) << " " << sin( tt ) << " y= " << y << std::endl;

@@ -85,16 +85,16 @@ PID::~PID() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void PID::update( double timeStep, double error )
+void PID::update( double dt, double u )
 {
-    if ( timeStep > 0.0 )
+    if ( dt > 0.0 )
     {
         double error_i = _error_i;
 
-        _error_i = _error_i + ( error - _kaw * _delta ) * timeStep;
-        _error_d = ( timeStep > 0.0 ) ? ( error - _error ) / timeStep : 0.0;
+        _error_i = _error_i + ( u - _kaw * _delta ) * dt;
+        _error_d = ( dt > 0.0 ) ? ( u - _error ) / dt : 0.0;
 
-        _error = error;
+        _error = u;
 
         double value_pd = _kp * _error + _kd * _error_d;
         double value = value_pd + _ki * _error_i;

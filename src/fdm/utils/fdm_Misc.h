@@ -298,14 +298,14 @@ public:
      * @see https://en.wikipedia.org/wiki/Standard_deviation
      * @see https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
      * @param sum sum of samples values
-     * @param sumSq  sum of samples values squared
+     * @param sum_sq sum of samples values squared
      * @param n number of samples
      * @return standard deviation
      */
-    inline static double stDev( double sum, double sumSq, int n )
+    inline static double stDev( double sum, double sum_sq, int n )
     {
         double coef = 1.0 / ( (double)n - 1.0 );
-        double s2 = sumSq * coef - pow2( sum ) * coef / (double)n;
+        double s2 = sum_sq * coef - pow2( sum ) * coef / (double)n;
 
         return sqrt( s2 );
     }

@@ -55,31 +55,31 @@ C172_KFC325_AP::~C172_KFC325_AP()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_AP::readData( XmlNode &dataNode )
+void C172_KFC325_AP::readData( XmlNode &data_node )
 {
-    ////////////////////////////////
-    Autopilot::readData( dataNode );
-    ////////////////////////////////
+    /////////////////////////////////
+    Autopilot::readData( data_node );
+    /////////////////////////////////
 
-    if ( dataNode.isValid() )
+    if ( data_node.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_pitch , "rate_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_alt   , "rate_alt"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_ias   , "rate_ias"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rate_vs    , "rate_vs"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_pitch , "rate_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_alt   , "rate_alt"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_ias   , "rate_ias"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_vs    , "rate_vs"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _softRideCoef, "soft_ride_coef" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _softRideCoef, "soft_ride_coef" );
 
         if ( result != FDM_SUCCESS )
         {
-            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+            XmlUtils::throwError( __FILE__, __LINE__, data_node );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        XmlUtils::throwError( __FILE__, __LINE__, data_node );
     }
 }
 
@@ -116,7 +116,7 @@ void C172_KFC325_AP::initialize()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_AP::update( double timeStep, bool button_dn, bool button_up )
+void C172_KFC325_AP::update( double time_step, bool button_dn, bool button_up )
 {
     if ( button_dn || button_up )
     {
@@ -125,19 +125,19 @@ void C172_KFC325_AP::update( double timeStep, bool button_dn, bool button_up )
         switch ( _fd->getVerMode() )
         {
         case C172_KFC325_FD::VM_FD:
-            setPitch( getPitch() + coef * timeStep * _rate_pitch );
+            setPitch( getPitch() + coef * time_step * _rate_pitch );
             break;
 
         case C172_KFC325_FD::VM_ALT:
-            setAltitude( getAltitude() + coef * timeStep * _rate_alt );
+            setAltitude( getAltitude() + coef * time_step * _rate_alt );
             break;
 
         case C172_KFC325_FD::VM_IAS:
-            setAirspeed( getAirspeed() + coef * timeStep * _rate_ias );
+            setAirspeed( getAirspeed() + coef * time_step * _rate_ias );
             break;
 
         case C172_KFC325_FD::VM_VS:
-            setClimbRate( getClimbRate() + coef * timeStep * _rate_vs );
+            setClimbRate( getClimbRate() + coef * time_step * _rate_vs );
             break;
 
         case C172_KFC325_FD::VM_ARM:
@@ -154,7 +154,7 @@ void C172_KFC325_AP::onPressedAP()
 {
     _engaged = !_engaged;
 
-    if ( _engaged ) _yawDamper = true;
+    if ( _engaged ) _yaw_damper = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,7 +224,7 @@ void C172_KFC325_AP::onPressedBC()
 
 void C172_KFC325_AP::onPressedYD()
 {
-    _yawDamper = !_yawDamper;
+    _yaw_damper = !_yaw_damper;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -90,7 +90,7 @@ void LeadLag::setC4( double c4 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadLag::update( double u, double dt )
+void LeadLag::update( double dt, double u )
 {
     if ( dt > 0.0 )
     {

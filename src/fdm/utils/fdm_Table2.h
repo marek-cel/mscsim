@@ -53,9 +53,9 @@ public:
     Table2();
 
     /** @brief Constructor. */
-    Table2( const std::vector< double > &rowValues,
-            const std::vector< double > &colValues,
-            const std::vector< double > &tableData );
+    Table2( const std::vector< double > &row_values,
+            const std::vector< double > &col_values,
+            const std::vector< double > &table_data );
 
     /** @brief Copy constructor. */
     Table2( const Table2 &table );
@@ -71,7 +71,7 @@ public:
      * @param colValue column key value
      * @return 1-dimensional table
      */
-    Table1 getTable( double colValue ) const;
+    Table1 getTable( double col_value ) const;
 
     /**
      * @brief Returns table value for the given keys.
@@ -81,7 +81,7 @@ public:
      * @param colValue column key value
      * @return interpolated value on success or NaN on failure
      */
-    double getValue( double rowValue, double colValue ) const;
+    double getValue( double row_value, double col_value ) const;
 
     /**
      * @brief Returns table value for the given key index.
@@ -89,7 +89,7 @@ public:
      * @param colIndex col index
      * @return value on success or NaN on failure
      */
-    double getValueByIndex( unsigned int rowIndex, unsigned int colIndex ) const;
+    double getValueByIndex( unsigned int row_index, unsigned int col_index ) const;
 
     /**
      * @brief Checks if table is valid.
@@ -111,11 +111,11 @@ private:
     unsigned int _cols;     ///< number of columns
     unsigned int _size;     ///< number of table elements
 
-    double *_rowValues;     ///< rows keys values
-    double *_colValues;     ///< columns keys values
-    double *_tableData;     ///< table data
+    double *_row_values;    ///< rows keys values
+    double *_col_values;    ///< columns keys values
+    double *_table_data;    ///< table data
 
-    double *_interpolData;  ///< interpolation data matrix
+    double *_inter_data;    ///< interpolation data matrix
 
     /** @brief Updates interpolation data due to table data. */
     void updateInterpolationData();

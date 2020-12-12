@@ -49,28 +49,21 @@ XF_Controls::XF_Controls( const XF_Aircraft *aircraft, Input *input ) :
 
     _flcs ( FDM_NULLPTR ),
 
-    _airbrake_max ( 0.0 ),
+    _ailerons_max ( 0.0 ),
+    _elevator_max ( 0.0 ),
+    _rudder_max   ( 0.0 ),
+    _flaps_le_max ( 0.0 ),
+    _flaps_te_max ( 0.0 ),
 
-    _airbrake      ( 0.0 ),
-    _airbrake_norm ( 0.0 ),
-    _brake_l       ( 0.0 ),
-    _brake_r       ( 0.0 ),
-    _nose_wheel    ( 0.0 ),
-
-    _angleOfAttack ( 0.0 ),
-    _g_y ( 0.0 ),
-    _g_z ( 0.0 ),
-    _rollRate ( 0.0 ),
-    _pitchRate ( 0.0 ),
-    _yawRate ( 0.0 ),
-    _ctrlLat ( 0.0 ),
-    _trimLat ( 0.0 ),
-    _ctrlLon ( 0.0 ),
-    _trimLon ( 0.0 ),
-    _ctrlYaw ( 0.0 ),
-    _trimYaw ( 0.0 ),
-    _statPress ( 0.0 ),
-    _dynPress ( 0.0 )
+    _ailerons   ( 0.0 ),
+    _elevator   ( 0.0 ),
+    _rudder     ( 0.0 ),
+    _flaps_le   ( 0.0 ),
+    _flaps_te   ( 0.0 ),
+    _airbrake   ( 0.0 ),
+    _brake_l    ( 0.0 ),
+    _brake_r    ( 0.0 ),
+    _nose_wheel ( 0.0 )
 {
     _flcs = new XF_FLCS();
 }
@@ -84,43 +77,30 @@ XF_Controls::~XF_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Controls::readData( XmlNode &dataNode )
+void XF_Controls::readData( XmlNode &data_node )
 {
-    ///////////////////////////////
-    Controls::readData( dataNode );
-    ///////////////////////////////
+    ////////////////////////////////
+    Controls::readData( data_node );
+    ////////////////////////////////
 
-    if ( dataNode.isValid() )
+    if ( data_node.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        double ailerons_max = 0.0;
-        double elevator_max = 0.0;
-        double rudder_max   = 0.0;
-        double flaps_le_max = 0.0;
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _flaps_le_max , "flaps_le_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _flaps_te_max , "flaps_te_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, flaps_le_max , "flaps_le_max" );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _airbrake_max, "airbrake_max" );
-
-        if ( result == FDM_SUCCESS )
+        if ( result != FDM_SUCCESS )
         {
-            _flcs->setAilerons_max( ailerons_max );
-            _flcs->setElevator_max( elevator_max );
-            _flcs->setRudder_max( rudder_max );
-            _flcs->setFlaps_le_max( flaps_le_max );
-        }
-        else
-        {
-            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+            XmlUtils::throwError( __FILE__, __LINE__, data_node );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        XmlUtils::throwError( __FILE__, __LINE__, data_node );
     }
 }
 
@@ -158,18 +138,6 @@ void XF_Controls::initialize()
         FDM_THROW( e );
     }
 
-    _inputLGH = getDataRef( "input.controls.lgh" );
-
-    if ( !_inputLGH.isValid() )
-    {
-        Exception e;
-
-        e.setType( Exception::UnknownException );
-        e.setInfo( "Obtaining input data refs in the controls module failed." );
-
-        FDM_THROW( e );
-    }
-
     ///////////////////////
     Controls::initialize();
     ///////////////////////
@@ -183,86 +151,19 @@ void XF_Controls::update()
     Controls::update();
     ///////////////////
 
-    _airbrake_norm = _channelAirbrake->output;
-    _airbrake = _airbrake_norm * _airbrake_max;
+    _flcs->update( _aircraft->getTimeStep() );
+
+    _ailerons = _ailerons_max * _channelRoll->output;
+    _elevator = _elevator_max * _channelPitch->output;
+    _rudder   = _rudder_max   * _channelYaw->output;
+
+    _flaps_le = _flaps_le_max * 0.0;
+    _flaps_te = _flaps_te_max * 0.0;
+
+    _airbrake = _channelAirbrake->output;
 
     _brake_l = _channelBrakeLeft  ->output;
     _brake_r = _channelBrakeRight ->output;
 
     _nose_wheel = _channelNoseWheel->output;
-
-    // 1000 Hz
-    const unsigned int steps = ceil( _aircraft->getTimeStep() / 0.001 );
-
-    const double timeStep = _aircraft->getTimeStep() / ( (double)steps );
-    const double delta_angleOfAttack = _aircraft->getAngleOfAttack() - _angleOfAttack;
-    const double delta_g_y = _aircraft->getGForce().y() - _g_y;
-    const double delta_g_z = _aircraft->getGForce().z() - _g_z;
-    const double delta_rollRate  = _aircraft->getOmg_BAS().p() - _rollRate;
-    const double delta_pitchRate = _aircraft->getOmg_BAS().q() - _pitchRate;
-    const double delta_yawRate   = _aircraft->getOmg_BAS().r() - _yawRate;
-    const double delta_ctrlLat = _channelRoll->output      - _ctrlLat;
-    const double delta_trimLat = _channelRollTrim->output  - _trimLat;
-    const double delta_ctrlLon = _channelPitch->output     - _ctrlLon;
-    const double delta_trimLon = _channelPitchTrim->output - _trimLon;
-    const double delta_ctrlYaw = _channelYaw->output       - _ctrlYaw;
-    const double delta_trimYaw = _channelYawTrim->output   - _trimYaw;
-    const double delta_statPress = _aircraft->getEnvir()->getPressure() - _statPress;
-    const double delta_dynPress  = _aircraft->getDynPress()             - _dynPress;
-
-    for ( unsigned int i = 0; i < steps; i++ )
-    {
-        const double coef = ( (double)( i + 1 ) ) / ( (double)steps );
-
-        double angleOfAttack = _angleOfAttack + coef * delta_angleOfAttack;
-        double g_y = _g_y + coef * delta_g_y;
-        double g_z = _g_z + coef * delta_g_z;
-        double rollRate  = _rollRate  + coef * delta_rollRate;
-        double pitchRate = _pitchRate + coef * delta_pitchRate;
-        double yawRate   = _yawRate   + coef * delta_yawRate;
-        double ctrlLat   = _ctrlLat   + coef * delta_ctrlLat;
-        double trimLat   = _trimLat   + coef * delta_trimLat;
-        double ctrlLon   = _ctrlLon   + coef * delta_ctrlLon;
-        double trimLon   = _trimLon   + coef * delta_trimLon;
-        double ctrlYaw   = _ctrlYaw   + coef * delta_ctrlYaw;
-        double trimYaw   = _trimYaw   + coef * delta_trimYaw;
-        double statPress = _statPress + coef * delta_statPress;
-        double dynPress  = _dynPress  + coef * delta_dynPress;
-
-        _flcs->update( timeStep, angleOfAttack,
-                       g_y, g_z,
-                       rollRate, pitchRate, yawRate,
-                       ctrlLat, trimLat,
-                       ctrlLon, trimLon,
-                       ctrlYaw, trimYaw,
-                       statPress, dynPress,
-                       false, false,
-                       _inputLGH.getDatab(),
-                       _aircraft->getGear()->getOnGround() );
-
-//        _flcs->update( _aircraft->getTimeStep(),
-//                       _aircraft->getAngleOfAttack(),
-//                       _aircraft->getGForce().y(), _aircraft->getGForce().z(),
-//                       _aircraft->getOmg_BAS()( _i_p ), _aircraft->getOmg_BAS()( _i_q ), _aircraft->getOmg_BAS()( _i_r ),
-//                       _channelRoll->output  , _channelRollTrim->output,
-//                       _channelPitch->output , _channelPitchTrim->output,
-//                       _channelYaw->output   , _channelYawTrim->output,
-//                       _aircraft->getEnvir()->getPressure(), _aircraft->getDynPress(),
-//                       false, false, _aircraft->getGear()->isDown() );
-    }
-
-    _angleOfAttack = _aircraft->getAngleOfAttack();
-    _g_y = _aircraft->getGForce().y();
-    _g_z = _aircraft->getGForce().z();
-    _rollRate  = _aircraft->getOmg_BAS().p();
-    _pitchRate = _aircraft->getOmg_BAS().q();
-    _yawRate   = _aircraft->getOmg_BAS().r();
-    _ctrlLat = _channelRoll->output;
-    _trimLat = _channelRollTrim->output;
-    _ctrlLon = _channelPitch->output;
-    _trimLon = _channelPitchTrim->output;
-    _ctrlYaw = _channelYaw->output;
-    _trimYaw = _channelYawTrim->output;
-    _statPress = _aircraft->getEnvir()->getPressure();
-    _dynPress  = _aircraft->getDynPress();
 }

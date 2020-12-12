@@ -39,7 +39,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void sampleTest();
+    void test_update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void LeadLagTest::cleanupTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void LeadLagTest::sampleTest()
+void LeadLagTest::test_update()
 {
     double t = 0.0;
     double y = 0.0;
@@ -95,7 +95,7 @@ void LeadLagTest::sampleTest()
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        _leadLag->update( u, dt );
+        _leadLag->update( dt, u );
         y = _leadLag->getValue();
 
         if ( i % devider == 0 )

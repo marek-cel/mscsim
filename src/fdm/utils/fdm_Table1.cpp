@@ -50,37 +50,35 @@ Table1 Table1::createOneRecordTable( double val )
 
 Table1::Table1() :
     _size ( 0 ),
-    _keyValues ( FDM_NULLPTR ),
-    _tableData ( FDM_NULLPTR ),
-    _interpolData ( FDM_NULLPTR )
+    _key_values ( FDM_NULLPTR ),
+    _table_data ( FDM_NULLPTR ),
+    _inter_data ( FDM_NULLPTR )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table1::Table1( const std::vector< double > &keyValues,
-                const std::vector< double > &tableData ) :
+Table1::Table1( const std::vector< double > &key_values,
+                const std::vector< double > &table_data ) :
     _size ( 0 ),
-    _keyValues ( FDM_NULLPTR ),
-    _tableData ( FDM_NULLPTR ),
-    _interpolData ( FDM_NULLPTR )
+    _key_values ( FDM_NULLPTR ),
+    _table_data ( FDM_NULLPTR ),
+    _inter_data ( FDM_NULLPTR )
 {
-    if ( keyValues.size() == tableData.size() )
+    if ( key_values.size() == table_data.size() )
     {
-        _size = keyValues.size();
+        _size = key_values.size();
 
         if ( _size > 0 )
         {
-            _keyValues = new double [ _size ];
-            _tableData = new double [ _size ];
-
-            _interpolData = new double [ _size ];
+            _key_values = new double [ _size ];
+            _table_data = new double [ _size ];
+            _inter_data = new double [ _size ];
 
             for ( unsigned int i = 0; i < _size; i++ )
             {
-                _keyValues[ i ] = keyValues[ i ];
-                _tableData[ i ] = tableData[ i ];
-
-                _interpolData[ i ] = 0.0;
+                _key_values[ i ] = key_values[ i ];
+                _table_data[ i ] = table_data[ i ];
+                _inter_data[ i ] = 0.0;
             }
 
             updateInterpolationData();
@@ -101,21 +99,21 @@ Table1::Table1( const std::vector< double > &keyValues,
 
 Table1::Table1( const Table1 &table ) :
     _size ( table._size ),
-    _keyValues ( FDM_NULLPTR ),
-    _tableData ( FDM_NULLPTR ),
-    _interpolData ( FDM_NULLPTR )
+    _key_values ( FDM_NULLPTR ),
+    _table_data ( FDM_NULLPTR ),
+    _inter_data ( FDM_NULLPTR )
 {
     if ( _size > 0 )
     {
-        _keyValues = new double [ _size ];
-        _tableData = new double [ _size ];
-        _interpolData = new double [ _size ];
+        _key_values = new double [ _size ];
+        _table_data = new double [ _size ];
+        _inter_data = new double [ _size ];
 
         for ( unsigned int i = 0; i < _size; i++ )
         {
-            _keyValues    [ i ] = table._keyValues    [ i ];
-            _tableData    [ i ] = table._tableData    [ i ];
-            _interpolData [ i ] = table._interpolData [ i ];
+            _key_values[ i ] = table._key_values[ i ];
+            _table_data[ i ] = table._table_data[ i ];
+            _inter_data[ i ] = table._inter_data[ i ];
         }
     }
 }
@@ -124,18 +122,18 @@ Table1::Table1( const Table1 &table ) :
 
 Table1::~Table1()
 {
-    FDM_DELTAB( _keyValues );
-    FDM_DELTAB( _tableData );
-    FDM_DELTAB( _interpolData );
+    FDM_DELTAB( _key_values );
+    FDM_DELTAB( _table_data );
+    FDM_DELTAB( _inter_data );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table1::getIndexValue( unsigned int keyIndex ) const
+double Table1::getIndexValue( unsigned int key_index ) const
 {
-    if ( _size > 0 && keyIndex < _size )
+    if ( _size > 0 && key_index < _size )
     {
-        return _keyValues[ keyIndex ];
+        return _key_values[ key_index ];
     }
 
     return std::numeric_limits< double >::quiet_NaN();
@@ -150,10 +148,10 @@ double Table1::getKeyOfValueMin() const
 
     for ( unsigned int i = 1; i < _size; i++ )
     {
-        if ( _tableData[ i ] < min_value )
+        if ( _table_data[ i ] < min_value )
         {
-            result = _keyValues[ i ];
-            min_value = _tableData[ i ];
+            result = _key_values[ i ];
+            min_value = _table_data[ i ];
         }
     }
 
@@ -169,10 +167,10 @@ double Table1::getKeyOfValueMax() const
 
     for ( unsigned int i = 1; i < _size; i++ )
     {
-        if ( _tableData[ i ] > max_value )
+        if ( _table_data[ i ] > max_value )
         {
-            result = _keyValues[ i ];
-            max_value = _tableData[ i ];
+            result = _key_values[ i ];
+            max_value = _table_data[ i ];
         }
     }
 
@@ -181,14 +179,14 @@ double Table1::getKeyOfValueMax() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table1::getValue( double keyValue ) const
+double Table1::getValue( double key_value ) const
 {
     if ( _size > 0 )
     {
-        if ( keyValue < _keyValues[ 0 ] )
+        if ( key_value < _key_values[ 0 ] )
             return getFirstValue();
 
-        if ( keyValue > _keyValues[ _size - 1 ] )
+        if ( key_value > _key_values[ _size - 1 ] )
             return getLastValue();
 
         unsigned int key_1 = 0;
@@ -199,15 +197,15 @@ double Table1::getValue( double keyValue ) const
             key_1 = i - 1;
             key_2 = i;
 
-            if ( keyValue >= _keyValues[ key_1 ]
-              && keyValue <  _keyValues[ key_2 ] )
+            if ( key_value >= _key_values[ key_1 ]
+              && key_value <  _key_values[ key_2 ] )
             {
                 break;
             }
         }
 
-        return ( keyValue - _keyValues[ key_1 ] ) * _interpolData[ key_1 ]
-                + _tableData[ key_1 ];
+        return ( key_value - _key_values[ key_1 ] ) * _inter_data[ key_1 ]
+                + _table_data[ key_1 ];
     }
     else
     {
@@ -224,11 +222,11 @@ double Table1::getValue( double keyValue ) const
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Table1::getValueByIndex( unsigned int keyIndex ) const
+double Table1::getValueByIndex( unsigned int key_index ) const
 {
-    if ( _size > 0 && keyIndex < _size )
+    if ( _size > 0 && key_index < _size )
     {
-        return _tableData[ keyIndex ];
+        return _table_data[ key_index ];
     }
 
     return std::numeric_limits< double >::quiet_NaN();
@@ -256,9 +254,9 @@ double Table1::getValueMin() const
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( _tableData[ i ] < result )
+        if ( _table_data[ i ] < result )
         {
-            result = _tableData[ i ];
+            result = _table_data[ i ];
         }
     }
 
@@ -273,9 +271,9 @@ double Table1::getValueMax() const
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( _tableData[ i ] > result )
+        if ( _table_data[ i ] > result )
         {
-            result = _tableData[ i ];
+            result = _table_data[ i ];
         }
     }
 
@@ -290,13 +288,13 @@ bool Table1::isValid() const
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        if ( result ) result = Misc::isValid( _keyValues[ i ] );
-        if ( result ) result = Misc::isValid( _tableData[ i ] );
-        if ( result ) result = Misc::isValid( _interpolData[ i ] );
+        if ( result ) result = Misc::isValid( _key_values[ i ] );
+        if ( result ) result = Misc::isValid( _table_data[ i ] );
+        if ( result ) result = Misc::isValid( _inter_data[ i ] );
 
         if ( i > 0 )
         {
-            if ( result ) result = _keyValues[ i - 1 ] < _keyValues[ i ];
+            if ( result ) result = _key_values[ i - 1 ] < _key_values[ i ];
         }
 
         if ( !result ) break;
@@ -313,7 +311,7 @@ std::string Table1::toString()
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        ss << _keyValues[ i ] << "\t" << _tableData[ i ] << std::endl;
+        ss << _key_values[ i ] << "\t" << _table_data[ i ] << std::endl;
     }
 
     return ss.str();
@@ -323,24 +321,24 @@ std::string Table1::toString()
 
 const Table1& Table1::operator= ( const Table1 &table )
 {
-    FDM_DELTAB( _keyValues );
-    FDM_DELTAB( _tableData );
-    FDM_DELTAB( _interpolData );
+    FDM_DELTAB( _key_values );
+    FDM_DELTAB( _table_data );
+    FDM_DELTAB( _inter_data );
 
     _size = table._size;
 
     if ( _size > 0 )
     {
-        _keyValues = new double [ _size ];
-        _tableData = new double [ _size ];
+        _key_values = new double [ _size ];
+        _table_data = new double [ _size ];
 
-        _interpolData = new double [ _size ];
+        _inter_data = new double [ _size ];
 
         for ( unsigned int i = 0; i < _size; i++ )
         {
-            _keyValues    [ i ] = table._keyValues    [ i ];
-            _tableData    [ i ] = table._tableData    [ i ];
-            _interpolData [ i ] = table._interpolData [ i ];
+            _key_values[ i ] = table._key_values    [ i ];
+            _table_data[ i ] = table._table_data    [ i ];
+            _inter_data[ i ] = table._inter_data [ i ];
         }
     }
 
@@ -356,7 +354,7 @@ Table1 Table1::operator+ ( const Table1 &table ) const
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        double keyValue = _keyValues[ i ];
+        double keyValue = _key_values[ i ];
 
         keyValues.push_back( keyValue );
         tableData.push_back( getValue( keyValue ) + table.getValue( keyValue ) );
@@ -374,8 +372,8 @@ Table1 Table1::operator* ( double val ) const
 
     for ( unsigned int i = 0; i < _size; i++ )
     {
-        keyValues.push_back( _keyValues[ i ] );
-        tableData.push_back( _tableData[ i ] * val );
+        keyValues.push_back( _key_values[ i ] );
+        tableData.push_back( _table_data[ i ] * val );
     }
 
     return Table1( keyValues, tableData );
@@ -387,7 +385,7 @@ void Table1::updateInterpolationData()
 {
     for ( unsigned int i = 0; i < _size - 1; i++ )
     {
-        _interpolData[ i ] = ( _tableData[ i + 1 ] - _tableData[ i ] )
-                           / ( _keyValues[ i + 1 ] - _keyValues[ i ] );
+        _inter_data[ i ] = ( _table_data[ i + 1 ] - _table_data[ i ] )
+                         / ( _key_values[ i + 1 ] - _key_values[ i ] );
     }
 }

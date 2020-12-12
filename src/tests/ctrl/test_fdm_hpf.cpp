@@ -38,8 +38,8 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void sampleTest();
-    void sampleTest2();
+    void test_update1();
+    void test_update2();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ void HPFTest::cleanupTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HPFTest::sampleTest()
+void HPFTest::test_update1()
 {
     double t = 0.0;
     double y = 0.0;
@@ -121,7 +121,7 @@ void HPFTest::sampleTest()
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        _hpf->update( u, dt );
+        _hpf->update( dt, u );
         y = _hpf->getValue();
 
         if ( i % devider == 0 )
@@ -141,7 +141,7 @@ void HPFTest::sampleTest()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void HPFTest::sampleTest2()
+void HPFTest::test_update2()
 {
     double t = 0.0;
     double y = 0.0;
@@ -154,7 +154,7 @@ void HPFTest::sampleTest2()
     {
         double u = sin( t );
 
-        _hpf2->update( u, dt );
+        _hpf2->update( dt, u );
         y = _hpf2->getValue();
 
         if ( i % devider == 0 )

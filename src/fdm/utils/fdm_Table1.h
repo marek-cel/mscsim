@@ -51,8 +51,8 @@ public:
     Table1();
 
     /** @brief Constructor. */
-    Table1( const std::vector< double > &keyValues,
-            const std::vector< double > &tableData );
+    Table1( const std::vector< double > &key_values,
+            const std::vector< double > &table_data );
 
     /** @brief Copy constructor. */
     Table1( const Table1 &table );
@@ -62,10 +62,10 @@ public:
 
     /**
      * @brief Returns key value for the given key index.
-     * @param keyIndex key index
+     * @param key_index key index
      * @return key value on success or NaN on failure
      */
-    double getIndexValue( unsigned int keyIndex ) const;
+    double getIndexValue( unsigned int key_index ) const;
 
     /** */
     inline unsigned int getSize() const { return _size; }
@@ -86,17 +86,17 @@ public:
      * @brief Returns table value for the given key.
      * Returns table value for the given key value using linear interpolation
      * algorithm.
-     * @param keysValue key value
+     * @param key_value key value
      * @return interpolated value on success or NaN on failure
      */
-    double getValue( double keyValue ) const;
+    double getValue( double key_value ) const;
 
     /**
      * @brief Returns table value for the given key index.
-     * @param keyIndex key index
+     * @param key_index key index
      * @return value on success or NaN on failure
      */
-    double getValueByIndex( unsigned int keyIndex ) const;
+    double getValueByIndex( unsigned int key_index ) const;
 
     /**
      * @brief Returns table first value.
@@ -146,10 +146,10 @@ private:
 
     unsigned int _size;     ///< number of table elements
 
-    double *_keyValues;     ///< key values
-    double *_tableData;     ///< table data
+    double *_key_values;    ///< key values
+    double *_table_data;    ///< table data
 
-    double *_interpolData;  ///< interpolation data matrix
+    double *_inter_data;    ///< interpolation data matrix
 
     /** Updates interpolation data due to table data. */
     void updateInterpolationData();

@@ -37,7 +37,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void test_update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ void Lag2Test::cleanupTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag2Test::testUpdate()
+void Lag2Test::test_update()
 {
     double t = 0.0;
     double y = 0.0;
@@ -93,7 +93,7 @@ void Lag2Test::testUpdate()
         for ( int j = 0; j < steps; j++ )
         {
             double dt = TIME_STEP / (double)steps;
-            _lag->update( u, dt );
+            _lag->update( dt, u );
             y = _lag->getValue();
         }
 

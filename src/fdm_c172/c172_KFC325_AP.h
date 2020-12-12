@@ -50,9 +50,9 @@ public:
 
     /**
      * Reads data.
-     * @param dataNode XML node
+     * @param data_node XML node
      */
-    void readData( XmlNode &dataNode );
+    void readData( XmlNode &data_node );
 
     /** Initializes autopilot. */
     void initialize();

@@ -25,6 +25,7 @@ private Q_SLOTS:
     void cleanupTestCase();
 
     void constructor();
+
     void getLength();
     void getNormalized();
 

@@ -68,7 +68,7 @@ void Lag::setTimeConst( double tc )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag::update( double u, double dt )
+void Lag::update( double dt, double u )
 {
     if ( dt > 0.0 )
     {

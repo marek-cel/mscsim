@@ -73,10 +73,10 @@ public:
 
     /**
      * @brief Updates element due to time step and input value
-     * @param u input value
      * @param dt [s] time step
+     * @param u input value
      */
-    void update( double u, double dt );
+    void update( double dt, double u );
 
 protected:
 

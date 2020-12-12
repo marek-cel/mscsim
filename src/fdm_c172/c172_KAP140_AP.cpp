@@ -46,13 +46,13 @@ C172_KAP140_AP::~C172_KAP140_AP()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KAP140_AP::readData( XmlNode &dataNode )
+void C172_KAP140_AP::readData( XmlNode &data_node )
 {
-    ////////////////////////////////
-    Autopilot::readData( dataNode );
-    ////////////////////////////////
+    /////////////////////////////////
+    Autopilot::readData( data_node );
+    /////////////////////////////////
 
-    if ( dataNode.isValid() )
+    if ( data_node.isValid() )
     {
         int result = FDM_SUCCESS;
 
@@ -60,12 +60,12 @@ void C172_KAP140_AP::readData( XmlNode &dataNode )
 
         if ( result != FDM_SUCCESS )
         {
-            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+            XmlUtils::throwError( __FILE__, __LINE__, data_node );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        XmlUtils::throwError( __FILE__, __LINE__, data_node );
     }
 }
 
@@ -102,7 +102,7 @@ void C172_KAP140_AP::initialize()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KAP140_AP::update( double timeStep, bool button_dn, bool button_up )
+void C172_KAP140_AP::update( double time_step, bool button_dn, bool button_up )
 {
 
 }
@@ -113,7 +113,7 @@ void C172_KAP140_AP::onPressedAP()
 {
     _engaged = !_engaged;
 
-    if ( _engaged ) _yawDamper = true;
+    if ( _engaged ) _yaw_damper = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

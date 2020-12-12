@@ -57,24 +57,24 @@ public:
 
     /**
      * @brief Reads data.
-     * @param dataNode XML node
+     * @param data_node XML node
      */
-    virtual void readData( XmlNode &dataNode );
+    virtual void readData( XmlNode &data_node );
 
     /** @brief Initializes autopilot. */
     virtual void initialize();
 
     /**
      * @brief Updates autopilot.
-     * @param timeStep [s]
+     * @param time_step [s]
      * @param roll [rad]
      * @param pitch [rad]
      * @param heading [rad]
      * @param altitude [m]
      * @param airspeed [m/s]
-     * @param turnRate [rad/s]
-     * @param yawRate [rad/s]
-     * @param climbRate [m/s]
+     * @param turn_rate [rad/s]
+     * @param yaw_rate [rad/s]
+     * @param climb_rate [m/s]
      * @param dme_distance [m]
      * @param nav_deviation
      * @param nav_active
@@ -83,10 +83,10 @@ public:
      * @param gs_deviation
      * @param gs_active
      */
-    virtual void update( double timeStep,
+    virtual void update( double time_step,
                          double roll, double pitch, double heading,
                          double altitude, double airspeed,
-                         double turnRate, double yawRate, double climbRate,
+                         double turn_rate, double yaw_rate, double climb_rate,
                          double dme_distance,
                          double nav_deviation, bool nav_active,
                          double loc_deviation, bool loc_active,
@@ -114,13 +114,13 @@ public:
     inline double getCtrlYaw()   const { return _ctrl_yaw;   }
 
     inline bool isActiveAP() const { return _engaged; }
-    inline bool isActiveYD() const { return _yawDamper; }
+    inline bool isActiveYD() const { return _yaw_damper; }
 
     inline bool isActiveFD() const { return _fd->isEngaged(); }
 
     void setAltitude( double altitude );
     void setAirspeed( double airspeed );
-    void setClimbRate( double climbRate );
+    void setClimbRate( double climb_rate );
     void setHeading( double heading );
     void setCourse( double course );
     void setRoll( double roll );
@@ -157,12 +157,12 @@ protected:
     double _ctrl_pitch;     ///< pitch control command
     double _ctrl_yaw;       ///< yaw control command
 
-    bool _yawDamper;        ///< specifies if yaw damper is engaged
+    bool _yaw_damper;       ///< specifies if yaw damper is engaged
 
     bool _testing;          ///< specifies if test is active
     bool _engaged;          ///< specifies if autopilot is engaged
 
-    virtual void readChannel( const XmlNode &dataNode, double &max_rate,
+    virtual void readChannel( const XmlNode &data_node, double &max_rate,
                               PID &pid, Table1 &gain_ias );
 };
 

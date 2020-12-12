@@ -75,11 +75,11 @@ void Lag2::setTimeConst2( double tc2 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lag2::update( double u, double dt )
+void Lag2::update( double dt, double u )
 {
     if ( dt > 0.0 )
     {
-        _lag1->update( u, dt );
+        _lag1->update( dt, u );
         _y = Lag::update( _lag1->getValue(), _y, dt, _tc2 );
     }
 }

@@ -72,10 +72,10 @@ C172_KFC325_FD::C172_KFC325_FD( const C172_KFC325_AP *ap ) :
     _heading_act ( 0.0 ),
     _heading_ils ( 0.0 ),
 
-    _climbRate_act ( 0.0 ),
-    _climbRate_tc  ( 0.0 ),
+    _climb_rate_act ( 0.0 ),
+    _climb_rate_tc  ( 0.0 ),
 
-    _turnRate ( 0.0 ),
+    _turn_rate ( 0.0 ),
 
     _min_dh_arm  ( 0.0 ),
 
@@ -84,9 +84,9 @@ C172_KFC325_FD::C172_KFC325_FD( const C172_KFC325_AP *ap ) :
 
     _gs_dev_prev ( 0.0 ),
 
-    _turnRateMode ( false ),
+    _turn_rate_mode ( false ),
 
-    _halfBank ( false )
+    _half_bank ( false )
 {
     _pid_alt     .setAntiWindup( PID::Calculation );
     _pid_ias     .setAntiWindup( PID::Calculation );
@@ -107,42 +107,42 @@ C172_KFC325_FD::~C172_KFC325_FD() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::readData( XmlNode &dataNode )
+void C172_KFC325_FD::readData( XmlNode &data_node )
 {
-    if ( dataNode.isValid() )
+    if ( data_node.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_roll  , "max_roll"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_pitch , "min_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_pitch , "max_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_yaw   , "max_yaw"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_roll  , "max_roll"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_pitch , "min_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_pitch , "max_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_yaw   , "max_yaw"   );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_rate_roll  , "max_rate_roll"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_rate_pitch , "max_rate_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _max_rate_tr    , "max_rate_tr"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_roll  , "max_rate_roll"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_pitch , "max_rate_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_tr    , "max_rate_tr"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _climbRate_tc, "climb_rate_tc" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _climb_rate_tc, "climb_rate_tc" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _min_dh_arm, "min_dh_arm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_dh_arm, "min_dh_arm" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nav_dev_max, "nav_dev_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _apr_dev_max, "apr_dev_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _nav_dev_max, "nav_dev_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _apr_dev_max, "apr_dev_max" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, data_node );
 
-        XmlNode nodeALT = dataNode.getFirstChildElement( "mode_alt" );
-        XmlNode nodeIAS = dataNode.getFirstChildElement( "mode_ias" );
-        XmlNode nodeVS  = dataNode.getFirstChildElement( "mode_vs"  );
-        XmlNode nodeARM = dataNode.getFirstChildElement( "mode_arm" );
-        XmlNode nodeGS  = dataNode.getFirstChildElement( "mode_gs"  );
+        XmlNode nodeALT = data_node.getFirstChildElement( "mode_alt" );
+        XmlNode nodeIAS = data_node.getFirstChildElement( "mode_ias" );
+        XmlNode nodeVS  = data_node.getFirstChildElement( "mode_vs"  );
+        XmlNode nodeARM = data_node.getFirstChildElement( "mode_arm" );
+        XmlNode nodeGS  = data_node.getFirstChildElement( "mode_gs"  );
 
-        XmlNode nodeNAV_ANG = dataNode.getFirstChildElement( "mode_nav_ang" );
-        XmlNode nodeNAV_LIN = dataNode.getFirstChildElement( "mode_nav_lin" );
-        XmlNode nodeAPR_ANG = dataNode.getFirstChildElement( "mode_apr_ang" );
-        XmlNode nodeAPR_LIN = dataNode.getFirstChildElement( "mode_apr_lin" );
-        XmlNode nodeHDG  = dataNode.getFirstChildElement( "mode_hdg" );
-        XmlNode nodeTurn = dataNode.getFirstChildElement( "mode_turn" );
+        XmlNode nodeNAV_ANG = data_node.getFirstChildElement( "mode_nav_ang" );
+        XmlNode nodeNAV_LIN = data_node.getFirstChildElement( "mode_nav_lin" );
+        XmlNode nodeAPR_ANG = data_node.getFirstChildElement( "mode_apr_ang" );
+        XmlNode nodeAPR_LIN = data_node.getFirstChildElement( "mode_apr_lin" );
+        XmlNode nodeHDG  = data_node.getFirstChildElement( "mode_hdg" );
+        XmlNode nodeTurn = data_node.getFirstChildElement( "mode_turn" );
 
         readMode( nodeALT , _pid_alt , _min_pitch , _max_pitch );
         readMode( nodeIAS , _pid_ias , _min_pitch , _max_pitch );
@@ -159,22 +159,22 @@ void C172_KFC325_FD::readData( XmlNode &dataNode )
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        XmlUtils::throwError( __FILE__, __LINE__, data_node );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::update( double timeStep,
+void C172_KFC325_FD::update( double time_step,
                              double heading,
                              double altitude, double airspeed,
-                             double turnRate, double climbRate,
+                             double turn_rate, double climb_rate,
                              double dme_distance,
                              double nav_deviation, bool nav_active,
                              double loc_deviation, bool loc_active,
                              double gs_deviation,  bool gs_active )
 {
-    _turnRateMode = false;
+    _turn_rate_mode = false;
 
     updateArmMode( dme_distance,
                    nav_deviation, nav_active,
@@ -187,20 +187,20 @@ void C172_KFC325_FD::update( double timeStep,
             _heading_act = _heading;
         }
 
-        updateLatFD  ( timeStep );
-        updateLatNAV ( timeStep, dme_distance, nav_deviation );
-        updateLatAPR ( timeStep, dme_distance, loc_deviation );
-        updateLatBC  ( timeStep, dme_distance, loc_deviation );
+        updateLatFD  ( time_step );
+        updateLatNAV ( time_step, dme_distance, nav_deviation );
+        updateLatAPR ( time_step, dme_distance, loc_deviation );
+        updateLatBC  ( time_step, dme_distance, loc_deviation );
 
-        updateLatHDG  ( timeStep, heading, turnRate );
-        updateLatTurn ( timeStep, turnRate, airspeed );
+        updateLatHDG  ( time_step, heading, turn_rate );
+        updateLatTurn ( time_step, turn_rate, airspeed );
 
-        updateVerFD  ( timeStep );
-        updateVerALT ( timeStep, altitude );
-        updateVerIAS ( timeStep, airspeed );
-        updateVerVS  ( timeStep, altitude, climbRate );
-        updateVerARM ( timeStep, altitude, climbRate );
-        updateVerGS  ( timeStep, gs_deviation, gs_active );
+        updateVerFD  ( time_step );
+        updateVerALT ( time_step, altitude );
+        updateVerIAS ( time_step, airspeed );
+        updateVerVS  ( time_step, altitude, climb_rate );
+        updateVerARM ( time_step, altitude, climb_rate );
+        updateVerGS  ( time_step, gs_deviation, gs_active );
 
         _cmd_roll  = Misc::satur( -_max_roll  , _max_roll  , _cmd_roll  );
         _cmd_pitch = Misc::satur(  _min_pitch , _max_pitch , _cmd_pitch );
@@ -218,8 +218,8 @@ void C172_KFC325_FD::update( double timeStep,
         _cmd_roll  = 0.0;
         _cmd_pitch = 0.0;
 
-        _climbRate_act = climbRate;
-        _turnRate = turnRate;
+        _climb_rate_act = climb_rate;
+        _turn_rate = turn_rate;
 
         _gs_dev_prev = 0.0;
     }
@@ -344,9 +344,9 @@ void C172_KFC325_FD::onPressedBC()
 
 void C172_KFC325_FD::onPressedHalfBank()
 {
-    _halfBank = !_halfBank;
+    _half_bank = !_half_bank;
 
-    if ( _halfBank )
+    if ( _half_bank )
     {
         double min_roll = -0.5 * _max_roll;
         double max_roll =  0.5 * _max_roll;
@@ -492,17 +492,17 @@ void C172_KFC325_FD::updateArmMode( double dme_distance,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatFD( double timeStep )
+void C172_KFC325_FD::updateLatFD( double time_step )
 {
     if ( _lat_mode == LM_FD )
     {
-        _cmd_roll = Misc::rate( timeStep, _max_rate_roll, _cmd_roll, 0.0 );
+        _cmd_roll = Misc::rate( time_step, _max_rate_roll, _cmd_roll, 0.0 );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatNAV( double timeStep, double dme_distance, double nav_deviation )
+void C172_KFC325_FD::updateLatNAV( double time_step, double dme_distance, double nav_deviation )
 {
     if ( _lat_mode == LM_NAV )
     {
@@ -515,12 +515,12 @@ void C172_KFC325_FD::updateLatNAV( double timeStep, double dme_distance, double 
             if ( dme_distance > 1.0e-9 )
             {
                 double lin_deviation = dme_distance * sin( nav_deviation );
-                _pid_nav_lin.update( timeStep, lin_deviation );
+                _pid_nav_lin.update( time_step, lin_deviation );
                 _heading_act = _course + _pid_nav_lin.getValue();
             }
             else
             {
-                _pid_nav_ang.update( timeStep, nav_deviation );
+                _pid_nav_ang.update( time_step, nav_deviation );
                 _heading_act = _course + _pid_nav_ang.getValue();
             }
         }
@@ -529,27 +529,27 @@ void C172_KFC325_FD::updateLatNAV( double timeStep, double dme_distance, double 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatAPR( double timeStep, double dme_distance, double loc_deviation )
+void C172_KFC325_FD::updateLatAPR( double time_step, double dme_distance, double loc_deviation )
 {
     if ( _lat_mode == LM_APR )
     {
-        updateLatABC( timeStep, dme_distance,  loc_deviation, _heading_ils );
+        updateLatABC( time_step, dme_distance,  loc_deviation, _heading_ils );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatBC( double timeStep, double dme_distance, double loc_deviation )
+void C172_KFC325_FD::updateLatBC( double time_step, double dme_distance, double loc_deviation )
 {
     if ( _lat_mode == LM_BC )
     {
-        updateLatABC( timeStep, dme_distance, -loc_deviation, _heading_ils - M_PI );
+        updateLatABC( time_step, dme_distance, -loc_deviation, _heading_ils - M_PI );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatABC( double timeStep, double dme_distance, double loc_deviation, double heading )
+void C172_KFC325_FD::updateLatABC( double time_step, double dme_distance, double loc_deviation, double heading )
 {
     if ( ( _lat_mode == LM_APR && _arm_mode == ARM_APR )
       || ( _lat_mode == LM_BC  && _arm_mode == ARM_BC ) )
@@ -561,12 +561,12 @@ void C172_KFC325_FD::updateLatABC( double timeStep, double dme_distance, double 
         if ( dme_distance > 1.0e-9 )
         {
             double lin_deviation = dme_distance * sin( loc_deviation );
-            _pid_apr_lin.update( timeStep, lin_deviation );
+            _pid_apr_lin.update( time_step, lin_deviation );
             _heading_act = heading + _pid_apr_lin.getValue();
         }
         else
         {
-            _pid_apr_ang.update( timeStep, loc_deviation );
+            _pid_apr_ang.update( time_step, loc_deviation );
             _heading_act = heading + _pid_apr_ang.getValue();
         }
     }
@@ -574,7 +574,7 @@ void C172_KFC325_FD::updateLatABC( double timeStep, double dme_distance, double 
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatHDG( double timeStep, double heading, double turnRate )
+void C172_KFC325_FD::updateLatHDG( double time_step, double heading, double turnRate )
 {
     double delta_hdg = _heading_act - heading;
 
@@ -583,10 +583,10 @@ void C172_KFC325_FD::updateLatHDG( double timeStep, double heading, double turnR
 
     if ( _lat_mode == LM_HDG || _lat_mode == LM_NAV || _lat_mode == LM_APR || _lat_mode == LM_BC )
     {
-        _turnRateMode = true;
+        _turn_rate_mode = true;
 
-        _pid_hdg.update( timeStep, delta_hdg );
-        _turnRate = Misc::rate( timeStep, _max_rate_tr, _turnRate, _pid_hdg.getValue() );
+        _pid_hdg.update( time_step, delta_hdg );
+        _turn_rate = Misc::rate( time_step, _max_rate_tr, _turn_rate, _pid_hdg.getValue() );
     }
     else
     {
@@ -596,40 +596,40 @@ void C172_KFC325_FD::updateLatHDG( double timeStep, double heading, double turnR
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateLatTurn( double timeStep, double turnRate, double airspeed )
+void C172_KFC325_FD::updateLatTurn( double time_step, double turnRate, double airspeed )
 {
-    if ( _turnRateMode )
+    if ( _turn_rate_mode )
     {
-        double roll = atan2( airspeed * _turnRate, WGS84::_g );
+        double roll = atan2( airspeed * _turn_rate, WGS84::_g );
 
-        _pid_turn.update( timeStep, _turnRate - turnRate );
-        _cmd_roll = Misc::rate( timeStep, _max_rate_roll, _cmd_roll, roll + _pid_turn.getValue() );
+        _pid_turn.update( time_step, _turn_rate - turnRate );
+        _cmd_roll = Misc::rate( time_step, _max_rate_roll, _cmd_roll, roll + _pid_turn.getValue() );
     }
     else
     {
         _pid_turn.setValue( _cmd_roll );
-        _turnRate = turnRate;
+        _turn_rate = turnRate;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerFD( double timeStep )
+void C172_KFC325_FD::updateVerFD( double time_step )
 {
     if ( _ver_mode == VM_FD )
-        _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pitch );
+        _cmd_pitch = Misc::rate( time_step, _max_rate_pitch, _cmd_pitch, _pitch );
     else
         _pitch = _cmd_pitch;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerALT( double timeStep, double altitude )
+void C172_KFC325_FD::updateVerALT( double time_step, double altitude )
 {
     if ( _ver_mode == VM_ALT )
     {
-        _pid_alt.update( timeStep, _altitude - altitude );
-        _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_alt.getValue() );
+        _pid_alt.update( time_step, _altitude - altitude );
+        _cmd_pitch = Misc::rate( time_step, _max_rate_pitch, _cmd_pitch, _pid_alt.getValue() );
     }
     else
     {
@@ -639,12 +639,12 @@ void C172_KFC325_FD::updateVerALT( double timeStep, double altitude )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerIAS( double timeStep, double airspeed )
+void C172_KFC325_FD::updateVerIAS( double time_step, double airspeed )
 {
     if ( _ver_mode == VM_IAS )
     {
-        _pid_ias.update( timeStep, _airspeed - airspeed );
-        _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_ias.getValue() );
+        _pid_ias.update( time_step, _airspeed - airspeed );
+        _cmd_pitch = Misc::rate( time_step, _max_rate_pitch, _cmd_pitch, _pid_ias.getValue() );
     }
     else
     {
@@ -654,18 +654,18 @@ void C172_KFC325_FD::updateVerIAS( double timeStep, double airspeed )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerVS( double timeStep, double altitude, double climbRate )
+void C172_KFC325_FD::updateVerVS( double time_step, double altitude, double climbRate )
 {
     if ( _ver_mode == VM_VS || _ver_mode == VM_ARM )
     {
-        _climbRate_act = Misc::inertia( _climbRate, _climbRate_act, timeStep, _climbRate_tc );
-        _pid_vs.update( timeStep, _climbRate_act - climbRate );
-        _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_vs.getValue() );
+        _climb_rate_act = Misc::inertia( _climbRate, _climb_rate_act, time_step, _climb_rate_tc );
+        _pid_vs.update( time_step, _climb_rate_act - climbRate );
+        _cmd_pitch = Misc::rate( time_step, _max_rate_pitch, _cmd_pitch, _pid_vs.getValue() );
 
         //if ( _ver_mode == VM_ARM )
         //{
         //    _pid_alt.setValue( 0.0 );
-        //    _pid_alt.update( timeStep, _altitude - altitude );
+        //    _pid_alt.update( time_step, _altitude - altitude );
         //
         //    double delta_tht = _pid_vs.getValue() - _pid_alt.getValue();
         //    double delta_alt = _altitude - altitude;
@@ -682,13 +682,13 @@ void C172_KFC325_FD::updateVerVS( double timeStep, double altitude, double climb
     else
     {
         _pid_vs.setValue( _cmd_pitch );
-        _climbRate_act = climbRate;
+        _climb_rate_act = climbRate;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerARM( double timeStep, double altitude, double climbRate )
+void C172_KFC325_FD::updateVerARM( double time_step, double altitude, double climbRate )
 {
     double delta_h = _altitude - altitude;
 
@@ -700,7 +700,7 @@ void C172_KFC325_FD::updateVerARM( double timeStep, double altitude, double clim
         }
         else
         {
-            _pid_arm.update( timeStep, delta_h );
+            _pid_arm.update( time_step, delta_h );
             _climbRate = _pid_arm.getValue();
         }
     }
@@ -712,7 +712,7 @@ void C172_KFC325_FD::updateVerARM( double timeStep, double altitude, double clim
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::updateVerGS( double timeStep, double gs_deviation, bool gs_active )
+void C172_KFC325_FD::updateVerGS( double time_step, double gs_deviation, bool gs_active )
 {
     if ( gs_active && _lat_mode == LM_APR && _ver_mode != VM_GS
       && ( Misc::sign( _gs_dev_prev ) != Misc::sign( gs_deviation ) ) )
@@ -722,8 +722,8 @@ void C172_KFC325_FD::updateVerGS( double timeStep, double gs_deviation, bool gs_
 
     if ( _ver_mode == VM_GS )
     {
-        _pid_gs.update( timeStep, gs_deviation );
-        _cmd_pitch = Misc::rate( timeStep, _max_rate_pitch, _cmd_pitch, _pid_gs.getValue() );
+        _pid_gs.update( time_step, gs_deviation );
+        _cmd_pitch = Misc::rate( time_step, _max_rate_pitch, _cmd_pitch, _pid_gs.getValue() );
     }
     else
     {

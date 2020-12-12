@@ -113,7 +113,7 @@ void Filter2::setC6( double c6 )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Filter2::update( double u, double dt )
+void Filter2::update( double dt, double u )
 {
     if ( dt > 0.0 )
     {

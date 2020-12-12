@@ -279,7 +279,7 @@ void F16_FLCS::setFlaps_le_max( double flaps_le_max )
 
 void F16_FLCS::updateLEF( double angleOfAttack, double q_p )
 {
-    _alpha_lef->update( Units::rad2deg( angleOfAttack ), _timeStep );
+    _alpha_lef->update( _timeStep, Units::rad2deg( angleOfAttack ) );
 
     // (NASA-TP-1538, p.34)
     // delta_lef = 1.38 (2s+7.25)/(s+7.25) alpha - 9.05 q/p_s + 1.45
@@ -320,7 +320,7 @@ void F16_FLCS::updateLat( double ctrlLat, double trimLat,
     // (AD-A055-417, p.20)
     double omg_p_deg = Units::rad2deg( rollRate );
 
-    _stick_lat->update( ctrlLat, _timeStep );
+    _stick_lat->update( _timeStep, ctrlLat );
 
     double p_com = _stick_lat->getValue();
 
@@ -328,13 +328,13 @@ void F16_FLCS::updateLat( double ctrlLat, double trimLat,
 
     double p_loop_pos = std::max( 0.0, _p_com_pos->getValue() );
     double p_loop_neg = std::min( 0.0, _p_com_neg->getValue() );
-    _p_com_lag->update( p_com - p_loop_pos - p_loop_neg, _timeStep );
+    _p_com_lag->update( _timeStep, p_com - p_loop_pos - p_loop_neg );
 
-    _p_com_pos->update( std::max( 0.0, _p_com_lag->getValue() ), _timeStep );
-    _p_com_neg->update( std::min( 0.0, _p_com_lag->getValue() ), _timeStep );
+    _p_com_pos->update( _timeStep, std::max( 0.0, _p_com_lag->getValue() ) );
+    _p_com_neg->update( _timeStep, std::min( 0.0, _p_com_lag->getValue() ) );
 
-    _omg_p_lag->update( omg_p_deg, _timeStep );
-    _omg_p_fil->update( _omg_p_lag->getValue(), _timeStep );
+    _omg_p_lag->update( _timeStep, omg_p_deg );
+    _omg_p_fil->update( _timeStep, _omg_p_lag->getValue() );
 
     double roll_ap_tie_in = 0.0; // TODO
     double roll_control = _omg_p_fil->getValue()
@@ -353,8 +353,8 @@ void F16_FLCS::updateLat( double ctrlLat, double trimLat,
 
     _delta_ac = _delta_frc - _delta_flc;
 
-    _delta_fl_lag->update( _delta_flc, _timeStep );
-    _delta_fr_lag->update( _delta_frc, _timeStep );
+    _delta_fl_lag->update( _timeStep, _delta_flc );
+    _delta_fr_lag->update( _timeStep, _delta_frc );
 
     double flaperons_delta_max = 80.0 * _timeStep;
     _delta_fl = getSurfaceMaxRate( _delta_fl, _delta_fl_lag->getValue(), flaperons_delta_max );
@@ -377,11 +377,11 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
     double alpha_deg = Units::rad2deg( angleOfAttack );
     double omg_q_deg = Units::rad2deg( pitchRate );
 
-    _alpha_lag->update( Misc::satur( -5.0, 30.0, alpha_deg ), _timeStep );
-    _stick_lon->update( ctrlLon   , _timeStep );
-    _g_z_input->update( g_z - 1.0 , _timeStep );
-    _omg_q_lag->update( omg_q_deg , _timeStep );
-    _omg_q_fil->update( _omg_q_lag->getValue(), _timeStep );
+    _alpha_lag->update( _timeStep, Misc::satur( -5.0, 30.0, alpha_deg ) );
+    _stick_lon->update( _timeStep, ctrlLon   );
+    _g_z_input->update( _timeStep, g_z - 1.0 );
+    _omg_q_lag->update( _timeStep, omg_q_deg );
+    _omg_q_fil->update( _timeStep, _omg_q_lag->getValue() );
 
     double g_com = _stick_lon->getValue() + trimLon;
     double g_max =  8.0;
@@ -400,7 +400,7 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
         }
     }
 
-    _g_com_lag->update( Misc::satur( g_min, g_max, g_com ) * ( touchdown ? 1.0 : 0.5 ), _timeStep );
+    _g_com_lag->update( _timeStep, Misc::satur( g_min, g_max, g_com ) * ( touchdown ? 1.0 : 0.5 ) );
 
     double q_gained = 0.7 * getGainF3( dynPress ) * _omg_q_fil->getValue();
     double aoa_limit = std::max( 0.0, 0.5 * ( _alpha_lag->getValue() - 20.4 + q_gained ) );
@@ -408,9 +408,9 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
     double pitch_ap_tie_in = 0.0; // TODO
     double g_command = aoa_limit - _g_com_lag->getValue() - pitch_ap_tie_in;
 
-    _sca_bias_1->update( touchdown ? 0.0 : 6.0, _timeStep );
-    _sca_bias_2->update( _gains == Landing ? 9.0 : 0.0, _timeStep );
-    _sca_bias_3->update( _gains == Landing ? 1.0 : 0.0, _timeStep );
+    _sca_bias_1->update( _timeStep, touchdown ? 0.0 : 6.0 );
+    _sca_bias_2->update( _timeStep, _gains == Landing ? 9.0 : 0.0 );
+    _sca_bias_3->update( _timeStep, _gains == Landing ? 1.0 : 0.0 );
 
     double aoa_bias = 9.0 - _sca_bias_2->getValue() + _sca_bias_1->getValue();
 
@@ -421,8 +421,8 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
     double u_sca = std::max( 0.0, u_sca_1 ) //+ std::min( 0.0, u_sca_1 ) * m_sca_bias_3->getValue()
             + u_sca_2;
 
-    _u_sca_fil->update( u_sca, _timeStep );
-    _u_sca_fil2->update( _u_sca_fil->getValue(), _timeStep );
+    _u_sca_fil->update( _timeStep, u_sca );
+    _u_sca_fil2->update( _timeStep, _u_sca_fil->getValue() );
 
     double pitch_gained = 3.0 * getGainF3( dynPress ) * ( g_command + _u_sca_fil2->getValue() );
     double alpha_gained = getGainF2( q_p ) * _alpha_lag->getValue();
@@ -440,8 +440,8 @@ void F16_FLCS::updateLon( double ctrlLon, double trimLon,
 
     double delta_dc = 0.5 * getGainF10( q_p ) * _delta_ac;
 
-    _actuator_l->update( selector_input - delta_dc, _timeStep );
-    _actuator_r->update( selector_input + delta_dc, _timeStep );
+    _actuator_l->update( _timeStep, selector_input - delta_dc );
+    _actuator_r->update( _timeStep, selector_input + delta_dc );
 
     double elevator_delta_max = 60.0 * _timeStep;
     _delta_htl = getSurfaceMaxRate( _delta_htl, _actuator_l->getValue(), elevator_delta_max );
@@ -467,15 +467,15 @@ void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
 {
     double omg_r_deg = Units::rad2deg( yawRate  );
 
-    _pedals->update( ctrlYaw, _timeStep );
-    _omg_r_lag->update( omg_r_deg, _timeStep );
-    _omg_p_yaw->update( _omg_p_lag->getValue(), _timeStep );
+    _pedals->update( _timeStep, ctrlYaw );
+    _omg_r_lag->update( _timeStep, omg_r_deg );
+    _omg_p_yaw->update( _timeStep, _omg_p_lag->getValue() );
 
     double r_com = _pedals->getValue() + trimYaw;
     double u_sum = _omg_r_lag->getValue() - ( 1.0 / 57.3 ) * _omg_p_yaw->getValue() * _alpha_lag->getValue();
 
-    _u_sum_ll1->update( u_sum, _timeStep );
-    _u_sum_ll2->update( _u_sum_ll1->getValue(), _timeStep );
+    _u_sum_ll1->update( _timeStep, u_sum );
+    _u_sum_ll2->update( _timeStep, _u_sum_ll1->getValue() );
 
     // Aileron Rudder Interconnect (ARI)
     double ari_gain = 0.0;
@@ -495,8 +495,8 @@ void F16_FLCS::updateYaw( double ctrlYaw, double trimYaw,
 
     double delta_rc = r_com + r_auto;
 
-    _delta_r_fil->update( delta_rc, _timeStep );
-    _delta_r_lag->update( _delta_r_fil->getValue(), _timeStep );
+    _delta_r_fil->update( _timeStep, delta_rc );
+    _delta_r_lag->update( _timeStep, _delta_r_fil->getValue() );
 
     double rudder_delta_max = 120.0 * _timeStep;
     _delta_r = getSurfaceMaxRate( _delta_r, _delta_r_lag->getValue(), rudder_delta_max );

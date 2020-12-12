@@ -1,3 +1,11 @@
+2020-12-12 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * unit tests
+    
+    * quaternion derivative with adjoin parameters constrain
+
+
+
 2020-12-05 Marek M. Cel <marekcel@marekcel.pl>
 
     * comments

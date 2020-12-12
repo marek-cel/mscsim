@@ -37,7 +37,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void testUpdate();
+    void test_update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ void TestPID::cleanupTestCase() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void TestPID::testUpdate()
+void TestPID::test_update()
 {
     double t = 0.0;
     double y = 0.0;

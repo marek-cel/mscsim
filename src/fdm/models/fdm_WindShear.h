@@ -32,7 +32,7 @@ namespace fdm
 {
 
 /**
- * @brief Windshear class.
+ * @brief Windshear model class.
  *
  * @see Windshear Training Aid, Volume 2 - Substantiating Data, FAA, 1990, p. 4.3-144 - 4.3-153
  */

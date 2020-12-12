@@ -417,7 +417,7 @@ void Aircraft::computeStateDeriv( const StateVector &stateVect,
 
 
     // computing attitude derivatives
-    Quaternion att_dot_wgs = _att_wgs.getDerivative( _omg_bas );
+    Quaternion att_dot_wgs = _att_wgs.getDerivative( _omg_bas, 2.0 * FDM_TIME_STEP );
 
     if ( !_freeze_attitude )
     {
@@ -517,8 +517,6 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _envir->update( _wgs.getPos_Geo().alt );
     _isect->update( _wgs.getPos_Geo().lat, _wgs.getPos_Geo().lon );
-
-    _att_wgs.normalize();
 
     _wgs2bas = Matrix3x3( _att_wgs );
     _wgs2ned = Matrix3x3( _wgs.getWGS2NED() );

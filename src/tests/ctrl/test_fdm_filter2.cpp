@@ -41,7 +41,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void sampleTest();
+    void test_update();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ void Filter2Test::cleanupTestCase()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Filter2Test::sampleTest()
+void Filter2Test::test_update()
 {
     double t = 0.0;
     double y = 0.0;
@@ -97,7 +97,7 @@ void Filter2Test::sampleTest()
     {
         double u = ( t < 0.99 ) ? 0.0 : 1.0;
 
-        _filter->update( u, dt );
+        _filter->update( dt, u );
         y = _filter->getValue();
 
         if ( i % devider == 0 )

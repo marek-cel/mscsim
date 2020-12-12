@@ -62,7 +62,7 @@ void Lead::setTimeConst( double tc )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Lead::update( double u, double dt )
+void Lead::update( double dt, double u )
 {
     if ( dt > 0.0 )
     {

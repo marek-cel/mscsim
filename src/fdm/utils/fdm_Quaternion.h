@@ -40,9 +40,11 @@ class Vector3;  // forward declaration
  *
  * @see Allerton D.: Principles of Flight Simulation, 2009, p.122
  * @see Zipfel P.: Modeling and Simulation of Aerospace Vehicle Dynamics, 2007, p.372
+ * @see Pamadi B.: Performance Stability Dynamics and Control of Airplanes, 2004, p.346
  * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004, p.33. [in Polish]
  * @see Matulewski J., et. al.: Grafika fizyka metody numeryczne, 2010, p.519. [in Polish]
  * @see DeLoura M.: Game Programming Gems Vol. 1, 2000, p.213
+ * @see Roziecki R.: Bifurkacyjna Analiza Dynamiki Lotu Samolotu z Wektorowaniem Ciagu, 2006, p.22 [in Polish]
  * @see https://en.wikipedia.org/wiki/Quaternion
  * @see https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation
  * @see https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
@@ -94,8 +96,13 @@ public:
     /** @brief Returns conjugated quaternion. */
     Quaternion getConjugated() const;
 
-    /** @brief Returns quaternion derivative due to given angular velocity. */
-    Quaternion getDerivative( const Vector3 &omega ) const;
+    /**
+     * @brief Returns quaternion derivative due to given angular velocity.
+     * @param omega angular velocity vector
+     * @param lambda free parameter (usually set to a small multiple of the integration time step)
+     * @return quaternion derivative
+     */
+    Quaternion getDerivative( const Vector3 &omega, double lambda = 0.0 ) const;
 
     /** @brief Returns inverted quaternion. */
     Quaternion getInverted() const;

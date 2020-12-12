@@ -22,12 +22,6 @@
 
 #include <fdm_f35a/f35a_FLCS.h>
 
-#include <algorithm>
-
-#include <fdm/ctrl/fdm_Lag.h>
-#include <fdm/utils/fdm_Misc.h>
-#include <fdm/utils/fdm_Units.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;
@@ -35,7 +29,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 F35A_FLCS::F35A_FLCS() :
-    _timeStep ( 0.0 )
+    _time_step ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,10 +38,10 @@ F35A_FLCS::~F35A_FLCS() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F35A_FLCS::update( double timeStep )
+void F35A_FLCS::update( double time_step )
 {
-    if ( timeStep > 0.0 )
+    if ( time_step > 0.0 )
     {
-        _timeStep = timeStep;
+        _time_step = time_step;
     }
 }

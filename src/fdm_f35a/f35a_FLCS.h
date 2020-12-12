@@ -47,11 +47,11 @@ public:
     ~F35A_FLCS();
 
     /** Updates model. */
-    void update( double timeStep );
+    void update( double time_step );
 
 private:
 
-    double _timeStep;                   ///< [s] time step
+    double _time_step;                  ///< [s] time step
 };
 
 } // end of fdm namespace

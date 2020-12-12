@@ -50,12 +50,12 @@ void XF_FDM::updateDataOut()
     /////////////////////
 
     // controls
-    _dataOut.controls.elevator  = _aircraft->getCtrl()->getFLCS()->getElevator();
-    _dataOut.controls.elevons   = _aircraft->getCtrl()->getFLCS()->getElevons();
-    _dataOut.controls.rudder    = _aircraft->getCtrl()->getFLCS()->getRudder();
-    _dataOut.controls.flaps     = _aircraft->getCtrl()->getFLCS()->getFlapsTE();
-    _dataOut.controls.flaperons = _aircraft->getCtrl()->getFLCS()->getAilerons(); // sic!
-    _dataOut.controls.lef       = _aircraft->getCtrl()->getFLCS()->getFlapsLE();
+    _dataOut.controls.elevator  = _aircraft->getCtrl()->getElevator();
+    _dataOut.controls.elevons   = 0.0;//_aircraft->getCtrl()->getElevons();
+    _dataOut.controls.rudder    = _aircraft->getCtrl()->getRudder();
+    _dataOut.controls.flaps     = _aircraft->getCtrl()->getFlapsTE();
+    _dataOut.controls.ailerons  = _aircraft->getCtrl()->getAilerons();
+    _dataOut.controls.lef       = _aircraft->getCtrl()->getFlapsLE();
     _dataOut.controls.airbrake  = _aircraft->getCtrl()->getAirbrake();
 
     // propulsion

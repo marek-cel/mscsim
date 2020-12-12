@@ -73,5 +73,5 @@ void UH60_MainRotor::update( double omega,
 
     // NASA-CR-166309, p.5.1-21 (PDF p.41)
     _downwashLag->setTimeConst( t_dwo / mu_tot );
-    _downwashLag->update( k_ct * _ct / ( 2.0 * mu_tot ), timeStep );
+    _downwashLag->update( timeStep, k_ct * _ct / ( 2.0 * mu_tot ) );
 }
