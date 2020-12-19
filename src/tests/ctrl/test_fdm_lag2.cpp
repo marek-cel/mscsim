@@ -97,7 +97,7 @@ void Lag2Test::test_update()
             y = _lag->getValue();
         }
 
-        cout << y << " " << _y.at( i ) << endl;
+        //cout << y << " " << _y.at( i ) << endl;
 
         QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-3, "Failure" );
 

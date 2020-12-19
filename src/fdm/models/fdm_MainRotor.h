@@ -257,6 +257,8 @@ protected:
     double _sb;                 ///< [kg*m] single rotor blade first moment of mass about flapping hinge
     double _ib;                 ///< [kg*m^2] single rotor blade inertia moment about flapping hinge
 
+    double _cd;                 ///< [-] direction coefficient (equels 1 for CCW and -1 for CW)
+
     double _omega;              ///< [rad/s] rotor revolution speed
     double _azimuth;            ///< [rad] rotor azimuth position
 

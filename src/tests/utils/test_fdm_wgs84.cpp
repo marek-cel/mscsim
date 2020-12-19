@@ -280,7 +280,19 @@ void WGS84Test::geo2wgs()
 
 void WGS84Test::constructor()
 {
-    // TODO
+    fdm::WGS84::Geo geo;
+    fdm::Vector3 pos_wgs;
+
+    // 45N 45E
+    pos_wgs.x() = 3194419.145061;
+    pos_wgs.y() = 3194419.145061;
+    pos_wgs.z() = 4487348.408802;
+
+    fdm::WGS84 wgs1( pos_wgs );
+
+    QVERIFY2( fabs( wgs1.getPos_WGS().x() - 3194419.145061 ) < 1.0e-5, "Failure x" );
+    QVERIFY2( fabs( wgs1.getPos_WGS().y() - 3194419.145061 ) < 1.0e-5, "Failure y" );
+    QVERIFY2( fabs( wgs1.getPos_WGS().z() - 4487348.408802 ) < 1.0e-4, "Failure z" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

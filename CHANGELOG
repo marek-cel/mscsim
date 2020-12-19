@@ -1,3 +1,11 @@
+2020-12-19 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * automatic unit tests building and running scripts
+    
+    * main rotor model flapping coefficients formula
+
+
+
 2020-12-12 Marek M. Cel <marekcel@marekcel.pl>
     
     * unit tests

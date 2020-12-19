@@ -74,6 +74,7 @@ MainRotor::MainRotor() :
     _s  ( 0.0 ),
     _sb ( 0.0 ),
     _ib ( 0.0 ),
+    _cd ( 0.0 ),
 
     _omega   ( 0.0 ),
     _azimuth ( 0.0 ),
@@ -186,6 +187,8 @@ void MainRotor::readData( XmlNode &dataNode )
 
             _sb = blade_mass * _r / 2.0;
             _ib = blade_mass * _r2 / 3.0;
+
+            _cd = _ccw ? 1.0 : -1.0;
         }
         else
         {
@@ -295,28 +298,37 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
         lambda = mu_z - lambda_i;
 
         // flapping coefficients
-        if ( _ccw )
-        {
-            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
-                    - a_z * _sb / ( _ib * omega2 );
+        _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _cd * _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
+                - a_z * _sb / ( _ib * omega2 );
 
-            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
-                    + ( _b4 * p / _omega - 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
+        beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+                + _cd * ( _b4 * p / _omega - _cd * 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
 
-            beta_1s_cwas = - 4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
-                    + ( _b4 * q / _omega + 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
-        }
-        else
-        {
-            _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
-                    - a_z * _sb / ( _ib * omega2 );
+        beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
+                + ( _b4 * q / _omega + _cd * 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
 
-            beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
-                    - ( _b4 * p / _omega + 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
-
-            beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
-                    + ( _b4 * q / _omega - 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
-        }
+        //if ( _ccw )
+        //{
+        //    _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 + _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
+        //            - a_z * _sb / ( _ib * omega2 );
+        //
+        //    beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+        //            + ( _b4 * p / _omega - 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
+        //
+        //    beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
+        //            + ( _b4 * q / _omega + 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
+        //}
+        //else
+        //{
+        //    _beta_0 = ( gamma / 2.0 ) * ( _b3 * lambda / 3.0 - _b3 * p * mu / ( 6.0 * _omega ) + _b4 * _theta_0 / 4.0 + _b2 * _theta_0 * mu2 / 4.0 )
+        //            - a_z * _sb / ( _ib * omega2 );
+        //
+        //    beta_1c_cwas = 2.0 * mu * ( lambda + 4.0 * _b * _theta_0 / 3.0 ) / ( mu2 / 2.0 - _b2 )
+        //            - ( _b4 * p / _omega + 16.0 * q / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 - _b2 ) );
+        //
+        //    beta_1s_cwas = -4.0 * _beta_0 * mu * _b / ( mu2 / 2.0 + _b2 ) / 3.0
+        //            + ( _b4 * q / _omega - 16.0 * p / ( gamma * _omega ) ) / ( _b2 * ( mu2 / 2.0 + _b2 ) );
+        //}
 
         // limits
         _beta_0      = Misc::satur( -_beta_max, _beta_max, _beta_0      );
@@ -354,15 +366,15 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
     double cosBetaCAS = cos( beta_cas );
     double sinBetaCAS = sin( beta_cas );
 
-    double beta_1c_cas = beta_1c_cwas * cosBetaCAS - beta_1s_cwas * sinBetaCAS * ( _ccw ? -1.0 : 1.0 );
-    double beta_1s_cas = beta_1s_cwas * cosBetaCAS + beta_1c_cwas * sinBetaCAS * ( _ccw ? -1.0 : 1.0 );
+    double beta_1c_cas = beta_1c_cwas * cosBetaCAS - beta_1s_cwas * sinBetaCAS * ( -1.0 * _cd );
+    double beta_1s_cas = beta_1s_cwas * cosBetaCAS + beta_1c_cwas * sinBetaCAS * ( -1.0 * _cd );
 
     // flapping coefficients
     _beta_1c = Misc::satur( -_beta_max, _beta_max, beta_1c_cas - _theta_1s );
     _beta_1s = Misc::satur( -_beta_max, _beta_max, beta_1s_cas + _theta_1c );
 
     _coningAngle =  _beta_0;
-    _diskRoll    =  _ccw ? -_beta_1s : _beta_1s;
+    _diskRoll    = -_beta_1s * _cd;
     _diskPitch   = -_beta_1c;
 
     // DAS <-> BAS
@@ -420,7 +432,7 @@ void MainRotor::computeForceAndMoment( const Vector3 &vel_bas,
     _for_bas = _das2bas * Vector3( 0.0, 0.0, -_thrust );
              //+ _ras2bas * hforce_ras;
     _mom_bas = ( _r_hub_bas % _for_bas )
-             + _ras2bas * Vector3( 0.0, 0.0, _ccw ? _torque : -_torque );
+             + _ras2bas * Vector3( 0.0, 0.0, _cd * _torque );
 
     if ( !_for_bas.isValid() || !_mom_bas.isValid() )
     {
@@ -444,8 +456,8 @@ void MainRotor::update( double omega,
     _omega   = omega;
     _azimuth = azimuth;
 
-    _theta_0  = collective;
-    _theta_1c = _ccw ? -cyclicLat : cyclicLat;
-    _theta_1s = cyclicLon;
+    _theta_0  =  collective;
+    _theta_1c = -cyclicLat * _cd;
+    _theta_1s =  cyclicLon;
 }
 

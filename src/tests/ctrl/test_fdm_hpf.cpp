@@ -128,7 +128,7 @@ void HPFTest::test_update1()
         {
             if ( index > 0 )
             {
-                cout << y << " " << _y.at( index - 1 ) << endl;
+                //cout << y << " " << _y.at( index - 1 ) << endl;
                 QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
 
@@ -161,7 +161,7 @@ void HPFTest::test_update2()
         {
             if ( index > 0 )
             {
-                cout << y << " " << _y2.at( index - 1 ) << endl;
+                //cout << y << " " << _y2.at( index - 1 ) << endl;
                 QVERIFY2( fabs( y - _y2.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
 

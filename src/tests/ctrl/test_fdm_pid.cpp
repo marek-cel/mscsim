@@ -96,7 +96,7 @@ void TestPID::test_update()
 
         if ( t >= 5.0 )
         {
-            cout << y << " " << _y.at( i ) << endl;
+            //cout << y << " " << _y.at( i ) << endl;
             QVERIFY2( fabs( y - _y.at( i ) ) < 1.0e-1, "Failure" );
         }
 

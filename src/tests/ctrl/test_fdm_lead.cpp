@@ -117,7 +117,7 @@ void LeadTest::test_update()
             }
         }
 
-        cout << y << " " << _y.at( i ) << endl;
+        //cout << y << " " << _y.at( i ) << endl;
         QVERIFY2( fabs( y - _y.at( i ) ) < 2.0e-2, "Failure" );
 
         t += TIME_STEP;

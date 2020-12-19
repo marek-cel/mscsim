@@ -179,7 +179,7 @@ bool RungeKutta4Test::solve( double m,
     // m * r^2  +  c * r  +  k  =  0
     double delta = calcDelta( _m, _c, _k );
 
-    std::cout << "Delta= " << delta << std::endl;
+    //std::cout << "Delta= " << delta << std::endl;
 
     if ( delta < -ZERO ) // numerical zero
     {
@@ -309,7 +309,7 @@ void RungeKutta4Test::cleanupTestCase() {}
 
 void RungeKutta4Test::test1_1()
 {
-    std::cout << "test1_1()" << std::endl;
+    //std::cout << "test1_1()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -327,7 +327,7 @@ void RungeKutta4Test::test1_1()
 
 void RungeKutta4Test::test1_2()
 {
-    std::cout << "test1_2()" << std::endl;
+    //std::cout << "test1_2()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -345,7 +345,7 @@ void RungeKutta4Test::test1_2()
 
 void RungeKutta4Test::test1_3()
 {
-    std::cout << "test1_3()" << std::endl;
+    //std::cout << "test1_3()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -363,7 +363,7 @@ void RungeKutta4Test::test1_3()
 
 void RungeKutta4Test::test2_1()
 {
-    std::cout << "test2_1()" << std::endl;
+    //std::cout << "test2_1()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -381,7 +381,7 @@ void RungeKutta4Test::test2_1()
 
 void RungeKutta4Test::test2_2()
 {
-    std::cout << "test2_2()" << std::endl;
+    //std::cout << "test2_2()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -399,7 +399,7 @@ void RungeKutta4Test::test2_2()
 
 void RungeKutta4Test::test2_3()
 {
-    std::cout << "test2_3()" << std::endl;
+    //std::cout << "test2_3()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -417,7 +417,7 @@ void RungeKutta4Test::test2_3()
 
 void RungeKutta4Test::test3_1()
 {
-    std::cout << "test3_1()" << std::endl;
+    //std::cout << "test3_1()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -435,7 +435,7 @@ void RungeKutta4Test::test3_1()
 
 void RungeKutta4Test::test3_2()
 {
-    std::cout << "test3_2()" << std::endl;
+    //std::cout << "test3_2()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]
@@ -453,7 +453,7 @@ void RungeKutta4Test::test3_2()
 
 void RungeKutta4Test::test3_3()
 {
-    std::cout << "test3_3()" << std::endl;
+    //std::cout << "test3_3()" << std::endl;
 
     // model parameters:
     const double m = 1.0;       // [kg]

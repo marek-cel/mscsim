@@ -102,7 +102,7 @@ void LeadLagTest::test_update()
         {
             if ( index > 0 )
             {
-                cout << y << " " << _y.at( index - 1 ) << endl;
+                //cout << y << " " << _y.at( index - 1 ) << endl;
                 QVERIFY2( fabs( y - _y.at( index - 1 ) ) < 1.0e-1, "Failure" );
             }
 

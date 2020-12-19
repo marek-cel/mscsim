@@ -2,6 +2,7 @@
 #include <QtTest>
 
 #include <fdm/models/fdm_PistonEngine.h>
+#include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_Units.h>
 
 ////////////////////////////////////////////////////////////////////////////////

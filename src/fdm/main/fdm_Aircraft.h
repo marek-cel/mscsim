@@ -126,6 +126,7 @@ namespace fdm
  * @see Osinski Z.: Mechanika ogolna, 1997, [in Polish]
  * @see Allerton D.: Principles of Flight Simulation, 2009
  * @see Stevens B., Lewis F.: Aircraft Control and Simulation, 1992
+ * @see Maryniak J.: Ogolny model matematyczny sterowanego samolotu, 1992 [in Polish]
  * @see Sibilski K.: Modelowanie i symulacja dynamiki ruchu obiektow latajacych, 2004 [in Polish]
  * @see Narkiewicz J.: Tiltrotor Modelling for Simulation in Various Flight Conditions, 2006
  * @see Zlocka M.: Wyklady z dynamiki lotu, 2008 [in Polish]
