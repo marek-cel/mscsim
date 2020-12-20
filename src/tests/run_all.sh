@@ -14,7 +14,7 @@ function runAllTestsInDir()
         
         cd $DEST
         
-        ./$NAME
+        ./$NAME > "$NAME.log"
         CODE=$?
         
         if [[ $CODE -eq 0 ]]

@@ -1,6 +1,8 @@
 #include <QString>
 #include <QtTest>
 
+#include <iostream>
+
 #include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/utils/fdm_Units.h>
 
@@ -42,7 +44,111 @@ void AerodynamicsTest::getAngleOfAttack()
 
 void AerodynamicsTest::getSideslipAngle()
 {
-    QVERIFY2( true, "Failure" );
+    const fdm::Vector3 vel_ned( 1.0, 0.0, 0.0 );
+
+    // >>>> alpha = 0 deg ; phi = 0 deg <<<<
+
+    // alpha = 0 deg ; phi = 0 deg ; beta = 0 deg
+    fdm::Matrix3x3 ned2bas = fdm::Matrix3x3::identityMatrix();
+    fdm::Vector3 vel_bas = ned2bas * vel_ned;
+
+    double beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( 0.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=0; beta=0" );
+
+    // alpha = 0 deg ; phi = 0 deg ; beta = +45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, fdm::Units::deg2rad( -45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( +45.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=0; beta=+45" );
+
+    // alpha = 0 deg ; phi = 0 deg ; beta = -45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, fdm::Units::deg2rad( 45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( -45.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=0; beta=-45" );
+
+    // >>>> alpha = +10 deg ; phi = 0 deg <<<<
+
+    // alpha = +10 deg ; phi = 0 deg ; beta = 0 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( 10.0 ), 0.0 ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( 0.0 ) ) < 1.0e-9, "Failure alpha=+10 ; phi=0; beta=0" );
+
+    // alpha = +10 deg ; phi = 0 deg ; beta = +45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( 10.0 ), fdm::Units::deg2rad( -45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( +45.0 ) ) < 1.0e-9, "Failure alpha=+10 ; phi=0; beta=+45" );
+
+    // alpha = +10 deg ; phi = 0 deg ; beta = -45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( 10.0 ), fdm::Units::deg2rad( 45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( -45.0 ) ) < 1.0e-9, "Failure alpha=+10 ; phi=0; beta=-45" );
+
+    // >>>> alpha = -10 deg ; phi = 0 deg <<<<
+
+    // alpha = -10 deg ; phi = 0 deg ; beta = 0 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( -10.0 ), 0.0 ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( 0.0 ) ) < 1.0e-9, "Failure alpha=-10 ; phi=0; beta=0" );
+
+    // alpha = -10 deg ; phi = 0 deg ; beta = +45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( -10.0 ), fdm::Units::deg2rad( -45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( +45.0 ) ) < 1.0e-9, "Failure alpha=-10 ; phi=0; beta=+45" );
+
+    // alpha = -10 deg ; phi = 0 deg ; beta = -45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( 0.0, fdm::Units::deg2rad( -10.0 ), fdm::Units::deg2rad( 45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( -45.0 ) ) < 1.0e-9, "Failure alpha=-10 ; phi=0; beta=-45" );
+
+    // >>>> alpha = 0 deg ; phi = +10 deg <<<<
+
+    // alpha = 0 deg ; phi = +10 deg ; beta = 0 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( fdm::Units::deg2rad( 10.0 ), 0.0, 0.0 ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( 0.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=+10; beta=0" );
+
+    // alpha = 0 deg ; phi = +10 deg ; beta = +45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles( fdm::Units::deg2rad( 10.0 ), 0.0, fdm::Units::deg2rad( -45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas ); cout << fdm::Units::rad2deg( beta ) << endl; // ????????????????
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( +45.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=+10; beta=+45" );
+
+    // alpha = 0 deg ; phi = +10 deg ; beta = -45 deg
+    ned2bas = fdm::Matrix3x3( fdm::Angles(fdm::Units::deg2rad( 10.0 ), 0.0, fdm::Units::deg2rad( 45.0 ) ) );
+    vel_bas = ned2bas * vel_ned;
+
+    beta = fdm::Aerodynamics::getSideslipAngle( vel_bas );
+
+    QVERIFY2( fabs( beta - fdm::Units::deg2rad( -45.0 ) ) < 1.0e-9, "Failure alpha=0 ; phi=+10; beta=-45" );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
