@@ -42,12 +42,12 @@ TailOff::TailOff() :
     _aoa_r ( 0.0 ),
     _stall ( false )
 {
-    _cx = Table1::createOneRecordTable( 0.0 );
-    _cy = Table1::createOneRecordTable( 0.0 );
-    _cz = Table1::createOneRecordTable( 0.0 );
-    _cl = Table1::createOneRecordTable( 0.0 );
-    _cm = Table1::createOneRecordTable( 0.0 );
-    _cn = Table1::createOneRecordTable( 0.0 );
+    _cx = Table1::oneRecordTable( 0.0 );
+    _cy = Table1::oneRecordTable( 0.0 );
+    _cz = Table1::oneRecordTable( 0.0 );
+    _cl = Table1::oneRecordTable( 0.0 );
+    _cm = Table1::oneRecordTable( 0.0 );
+    _cn = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -62,8 +62,8 @@ TailRotor::TailRotor() :
     _thrust ( 0.0 ),
     _torque ( 0.0 )
 {
-    _bas2ras = Matrix3x3::createIdentityMatrix();
-    _ras2bas = Matrix3x3::createIdentityMatrix();
+    _bas2ras = Matrix3x3::identityMatrix();
+    _ras2bas = Matrix3x3::identityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

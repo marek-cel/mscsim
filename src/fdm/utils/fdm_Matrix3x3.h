@@ -53,7 +53,7 @@ class FDMEXPORT Matrix3x3 : public Matrix< 3,3 >
 public:
 
     /** @brief Creates identity matrix. */
-    static Matrix3x3 createIdentityMatrix();
+    static Matrix3x3 identityMatrix();
 
     /** @brief Constructor. */
     Matrix3x3();

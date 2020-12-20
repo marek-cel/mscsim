@@ -45,7 +45,7 @@ public:
      * @brief Creates table with only one record.
      * @param val record value
      */
-    static Table1 createOneRecordTable( double val = 0.0 );
+    static Table1 oneRecordTable( double val = 0.0 );
 
     /** @brief Constructor. */
     Table1();

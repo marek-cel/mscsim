@@ -127,15 +127,15 @@ RotorBlade::RotorBlade( bool ccw ) :
 
     _theta ( 0.0 )
 {
-    _cd = Table1::createOneRecordTable( 0.0 );
-    _cl = Table1::createOneRecordTable( 0.0 );
+    _cd = Table1::oneRecordTable( 0.0 );
+    _cl = Table1::oneRecordTable( 0.0 );
 
-    _twist = Table1::createOneRecordTable( 0.0 );
+    _twist = Table1::oneRecordTable( 0.0 );
 
-    _ras2sra = Matrix3x3::createIdentityMatrix();
-    _sra2ras = Matrix3x3::createIdentityMatrix();
-    //_sra2bsa = Matrix3x3::createIdentityMatrix();
-    //_bsa2sra = Matrix3x3::createIdentityMatrix();
+    _ras2sra = Matrix3x3::identityMatrix();
+    _sra2ras = Matrix3x3::identityMatrix();
+    //_sra2bsa = Matrix3x3::identityMatrix();
+    //_bsa2sra = Matrix3x3::identityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -42,9 +42,9 @@ C130_TailOff::C130_TailOff() :
     _dcz_dgear ( 0.0 ),
     _dcm_dgear ( 0.0 )
 {
-    _dcx_dflaps = Table2::createOneRecordTable( 0.0 );
-    _dcz_dflaps = Table2::createOneRecordTable( 0.0 );
-    _dcm_dflaps = Table2::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table2::oneRecordTable( 0.0 );
+    _dcz_dflaps = Table2::oneRecordTable( 0.0 );
+    _dcm_dflaps = Table2::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

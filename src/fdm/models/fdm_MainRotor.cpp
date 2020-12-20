@@ -103,17 +103,17 @@ MainRotor::MainRotor() :
 
     _wakeSkew ( 0.0 )
 {
-    _bas2ras  = Matrix3x3::createIdentityMatrix();
-    _ras2bas  = Matrix3x3::createIdentityMatrix();
-    _ras2cas  = Matrix3x3::createIdentityMatrix();
-    _cas2ras  = Matrix3x3::createIdentityMatrix();
-    _bas2cas  = Matrix3x3::createIdentityMatrix();
-    _ras2rwas = Matrix3x3::createIdentityMatrix();
-    _rwas2ras = Matrix3x3::createIdentityMatrix();
-    _cas2cwas = Matrix3x3::createIdentityMatrix();
-    _cwas2cas = Matrix3x3::createIdentityMatrix();
-    _bas2cwas = Matrix3x3::createIdentityMatrix();
-    _cwas2bas = Matrix3x3::createIdentityMatrix();
+    _bas2ras  = Matrix3x3::identityMatrix();
+    _ras2bas  = Matrix3x3::identityMatrix();
+    _ras2cas  = Matrix3x3::identityMatrix();
+    _cas2ras  = Matrix3x3::identityMatrix();
+    _bas2cas  = Matrix3x3::identityMatrix();
+    _ras2rwas = Matrix3x3::identityMatrix();
+    _rwas2ras = Matrix3x3::identityMatrix();
+    _cas2cwas = Matrix3x3::identityMatrix();
+    _cwas2cas = Matrix3x3::identityMatrix();
+    _bas2cwas = Matrix3x3::identityMatrix();
+    _cwas2bas = Matrix3x3::identityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

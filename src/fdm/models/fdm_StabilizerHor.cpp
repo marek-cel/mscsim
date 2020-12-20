@@ -36,10 +36,10 @@ StabilizerHor::StabilizerHor() :
     _area ( 0.0 ),
     _incidence ( 0.0 )
 {
-    _cx = Table1::createOneRecordTable( 0.0 );
-    _cz = Table1::createOneRecordTable( 0.0 );
+    _cx = Table1::oneRecordTable( 0.0 );
+    _cz = Table1::oneRecordTable( 0.0 );
 
-    _downwash = Table1::createOneRecordTable( 0.0 );
+    _downwash = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

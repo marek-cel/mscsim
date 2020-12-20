@@ -37,9 +37,9 @@ C172_TailOff::C172_TailOff() :
 
     _dcl_dailerons ( 0.0 )
 {
-    _dcx_dflaps = Table1::createOneRecordTable( 0.0 );
-    _dcz_dflaps = Table1::createOneRecordTable( 0.0 );
-    _dcm_dflaps = Table1::createOneRecordTable( 0.0 );
+    _dcx_dflaps = Table1::oneRecordTable( 0.0 );
+    _dcz_dflaps = Table1::oneRecordTable( 0.0 );
+    _dcm_dflaps = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

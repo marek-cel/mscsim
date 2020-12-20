@@ -32,17 +32,17 @@ using namespace fdm;
 
 UH60_Fuselage::UH60_Fuselage()
 {
-    _dqfmp = Table1::createOneRecordTable( 0.0 );
-    _lqfmp = Table1::createOneRecordTable( 0.0 );
-    _mqfmp = Table1::createOneRecordTable( 0.0 );
+    _dqfmp = Table1::oneRecordTable( 0.0 );
+    _lqfmp = Table1::oneRecordTable( 0.0 );
+    _mqfmp = Table1::oneRecordTable( 0.0 );
 
-    _yqfmp = Table1::createOneRecordTable( 0.0 );
-    _rqfmp = Table1::createOneRecordTable( 0.0 );
-    _nqfmp = Table1::createOneRecordTable( 0.0 );
+    _yqfmp = Table1::oneRecordTable( 0.0 );
+    _rqfmp = Table1::oneRecordTable( 0.0 );
+    _nqfmp = Table1::oneRecordTable( 0.0 );
 
-    _ddqfmp = Table1::createOneRecordTable( 0.0 );
-    _dlqfmp = Table1::createOneRecordTable( 0.0 );
-    _dmqfmp = Table1::createOneRecordTable( 0.0 );
+    _ddqfmp = Table1::oneRecordTable( 0.0 );
+    _dlqfmp = Table1::oneRecordTable( 0.0 );
+    _dmqfmp = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

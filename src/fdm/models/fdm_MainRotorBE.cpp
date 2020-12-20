@@ -77,8 +77,8 @@ MainRotorBE::MainRotorBE() :
     _prev_theta_1c ( 0.0 ),
     _prev_theta_1s ( 0.0 )
 {
-    _bas2ras = Matrix3x3::createIdentityMatrix();
-    _ras2bas = Matrix3x3::createIdentityMatrix();
+    _bas2ras = Matrix3x3::identityMatrix();
+    _ras2bas = Matrix3x3::identityMatrix();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

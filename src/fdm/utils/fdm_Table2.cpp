@@ -35,7 +35,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Table2 Table2::createOneRecordTable( double val )
+Table2 Table2::oneRecordTable( double val )
 {
     std::vector< double > rowValues;
     std::vector< double > colValues;

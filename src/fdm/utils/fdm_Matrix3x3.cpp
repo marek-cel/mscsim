@@ -32,7 +32,7 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Matrix3x3 Matrix3x3::createIdentityMatrix()
+Matrix3x3 Matrix3x3::identityMatrix()
 {
     return Matrix3x3( 1.0, 0.0, 0.0,
                       0.0, 1.0, 0.0,

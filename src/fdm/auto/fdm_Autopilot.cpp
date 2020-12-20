@@ -70,9 +70,9 @@ Autopilot::Autopilot( FlightDirector *fd ) :
     _pid_p.setAntiWindup( PID::Calculation );
     _pid_y.setAntiWindup( PID::Calculation );
 
-    _gain_ias_r = Table1::createOneRecordTable( 1.0 );
-    _gain_ias_p = Table1::createOneRecordTable( 1.0 );
-    _gain_ias_y = Table1::createOneRecordTable( 1.0 );
+    _gain_ias_r = Table1::oneRecordTable( 1.0 );
+    _gain_ias_p = Table1::oneRecordTable( 1.0 );
+    _gain_ias_y = Table1::oneRecordTable( 1.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

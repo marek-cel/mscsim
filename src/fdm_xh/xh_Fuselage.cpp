@@ -32,9 +32,9 @@ using namespace fdm;
 
 XH_Fuselage::XH_Fuselage()
 {
-    _cx_beta = Table1::createOneRecordTable( 0.0 );
-    _cz_beta = Table1::createOneRecordTable( 0.0 );
-    _cm_beta = Table1::createOneRecordTable( 0.0 );
+    _cx_beta = Table1::oneRecordTable( 0.0 );
+    _cz_beta = Table1::oneRecordTable( 0.0 );
+    _cm_beta = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

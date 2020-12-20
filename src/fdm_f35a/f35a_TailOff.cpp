@@ -42,9 +42,9 @@ F35A_TailOff::F35A_TailOff() :
     _dcx_dairbrake ( 0.0 ),
     _dcz_dairbrake ( 0.0 )
 {
-    _dcx_dflaps_te = Table1::createOneRecordTable( 0.0 );
-    _dcz_dflaps_te = Table1::createOneRecordTable( 0.0 );
-    _dcm_dflaps_te = Table1::createOneRecordTable( 0.0 );
+    _dcx_dflaps_te = Table1::oneRecordTable( 0.0 );
+    _dcz_dflaps_te = Table1::oneRecordTable( 0.0 );
+    _dcm_dflaps_te = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
