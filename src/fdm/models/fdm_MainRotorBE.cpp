@@ -113,10 +113,10 @@ void MainRotorBE::readData( XmlNode &dataNode )
 
         double inclination = 0.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas  , "hub_center" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination , "inclination" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _blades_no  , "number_of_blades" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _radius     , "rotor_radius" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_hub_bas  , "hub_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &inclination , "inclination" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_blades_no  , "number_of_blades" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_radius     , "rotor_radius" );
 
         if ( result == FDM_SUCCESS )
         {

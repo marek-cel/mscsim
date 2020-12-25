@@ -54,16 +54,16 @@ void StabilizerHor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_ac_bas, "aero_center" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area, "area" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_area, "area" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _incidence, "incidence", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_incidence, "incidence", true );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _downwash, "downwash", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_downwash, "downwash", true );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz, "cz" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

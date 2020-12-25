@@ -49,10 +49,10 @@ void Governor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gain_1, "gain_1" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gain_2, "gain_2", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_gain_1, "gain_1" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_gain_2, "gain_2", true );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _prop_rpm, "prop_rpm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_prop_rpm, "prop_rpm" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

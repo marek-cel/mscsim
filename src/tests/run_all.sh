@@ -9,8 +9,9 @@ function runAllTestsInDir()
     FILES=$(ls | grep .pro)
 
     for FILE in $FILES; do
+        cd ..
         NAME=$(basename $FILE .pro)
-        DEST="../build-$NAME"
+        DEST="temp_dest_dir"
         
         cd $DEST
         
@@ -44,5 +45,3 @@ runAllTestsInDir utils
 echo -e '\x1b[32;01m'"ALL TESTS SYCCEEDED."'\x1b[0m'
 
 ################################################################################
-
-read -p "Press any key to continue... " -n1 -s

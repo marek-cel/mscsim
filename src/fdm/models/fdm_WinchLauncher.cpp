@@ -61,17 +61,17 @@ void WinchLauncher::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_a_bas, "attachment_point" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_a_bas, "attachment_point" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _for_max, "for_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _len_max, "len_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ang_max, "ang_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _vel_max, "vel_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_for_max, "for_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_len_max, "len_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ang_max, "ang_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_vel_max, "vel_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_for, "tc_for" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_vel, "tc_vel" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_for, "tc_for" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_vel, "tc_vel" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _stiffness, "stiffness" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_stiffness, "stiffness" );
 
         _len = _len_max;
 

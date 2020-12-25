@@ -61,9 +61,9 @@ void XH_AFCS::readData( XmlNode &dataNode )
         XmlNode nodePitch = dataNode.getFirstChildElement( "sas_pitch" );
         XmlNode nodeYaw   = dataNode.getFirstChildElement( "sas_yaw"   );
 
-        readSAS( nodeRoll  , _pid_sas_roll  );
-        readSAS( nodePitch , _pid_sas_pitch );
-        readSAS( nodeYaw   , _pid_sas_yaw   );
+        readSAS( nodeRoll  , &_pid_sas_roll  );
+        readSAS( nodePitch , &_pid_sas_pitch );
+        readSAS( nodeYaw   , &_pid_sas_yaw   );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
@@ -97,7 +97,7 @@ void XH_AFCS::update( double timeStep,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XH_AFCS::readSAS( const XmlNode &dataNode, PID &pid )
+void XH_AFCS::readSAS( const XmlNode &dataNode, PID *pid )
 {
     if ( dataNode.isValid() )
     {

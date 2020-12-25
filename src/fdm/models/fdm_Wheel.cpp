@@ -83,21 +83,21 @@ void Wheel::readData( XmlNode &dataNode )
             default: _brakeGroup = None;  break;
         }
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_a_bas , "attachment_point" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_u_bas , "unloaded_wheel"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _k       , "stiffness"        );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c       , "damping"          );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mu_s    , "friction_static"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mu_k    , "friction_kinetic" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mu_r    , "friction_rolling" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_a_bas , "attachment_point" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_u_bas , "unloaded_wheel"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_k       , "stiffness"        );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_c       , "damping"          );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mu_s    , "friction_static"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mu_k    , "friction_kinetic" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mu_r    , "friction_rolling" );
 
         if ( result == FDM_SUCCESS && _steerable )
         {
-            result = XmlUtils::read( dataNode, _delta_max, "max_angle", true );
+            result = XmlUtils::read( dataNode, &_delta_max, "max_angle", true );
         }
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _d_max, "d_max" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _v_max, "v_max" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_d_max, "d_max" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_v_max, "v_max" , true );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

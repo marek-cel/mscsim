@@ -50,11 +50,11 @@ void WingRunner::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_w_bas, "wing" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_f_bas, "feet" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_w_bas, "wing" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_f_bas, "feet" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _k, "stiffness" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "damping"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_k, "stiffness" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_c, "damping"   );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

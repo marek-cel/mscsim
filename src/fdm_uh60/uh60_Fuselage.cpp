@@ -57,22 +57,22 @@ void UH60_Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_ac_bas, "aero_center" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ekxwf, "ekxwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ekzwf, "ekzwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekxwf, "ekxwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekzwf, "ekzwf" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dqfmp, "cx_alfwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _lqfmp, "cz_alfwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mqfmp, "cm_alfwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dqfmp, "cx_alfwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lqfmp, "cz_alfwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mqfmp, "cm_alfwf" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _yqfmp, "cy_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rqfmp, "cl_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nqfmp, "cn_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_yqfmp, "cy_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rqfmp, "cl_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nqfmp, "cn_psiwf" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ddqfmp, "dcx_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dlqfmp, "dcz_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dmqfmp, "dcm_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ddqfmp, "dcx_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dlqfmp, "dcz_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dmqfmp, "dcm_psiwf" );
     }
     else
     {

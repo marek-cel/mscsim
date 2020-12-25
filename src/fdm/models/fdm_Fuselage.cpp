@@ -66,17 +66,17 @@ void Fuselage::readData( XmlNode &dataNode )
         _cm = Table1::oneRecordTable( 0.0 );
         _cn = Table1::oneRecordTable( 0.0 );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_bas, "aero_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_ac_bas, "aero_center" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _length , "length" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area   , "area"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_length , "length" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_area   , "area"   );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cl, "cl", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm, "cm", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cn, "cn", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cy, "cy", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz, "cz", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cl, "cl", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cm, "cm", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cn, "cn", true );
 
         if ( result == FDM_SUCCESS )
         {

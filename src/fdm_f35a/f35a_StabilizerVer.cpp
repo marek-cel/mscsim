@@ -52,8 +52,8 @@ void F35A_StabilizerVer::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_drudder, "dcx_drudder" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcy_drudder, "dcy_drudder" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_drudder, "dcx_drudder" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcy_drudder, "dcy_drudder" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

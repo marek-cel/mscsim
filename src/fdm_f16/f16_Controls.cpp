@@ -99,12 +99,12 @@ void F16_Controls::readData( XmlNode &dataNode )
         double rudder_max   = 0.0;
         double flaps_le_max = 0.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, flaps_le_max , "flaps_le_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &flaps_le_max , "flaps_le_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _airbrake_max, "airbrake_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_airbrake_max, "airbrake_max" );
 
         if ( result == FDM_SUCCESS )
         {

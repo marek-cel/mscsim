@@ -113,21 +113,21 @@ void C172_KFC325_FD::readData( XmlNode &data_node )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_roll  , "max_roll"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_pitch , "min_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_pitch , "max_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_yaw   , "max_yaw"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_roll  , "max_roll"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_pitch , "min_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_pitch , "max_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_yaw   , "max_yaw"   );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_roll  , "max_rate_roll"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_pitch , "max_rate_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_rate_tr    , "max_rate_tr"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_rate_roll  , "max_rate_roll"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_rate_pitch , "max_rate_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_rate_tr    , "max_rate_tr"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _climb_rate_tc, "climb_rate_tc" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_climb_rate_tc, "climb_rate_tc" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_dh_arm, "min_dh_arm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_dh_arm, "min_dh_arm" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _nav_dev_max, "nav_dev_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _apr_dev_max, "apr_dev_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_nav_dev_max, "nav_dev_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_apr_dev_max, "apr_dev_max" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, data_node );
 
@@ -144,18 +144,18 @@ void C172_KFC325_FD::readData( XmlNode &data_node )
         XmlNode nodeHDG  = data_node.getFirstChildElement( "mode_hdg" );
         XmlNode nodeTurn = data_node.getFirstChildElement( "mode_turn" );
 
-        readMode( nodeALT , _pid_alt , _min_pitch , _max_pitch );
-        readMode( nodeIAS , _pid_ias , _min_pitch , _max_pitch );
-        readMode( nodeVS  , _pid_vs  , _min_pitch , _max_pitch );
-        readMode( nodeARM , _pid_arm , -DBL_MAX   , DBL_MAX    );
-        readMode( nodeGS  , _pid_gs  , _min_pitch , _max_pitch );
+        readMode( nodeALT , &_pid_alt , _min_pitch , _max_pitch );
+        readMode( nodeIAS , &_pid_ias , _min_pitch , _max_pitch );
+        readMode( nodeVS  , &_pid_vs  , _min_pitch , _max_pitch );
+        readMode( nodeARM , &_pid_arm , -DBL_MAX   , DBL_MAX    );
+        readMode( nodeGS  , &_pid_gs  , _min_pitch , _max_pitch );
 
-        readMode( nodeNAV_ANG, _pid_nav_ang, -_max_yaw, _max_yaw );
-        readMode( nodeNAV_LIN, _pid_nav_lin, -_max_yaw, _max_yaw );
-        readMode( nodeAPR_ANG, _pid_apr_ang, -_max_yaw, _max_yaw );
-        readMode( nodeAPR_LIN, _pid_apr_lin, -_max_yaw, _max_yaw );
-        readMode( nodeHDG  , _pid_hdg  , -DBL_MAX   , DBL_MAX   );
-        readMode( nodeTurn , _pid_turn , -_max_roll , _max_roll );
+        readMode( nodeNAV_ANG, &_pid_nav_ang, -_max_yaw, _max_yaw );
+        readMode( nodeNAV_LIN, &_pid_nav_lin, -_max_yaw, _max_yaw );
+        readMode( nodeAPR_ANG, &_pid_apr_ang, -_max_yaw, _max_yaw );
+        readMode( nodeAPR_LIN, &_pid_apr_lin, -_max_yaw, _max_yaw );
+        readMode( nodeHDG  , &_pid_hdg  , -DBL_MAX   , DBL_MAX   );
+        readMode( nodeTurn , &_pid_turn , -_max_roll , _max_roll );
     }
     else
     {
@@ -392,7 +392,7 @@ void C172_KFC325_FD::toggleVerMode( VerMode ver_mode )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KFC325_FD::readMode( const XmlNode &dataNode, PID &pid, double min, double max )
+void C172_KFC325_FD::readMode( const XmlNode &dataNode, PID *pid, double min, double max )
 {
     if ( dataNode.isValid() )
     {

@@ -68,7 +68,7 @@ void Controls::readData( XmlNode &dataNode )
                 Log::w() << "Wrong control channel input: \"" << input << "\"" << std::endl;
             }
 
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( channelNode, channel.table );
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( channelNode, &( channel.table ) );
             if ( result == FDM_SUCCESS ) result = _channels.addItem( name, channel );
 
             if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, channelNode );

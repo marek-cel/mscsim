@@ -65,12 +65,12 @@ void C172_KFC325_AP::readData( XmlNode &data_node )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_pitch , "rate_pitch" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_alt   , "rate_alt"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_ias   , "rate_ias"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rate_vs    , "rate_vs"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rate_pitch , "rate_pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rate_alt   , "rate_alt"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rate_ias   , "rate_ias"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rate_vs    , "rate_vs"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _softRideCoef, "soft_ride_coef" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_softRideCoef, "soft_ride_coef" );
 
         if ( result != FDM_SUCCESS )
         {

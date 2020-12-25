@@ -42,6 +42,10 @@ F35A_TailOff::F35A_TailOff() :
     _dcx_dairbrake ( 0.0 ),
     _dcz_dairbrake ( 0.0 )
 {
+    _dcx_dflaps_le = Table1::oneRecordTable( 0.0 );
+    _dcz_dflaps_le = Table1::oneRecordTable( 0.0 );
+    _dcm_dflaps_le = Table1::oneRecordTable( 0.0 );
+
     _dcx_dflaps_te = Table1::oneRecordTable( 0.0 );
     _dcz_dflaps_te = Table1::oneRecordTable( 0.0 );
     _dcm_dflaps_te = Table1::oneRecordTable( 0.0 );
@@ -63,14 +67,18 @@ void F35A_TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcl_dailerons, "dcl_dailerons" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcl_dailerons, "dcl_dailerons" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dairbrake, "dcx_dairbrake" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dairbrake, "dcz_dairbrake" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dairbrake, "dcx_dairbrake" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dairbrake, "dcz_dairbrake" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dflaps_te, "dcx_dflaps_te"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dflaps_te, "dcz_dflaps_te"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dflaps_te, "dcm_dflaps_te" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dflaps_le, "dcx_dflaps_le" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dflaps_le, "dcz_dflaps_le" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dflaps_le, "dcm_dflaps_le" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dflaps_te, "dcx_dflaps_te" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dflaps_te, "dcz_dflaps_te" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dflaps_te, "dcm_dflaps_te" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
@@ -120,6 +128,7 @@ double F35A_TailOff::getCx( double angleOfAttack ) const
 {
     return TailOff::getCx( angleOfAttack )
             + _airbrake * _dcx_dairbrake
+            + _flaps_le * _dcx_dflaps_le.getValue( angleOfAttack )
             + _flaps_te * _dcx_dflaps_te.getValue( angleOfAttack );
 }
 
@@ -136,6 +145,7 @@ double F35A_TailOff::getCz( double angleOfAttack ) const
 {
     return TailOff::getCz( angleOfAttack )
             + _airbrake * _dcz_dairbrake
+            + _flaps_le * _dcz_dflaps_le.getValue( angleOfAttack )
             + _flaps_te * _dcz_dflaps_te.getValue( angleOfAttack );
 }
 
@@ -152,6 +162,7 @@ double F35A_TailOff::getCl( double sideslipAngle ) const
 double F35A_TailOff::getCm( double angleOfAttack ) const
 {
     return TailOff::getCm( angleOfAttack )
+            + _flaps_le * _dcm_dflaps_le.getValue( angleOfAttack )
             + _flaps_te * _dcm_dflaps_te.getValue( angleOfAttack );
 }
 

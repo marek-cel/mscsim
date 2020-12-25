@@ -51,9 +51,9 @@ void Mass::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mass_e     , "empty_mass"     );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _i_e_bas    , "inertia_tensor" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_cm_e_bas , "center_of_mass" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mass_e     , "empty_mass"     );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_i_e_bas    , "inertia_tensor" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_cm_e_bas , "center_of_mass" );
 
         XmlNode varMassNode = dataNode.getFirstChildElement( "variable_mass" );
 
@@ -66,8 +66,8 @@ void Mass::readData( XmlNode &dataNode )
 
             varMass.dr_input = getDataRef( input );
 
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, varMass.mass_max , "mass_max"    );
-            if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, varMass.r_bas    , "coordinates" );
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, &( varMass.mass_max ) , "mass_max"    );
+            if ( result == FDM_SUCCESS ) result = XmlUtils::read( varMassNode, &( varMass.r_bas    ) , "coordinates" );
 
             if ( result == FDM_SUCCESS )
             {

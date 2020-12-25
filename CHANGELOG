@@ -1,3 +1,11 @@
+2020-12-25 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * XML reader functions rteferences changed to pointers
+    
+    * F-35 aerodynamics leading edge flaps characteristics
+
+
+
 2020-12-20 Marek M. Cel <marekcel@marekcel.pl>
     
     * unit tests

@@ -64,11 +64,11 @@ void C172_Aerodynamics::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _drag_ground_effect, "drag_ground_effect" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _lift_ground_effect, "lift_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_drag_ground_effect, "drag_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lift_ground_effect, "lift_ground_effect" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dl_dtorque, "dl_dtorque" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dn_dtorque, "dn_dtorque" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dl_dtorque, "dl_dtorque" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dn_dtorque, "dn_dtorque" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
 

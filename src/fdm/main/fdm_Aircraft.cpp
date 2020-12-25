@@ -237,7 +237,7 @@ void Aircraft::readData( XmlNode &dataNode )
             {
                 Vector3 collision_point;
 
-                result = XmlUtils::read( nodeCollisionPoint, collision_point );
+                result = XmlUtils::read( nodeCollisionPoint, &collision_point );
 
                 if ( result == FDM_SUCCESS )
                 {
@@ -250,13 +250,13 @@ void Aircraft::readData( XmlNode &dataNode )
         // limitations
         XmlNode nodeLimitations = dataNode.getFirstChildElement( "limitations" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _airspeed_max  , "airspeed_max"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_min , "load_aero_min" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_aero_max , "load_aero_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, _load_gear_max , "load_gear_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, &_airspeed_max  , "airspeed_max"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, &_load_aero_min , "load_aero_min" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, &_load_aero_max , "load_aero_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( nodeLimitations, &_load_gear_max , "load_gear_max" );
 
         // pilot position
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _pos_pilot_bas, "pilot_position" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_pos_pilot_bas, "pilot_position" );
 
         if ( result != FDM_SUCCESS )
         {

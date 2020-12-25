@@ -50,12 +50,12 @@ void HingeMoment::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area  , "area"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _chord , "chord" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_area  , "area"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_chord , "chord" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_dalpha   , "dch_dalpha"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta   , "dch_ddelta"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dch_ddelta_t , "dch_ddelta_t" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dch_dalpha   , "dch_dalpha"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dch_ddelta   , "dch_ddelta"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dch_ddelta_t , "dch_ddelta_t" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

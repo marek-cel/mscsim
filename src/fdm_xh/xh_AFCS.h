@@ -79,7 +79,7 @@ private:
     double _cyclic_lon;                 ///< [rad]
     double _tail_pitch;                 ///< [rad]
 
-    virtual void readSAS( const XmlNode &dataNode, PID &pid );
+    virtual void readSAS( const XmlNode &dataNode, PID *pid );
 };
 
 } // end of fdm namespace

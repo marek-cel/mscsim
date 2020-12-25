@@ -71,15 +71,15 @@ void Propeller::readData( XmlNode &dataNode )
             _direction = CW;
         }
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _pos_bas   , "position"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _gearRatio , "gear_ratio" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _diameter  , "diameter"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _inertia   , "inertia"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_pos_bas   , "position"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_gearRatio , "gear_ratio" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_diameter  , "diameter"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_inertia   , "inertia"    );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _propPitch, "pitch" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_propPitch, "pitch" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefThrust , "thrust_coef" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _coefPower  , "power_coef"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_coefThrust , "thrust_coef" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_coefPower  , "power_coef"  );
 
         if ( result == FDM_SUCCESS )
             _area = M_PI * pow( 0.5 * _diameter, 2.0 );

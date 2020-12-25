@@ -87,6 +87,10 @@ private:
     double _dcx_dairbrake;          ///< [1/-]
     double _dcz_dairbrake;          ///< [1/-]
 
+    Table1 _dcx_dflaps_le;          ///< [1/rad]
+    Table1 _dcz_dflaps_le;          ///< [1/rad]
+    Table1 _dcm_dflaps_le;          ///< [1/rad]
+
     Table1 _dcx_dflaps_te;          ///< [1/rad]
     Table1 _dcz_dflaps_te;          ///< [1/rad]
     Table1 _dcm_dflaps_te;          ///< [1/rad]

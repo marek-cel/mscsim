@@ -58,11 +58,11 @@ void PW5_TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcl_dailerons, "dcl_dailerons" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcl_dailerons, "dcl_dailerons" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dairbrake, "dcx_dairbrake" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dairbrake, "dcz_dairbrake" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dairbrake, "dcm_dairbrake" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dairbrake, "dcx_dairbrake" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dairbrake, "dcz_dairbrake" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dairbrake, "dcm_dairbrake" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

@@ -95,31 +95,31 @@ void XF_Engine::readData( XmlNode &dataNode )
         _n1_max  = 0.0;
         _n2_max  = 0.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _pos_bas, "position" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_pos_bas, "position" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_mil , "thrust_mil" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_ab  , "thrust_ab"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_thrust_mil , "thrust_mil" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_thrust_ab  , "thrust_ab"  );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ab_threshold, "ab_threshold" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ab_threshold, "ab_threshold" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_n1, "time_constant_n1" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_n2, "time_constant_n2" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_n1, "time_constant_n1" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_n2, "time_constant_n2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_thrust, "time_constant_thrust" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_thrust, "time_constant_thrust" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tc_tit, "time_constant_tit" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tc_tit, "time_constant_tit" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tsfc    , "tsfc"    );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tsfc_ab , "tsfc_ab" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tsfc    , "tsfc"    );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tsfc_ab , "tsfc_ab" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _n1_throttle, "n1_throttle" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _n2_throttle, "n2_throttle" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_n1_throttle, "n1_throttle" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_n2_throttle, "n2_throttle" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tit_n2, "tit_n2" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tit_n2, "tit_n2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tf_idle , "thrust_factor_idle" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tf_mil  , "thrust_factor_mil"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _tf_ab   , "thrust_factor_ab"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tf_idle , "thrust_factor_idle" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tf_mil  , "thrust_factor_mil"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_tf_ab   , "thrust_factor_ab"   );
 
         if ( result == FDM_SUCCESS )
         {

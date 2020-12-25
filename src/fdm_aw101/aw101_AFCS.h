@@ -86,7 +86,7 @@ private:
 
     double _collective;                 ///<
 
-    virtual void readSAS( const XmlNode &dataNode, PID &pid );
+    virtual void readSAS( const XmlNode &dataNode, PID *pid );
 };
 
 } // end of fdm namespace

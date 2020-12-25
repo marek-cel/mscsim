@@ -87,16 +87,16 @@ void Autopilot::readData( XmlNode &data_node )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_roll  , "min_roll"  , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_roll  , "max_roll"  , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_pitch , "min_pitch" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_pitch , "max_pitch" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_alt   , "min_alt"   , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_alt   , "max_alt"   , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_ias   , "min_ias"   , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_ias   , "max_ias"   , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _min_vs    , "min_vs"    , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _max_vs    , "max_vs"    , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_roll  , "min_roll"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_roll  , "max_roll"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_pitch , "min_pitch" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_pitch , "max_pitch" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_alt   , "min_alt"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_alt   , "max_alt"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_ias   , "min_ias"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_ias   , "max_ias"   , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_min_vs    , "min_vs"    , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_max_vs    , "max_vs"    , true );
 
         if ( result == FDM_SUCCESS )
         {
@@ -104,9 +104,9 @@ void Autopilot::readData( XmlNode &data_node )
             XmlNode nodePitch = data_node.getFirstChildElement( "ctrl_pitch" );
             XmlNode nodeYaw   = data_node.getFirstChildElement( "ctrl_yaw"   );
 
-            readChannel( nodeRoll  , _max_rate_roll  , _pid_r, _gain_ias_r );
-            readChannel( nodePitch , _max_rate_pitch , _pid_p, _gain_ias_p );
-            readChannel( nodeYaw   , _max_rate_yaw   , _pid_y, _gain_ias_y );
+            readChannel( nodeRoll  , &_max_rate_roll  , &_pid_r, &_gain_ias_r );
+            readChannel( nodePitch , &_max_rate_pitch , &_pid_p, &_gain_ias_p );
+            readChannel( nodeYaw   , &_max_rate_yaw   , &_pid_y, &_gain_ias_y );
         }
         else
         {
@@ -241,8 +241,8 @@ void Autopilot::setPitch( double pitch )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Autopilot::readChannel( const XmlNode &data_node, double &max_rate,
-                             PID &pid, Table1 &gain_ias )
+void Autopilot::readChannel( const XmlNode &data_node, double *max_rate,
+                             PID *pid, Table1 *gain_ias )
 {
     if ( data_node.isValid() )
     {

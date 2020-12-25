@@ -62,10 +62,10 @@ void F35A_Aerodynamics::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _drag_ground_effect, "drag_ground_effect" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _lift_ground_effect, "lift_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_drag_ground_effect, "drag_ground_effect" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lift_ground_effect, "lift_ground_effect" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _wave_drag, "wave_drag" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_wave_drag, "wave_drag" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
 

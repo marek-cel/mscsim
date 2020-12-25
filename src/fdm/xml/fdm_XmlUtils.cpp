@@ -57,7 +57,7 @@ std::string XmlUtils::getErrorInfo( const XmlNode &node )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, std::string &str )
+int XmlUtils::read( const XmlNode &node, std::string *str )
 {
     if ( node.isValid() )
     {
@@ -65,7 +65,7 @@ int XmlUtils::read( const XmlNode &node, std::string &str )
 
         if ( textNode.isValid() && textNode.isText() )
         {
-            str = textNode.getText();
+            (*str) = textNode.getText();
             return FDM_SUCCESS;
         }
     }
@@ -75,7 +75,7 @@ int XmlUtils::read( const XmlNode &node, std::string &str )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, int &data )
+int XmlUtils::read( const XmlNode &node, int *data )
 {
     if ( node.isValid() )
     {
@@ -89,7 +89,7 @@ int XmlUtils::read( const XmlNode &node, int &data )
 
             if ( Misc::isValid( data_temp ) )
             {
-                data = data_temp;
+                (*data) = data_temp;
                 return FDM_SUCCESS;
             }
         }
@@ -100,7 +100,7 @@ int XmlUtils::read( const XmlNode &node, int &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, double &data )
+int XmlUtils::read( const XmlNode &node, double *data )
 {
     if ( node.isValid() )
     {
@@ -126,7 +126,7 @@ int XmlUtils::read( const XmlNode &node, double &data )
                         return FDM_FAILURE;
                 }
 
-                data = data_temp * factor;
+                (*data) = data_temp * factor;
                 return FDM_SUCCESS;
             }
         }
@@ -137,7 +137,7 @@ int XmlUtils::read( const XmlNode &node, double &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Matrix3x3 &data )
+int XmlUtils::read( const XmlNode &node, Matrix3x3 *data )
 {
     if ( node.isValid() )
     {
@@ -167,17 +167,17 @@ int XmlUtils::read( const XmlNode &node, Matrix3x3 &data )
 
             if ( valRead == 9 )
             {
-                data.xx() = xx;
-                data.xy() = xy;
-                data.xz() = xz;
+                data->xx() = xx;
+                data->xy() = xy;
+                data->xz() = xz;
 
-                data.yx() = yx;
-                data.yy() = yy;
-                data.yz() = yz;
+                data->yx() = yx;
+                data->yy() = yy;
+                data->yz() = yz;
 
-                data.zx() = zx;
-                data.zy() = zy;
-                data.zz() = zz;
+                data->zx() = zx;
+                data->zy() = zy;
+                data->zz() = zz;
 
                 return FDM_SUCCESS;
             }
@@ -189,7 +189,7 @@ int XmlUtils::read( const XmlNode &node, Matrix3x3 &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Vector3 &data )
+int XmlUtils::read( const XmlNode &node, Vector3 *data )
 {
     if ( node.isValid() )
     {
@@ -223,9 +223,9 @@ int XmlUtils::read( const XmlNode &node, Vector3 &data )
                     }
                 }
 
-                data.x() = x;
-                data.y() = y;
-                data.z() = z;
+                data->x() = x;
+                data->y() = y;
+                data->z() = z;
 
                 return FDM_SUCCESS;
             }
@@ -237,7 +237,7 @@ int XmlUtils::read( const XmlNode &node, Vector3 &data )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Table1 &table )
+int XmlUtils::read( const XmlNode &node, Table1 *table )
 {
     std::vector< double > keyValues;
     std::vector< double > tableData;
@@ -299,7 +299,7 @@ int XmlUtils::read( const XmlNode &node, Table1 &table )
 
             if ( keyValues.size() == tableData.size() && keyValues.size() )
             {
-                table = Table1( keyValues, tableData );
+                (*table) = Table1( keyValues, tableData );
 
                 return FDM_SUCCESS;
             }
@@ -311,7 +311,7 @@ int XmlUtils::read( const XmlNode &node, Table1 &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, Table2 &table )
+int XmlUtils::read( const XmlNode &node, Table2 *table )
 {
     std::vector< double > colValues;
     std::vector< double > rowValues;
@@ -430,7 +430,7 @@ int XmlUtils::read( const XmlNode &node, Table2 &table )
 
             if ( rowValues.size() * colValues.size() == tableData.size() )
             {
-                table = Table2( rowValues, colValues, tableData );
+                (*table) = Table2( rowValues, colValues, tableData );
                 return FDM_SUCCESS;
             }
         }
@@ -441,7 +441,7 @@ int XmlUtils::read( const XmlNode &node, Table2 &table )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int XmlUtils::read( const XmlNode &node, PID &pid, double min, double max )
+int XmlUtils::read( const XmlNode &node, PID *pid, double min, double max )
 {
     if ( node.isValid() )
     {
@@ -454,24 +454,24 @@ int XmlUtils::read( const XmlNode &node, PID &pid, double min, double max )
         double temp_min = min;
         double temp_max = max;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, kp, "kp", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, ki, "ki", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, kd, "kd", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &kp, "kp", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &ki, "ki", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &kd, "kd", true );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, temp_min, "min", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, temp_max, "max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &temp_min, "min", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &temp_max, "max", true );
 
         if ( result == FDM_SUCCESS )
         {
             if ( temp_min < min ) temp_min = min;
             if ( temp_max > max ) temp_max = max;
 
-            pid.setKp( kp );
-            pid.setKi( ki );
-            pid.setKd( kd );
+            pid->setKp( kp );
+            pid->setKi( ki );
+            pid->setKd( kd );
 
-            pid.setMin( temp_min );
-            pid.setMax( temp_max );
+            pid->setMin( temp_min );
+            pid->setMax( temp_max );
 
             return FDM_SUCCESS;
         }

@@ -150,18 +150,18 @@ void RotorBlade::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _m , "blade_mass"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _b , "blade_length" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c , "blade_chord"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _e , "hinge_offset" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_m , "blade_mass"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_b , "blade_length" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_c , "blade_chord"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_e , "hinge_offset" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _beta_min, "beta_min" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _beta_max, "beta_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_beta_min, "beta_min" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_beta_max, "beta_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _twist, "twist" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_twist, "twist" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cd, "cd" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cl, "cl" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cd, "cd" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cl, "cl" );
 
         if ( result == FDM_SUCCESS )
         {

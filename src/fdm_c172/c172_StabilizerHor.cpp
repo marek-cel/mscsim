@@ -54,10 +54,10 @@ void C172_StabilizerHor::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_delevator, "dcx_delevator" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator, "dcz_delevator" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_delevator, "dcx_delevator" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_delevator, "dcz_delevator" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_delevator_trim, "dcz_delevator_trim" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_delevator_trim, "dcz_delevator_trim" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

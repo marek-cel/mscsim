@@ -61,20 +61,20 @@ void PistonEngine::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_min      , "rpm_min"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _rpm_max      , "rpm_max"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _starter      , "starter"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _displacement , "displacement" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _inertia      , "inertia"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _specFuelCons , "sfc"          );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rpm_min      , "rpm_min"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rpm_max      , "rpm_max"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_starter      , "starter"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_displacement , "displacement" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_inertia      , "inertia"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_specFuelCons , "sfc"          );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_rpm      , "power_rpm"      );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_throttle , "power_throttle" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_altitude , "power_altitude" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mixture        , "mixture"        );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _power_factor   , "power_factor"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _map_throttle   , "map_throttle"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _map_rpm        , "map_rpm"        );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_power_rpm      , "power_rpm"      );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_power_throttle , "power_throttle" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_power_altitude , "power_altitude" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mixture        , "mixture"        );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_power_factor   , "power_factor"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_map_throttle   , "map_throttle"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_map_rpm        , "map_rpm"        );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

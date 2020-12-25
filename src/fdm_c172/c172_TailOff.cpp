@@ -58,11 +58,11 @@ void C172_TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcl_dailerons, "dcl_dailerons" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcl_dailerons, "dcl_dailerons" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcx_dflaps, "dcx_dflaps"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcz_dflaps, "dcz_dflaps"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _dcm_dflaps, "dcm_dflaps" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dflaps, "dcx_dflaps"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dflaps, "dcz_dflaps"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dflaps, "dcm_dflaps" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

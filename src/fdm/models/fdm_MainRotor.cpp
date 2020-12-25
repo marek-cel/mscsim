@@ -142,32 +142,32 @@ void MainRotor::readData( XmlNode &dataNode )
         _torque_factor = 1.0;
         _vel_i_factor  = 1.0;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_hub_bas, "hub_center" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, inclination, "inclination" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _nb, "number_of_blades" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_hub_bas, "hub_center" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &inclination, "inclination" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nb, "number_of_blades" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, blade_mass, "blade_mass" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &blade_mass, "blade_mass" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r, "rotor_radius" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _c, "blade_chord"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _e, "hinge_offset" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r, "rotor_radius" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_c, "blade_chord"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_e, "hinge_offset" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _a, "lift_slope" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _b, "tip_losses" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_a, "lift_slope" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_b, "tip_losses" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_0, "delta_0" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _delta_2, "delta_2" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_delta_0, "delta_0" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_delta_2, "delta_2" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _beta_max, "beta_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_beta_max, "beta_max" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ct_max, "ct_max", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _ch_max, "ch_max", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cq_max, "cq_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ct_max, "ct_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ch_max, "ch_max", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cq_max, "cq_max", true );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _thrust_factor , "thrust_factor" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _hforce_factor , "hforce_factor" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _torque_factor , "torque_factor" , true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _vel_i_factor  , "vel_i_factor"  , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_thrust_factor , "thrust_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_hforce_factor , "hforce_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_torque_factor , "torque_factor" , true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_vel_i_factor  , "vel_i_factor"  , true );
 
         if ( result == FDM_SUCCESS )
         {

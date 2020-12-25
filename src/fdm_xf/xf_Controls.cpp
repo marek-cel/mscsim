@@ -87,11 +87,11 @@ void XF_Controls::readData( XmlNode &data_node )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _flaps_le_max , "flaps_le_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, _flaps_te_max , "flaps_te_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_le_max , "flaps_le_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_te_max , "flaps_te_max" );
 
         if ( result != FDM_SUCCESS )
         {

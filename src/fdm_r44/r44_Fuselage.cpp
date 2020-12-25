@@ -53,9 +53,9 @@ void R44_Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx_beta, "cx_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz_beta, "cz_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm_beta, "cm_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx_beta, "cx_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz_beta, "cz_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cm_beta, "cm_beta" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }

@@ -62,18 +62,18 @@ void TailOff::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_l_bas, "aero_center_l" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _r_ac_r_bas, "aero_center_r" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_ac_l_bas, "aero_center_l" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_r_ac_r_bas, "aero_center_r" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _mac  , "mac"  );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _area , "area" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mac  , "mac"  );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_area , "area" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cx, "cx" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cy, "cy", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cz, "cz" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cl, "cl", true );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cm, "cm" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, _cn, "cn", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx, "cx" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cy, "cy", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz, "cz" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cl, "cl", true );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cm, "cm" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cn, "cn", true );
 
         if ( result == FDM_SUCCESS )
         {

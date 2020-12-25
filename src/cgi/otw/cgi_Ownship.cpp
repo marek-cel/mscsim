@@ -428,12 +428,12 @@ void Ownship::readElementAxisData( const fdm::XmlNode &node, ElementData::AxisDa
     double shift_min = 0.0;
     double shift_max = 0.0;
 
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, input_min, "input_min" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, input_max, "input_max" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_min, "angle_min", true );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, angle_max, "angle_max", true );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, shift_min, "shift_min", true );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, shift_max, "shift_max", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &input_min, "input_min" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &input_max, "input_max" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &angle_min, "angle_min", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &angle_max, "angle_max", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &shift_min, "shift_min", true );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &shift_max, "shift_max", true );
 
     if ( result == FDM_SUCCESS )
     {
@@ -460,9 +460,9 @@ void Ownship::readVec3( const fdm::XmlNode &node, osg::Vec3 *vec )
 
     int result = FDM_SUCCESS;
 
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, x, "x" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, y, "y" );
-    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, z, "z" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &x, "x" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &y, "y" );
+    if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( node, &z, "z" );
 
     if ( result == FDM_SUCCESS )
     {
@@ -491,8 +491,8 @@ void Ownship::reload()
             std::string model;
             std::string shadow;
 
-            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, model  , "model"  );
-            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, shadow , "shadow" );
+            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, &model  , "model"  );
+            if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( rootNode, &shadow , "shadow" );
 
             if ( result == FDM_SUCCESS )
             {
@@ -509,9 +509,9 @@ void Ownship::reload()
                         double y = 0.0;
                         double z = 0.0;
 
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, x, "x"  );
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, y, "y" );
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, z, "z" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, &x, "x"  );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, &y, "y" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeShift, &z, "z" );
 
                         _patOffset->setPosition( osg::Vec3( x, y, z ) );
                     }
@@ -522,9 +522,9 @@ void Ownship::reload()
                         double y = 0.0;
                         double z = 0.0;
 
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, x, "x"  );
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, y, "y" );
-                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, z, "z" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, &x, "x"  );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, &y, "y" );
+                        if ( result == FDM_SUCCESS ) result = fdm::XmlUtils::read( nodeAngle, &z, "z" );
 
                         _patOffset->setAttitude( osg::Quat( x, osg::X_AXIS,
                                                             y, osg::Y_AXIS,
@@ -551,11 +551,11 @@ void Ownship::reload()
 
                 readVec3( rotorCenterNode, &_rotor_center );
 
-                fdm::XmlUtils::read( rotorNode, _hinge_offset, "hinge_offset" );
-                fdm::XmlUtils::read( rotorNode, _rotor_radius, "rotor_radius" );
+                fdm::XmlUtils::read( rotorNode, &_hinge_offset, "hinge_offset" );
+                fdm::XmlUtils::read( rotorNode, &_rotor_radius, "rotor_radius" );
 
                 double inclination_deg = 0.0;
-                fdm::XmlUtils::read( rotorNode, inclination_deg, "inclination" );
+                fdm::XmlUtils::read( rotorNode, &inclination_deg, "inclination" );
                 _inclination = fdm::Units::deg2rad( inclination_deg );
             }
 
