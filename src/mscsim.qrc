@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
+        <file>gui/html/about.html</file>
+        
         <file>gui/images/icon.svg</file>
         <file>gui/images/splashscreen.png</file>
         

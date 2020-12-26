@@ -159,13 +159,13 @@ int XmlUtils::read( const XmlNode &node, Matrix3x3 *data )
 
             std::string text = String::stripLeadingSpaces( textNode.getText() );
 
-            int valRead = sscanf( text.c_str(),
-                                  "%lf %lf %lf %lf %lf %lf %lf %lf %lf",
-                                  &xx, &xy, &xz,
-                                  &yx, &yy, &yz,
-                                  &zx, &zy, &zz );
+            int val_read = sscanf( text.c_str(),
+                                   "%lf %lf %lf %lf %lf %lf %lf %lf %lf",
+                                   &xx, &xy, &xz,
+                                   &yx, &yy, &yz,
+                                   &zx, &zy, &zz );
 
-            if ( valRead == 9 )
+            if ( val_read == 9 )
             {
                 data->xx() = xx;
                 data->xy() = xy;
@@ -203,9 +203,9 @@ int XmlUtils::read( const XmlNode &node, Vector3 *data )
 
             std::string text = String::stripLeadingSpaces( textNode.getText() );
 
-            int valRead = sscanf( text.c_str(), "%lf %lf %lf", &x, &y, &z );
+            int val_read = sscanf( text.c_str(), "%lf %lf %lf", &x, &y, &z );
 
-            if ( valRead == 3 )
+            if ( val_read == 3 )
             {
                 if ( node.hasAttribute( "unit" ) )
                 {
@@ -266,12 +266,12 @@ int XmlUtils::read( const XmlNode &node, Table1 *table )
                 double key = 0.0;
                 double val = 0.0;
 
-                unsigned int charsRead = 0;
+                unsigned int ch_read = 0;
 
                 result = sscanf( text.c_str() + offset,
-                                 "%lf %lf \n%n", &key, &val, &charsRead );
+                                 "%lf %lf \n%n", &key, &val, &ch_read );
 
-                offset += charsRead;
+                offset += ch_read;
 
                 if ( result == 2 )
                 {

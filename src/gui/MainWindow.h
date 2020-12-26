@@ -250,6 +250,8 @@ private slots:
     void on_actionTimeSlower_triggered();
     void on_actionTimeNormal_triggered();
 
+    void on_actionAbout_triggered();
+
     void shorcutCycleViews_activated();
     void shorcutToggleHud_activated();
     void shorcutFullScreen_activated();
