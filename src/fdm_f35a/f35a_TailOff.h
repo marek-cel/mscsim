@@ -59,6 +59,7 @@ public:
      * @param airbrake [-] airbrake normalized deflection
      * @param flaps_le [rad] leading flaps deflection
      * @param flaps_te [rad] trailing edge flaps deflection
+     * @param landing_gear [-] landing gear position
      */
     void computeForceAndMoment( const fdm::Vector3 &vel_air_bas,
                                 const fdm::Vector3 &omg_air_bas,
@@ -66,7 +67,8 @@ public:
                                 double ailerons,
                                 double airbrake,
                                 double flaps_le,
-                                double flaps_te );
+                                double flaps_te,
+                                double landing_gear );
 
     /**
      * Updates model.
@@ -81,8 +83,13 @@ private:
     double _airbrake;               ///< [-] airbrake normalized deflection
     double _flaps_le;               ///< [rad] leading flaps deflection
     double _flaps_te;               ///< [rad] trailing edge flaps deflection
+    double _landing_gear;           ///< [-] landing gear
 
-    double _dcl_dailerons;          ///< [1/rad]
+    double _dcl_dailerons;          ///< [1/rad] rolling moment coefficient due to ailerons deflection
+
+    double _dcx_dgear;              ///< [1/-] drag coefficient due to landing gear deflection
+    double _dcz_dgear;              ///< [1/-] lift coefficient due to landing gear deflection
+    double _dcm_dgear;              ///< [1/-] pitching moment coefficient due to landing gear deflection
 
     double _dcx_dairbrake;          ///< [1/-]
     double _dcz_dairbrake;          ///< [1/-]

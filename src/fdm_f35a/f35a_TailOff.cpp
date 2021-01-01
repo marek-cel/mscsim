@@ -36,6 +36,7 @@ F35A_TailOff::F35A_TailOff() :
     _airbrake ( 0.0 ),
     _flaps_le ( 0.0 ),
     _flaps_te ( 0.0 ),
+    _landing_gear ( 0.0 ),
 
     _dcl_dailerons ( 0.0 ),
 
@@ -68,6 +69,10 @@ void F35A_TailOff::readData( XmlNode &dataNode )
         int result = FDM_SUCCESS;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcl_dailerons, "dcl_dailerons" );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dgear, "dcx_dgear" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dgear, "dcz_dgear" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dgear, "dcm_dgear" );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dairbrake, "dcx_dairbrake" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dairbrake, "dcz_dairbrake" );
@@ -109,12 +114,14 @@ void F35A_TailOff::computeForceAndMoment( const Vector3 &vel_air_bas,
                                           double ailerons,
                                           double airbrake,
                                           double flaps_le,
-                                          double flaps_te )
+                                          double flaps_te,
+                                          double landing_gear )
 {
     _ailerons = ailerons;
     _airbrake = airbrake;
     _flaps_le = flaps_le;
     _flaps_te = flaps_te;
+    _landing_gear = landing_gear;
 
     ///////////////////////////////////////////////////////////////////////
     TailOff::computeForceAndMoment( vel_air_bas, omg_air_bas, airDensity );
@@ -142,7 +149,8 @@ double F35A_TailOff::getCx( double angleOfAttack ) const
     return TailOff::getCx( angleOfAttack )
             + _airbrake * _dcx_dairbrake
             + _flaps_le * _dcx_dflaps_le.getValue( angleOfAttack )
-            + _flaps_te * _dcx_dflaps_te.getValue( angleOfAttack );
+            + _flaps_te * _dcx_dflaps_te.getValue( angleOfAttack )
+            + _landing_gear * _dcx_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +167,8 @@ double F35A_TailOff::getCz( double angleOfAttack ) const
     return TailOff::getCz( angleOfAttack )
             + _airbrake * _dcz_dairbrake
             + _flaps_le * _dcz_dflaps_le.getValue( angleOfAttack )
-            + _flaps_te * _dcz_dflaps_te.getValue( angleOfAttack );
+            + _flaps_te * _dcz_dflaps_te.getValue( angleOfAttack )
+            + _landing_gear * _dcz_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -176,7 +185,8 @@ double F35A_TailOff::getCm( double angleOfAttack ) const
 {
     return TailOff::getCm( angleOfAttack )
             + _flaps_le * _dcm_dflaps_le.getValue( angleOfAttack )
-            + _flaps_te * _dcm_dflaps_te.getValue( angleOfAttack );
+            + _flaps_te * _dcm_dflaps_te.getValue( angleOfAttack )
+            + _landing_gear * _dcm_dgear;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

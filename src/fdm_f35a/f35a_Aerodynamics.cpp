@@ -95,7 +95,8 @@ void F35A_Aerodynamics::computeForceAndMoment()
                                      _aircraft->getCtrl()->getAilerons(),
                                      _aircraft->getCtrl()->getAirbrake(),
                                      _aircraft->getCtrl()->getFlapsLE(),
-                                     _aircraft->getCtrl()->getFlapsTE() );
+                                     _aircraft->getCtrl()->getFlapsTE(),
+                                     _aircraft->getGear()->getPosition() );
 
     _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                      _aircraft->getOmg_air_BAS(),
