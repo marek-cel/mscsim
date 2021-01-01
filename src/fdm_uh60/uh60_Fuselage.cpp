@@ -63,17 +63,17 @@ void UH60_Fuselage::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekxwf, "ekxwf" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekzwf, "ekzwf" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dqfmp, "dqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lqfmp, "lqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mqfmp, "mqfmp" );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_yqfmp, "yqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rqfmp, "rqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nqfmp, "nqfmp" );
-
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ddqfmp, "ddqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dlqfmp, "dlqfmp" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dmqfmp, "dmqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dqfmp, "dqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lqfmp, "lqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mqfmp, "mqfmp" );
+        //
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_yqfmp, "yqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rqfmp, "rqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nqfmp, "nqfmp" );
+        //
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ddqfmp, "ddqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dlqfmp, "dlqfmp" );
+        //if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dmqfmp, "dmqfmp" );
 
         if ( result == FDM_SUCCESS )
         {
