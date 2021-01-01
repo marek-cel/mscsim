@@ -24,6 +24,7 @@
 
 #include <fdm/utils/fdm_Misc.h>
 #include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,9 +83,16 @@ void Propeller::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_coefPower  , "power_coef"  );
 
         if ( result == FDM_SUCCESS )
+        {
             _area = M_PI * pow( 0.5 * _diameter, 2.0 );
+
+            _coefThrust .multiplyCols( Units::deg2rad() );
+            _coefPower  .multiplyCols( Units::deg2rad() );
+        }
         else
+        {
             XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {

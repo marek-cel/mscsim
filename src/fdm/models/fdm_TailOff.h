@@ -50,27 +50,27 @@ namespace fdm
  *   <mac> { [m] wing mean aerodynamic chord } </mac>
  *   <area> { [m^2] wing area } </area>
  *   <cx>
- *     { [rad] angle of attack } { [-] drag coefficient }
+ *     { [deg] angle of attack } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   [<cy>
- *     { [rad] angle of sideslip } { [-] sideforce coefficient }
+ *     { [deg] angle of sideslip } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>]
  *   <cz>
- *     { [rad] angle of attack } { [-] lift coefficient }
+ *     { [deg] angle of attack } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
  *   [<cl>
- *     { [rad] angle of sideslip } { [-] rolling moment coefficient }
+ *     { [deg] angle of sideslip } { [-] rolling moment coefficient }
  *     ... { more entries }
  *   </cl>]
  *   <cm>
- *     { [rad] angle of attack } { [-] pitching moment coefficient }
+ *     { [deg] angle of attack } { [-] pitching moment coefficient }
  *     ... { more entries }
  *   </cm>
  *   [<cn>
- *     { [rad] angle of sideslip } { [-] yawing moment coefficient }
+ *     { [deg] angle of sideslip } { [-] yawing moment coefficient }
  *     ... { more entries }
  *   </cn>]
  * </tail_off>

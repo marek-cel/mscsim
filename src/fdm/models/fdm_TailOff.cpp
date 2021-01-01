@@ -23,6 +23,7 @@
 #include <fdm/models/fdm_TailOff.h>
 
 #include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +83,13 @@ void TailOff::readData( XmlNode &dataNode )
 
             _aoa_critical_neg = _cz.getKeyOfValueMin();
             _aoa_critical_pos = _cz.getKeyOfValueMax();
+
+            _cx.multiplyKeys( Units::deg2rad() );
+            _cy.multiplyKeys( Units::deg2rad() );
+            _cz.multiplyKeys( Units::deg2rad() );
+            _cl.multiplyKeys( Units::deg2rad() );
+            _cm.multiplyKeys( Units::deg2rad() );
+            _cn.multiplyKeys( Units::deg2rad() );
         }
         else
         {

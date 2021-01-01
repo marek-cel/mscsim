@@ -22,7 +22,6 @@
 
 #include <fdm_pw5/pw5_TailOff.h>
 
-#include <fdm/main/fdm_Aerodynamics.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,8 +97,8 @@ void PW5_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_bas
 
     Table1 cz_total = _cz;
 
-    _aoa_critical_neg = cz_total.getKeyOfValueMin();
-    _aoa_critical_pos = cz_total.getKeyOfValueMax();
+    _aoa_critical_neg = cz_total.getKeyOfValueMin( -M_PI_2, M_PI_2 );
+    _aoa_critical_pos = cz_total.getKeyOfValueMax( -M_PI_2, M_PI_2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

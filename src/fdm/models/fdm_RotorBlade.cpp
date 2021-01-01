@@ -169,6 +169,9 @@ void RotorBlade::readData( XmlNode &dataNode )
 
             _sb = _m * _b / 2.0;
             _ib = _m * _b * _b / 3.0;
+
+            _cd.multiplyKeys( Units::deg2rad() );
+            _cl.multiplyKeys( Units::deg2rad() );
         }
         else
         {

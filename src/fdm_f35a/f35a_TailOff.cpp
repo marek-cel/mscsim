@@ -22,7 +22,7 @@
 
 #include <fdm_f35a/f35a_TailOff.h>
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,20 @@ void F35A_TailOff::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dflaps_te, "dcz_dflaps_te" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dflaps_te, "dcm_dflaps_te" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result == FDM_SUCCESS )
+        {
+            _dcx_dflaps_le.multiplyKeys( Units::deg2rad() );
+            _dcz_dflaps_le.multiplyKeys( Units::deg2rad() );
+            _dcm_dflaps_le.multiplyKeys( Units::deg2rad() );
+
+            _dcx_dflaps_te.multiplyKeys( Units::deg2rad() );
+            _dcz_dflaps_te.multiplyKeys( Units::deg2rad() );
+            _dcm_dflaps_te.multiplyKeys( Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {
@@ -118,8 +131,8 @@ void F35A_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
 
     Table1 cz_total = _cz + _flaps_te * _dcz_dflaps_te;
 
-    _aoa_critical_neg = cz_total.getKeyOfValueMin();
-    _aoa_critical_pos = cz_total.getKeyOfValueMax();
+    _aoa_critical_neg = cz_total.getKeyOfValueMin( -M_PI_2, M_PI_2 );
+    _aoa_critical_pos = cz_total.getKeyOfValueMax( -M_PI_2, M_PI_2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

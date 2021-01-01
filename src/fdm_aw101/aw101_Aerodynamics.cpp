@@ -115,7 +115,8 @@ void AW101_Aerodynamics::computeForceAndMoment()
                                       _aircraft->getOmg_air_BAS(),
                                       _aircraft->getEnvir()->getDensity(),
                                       _mainRotor->getBeta1c(),
-                                      _mainRotor->getWakeSkew() );
+                                      _mainRotor->getWakeSkew(),
+                                      _aircraft->getGear()->getPosition() );
 
     _stabHor->computeForceAndMoment( _aircraft->getVel_air_BAS(),
                                      _aircraft->getOmg_air_BAS(),

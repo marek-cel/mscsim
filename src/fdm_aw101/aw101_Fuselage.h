@@ -43,6 +43,57 @@ public:
 
     /** Destructor. */
     ~AW101_Fuselage();
+
+    /**
+     * Reads data.
+     * @param dataNode XML node
+     */
+    void readData( XmlNode &dataNode );
+
+    /**
+     * Computes force and moment.
+     * @param vel_air_bas [m/s] aircraft linear velocity relative to the air expressed in BAS
+     * @param omg_air_bas [rad/s] aircraft angular velocity relative to the air expressed in BAS
+     * @param airDensity [kg/m^3] air density
+     * @param inducedVelocity [m/s] rotor induced velocity
+     * @param wakeSkewAngle [rad] rotor wake skew angle
+     * @param landing_gear [rad] landing gear
+     */
+    void computeForceAndMoment( const fdm::Vector3 &vel_air_bas,
+                                const fdm::Vector3 &omg_air_bas,
+                                double airDensity,
+                                double inducedVelocity,
+                                double wakeSkewAngle,
+                                double landing_gear );
+
+private:
+
+    double _landing_gear;           ///< [-] landing gear
+
+    double _dcx_dgear;              ///< [-/-]
+    double _dcz_dgear;              ///< [-/-]
+    double _dcm_dgear;              ///< [-/-]
+
+    /**
+     * Computes drag coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] drag coefficient
+     */
+    double getCx( double angleOfAttack ) const;
+
+    /**
+     * Computes lift coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] lift coefficient
+     */
+    double getCz( double angleOfAttack ) const;
+
+    /**
+     * Computes pitching moment coefficient.
+     * @param angleOfAttack [rad] angle of attack
+     * @return [-] pitching moment coefficient
+     */
+    double getCm( double angleOfAttack ) const;
 };
 
 } // end of fdm namespace

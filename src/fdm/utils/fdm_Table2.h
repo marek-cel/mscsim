@@ -98,6 +98,31 @@ public:
     bool isValid() const;
 
     /**
+     * @brief Multiplies columns and rows values by the given factors.
+     * @param f_cols columns factor
+     * @param f_rows rows factor
+     */
+    void multiplyColsAndRows( double f_cols, double f_rows );
+
+    /**
+     * @brief Multiplies columns values by the given factor.
+     * @param factor given factor
+     */
+    void multiplyCols( double factor );
+
+    /**
+     * @brief Multiplies rows values by the given factor.
+     * @param factor given factor
+     */
+    void multiplyRows( double factor );
+
+    /**
+     * @brief Multiplies values by the given factor.
+     * @param factor given factor
+     */
+    void multiplyValues( double factor );
+
+    /**
      * @brief Returns string representation of the table.
      */
     std::string toString();

@@ -77,10 +77,26 @@ public:
     double getKeyOfValueMin() const;
 
     /**
+     * @brief Returns key of minimum table value within given range.
+     * @param key_min range minimum
+     * @param key_max range maximum
+     * @return key of minimum table value
+     */
+    double getKeyOfValueMin( double key_min, double key_max ) const;
+
+    /**
      * @brief Returns key of maximum table value.
      * @return key of maximum table value
      */
     double getKeyOfValueMax() const;
+
+    /**
+     * @brief Returns key of maximum table value within given range.
+     * @param key_min range minimum
+     * @param key_max range maximum
+     * @return key of maximum table value
+     */
+    double getKeyOfValueMax( double key_min, double key_max ) const;
 
     /**
      * @brief Returns table value for the given key.
@@ -127,6 +143,18 @@ public:
      * @return returns true if size is greater than 0 and all data is valid
      */
     bool isValid() const;
+
+    /**
+     * @brief Multiplies keys by the given factor.
+     * @param factor given factor
+     */
+    void multiplyKeys( double factor );
+
+    /**
+     * @brief Multiplies values by the given factor.
+     * @param factor given factor
+     */
+    void multiplyValues( double factor );
 
     /**
      * @brief Returns string representation of the table.

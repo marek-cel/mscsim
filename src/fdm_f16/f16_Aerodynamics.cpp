@@ -154,6 +154,80 @@ void F16_Aerodynamics::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS )
         {
             _mac_s = _area * _mac;
+
+            _cx_dh_n25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cx_dh_n10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cx_dh_0        .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cx_dh_p10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cx_dh_p25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cx_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _delta_cx_sb    .multiplyKeys( Units::deg2rad() );
+            _cx_q           .multiplyKeys( Units::deg2rad() );
+            _delta_cx_q_lef .multiplyKeys( Units::deg2rad() );
+            _delta_cx_tef   .multiplyKeys( Units::deg2rad() );
+            _delta_cx_gear  .multiplyKeys( Units::deg2rad() );
+
+            _cy             .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cy_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cy_da_20       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cy_da_20_lef   .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cy_dr_30       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cy_r           .multiplyKeys( Units::deg2rad() );
+            _delta_cy_r_lef .multiplyKeys( Units::deg2rad() );
+            _cy_p           .multiplyKeys( Units::deg2rad() );
+            _delta_cy_p_lef .multiplyKeys( Units::deg2rad() );
+
+            _cz_dh_n25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cz_dh_n10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cz_dh_0        .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cz_dh_p10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cz_dh_p25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cz_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _delta_cz_sb    .multiplyKeys( Units::deg2rad() );
+            _cz_q           .multiplyKeys( Units::deg2rad() );
+            _delta_cz_q_lef .multiplyKeys( Units::deg2rad() );
+            _delta_cz_tef   .multiplyKeys( Units::deg2rad() );
+            _delta_cz_gear  .multiplyKeys( Units::deg2rad() );
+
+            _cl_dh_n25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_dh_0        .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_dh_p25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_da_20       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_da_20_lef   .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_dr_30       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cl_r           .multiplyKeys( Units::deg2rad() );
+            _delta_cl_beta  .multiplyKeys( Units::deg2rad() );
+            _delta_cl_r_lef .multiplyKeys( Units::deg2rad() );
+            _cl_p           .multiplyKeys( Units::deg2rad() );
+            _delta_cl_p_lef .multiplyKeys( Units::deg2rad() );
+
+            _cm_dh_n25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cm_dh_n10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cm_dh_0        .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cm_dh_p10      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cm_dh_p25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cm_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _delta_cm_sb    .multiplyKeys( Units::deg2rad() );
+            _cm_q           .multiplyKeys( Units::deg2rad() );
+            _delta_cm_q_lef .multiplyKeys( Units::deg2rad() );
+            _delta_cm       .multiplyKeys( Units::deg2rad() );
+            _delta_cm_ds    .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _delta_cm_tef   .multiplyKeys( Units::deg2rad() );
+            _eta_delta_h    .multiplyKeys( Units::deg2rad() );
+
+            _cn_dh_n25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_dh_0        .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_dh_p25      .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_lef         .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_da_20       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_da_20_lef   .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_dr_30       .multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _cn_r           .multiplyKeys( Units::deg2rad() );
+            _delta_cn_beta  .multiplyKeys( Units::deg2rad() );
+            _delta_cn_r_lef .multiplyKeys( Units::deg2rad() );
+            _cn_p           .multiplyKeys( Units::deg2rad() );
+            _delta_cn_p_lef .multiplyKeys( Units::deg2rad() );
         }
         else
         {

@@ -23,7 +23,7 @@
 #include <fdm/models/fdm_StabilizerHor.h>
 
 #include <fdm/main/fdm_Aerodynamics.h>
-#include <fdm/utils/fdm_String.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,18 @@ void StabilizerHor::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx, "cx" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz, "cz" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result == FDM_SUCCESS )
+        {
+            //_downwash.multiplyKeys( Units::deg2rad() );
+            //_downwash.multiplyValues( Units::deg2rad() );
+
+            _cx.multiplyKeys( Units::deg2rad() );
+            _cz.multiplyKeys( Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {

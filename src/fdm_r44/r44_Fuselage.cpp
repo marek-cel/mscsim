@@ -22,6 +22,7 @@
 
 #include <fdm_r44/r44_Fuselage.h>
 
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,16 @@ void R44_Fuselage::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dbeta, "dcz_dbeta" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dbeta, "dcm_dbeta" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result == FDM_SUCCESS )
+        {
+            _dcx_dbeta.multiplyKeys( Units::deg2rad() );
+            _dcz_dbeta.multiplyKeys( Units::deg2rad() );
+            _dcm_dbeta.multiplyKeys( Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {

@@ -44,15 +44,15 @@ namespace fdm
  *   <area> { [m^2] area } </area>
  *   [<incidence> { [rad] incidence } </incidence>]
  *   [<downwash>
- *     { [rad] wing angle of attack } { [rad] downwash angle }
+ *     { [deg] wing angle of attack } { [deg] downwash angle }
  *     ... { more entries }
  *   </downwash>]
  *   <cx>
- *     { [rad] angle } { [-] drag coefficient }
+ *     { [deg] angle } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cz>
- *     { [rad] angle } { [-] lift coefficient }
+ *     { [deg] angle } { [-] lift coefficient }
  *     ... { more entries }
  *   </cz>
  * </stab_hor>

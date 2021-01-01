@@ -43,11 +43,11 @@ namespace fdm
  *   <aerodynamic_center> { [m] x-coordinate } { [m] y-coordinate } { [m] z-coordinate } </aerodynamic_center>
  *   <area> { [m^2] area } </area>
  *   <cx>
- *     { [rad] angle } { [-] drag coefficient }
+ *     { [deg] angle } { [-] drag coefficient }
  *     ... { more entries }
  *   </cx>
  *   <cy>
- *     { [rad] angle } { [-] sideforce coefficient }
+ *     { [deg] angle } { [-] sideforce coefficient }
  *     ... { more entries }
  *   </cy>
  * </stab_ver>

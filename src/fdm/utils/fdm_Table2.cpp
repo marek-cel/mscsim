@@ -289,6 +289,59 @@ bool Table2::isValid() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void Table2::multiplyColsAndRows( double f_cols, double f_rows )
+{
+    for ( unsigned int i = 0; i < _cols; i++ )
+    {
+        _col_values[ i ] *= f_cols;
+    }
+
+    for ( unsigned int i = 0; i < _rows; i++ )
+    {
+        _row_values[ i ] *= f_rows;
+    }
+
+    updateInterpolationData();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Table2::multiplyCols( double factor )
+{
+    for ( unsigned int i = 0; i < _cols; i++ )
+    {
+        _col_values[ i ] *= factor;
+    }
+
+    updateInterpolationData();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Table2::multiplyRows( double factor )
+{
+    for ( unsigned int i = 0; i < _rows; i++ )
+    {
+        _row_values[ i ] *= factor;
+    }
+
+    updateInterpolationData();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Table2::multiplyValues( double factor )
+{
+    for ( unsigned int i = 0; i < _size; i++ )
+    {
+        _table_data[ i ] *= factor;
+    }
+
+    updateInterpolationData();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 std::string Table2::toString()
 {
     std::stringstream ss;

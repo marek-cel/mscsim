@@ -23,6 +23,7 @@
 #include <fdm/models/fdm_Fuselage.h>
 
 #include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +82,13 @@ void Fuselage::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS )
         {
             _sl = _area * _length;
+
+            _cx.multiplyKeys( Units::deg2rad() );
+            _cy.multiplyKeys( Units::deg2rad() );
+            _cz.multiplyKeys( Units::deg2rad() );
+            _cl.multiplyKeys( Units::deg2rad() );
+            _cm.multiplyKeys( Units::deg2rad() );
+            _cn.multiplyKeys( Units::deg2rad() );
         }
         else
         {

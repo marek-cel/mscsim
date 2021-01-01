@@ -59,11 +59,11 @@ public:
      * @param airDensity [kg/m^3] air density
      * @param ailerons [rad] ailerons deflection
      * @param flaps [rad] flaps deflection
-     * @param gear [rad] landing gear
+     * @param landing_gear [rad] landing gear
      */
     void computeForceAndMoment( const fdm::Vector3 &vel_air_bas,
                                 const fdm::Vector3 &omg_air_bas,
-                                double airDensity ,
+                                double airDensity,
                                 double ailerons,
                                 double flaps,
                                 double landing_gear );

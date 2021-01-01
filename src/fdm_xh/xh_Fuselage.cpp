@@ -22,6 +22,7 @@
 
 #include <fdm_xh/xh_Fuselage.h>
 
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,16 @@ void XH_Fuselage::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz_beta, "cz_beta" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cm_beta, "cm_beta" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result == FDM_SUCCESS )
+        {
+            _cx_beta.multiplyKeys( Units::deg2rad() );
+            _cz_beta.multiplyKeys( Units::deg2rad() );
+            _cm_beta.multiplyKeys( Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {

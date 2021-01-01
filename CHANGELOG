@@ -1,3 +1,13 @@
+2021-01-01 Marek M. Cel <marekcel@marekcel.pl>
+    
+    * R44 FDM minor changes
+    
+    * version number increment
+    
+    * aerodynamic characteristics relative to angles expressed in degrees
+
+
+
 2020-12-26 Marek M. Cel <marekcel@marekcel.pl>
     
     * about dialog

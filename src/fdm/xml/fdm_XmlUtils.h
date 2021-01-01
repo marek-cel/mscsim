@@ -123,7 +123,7 @@ public:
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      *
      * @code
-     * <tag_name [factor="{ value }] [unit="{ unit string }"] [keys_factor="{ value }] [keys_unit="{ unit string }"]>
+     * <tag_name [factor="{ value }] [unit="{ unit string }"]>
      *   { key } { value }
      *   ... { more entries }
      * </tag_name>
@@ -140,7 +140,7 @@ public:
      * @return FDM_SUCCESS on success or FDM_FAILURE on failure.
      *
      * @code
-     * <tag_name [factor="{ value }] [unit="{ unit string }"] [cols_factor="{ value }] [cols_unit="{ unit string }] [rows_factor="{ value }] [rows_unit="{ unit string }"]>
+     * <tag_name [factor="{ value }] [unit="{ unit string }"]>
      *   { column key } ... { more column keys }
      *    { row key } { value } ... { more values }
      *   ... { more entries }

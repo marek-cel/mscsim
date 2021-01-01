@@ -22,6 +22,7 @@
 
 #include <fdm_uh60/uh60_Fuselage.h>
 
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,17 +63,39 @@ void UH60_Fuselage::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekxwf, "ekxwf" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ekzwf, "ekzwf" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dqfmp, "cx_alfwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lqfmp, "cz_alfwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mqfmp, "cm_alfwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dqfmp, "dqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_lqfmp, "lqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_mqfmp, "mqfmp" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_yqfmp, "cy_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rqfmp, "cl_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nqfmp, "cn_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_yqfmp, "yqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rqfmp, "rqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_nqfmp, "nqfmp" );
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ddqfmp, "dcx_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dlqfmp, "dcz_psiwf" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dmqfmp, "dcm_psiwf" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ddqfmp, "ddqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dlqfmp, "dlqfmp" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dmqfmp, "dmqfmp" );
+
+        if ( result == FDM_SUCCESS )
+        {
+            _ekxwf.multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _ekzwf.multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+
+            _dqfmp.multiplyKeys( Units::deg2rad() );
+            _lqfmp.multiplyKeys( Units::deg2rad() );
+            _mqfmp.multiplyKeys( Units::deg2rad() );
+
+            _yqfmp.multiplyKeys( Units::deg2rad() );
+            _rqfmp.multiplyKeys( Units::deg2rad() );
+            _nqfmp.multiplyKeys( Units::deg2rad() );
+
+            _ddqfmp.multiplyKeys( Units::deg2rad() );
+            _dlqfmp.multiplyKeys( Units::deg2rad() );
+            _dmqfmp.multiplyKeys( Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {

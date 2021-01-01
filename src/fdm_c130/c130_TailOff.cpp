@@ -22,7 +22,7 @@
 
 #include <fdm_c130/c130_TailOff.h>
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/utils/fdm_Units.h>
 #include <fdm/xml/fdm_XmlUtils.h>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,16 @@ void C130_TailOff::readData( XmlNode &dataNode )
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dflaps, "dcz_dflaps" );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dflaps, "dcm_dflaps" );
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        if ( result == FDM_SUCCESS )
+        {
+            _dcx_dflaps.multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _dcz_dflaps.multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+            _dcm_dflaps.multiplyColsAndRows( Units::deg2rad(), Units::deg2rad() );
+        }
+        else
+        {
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
+        }
     }
     else
     {
@@ -109,8 +118,8 @@ void C130_TailOff::update( const Vector3 &vel_air_bas, const Vector3 &omg_air_ba
 
     Table1 cz_total = _cz + _dcz_dflaps.getTable( _flaps );
 
-    _aoa_critical_neg = cz_total.getKeyOfValueMin();
-    _aoa_critical_pos = cz_total.getKeyOfValueMax();
+    _aoa_critical_neg = cz_total.getKeyOfValueMin( -M_PI_2, M_PI_2 );
+    _aoa_critical_pos = cz_total.getKeyOfValueMax( -M_PI_2, M_PI_2 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
