@@ -25,7 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define SIM_APP_NAME    "MScSim"
-#define SIM_APP_VER     "0.3"
+#define SIM_APP_VER     "0.4"
 #define SIM_ORG_NAME    "Marek_Cel"
 #define SIM_ORG_DOMAIN  "marekcel.pl"
 

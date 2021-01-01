@@ -32,9 +32,9 @@ using namespace fdm;
 
 R44_Fuselage::R44_Fuselage()
 {
-    _cx_beta = Table1::oneRecordTable( 0.0 );
-    _cz_beta = Table1::oneRecordTable( 0.0 );
-    _cm_beta = Table1::oneRecordTable( 0.0 );
+    _dcx_dbeta = Table1::oneRecordTable( 0.0 );
+    _dcz_dbeta = Table1::oneRecordTable( 0.0 );
+    _dcm_dbeta = Table1::oneRecordTable( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,9 +53,9 @@ void R44_Fuselage::readData( XmlNode &dataNode )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cx_beta, "cx_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cz_beta, "cz_beta" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_cm_beta, "cm_beta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcx_dbeta, "dcx_dbeta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcz_dbeta, "dcz_dbeta" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_dcm_dbeta, "dcm_dbeta" );
 
         if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
@@ -69,19 +69,19 @@ void R44_Fuselage::readData( XmlNode &dataNode )
 
 double R44_Fuselage::getCx( double angleOfAttack ) const
 {
-    return Fuselage::getCx( angleOfAttack ) + _cx_beta.getValue( _sideslipAngle );
+    return Fuselage::getCx( angleOfAttack ) + _dcx_dbeta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double R44_Fuselage::getCz( double angleOfAttack ) const
 {
-    return Fuselage::getCz( angleOfAttack ) + _cz_beta.getValue( _sideslipAngle );
+    return Fuselage::getCz( angleOfAttack ) + _dcz_dbeta.getValue( _sideslipAngle );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 double R44_Fuselage::getCm( double angleOfAttack ) const
 {
-    return Fuselage::getCm( angleOfAttack ) + _cm_beta.getValue( _sideslipAngle );
+    return Fuselage::getCm( angleOfAttack ) + _dcm_dbeta.getValue( _sideslipAngle );
 }
