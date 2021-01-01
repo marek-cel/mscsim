@@ -32,7 +32,7 @@ set( CPP_FILES
     GraphicsEHSI.cpp
     GraphicsPedals.cpp
     GraphicsStick.cpp
-    GraphicsWinQt.cpp
+    GraphicsWindowQt.cpp
     KeyHandler.cpp
     KeyMap.cpp
     LayoutSquare.cpp

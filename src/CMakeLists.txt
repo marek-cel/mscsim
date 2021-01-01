@@ -106,6 +106,7 @@ add_subdirectory( fdm_aw101 )
 add_subdirectory( fdm_c130 )
 add_subdirectory( fdm_c172 )
 add_subdirectory( fdm_f16 )
+add_subdirectory( fdm_f35a )
 add_subdirectory( fdm_p51 )
 add_subdirectory( fdm_pw5 )
 add_subdirectory( fdm_r44 )
@@ -122,7 +123,6 @@ set( CPP_FILES
     Autopilot.cpp
     main.cpp
     Manager.cpp
-    ManagerFDM.cpp
     Simulation.cpp
 )
 

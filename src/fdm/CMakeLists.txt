@@ -49,7 +49,7 @@ set( CPP_FILES
     models/fdm_TailRotor.cpp
     models/fdm_Turbofan.cpp
     models/fdm_Wheel.cpp
-    models/fdm_WinchLauncher.cpp \
+    models/fdm_WinchLauncher.cpp
     models/fdm_WindShear.cpp
     models/fdm_WingRunner.cpp
     
