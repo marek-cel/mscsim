@@ -42,7 +42,7 @@ public:
     R44_Fuselage();
 
     /** Destructor. */
-    ~R44_Fuselage();
+    virtual ~R44_Fuselage();
 
     /**
      * Reads data.

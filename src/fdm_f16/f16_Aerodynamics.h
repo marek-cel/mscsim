@@ -50,7 +50,7 @@ public:
     F16_Aerodynamics( const F16_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~F16_Aerodynamics();
+    virtual ~F16_Aerodynamics();
 
     /**
      * Reads data.

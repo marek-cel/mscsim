@@ -44,7 +44,7 @@ public:
     AW101_Mass( const AW101_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~AW101_Mass();
+    virtual ~AW101_Mass();
 
 private:
 

@@ -46,7 +46,7 @@ public:
     XH_Controls( const XH_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~XH_Controls();
+    virtual ~XH_Controls();
 
     /**
      * Reads data.

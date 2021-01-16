@@ -61,7 +61,7 @@ public:
     R44_LandingGear( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~R44_LandingGear();
+    virtual ~R44_LandingGear();
 
     /**
      * Reads data.

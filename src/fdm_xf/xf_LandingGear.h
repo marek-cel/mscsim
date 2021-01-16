@@ -61,7 +61,7 @@ public:
     XF_LandingGear( const XF_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~XF_LandingGear();
+    virtual ~XF_LandingGear();
 
     /**
      * Reads data.

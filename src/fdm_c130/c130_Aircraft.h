@@ -51,7 +51,7 @@ public:
     C130_Aircraft( Input *input );
 
     /** Destructor. */
-    ~C130_Aircraft();
+    virtual ~C130_Aircraft();
 
     /**
      * Initializes aircraft.

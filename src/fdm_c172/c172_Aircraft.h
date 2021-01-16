@@ -51,7 +51,7 @@ public:
     C172_Aircraft( Input *input );
 
     /** Destructor. */
-    ~C172_Aircraft();
+    virtual ~C172_Aircraft();
 
     /**
      * Initializes aircraft.

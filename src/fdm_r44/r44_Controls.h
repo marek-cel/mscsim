@@ -44,7 +44,7 @@ public:
     R44_Controls( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~R44_Controls();
+    virtual ~R44_Controls();
 
     /** Initializes controls. */
     void initialize();

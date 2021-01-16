@@ -42,7 +42,7 @@ public:
     XF_StabilizerVer();
 
     /** Destructor. */
-    ~XF_StabilizerVer();
+    virtual ~XF_StabilizerVer();
 
     /**
      * Reads data.

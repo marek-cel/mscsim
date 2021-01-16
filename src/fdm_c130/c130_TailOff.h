@@ -44,7 +44,7 @@ public:
     C130_TailOff();
 
     /** Destructor. */
-    ~C130_TailOff();
+    virtual ~C130_TailOff();
 
     /**
      * Reads data.

@@ -61,7 +61,7 @@ public:
     F16_LandingGear( const F16_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~F16_LandingGear();
+    virtual ~F16_LandingGear();
 
     /**
      * Reads data.

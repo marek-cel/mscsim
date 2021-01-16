@@ -48,7 +48,7 @@ public:
     F35A_Aircraft( Input *input );
 
     /** Destructor. */
-    ~F35A_Aircraft();
+    virtual ~F35A_Aircraft();
 
     /**
      * Initializes aircraft.

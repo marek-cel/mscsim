@@ -46,7 +46,7 @@ public:
     F16_Controls( const F16_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~F16_Controls();
+    virtual ~F16_Controls();
 
     /**
      * Reads data.

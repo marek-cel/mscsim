@@ -47,7 +47,7 @@ public:
     C130_Propulsion( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C130_Propulsion();
+    virtual ~C130_Propulsion();
 
     /**
      * Reads data.

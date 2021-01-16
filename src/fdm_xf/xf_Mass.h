@@ -44,7 +44,7 @@ public:
     XF_Mass( const XF_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~XF_Mass();
+    virtual ~XF_Mass();
 
 private:
 

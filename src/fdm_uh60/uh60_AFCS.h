@@ -42,7 +42,7 @@ public:
     UH60_AFCS();
 
     /** Destructor. */
-    ~UH60_AFCS();
+    virtual ~UH60_AFCS();
 };
 
 } // end of fdm namespace

@@ -50,7 +50,7 @@ public:
     XH_Aerodynamics( const XH_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~XH_Aerodynamics();
+    virtual ~XH_Aerodynamics();
 
     /**
      * Reads data.

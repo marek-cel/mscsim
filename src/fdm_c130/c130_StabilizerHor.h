@@ -42,7 +42,7 @@ public:
     C130_StabilizerHor();
 
     /** Destructor. */
-    ~C130_StabilizerHor();
+    virtual ~C130_StabilizerHor();
 
     /**
      * Reads data.

@@ -46,7 +46,7 @@ public:
     PW5_Propulsion( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~PW5_Propulsion();
+    virtual ~PW5_Propulsion();
 
     /**
      * Reads data.

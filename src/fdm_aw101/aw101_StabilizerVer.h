@@ -42,7 +42,7 @@ public:
     AW101_StabilizerVer();
 
     /** Destructor. */
-    ~AW101_StabilizerVer();
+    virtual ~AW101_StabilizerVer();
 };
 
 } // end of fdm namespace

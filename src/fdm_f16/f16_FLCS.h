@@ -63,7 +63,7 @@ public:
     F16_FLCS();
 
     /** Destructor. */
-    ~F16_FLCS();
+    virtual ~F16_FLCS();
 
     /** Updates model. */
     void update( double timeStep, double angleOfAttack,

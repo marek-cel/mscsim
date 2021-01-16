@@ -61,7 +61,7 @@ public:
     C130_LandingGear( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C130_LandingGear();
+    virtual ~C130_LandingGear();
 
     /**
      * Reads data.

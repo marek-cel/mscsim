@@ -42,7 +42,7 @@ public:
     PW5_StabilizerVer();
 
     /** Destructor. */
-    ~PW5_StabilizerVer();
+    virtual ~PW5_StabilizerVer();
 
     /**
      * Reads data.

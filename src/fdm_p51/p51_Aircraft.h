@@ -50,7 +50,7 @@ public:
     P51_Aircraft( Input *input );
 
     /** Destructor. */
-    ~P51_Aircraft();
+    virtual ~P51_Aircraft();
 
     /**
      * Initializes aircraft.

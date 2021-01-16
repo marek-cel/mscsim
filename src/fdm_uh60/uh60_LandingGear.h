@@ -61,7 +61,7 @@ public:
     UH60_LandingGear( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~UH60_LandingGear();
+    virtual ~UH60_LandingGear();
 
     /**
      * Reads data.

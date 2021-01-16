@@ -53,7 +53,7 @@ public:
     UH60_Aerodynamics( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~UH60_Aerodynamics();
+    virtual ~UH60_Aerodynamics();
 
     /**
      * Reads data.

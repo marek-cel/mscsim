@@ -44,7 +44,7 @@ public:
     R44_Propulsion( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~R44_Propulsion();
+    virtual ~R44_Propulsion();
 
     /**
      * Reads data.

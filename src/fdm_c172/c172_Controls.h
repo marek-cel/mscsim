@@ -44,7 +44,7 @@ public:
     C172_Controls( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C172_Controls();
+    virtual ~C172_Controls();
 
     /** Initializes controls. */
     void initialize();

@@ -46,7 +46,7 @@ public:
     F35A_Controls( const F35A_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~F35A_Controls();
+    virtual ~F35A_Controls();
 
     /**
      * Reads data.

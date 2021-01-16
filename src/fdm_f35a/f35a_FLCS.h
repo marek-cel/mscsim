@@ -44,7 +44,7 @@ public:
     F35A_FLCS();
 
     /** Destructor. */
-    ~F35A_FLCS();
+    virtual ~F35A_FLCS();
 
     /** Updates model. */
     void update( double time_step );

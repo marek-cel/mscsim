@@ -48,7 +48,7 @@ public:
     AW101_Aircraft( Input *input );
 
     /** Destructor. */
-    ~AW101_Aircraft();
+    virtual ~AW101_Aircraft();
 
     /**
      * Initializes aircraft.

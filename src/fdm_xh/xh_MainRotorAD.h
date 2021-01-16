@@ -42,7 +42,7 @@ public:
     XH_MainRotorAD();
 
     /** Destructor. */
-    ~XH_MainRotorAD();
+    virtual ~XH_MainRotorAD();
 };
 
 } // end of fdm namespace

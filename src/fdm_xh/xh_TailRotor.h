@@ -42,7 +42,7 @@ public:
     XH_TailRotor();
 
     /** Destructor. */
-    ~XH_TailRotor();
+    virtual ~XH_TailRotor();
 };
 
 } // end of fdm namespace

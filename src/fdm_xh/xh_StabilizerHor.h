@@ -42,7 +42,7 @@ public:
     XH_StabilizerHor();
 
     /** Destructor. */
-    ~XH_StabilizerHor();
+    virtual ~XH_StabilizerHor();
 
     /**
      * Computes force and moment.

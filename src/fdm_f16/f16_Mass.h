@@ -44,7 +44,7 @@ public:
     F16_Mass( const F16_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~F16_Mass();
+    virtual ~F16_Mass();
 
 private:
 

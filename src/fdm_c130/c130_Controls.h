@@ -44,7 +44,7 @@ public:
     C130_Controls( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C130_Controls();
+    virtual ~C130_Controls();
 
     /** Initializes controls. */
     void initialize();

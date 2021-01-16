@@ -42,7 +42,7 @@ public:
     R44_StabilizerVer();
 
     /** Destructor. */
-    ~R44_StabilizerVer();
+    virtual ~R44_StabilizerVer();
 };
 
 } // end of fdm namespace

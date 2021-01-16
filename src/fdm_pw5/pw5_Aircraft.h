@@ -53,7 +53,7 @@ public:
     PW5_Aircraft( Input *input );
 
     /** Destructor. */
-    ~PW5_Aircraft();
+    virtual ~PW5_Aircraft();
 
     /**
      * Initializes aircraft.

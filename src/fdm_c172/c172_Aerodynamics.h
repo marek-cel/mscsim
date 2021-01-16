@@ -48,7 +48,7 @@ public:
     C172_Aerodynamics( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C172_Aerodynamics();
+    virtual ~C172_Aerodynamics();
 
     /**
      * Reads data.

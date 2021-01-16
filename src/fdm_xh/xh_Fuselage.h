@@ -42,7 +42,7 @@ public:
     XH_Fuselage();
 
     /** Destructor. */
-    ~XH_Fuselage();
+    virtual ~XH_Fuselage();
 
     /**
      * Reads data.

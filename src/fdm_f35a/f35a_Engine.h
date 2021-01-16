@@ -106,7 +106,7 @@ public:
     F35A_Engine();
 
     /** Destructor. */
-    ~F35A_Engine();
+    virtual ~F35A_Engine();
 
     /**
      * Reads data.

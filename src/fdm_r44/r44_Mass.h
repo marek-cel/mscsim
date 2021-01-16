@@ -44,7 +44,7 @@ public:
     R44_Mass( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~R44_Mass();
+    virtual ~R44_Mass();
 
 private:
 

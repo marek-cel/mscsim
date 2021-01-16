@@ -44,7 +44,7 @@ public:
     C130_Mass( const C130_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C130_Mass();
+    virtual ~C130_Mass();
 
 private:
 

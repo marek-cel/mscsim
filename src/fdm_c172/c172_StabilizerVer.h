@@ -42,7 +42,7 @@ public:
     C172_StabilizerVer();
 
     /** Destructor. */
-    ~C172_StabilizerVer();
+    virtual ~C172_StabilizerVer();
 
     /**
      * Reads data.

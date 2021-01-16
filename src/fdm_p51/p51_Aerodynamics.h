@@ -48,7 +48,7 @@ public:
     P51_Aerodynamics( const P51_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~P51_Aerodynamics();
+    virtual ~P51_Aerodynamics();
 
     /**
      * Reads data.

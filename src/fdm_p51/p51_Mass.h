@@ -44,7 +44,7 @@ public:
     P51_Mass( const P51_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~P51_Mass();
+    virtual ~P51_Mass();
 
 private:
 

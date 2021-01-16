@@ -44,7 +44,7 @@ public:
     AW101_Propulsion( const AW101_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~AW101_Propulsion();
+    virtual ~AW101_Propulsion();
 
     /**
      * Reads data.

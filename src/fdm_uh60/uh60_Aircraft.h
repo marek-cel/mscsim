@@ -53,7 +53,7 @@ public:
     UH60_Aircraft( Input *input );
 
     /** Destructor. */
-    ~UH60_Aircraft();
+    virtual ~UH60_Aircraft();
 
     /**
      * Initializes aircraft.

@@ -44,7 +44,7 @@ public:
     XF_FLCS();
 
     /** Destructor. */
-    ~XF_FLCS();
+    virtual ~XF_FLCS();
 
     /** Updates model. */
     void update( double time_step );

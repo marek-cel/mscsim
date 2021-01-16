@@ -44,7 +44,7 @@ public:
     XH_AFCS();
 
     /** Destructor. */
-    ~XH_AFCS();
+    virtual ~XH_AFCS();
 
     /**
      * Reads data.

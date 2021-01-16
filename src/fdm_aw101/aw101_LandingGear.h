@@ -61,7 +61,7 @@ public:
     AW101_LandingGear( const AW101_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~AW101_LandingGear();
+    virtual ~AW101_LandingGear();
 
     /**
      * Reads data.

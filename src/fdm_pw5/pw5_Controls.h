@@ -44,7 +44,7 @@ public:
     PW5_Controls( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~PW5_Controls();
+    virtual ~PW5_Controls();
 
     /** Initializes controls. */
     void initialize();

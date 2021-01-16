@@ -44,7 +44,7 @@ public:
     P51_Controls( const P51_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~P51_Controls();
+    virtual ~P51_Controls();
 
     /** Initializes controls. */
     void initialize();

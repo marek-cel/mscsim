@@ -46,7 +46,7 @@ public:
     UH60_Controls( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~UH60_Controls();
+    virtual ~UH60_Controls();
 
     /** Initializes controls. */
     void initialize();

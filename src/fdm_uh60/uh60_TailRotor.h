@@ -42,7 +42,7 @@ public:
     UH60_TailRotor();
 
     /** Destructor. */
-    ~UH60_TailRotor();
+    virtual ~UH60_TailRotor();
 };
 
 } // end of fdm namespace

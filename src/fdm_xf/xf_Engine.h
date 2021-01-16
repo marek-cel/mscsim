@@ -106,7 +106,7 @@ public:
     XF_Engine();
 
     /** Destructor. */
-    ~XF_Engine();
+    virtual ~XF_Engine();
 
     /**
      * Reads data.

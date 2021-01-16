@@ -44,7 +44,7 @@ public:
     UH60_Mass( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~UH60_Mass();
+    virtual ~UH60_Mass();
 
 private:
 

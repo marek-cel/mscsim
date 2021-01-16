@@ -42,7 +42,7 @@ public:
     F35A_TailOff();
 
     /** Destructor. */
-    ~F35A_TailOff();
+    virtual ~F35A_TailOff();
 
     /**
      * Reads data.

@@ -48,7 +48,7 @@ public:
     XH_Aircraft( Input *input );
 
     /** Destructor. */
-    ~XH_Aircraft();
+    virtual ~XH_Aircraft();
 
     /**
      * Initializes aircraft.

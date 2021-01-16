@@ -48,7 +48,7 @@ public:
     R44_Aircraft( Input *input );
 
     /** Destructor. */
-    ~R44_Aircraft();
+    virtual ~R44_Aircraft();
 
     /**
      * Initializes aircraft.

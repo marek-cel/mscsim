@@ -48,7 +48,7 @@ public:
     PW5_Aerodynamics( const PW5_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~PW5_Aerodynamics();
+    virtual ~PW5_Aerodynamics();
 
     /**
      * Reads data.

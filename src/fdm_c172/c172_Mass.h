@@ -44,7 +44,7 @@ public:
     C172_Mass( const C172_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~C172_Mass();
+    virtual ~C172_Mass();
 
 private:
 

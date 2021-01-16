@@ -44,7 +44,7 @@ public:
     UH60_Propulsion( const UH60_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~UH60_Propulsion();
+    virtual ~UH60_Propulsion();
 
     /**
      * Reads data.

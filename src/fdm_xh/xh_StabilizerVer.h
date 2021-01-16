@@ -42,7 +42,7 @@ public:
     XH_StabilizerVer();
 
     /** Destructor. */
-    ~XH_StabilizerVer();
+    virtual ~XH_StabilizerVer();
 };
 
 } // end of fdm namespace

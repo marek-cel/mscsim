@@ -50,7 +50,7 @@ public:
     R44_Aerodynamics( const R44_Aircraft *aircraft, Input *input );
 
     /** Destructor. */
-    ~R44_Aerodynamics();
+    virtual ~R44_Aerodynamics();
 
     /**
      * Reads data.

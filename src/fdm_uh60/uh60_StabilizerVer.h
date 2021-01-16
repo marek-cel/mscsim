@@ -42,7 +42,7 @@ public:
     UH60_StabilizerVer();
 
     /** Destructor. */
-    ~UH60_StabilizerVer();
+    virtual ~UH60_StabilizerVer();
 };
 
 } // end of fdm namespace

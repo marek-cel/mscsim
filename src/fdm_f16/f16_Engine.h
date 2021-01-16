@@ -109,7 +109,7 @@ public:
     F16_Engine();
 
     /** Destructor. */
-    ~F16_Engine();
+    virtual ~F16_Engine();
 
     /**
      * Reads data.

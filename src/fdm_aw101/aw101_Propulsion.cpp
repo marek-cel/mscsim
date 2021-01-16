@@ -111,6 +111,6 @@ void AW101_Propulsion::update()
     _tailRotorPsi = Angles::normalize( _tailRotorPsi );
 
     // TODO
-    _mainRotorOmega = 2 * M_PI *  200.0 / 60.0;
+    _mainRotorOmega = 2 * M_PI *  210.0 / 60.0;
     _tailRotorOmega = 4.0 * _mainRotorOmega;
 }
