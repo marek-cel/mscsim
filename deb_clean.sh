@@ -6,14 +6,14 @@ APP_NAME=mscsim
 
 ################################################################################
 
-APP_DIR=${APP_NAME}_*_bionic_amd64
+APP_DIR=${APP_NAME}_*_focal_amd64
 
 sudo rm -R $APP_DIR
 sudo rm $APP_DIR.deb
 
 ################################################################################
 
-DATA_DIR=${APP_NAME}-data_*_bionic_all
+DATA_DIR=${APP_NAME}-data_*_focal_all
 
 sudo rm -R $DATA_DIR
 sudo rm $DATA_DIR.deb
