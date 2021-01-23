@@ -29,7 +29,7 @@ using namespace fdm;
 ////////////////////////////////////////////////////////////////////////////////
 
 XF_FLCS::XF_FLCS() :
-    _time_step ( 0.0 )
+    _timeStep ( 0.0 )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,10 +38,10 @@ XF_FLCS::~XF_FLCS() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_FLCS::update( double time_step )
+void XF_FLCS::update( double timeStep )
 {
-    if ( time_step > 0.0 )
+    if ( timeStep > 0.0 )
     {
-        _time_step = time_step;
+        _timeStep = timeStep;
     }
 }

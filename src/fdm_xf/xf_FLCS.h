@@ -47,11 +47,11 @@ public:
     virtual ~XF_FLCS();
 
     /** Updates model. */
-    void update( double time_step );
+    void update( double timeStep );
 
 private:
 
-    double _time_step;                  ///< [s] time step
+    double _timeStep;                   ///< [s] time step
 };
 
 } // end of fdm namespace

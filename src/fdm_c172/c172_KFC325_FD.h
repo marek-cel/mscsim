@@ -80,14 +80,14 @@ public:
 
     /**
      * Reads data.
-     * @param data_node XML node
+     * @param dataNode XML node
      */
-    void readData( XmlNode &data_node );
+    void readData( XmlNode &dataNode );
 
     /**
      * Updates flight director.
      */
-    void update( double time_step,
+    void update( double timeStep,
                  double heading,
                  double altitude, double airspeed,
                  double turn_rate, double climb_rate,
@@ -181,20 +181,20 @@ protected:
                                 double nav_deviation, bool nav_active,
                                 double loc_deviation, bool loc_active );
 
-    virtual void updateLatFD   ( double time_step );
-    virtual void updateLatNAV  ( double time_step, double dme_distance, double nav_deviation );
-    virtual void updateLatAPR  ( double time_step, double dme_distance, double loc_deviation );
-    virtual void updateLatBC   ( double time_step, double dme_distance, double loc_deviation );
-    virtual void updateLatABC  ( double time_step, double dme_distance, double loc_deviation, double heading );
-    virtual void updateLatHDG  ( double time_step, double heading, double turnRate );
-    virtual void updateLatTurn ( double time_step, double turnRate, double airspeed );
+    virtual void updateLatFD   ( double timeStep );
+    virtual void updateLatNAV  ( double timeStep, double dme_distance, double nav_deviation );
+    virtual void updateLatAPR  ( double timeStep, double dme_distance, double loc_deviation );
+    virtual void updateLatBC   ( double timeStep, double dme_distance, double loc_deviation );
+    virtual void updateLatABC  ( double timeStep, double dme_distance, double loc_deviation, double heading );
+    virtual void updateLatHDG  ( double timeStep, double heading, double turnRate );
+    virtual void updateLatTurn ( double timeStep, double turnRate, double airspeed );
 
-    virtual void updateVerFD  ( double time_step );
-    virtual void updateVerALT ( double time_step, double altitude );
-    virtual void updateVerIAS ( double time_step, double airspeed );
-    virtual void updateVerVS  ( double time_step, double altitude, double climbRate );
-    virtual void updateVerARM ( double time_step, double altitude, double climbRate );
-    virtual void updateVerGS  ( double time_step, double gs_deviation, bool gs_active );
+    virtual void updateVerFD  ( double timeStep );
+    virtual void updateVerALT ( double timeStep, double altitude );
+    virtual void updateVerIAS ( double timeStep, double airspeed );
+    virtual void updateVerVS  ( double timeStep, double altitude, double climbRate );
+    virtual void updateVerARM ( double timeStep, double altitude, double climbRate );
+    virtual void updateVerGS  ( double timeStep, double gs_deviation, bool gs_active );
 };
 
 } // end of fdm namespace

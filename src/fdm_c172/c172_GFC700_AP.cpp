@@ -46,13 +46,13 @@ C172_GFC700_AP::~C172_GFC700_AP()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_GFC700_AP::readData( XmlNode &data_node )
+void C172_GFC700_AP::readData( XmlNode &dataNode )
 {
-    /////////////////////////////////
-    Autopilot::readData( data_node );
-    /////////////////////////////////
+    ////////////////////////////////
+    Autopilot::readData( dataNode );
+    ////////////////////////////////
 
-    if ( data_node.isValid() )
+    if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
@@ -60,12 +60,12 @@ void C172_GFC700_AP::readData( XmlNode &data_node )
 
         if ( result != FDM_SUCCESS )
         {
-            XmlUtils::throwError( __FILE__, __LINE__, data_node );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, data_node );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -102,7 +102,7 @@ void C172_GFC700_AP::initialize()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_GFC700_AP::update( double time_step, bool button_dn, bool button_up )
+void C172_GFC700_AP::update( double timeStep, bool button_dn, bool button_up )
 {
 
 }

@@ -57,16 +57,16 @@ public:
 
     /**
      * @brief Reads data.
-     * @param data_node XML node
+     * @param dataNode XML node
      */
-    virtual void readData( XmlNode &data_node );
+    virtual void readData( XmlNode &dataNode );
 
     /** @brief Initializes autopilot. */
     virtual void initialize();
 
     /**
      * @brief Updates autopilot.
-     * @param time_step [s]
+     * @param timeStep [s]
      * @param roll [rad]
      * @param pitch [rad]
      * @param heading [rad]
@@ -83,7 +83,7 @@ public:
      * @param gs_deviation
      * @param gs_active
      */
-    virtual void update( double time_step,
+    virtual void update( double timeStep,
                          double roll, double pitch, double heading,
                          double altitude, double airspeed,
                          double turn_rate, double yaw_rate, double climb_rate,
@@ -162,7 +162,7 @@ protected:
     bool _testing;          ///< specifies if test is active
     bool _engaged;          ///< specifies if autopilot is engaged
 
-    virtual void readChannel( const XmlNode &data_node, double *max_rate,
+    virtual void readChannel( const XmlNode &dataNode, double *max_rate,
                               PID *pid, Table1 *gain_ias );
 };
 

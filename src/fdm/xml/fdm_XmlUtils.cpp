@@ -415,12 +415,16 @@ int XmlUtils::read( const XmlNode &node, PID *pid, double min, double max )
         double ki = 0.0;
         double kd = 0.0;
 
+        double kaw = 0.0;
+
         double temp_min = min;
         double temp_max = max;
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &kp, "kp", true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &ki, "ki", true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &kd, "kd", true );
+
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &kaw, "kaw", true );
 
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &temp_min, "min", true );
         if ( result == FDM_SUCCESS ) result = XmlUtils::read( node, &temp_max, "max", true );
@@ -433,6 +437,8 @@ int XmlUtils::read( const XmlNode &node, PID *pid, double min, double max )
             pid->setKp( kp );
             pid->setKi( ki );
             pid->setKd( kd );
+
+            pid->setKaw( kaw );
 
             pid->setMin( temp_min );
             pid->setMax( temp_max );

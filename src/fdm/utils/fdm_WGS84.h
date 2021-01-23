@@ -46,6 +46,7 @@ namespace fdm
  * calculating local normal to ellipsoid vector and gravity acceleration.
  *
  * @see Department of Defence World Geodetic System 1984, NIMA, TR-8350.2, 2000
+ * @see Burtch R.: A Comparison of Methods Used in Rectangular to Geodetic Coordinate Transformations, 2006
  * @see Bowring B.: Transformation from spatial to geocentric coordinates, 1976
  * @see Zhu J.: Conversion of Earth-centered Earth-fixed coordinates to geodetic coordinates, 1994
  */

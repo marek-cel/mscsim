@@ -40,11 +40,11 @@ WinchLauncher::WinchLauncher() :
     _tc_for ( 0.0 ),
     _tc_vel ( 0.0 ),
 
+    _stiffness ( 0.0 ),
+
     _for ( 0.0 ),
     _vel ( 0.0 ),
     _len ( 0.0 ),
-
-    _stiffness ( 0.0 ),
 
     _active ( true )
 {}

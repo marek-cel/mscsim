@@ -77,30 +77,30 @@ XF_Controls::~XF_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void XF_Controls::readData( XmlNode &data_node )
+void XF_Controls::readData( XmlNode &dataNode )
 {
-    ////////////////////////////////
-    Controls::readData( data_node );
-    ////////////////////////////////
+    ///////////////////////////////
+    Controls::readData( dataNode );
+    ///////////////////////////////
 
-    if ( data_node.isValid() )
+    if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_le_max , "flaps_le_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_te_max , "flaps_te_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_flaps_le_max , "flaps_le_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_flaps_te_max , "flaps_te_max" );
 
         if ( result != FDM_SUCCESS )
         {
-            XmlUtils::throwError( __FILE__, __LINE__, data_node );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, data_node );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 

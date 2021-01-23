@@ -93,9 +93,9 @@ private:
     Channel *_channelBrakeRight;        ///< right brake channel
     Channel *_channelNoseWheel;         ///< nose wheel channel
 
-    F16_FLCS *_flcs;                    ///< Fligt Control System
-
     DataRef _inputLGH;                  ///< LGH input data reference
+
+    F16_FLCS *_flcs;                    ///< Fligt Control System
 
     double _airbrake_max;               ///< [rad] airbrake deflection limit
 

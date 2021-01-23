@@ -24,7 +24,6 @@
 #include <ui_DialogMass.h>
 
 #include <gui/Aircrafts.h>
-#include <gui/gui_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +44,8 @@ DialogMass::DialogMass( QWidget *parent ) :
     _fuel_tank_7 ( 0.0 ),
     _fuel_tank_8 ( 0.0 ),
     _cabin ( 0.0 ),
-    _trunk ( 0.0 )
+    _trunk ( 0.0 ),
+    _slung ( 0.0 )
 {
     _ui->setupUi( this );
 
@@ -82,6 +82,7 @@ void DialogMass::readData()
 
     _ui->spinBoxCabin->setValue( _ui->comboBoxCabin->convert( _cabin ) );
     _ui->spinBoxTrunk->setValue( _ui->comboBoxTrunk->convert( _trunk ) );
+    _ui->spinBoxSlung->setValue( _ui->comboBoxSlung->convert( _slung ) );
 
     updateResults();
 }
@@ -104,6 +105,7 @@ void DialogMass::saveData()
 
     _cabin = _ui->comboBoxCabin->invert( _ui->spinBoxCabin->value() );
     _trunk = _ui->comboBoxTrunk->invert( _ui->spinBoxTrunk->value() );
+    _slung = _ui->comboBoxSlung->invert( _ui->spinBoxSlung->value() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +132,7 @@ void DialogMass::setAircraftType( int type )
 
         _cabin = masses.cabin.def;
         _trunk = masses.trunk.def;
+        _slung = masses.slung.def;
     }
 
     _ui->spinBoxPilot_1->setMaximum( _ui->comboBoxPilot_1->convert( masses.pilot_1.max ) );
@@ -146,6 +149,7 @@ void DialogMass::setAircraftType( int type )
 
     _ui->spinBoxCabin->setMaximum( _ui->comboBoxCabin->convert( masses.cabin.max ) );
     _ui->spinBoxTrunk->setMaximum( _ui->comboBoxTrunk->convert( masses.trunk.max ) );
+    _ui->spinBoxSlung->setMaximum( _ui->comboBoxTrunk->convert( masses.slung.max ) );
 
     _ui->labelPilot_1->setVisible( masses.pilot_1.enabled );
     _ui->labelPilot_2->setVisible( masses.pilot_2.enabled );
@@ -161,6 +165,7 @@ void DialogMass::setAircraftType( int type )
 
     _ui->labelCabin->setVisible( masses.cabin.enabled );
     _ui->labelTrunk->setVisible( masses.trunk.enabled );
+    _ui->labelSlung->setVisible( masses.slung.enabled );
 
     _ui->labelPilot_1->setText( masses.pilot_1.name + ":" );
     _ui->labelPilot_2->setText( masses.pilot_2.name + ":" );
@@ -176,6 +181,7 @@ void DialogMass::setAircraftType( int type )
 
     _ui->labelCabin->setText( masses.cabin.name + ":" );
     _ui->labelTrunk->setText( masses.trunk.name + ":" );
+    _ui->labelSlung->setText( masses.slung.name + ":" );
 
     _ui->spinBoxPilot_1->setVisible( masses.pilot_1.enabled );
     _ui->spinBoxPilot_2->setVisible( masses.pilot_2.enabled );
@@ -191,6 +197,7 @@ void DialogMass::setAircraftType( int type )
 
     _ui->spinBoxCabin->setVisible( masses.cabin.enabled );
     _ui->spinBoxTrunk->setVisible( masses.trunk.enabled );
+    _ui->spinBoxSlung->setVisible( masses.slung.enabled );
 
     _ui->comboBoxPilot_1->setVisible( masses.pilot_1.enabled );
     _ui->comboBoxPilot_2->setVisible( masses.pilot_2.enabled );
@@ -206,6 +213,7 @@ void DialogMass::setAircraftType( int type )
 
     _ui->comboBoxCabin->setVisible( masses.cabin.enabled );
     _ui->comboBoxTrunk->setVisible( masses.trunk.enabled );
+    _ui->comboBoxSlung->setVisible( masses.slung.enabled );
 
     readData();
 }
@@ -222,8 +230,9 @@ void DialogMass::settingsRead()
 
     _type = settings.value( "aircraft_type", -1 ).toInt();
 
+    settingsRead_UnitCombos( settings ); // before mass data !!!
     settingsRead_MassData( settings );
-    settingsRead_UnitCombos( settings );
+
 
     settings.endGroup();
 }
@@ -248,6 +257,7 @@ void DialogMass::settingsRead_MassData( QSettings &settings )
 
     _cabin = settings.value( "cabin", 0.0 ).toDouble();
     _trunk = settings.value( "trunk", 0.0 ).toDouble();
+    _slung = settings.value( "slung", 0.0 ).toDouble();
 
     settings.endGroup();
 }
@@ -272,6 +282,7 @@ void DialogMass::settingsRead_UnitCombos( QSettings &settings )
 
     _ui->comboBoxCabin->setCurrentIndex( settings.value( "cabin", 0 ).toInt() );
     _ui->comboBoxTrunk->setCurrentIndex( settings.value( "trunk", 0 ).toInt() );
+    _ui->comboBoxSlung->setCurrentIndex( settings.value( "slung", 0 ).toInt() );
 
     settings.endGroup();
 }
@@ -314,6 +325,7 @@ void DialogMass::settingsSave_MassData( QSettings &settings )
 
     settings.setValue( "cabin", _cabin );
     settings.setValue( "trunk", _trunk );
+    settings.setValue( "slung", _slung );
 
     settings.endGroup();
 }
@@ -338,6 +350,7 @@ void DialogMass::settingsSave_UnitCombos( QSettings &settings )
 
     settings.setValue( "cabin", _ui->comboBoxCabin->currentIndex() );
     settings.setValue( "trunk", _ui->comboBoxTrunk->currentIndex() );
+    settings.setValue( "slung", _ui->comboBoxSlung->currentIndex() );
 
     settings.endGroup();
 }
@@ -371,6 +384,7 @@ void DialogMass::updateResults()
         if ( masses.fuel_tank_8 .enabled ) m_t += _ui->comboBoxFuelTank_8 ->invert( _ui->spinBoxFuelTank_8 ->value() );
         if ( masses.cabin       .enabled ) m_t += _ui->comboBoxCabin      ->invert( _ui->spinBoxCabin      ->value() );
         if ( masses.trunk       .enabled ) m_t += _ui->comboBoxTrunk      ->invert( _ui->spinBoxTrunk      ->value() );
+        if ( masses.slung       .enabled ) m_t += _ui->comboBoxSlung      ->invert( _ui->spinBoxSlung      ->value() );
 
         _ui->spinBoxTotal->setValue( _ui->comboBoxTotal->convert( m_t ) );
         _ui->spinBoxTotal->setHighlighted( m_t > mtow );
@@ -515,10 +529,23 @@ void DialogMass::on_comboBoxTrunk_currentIndexChanged( int )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void DialogMass::on_comboBoxSlung_currentIndexChanged( int )
+{
+    double mass_kg = _ui->comboBoxSlung->invertPrev( _ui->spinBoxSlung->value() );
+
+    Aircrafts::Masses::Mass mass = Aircrafts::instance()->getAircraft( _type ).masses.slung;
+    _ui->spinBoxSlung->setMaximum( _ui->comboBoxSlung->convert( mass.max ) );
+    _ui->spinBoxSlung->setValue( _ui->comboBoxSlung->convert( mass_kg ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void DialogMass::on_spinBoxPilot_1_valueChanged( double /*arg1*/ )
 {
     updateResults();
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 void DialogMass::on_spinBoxPilot_2_valueChanged( double /*arg1*/ )
 {
@@ -581,7 +608,7 @@ void DialogMass::on_spinBoxFuelTank_8_valueChanged( double /*arg1*/ )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DialogMass::on_spinBoxCabin_valueChanged( double arg1 )
+void DialogMass::on_spinBoxCabin_valueChanged( double /*arg1*/ )
 {
     updateResults();
 }
@@ -589,6 +616,13 @@ void DialogMass::on_spinBoxCabin_valueChanged( double arg1 )
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogMass::on_spinBoxTrunk_valueChanged( double /*arg1*/ )
+{
+    updateResults();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void DialogMass::on_spinBoxSlung_valueChanged( double /*arg1*/ )
 {
     updateResults();
 }

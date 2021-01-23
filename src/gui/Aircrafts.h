@@ -122,6 +122,7 @@ public:
 
         Mass cabin;             ///<
         Mass trunk;             ///<
+        Mass slung;             ///<
     };
 
     /** */

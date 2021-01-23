@@ -50,9 +50,9 @@ public:
 
     /**
      * Reads data.
-     * @param data_node XML node
+     * @param dataNode XML node
      */
-    void readData( XmlNode &data_node );
+    void readData( XmlNode &dataNode );
 
     /** Initializes controls. */
     void initialize();

@@ -88,21 +88,24 @@ void AW101_AFCS::update( double timeStep,
                          const Angles &angles_ned,
                          const Vector3 &omg_bas )
 {
-    _pid_sas_roll  .update( timeStep, omg_bas.p() );
-    _pid_sas_pitch .update( timeStep, omg_bas.q() );
-    _pid_sas_yaw   .update( timeStep, omg_bas.r() );
+    if ( timeStep > 0.0 )
+    {
+        _pid_sas_roll  .update( timeStep, omg_bas.p() );
+        _pid_sas_pitch .update( timeStep, omg_bas.q() );
+        _pid_sas_yaw   .update( timeStep, omg_bas.r() );
 
-    _pid_collective.update( timeStep, -climbRate );
+        _pid_collective.update( timeStep, -climbRate );
 
-    _cyclic_lat = _pid_sas_roll  .getValue() * ( 1.0 - fabs( ctrlLat ) );
-    _cyclic_lon = _pid_sas_pitch .getValue() * ( 1.0 - fabs( ctrlLon ) );
-    _tail_pitch = _pid_sas_yaw   .getValue() * ( 1.0 - fabs( ctrlYaw ) );
+        _cyclic_lat = _pid_sas_roll  .getValue() * ( 1.0 - fabs( ctrlLat ) );
+        _cyclic_lon = _pid_sas_pitch .getValue() * ( 1.0 - fabs( ctrlLon ) );
+        _tail_pitch = _pid_sas_yaw   .getValue() * ( 1.0 - fabs( ctrlYaw ) );
 
-    _collective = _pid_collective.getValue();
+        _collective = _pid_collective.getValue();
 
-    _pid_sas_roll  .setValue( timeStep, angles_ned.phi() , _cyclic_lat );
-    _pid_sas_pitch .setValue( timeStep, angles_ned.tht() , _cyclic_lon );
-    _pid_sas_yaw   .setValue( timeStep, omg_bas.r()      , _tail_pitch );
+        _pid_sas_roll  .setValue( timeStep, angles_ned.phi() , _cyclic_lat );
+        _pid_sas_pitch .setValue( timeStep, angles_ned.tht() , _cyclic_lon );
+        _pid_sas_yaw   .setValue( timeStep, omg_bas.r()      , _tail_pitch );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

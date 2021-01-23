@@ -51,23 +51,23 @@ C172_KAP140_FD::~C172_KAP140_FD() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KAP140_FD::readData( XmlNode &data_node )
+void C172_KAP140_FD::readData( XmlNode &dataNode )
 {
-    if ( data_node.isValid() )
+    if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, data_node );
+        if ( result != FDM_SUCCESS ) XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, data_node );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void C172_KAP140_FD::update( double time_step,
+void C172_KAP140_FD::update( double timeStep,
                              double heading,
                              double altitude, double airspeed,
                              double turn_rate, double climb_rate,

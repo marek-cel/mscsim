@@ -55,20 +55,20 @@ public:
 
     /**
      * Reads data.
-     * @param data_node XML node
+     * @param dataNode XML node
      */
-    void readData( XmlNode &data_node );
+    void readData( XmlNode &dataNode );
 
     /** Initializes autopilot. */
     void initialize();
 
     /**
      * @brief Updates autopilot.
-     * @param time_step [s]
+     * @param timeStep [s]
      * @param button_dn
      * @param button_up
      */
-    void update( double time_step, bool button_dn, bool button_up );
+    void update( double timeStep, bool button_dn, bool button_up );
 
     void onPressedAP();
     void onPressedFD();

@@ -70,6 +70,7 @@ public:
 
     inline double getCabin()  const { return _cabin; }
     inline double getTrunk()  const { return _trunk; }
+    inline double getSlung()  const { return _slung; }
 
     void setAircraftType( int type );
 
@@ -93,6 +94,7 @@ private:
 
     double _cabin;          ///< [kg]
     double _trunk;          ///< [kg]
+    double _slung;          ///< [kg]
 
     void settingsRead();
     void settingsRead_MassData( QSettings &settings );
@@ -120,6 +122,7 @@ private slots:
 
     void on_comboBoxCabin_currentIndexChanged( int index );
     void on_comboBoxTrunk_currentIndexChanged( int index );
+    void on_comboBoxSlung_currentIndexChanged( int index );
 
     void on_spinBoxPilot_1_valueChanged( double arg1 );
     void on_spinBoxPilot_2_valueChanged( double arg1 );
@@ -135,6 +138,7 @@ private slots:
 
     void on_spinBoxCabin_valueChanged( double arg1 );
     void on_spinBoxTrunk_valueChanged( double arg1 );
+    void on_spinBoxSlung_valueChanged( double arg1 );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

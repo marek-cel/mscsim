@@ -79,14 +79,14 @@ public:
 
     /**
      * Reads data.
-     * @param data_node XML node
+     * @param dataNode XML node
      */
-    void readData( XmlNode &data_node );
+    void readData( XmlNode &dataNode );
 
     /**
      * Updates flight director.
      */
-    void update( double time_step,
+    void update( double timeStep,
                  double heading,
                  double altitude, double airspeed,
                  double turn_rate, double climb_rate,

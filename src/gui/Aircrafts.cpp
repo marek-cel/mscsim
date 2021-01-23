@@ -350,6 +350,7 @@ void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
 
         QDomElement nodeCabin = nodeMasses.firstChildElement( "cabin" );
         QDomElement nodeTrunk = nodeMasses.firstChildElement( "cargo_trunk" );
+        QDomElement nodeSlung = nodeMasses.firstChildElement( "slung" );
 
         parseAircraftMass( nodePilot1 , masses.pilot_1 );
         parseAircraftMass( nodePilot2 , masses.pilot_2 );
@@ -365,6 +366,7 @@ void Aircrafts::parseAircraftMasses( const QDomElement &node, Masses &masses )
 
         parseAircraftMass( nodeCabin, masses.cabin );
         parseAircraftMass( nodeTrunk, masses.trunk );
+        parseAircraftMass( nodeSlung, masses.slung );
     }
 }
 

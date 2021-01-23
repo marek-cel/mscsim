@@ -77,30 +77,33 @@ F35A_Controls::~F35A_Controls()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void F35A_Controls::readData( XmlNode &data_node )
+void F35A_Controls::readData( XmlNode &dataNode )
 {
-    ////////////////////////////////
-    Controls::readData( data_node );
-    ////////////////////////////////
+    ///////////////////////////////
+    Controls::readData( dataNode );
+    ///////////////////////////////
 
-    if ( data_node.isValid() )
+    if ( dataNode.isValid() )
     {
         int result = FDM_SUCCESS;
 
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_ailerons_max , "ailerons_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_elevator_max , "elevator_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_rudder_max   , "rudder_max"   );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_le_max , "flaps_le_max" );
-        if ( result == FDM_SUCCESS ) result = XmlUtils::read( data_node, &_flaps_te_max , "flaps_te_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_ailerons_max , "ailerons_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_elevator_max , "elevator_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_rudder_max   , "rudder_max"   );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_flaps_le_max , "flaps_le_max" );
+        if ( result == FDM_SUCCESS ) result = XmlUtils::read( dataNode, &_flaps_te_max , "flaps_te_max" );
+
+        XmlNode nodeFLCS = dataNode.getFirstChildElement( "flcs" );
+        _flcs->readData( nodeFLCS );
 
         if ( result != FDM_SUCCESS )
         {
-            XmlUtils::throwError( __FILE__, __LINE__, data_node );
+            XmlUtils::throwError( __FILE__, __LINE__, dataNode );
         }
     }
     else
     {
-        XmlUtils::throwError( __FILE__, __LINE__, data_node );
+        XmlUtils::throwError( __FILE__, __LINE__, dataNode );
     }
 }
 
@@ -138,6 +141,18 @@ void F35A_Controls::initialize()
         FDM_THROW( e );
     }
 
+    _inputLGH = getDataRef( "input.controls.lgh" );
+
+    if ( !_inputLGH.isValid() )
+    {
+        Exception e;
+
+        e.setType( Exception::UnknownException );
+        e.setInfo( "Obtaining input data refs in the controls module failed." );
+
+        FDM_THROW( e );
+    }
+
     ///////////////////////
     Controls::initialize();
     ///////////////////////
@@ -151,14 +166,28 @@ void F35A_Controls::update()
     Controls::update();
     ///////////////////
 
-    _flcs->update( _aircraft->getTimeStep() );
+    _flcs->update( _aircraft->getTimeStep(),
+                   _channelRoll  ->output , 0.0,
+                   _channelPitch ->output , 0.0,
+                   _channelYaw   ->output , 0.0,
+                   _aircraft->getOmg_BAS(),
+                   _aircraft->getGForce(),
+                   _aircraft->getGrav_BAS(),
+                   _aircraft->getAngleOfAttack(),
+                   _aircraft->getEnvir()->getPressure(),
+                   _aircraft->getDynPress(),
+                   _inputLGH.getDatab() );
 
-    _ailerons = _ailerons_max * _channelRoll->output;
-    _elevator = _elevator_max * _channelPitch->output;
-    _rudder   = _rudder_max   * _channelYaw->output;
+    //_ailerons = _ailerons_max * _channelRoll  ->output;
+    //_elevator = _elevator_max * _channelPitch ->output;
+    //_rudder   = _rudder_max   * _channelYaw   ->output;
 
-    _flaps_le = _flaps_le_max * 0.0;
-    _flaps_te = _flaps_te_max * 0.0;
+    _ailerons = _ailerons_max * _flcs->getNormAilerons();
+    _elevator = _elevator_max * _flcs->getNormElevator();
+    _rudder   = _rudder_max   * _flcs->getNormRudder();
+
+    _flaps_le = _flaps_le_max * _flcs->getNormFlapsLE();
+    _flaps_te = _flaps_te_max * _flcs->getNormFlapsTE();
 
     _airbrake = _channelAirbrake->output;
 
