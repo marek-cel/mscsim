@@ -22,6 +22,7 @@ High fidelity flight dynamics model based on available wind tunnel data and/or [
 * [UH-60](https://en.wikipedia.org/wiki/Sikorsky_UH-60_Black_Hawk) - medium helicopter
 
 ![AW101](screenshot_cfd.jpg)
+
 ![AW101](screenshot_aw101.jpg)
 
 Electronic Flight Instrument System and Head-up Display common for all aircraft types. Built-in map with navigational radio aids, airports, etc..
@@ -31,6 +32,7 @@ Electronic Flight Instrument System and Head-up Display common for all aircraft 
 High resolution photorealistic scenery based on aerial imagery of Oahu island, low resolution scenery based on satellite imagery of the whole World.
 
 ![Scenery - Oahu](screenshot_oahu.jpg)
+
 ![Scenery - PHNL](screenshot_phnl.jpg)
 
 Accurate celestial bodies position with almost 1000 visible stars.
@@ -40,6 +42,7 @@ Accurate celestial bodies position with almost 1000 visible stars.
 Weather phenomena, such as clouds and fog.
 
 ![Clouds](screenshot_clouds.jpg)
+
 ![Fog](screenshot_fog.jpg)
 
 ## See also:
