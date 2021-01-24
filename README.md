@@ -3,33 +3,44 @@ Flight simulation software.
 
 ## Installation
 
-### Ubuntu 20.04 LTS / LinuxMint 20.x
+### Linux
 
-Ubuntu Linux deb package is provided.
+Linux [deb package](https://github.com/marek-cel/mscsim/releases/download/0.4/mscsim_0.4_focal_amd64.deb) is provided for Ubuntu 20.04 LTS / LinuxMint 20.x.
 
 Additional data packages dependencies are required:
 
-* [mscsim-data](https://github.com/marek-cel/mscsim-data)
-* [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain)
+* [mscsim-data](https://github.com/marek-cel/mscsim-data/releases/download/0.4/mscsim-data_0.4_focal_all.deb)
+* [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain/releases/download/0.1/mscsim-data-terrain_0.1_focal_all.deb)
 
 ### Windows
 
-Windows installer is provided. It contains all necessary data.
+Windows [installer](https://github.com/marek-cel/mscsim/releases/download/0.4/mscsim-0.4-win64.exe) is provided. It contains all necessary data.
 
 ## Building from source
 
-To build MScSim from source run CMake in src directory.
+To build MScSim generate project files with CMake in src directory, then use appropriate building system.
 
-Additional library dependencies have to be provided, including:
+MScSim requires following library dependencies:
 
-* libxml2
-* OpenAL and ALUT
-* OpenScneGraph
-* Qt5
+* [libxml2](http://www.xmlsoft.org/)
+* [OpenAL](https://www.openal.org/) and [ALUT](https://github.com/vancegroup/freealut)
+* [OpenScneGraph](http://www.openscenegraph.org/)
+* [Qt5](https://www.qt.io/)
+
+### Linux
+
+Additional library dependencies on Linux:
+
+* libX11
+* libXss
 
 On Ubuntu based operating systems those dependencies can be installed with the following command:
 
-```sudo apt-get install libalut-dev libopenal-dev libopenscenegraph-dev libqt5opengl5-dev libqt5svg5-dev libqt5x11extras5-dev libqwt-qt5-dev libxml2-dev libxss-dev qtbase5-dev```
+```sudo apt-get install libalut-dev libopenal-dev libopenscenegraph-dev libqt5opengl5-dev libqt5svg5-dev libqt5x11extras5-dev libqwt-qt5-dev libxml2-dev libx11-dev libxss-dev qtbase5-dev```
+
+### Windows
+
+On Windows those dependencies have to be installed manually.
 
 ## Main features
 
