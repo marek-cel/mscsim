@@ -1,13 +1,37 @@
 # mscsim
 Flight simulation software.
 
-Linux deb package requires additional data packages:
+## Installation
+
+### Ubuntu 20.04 LTS / LinuxMint 20.x
+
+Ubuntu Linux deb package is provided.
+
+Additional data packages dependencies are required:
+
 * [mscsim-data](https://github.com/marek-cel/mscsim-data)
 * [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain)
- 
-Windows installer contains all necessary data.
 
-## Main features:
+### Windows
+
+Windows installer is provided. It contains all necessary data.
+
+## Building from source
+
+To build MScSim from source run CMake in src directory.
+
+Additional library dependencies have to be provided, including:
+
+* libxml2
+* OpenAL and ALUT
+* OpenScneGraph
+* Qt5
+
+On Ubuntu based operating systems those dependencies can be installed with the following command:
+
+```sudo apt-get install libalut-dev libopenal-dev libopenscenegraph-dev libqt5opengl5-dev libqt5svg5-dev libqt5x11extras5-dev libqwt-qt5-dev libxml2-dev libxss-dev qtbase5-dev```
+
+## Main features
 
 High fidelity flight dynamics model based on available wind tunnel data and/or [CFD](https://en.wikipedia.org/wiki/Computational_fluid_dynamics) simulations including following aircraft types:
 
@@ -45,7 +69,8 @@ Weather phenomena, such as clouds and fog.
 
 ![Fog](screenshot_fog.jpg)
 
-## See also:
+## See also
+
 * [mscsim-cfd](https://github.com/marek-cel/mscsim-cfd)
 * [mscsim-data](https://github.com/marek-cel/mscsim-data)
 * [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain)
