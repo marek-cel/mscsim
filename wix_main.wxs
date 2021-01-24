@@ -3,12 +3,12 @@
   xmlns="http://schemas.microsoft.com/wix/2006/wi"
   xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product
-    Id="{b3e39794-6324-4e30-88f9-02a84e6b7268}" 
+    Id="{4718e194-d9ee-4a7c-a3a3-03be1aefcb3a}" 
     Name="MScSim"
     Language="1033"
-    Version="0.3"
+    Version="0.4"
     Manufacturer="Marek Cel" 
-    UpgradeCode="{a3fab96b-7ed3-4cef-82fc-61a680f82e45}">
+    UpgradeCode="{1083005b-ce61-4e9a-a31b-8ec58b854b72}">
         
     <Package
       Description="MScSim Windows Installer Package"
@@ -28,7 +28,7 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
     
       <!-- Visual C++ 2019 Redistributable Merge Module -->
-      <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.25.28508\MergeModules\Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
+      <Merge Id="VCRedist" SourceFile="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Redist\MSVC\14.28.29325\MergeModules\Microsoft_VC142_CRT_x64.msm" DiskId="1" Language="0"/>
       
       <!-- installation dir -->
       <Directory Id="ProgramFilesFolder" Name="PFiles">
@@ -37,7 +37,7 @@
           <Directory Id="dir_mscsim_bin" Name="bin">
           
             <!-- sim.exe -->
-            <Component Id="dir_mscsim_mscsim" Guid="{e3197461-1aef-4740-a27b-501ee14e66e9}">
+            <Component Id="dir_mscsim_mscsim" Guid="{be12303b-b379-4402-8639-153d1e81387a}">
               <File Id="dir_mscsim_mscsim_exe" Name="mscsim.exe" DiskId="1" Source="bin\mscsim.exe" />
             </Component>
           
@@ -49,7 +49,7 @@
       <!-- start menu shortcuts -->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="MscSim">
-          <Component Id="menu_shortcuts" Guid="{161e5841-d82a-4ec8-94d5-248edb1afe1e}">
+          <Component Id="menu_shortcuts" Guid="{ca4b8fcc-351b-4d90-9230-04f82e55bf81}">
             <Shortcut
               Id="menu_sim" 
               Name="MScSim" 

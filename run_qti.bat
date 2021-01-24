@@ -1,4 +1,4 @@
-set INSTALLER_NAME=mscsim-0.3-win32
+set INSTALLER_NAME=mscsim-0.4-win32
 
 del %INSTALLER_NAME%.exe
 del qti\%INSTALLER_NAME%.exe

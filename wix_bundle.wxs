@@ -4,8 +4,8 @@
 
   <Bundle
     Name="MScSim"
-    Version="0.3"
-    UpgradeCode="{b3377200-eb13-4ec6-8ec3-646d9686fd2c}">
+    Version="0.4"
+    UpgradeCode="{7f01de83-b2ea-4a25-b76e-4703448a36c4}">
 
     <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
       <bal:WixStandardBootstrapperApplication
@@ -17,7 +17,7 @@
     <Chain>
 
       <PackageGroupRef Id="OpenAL"/>
-      <MsiPackage SourceFile="mscsim-0.3-win64.msi" />
+      <MsiPackage SourceFile="mscsim-0.4-win64.msi" />
 
     </Chain>
   

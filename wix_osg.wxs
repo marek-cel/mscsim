@@ -3,59 +3,56 @@
   
   <Fragment>
     <DirectoryRef Id="dir_mscsim_bin">
-      <Directory Id="dir_mscsim_osgPlugins_3_4_0" Name="osgPlugins-3.4.0" />
-      <Component Id="dir_mscsim_icudt58" Guid="{2394f105-7818-4757-9541-1e63cb8c60b1}">
+      <Directory Id="dir_mscsim_osgPlugins_3_6_5" Name="osgPlugins-3.6.5" />
+      <Component Id="dir_mscsim_icudt58" Guid="{6f0cde76-8349-418d-a97a-ed7ae05726dd}">
         <File Id="dir_mscsim_icudt58_dll" Name="icudt58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icudt58.dll" />
       </Component>
-      <Component Id="dir_mscsim_icuin58" Guid="{6f3e76f1-8b99-45ea-a3a9-a1bd1af1e19f}">
+      <Component Id="dir_mscsim_icuin58" Guid="{15cae134-3d35-4249-b034-f97be5864beb}">
         <File Id="dir_mscsim_icuin58_dll" Name="icuin58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuin58.dll" />
       </Component>
-      <Component Id="dir_mscsim_icuuc58" Guid="{55a19905-ba25-4d15-8ab2-1c502997afd9}">
+      <Component Id="dir_mscsim_icuuc58" Guid="{d7ec7453-7663-42f2-b912-d34ba1225885}">
         <File Id="dir_mscsim_icuuc58_dll" Name="icuuc58.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\icuuc58.dll" />
       </Component>
-      <Component Id="dir_mscsim_libpng16" Guid="{67ebfdf1-dac6-4684-9920-6ae917341173}">
+      <Component Id="dir_mscsim_libpng16" Guid="{13082894-70b1-42b5-98ea-2425cfae6e36}">
         <File Id="dir_mscsim_libpng16_dll" Name="libpng16.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libpng16.dll" />
       </Component>
-      <Component Id="dir_mscsim_libxml2" Guid="{12fbe207-2ea1-4c3f-aa80-297181148067}">
+      <Component Id="dir_mscsim_libxml2" Guid="{8bece0f4-dbcd-4d16-994f-9026508e4a35}">
         <File Id="dir_mscsim_libxml2_dll" Name="libxml2.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\libxml2.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osg" Guid="{d75da9a4-cfe5-489a-ac7a-1fa259b15e72}">
-        <File Id="dir_mscsim_osg130_osg_dll" Name="osg130-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osg.dll" />
+      <Component Id="dir_mscsim_osg161_osg" Guid="{9a82acb9-d581-44db-a884-e4a9a3a8bf48}">
+        <File Id="dir_mscsim_osg161_osg_dll" Name="osg161-osg.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osg.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgDB" Guid="{a6a49702-7dc7-45be-81fc-1c2282f027c5}">
-        <File Id="dir_mscsim_osg130_osgDB_dll" Name="osg130-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgDB.dll" />
+      <Component Id="dir_mscsim_osg161_osgDB" Guid="{c6158635-6f69-4b95-9893-df3c9b799d7c}">
+        <File Id="dir_mscsim_osg161_osgDB_dll" Name="osg161-osgDB.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgDB.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgGA" Guid="{0e062807-1eec-4398-8e98-7f8670c86e06}">
-        <File Id="dir_mscsim_osg130_osgGA_dll" Name="osg130-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgGA.dll" />
+      <Component Id="dir_mscsim_osg161_osgGA" Guid="{1ed76f9e-71e2-4a63-a4cb-8dc84351543b}">
+        <File Id="dir_mscsim_osg161_osgGA_dll" Name="osg161-osgGA.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgGA.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgParticle" Guid="{47b2e977-3bd7-46ea-8a4f-9eeb947d3358}">
-        <File Id="dir_mscsim_osg130_osgParticle_dll" Name="osg130-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgParticle.dll" />
+      <Component Id="dir_mscsim_osg161_osgParticle" Guid="{74164a6f-3907-4038-ab3b-6ef60c737678}">
+        <File Id="dir_mscsim_osg161_osgParticle_dll" Name="osg161-osgParticle.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgParticle.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgQt" Guid="{dcbf18bf-1f22-487f-8d93-ebcae410745d}">
-        <File Id="dir_mscsim_osg130_osgQt_dll" Name="osg130-osgQt.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgQt.dll" />
+      <Component Id="dir_mscsim_osg161_osgSim" Guid="{38256566-7f48-4522-a62e-7b31efffe8b1}">
+        <File Id="dir_mscsim_osg161_osgSim_dll" Name="osg161-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgSim.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgSim" Guid="{9fc7935b-d4e0-402b-94bd-4d05ebe42f41}">
-        <File Id="dir_mscsim_osg130_osgSim_dll" Name="osg130-osgSim.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgSim.dll" />
+      <Component Id="dir_mscsim_osg161_osgTerrain" Guid="{eb129787-690e-466a-8d0f-19993ef46777}">
+        <File Id="dir_mscsim_osg161_osgTerrain_dll" Name="osg161-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgTerrain.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgTerrain" Guid="{5cfdd414-39ae-4992-a70b-0730408b39e2}">
-        <File Id="dir_mscsim_osg130_osgTerrain_dll" Name="osg130-osgTerrain.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgTerrain.dll" />
+      <Component Id="dir_mscsim_osg161_osgText" Guid="{d8473194-df42-4890-b911-8374b57406cd}">
+        <File Id="dir_mscsim_osg161_osgText_dll" Name="osg161-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgText.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgText" Guid="{9ee12771-4873-49a2-9147-2fdbb5b978c0}">
-        <File Id="dir_mscsim_osg130_osgText_dll" Name="osg130-osgText.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgText.dll" />
+      <Component Id="dir_mscsim_osg161_osgUtil" Guid="{0e1b61a3-d1ff-4d79-8a00-2d9c45b76eb4}">
+        <File Id="dir_mscsim_osg161_osgUtil_dll" Name="osg161-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgUtil.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgUtil" Guid="{bd10558e-e762-4f4d-9a10-637fd9056286}">
-        <File Id="dir_mscsim_osg130_osgUtil_dll" Name="osg130-osgUtil.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgUtil.dll" />
+      <Component Id="dir_mscsim_osg161_osgViewer" Guid="{00977029-753c-4972-975e-f12662613341}">
+        <File Id="dir_mscsim_osg161_osgViewer_dll" Name="osg161-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgViewer.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgViewer" Guid="{95c4b193-a830-449d-ac65-60ae191b954c}">
-        <File Id="dir_mscsim_osg130_osgViewer_dll" Name="osg130-osgViewer.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgViewer.dll" />
+      <Component Id="dir_mscsim_osg161_osgWidget" Guid="{9caa7e36-dca6-495b-bfba-e79c6a23bea3}">
+        <File Id="dir_mscsim_osg161_osgWidget_dll" Name="osg161-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg161-osgWidget.dll" />
       </Component>
-      <Component Id="dir_mscsim_osg130_osgWidget" Guid="{cbd88a54-c47b-4f47-a689-b7f858ba512a}">
-        <File Id="dir_mscsim_osg130_osgWidget_dll" Name="osg130-osgWidget.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\osg130-osgWidget.dll" />
+      <Component Id="dir_mscsim_ot21_OpenThreads" Guid="{33c3e0f3-d3a4-4879-927c-f6e450a84df1}">
+        <File Id="dir_mscsim_ot21_OpenThreads_dll" Name="ot21-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot21-OpenThreads.dll" />
       </Component>
-      <Component Id="dir_mscsim_ot20_OpenThreads" Guid="{4a412b40-eaad-415d-ae5a-62daf4ba75a2}">
-        <File Id="dir_mscsim_ot20_OpenThreads_dll" Name="ot20-OpenThreads.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\ot20-OpenThreads.dll" />
-      </Component>
-      <Component Id="dir_mscsim_zlib" Guid="{32321123-2a57-40bc-8f32-610a7210292c}">
+      <Component Id="dir_mscsim_zlib" Guid="{7c819321-764e-4b7b-aa36-f06399be2960}">
         <File Id="dir_mscsim_zlib_dll" Name="zlib.dll" DiskId="1" Source="$(env.OSG_ROOT)\bin\zlib.dll" />
       </Component>
     </DirectoryRef>
@@ -69,18 +66,17 @@
       <ComponentRef Id="dir_mscsim_icuuc58" />
       <ComponentRef Id="dir_mscsim_libpng16" />
       <ComponentRef Id="dir_mscsim_libxml2" />
-      <ComponentRef Id="dir_mscsim_osg130_osg" />
-      <ComponentRef Id="dir_mscsim_osg130_osgDB" />
-      <ComponentRef Id="dir_mscsim_osg130_osgGA" />
-      <ComponentRef Id="dir_mscsim_osg130_osgParticle" />
-      <ComponentRef Id="dir_mscsim_osg130_osgQt" />
-      <ComponentRef Id="dir_mscsim_osg130_osgSim" />
-      <ComponentRef Id="dir_mscsim_osg130_osgTerrain" />
-      <ComponentRef Id="dir_mscsim_osg130_osgText" />
-      <ComponentRef Id="dir_mscsim_osg130_osgUtil" />
-      <ComponentRef Id="dir_mscsim_osg130_osgViewer" />
-      <ComponentRef Id="dir_mscsim_osg130_osgWidget" />
-      <ComponentRef Id="dir_mscsim_ot20_OpenThreads" />
+      <ComponentRef Id="dir_mscsim_osg161_osg" />
+      <ComponentRef Id="dir_mscsim_osg161_osgDB" />
+      <ComponentRef Id="dir_mscsim_osg161_osgGA" />
+      <ComponentRef Id="dir_mscsim_osg161_osgParticle" />
+      <ComponentRef Id="dir_mscsim_osg161_osgSim" />
+      <ComponentRef Id="dir_mscsim_osg161_osgTerrain" />
+      <ComponentRef Id="dir_mscsim_osg161_osgText" />
+      <ComponentRef Id="dir_mscsim_osg161_osgUtil" />
+      <ComponentRef Id="dir_mscsim_osg161_osgViewer" />
+      <ComponentRef Id="dir_mscsim_osg161_osgWidget" />
+      <ComponentRef Id="dir_mscsim_ot21_OpenThreads" />
       <ComponentRef Id="dir_mscsim_zlib" />
     </ComponentGroup>
   </Fragment>
