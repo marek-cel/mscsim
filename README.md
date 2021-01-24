@@ -1,6 +1,12 @@
 # mscsim
 Flight simulation software.
 
+Linux deb package requires additional data packages:
+* [mscsim-data](https://github.com/marek-cel/mscsim-data)
+* [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain)
+ 
+Windows installer contains all necessary data.
+
 ## Main features:
 
 High fidelity flight dynamics model based on available wind tunnel data and/or [CFD](https://en.wikipedia.org/wiki/Computational_fluid_dynamics) simulations including following aircraft types:
