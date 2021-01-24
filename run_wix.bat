@@ -3,7 +3,7 @@ call run_wix_clean.bat
 copy src\mscsim.ico mscsim.ico
 copy C:\OpenAL\1.1\redist\oalinst.exe oalinst.exe
 
-call %QTDIR%/bin/qtenv2.bat
+call %Qt5_DIR%/bin/qtenv2.bat
 
 cd /D "%~dp0"
 
@@ -13,12 +13,12 @@ rmdir /S /Q qt
 mkdir qt
 mkdir qt\bin
 copy /y bin\mscsim.exe qt\bin
-copy "%QTDIR%\bin\Qt5OpenGL.dll" qt\bin
+copy "%Qt5_DIR%\bin\Qt5OpenGL.dll" qt\bin
 
 rem cd qt\bin
-rem call "%QTDIR%\bin\windeployqt.exe" --release mscsim.exe
+rem call "%Qt5_DIR%\bin\windeployqt.exe" --release mscsim.exe
 rem cd ..\..
-call "%QTDIR%\bin\windeployqt.exe" --release qt\bin\
+call "%Qt5_DIR%\bin\windeployqt.exe" --release qt\bin\
 
 del qt\bin\mscsim.exe
 
