@@ -203,31 +203,12 @@ bool Sample::checkForErrors()
 
 bool Sample::loadFile( const char *file )
 {
-    bool error = false;
-
-    // loading audio stream to buffer
-    ALenum format = 0;
-    ALsizei size = 0;
-    ALsizei freq = 0;
-
-    ALvoid *data = NULLPTR;
-    ALboolean loop = AL_FALSE;
-
     const size_t size_max = 4096;
     ALbyte file_temp[ size_max ];
     size_t size_str = ( strlen( file ) < size_max ) ? ( strlen( file ) + 1 ) : size_max;
     memcpy( file_temp, file, size_str );
 
-    alutLoadWAVFile( file_temp, &format, &data, &size, &freq, &loop );
+    _buffer = alutCreateBufferFromFile( file_temp );
 
-    error = checkForErrors();
-
-    // loading the raw audio stream into our buffer:
-    if ( !error )
-    {
-        alBufferData( _buffer, format, data, size, freq );
-        error = checkForErrors();
-    }
-
-    return error;
+    return checkForErrors();
 }

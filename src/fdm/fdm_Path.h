@@ -59,7 +59,9 @@ public:
         return "../data/" + path;
 #       else
 
-#       ifdef _LINUX_
+#       if defined(_APPLE_)
+        return "mscsim-data/data/" + path;
+#       elif defined(_LINUX_)
         return "/usr/share/mscsim/data/" + path;
 #       endif
 

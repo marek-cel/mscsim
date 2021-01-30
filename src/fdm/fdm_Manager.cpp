@@ -22,6 +22,8 @@
 
 #include <fdm/fdm_Manager.h>
 
+#include <cmath>
+#include <cfloat>
 #include <cstring>
 
 #include <fdm/fdm_Log.h>
