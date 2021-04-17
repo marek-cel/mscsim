@@ -86,6 +86,5 @@ Weather phenomena, such as clouds and fog.
 * [mscsim-data](https://github.com/marek-cel/mscsim-data)
 * [mscsim-data-terrain](https://github.com/marek-cel/mscsim-data-terrain)
 * [mscsim-docs](https://github.com/marek-cel/mscsim-docs)
-* [mscsim-tools](https://github.com/marek-cel/mscsim-tools)
 
 Visit [http://marekcel.pl/mscsim](http://marekcel.pl/mscsim) for more information.
