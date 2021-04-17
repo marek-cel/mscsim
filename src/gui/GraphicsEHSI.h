@@ -86,7 +86,7 @@ private:
 
     QGraphicsSvgItem *_itemBack;        ///< NAV background
     QGraphicsSvgItem *_itemMask;        ///< NAV mask
-    QGraphicsSvgItem *_itemMark;
+    QGraphicsSvgItem *_itemMark;        ///<
 
     QGraphicsSvgItem *_itemBrgArrow;    ///<
     QGraphicsSvgItem *_itemCrsArrow;    ///<

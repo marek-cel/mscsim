@@ -238,14 +238,14 @@ private:
     float _scaleX;                          ///<
     float _scaleY;                          ///<
 
-    QPointF _originalFMA;
-    QPointF _originalSPD;
+    QPointF _originalFMA;                   ///<
+    QPointF _originalSPD;                   ///<
 
-    QPointF _originalLNAV;
-    QPointF _originalVNAV;
+    QPointF _originalLNAV;                  ///<
+    QPointF _originalVNAV;                  ///<
 
-    QPointF _originalLNAV_ARM;
-    QPointF _originalVNAV_ARM;
+    QPointF _originalLNAV_ARM;              ///<
+    QPointF _originalVNAV_ARM;              ///<
 
     const int _originalHeight;              ///< [px]
     const int _originalWidth;               ///< [px]

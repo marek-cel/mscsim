@@ -29,6 +29,8 @@ namespace nav
 
 /**
  * @brief Navigation frequency class.
+ *
+ * @see ICAO Annex 10 Volume I: Radio Navigation Aids
  */
 class Frequency
 {
