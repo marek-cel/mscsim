@@ -36,7 +36,7 @@
 
 #include <string>
 
-#ifdef HID_LINUX_JOYSTICK
+#if defined(HID_LINUX_JOYSTICK) && !defined(_APPLE_)
 #   include <fcntl.h>
 #   include <unistd.h>
 #   include <linux/joystick.h>
@@ -193,7 +193,7 @@ private:
 
     Joysticks::Data _data[ HID_MAX_JOYS ];      ///< joysticks data
 
-#   ifdef HID_LINUX_JOYSTICK
+#   if defined(HID_LINUX_JOYSTICK) && !defined(_APPLE_)
     int _fd[ HID_MAX_JOYS ];                    ///<
     js_event _event;                            ///< joystick event
 #   endif

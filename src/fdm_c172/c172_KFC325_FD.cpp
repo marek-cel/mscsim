@@ -20,6 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <cmath>
+#include <cfloat>
+
 #include <fdm_c172/c172_KFC325_FD.h>
 
 #include <fdm/fdm_Log.h>

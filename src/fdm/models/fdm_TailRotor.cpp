@@ -20,6 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <cmath>
+#include <cfloat>
+
 #include <fdm/models/fdm_TailRotor.h>
 #include <fdm/main/fdm_Aerodynamics.h>
 

@@ -26,7 +26,7 @@
 #   include <windows.h>
 #endif
 
-#ifdef _LINUX_
+#if defined(_LINUX_) && !defined(_APPLE_)
 #   include <QX11Info>
 #   include <X11/extensions/scrnsaver.h>
 #   include <X11/Xlib.h>
@@ -40,7 +40,7 @@ void ScreenSaver::disable()
     SetThreadExecutionState( ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED );
 #   endif
 
-#   ifdef _LINUX_
+#   if defined(_LINUX_) && !defined(_APPLE_)
     XScreenSaverSuspend( QX11Info::display(), True );
 #   endif
 }
@@ -53,7 +53,7 @@ void ScreenSaver::enable()
     SetThreadExecutionState( ES_CONTINUOUS );
 #   endif
 
-#   ifdef _LINUX_
+#   if defined(_LINUX_) && !defined(_APPLE_)
     XScreenSaverSuspend( QX11Info::display(), False );
 #   endif
 }
@@ -62,7 +62,7 @@ void ScreenSaver::enable()
 
 void ScreenSaver::reset()
 {
-#   ifdef _LINUX_
+#   if defined(_LINUX_) && !defined(_APPLE_)
     XResetScreenSaver( QX11Info::display() );
 #   endif
 }

@@ -24,8 +24,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <AL/al.h>
-#include <AL/alc.h>
+#ifdef _APPLE_
+    #include <OpenAL/al.h>
+    #include <OpenAL/alc.h>
+#else
+    #include <AL/al.h>
+    #include <AL/alc.h>
+#endif
 
 #include <Data.h>
 #include <Defines.h>
