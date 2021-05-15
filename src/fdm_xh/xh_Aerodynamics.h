@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/fdm_Aerodynamics.h>
 
 #include <fdm_xh/xh_MainRotorBE.h>
 #include <fdm_xh/xh_TailRotor.h>

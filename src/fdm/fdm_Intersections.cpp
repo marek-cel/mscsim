@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Intersections.h>
+#include <fdm/fdm_Intersections.h>
 
 #ifdef SIM_INTERSECTIONS
 #   include <cgi/cgi_Intersections.h>

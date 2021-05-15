@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm/models/fdm_WinchLauncher.h>
 

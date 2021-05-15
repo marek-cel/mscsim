@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Controls.h>
+#include <fdm/fdm_Controls.h>
 
 #include <fdm_aw101/aw101_AFCS.h>
 

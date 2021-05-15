@@ -29,6 +29,8 @@
 
 QTime DialogTime::getTimeUTC( double lon_deg, const QTime &time_utc, QWidget *parent )
 {
+    QTime result = time_utc;
+
     DialogTime *dialog = NULLPTR;
 
     dialog = new DialogTime( parent );
@@ -36,10 +38,12 @@ QTime DialogTime::getTimeUTC( double lon_deg, const QTime &time_utc, QWidget *pa
 
     if ( dialog->exec() == QDialog::Accepted )
     {
-        return QTime( dialog->_time_utc );
+        result = dialog->_time_utc;
     }
 
-    return QTime( time_utc );
+    DELPTR( dialog );
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

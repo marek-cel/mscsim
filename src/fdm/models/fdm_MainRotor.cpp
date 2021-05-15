@@ -21,7 +21,7 @@
  ******************************************************************************/
 
 #include <fdm/models/fdm_MainRotor.h>
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/fdm_Aerodynamics.h>
 
 #include <fdm/utils/fdm_String.h>
 #include <fdm/utils/fdm_Units.h>

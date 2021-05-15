@@ -1,9 +1,20 @@
 set( MODULE_NAME fdm )
 
 set( CPP_FILES
+    fdm_Aerodynamics.cpp
+    fdm_Aircraft.cpp
     fdm_Base.cpp
+    fdm_Controls.cpp
+    fdm_Environment.cpp
+    fdm_FDM.cpp
+    fdm_Input.cpp
+    fdm_Intersections.cpp
+    fdm_LandingGear.cpp
     fdm_Log.cpp
     fdm_Manager.cpp
+    fdm_Mass.cpp
+    fdm_Propulsion.cpp
+    fdm_Recorder.cpp
     fdm_Test.cpp
 
     auto/fdm_Autopilot.cpp
@@ -19,18 +30,6 @@ set( CPP_FILES
     ctrl/fdm_LeadLag.cpp
     ctrl/fdm_LPF.cpp
     ctrl/fdm_PID.cpp
-    
-    main/fdm_Aerodynamics.cpp
-    main/fdm_Aircraft.cpp
-    main/fdm_Controls.cpp
-    main/fdm_Environment.cpp
-    main/fdm_FDM.cpp
-    main/fdm_Input.cpp
-    main/fdm_Intersections.cpp
-    main/fdm_LandingGear.cpp
-    main/fdm_Mass.cpp
-    main/fdm_Propulsion.cpp
-    main/fdm_Recorder.cpp
     
     models/fdm_Atmosphere.cpp
     models/fdm_Fuselage.cpp

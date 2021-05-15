@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/fdm_Aerodynamics.h>
 
 #include <fdm/utils/fdm_Table1.h>
 #include <fdm/utils/fdm_Table2.h>

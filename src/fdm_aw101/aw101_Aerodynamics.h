@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aerodynamics.h>
+#include <fdm/fdm_Aerodynamics.h>
 
 #include <fdm_aw101/aw101_MainRotor.h>
 #include <fdm_aw101/aw101_TailRotor.h>

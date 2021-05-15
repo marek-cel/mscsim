@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_Controls.h>
-#include <fdm/main/fdm_Aircraft.h>
+#include <fdm/fdm_Controls.h>
+#include <fdm/fdm_Aircraft.h>
 
 #include <fdm/fdm_Log.h>
 

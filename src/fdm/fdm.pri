@@ -4,19 +4,42 @@ SOURCES += $$PWD/fdm_Manager.cpp
 }
 
 HEADERS += \
+    $$PWD/fdm_Aerodynamics.h \
+    $$PWD/fdm_Aircraft.h \
     $$PWD/fdm_Base.h \
+    $$PWD/fdm_Controls.h \
     $$PWD/fdm_DataInp.h \
     $$PWD/fdm_DataOut.h \
     $$PWD/fdm_Defines.h \
+    $$PWD/fdm_Environment.h \
     $$PWD/fdm_Exception.h \
+    $$PWD/fdm_FDM.h \
+    $$PWD/fdm_Input.h \
+    $$PWD/fdm_Intersections.h \
+    $$PWD/fdm_LandingGear.h \
     $$PWD/fdm_Log.h \
+    $$PWD/fdm_Mass.h \
+    $$PWD/fdm_Module.h \
     $$PWD/fdm_Path.h \
+    $$PWD/fdm_Propulsion.h \
+    $$PWD/fdm_Recorder.h \
     $$PWD/fdm_Test.h \
     $$PWD/fdm_Types.h
 
 SOURCES += \
+    $$PWD/fdm_Aerodynamics.cpp \
+    $$PWD/fdm_Aircraft.cpp \
     $$PWD/fdm_Base.cpp \
+    $$PWD/fdm_Controls.cpp \
+    $$PWD/fdm_Environment.cpp \
+    $$PWD/fdm_FDM.cpp \
+    $$PWD/fdm_Input.cpp \
+    $$PWD/fdm_Intersections.cpp \
+    $$PWD/fdm_LandingGear.cpp \
     $$PWD/fdm_Log.cpp \
+    $$PWD/fdm_Mass.cpp \
+    $$PWD/fdm_Propulsion.cpp \
+    $$PWD/fdm_Recorder.cpp \
     $$PWD/fdm_Test.cpp
 
 ################################################################################
@@ -54,35 +77,6 @@ SOURCES += \
     $$PWD/ctrl/fdm_LeadLag.cpp \
     $$PWD/ctrl/fdm_LPF.cpp \
     $$PWD/ctrl/fdm_PID.cpp
-
-################################################################################
-
-HEADERS += \
-    $$PWD/main/fdm_Aerodynamics.h \
-    $$PWD/main/fdm_Aircraft.h \
-    $$PWD/main/fdm_Controls.h \
-    $$PWD/main/fdm_Environment.h \
-    $$PWD/main/fdm_FDM.h \
-    $$PWD/main/fdm_Input.h \
-    $$PWD/main/fdm_Intersections.h \
-    $$PWD/main/fdm_LandingGear.h \
-    $$PWD/main/fdm_Mass.h \
-    $$PWD/main/fdm_Module.h \
-    $$PWD/main/fdm_Propulsion.h \
-    $$PWD/main/fdm_Recorder.h
-
-SOURCES += \
-    $$PWD/main/fdm_Aerodynamics.cpp \
-    $$PWD/main/fdm_Aircraft.cpp \
-    $$PWD/main/fdm_Controls.cpp \
-    $$PWD/main/fdm_Environment.cpp \
-    $$PWD/main/fdm_FDM.cpp \
-    $$PWD/main/fdm_Input.cpp \
-    $$PWD/main/fdm_Intersections.cpp \
-    $$PWD/main/fdm_LandingGear.cpp \
-    $$PWD/main/fdm_Mass.cpp \
-    $$PWD/main/fdm_Propulsion.cpp \
-    $$PWD/main/fdm_Recorder.cpp
 
 ################################################################################
 

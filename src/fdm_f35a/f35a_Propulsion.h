@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm_f35a/f35a_Engine.h>
 

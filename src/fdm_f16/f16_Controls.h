@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Controls.h>
+#include <fdm/fdm_Controls.h>
 
 #include <fdm_f16/f16_FLCS.h>
 

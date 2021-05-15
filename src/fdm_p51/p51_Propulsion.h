@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm_p51/p51_Engine.h>
 #include <fdm_p51/p51_Propeller.h>

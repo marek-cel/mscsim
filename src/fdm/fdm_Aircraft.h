@@ -29,16 +29,16 @@
 
 #include <fdm/fdm_Base.h>
 
-#include <fdm/main/fdm_Environment.h>
-#include <fdm/main/fdm_Intersections.h>
+#include <fdm/fdm_Environment.h>
+#include <fdm/fdm_Intersections.h>
 
-#include <fdm/main/fdm_Input.h>
+#include <fdm/fdm_Input.h>
 
-#include <fdm/main/fdm_Aerodynamics.h>
-#include <fdm/main/fdm_Controls.h>
-#include <fdm/main/fdm_LandingGear.h>
-#include <fdm/main/fdm_Mass.h>
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Aerodynamics.h>
+#include <fdm/fdm_Controls.h>
+#include <fdm/fdm_LandingGear.h>
+#include <fdm/fdm_Mass.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm/utils/fdm_RungeKutta4.h>
 #include <fdm/utils/fdm_WGS84.h>

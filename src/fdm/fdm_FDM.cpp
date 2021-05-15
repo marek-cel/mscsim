@@ -20,7 +20,7 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_FDM.h>
+#include <fdm/fdm_FDM.h>
 
 #include <cstring>
 
@@ -430,52 +430,52 @@ void FDM::updateDataInp()
     }
 
     // input - controls
-    _dataRefs.input.controls.roll         .setDatad( _dataInp.controls.roll         );
-    _dataRefs.input.controls.pitch        .setDatad( _dataInp.controls.pitch        );
-    _dataRefs.input.controls.yaw          .setDatad( _dataInp.controls.yaw          );
-    _dataRefs.input.controls.trim_roll    .setDatad( _dataInp.controls.trim_roll    );
-    _dataRefs.input.controls.trim_pitch   .setDatad( _dataInp.controls.trim_pitch   );
-    _dataRefs.input.controls.trim_yaw     .setDatad( _dataInp.controls.trim_yaw     );
-    _dataRefs.input.controls.brake_l      .setDatad( _dataInp.controls.brake_l      );
-    _dataRefs.input.controls.brake_r      .setDatad( _dataInp.controls.brake_r      );
-    _dataRefs.input.controls.wheel_brake  .setDatad( _dataInp.controls.wheel_brake  );
-    _dataRefs.input.controls.landing_gear .setDatad( _dataInp.controls.landing_gear );
-    _dataRefs.input.controls.wheel_nose   .setDatad( _dataInp.controls.wheel_nose   );
-    _dataRefs.input.controls.flaps        .setDatad( _dataInp.controls.flaps        );
-    _dataRefs.input.controls.airbrake     .setDatad( _dataInp.controls.airbrake     );
-    _dataRefs.input.controls.spoilers     .setDatad( _dataInp.controls.spoilers     );
-    _dataRefs.input.controls.collective   .setDatad( _dataInp.controls.collective   );
+    _dataRefs.controls.roll         .setDatad( _dataInp.controls.roll         );
+    _dataRefs.controls.pitch        .setDatad( _dataInp.controls.pitch        );
+    _dataRefs.controls.yaw          .setDatad( _dataInp.controls.yaw          );
+    _dataRefs.controls.trim_roll    .setDatad( _dataInp.controls.trim_roll    );
+    _dataRefs.controls.trim_pitch   .setDatad( _dataInp.controls.trim_pitch   );
+    _dataRefs.controls.trim_yaw     .setDatad( _dataInp.controls.trim_yaw     );
+    _dataRefs.controls.brake_l      .setDatad( _dataInp.controls.brake_l      );
+    _dataRefs.controls.brake_r      .setDatad( _dataInp.controls.brake_r      );
+    _dataRefs.controls.wheel_brake  .setDatad( _dataInp.controls.wheel_brake  );
+    _dataRefs.controls.landing_gear .setDatad( _dataInp.controls.landing_gear );
+    _dataRefs.controls.wheel_nose   .setDatad( _dataInp.controls.wheel_nose   );
+    _dataRefs.controls.flaps        .setDatad( _dataInp.controls.flaps        );
+    _dataRefs.controls.airbrake     .setDatad( _dataInp.controls.airbrake     );
+    _dataRefs.controls.spoilers     .setDatad( _dataInp.controls.spoilers     );
+    _dataRefs.controls.collective   .setDatad( _dataInp.controls.collective   );
 
-    _dataRefs.input.controls.lgh.setDatab( _dataInp.controls.lgh );
-    _dataRefs.input.controls.nws.setDatab( _dataInp.controls.nws );
-    _dataRefs.input.controls.abs.setDatab( _dataInp.controls.abs );
+    _dataRefs.controls.lgh.setDatab( _dataInp.controls.lgh );
+    _dataRefs.controls.nws.setDatab( _dataInp.controls.nws );
+    _dataRefs.controls.abs.setDatab( _dataInp.controls.abs );
 
     // input - engines
     for ( int i = 0; i < FDM_MAX_ENGINES; i++ )
     {
-        _dataRefs.input.engine[ i ].throttle  .setDatad( _dataInp.engine[ i ].throttle  );
-        _dataRefs.input.engine[ i ].mixture   .setDatad( _dataInp.engine[ i ].mixture   );
-        _dataRefs.input.engine[ i ].propeller .setDatad( _dataInp.engine[ i ].propeller );
+        _dataRefs.engine[ i ].throttle  .setDatad( _dataInp.engine[ i ].throttle  );
+        _dataRefs.engine[ i ].mixture   .setDatad( _dataInp.engine[ i ].mixture   );
+        _dataRefs.engine[ i ].propeller .setDatad( _dataInp.engine[ i ].propeller );
 
-        _dataRefs.input.engine[ i ].fuel     .setDatab( _dataInp.engine[ i ].fuel      );
-        _dataRefs.input.engine[ i ].ignition .setDatab( _dataInp.engine[ i ].ignition  );
-        _dataRefs.input.engine[ i ].starter  .setDatab( _dataInp.engine[ i ].starter   );
+        _dataRefs.engine[ i ].fuel     .setDatab( _dataInp.engine[ i ].fuel      );
+        _dataRefs.engine[ i ].ignition .setDatab( _dataInp.engine[ i ].ignition  );
+        _dataRefs.engine[ i ].starter  .setDatab( _dataInp.engine[ i ].starter   );
     }
 
     // input - masses
     for ( int i = 0; i < FDM_MAX_PILOTS; i++ )
     {
-        _dataRefs.input.masses.pilot[ i ].setDatad( _dataInp.masses.pilot[ i ] );
+        _dataRefs.masses.pilot[ i ].setDatad( _dataInp.masses.pilot[ i ] );
     }
 
     for ( int i = 0; i < FDM_MAX_TANKS; i++ )
     {
-        _dataRefs.input.masses.tank[ i ].setDatad( _dataInp.masses.tank[ i ] );
+        _dataRefs.masses.tank[ i ].setDatad( _dataInp.masses.tank[ i ] );
     }
 
-    _dataRefs.input.masses.cabin.setDatad( _dataInp.masses.cabin );
-    _dataRefs.input.masses.trunk.setDatad( _dataInp.masses.trunk );
-    _dataRefs.input.masses.slung.setDatad( _dataInp.masses.slung );
+    _dataRefs.masses.cabin.setDatad( _dataInp.masses.cabin );
+    _dataRefs.masses.trunk.setDatad( _dataInp.masses.trunk );
+    _dataRefs.masses.slung.setDatad( _dataInp.masses.slung );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -657,25 +657,25 @@ void FDM::initDataTreeBasic()
 
     if ( result == FDM_SUCCESS )
     {
-        _dataRefs.input.controls.roll         = getDataRef( "input.controls.roll"         );
-        _dataRefs.input.controls.pitch        = getDataRef( "input.controls.pitch"        );
-        _dataRefs.input.controls.yaw          = getDataRef( "input.controls.yaw"          );
-        _dataRefs.input.controls.trim_roll    = getDataRef( "input.controls.trim_roll"    );
-        _dataRefs.input.controls.trim_pitch   = getDataRef( "input.controls.trim_pitch"   );
-        _dataRefs.input.controls.trim_yaw     = getDataRef( "input.controls.trim_yaw"     );
-        _dataRefs.input.controls.brake_l      = getDataRef( "input.controls.brake_left"   );
-        _dataRefs.input.controls.brake_r      = getDataRef( "input.controls.brake_right"  );
-        _dataRefs.input.controls.wheel_brake  = getDataRef( "input.controls.wheel_brake"  );
-        _dataRefs.input.controls.landing_gear = getDataRef( "input.controls.landing_gear" );
-        _dataRefs.input.controls.wheel_nose   = getDataRef( "input.controls.wheel_nose"   );
-        _dataRefs.input.controls.flaps        = getDataRef( "input.controls.flaps"        );
-        _dataRefs.input.controls.airbrake     = getDataRef( "input.controls.airbrake"     );
-        _dataRefs.input.controls.spoilers     = getDataRef( "input.controls.spoilers"     );
-        _dataRefs.input.controls.collective   = getDataRef( "input.controls.collective"   );
+        _dataRefs.controls.roll         = getDataRef( "input.controls.roll"         );
+        _dataRefs.controls.pitch        = getDataRef( "input.controls.pitch"        );
+        _dataRefs.controls.yaw          = getDataRef( "input.controls.yaw"          );
+        _dataRefs.controls.trim_roll    = getDataRef( "input.controls.trim_roll"    );
+        _dataRefs.controls.trim_pitch   = getDataRef( "input.controls.trim_pitch"   );
+        _dataRefs.controls.trim_yaw     = getDataRef( "input.controls.trim_yaw"     );
+        _dataRefs.controls.brake_l      = getDataRef( "input.controls.brake_left"   );
+        _dataRefs.controls.brake_r      = getDataRef( "input.controls.brake_right"  );
+        _dataRefs.controls.wheel_brake  = getDataRef( "input.controls.wheel_brake"  );
+        _dataRefs.controls.landing_gear = getDataRef( "input.controls.landing_gear" );
+        _dataRefs.controls.wheel_nose   = getDataRef( "input.controls.wheel_nose"   );
+        _dataRefs.controls.flaps        = getDataRef( "input.controls.flaps"        );
+        _dataRefs.controls.airbrake     = getDataRef( "input.controls.airbrake"     );
+        _dataRefs.controls.spoilers     = getDataRef( "input.controls.spoilers"     );
+        _dataRefs.controls.collective   = getDataRef( "input.controls.collective"   );
 
-        _dataRefs.input.controls.lgh = getDataRef( "input.controls.lgh" );
-        _dataRefs.input.controls.nws = getDataRef( "input.controls.nws" );
-        _dataRefs.input.controls.abs = getDataRef( "input.controls.abs" );
+        _dataRefs.controls.lgh = getDataRef( "input.controls.lgh" );
+        _dataRefs.controls.nws = getDataRef( "input.controls.nws" );
+        _dataRefs.controls.abs = getDataRef( "input.controls.abs" );
     }
 
     // input - engines
@@ -700,12 +700,12 @@ void FDM::initDataTreeBasic()
 
         if ( result == FDM_SUCCESS )
         {
-            _dataRefs.input.engine[ i ].throttle  = getDataRef( idstr_throttle  );
-            _dataRefs.input.engine[ i ].mixture   = getDataRef( idstr_mixture   );
-            _dataRefs.input.engine[ i ].propeller = getDataRef( idstr_propeller );
-            _dataRefs.input.engine[ i ].fuel      = getDataRef( idstr_fuel      );
-            _dataRefs.input.engine[ i ].ignition  = getDataRef( idstr_ignition  );
-            _dataRefs.input.engine[ i ].starter   = getDataRef( idstr_starter   );
+            _dataRefs.engine[ i ].throttle  = getDataRef( idstr_throttle  );
+            _dataRefs.engine[ i ].mixture   = getDataRef( idstr_mixture   );
+            _dataRefs.engine[ i ].propeller = getDataRef( idstr_propeller );
+            _dataRefs.engine[ i ].fuel      = getDataRef( idstr_fuel      );
+            _dataRefs.engine[ i ].ignition  = getDataRef( idstr_ignition  );
+            _dataRefs.engine[ i ].starter   = getDataRef( idstr_starter   );
         }
     }
 
@@ -715,7 +715,7 @@ void FDM::initDataTreeBasic()
         std::string idstr = "input.masses.pilot_" + String::toString( i + 1 );
 
         if ( result == FDM_SUCCESS ) result = addDataRef( idstr, DataNode::Double );
-        if ( result == FDM_SUCCESS ) _dataRefs.input.masses.pilot[ i ]  = getDataRef( idstr );
+        if ( result == FDM_SUCCESS ) _dataRefs.masses.pilot[ i ]  = getDataRef( idstr );
     }
 
     for ( int i = 0; i < FDM_MAX_TANKS; i++ )
@@ -723,7 +723,7 @@ void FDM::initDataTreeBasic()
         std::string idstr = "input.masses.tank_" + String::toString( i + 1 );
 
         if ( result == FDM_SUCCESS ) result = addDataRef( idstr, DataNode::Double );
-        if ( result == FDM_SUCCESS ) _dataRefs.input.masses.tank[ i ]  = getDataRef( idstr );
+        if ( result == FDM_SUCCESS ) _dataRefs.masses.tank[ i ]  = getDataRef( idstr );
     }
 
     if ( result == FDM_SUCCESS ) result = addDataRef( "input.masses.cabin" , DataNode::Double );
@@ -732,9 +732,9 @@ void FDM::initDataTreeBasic()
 
     if ( result == FDM_SUCCESS )
     {
-        _dataRefs.input.masses.cabin  = getDataRef( "input.masses.cabin" );
-        _dataRefs.input.masses.trunk  = getDataRef( "input.masses.trunk" );
-        _dataRefs.input.masses.slung  = getDataRef( "input.masses.slung" );
+        _dataRefs.masses.cabin  = getDataRef( "input.masses.cabin" );
+        _dataRefs.masses.trunk  = getDataRef( "input.masses.trunk" );
+        _dataRefs.masses.slung  = getDataRef( "input.masses.slung" );
     }
 
     if ( result != FDM_SUCCESS )

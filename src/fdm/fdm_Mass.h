@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include <fdm/main/fdm_Module.h>
+#include <fdm/fdm_Module.h>
 
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Matrix6x6.h>

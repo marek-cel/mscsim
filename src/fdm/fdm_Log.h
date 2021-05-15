@@ -45,6 +45,7 @@ public:
     inline static std::ostream& i() { return ( timeTag() << "[INFO] "    ); }
     inline static std::ostream& w() { return ( timeTag() << "[WARNING] " ); }
     inline static std::ostream& e() { return ( timeTag() << "[ERROR] "   ); }
+    inline static std::ostream& o() { return _out; }
 
     inline static std::ostream& out() { return _out; }
 

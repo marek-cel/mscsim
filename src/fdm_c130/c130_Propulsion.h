@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm_c130/c130_Engine.h>
 #include <fdm_c130/c130_Propeller.h>

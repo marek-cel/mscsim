@@ -20,8 +20,8 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/main/fdm_LandingGear.h>
-#include <fdm/main/fdm_Aircraft.h>
+#include <fdm/fdm_LandingGear.h>
+#include <fdm/fdm_Aircraft.h>
 
 #include <fdm/utils/fdm_String.h>
 #include <fdm/xml/fdm_XmlUtils.h>

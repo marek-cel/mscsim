@@ -19,16 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_FDM_H
-#define FDM_FDM_H
+#ifndef FDM_WRAPPER_H
+#define FDM_WRAPPER_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/fdm_DataInp.h>
 #include <fdm/fdm_DataOut.h>
 
-#include <fdm/main/fdm_Aircraft.h>
-#include <fdm/main/fdm_Recorder.h>
+#include <fdm/fdm_Aircraft.h>
+#include <fdm/fdm_Recorder.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -66,71 +66,7 @@ public:
 
 protected:
 
-    /** Data references. */
-    struct DataRefs
-    {
-        /** */
-        struct Input
-        {
-            /** */
-            struct Controls
-            {
-                DataRef roll;                       ///< roll controls data reference
-                DataRef pitch;                      ///< pitch control data reference
-                DataRef yaw;                        ///< yaw control data reference
-
-                DataRef trim_roll;                  ///< roll trim data reference
-                DataRef trim_pitch;                 ///< pitch trim data reference
-                DataRef trim_yaw;                   ///< yaw trim data reference
-
-                DataRef brake_l;                    ///< left brake data reference
-                DataRef brake_r;                    ///< right brake data reference
-                DataRef wheel_brake;                ///< wheel brake data reference
-
-                DataRef landing_gear;               ///< landing gear data reference
-                DataRef wheel_nose;                 ///< nose wheel steering data reference
-
-                DataRef flaps;                      ///< flaps data reference
-                DataRef airbrake;                   ///< airbrake data reference
-                DataRef spoilers;                   ///< spoilers data reference
-
-                DataRef collective;                 ///< collective data reference
-
-                DataRef lgh;                        ///< landing gear handle data reference
-                DataRef nws;                        ///< nose wheel steering data reference
-                DataRef abs;                        ///< anti-skid braking system data reference
-            };
-
-            /** */
-            struct Engine
-            {
-                DataRef  throttle;                  ///< throttle data reference
-                DataRef  mixture;                   ///< mixture lever data reference
-                DataRef  propeller;                 ///< propeller lever data reference
-
-                DataRef  fuel;                      ///< fuel state data reference
-                DataRef  ignition;                  ///< ignition state data reference
-                DataRef  starter;                   ///< starter state data reference
-            };
-
-            /** */
-            struct Masses
-            {
-                DataRef pilot [ FDM_MAX_PILOTS ];   ///< pilots data reference
-                DataRef tank  [ FDM_MAX_TANKS ];    ///< fuel tanks data reference
-                DataRef cabin;                      ///< cabin data reference
-                DataRef trunk;                      ///< cargo trunk data reference
-                DataRef slung;                      ///< slung load data reference
-            };
-
-            Controls controls;                      ///< controls data
-            Engine   engine[ FDM_MAX_ENGINES ];     ///< engines data
-            Masses   masses;                        ///< masses data
-        };
-
-        Input  input;                               ///< input data
-    }
-    _dataRefs;                                      ///< data references
+    Input::DataRefs _dataRefs;                      ///< data references
 
     const DataInp *_dataInpPtr;                     ///< input data pointer
     DataOut       *_dataOutPtr;                     ///< output data pointer
@@ -188,4 +124,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_FDM_H
+#endif // FDM_WRAPPER_H

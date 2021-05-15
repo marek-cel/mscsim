@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Propulsion.h>
+#include <fdm/fdm_Propulsion.h>
 
 #include <fdm_c172/c172_Engine.h>
 #include <fdm_c172/c172_Propeller.h>

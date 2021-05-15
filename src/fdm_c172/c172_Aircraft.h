@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Aircraft.h>
+#include <fdm/fdm_Aircraft.h>
 
 #include <fdm_c172/c172_Aerodynamics.h>
 #include <fdm_c172/c172_Controls.h>

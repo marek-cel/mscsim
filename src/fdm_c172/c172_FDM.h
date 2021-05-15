@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_FDM.h>
+#include <fdm/fdm_FDM.h>
 
 #include <fdm_c172/c172_Aircraft.h>
 

@@ -19,14 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_PROPULSION_H
-#define FDM_PROPULSION_H
+#ifndef FDM_CONTROLS_H
+#define FDM_CONTROLS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/main/fdm_Module.h>
+#include <fdm/fdm_Module.h>
 
-#include <fdm/utils/fdm_Vector3.h>
+#include <fdm/utils/fdm_Map.h>
+#include <fdm/utils/fdm_Table1.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -34,49 +35,69 @@ namespace fdm
 {
 
 /**
- * @brief Propulsion base class.
+ * @brief Controls model base class.
+ *
+ * Input data reference is created for each control channel. Name of
+ * this data reference is "input/controls/channel_name".
+ *
+ * XML configuration file format:
+ * @code
+ * <controls>
+ *   <control_channel input="{ channel input }">
+ *     { channel input value } { channel output value }
+ *     ... { more entries }
+ *   </control_channel>
+ *   ... { more entries }
+ * </controls>
+ * @endcode
+ *
+ * @see ISO 1151-4:1994
+ * @see ISO 1151-6:1982
  */
-class FDMEXPORT Propulsion : public Module
+class FDMEXPORT Controls : public Module
 {
 public:
 
+    /** Control channel data. */
+    struct Channel
+    {
+        DataRef input;      ///< channel input data reference
+        Table1  table;      ///< channel input vs output data
+        double  output;     ///< channel output
+    };
+
+    typedef Map< std::string, Channel > Channels;
+
     /** @brief Constructor. */
-    Propulsion( const Aircraft *aircraft, Input *input );
+    Controls( const Aircraft *aircraft, Input *input );
 
     /** @brief Destructor. */
-    virtual ~Propulsion();
+    virtual ~Controls();
 
     /**
      * @brief Reads data.
      * @param dataNode XML node
      */
-    virtual void readData( XmlNode &dataNode ) = 0;
+    virtual void readData( XmlNode &dataNode );
 
-    /** @brief Initializes propulsion. */
+    /** @brief Initializes controls. */
     virtual void initialize();
 
-    /** @brief Computes force and moment. */
-    virtual void computeForceAndMoment() = 0;
-
-    /** @brief Updates propulsion. */
-    virtual void update() = 0;
-
-    inline const Vector3& getFor_BAS() const { return _for_bas; }
-    inline const Vector3& getMom_BAS() const { return _mom_bas; }
+    /** @brief Updates controls. */
+    virtual void update();
 
 protected:
 
-    Vector3 _for_bas;           ///< [N] total force vector expressed in BAS
-    Vector3 _mom_bas;           ///< [N*m] total moment vector expressed in BAS
+    Channels _channels;         ///< control channels
 
 private:
 
     /** Using this constructor is forbidden. */
-    Propulsion( const Propulsion & ) : Module( FDM_NULLPTR, FDM_NULLPTR ) {}
+    Controls( const Controls & ) : Module( FDM_NULLPTR, FDM_NULLPTR ) {}
 };
 
 } // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_PROPULSION_H
+#endif // FDM_CONTROLS_H
