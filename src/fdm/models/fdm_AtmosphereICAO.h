@@ -19,51 +19,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-
-#include <fdm/fdm_Environment.h>
-
-////////////////////////////////////////////////////////////////////////////////
-
-using namespace fdm;
+#ifndef FDM_ATMOSPHERE_ICAO_H
+#define FDM_ATMOSPHERE_ICAO_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Environment::Environment() :
-    _atmosphere ( FDM_NULLPTR ),
+#include <fdm/fdm_Defines.h>
 
-    _temperature     ( 0.0 ),
-    _pressure        ( 0.0 ),
-    _density         ( 0.0 ),
-    _speedOfSound    ( 0.0 ),
-    _densityAltitude ( 0.0 ),
+////////////////////////////////////////////////////////////////////////////////
 
-    _wind_direction ( 0.0 ),
-    _wind_speed     ( 0.0 )
+namespace fdm
 {
-    _atmosphere = new AtmosphereUS76();
-}
+
+/**
+ * @brief ICAO Standard Atmosphere class.
+ *
+ * @see Manual of the ICAO Standard Atmosphere, ICAO, Doc 7488/3, 1993
+ */
+class FDMEXPORT AtmosphereICAO
+{
+public:
+
+    static const double _h_b[ 9 ];      ///< [m] altitude values
+    static const double _t_b[ 9 ];      ///< [K] temperature values
+    static const double _l_b[ 8 ];      ///< [K/m] temperature gradients
+
+    static const double _g_0;           ///< [m/s^2]
+    static const double _m_0;           ///< [kg/kmol]
+    static const double _p_0;           ///< [Pa]
+
+    /** @brief Constructor. */
+    AtmosphereICAO();
+
+    /** @brief Destructor. */
+    virtual ~AtmosphereICAO();
+
+    /**
+     * @brief Updates atmosphere due to altitude.
+     * @param altitude [m] altitude above sea level
+     */
+    virtual void update( double altitude );
+
+};
+
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Environment::~Environment()
-{
-    FDM_DELPTR( _atmosphere );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void Environment::update( double altitude_asl )
-{
-    _atmosphere->update( altitude_asl );
-
-    _temperature  = _atmosphere->getTemperature();
-    _pressure     = _atmosphere->getPressure();
-    _density      = _atmosphere->getDensity();
-    _speedOfSound = _atmosphere->getSpeedOfSound();
-
-    _densityAltitude = AtmosphereUS76::getDensityAltitude( _pressure, _temperature,
-                                                           altitude_asl );
-
-    _wind_ned.x() = -cos( _wind_direction ) * _wind_speed;
-    _wind_ned.y() = -sin( _wind_direction ) * _wind_speed;
-}
+#endif // FDM_ATMOSPHERE_ICAO_H

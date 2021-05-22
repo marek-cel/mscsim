@@ -20,7 +20,13 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
-#include <fdm/fdm_Environment.h>
+#include <fdm/models/fdm_AtmosphereICAO.h>
+
+#include <cmath>
+
+#include <fdm/fdm_Log.h>
+
+#include <fdm/utils/fdm_WGS84.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,42 +34,61 @@ using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Environment::Environment() :
-    _atmosphere ( FDM_NULLPTR ),
+// Manual of the ICAO Standard Atmosphere, Table D, p.E-xii
+const double AtmosphereICAO::_h_b[] = {
+    -5000.0,
+        0.0,
+    11000.0,
+    20000.0,
+    32000.0,
+    47000.0,
+    51000.0,
+    71000.0,
+    80000.0
+};
 
-    _temperature     ( 0.0 ),
-    _pressure        ( 0.0 ),
-    _density         ( 0.0 ),
-    _speedOfSound    ( 0.0 ),
-    _densityAltitude ( 0.0 ),
+// Manual of the ICAO Standard Atmosphere, Table D, p.E-xii
+const double AtmosphereICAO::_t_b[] = {
+    320.65,     //  -5000.0
+    288.15,     //      0.0
+    216.65,     //  11000.0
+    216.65,     //  20000.0
+    228.65,     //  32000.0
+    270.65,     //  47000.0
+    270.65,     //  51000.0
+    214.65,     //  71000.0
+    196.65      //  80000.0
+};
 
-    _wind_direction ( 0.0 ),
-    _wind_speed     ( 0.0 )
+// Manual of the ICAO Standard Atmosphere, Table D, p.E-xii
+const double AtmosphereICAO::_l_b[] = {
+    -6.5e-3,    //  -5000.0
+    -6.5e-3,    //      0.0
+    0.0,        //  11000.0
+    1.0e-3,     //  20000.0
+    2.8e-3,     //  32000.0
+    0.0,        //  47000.0
+    -2.8e-3,    //  51000.0
+    -2.0e-3     //  71000.0
+};
+
+const double AtmosphereICAO::_g_0 = 9.80665;    // Manual of the ICAO Standard Atmosphere, Table A, p.E-viii
+const double AtmosphereICAO::_m_0 = 28.96442;   // Manual of the ICAO Standard Atmosphere, Table A, p.E-viii
+
+////////////////////////////////////////////////////////////////////////////////
+
+AtmosphereICAO::AtmosphereICAO()
 {
-    _atmosphere = new AtmosphereUS76();
+    update( 0.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Environment::~Environment()
-{
-    FDM_DELPTR( _atmosphere );
-}
+AtmosphereICAO::~AtmosphereICAO() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Environment::update( double altitude_asl )
+void AtmosphereICAO::update( double altitude )
 {
-    _atmosphere->update( altitude_asl );
-
-    _temperature  = _atmosphere->getTemperature();
-    _pressure     = _atmosphere->getPressure();
-    _density      = _atmosphere->getDensity();
-    _speedOfSound = _atmosphere->getSpeedOfSound();
-
-    _densityAltitude = AtmosphereUS76::getDensityAltitude( _pressure, _temperature,
-                                                           altitude_asl );
-
-    _wind_ned.x() = -cos( _wind_direction ) * _wind_speed;
-    _wind_ned.y() = -sin( _wind_direction ) * _wind_speed;
+    // TODO
 }

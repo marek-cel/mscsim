@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_ATMOSPHERE_H
-#define FDM_ATMOSPHERE_H
+#ifndef FDM_ATMOSPHERE_US76_H
+#define FDM_ATMOSPHERE_US76_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@ namespace fdm
 {
 
 /**
- * @brief US Standard Atmosphere class.
+ * @brief US76 Standard Atmosphere class.
  *
  * This class is used to compute altitude depend atmospheric data. It is
  * based on U.S. Standard Atmosphere 1976 extended by user defined sea level
@@ -40,9 +40,9 @@ namespace fdm
  * up to 11,000 m above mean sea level.
  * Model is valid up to 84,852 meters above mean sea level.
  *
- * @see US Standard Atmosphere 1976, NASA, TM-X-74335
+ * @see US Standard Atmosphere 1976, NASA, TM-X-74335, 1976
  */
-class FDMEXPORT Atmosphere
+class FDMEXPORT AtmosphereUS76
 {
 public:
 
@@ -90,10 +90,10 @@ public:
                                       double altitude );
 
     /** @brief Constructor. */
-    Atmosphere();
+    AtmosphereUS76();
 
     /** @brief Destructor. */
-    virtual ~Atmosphere();
+    virtual ~AtmosphereUS76();
 
     /**
      * @brief Updates atmosphere due to altitude.
@@ -137,4 +137,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // FDM_ATMOSPHERE_H
+#endif // FDM_ATMOSPHERE_US76_H

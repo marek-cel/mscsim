@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <fdm/models/fdm_Atmosphere.h>
+#include <fdm/models/fdm_AtmosphereUS76.h>
 
 #include <fdm/utils/fdm_Vector3.h>
 
@@ -90,18 +90,18 @@ public:
 
 protected:
 
-    Atmosphere *_atmosphere;    ///< atmosphere object
+    AtmosphereUS76 *_atmosphere;    ///< atmosphere object
 
-    double _temperature;        ///< [K] air temperature
-    double _pressure;           ///< [Pa] air static pressure
-    double _density;            ///< [kg/m^3] air density
-    double _speedOfSound;       ///< [m/s] speed of sound
-    double _densityAltitude;    ///< [m] density altitude
+    double _temperature;            ///< [K] air temperature
+    double _pressure;               ///< [Pa] air static pressure
+    double _density;                ///< [kg/m^3] air density
+    double _speedOfSound;           ///< [m/s] speed of sound
+    double _densityAltitude;        ///< [m] density altitude
 
-    double _wind_direction;     ///< [rad] wind direction (from which it originates)
-    double _wind_speed;         ///< [m/s] wind speed
+    double _wind_direction;         ///< [rad] wind direction (from which it originates)
+    double _wind_speed;             ///< [m/s] wind speed
 
-    Vector3 _wind_ned;          ///< [m/s] wind speed vector expressed in BAS
+    Vector3 _wind_ned;              ///< [m/s] wind speed vector expressed in BAS
 };
 
 } // end of fdm namespace

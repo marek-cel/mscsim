@@ -594,8 +594,8 @@ void Aircraft::updateVariables( const StateVector &stateVect,
 
     _airspeed    = _vel_air_bas.getLength();
     _dynPress    = 0.5 * _envir->getDensity() * Misc::pow2( _airspeed );
-    _ias         = sqrt( 2.0 * dynPressLon / fdm::Atmosphere::_std_sl_rho );
-    _tas         = _ias * sqrt( Atmosphere::_std_sl_rho / _envir->getDensity() );
+    _ias         = sqrt( 2.0 * dynPressLon / fdm::AtmosphereUS76::_std_sl_rho );
+    _tas         = _ias * sqrt( AtmosphereUS76::_std_sl_rho / _envir->getDensity() );
     _groundSpeed = _vel_ned.getLengthXY();
     _machNumber  = _envir->getSpeedOfSound() > 0.0 ? ( _airspeed / _envir->getSpeedOfSound() ) : 0.0;
     _climbRate   = -_vel_ned.z();

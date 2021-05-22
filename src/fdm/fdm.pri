@@ -81,7 +81,8 @@ SOURCES += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/models/fdm_Atmosphere.h \
+    $$PWD/models/fdm_AtmosphereICAO.h \
+    $$PWD/models/fdm_AtmosphereUS76.h \
     $$PWD/models/fdm_Fuselage.h \
     $$PWD/models/fdm_Governor.h \
     $$PWD/models/fdm_HingeMoment.h \
@@ -103,7 +104,8 @@ HEADERS += \
     $$PWD/models/fdm_WingRunner.h
 
 SOURCES += \
-    $$PWD/models/fdm_Atmosphere.cpp \
+    $$PWD/models/fdm_AtmosphereICAO.cpp \
+    $$PWD/models/fdm_AtmosphereUS76.cpp \
     $$PWD/models/fdm_Fuselage.cpp \
     $$PWD/models/fdm_Governor.cpp \
     $$PWD/models/fdm_HingeMoment.cpp \

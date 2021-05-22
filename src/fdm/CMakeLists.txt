@@ -30,8 +30,9 @@ set( CPP_FILES
     ctrl/fdm_LeadLag.cpp
     ctrl/fdm_LPF.cpp
     ctrl/fdm_PID.cpp
-    
-    models/fdm_Atmosphere.cpp
+
+    models/fdm_AtmosphereICAO.cpp
+    models/fdm_AtmosphereUS76.cpp
     models/fdm_Fuselage.cpp
     models/fdm_Governor.cpp
     models/fdm_HingeMoment.cpp
