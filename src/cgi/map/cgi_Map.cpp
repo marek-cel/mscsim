@@ -140,9 +140,9 @@ const double Map::_zOwnship     = -1.0;
 Map::Map( const Module *parent ) :
     Module( parent ),
 
-    _icons  ( 0 ),
-    _layers ( 0 ),
-    _traces ( 0 )
+    _icons  ( NULLPTR ),
+    _layers ( NULLPTR ),
+    _traces ( NULLPTR )
 {
     osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
