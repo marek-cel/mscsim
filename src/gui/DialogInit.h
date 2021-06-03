@@ -59,11 +59,11 @@ public:
 
     inline int getTypeIndex() const { return _typeIndex; }
 
-    inline float getLat() const { return _lat; }
-    inline float getLon() const { return _lon; }
-    inline float getAlt() const { return _alt; }
-    inline float getPsi() const { return _psi; }
-    inline float getIAS() const { return _ias; }
+    inline double getLat() const { return _lat; }
+    inline double getLon() const { return _lon; }
+    inline double getAlt() const { return _alt; }
+    inline double getPsi() const { return _psi; }
+    inline double getIAS() const { return _ias; }
 
     inline bool getEngine() const { return _engine; }
 
@@ -82,11 +82,11 @@ private:
 
     int _typeIndex;         ///< aircraft type index
 
-    float _lat;             ///< [rad]
-    float _lon;             ///< [rad]
-    float _alt;             ///< [m] altitude above ground level
-    float _psi;             ///< [rad] heading
-    float _ias;             ///< [m/s] airspeed
+    double _lat;            ///< [rad]
+    double _lon;            ///< [rad]
+    double _alt;            ///< [m] altitude above ground level
+    double _psi;            ///< [rad] heading
+    double _ias;            ///< [m/s] airspeed
 
     bool _engine;           ///< specifies if engine is on at start
 

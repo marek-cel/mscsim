@@ -178,7 +178,7 @@ void DockWidgetCtrl::setAircraftType( int typeIndex )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setCollective( float collective )
+void DockWidgetCtrl::setCollective( double collective )
 {
     _ui->barCollective->setValue( 100 * collective );
     _ui->spinBoxCollective->setValue( 100 * collective );
@@ -186,35 +186,35 @@ void DockWidgetCtrl::setCollective( float collective )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setCtrlStick( float ctrlRoll, float ctrlPitch )
+void DockWidgetCtrl::setCtrlStick( double ctrlRoll, double ctrlPitch )
 {
     _ui->graphicsCtrlStick->setCtrl( 100 * ctrlRoll, 100 * ctrlPitch );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setTrimStick( float trimRoll, float trimPitch )
+void DockWidgetCtrl::setTrimStick( double trimRoll, double trimPitch )
 {
     _ui->graphicsCtrlStick->setTrim( 100 * trimRoll, 100 * trimPitch );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setCtrlPedals( float ctrlPitch )
+void DockWidgetCtrl::setCtrlPedals( double ctrlPitch )
 {
     _ui->graphicsCtrlPedals->setCtrl( 100 * ctrlPitch );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setTrimPedals( float trimPitch )
+void DockWidgetCtrl::setTrimPedals( double trimPitch )
 {
     _ui->graphicsCtrlPedals->setTrim( 100 * trimPitch );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setBrakes( float brakeL, float brakeR )
+void DockWidgetCtrl::setBrakes( double brakeL, double brakeR )
 {
     _ui->barBrakeL->setValue( 100 * brakeL );
     _ui->barBrakeR->setValue( 100 * brakeR );
@@ -222,7 +222,7 @@ void DockWidgetCtrl::setBrakes( float brakeL, float brakeR )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setGear( float gear )
+void DockWidgetCtrl::setGear( double gear )
 {
     _ui->barGear->setValue( 100 * gear );
     _ui->spinBoxGear->setValue( 100 * gear );
@@ -230,7 +230,7 @@ void DockWidgetCtrl::setGear( float gear )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setFlaps( float flaps )
+void DockWidgetCtrl::setFlaps( double flaps )
 {
     _ui->barFlaps->setValue( 100 * flaps );
     _ui->spinBoxFlaps->setValue( 100 * flaps );
@@ -238,10 +238,10 @@ void DockWidgetCtrl::setFlaps( float flaps )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setThrottle( float throttle_1,
-                                  float throttle_2,
-                                  float throttle_3,
-                                  float throttle_4 )
+void DockWidgetCtrl::setThrottle( double throttle_1,
+                                  double throttle_2,
+                                  double throttle_3,
+                                  double throttle_4 )
 {
     _ui->barThrottle_1->setValue( 100 * throttle_1 );
     _ui->barThrottle_2->setValue( 100 * throttle_2 );
@@ -256,10 +256,10 @@ void DockWidgetCtrl::setThrottle( float throttle_1,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setMixture( float mixture_1,
-                                 float mixture_2,
-                                 float mixture_3,
-                                 float mixture_4 )
+void DockWidgetCtrl::setMixture( double mixture_1,
+                                 double mixture_2,
+                                 double mixture_3,
+                                 double mixture_4 )
 {
     _ui->barMixture_1->setValue( 100 * mixture_1 );
     _ui->barMixture_2->setValue( 100 * mixture_2 );
@@ -274,10 +274,10 @@ void DockWidgetCtrl::setMixture( float mixture_1,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setPropeller( float propeller_1,
-                                   float propeller_2,
-                                   float propeller_3,
-                                   float propeller_4 )
+void DockWidgetCtrl::setPropeller( double propeller_1,
+                                   double propeller_2,
+                                   double propeller_3,
+                                   double propeller_4 )
 {
     _ui->barPropeller_1->setValue( 100 * propeller_1 );
     _ui->barPropeller_2->setValue( 100 * propeller_2 );
@@ -292,7 +292,7 @@ void DockWidgetCtrl::setPropeller( float propeller_1,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setAirbrake( float airbrake )
+void DockWidgetCtrl::setAirbrake( double airbrake )
 {
     _ui->barAirbrake->setValue( 100 * airbrake );
     _ui->spinBoxAirbrake->setValue( 100 * airbrake );
@@ -300,7 +300,7 @@ void DockWidgetCtrl::setAirbrake( float airbrake )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void DockWidgetCtrl::setSpoilers( float spoilers )
+void DockWidgetCtrl::setSpoilers( double spoilers )
 {
     _ui->barSpoilers->setValue( 100 * spoilers );
     _ui->spinBoxSpoilers->setValue( 100 * spoilers );

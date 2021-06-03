@@ -132,15 +132,15 @@ public:
         int     type;           ///< type
         QString file;           ///< file
 
-        float distance_def;     ///< [m] minimum distance
-        float distance_min;     ///< [m] minimum distance
+        double distance_def;    ///< [m] minimum distance
+        double distance_min;    ///< [m] minimum distance
 
-        float offset_x;         ///< [m] camera position x-offset expressed in BAS
-        float offset_y;         ///< [m] camera position y-offset expressed in BAS
-        float offset_z;         ///< [m] camera position z-offset expressed in BAS
+        double offset_x;        ///< [m] camera position x-offset expressed in BAS
+        double offset_y;        ///< [m] camera position y-offset expressed in BAS
+        double offset_z;        ///< [m] camera position z-offset expressed in BAS
 
-        float vfe;              ///< [m/s] maximum flap extension speed
-        float vne;              ///< [m/s] never exceed speed
+        double vfe;             ///< [m/s] maximum flap extension speed
+        double vne;             ///< [m/s] never exceed speed
 
         Axes       axes;        ///< axes tuning data
         Controls   controls;    ///< controls data

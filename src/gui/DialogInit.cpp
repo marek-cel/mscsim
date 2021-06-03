@@ -44,11 +44,11 @@ DialogInit::DialogInit( QWidget *parent ) :
 
     _typeIndex ( 0 ),
 
-    _lat ( 0.0f ),
-    _lon ( 0.0f ),
-    _alt ( 0.0f ),
-    _psi ( 0.0f ),
-    _ias ( 0.0f ),
+    _lat ( 0.0 ),
+    _lon ( 0.0 ),
+    _alt ( 0.0 ),
+    _psi ( 0.0 ),
+    _ias ( 0.0 ),
 
     _engine ( true )
 {
@@ -205,11 +205,11 @@ void DialogInit::settingsRead_InitData( QSettings &settings )
 
     Airports::Location location = Airports::instance()->getDefault();
 
-    _lat = settings.value( "lat", location.lat ).toFloat();
-    _lon = settings.value( "lon", location.lon ).toFloat();
-    _alt = settings.value( "alt", location.alt ).toFloat();
-    _psi = settings.value( "psi", location.hdg ).toFloat();
-    _ias = settings.value( "ias", 0.0 ).toFloat();
+    _lat = settings.value( "lat", location.lat ).toDouble();
+    _lon = settings.value( "lon", location.lon ).toDouble();
+    _alt = settings.value( "alt", location.alt ).toDouble();
+    _psi = settings.value( "psi", location.hdg ).toDouble();
+    _ias = settings.value( "ias", 0.0 ).toDouble();
 
     short noon = 12 + floor( 12.0 * _lon / M_PI );
 
@@ -442,10 +442,10 @@ void DialogInit::on_spinInitPsi_valueChanged( double /*arg1*/ )
 
 void DialogInit::on_comboDistance_currentIndexChanged( int )
 {
-    float value = _ui->comboDistance->invertPrev( _ui->spinDistance->value() );
+    double value = _ui->comboDistance->invertPrev( _ui->spinDistance->value() );
 
-    float max  = fdm::Units::nmi2m( 10.0 );
-    float step = fdm::Units::nmi2m( 1.0 );
+    double max  = fdm::Units::nmi2m( 10.0 );
+    double step = fdm::Units::nmi2m( 1.0 );
 
     _ui->spinDistance->setMinimum( -_ui->comboDistance->convert( max ) );
     _ui->spinDistance->setMaximum(  _ui->comboDistance->convert( max ) );
@@ -459,7 +459,7 @@ void DialogInit::on_comboDistance_currentIndexChanged( int )
 
 void DialogInit::on_comboInitLat_currentIndexChanged( int index )
 {
-    float value = _ui->comboInitLat->invertPrev( _ui->spinInitLat->value() );
+    double value = _ui->comboInitLat->invertPrev( _ui->spinInitLat->value() );
 
     if ( index == 0 )
     {
@@ -483,7 +483,7 @@ void DialogInit::on_comboInitLat_currentIndexChanged( int index )
 
 void DialogInit::on_comboInitLon_currentIndexChanged( int index )
 {
-    float value = _ui->comboInitLon->invertPrev( _ui->spinInitLon->value() );
+    double value = _ui->comboInitLon->invertPrev( _ui->spinInitLon->value() );
 
     if ( index == 0 )
     {
@@ -507,7 +507,7 @@ void DialogInit::on_comboInitLon_currentIndexChanged( int index )
 
 void DialogInit::on_comboInitAlt_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboInitAlt->invertPrev( _ui->spinInitAlt->value() );
+    double value = _ui->comboInitAlt->invertPrev( _ui->spinInitAlt->value() );
 
     _ui->spinInitAlt->setValue( _ui->comboInitAlt->convert( value ) );
 }
@@ -516,7 +516,7 @@ void DialogInit::on_comboInitAlt_currentIndexChanged( int /*index*/ )
 
 void DialogInit::on_comboInitPsi_currentIndexChanged( int index )
 {
-    float value = _ui->comboInitPsi->invertPrev( _ui->spinInitPsi->value() );
+    double value = _ui->comboInitPsi->invertPrev( _ui->spinInitPsi->value() );
 
     if ( index == 0 )
     {
@@ -538,7 +538,7 @@ void DialogInit::on_comboInitPsi_currentIndexChanged( int index )
 
 void DialogInit::on_comboInitIAS_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboInitIAS->invertPrev( _ui->spinInitIAS->value() );
+    double value = _ui->comboInitIAS->invertPrev( _ui->spinInitIAS->value() );
 
     _ui->spinInitIAS->setValue( _ui->comboInitIAS->convert( value ) );
 }

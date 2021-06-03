@@ -428,7 +428,7 @@ void HSI::createCompass()
             {
                 std::stringstream heading_str;
 
-                float charSize = 4.0;
+                double charSize = 4.0;
 
                 switch ( i )
                 {

@@ -124,7 +124,7 @@ void Camera::update()
 
     WGS84 wgs( _position );
 
-    float elevation = Intersections::instance()->getElevation( wgs.getLat(), wgs.getLon() );
+    double elevation = Intersections::instance()->getElevation( wgs.getLat(), wgs.getLon() );
 
     Data::get()->cgi.camera.latitude     = wgs.getLat();
     Data::get()->cgi.camera.longitude    = wgs.getLon();

@@ -59,52 +59,52 @@ public:
     void setAircraftType( int typeIndex );
 
     /** */
-    void setCollective( float collective );
+    void setCollective( double collective );
 
     /** */
-    void setCtrlStick( float ctrlRoll, float ctrlPitch );
+    void setCtrlStick( double ctrlRoll, double ctrlPitch );
 
     /** */
-    void setTrimStick( float trimRoll, float trimPitch );
+    void setTrimStick( double trimRoll, double trimPitch );
 
     /** */
-    void setCtrlPedals( float ctrlYaw );
+    void setCtrlPedals( double ctrlYaw );
 
     /** */
-    void setTrimPedals( float trimPitch );
+    void setTrimPedals( double trimPitch );
 
     /** */
-    void setBrakes( float brakeL, float brakeR );
+    void setBrakes( double brakeL, double brakeR );
 
     /** */
-    void setGear( float gear );
+    void setGear( double gear );
 
     /** */
-    void setFlaps( float flaps );
+    void setFlaps( double flaps );
 
     /** */
-    void setThrottle( float throttle_1,
-                      float throttle_2,
-                      float throttle_3,
-                      float throttle_4 );
+    void setThrottle( double throttle_1,
+                      double throttle_2,
+                      double throttle_3,
+                      double throttle_4 );
 
     /** */
-    void setMixture( float mixture_1,
-                     float mixture_2,
-                     float mixture_3,
-                     float mixture_4 );
+    void setMixture( double mixture_1,
+                     double mixture_2,
+                     double mixture_3,
+                     double mixture_4 );
 
     /** */
-    void setPropeller( float propeller_1,
-                       float propeller_2,
-                       float propeller_3,
-                       float propeller_4 );
+    void setPropeller( double propeller_1,
+                       double propeller_2,
+                       double propeller_3,
+                       double propeller_4 );
 
     /** */
-    void setAirbrake( float airbrake );
+    void setAirbrake( double airbrake );
 
     /** */
-    void setSpoilers( float spoilers );
+    void setSpoilers( double spoilers );
 
 signals:
 

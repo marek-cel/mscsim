@@ -58,34 +58,34 @@ GraphicsEHSI::GraphicsEHSI( QWidget *parent ) :
     _itemHdgText ( NULLPTR ),
     _itemDmeText ( NULLPTR ),
 
-    _heading   ( 0.0f ),
-    _course    ( 0.0f ),
-    _bearing   ( 0.0f ),
-    _deviation ( 0.0f ),
-    _distance  ( 0.0f ),
+    _heading   ( 0.0 ),
+    _course    ( 0.0 ),
+    _bearing   ( 0.0 ),
+    _deviation ( 0.0 ),
+    _distance  ( 0.0 ),
 
-    _heading_sel ( 0.0f ),
+    _heading_sel ( 0.0 ),
 
     _cdi ( CDI::Off ),
 
     _bearingVisible   ( true ),
     _distanceVisible  ( true ),
 
-    _devBarDeltaX_new ( 0.0f ),
-    _devBarDeltaX_old ( 0.0f ),
-    _devBarDeltaY_new ( 0.0f ),
-    _devBarDeltaY_old ( 0.0f ),
+    _devBarDeltaX_new ( 0.0 ),
+    _devBarDeltaX_old ( 0.0 ),
+    _devBarDeltaY_new ( 0.0 ),
+    _devBarDeltaY_old ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalPixPerDev ( 52.5f ),
+    _originalPixPerDev ( 52.5 ),
 
-    _originalNavCtr ( 150.0f, 150.0f ),
+    _originalNavCtr ( 150.0, 150.0 ),
 
-    _originalCrsTextCtr ( 250.0f,  25.0f ),
-    _originalHdgTextCtr (  50.0f,  25.0f ),
-    _originalDmeTextCtr ( 250.0f, 275.0f ),
+    _originalCrsTextCtr ( 250.0,  25.0 ),
+    _originalHdgTextCtr (  50.0,  25.0 ),
+    _originalDmeTextCtr ( 250.0, 275.0 ),
 
     _originalHeight ( 300 ),
     _originalWidth  ( 300 ),
@@ -146,49 +146,49 @@ void GraphicsEHSI::reinit()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setHeading( float heading )
+void GraphicsEHSI::setHeading( double heading )
 {
     _heading = heading;
 
-    while ( _heading <   0.0f ) _heading += 360.0f;
-    while ( _heading > 360.0f ) _heading -= 360.0f;
+    while ( _heading <   0.0 ) _heading += 360.0;
+    while ( _heading > 360.0 ) _heading -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setCourse( float course )
+void GraphicsEHSI::setCourse( double course )
 {
     _course = course;
 
-    while ( _course <   0.0f ) _course += 360.0f;
-    while ( _course > 360.0f ) _course -= 360.0f;
+    while ( _course <   0.0 ) _course += 360.0;
+    while ( _course > 360.0 ) _course -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setBearing( float bearing, bool visible )
+void GraphicsEHSI::setBearing( double bearing, bool visible )
 {
     _bearing        = bearing;
     _bearingVisible = visible;
 
-    while ( _bearing <   0.0f ) _bearing += 360.0f;
-    while ( _bearing > 360.0f ) _bearing -= 360.0f;
+    while ( _bearing <   0.0 ) _bearing += 360.0;
+    while ( _bearing > 360.0 ) _bearing -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setDeviation( float deviation, CDI cdi )
+void GraphicsEHSI::setDeviation( double deviation, CDI cdi )
 {
     _deviation = deviation;
     _cdi = cdi;
 
-    if ( _deviation < -1.0f ) _deviation = -1.0f;
-    if ( _deviation >  1.0f ) _deviation =  1.0f;
+    if ( _deviation < -1.0 ) _deviation = -1.0;
+    if ( _deviation >  1.0 ) _deviation =  1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setDistance( float distance, bool visible )
+void GraphicsEHSI::setDistance( double distance, bool visible )
 {
     _distance        = fabs( distance );
     _distanceVisible = visible;
@@ -196,12 +196,12 @@ void GraphicsEHSI::setDistance( float distance, bool visible )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEHSI::setHeadingSel( float heading )
+void GraphicsEHSI::setHeadingSel( double heading )
 {
     _heading_sel = heading;
 
-    while ( _heading_sel <   0.0f ) _heading_sel += 360.0f;
-    while ( _heading_sel > 360.0f ) _heading_sel -= 360.0f;
+    while ( _heading_sel <   0.0 ) _heading_sel += 360.0;
+    while ( _heading_sel > 360.0 ) _heading_sel -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -236,8 +236,8 @@ void GraphicsEHSI::timerEvent( QTimerEvent *event )
 
 void GraphicsEHSI::init()
 {
-    _scaleX = (float)width()  / (float)_originalWidth;
-    _scaleY = (float)height() / (float)_originalHeight;
+    _scaleX = static_cast< double >( width()  ) / static_cast< double >( _originalWidth  );
+    _scaleY = static_cast< double >( height() ) / static_cast< double >( _originalHeight );
 
     reset();
 
@@ -323,8 +323,8 @@ void GraphicsEHSI::init()
     _itemCrsText->setDefaultTextColor( Colors::_lime );
     _itemCrsText->setFont( Fonts::medium() );
     _itemCrsText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemCrsText->moveBy( _scaleX * ( _originalCrsTextCtr.x() - _itemCrsText->boundingRect().width()  / 2.0f ),
-                          _scaleY * ( _originalCrsTextCtr.y() - _itemCrsText->boundingRect().height() / 2.0f ) );
+    _itemCrsText->moveBy( _scaleX * ( _originalCrsTextCtr.x() - _itemCrsText->boundingRect().width()  / 2.0 ),
+                          _scaleY * ( _originalCrsTextCtr.y() - _itemCrsText->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemCrsText );
 
     _itemHdgText = new QGraphicsTextItem( QString( "HDG 999" ) );
@@ -333,8 +333,8 @@ void GraphicsEHSI::init()
     _itemHdgText->setDefaultTextColor( Colors::_magenta );
     _itemHdgText->setFont( Fonts::medium() );
     _itemHdgText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemHdgText->moveBy( _scaleX * ( _originalHdgTextCtr.x() - _itemHdgText->boundingRect().width()  / 2.0f ),
-                          _scaleY * ( _originalHdgTextCtr.y() - _itemHdgText->boundingRect().height() / 2.0f ) );
+    _itemHdgText->moveBy( _scaleX * ( _originalHdgTextCtr.x() - _itemHdgText->boundingRect().width()  / 2.0 ),
+                          _scaleY * ( _originalHdgTextCtr.y() - _itemHdgText->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemHdgText );
 
     _itemDmeText = new QGraphicsTextItem( QString( "99.9 NM" ) );
@@ -343,8 +343,8 @@ void GraphicsEHSI::init()
     _itemDmeText->setDefaultTextColor( Colors::_white );
     _itemDmeText->setFont( Fonts::medium() );
     _itemDmeText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemDmeText->moveBy( _scaleX * ( _originalDmeTextCtr.x() - _itemDmeText->boundingRect().width()  / 2.0f ),
-                          _scaleY * ( _originalDmeTextCtr.y() - _itemDmeText->boundingRect().height() / 2.0f ) );
+    _itemDmeText->moveBy( _scaleX * ( _originalDmeTextCtr.x() - _itemDmeText->boundingRect().width()  / 2.0 ),
+                          _scaleY * ( _originalDmeTextCtr.y() - _itemDmeText->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemDmeText );
 
     updateView();
@@ -367,31 +367,31 @@ void GraphicsEHSI::reset()
     _itemHdgText = 0;
     _itemDmeText = 0;
 
-    _heading   = 0.0f;
-    _course    = 0.0f;
-    _bearing   = 0.0f;
-    _deviation = 0.0f;
-    _distance  = 0.0f;
+    _heading   = 0.0;
+    _course    = 0.0;
+    _bearing   = 0.0;
+    _deviation = 0.0;
+    _distance  = 0.0;
 
-    _heading_sel = 0.0f;
+    _heading_sel = 0.0;
 
     _cdi = CDI::Off;
 
     _bearingVisible  = true;
     _distanceVisible = true;
 
-    _devBarDeltaX_new = 0.0f;
-    _devBarDeltaX_old = 0.0f;
-    _devBarDeltaY_new = 0.0f;
-    _devBarDeltaY_old = 0.0f;
+    _devBarDeltaX_new = 0.0;
+    _devBarDeltaX_old = 0.0;
+    _devBarDeltaY_new = 0.0;
+    _devBarDeltaY_old = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEHSI::updateView()
 {
-    _scaleX = (float)width()  / (float)_originalWidth;
-    _scaleY = (float)height() / (float)_originalHeight;
+    _scaleX = static_cast< double >( width()  ) / static_cast< double >( _originalWidth  );
+    _scaleY = static_cast< double >( height() ) / static_cast< double >( _originalHeight );
 
     _itemCrsArrow->setRotation( -_heading + _course );
     _itemHdgBug->setRotation( -_heading + _heading_sel );
@@ -412,16 +412,16 @@ void GraphicsEHSI::updateView()
         _itemDevBar->setVisible( true );
         _itemDevScale->setVisible( true );
 
-        float angle_deg = -_heading + _course;
+        double angle_deg = -_heading + _course;
 #       ifndef M_PI
-        float angle_rad = 3.14159265358979323846 * angle_deg / 180.0f;
+        double angle_rad = 3.14159265358979323846 * angle_deg / 180.0;
 #       else
-        float angle_rad = M_PI * angle_deg / 180.0f;
+        double angle_rad = M_PI * angle_deg / 180.0;
 #       endif
 
 
-        float sinAngle = sin( angle_rad );
-        float cosAngle = cos( angle_rad );
+        double sinAngle = sin( angle_rad );
+        double cosAngle = cos( angle_rad );
 
         _itemDevBar   ->setRotation( angle_deg );
         _itemDevScale ->setRotation( angle_deg );
@@ -444,7 +444,7 @@ void GraphicsEHSI::updateView()
             _itemCdiFrom ->setVisible( false );
         }
 
-        float delta  = _originalPixPerDev * _deviation;
+        double delta  = _originalPixPerDev * _deviation;
 
         _devBarDeltaX_new = _scaleX * delta * cosAngle;
         _devBarDeltaY_new = _scaleY * delta * sinAngle;
@@ -482,5 +482,5 @@ void GraphicsEHSI::updateView()
 
     _scene->update();
 
-    centerOn( width() / 2.0f , height() / 2.0f );
+    centerOn( width() / 2.0 , height() / 2.0 );
 }

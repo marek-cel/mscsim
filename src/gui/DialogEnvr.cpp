@@ -300,10 +300,10 @@ void DialogEnvr::settingsSave_UnitCombos( QSettings &settings )
 
 void DialogEnvr::on_comboSeaLevelTemp_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboSeaLevelTemp->invertPrev( _ui->spinBoxSeaLevelTemp->value() );
+    double value = _ui->comboSeaLevelTemp->invertPrev( _ui->spinBoxSeaLevelTemp->value() );
 
-    _ui->spinBoxSeaLevelTemp->setMinimum( _ui->comboSeaLevelTemp->convert( 273.15f - 50.0f ) );
-    _ui->spinBoxSeaLevelTemp->setMaximum( _ui->comboSeaLevelTemp->convert( 273.15f + 50.0f ) );
+    _ui->spinBoxSeaLevelTemp->setMinimum( _ui->comboSeaLevelTemp->convert( 273.15 - 50.0 ) );
+    _ui->spinBoxSeaLevelTemp->setMaximum( _ui->comboSeaLevelTemp->convert( 273.15 + 50.0 ) );
 
     _ui->spinBoxSeaLevelTemp->setValue( _ui->comboSeaLevelTemp->convert( value ) );
 }
@@ -312,7 +312,7 @@ void DialogEnvr::on_comboSeaLevelTemp_currentIndexChanged( int /*index*/ )
 
 void DialogEnvr::on_comboSeaLevelPress_currentIndexChanged( int index )
 {
-    float value = _ui->comboSeaLevelPress->invertPrev( _ui->spinBoxSeaLevelPress->value() );
+    double value = _ui->comboSeaLevelPress->invertPrev( _ui->spinBoxSeaLevelPress->value() );
 
     if ( index == 0 )
     {
@@ -331,8 +331,8 @@ void DialogEnvr::on_comboSeaLevelPress_currentIndexChanged( int index )
         _ui->spinBoxSeaLevelPress->setDecimals( 2 );
     }
 
-    _ui->spinBoxSeaLevelPress->setMinimum( _ui->comboSeaLevelPress->convert( 101325.0f - 5000.0f ) );
-    _ui->spinBoxSeaLevelPress->setMaximum( _ui->comboSeaLevelPress->convert( 101325.0f + 5000.0f ) );
+    _ui->spinBoxSeaLevelPress->setMinimum( _ui->comboSeaLevelPress->convert( 101325.0 - 5000.0 ) );
+    _ui->spinBoxSeaLevelPress->setMaximum( _ui->comboSeaLevelPress->convert( 101325.0 + 5000.0 ) );
 
     _ui->spinBoxSeaLevelPress->setValue( _ui->comboSeaLevelPress->convert( value ) );
 }
@@ -341,7 +341,7 @@ void DialogEnvr::on_comboSeaLevelPress_currentIndexChanged( int index )
 
 void DialogEnvr::on_comboWindDir_currentIndexChanged( int index )
 {
-    float value = _ui->comboWindDir->invertPrev( _ui->spinBoxWindDir->value() );
+    double value = _ui->comboWindDir->invertPrev( _ui->spinBoxWindDir->value() );
 
     if ( index == 0 )
     {
@@ -363,9 +363,9 @@ void DialogEnvr::on_comboWindDir_currentIndexChanged( int index )
 
 void DialogEnvr::on_comboWindSpeed_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboWindSpeed->invertPrev( _ui->spinBoxWindSpeed->value() );
+    double value = _ui->comboWindSpeed->invertPrev( _ui->spinBoxWindSpeed->value() );
 
-    _ui->spinBoxWindSpeed->setMaximum( _ui->comboWindSpeed->convert( 30.0f ) );
+    _ui->spinBoxWindSpeed->setMaximum( _ui->comboWindSpeed->convert( 30.0 ) );
     _ui->spinBoxWindSpeed->setValue( _ui->comboWindSpeed->convert( value ) );
 }
 
@@ -373,7 +373,7 @@ void DialogEnvr::on_comboWindSpeed_currentIndexChanged( int /*index*/ )
 
 void DialogEnvr::on_comboVisibility_currentIndexChanged( int index )
 {
-    float value = 100.0f * _ui->sliderVisibility->value();
+    double value = 100.0 * _ui->sliderVisibility->value();
 
     if ( index == 0 || index == 1 )
     {
@@ -392,17 +392,17 @@ void DialogEnvr::on_comboVisibility_currentIndexChanged( int index )
 
 void DialogEnvr::on_sliderVisibility_valueChanged( int value )
 {
-    _ui->spinBoxVisibility->setValue( _ui->comboVisibility->convert( 100.0f * value ) );
+    _ui->spinBoxVisibility->setValue( _ui->comboVisibility->convert( 100.0 * value ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void DialogEnvr::on_comboCloudsBlockBaseASL_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboCloudsBlockBaseASL->invertPrev( _ui->spinBoxCloudsBlockBaseASL->value() );
+    double value = _ui->comboCloudsBlockBaseASL->invertPrev( _ui->spinBoxCloudsBlockBaseASL->value() );
 
-    _ui->spinBoxCloudsBlockBaseASL->setMinimum( _ui->comboCloudsBlockBaseASL->convert( 0.0f ) );
-    _ui->spinBoxCloudsBlockBaseASL->setMaximum( _ui->comboCloudsBlockBaseASL->convert( 10000.0f ) );
+    _ui->spinBoxCloudsBlockBaseASL->setMinimum( _ui->comboCloudsBlockBaseASL->convert( 0.0 ) );
+    _ui->spinBoxCloudsBlockBaseASL->setMaximum( _ui->comboCloudsBlockBaseASL->convert( 10000.0 ) );
     _ui->spinBoxCloudsBlockBaseASL->setValue( _ui->comboCloudsBlockBaseASL->convert( value ) );
 }
 
@@ -410,10 +410,10 @@ void DialogEnvr::on_comboCloudsBlockBaseASL_currentIndexChanged( int /*index*/ )
 
 void DialogEnvr::on_comboCloudsBlockThickness_currentIndexChanged( int /*index*/ )
 {
-    float value = _ui->comboCloudsBlockThickness->invertPrev( _ui->spinBoxCloudsBlockThickness->value() );
+    double value = _ui->comboCloudsBlockThickness->invertPrev( _ui->spinBoxCloudsBlockThickness->value() );
 
-    _ui->spinBoxCloudsBlockThickness->setMinimum( _ui->comboCloudsBlockThickness->convert( 100.0f ) );
-    _ui->spinBoxCloudsBlockThickness->setMaximum( _ui->comboCloudsBlockThickness->convert( 10000.0f ) );
+    _ui->spinBoxCloudsBlockThickness->setMinimum( _ui->comboCloudsBlockThickness->convert( 100.0 ) );
+    _ui->spinBoxCloudsBlockThickness->setMaximum( _ui->comboCloudsBlockThickness->convert( 10000.0 ) );
     _ui->spinBoxCloudsBlockThickness->setValue( _ui->comboCloudsBlockThickness->convert( value ) );
 }
 

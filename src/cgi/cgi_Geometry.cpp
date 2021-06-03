@@ -28,7 +28,7 @@ using namespace cgi;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Geometry::createDome( osg::Geometry *geom, float radius,
+void Geometry::createDome( osg::Geometry *geom, double radius,
                            bool texCoords, Projection projection,
                            int lat_segments, int lon_segments )
 {
@@ -37,29 +37,29 @@ void Geometry::createDome( osg::Geometry *geom, float radius,
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
 
-    float lat_step = osg::DegreesToRadians( 180.0f ) / (float)lat_segments;
-    float lon_step = osg::DegreesToRadians( 360.0f ) / (float)lon_segments;
+    double lat_step = osg::DegreesToRadians( 180.0 ) / (double)lat_segments;
+    double lon_step = osg::DegreesToRadians( 360.0 ) / (double)lon_segments;
 
-    float lat_prev = osg::DegreesToRadians( 90.0f );
-    float lat_next = osg::DegreesToRadians( 90.0f ) - lat_step;
-    float lon_prev = 0.0f;
+    double lat_prev = osg::DegreesToRadians( 90.0 );
+    double lat_next = osg::DegreesToRadians( 90.0 ) - lat_step;
+    double lon_prev = 0.0;
 
-    float x_prev = 0.0f;
-    float y_prev = 0.0f;
-    float z_prev = radius;
+    double x_prev = 0.0;
+    double y_prev = 0.0;
+    double z_prev = radius;
 
-    float x_next = 0.0f;
-    float y_next = 0.0f;
-    float z_next = radius;
+    double x_next = 0.0;
+    double y_next = 0.0;
+    double z_next = radius;
 
-    float r_prev = 0.0f;
-    float r_next = 0.0f;
+    double r_prev = 0.0;
+    double r_next = 0.0;
 
     for ( int i_lat = 0; i_lat < lat_segments; i_lat++ )
     {
-        if ( lat_next < osg::DegreesToRadians( -90.0f ) )
+        if ( lat_next < osg::DegreesToRadians( -90.0 ) )
         {
-            lat_next = osg::DegreesToRadians( -90.0f );
+            lat_next = osg::DegreesToRadians( -90.0 );
         }
 
         z_prev = radius * sin( lat_prev );
@@ -88,13 +88,13 @@ void Geometry::createDome( osg::Geometry *geom, float radius,
             {
                 if ( projection == Azimuthal )
                 {
-                    float n_arc_prev = ( M_PI_2 - fabs( lat_prev ) ) / M_PI_2;
-                    float n_arc_next = ( M_PI_2 - fabs( lat_next ) ) / M_PI_2;
+                    double n_arc_prev = ( M_PI_2 - fabs( lat_prev ) ) / M_PI_2;
+                    double n_arc_next = ( M_PI_2 - fabs( lat_next ) ) / M_PI_2;
 
-                    float tx_prev = 0.5f + 0.5f * n_arc_prev * sin( lon_prev );
-                    float ty_prev = 0.5f + 0.5f * n_arc_prev * cos( lon_prev );
-                    float tx_next = 0.5f + 0.5f * n_arc_next * sin( lon_prev );
-                    float ty_next = 0.5f + 0.5f * n_arc_next * cos( lon_prev );
+                    double tx_prev = 0.5 + 0.5 * n_arc_prev * sin( lon_prev );
+                    double ty_prev = 0.5 + 0.5 * n_arc_prev * cos( lon_prev );
+                    double tx_next = 0.5 + 0.5 * n_arc_next * sin( lon_prev );
+                    double ty_next = 0.5 + 0.5 * n_arc_next * cos( lon_prev );
 
                     t->push_back( osg::Vec2( tx_prev, ty_prev ) );
                     t->push_back( osg::Vec2( tx_next, ty_next ) );
@@ -117,7 +117,7 @@ void Geometry::createDome( osg::Geometry *geom, float radius,
         lat_next -= lat_step;
     }
 
-    c->push_back( osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    c->push_back( osg::Vec4( 1.0, 1.0, 1.0, 1.0 ) );
 
     geom->setVertexArray( v.get() );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_STRIP, 0, v->size() ) );
@@ -133,7 +133,7 @@ void Geometry::createDome( osg::Geometry *geom, float radius,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Geometry::createFace( osg::Geometry *geom, float radius, bool texCoords,
+void Geometry::createFace( osg::Geometry *geom, double radius, bool texCoords,
                            int segments )
 {
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
@@ -141,28 +141,28 @@ void Geometry::createFace( osg::Geometry *geom, float radius, bool texCoords,
     osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
 
-    v->push_back( osg::Vec3( 0.0f, 0.0f, 0.0f ) );
-    if ( texCoords ) t->push_back( osg::Vec2( 0.5f, 0.5f ) );
+    v->push_back( osg::Vec3( 0.0, 0.0, 0.0 ) );
+    if ( texCoords ) t->push_back( osg::Vec2( 0.5, 0.5 ) );
 
-    float step = 2.0f * M_PI / (float)segments;
+    double step = 2.0 * M_PI / (double)segments;
 
     for ( int i = 0; i < segments + 1; i++ )
     {
-        float a = i * step;
+        double a = i * step;
 
-        float sinA = sin( a );
-        float cosA = cos( a );
+        double sinA = sin( a );
+        double cosA = cos( a );
 
-        float y = radius * sinA;
-        float z = radius * cosA;
+        double y = radius * sinA;
+        double z = radius * cosA;
 
-        v->push_back( osg::Vec3( 0.0f, y, z ) );
-        if ( texCoords ) t->push_back( osg::Vec2( 1.0f - ( sinA + 1.0f ) / 2.0f, ( cosA + 1.0f ) / 2.0f ) );
+        v->push_back( osg::Vec3( 0.0, y, z ) );
+        if ( texCoords ) t->push_back( osg::Vec2( 1.0 - ( sinA + 1.0 ) / 2.0, ( cosA + 1.0 ) / 2.0 ) );
     }
 
-    n->push_back( osg::Vec3( -1.0f, 0.0f, 0.0f ) );
+    n->push_back( osg::Vec3( -1.0, 0.0, 0.0 ) );
 
-    c->push_back( osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    c->push_back( osg::Vec4( 1.0, 1.0, 1.0, 1.0 ) );
 
     geom->setVertexArray( v.get() );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_FAN, 0, v->size() ) );
@@ -312,7 +312,7 @@ void Geometry::createPlane( osg::Geometry *geom, double size, int segments,
 ////////////////////////////////////////////////////////////////////////////////
 
 void Geometry::createQuad( osg::Geometry *geom, osg::Vec3Array *v,
-                           bool texCoords, bool color, float alpha )
+                           bool texCoords, bool color, double alpha )
 {
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
@@ -349,47 +349,47 @@ void Geometry::createQuad( osg::Geometry *geom, osg::Vec3Array *v,
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void Geometry::createRing( osg::Geometry *geom, float radius_i, float radius_o,
+void Geometry::createRing( osg::Geometry *geom, double radius_i, double radius_o,
                            bool texCoords, int segments )
 {
-    const float coef = radius_o / radius_i;
+    const double coef = radius_o / radius_i;
 
     osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
     osg::ref_ptr<osg::Vec2Array> t = new osg::Vec2Array();
     osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
 
-    float step = 2.0f * M_PI / (float)segments;
+    double step = 2.0 * M_PI / (double)segments;
 
     for ( int i = 0; i < segments + 1; i++ )
     {
-        float a = i * step;
+        double a = i * step;
 
-        float sinA = sin( a );
-        float cosA = cos( a );
+        double sinA = sin( a );
+        double cosA = cos( a );
 
-        float x_i = radius_i * sinA;
-        float y_i = radius_i * cosA;
+        double x_i = radius_i * sinA;
+        double y_i = radius_i * cosA;
 
-        float x_o = radius_o * sinA;
-        float y_o = radius_o * cosA;
+        double x_o = radius_o * sinA;
+        double y_o = radius_o * cosA;
 
-        v->push_back( osg::Vec3( x_i, y_i, 0.0f ) );
-        v->push_back( osg::Vec3( x_o, y_o, 0.0f ) );
+        v->push_back( osg::Vec3( x_i, y_i, 0.0 ) );
+        v->push_back( osg::Vec3( x_o, y_o, 0.0 ) );
 
         if ( texCoords )
         {
-            float x = 1.0f - ( sinA + 1.0f ) / 2.0f;
-            float y = ( cosA + 1.0f ) / 2.0f;
+            double x = 1.0f - ( sinA + 1.0 ) / 2.0;
+            double y = ( cosA + 1.0 ) / 2.0;
 
             t->push_back( osg::Vec2( x        , y        ) );
             t->push_back( osg::Vec2( x * coef , y * coef ) );
         }
     }
 
-    n->push_back( osg::Vec3( 0.0f, 0.0f, 1.0f ) );
+    n->push_back( osg::Vec3( 0.0, 0.0, 1.0 ) );
 
-    c->push_back( osg::Vec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+    c->push_back( osg::Vec4( 1.0, 1.0, 1.0, 1.0 ) );
 
     geom->setVertexArray( v.get() );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::QUAD_STRIP, 0, v->size() ) );

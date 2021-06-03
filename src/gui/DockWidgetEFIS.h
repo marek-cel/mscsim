@@ -80,19 +80,19 @@ public:
     }
 
     /** @param roll angle [deg] */
-    inline void setRoll( float roll )
+    inline void setRoll( double roll )
     {
         _graphicsEADI->setRoll( roll );
     }
 
     /** @param pitch angle [deg] */
-    inline void setPitch( float pitch )
+    inline void setPitch( double pitch )
     {
         _graphicsEADI->setPitch( pitch );
     }
 
     /** @param normalized slip or skid (range from -1.0 to 1.0) */
-    inline void setSlipSkid( float slipSkid )
+    inline void setSlipSkid( double slipSkid )
     {
         _graphicsEADI->setSlipSkid( slipSkid );
     }
@@ -101,7 +101,7 @@ public:
      * @param normalized turn rate (range from -1.0 to 1.0),
      * hash marks positions are set to be -0.5 and 0.5
      */
-    inline void setTurnRate( float turnRate )
+    inline void setTurnRate( double turnRate )
     {
         _graphicsEADI->setTurnRate( turnRate );
     }
@@ -111,7 +111,7 @@ public:
      * @param dotV [-] normalized vertical deviation position (range from -1.0 to 1.0)
      * @param visibleH deviation horizontal visibility
      * @param visibleV deviation vertical visibility */
-    inline void setDots( float dotH, float dotV,
+    inline void setDots( double dotH, double dotV,
                          bool visibleH, bool visibleV )
     {
         _graphicsEADI->setDots( dotH, dotV, visibleH, visibleV );
@@ -121,7 +121,7 @@ public:
      * @param FD roll angle [deg]
      * @param FD pitch angle [deg]
      * @param FD visibility */
-    inline void setFD( float roll, float pitch, bool visible = true )
+    inline void setFD( double roll, double pitch, bool visible = true )
     {
         _graphicsEADI->setFD( roll, pitch, visible );
     }
@@ -133,38 +133,38 @@ public:
     }
 
     /** @param altitude (dimensionless numeric value) */
-    inline void setAltitude( float altitude )
+    inline void setAltitude( double altitude )
     {
         _graphicsEADI->setAltitude( altitude );
     }
 
     /** @param airspeed (dimensionless numeric value) */
-    inline void setAirspeed( float airspeed )
+    inline void setAirspeed( double airspeed )
     {
         _graphicsEADI->setAirspeed( airspeed );
     }
 
     /** @param Mach number */
-    inline void setMachNo( float machNo )
+    inline void setMachNo( double machNo )
     {
         _graphicsEADI->setMachNo( machNo );
     }
 
     /** @param heading [deg] */
-    inline void setHeading( float heading )
+    inline void setHeading( double heading )
     {
         _graphicsEADI->setHeading( heading );
         _graphicsEHSI->setHeading( heading );
     }
 
     /** @param climb rate (dimensionless numeric value)  */
-    inline void setClimbRate( float climbRate )
+    inline void setClimbRate( double climbRate )
     {
         _graphicsEADI->setClimbRate( climbRate );
     }
 
     /** @param course [deg] */
-    inline void setCourse( float course )
+    inline void setCourse( double course )
     {
         _graphicsEHSI->setCourse( course );
     }
@@ -174,7 +174,7 @@ public:
      * @param distance [nmi] distance
      * @param visible
      */
-    inline void setDistance( float distance, bool visible )
+    inline void setDistance( double distance, bool visible )
     {
         _graphicsEHSI->setDistance( distance, visible );
     }
@@ -184,7 +184,7 @@ public:
      * @param bearing [deg] bearing
      * @param visible
      */
-    inline void setBearing( float bearing, bool visible )
+    inline void setBearing( double bearing, bool visible )
     {
         _graphicsEHSI->setBearing( bearing, visible );
     }
@@ -194,7 +194,7 @@ public:
      * @param deviation [-]
      * @param cdi
      */
-    inline void setDeviation( float deviation, GraphicsEHSI::CDI cdi )
+    inline void setDeviation( double deviation, GraphicsEHSI::CDI cdi )
     {
         _graphicsEHSI->setDeviation( deviation, cdi );
     }
@@ -212,7 +212,7 @@ public:
     }
 
     /** @param heading [deg] */
-    inline void setHeadingSel( float heading )
+    inline void setHeadingSel( double heading )
     {
         _graphicsEADI->setHeadingSel( heading );
         _graphicsEHSI->setHeadingSel( heading );

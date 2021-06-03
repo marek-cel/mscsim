@@ -408,7 +408,7 @@ void Manager::onDataOutUpdated( const fdm::DataOut &dataOut )
 
             while ( Data::get()->ownship.propeller[ i ] > 2.0f * M_PI )
             {
-                Data::get()->ownship.propeller[ i ] -= (float)( 2.0f * M_PI );
+                Data::get()->ownship.propeller[ i ] -= 2.0 * M_PI;
             }
 
             Data::get()->ownship.afterburner[ i ] =

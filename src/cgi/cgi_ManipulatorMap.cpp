@@ -437,7 +437,7 @@ bool ManipulatorMap::performMovement()
 
 bool ManipulatorMap::performMovementLeftMouseButton( double delta_t, float dx, float dy )
 {
-    float scale = -0.5 * ( 0.5 * _map_height * _scale ) * getThrowScale( delta_t );;
+    double scale = -0.5 * ( 0.5 * _map_height * _scale ) * getThrowScale( delta_t );;
     panModel( dx*scale, dy*scale );
     return true;
 }

@@ -65,7 +65,7 @@ protected:
     int _index;             ///<
     int _index_prev;        ///<
 
-    std::vector<  float  > _coefs;  ///< [-] convertion factors
+    std::vector< double >  _coefs;  ///< [-] convertion factors
     std::vector< QString > _names;  ///< units names
 
 public slots:

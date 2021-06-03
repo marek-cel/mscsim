@@ -246,7 +246,7 @@ void Ephemeris::update( DateTime dateTime, double lat, double lon )
     double sinSunLambda = sin( sunLambda );
 
     // Sun right ascension
-    _sunAlpha = atan2( (float)(sinSunLambda * cosEpsilon), (float)cosSunLambda );
+    _sunAlpha = atan2( (double)(sinSunLambda * cosEpsilon), (double)cosSunLambda );
     while ( _sunAlpha > 2.0*M_PI ) _sunAlpha -= 2.0 * M_PI;
     while ( _sunAlpha <      0.0 ) _sunAlpha += 2.0 * M_PI;
 

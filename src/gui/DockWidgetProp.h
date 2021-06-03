@@ -68,20 +68,20 @@ public:
     void setState( unsigned int index, bool working );
     void setAB( unsigned int index, bool afterburner );
 
-    void setRPM  ( unsigned int index, float val );
-    void setPROP ( unsigned int index, float val );
-    void setNG   ( unsigned int index, float val );
-    void setN1   ( unsigned int index, float val );
-    void setN2   ( unsigned int index, float val );
-    void setTRQ  ( unsigned int index, float val );
-    void setEPR  ( unsigned int index, float val );
-    void setMAP  ( unsigned int index, float val );
-    void setEGT  ( unsigned int index, float val );
-    void setCHT  ( unsigned int index, float val );
-    void setTIT  ( unsigned int index, float val );
-    void setTOT  ( unsigned int index, float val );
-    void setITT  ( unsigned int index, float val );
-    void setFF   ( unsigned int index, float val );
+    void setRPM  ( unsigned int index, double val );
+    void setPROP ( unsigned int index, double val );
+    void setNG   ( unsigned int index, double val );
+    void setN1   ( unsigned int index, double val );
+    void setN2   ( unsigned int index, double val );
+    void setTRQ  ( unsigned int index, double val );
+    void setEPR  ( unsigned int index, double val );
+    void setMAP  ( unsigned int index, double val );
+    void setEGT  ( unsigned int index, double val );
+    void setCHT  ( unsigned int index, double val );
+    void setTIT  ( unsigned int index, double val );
+    void setTOT  ( unsigned int index, double val );
+    void setITT  ( unsigned int index, double val );
+    void setFF   ( unsigned int index, double val );
 
 signals:
 

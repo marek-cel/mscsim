@@ -143,13 +143,13 @@ void GraphicsPedals::updateView()
     short w = width();
     short h = height();
 
-    float h_2 = h / 2.0f;
-    float w_2 = w / 2.0f;
+    double h_2 = h / 2.0;
+    double w_2 = w / 2.0;
 
     short x_max = floor( w_2 ) - 1;
 
-    short x_ctrl = floor( _ctrlYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
-    short x_trim = floor( _trimYaw * ( w_2 - 1.0f ) / 100.0f + 0.5f );
+    short x_ctrl = floor( _ctrlYaw * ( w_2 - 1.0 ) / 100.0 + 0.5 );
+    short x_trim = floor( _trimYaw * ( w_2 - 1.0 ) / 100.0 + 0.5 );
 
     if ( x_ctrl < -x_max ) x_ctrl = -x_max;
     if ( x_ctrl >  x_max ) x_ctrl =  x_max;

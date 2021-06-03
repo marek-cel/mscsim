@@ -731,10 +731,10 @@ void ADI::createRollScale()
 
         for ( int i = 0; i < steps; i++ )
         {
-            float a = osg::DegreesToRadians( min + i * step );
+            double a = osg::DegreesToRadians( min + i * step );
 
-            float x = r0 * sin( a );
-            float y = r0 * cos( a );
+            double x = r0 * sin( a );
+            double y = r0 * cos( a );
 
             v->push_back( osg::Vec3( x, y, _z_roll_scale ) );
         }

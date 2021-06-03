@@ -64,17 +64,17 @@ GraphicsEADI::GraphicsEADI( QWidget *parent ) :
     _lnav ( LNAV::Off ),
     _vnav ( VNAV::Off ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalFMA ( 150.0f, 42.0f ),
-    _originalSPD ( 100.0f, 12.0f ),
+    _originalFMA ( 150.0, 42.0 ),
+    _originalSPD ( 100.0, 12.0 ),
 
-    _originalLNAV ( 150.0f, 12.0f ),
-    _originalVNAV ( 200.0f, 12.0f ),
+    _originalLNAV ( 150.0, 12.0 ),
+    _originalVNAV ( 200.0, 12.0 ),
 
-    _originalLNAV_ARM ( 150.0f, 22.0f ),
-    _originalVNAV_ARM ( 200.0f, 22.0f ),
+    _originalLNAV_ARM ( 150.0, 22.0 ),
+    _originalVNAV_ARM ( 200.0, 22.0 ),
 
     _originalHeight ( 300 ),
     _originalWidth  ( 300 ),
@@ -173,8 +173,8 @@ void GraphicsEADI::timerEvent( QTimerEvent *event )
 
 void GraphicsEADI::init()
 {
-    _scaleX = (float)width()  / (float)_originalWidth;
-    _scaleY = (float)height() / (float)_originalHeight;
+    _scaleX = static_cast< double >( width()  ) / static_cast< double >( _originalWidth  );
+    _scaleY = static_cast< double >( height() ) / static_cast< double >( _originalHeight );
 
     reset();
 
@@ -203,8 +203,8 @@ void GraphicsEADI::init()
     _itemFMA->setDefaultTextColor( Colors::_lime );
     _itemFMA->setFont( Fonts::medium() );
     _itemFMA->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemFMA->moveBy( _scaleX * ( _originalFMA.x() - _itemFMA->boundingRect().width()  / 2.0f ),
-                      _scaleY * ( _originalFMA.y() - _itemFMA->boundingRect().height() / 2.0f ) );
+    _itemFMA->moveBy( _scaleX * ( _originalFMA.x() - _itemFMA->boundingRect().width()  / 2.0 ),
+                      _scaleY * ( _originalFMA.y() - _itemFMA->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemFMA );
 
     _itemSPD = new QGraphicsTextItem( QString( "FMC SPD" ) );
@@ -214,8 +214,8 @@ void GraphicsEADI::init()
     _itemSPD->setDefaultTextColor( Colors::_lime );
     _itemSPD->setFont( Fonts::xsmall() );
     _itemSPD->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemSPD->moveBy( _scaleX * ( _originalSPD.x() - _itemSPD->boundingRect().width()  / 2.0f ),
-                      _scaleY * ( _originalSPD.y() - _itemSPD->boundingRect().height() / 2.0f ) );
+    _itemSPD->moveBy( _scaleX * ( _originalSPD.x() - _itemSPD->boundingRect().width()  / 2.0 ),
+                      _scaleY * ( _originalSPD.y() - _itemSPD->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemSPD );
 
     _itemLNAV = new QGraphicsTextItem( QString( "HDG SEL" ) );
@@ -225,8 +225,8 @@ void GraphicsEADI::init()
     _itemLNAV->setDefaultTextColor( Colors::_lime );
     _itemLNAV->setFont( Fonts::xsmall() );
     _itemLNAV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLNAV->moveBy( _scaleX * ( _originalLNAV.x() - _itemLNAV->boundingRect().width()  / 2.0f ),
-                       _scaleY * ( _originalLNAV.y() - _itemLNAV->boundingRect().height() / 2.0f ) );
+    _itemLNAV->moveBy( _scaleX * ( _originalLNAV.x() - _itemLNAV->boundingRect().width()  / 2.0 ),
+                       _scaleY * ( _originalLNAV.y() - _itemLNAV->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLNAV );
 
     _itemVNAV = new QGraphicsTextItem( QString( "ALT SEL" ) );
@@ -236,8 +236,8 @@ void GraphicsEADI::init()
     _itemVNAV->setDefaultTextColor( Colors::_lime );
     _itemVNAV->setFont( Fonts::xsmall() );
     _itemVNAV->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemVNAV->moveBy( _scaleX * ( _originalVNAV.x() - _itemVNAV->boundingRect().width()  / 2.0f ),
-                       _scaleY * ( _originalVNAV.y() - _itemVNAV->boundingRect().height() / 2.0f ) );
+    _itemVNAV->moveBy( _scaleX * ( _originalVNAV.x() - _itemVNAV->boundingRect().width()  / 2.0 ),
+                       _scaleY * ( _originalVNAV.y() - _itemVNAV->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemVNAV );
 
     _itemLNAV_ARM = new QGraphicsTextItem( QString( "VOR/LOC" ) );
@@ -247,8 +247,8 @@ void GraphicsEADI::init()
     _itemLNAV_ARM->setDefaultTextColor( Colors::_white );
     _itemLNAV_ARM->setFont( Fonts::xsmall() );
     _itemLNAV_ARM->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLNAV_ARM->moveBy( _scaleX * ( _originalLNAV_ARM.x() - _itemLNAV_ARM->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalLNAV_ARM.y() - _itemLNAV_ARM->boundingRect().height() / 2.0f ) );
+    _itemLNAV_ARM->moveBy( _scaleX * ( _originalLNAV_ARM.x() - _itemLNAV_ARM->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalLNAV_ARM.y() - _itemLNAV_ARM->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLNAV_ARM );
 
     _itemVNAV_ARM = new QGraphicsTextItem( QString( "GS PATH" ) );
@@ -258,8 +258,8 @@ void GraphicsEADI::init()
     _itemVNAV_ARM->setDefaultTextColor( Colors::_white );
     _itemVNAV_ARM->setFont( Fonts::xsmall() );
     _itemVNAV_ARM->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemVNAV_ARM->moveBy( _scaleX * ( _originalVNAV_ARM.x() - _itemVNAV_ARM->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalVNAV_ARM.y() - _itemVNAV_ARM->boundingRect().height() / 2.0f ) );
+    _itemVNAV_ARM->moveBy( _scaleX * ( _originalVNAV_ARM.x() - _itemVNAV_ARM->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalVNAV_ARM.y() - _itemVNAV_ARM->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemVNAV_ARM );
 
     updateView();
@@ -286,8 +286,8 @@ void GraphicsEADI::reset()
 
 void GraphicsEADI::updateView()
 {
-    _scaleX = (float)width()  / (float)_originalWidth;
-    _scaleY = (float)height() / (float)_originalHeight;
+    _scaleX = static_cast< double >( width()  ) / static_cast< double >( _originalWidth  );
+    _scaleY = static_cast< double >( height() ) / static_cast< double >( _originalHeight );
 
     _adi->update( _scaleX, _scaleY );
     _alt->update( _scaleX, _scaleY );
@@ -333,7 +333,7 @@ void GraphicsEADI::updateView()
 
     _scene->update();
 
-    centerOn( width() / 2.0f , height() / 2.0f );
+    centerOn( width() / 2.0 , height() / 2.0 );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -356,16 +356,16 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _itemFPM    ( Q_NULLPTR ),
     _itemFPMX   ( Q_NULLPTR ),
 
-    _roll     ( 0.0f ),
-    _pitch    ( 0.0f ),
-    _slipSkid ( 0.0f ),
-    _turnRate ( 0.0f ),
-    _dotH     ( 0.0f ),
-    _dotV     ( 0.0f ),
-    _fdRoll   ( 0.0f ),
-    _fdPitch  ( 0.0f ),
-    _angleOfAttack ( 0.0f ),
-    _sideslipAngle ( 0.0f ),
+    _roll     ( 0.0 ),
+    _pitch    ( 0.0 ),
+    _slipSkid ( 0.0 ),
+    _turnRate ( 0.0 ),
+    _dotH     ( 0.0 ),
+    _dotV     ( 0.0 ),
+    _fdRoll   ( 0.0 ),
+    _fdPitch  ( 0.0 ),
+    _angleOfAttack ( 0.0 ),
+    _sideslipAngle ( 0.0 ),
 
     _fpmValid ( false ),
 
@@ -376,60 +376,60 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
 
     _stall ( false ),
 
-    _laddDeltaX_new     ( 0.0f ),
-    _laddDeltaX_old     ( 0.0f ),
-    _laddDeltaY_new     ( 0.0f ),
-    _laddDeltaY_old     ( 0.0f ),
-    _laddBackDeltaX_new ( 0.0f ),
-    _laddBackDeltaX_old ( 0.0f ),
-    _laddBackDeltaY_new ( 0.0f ),
-    _laddBackDeltaY_old ( 0.0f ),
-    _slipDeltaX_new     ( 0.0f ),
-    _slipDeltaX_old     ( 0.0f ),
-    _slipDeltaY_new     ( 0.0f ),
-    _slipDeltaY_old     ( 0.0f ),
-    _turnDeltaX_new     ( 0.0f ),
-    _turnDeltaX_old     ( 0.0f ),
-    _dotHDeltaX_new     ( 0.0f ),
-    _dotHDeltaX_old     ( 0.0f ),
-    _dotVDeltaY_new     ( 0.0f ),
-    _dotVDeltaY_old     ( 0.0f ),
-    _fdDeltaX_new       ( 0.0f ),
-    _fdDeltaX_old       ( 0.0f ),
-    _fdDeltaY_new       ( 0.0f ),
-    _fdDeltaY_old       ( 0.0f ),
-    _fpmDeltaX_new      ( 0.0f ),
-    _fpmDeltaX_old      ( 0.0f ),
-    _fpmDeltaY_new      ( 0.0f ),
-    _fpmDeltaY_old      ( 0.0f ),
-    _fpmxDeltaX_new     ( 0.0f ),
-    _fpmxDeltaX_old     ( 0.0f ),
-    _fpmxDeltaY_new     ( 0.0f ),
-    _fpmxDeltaY_old     ( 0.0f ),
+    _laddDeltaX_new     ( 0.0 ),
+    _laddDeltaX_old     ( 0.0 ),
+    _laddDeltaY_new     ( 0.0 ),
+    _laddDeltaY_old     ( 0.0 ),
+    _laddBackDeltaX_new ( 0.0 ),
+    _laddBackDeltaX_old ( 0.0 ),
+    _laddBackDeltaY_new ( 0.0 ),
+    _laddBackDeltaY_old ( 0.0 ),
+    _slipDeltaX_new     ( 0.0 ),
+    _slipDeltaX_old     ( 0.0 ),
+    _slipDeltaY_new     ( 0.0 ),
+    _slipDeltaY_old     ( 0.0 ),
+    _turnDeltaX_new     ( 0.0 ),
+    _turnDeltaX_old     ( 0.0 ),
+    _dotHDeltaX_new     ( 0.0 ),
+    _dotHDeltaX_old     ( 0.0 ),
+    _dotVDeltaY_new     ( 0.0 ),
+    _dotVDeltaY_old     ( 0.0 ),
+    _fdDeltaX_new       ( 0.0 ),
+    _fdDeltaX_old       ( 0.0 ),
+    _fdDeltaY_new       ( 0.0 ),
+    _fdDeltaY_old       ( 0.0 ),
+    _fpmDeltaX_new      ( 0.0 ),
+    _fpmDeltaX_old      ( 0.0 ),
+    _fpmDeltaY_new      ( 0.0 ),
+    _fpmDeltaY_old      ( 0.0 ),
+    _fpmxDeltaX_new     ( 0.0 ),
+    _fpmxDeltaX_old     ( 0.0 ),
+    _fpmxDeltaY_new     ( 0.0 ),
+    _fpmxDeltaY_old     ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalPixPerDeg (   3.0f ),
+    _originalPixPerDeg (   3.0 ),
     _deltaLaddBack_max (  52.5f ),
     _deltaLaddBack_min ( -52.5f ),
-    _maxSlipDeflection (  20.0f ),
-    _maxTurnDeflection (  55.0f ),
-    _maxDotsDeflection (  50.0f ),
+    _maxSlipDeflection (  20.0 ),
+    _maxTurnDeflection (  55.0 ),
+    _maxDotsDeflection (  50.0 ),
 
-    _originalAdiCtr    ( 150.0f ,  125.0f ),
-    _originalBackPos   (  45.0f ,  -85.0f ),
-    _originalLaddPos   ( 110.0f , -175.0f ),
-    _originalRollPos   (  45.0f ,   20.0f ),
-    _originalSlipPos   ( 145.5f ,   68.0f ),
-    _originalTurnPos   ( 142.5f ,  206.0f ),
-    _originalDotHPos   ( 145.0f ,  188.0f ),
-    _originalDotVPos   ( 213.0f ,  120.0f ),
-    _originalFdPos     ( 107.0f ,  124.5f ),
-    _originalStallPos  ( 122.0f ,   91.0f ),
-    _originalScaleHPos (   0.0f ,    0.0f ),
-    _originalScaleVPos (   0.0f ,    0.0f ),
-    _originalFpmPos    ( 135.0f ,  113.0f ),
+    _originalAdiCtr    ( 150.0 ,  125.0 ),
+    _originalBackPos   (  45.0 ,  -85.0 ),
+    _originalLaddPos   ( 110.0 , -175.0 ),
+    _originalRollPos   (  45.0 ,   20.0 ),
+    _originalSlipPos   ( 145.5 ,   68.0 ),
+    _originalTurnPos   ( 142.5 ,  206.0 ),
+    _originalDotHPos   ( 145.0 ,  188.0 ),
+    _originalDotVPos   ( 213.0 ,  120.0 ),
+    _originalFdPos     ( 107.0 ,  124.5 ),
+    _originalStallPos  ( 122.0 ,   91.0 ),
+    _originalScaleHPos (   0.0 ,    0.0 ),
+    _originalScaleVPos (   0.0 ,    0.0 ),
+    _originalFpmPos    ( 135.0 ,  113.0 ),
 
     _backZ   ( 10 ),
     _laddZ   ( 20 ),
@@ -448,7 +448,7 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::init( float scaleX, float scaleY )
+void GraphicsEADI::ADI::init( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -562,21 +562,21 @@ void GraphicsEADI::ADI::init( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::update( float scaleX, float scaleY )
+void GraphicsEADI::ADI::update( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
 
-    float delta = _originalPixPerDeg * _pitch;
+    double delta = _originalPixPerDeg * _pitch;
 
 #   ifndef M_PI
-    float roll_rad = 3.14159265358979323846 * _roll / 180.0f;
+    double roll_rad = 3.14159265358979323846 * _roll / 180.0;
 #   else
-    float roll_rad = M_PI * _roll / 180.0f;
+    double roll_rad = M_PI * _roll / 180.0;
 #   endif
 
-    float sinRoll = sin( roll_rad );
-    float cosRoll = cos( roll_rad );
+    double sinRoll = sin( roll_rad );
+    double cosRoll = cos( roll_rad );
 
     updateLadd( delta, sinRoll, cosRoll );
     updateLaddBack( delta, sinRoll, cosRoll );
@@ -608,52 +608,52 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setRoll( float roll )
+void GraphicsEADI::ADI::setRoll( double roll )
 {
     _roll = roll;
 
-    if      ( _roll < -180.0f ) _roll = -180.0f;
-    else if ( _roll >  180.0f ) _roll =  180.0f;
+    if      ( _roll < -180.0 ) _roll = -180.0;
+    else if ( _roll >  180.0 ) _roll =  180.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setPitch( float pitch )
+void GraphicsEADI::ADI::setPitch( double pitch )
 {
     _pitch = pitch;
 
-    if      ( _pitch < -90.0f ) _pitch = -90.0f;
-    else if ( _pitch >  90.0f ) _pitch =  90.0f;
+    if      ( _pitch < -90.0 ) _pitch = -90.0;
+    else if ( _pitch >  90.0 ) _pitch =  90.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setFPM( float aoa, float sideslip, bool visible )
+void GraphicsEADI::ADI::setFPM( double aoa, double sideslip, bool visible )
 {
     _angleOfAttack = aoa;
     _sideslipAngle = sideslip;
 
     _fpmValid = true;
 
-    if ( _angleOfAttack < -15.0f )
+    if ( _angleOfAttack < -15.0 )
     {
-        _angleOfAttack = -15.0f;
+        _angleOfAttack = -15.0;
         _fpmValid = false;
     }
-    else if ( _angleOfAttack > 15.0f )
+    else if ( _angleOfAttack > 15.0 )
     {
-        _angleOfAttack = 15.0f;
+        _angleOfAttack = 15.0;
         _fpmValid = false;
     }
 
-    if ( _sideslipAngle < -10.0f )
+    if ( _sideslipAngle < -10.0 )
     {
-        _sideslipAngle = -10.0f;
+        _sideslipAngle = -10.0;
         _fpmValid = false;
     }
-    else if ( _sideslipAngle > 10.0f )
+    else if ( _sideslipAngle > 10.0 )
     {
-        _sideslipAngle = 10.0f;
+        _sideslipAngle = 10.0;
         _fpmValid = false;
     }
 
@@ -662,36 +662,36 @@ void GraphicsEADI::ADI::setFPM( float aoa, float sideslip, bool visible )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setSlipSkid( float slipSkid )
+void GraphicsEADI::ADI::setSlipSkid( double slipSkid )
 {
     _slipSkid = slipSkid;
 
-    if      ( _slipSkid < -1.0f ) _slipSkid = -1.0f;
-    else if ( _slipSkid >  1.0f ) _slipSkid =  1.0f;
+    if      ( _slipSkid < -1.0 ) _slipSkid = -1.0;
+    else if ( _slipSkid >  1.0 ) _slipSkid =  1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setTurnRate( float turnRate )
+void GraphicsEADI::ADI::setTurnRate( double turnRate )
 {
     _turnRate = turnRate;
 
-    if      ( _turnRate < -1.0f ) _turnRate = -1.0f;
-    else if ( _turnRate >  1.0f ) _turnRate =  1.0f;
+    if      ( _turnRate < -1.0 ) _turnRate = -1.0;
+    else if ( _turnRate >  1.0 ) _turnRate =  1.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool visibleV )
+void GraphicsEADI::ADI::setDots( double dotH, double dotV, bool visibleH, bool visibleV )
 {
     _dotH = dotH;
     _dotV = dotV;
 
-    if      ( _dotH < -1.0f ) _dotH = -1.0f;
-    else if ( _dotH >  1.0f ) _dotH =  1.0f;
+    if      ( _dotH < -1.0 ) _dotH = -1.0;
+    else if ( _dotH >  1.0 ) _dotH =  1.0;
 
-    if      ( _dotV < -1.0f ) _dotV = -1.0f;
-    else if ( _dotV >  1.0f ) _dotV =  1.0f;
+    if      ( _dotV < -1.0 ) _dotV = -1.0;
+    else if ( _dotV >  1.0 ) _dotV =  1.0;
 
     _dotVisibleH = visibleH;
     _dotVisibleV = visibleV;
@@ -700,16 +700,16 @@ void GraphicsEADI::ADI::setDots( float dotH, float dotV, bool visibleH, bool vis
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::setFD( float roll, float pitch, bool visible )
+void GraphicsEADI::ADI::setFD( double roll, double pitch, bool visible )
 {
     _fdRoll  = roll;
     _fdPitch = pitch;
 
-    if      ( _fdRoll < -180.0f ) _fdRoll = -180.0f;
-    else if ( _fdRoll >  180.0f ) _fdRoll =  180.0f;
+    if      ( _fdRoll < -180.0 ) _fdRoll = -180.0;
+    else if ( _fdRoll >  180.0 ) _fdRoll =  180.0;
 
-    if      ( _fdPitch < -90.0f ) _fdPitch = -90.0f;
-    else if ( _fdPitch >  90.0f ) _fdPitch =  90.0f;
+    if      ( _fdPitch < -90.0 ) _fdPitch = -90.0;
+    else if ( _fdPitch >  90.0 ) _fdPitch =  90.0;
 
     _fdVisible = visible;
 }
@@ -739,16 +739,16 @@ void GraphicsEADI::ADI::reset()
     _itemFPM    = Q_NULLPTR;
     _itemFPMX   = Q_NULLPTR;
 
-    _roll     = 0.0f;
-    _pitch    = 0.0f;
-    _slipSkid = 0.0f;
-    _turnRate = 0.0f;
-    _dotH     = 0.0f;
-    _dotV     = 0.0f;
-    _fdRoll   = 0.0f;
-    _fdPitch  = 0.0f;
-    _angleOfAttack = 0.0f;
-    _sideslipAngle = 0.0f;
+    _roll     = 0.0;
+    _pitch    = 0.0;
+    _slipSkid = 0.0;
+    _turnRate = 0.0;
+    _dotH     = 0.0;
+    _dotV     = 0.0;
+    _fdRoll   = 0.0;
+    _fdPitch  = 0.0;
+    _angleOfAttack = 0.0;
+    _sideslipAngle = 0.0;
 
     _fpmValid = false;
 
@@ -759,41 +759,41 @@ void GraphicsEADI::ADI::reset()
 
     _stall = false;
 
-    _laddDeltaX_new     = 0.0f;
-    _laddDeltaX_old     = 0.0f;
-    _laddDeltaY_new     = 0.0f;
-    _laddDeltaY_old     = 0.0f;
-    _laddBackDeltaX_new = 0.0f;
-    _laddBackDeltaX_old = 0.0f;
-    _laddBackDeltaY_new = 0.0f;
-    _laddBackDeltaY_old = 0.0f;
-    _slipDeltaX_new     = 0.0f;
-    _slipDeltaX_old     = 0.0f;
-    _slipDeltaY_new     = 0.0f;
-    _slipDeltaY_old     = 0.0f;
-    _turnDeltaX_new     = 0.0f;
-    _turnDeltaX_old     = 0.0f;
-    _dotHDeltaX_new     = 0.0f;
-    _dotHDeltaX_old     = 0.0f;
-    _dotVDeltaY_new     = 0.0f;
-    _dotVDeltaY_old     = 0.0f;
-    _fdDeltaX_new       = 0.0f;
-    _fdDeltaX_old       = 0.0f;
-    _fdDeltaY_new       = 0.0f;
-    _fdDeltaY_old       = 0.0f;
-    _fpmDeltaX_new      = 0.0f;
-    _fpmDeltaX_old      = 0.0f;
-    _fpmDeltaY_new      = 0.0f;
-    _fpmDeltaY_old      = 0.0f;
-    _fpmxDeltaX_new     = 0.0f;
-    _fpmxDeltaX_old     = 0.0f;
-    _fpmxDeltaY_new     = 0.0f;
-    _fpmxDeltaY_old     = 0.0f;
+    _laddDeltaX_new     = 0.0;
+    _laddDeltaX_old     = 0.0;
+    _laddDeltaY_new     = 0.0;
+    _laddDeltaY_old     = 0.0;
+    _laddBackDeltaX_new = 0.0;
+    _laddBackDeltaX_old = 0.0;
+    _laddBackDeltaY_new = 0.0;
+    _laddBackDeltaY_old = 0.0;
+    _slipDeltaX_new     = 0.0;
+    _slipDeltaX_old     = 0.0;
+    _slipDeltaY_new     = 0.0;
+    _slipDeltaY_old     = 0.0;
+    _turnDeltaX_new     = 0.0;
+    _turnDeltaX_old     = 0.0;
+    _dotHDeltaX_new     = 0.0;
+    _dotHDeltaX_old     = 0.0;
+    _dotVDeltaY_new     = 0.0;
+    _dotVDeltaY_old     = 0.0;
+    _fdDeltaX_new       = 0.0;
+    _fdDeltaX_old       = 0.0;
+    _fdDeltaY_new       = 0.0;
+    _fdDeltaY_old       = 0.0;
+    _fpmDeltaX_new      = 0.0;
+    _fpmDeltaX_old      = 0.0;
+    _fpmDeltaY_new      = 0.0;
+    _fpmDeltaY_old      = 0.0;
+    _fpmxDeltaX_new     = 0.0;
+    _fpmxDeltaX_old     = 0.0;
+    _fpmxDeltaY_new     = 0.0;
+    _fpmxDeltaY_old     = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::updateLadd( float delta, float sinRoll, float cosRoll )
+void GraphicsEADI::ADI::updateLadd( double delta, double sinRoll, double cosRoll )
 {
     _itemLadd->setRotation( -_roll );
 
@@ -805,11 +805,11 @@ void GraphicsEADI::ADI::updateLadd( float delta, float sinRoll, float cosRoll )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::updateLaddBack( float delta, float sinRoll, float cosRoll )
+void GraphicsEADI::ADI::updateLaddBack( double delta, double sinRoll, double cosRoll )
 {
     _itemBack->setRotation( -_roll );
 
-    float deltaLaddBack = 0.0;
+    double deltaLaddBack = 0.0;
 
     if ( delta > _deltaLaddBack_max )
     {
@@ -839,11 +839,11 @@ void GraphicsEADI::ADI::updateRoll()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::updateSlipSkid( float sinRoll, float cosRoll )
+void GraphicsEADI::ADI::updateSlipSkid( double sinRoll, double cosRoll )
 {
     _itemSlip->setRotation( -_roll );
 
-    float deltaSlip = -_maxSlipDeflection * _slipSkid;
+    double deltaSlip = -_maxSlipDeflection * _slipSkid;
 
     _slipDeltaX_new =  _scaleX * deltaSlip * cosRoll;
     _slipDeltaY_new = -_scaleY * deltaSlip * sinRoll;
@@ -871,7 +871,7 @@ void GraphicsEADI::ADI::updateDots()
 
         _dotHDeltaX_new = _scaleX * _maxDotsDeflection * _dotH;
 
-        _itemDotH->moveBy( _dotHDeltaX_new - _dotHDeltaX_old, 0.0f );
+        _itemDotH->moveBy( _dotHDeltaX_new - _dotHDeltaX_old, 0.0 );
     }
     else
     {
@@ -888,7 +888,7 @@ void GraphicsEADI::ADI::updateDots()
 
         _dotVDeltaY_new = _scaleY * _maxDotsDeflection * _dotV;
 
-        _itemDotV->moveBy( 0.0f, _dotVDeltaY_old - _dotVDeltaY_new );
+        _itemDotV->moveBy( 0.0, _dotVDeltaY_old - _dotVDeltaY_new );
     }
     else
     {
@@ -901,7 +901,7 @@ void GraphicsEADI::ADI::updateDots()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ADI::updateFD( float sinRoll, float cosRoll )
+void GraphicsEADI::ADI::updateFD( double sinRoll, double cosRoll )
 {
     if ( _fdVisible )
     {
@@ -909,12 +909,12 @@ void GraphicsEADI::ADI::updateFD( float sinRoll, float cosRoll )
 
         _itemFD->setRotation( _fdRoll - _roll );
 
-        float pitch = _pitch - _fdPitch;
+        double pitch = _pitch - _fdPitch;
 
-        if      ( pitch < -17.0f ) pitch = -17.0f;
-        else if ( pitch >  17.0f ) pitch =  17.0f;
+        if      ( pitch < -17.0 ) pitch = -17.0;
+        else if ( pitch >  17.0 ) pitch =  17.0;
 
-        float delta = _originalPixPerDeg * pitch;
+        double delta = _originalPixPerDeg * pitch;
 
         _fdDeltaX_new = _scaleX * delta * sinRoll;
         _fdDeltaY_new = _scaleY * delta * cosRoll;
@@ -1001,41 +1001,41 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _itemPressure ( Q_NULLPTR ),
     _itemSetpoint ( Q_NULLPTR ),
 
-    _altitude ( 0.0f ),
-    _pressure ( 0.0f ),
-    _altitude_sel ( 0.0f ),
+    _altitude ( 0.0 ),
+    _pressure ( 0.0 ),
+    _altitude_sel ( 0.0 ),
 
     _pressMode ( GraphicsEADI::PressureMode::STD ),
 
-    _scale1DeltaY_new ( 0.0f ),
-    _scale1DeltaY_old ( 0.0f ),
-    _scale2DeltaY_new ( 0.0f ),
-    _scale2DeltaY_old ( 0.0f ),
-    _groundDeltaY_new ( 0.0f ),
-    _groundDeltaY_old ( 0.0f ),
-    _labelsDeltaY_new ( 0.0f ),
-    _labelsDeltaY_old ( 0.0f ),
-    _bugDeltaY_new    ( 0.0f ),
-    _bugDeltaY_old    ( 0.0f ),
+    _scale1DeltaY_new ( 0.0 ),
+    _scale1DeltaY_old ( 0.0 ),
+    _scale2DeltaY_new ( 0.0 ),
+    _scale2DeltaY_old ( 0.0 ),
+    _groundDeltaY_new ( 0.0 ),
+    _groundDeltaY_old ( 0.0 ),
+    _labelsDeltaY_new ( 0.0 ),
+    _labelsDeltaY_old ( 0.0 ),
+    _bugDeltaY_new    ( 0.0 ),
+    _bugDeltaY_old    ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalPixPerAlt   ( 0.150f ),
-    _originalScaleHeight ( 300.0f ),
-    _originalLabelsX     ( 253.0f ),
-    _originalLabel1Y     (  50.0f ),
-    _originalLabel2Y     ( 125.0f ),
-    _originalLabel3Y     ( 200.0f ),
+    _originalPixPerAlt   ( 0.150 ),
+    _originalScaleHeight ( 300.0 ),
+    _originalLabelsX     ( 253.0 ),
+    _originalLabel1Y     (  50.0 ),
+    _originalLabel2Y     ( 125.0 ),
+    _originalLabel3Y     ( 200.0 ),
 
-    _originalBackPos     ( 231.0f ,   37.5f ),
-    _originalScale1Pos   ( 231.0f , -174.5f ),
-    _originalScale2Pos   ( 231.0f , -474.5f ),
-    _originalGroundPos   ( 231.5f ,  124.5f ),
-    _originalFramePos    ( 225.0f ,  110.0f ),
-    _originalAltitudeCtr ( 254.0f ,  126.0f ),
-    _originalPressureCtr ( 254.0f ,  225.0f ),
-    _originalAltitudeSet ( 250.0f ,   27.0f ),
+    _originalBackPos     ( 231.0 ,   37.5 ),
+    _originalScale1Pos   ( 231.0 , -174.5 ),
+    _originalScale2Pos   ( 231.0 , -474.5 ),
+    _originalGroundPos   ( 231.5 ,  124.5 ),
+    _originalFramePos    ( 225.0 ,  110.0 ),
+    _originalAltitudeCtr ( 254.0 ,  126.0 ),
+    _originalPressureCtr ( 254.0 ,  225.0 ),
+    _originalAltitudeSet ( 250.0 ,   27.0 ),
 
     _backZ      (  70 ),
     _scaleZ     (  77 ),
@@ -1050,7 +1050,7 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ALT::init( float scaleX, float scaleY )
+void GraphicsEADI::ALT::init( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -1084,8 +1084,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel1->setDefaultTextColor( Colors::_white );
     _itemLabel1->setFont( Fonts::small() );
     _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
+    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel1 );
 
     _itemLabel2 = new QGraphicsTextItem( QString( "99999" ) );
@@ -1094,8 +1094,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel2->setDefaultTextColor( Colors::_white );
     _itemLabel2->setFont( Fonts::small() );
     _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
+    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel2 );
 
     _itemLabel3 = new QGraphicsTextItem( QString( "99999" ) );
@@ -1104,8 +1104,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemLabel3->setDefaultTextColor( Colors::_white );
     _itemLabel3->setFont( Fonts::small() );
     _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
+    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel3 );
 
     _itemGround = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_alt_ground.svg" );
@@ -1135,8 +1135,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemAltitude->setDefaultTextColor( Colors::_white );
     _itemAltitude->setFont( Fonts::medium() );
     _itemAltitude->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemAltitude->moveBy( _scaleX * ( _originalAltitudeCtr.x() - _itemAltitude->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalAltitudeCtr.y() - _itemAltitude->boundingRect().height() / 2.0f ) );
+    _itemAltitude->moveBy( _scaleX * ( _originalAltitudeCtr.x() - _itemAltitude->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalAltitudeCtr.y() - _itemAltitude->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemAltitude );
 
     _itemPressure = new QGraphicsTextItem( QString( "  STD  " ) );
@@ -1145,8 +1145,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemPressure->setDefaultTextColor( Colors::_lime );
     _itemPressure->setFont( Fonts::medium() );
     _itemPressure->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemPressure->moveBy( _scaleX * ( _originalPressureCtr.x() - _itemPressure->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalPressureCtr.y() - _itemPressure->boundingRect().height() / 2.0f ) );
+    _itemPressure->moveBy( _scaleX * ( _originalPressureCtr.x() - _itemPressure->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalPressureCtr.y() - _itemPressure->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemPressure );
 
     _itemSetpoint = new QGraphicsTextItem( QString( "    0" ) );
@@ -1155,8 +1155,8 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
     _itemSetpoint->setDefaultTextColor( Colors::_magenta );
     _itemSetpoint->setFont( Fonts::medium() );
     _itemSetpoint->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemSetpoint->moveBy( _scaleX * ( _originalAltitudeSet.x() - _itemAltitude->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalAltitudeSet.y() - _itemAltitude->boundingRect().height() / 2.0f ) );
+    _itemSetpoint->moveBy( _scaleX * ( _originalAltitudeSet.x() - _itemAltitude->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalAltitudeSet.y() - _itemAltitude->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemSetpoint );
 
     update( scaleX, scaleY );
@@ -1164,7 +1164,7 @@ void GraphicsEADI::ALT::init( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ALT::update( float scaleX, float scaleY )
+void GraphicsEADI::ALT::update( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -1181,22 +1181,22 @@ void GraphicsEADI::ALT::update( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ALT::setAltitude( float altitude )
+void GraphicsEADI::ALT::setAltitude( double altitude )
 {
     _altitude = altitude;
 
-    if      ( _altitude <     0.0f ) _altitude =     0.0f;
-    else if ( _altitude > 99999.0f ) _altitude = 99999.0f;
+    if      ( _altitude <     0.0 ) _altitude =     0.0;
+    else if ( _altitude > 99999.0 ) _altitude = 99999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ALT::setPressure( float pressure, GraphicsEADI::PressureMode pressMode )
+void GraphicsEADI::ALT::setPressure( double pressure, GraphicsEADI::PressureMode pressMode )
 {
     _pressure = pressure;
 
-    if      ( _pressure <    0.0f ) _pressure =    0.0f;
-    else if ( _pressure > 2000.0f ) _pressure = 2000.0f;
+    if      ( _pressure <    0.0 ) _pressure =    0.0;
+    else if ( _pressure > 2000.0 ) _pressure = 2000.0;
 
     _pressMode = pressMode;
 }
@@ -1207,8 +1207,8 @@ void GraphicsEADI::ALT::setAltitudeSel( double altitude )
 {
     _altitude_sel = altitude;
 
-    if      ( _altitude_sel <     0.0f ) _altitude_sel =     0.0f;
-    else if ( _altitude_sel > 99999.0f ) _altitude_sel = 99999.0f;
+    if      ( _altitude_sel <     0.0 ) _altitude_sel =     0.0;
+    else if ( _altitude_sel > 99999.0 ) _altitude_sel = 99999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1228,22 +1228,22 @@ void GraphicsEADI::ALT::reset()
     _itemPressure = Q_NULLPTR;
     _itemSetpoint = Q_NULLPTR;
 
-    _altitude = 0.0f;
-    _pressure = 0.0f;
-    _altitude_sel = 0.0f;
+    _altitude = 0.0;
+    _pressure = 0.0;
+    _altitude_sel = 0.0;
 
     _pressMode = GraphicsEADI::PressureMode::STD;
 
-    _scale1DeltaY_new = 0.0f;
-    _scale1DeltaY_old = 0.0f;
-    _scale2DeltaY_new = 0.0f;
-    _scale2DeltaY_old = 0.0f;
-    _groundDeltaY_new = 0.0f;
-    _groundDeltaY_old = 0.0f;
-    _labelsDeltaY_new = 0.0f;
-    _labelsDeltaY_old = 0.0f;
-    _bugDeltaY_new    = 0.0f;
-    _bugDeltaY_old    = 0.0f;
+    _scale1DeltaY_new = 0.0;
+    _scale1DeltaY_old = 0.0;
+    _scale2DeltaY_new = 0.0;
+    _scale2DeltaY_old = 0.0;
+    _groundDeltaY_new = 0.0;
+    _groundDeltaY_old = 0.0;
+    _labelsDeltaY_new = 0.0;
+    _labelsDeltaY_old = 0.0;
+    _bugDeltaY_new    = 0.0;
+    _bugDeltaY_old    = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1285,7 +1285,7 @@ void GraphicsEADI::ALT::updateAltitudeBug()
     if      ( _bugDeltaY_new < -_scaleY * 85.0 ) _bugDeltaY_new = -_scaleY * 85.0;
     else if ( _bugDeltaY_new >  _scaleY * 85.0 ) _bugDeltaY_new =  _scaleY * 85.0;
 
-    _itemBugAlt->moveBy( 0.0f, _bugDeltaY_new - _bugDeltaY_old );
+    _itemBugAlt->moveBy( 0.0, _bugDeltaY_new - _bugDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1296,56 +1296,56 @@ void GraphicsEADI::ALT::updateScale()
     _scale2DeltaY_new = _scale1DeltaY_new;
     _groundDeltaY_new = _scale1DeltaY_new;
 
-    float scaleSingleHeight = _scaleY * _originalScaleHeight;
-    float scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0f;
+    double scaleSingleHeight = _scaleY * _originalScaleHeight;
+    double scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0;
 
-    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5f )
+    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5 )
     {
         _scale1DeltaY_new = _scale1DeltaY_new - scaleDoubleHeight;
     }
 
-    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5f )
+    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5 )
     {
         _scale2DeltaY_new = _scale2DeltaY_new - scaleDoubleHeight;
     }
 
-    if ( _groundDeltaY_new > _scaleY * 100.0f ) _groundDeltaY_new = _scaleY * 100.0f;
+    if ( _groundDeltaY_new > _scaleY * 100.0 ) _groundDeltaY_new = _scaleY * 100.0;
 
-    _itemScale1->moveBy( 0.0f, _scale1DeltaY_new - _scale1DeltaY_old );
-    _itemScale2->moveBy( 0.0f, _scale2DeltaY_new - _scale2DeltaY_old );
-    _itemGround->moveBy( 0.0f, _groundDeltaY_new - _groundDeltaY_old );
+    _itemScale1->moveBy( 0.0, _scale1DeltaY_new - _scale1DeltaY_old );
+    _itemScale2->moveBy( 0.0, _scale2DeltaY_new - _scale2DeltaY_old );
+    _itemGround->moveBy( 0.0, _groundDeltaY_new - _groundDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsEADI::ALT::updateScaleLabels()
 {
-    int tmp = floor( _altitude + 0.5f );
+    int tmp = floor( _altitude + 0.5 );
     int alt = tmp - ( tmp % 500 );
 
-    float alt1 = (float)alt + 500.0f;
-    float alt2 = (float)alt;
-    float alt3 = (float)alt - 500.0f;
+    double alt1 = static_cast< double >( alt ) + 500.0;
+    double alt2 = static_cast< double >( alt );
+    double alt3 = static_cast< double >( alt ) - 500.0;
 
     _labelsDeltaY_new = _scaleY * _originalPixPerAlt * _altitude;
 
-    while ( _labelsDeltaY_new > _scaleY * 37.5f )
+    while ( _labelsDeltaY_new > _scaleY * 37.5 )
     {
-        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 75.0f;
+        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 75.0;
     }
 
-    if ( _labelsDeltaY_new < 0.0f && _altitude > alt2 )
+    if ( _labelsDeltaY_new < 0.0 && _altitude > alt2 )
     {
-        alt1 += 500.0f;
-        alt2 += 500.0f;
-        alt3 += 500.0f;
+        alt1 += 500.0;
+        alt2 += 500.0;
+        alt3 += 500.0;
     }
 
-    _itemLabel1->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel2->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel3->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel1->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel2->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel3->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
 
-    if ( alt1 > 0.0f && alt1 <= 100000.0f )
+    if ( alt1 > 0.0 && alt1 <= 100000.0 )
     {
         _itemLabel1->setVisible( true );
         _itemLabel1->setPlainText( QString("%1").arg(alt1, 5, 'f', 0, QChar(' ')) );
@@ -1355,7 +1355,7 @@ void GraphicsEADI::ALT::updateScaleLabels()
         _itemLabel1->setVisible( false );
     }
 
-    if ( alt2 > 0.0f && alt2 <= 100000.0f )
+    if ( alt2 > 0.0 && alt2 <= 100000.0 )
     {
         _itemLabel2->setVisible( true );
         _itemLabel2->setPlainText( QString("%1").arg(alt2, 5, 'f', 0, QChar(' ')) );
@@ -1365,7 +1365,7 @@ void GraphicsEADI::ALT::updateScaleLabels()
         _itemLabel2->setVisible( false );
     }
 
-    if ( alt3 > 0.0f && alt3 <= 100000.0f )
+    if ( alt3 > 0.0 && alt3 <= 100000.0 )
     {
         _itemLabel3->setVisible( true );
         _itemLabel3->setPlainText( QString("%1").arg(alt3, 5, 'f', 0, QChar(' ')) );
@@ -1402,48 +1402,48 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _vfeBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
     _vfePen( _vfeBrush, 1 ),
 
-    _airspeed ( 0.0f ),
-    _machNo   ( 0.0f ),
+    _airspeed ( 0.0 ),
+    _machNo   ( 0.0 ),
 
-    _airspeed_sel ( 0.0f ),
+    _airspeed_sel ( 0.0 ),
 
-    _vfe ( 0.0f ),
-    _vne ( 0.0f ),
+    _vfe ( 0.0 ),
+    _vne ( 0.0 ),
 
-    _scale1DeltaY_new ( 0.0f ),
-    _scale1DeltaY_old ( 0.0f ),
-    _scale2DeltaY_new ( 0.0f ),
-    _scale2DeltaY_old ( 0.0f ),
-    _labelsDeltaY_new ( 0.0f ),
-    _labelsDeltaY_old ( 0.0f ),
-    _bugDeltaY_new    ( 0.0f ),
-    _bugDeltaY_old    ( 0.0f ),
-    _vneDeltaY_new    ( 0.0f ),
-    _vneDeltaY_old    ( 0.0f ),
+    _scale1DeltaY_new ( 0.0 ),
+    _scale1DeltaY_old ( 0.0 ),
+    _scale2DeltaY_new ( 0.0 ),
+    _scale2DeltaY_old ( 0.0 ),
+    _labelsDeltaY_new ( 0.0 ),
+    _labelsDeltaY_old ( 0.0 ),
+    _bugDeltaY_new    ( 0.0 ),
+    _bugDeltaY_old    ( 0.0 ),
+    _vneDeltaY_new    ( 0.0 ),
+    _vneDeltaY_old    ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalPixPerSpd   (   1.5f ),
-    _originalScaleHeight ( 300.0f ),
-    _originalLabelsX     (  40.0f ),
-    _originalLabel1Y     (  35.0f ),
-    _originalLabel2Y     (  65.0f ),
-    _originalLabel3Y     (  95.0f ),
-    _originalLabel4Y     ( 125.0f ),
-    _originalLabel5Y     ( 155.0f ),
-    _originalLabel6Y     ( 185.0f ),
-    _originalLabel7Y     ( 215.0f ),
-    _originalVfeWidth    (   1.0f ),
+    _originalPixPerSpd   (   1.5 ),
+    _originalScaleHeight ( 300.0 ),
+    _originalLabelsX     (  40.0 ),
+    _originalLabel1Y     (  35.0 ),
+    _originalLabel2Y     (  65.0 ),
+    _originalLabel3Y     (  95.0 ),
+    _originalLabel4Y     ( 125.0 ),
+    _originalLabel5Y     ( 155.0 ),
+    _originalLabel6Y     ( 185.0 ),
+    _originalLabel7Y     ( 215.0 ),
+    _originalVfeWidth    (   1.0 ),
 
-    _originalBackPos     ( 25.0f ,   37.5f ),
-    _originalScale1Pos   ( 56.0f , -174.5f ),
-    _originalScale2Pos   ( 56.0f , -474.5f ),
-    _originalFramePos    (  0.0f ,  110.0f ),
-    _originalAirspeedCtr ( 40.0f ,  126.0f ),
-    _originalMachNoCtr   ( 43.0f ,  225.0f ),
-    _originalAirspeedSet ( 47.0f ,   27.0f ),
-    _originalVfePos      ( 59.5f ,  124.5f ),
+    _originalBackPos     ( 25.0 ,   37.5 ),
+    _originalScale1Pos   ( 56.0 , -174.5 ),
+    _originalScale2Pos   ( 56.0 , -474.5 ),
+    _originalFramePos    (  0.0 ,  110.0 ),
+    _originalAirspeedCtr ( 40.0 ,  126.0 ),
+    _originalMachNoCtr   ( 43.0 ,  225.0 ),
+    _originalAirspeedSet ( 47.0 ,   27.0 ),
+    _originalVfePos      ( 59.5 ,  124.5 ),
 
     _backZ      (  70 ),
     _scaleZ     (  80 ),
@@ -1459,7 +1459,7 @@ GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ASI::init( float scaleX, float scaleY )
+void GraphicsEADI::ASI::init( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -1493,8 +1493,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel1->setDefaultTextColor( Colors::_white );
     _itemLabel1->setFont( Fonts::small() );
     _itemLabel1->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0f ) );
+    _itemLabel1->moveBy( _scaleX * ( _originalLabelsX - _itemLabel1->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel1Y - _itemLabel1->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel1 );
 
     _itemLabel2 = new QGraphicsTextItem( QString( "999" ) );
@@ -1503,8 +1503,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel2->setDefaultTextColor( Colors::_white );
     _itemLabel2->setFont( Fonts::small() );
     _itemLabel2->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0f ) );
+    _itemLabel2->moveBy( _scaleX * ( _originalLabelsX - _itemLabel2->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel2Y - _itemLabel2->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel2 );
 
     _itemLabel3 = new QGraphicsTextItem( QString( "999" ) );
@@ -1513,8 +1513,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel3->setDefaultTextColor( Colors::_white );
     _itemLabel3->setFont( Fonts::small() );
     _itemLabel3->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0f ) );
+    _itemLabel3->moveBy( _scaleX * ( _originalLabelsX - _itemLabel3->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel3Y - _itemLabel3->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel3 );
 
     _itemLabel4 = new QGraphicsTextItem( QString( "999" ) );
@@ -1523,8 +1523,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel4->setDefaultTextColor( Colors::_white );
     _itemLabel4->setFont( Fonts::small() );
     _itemLabel4->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel4->moveBy( _scaleX * ( _originalLabelsX - _itemLabel4->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel4Y - _itemLabel4->boundingRect().height() / 2.0f ) );
+    _itemLabel4->moveBy( _scaleX * ( _originalLabelsX - _itemLabel4->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel4Y - _itemLabel4->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel4 );
 
     _itemLabel5 = new QGraphicsTextItem( QString( "999" ) );
@@ -1533,8 +1533,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel5->setDefaultTextColor( Colors::_white );
     _itemLabel5->setFont( Fonts::small() );
     _itemLabel5->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel5->moveBy( _scaleX * ( _originalLabelsX - _itemLabel5->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel5Y - _itemLabel5->boundingRect().height() / 2.0f ) );
+    _itemLabel5->moveBy( _scaleX * ( _originalLabelsX - _itemLabel5->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel5Y - _itemLabel5->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel5 );
 
     _itemLabel6 = new QGraphicsTextItem( QString( "999" ) );
@@ -1543,8 +1543,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel6->setDefaultTextColor( Colors::_white );
     _itemLabel6->setFont( Fonts::small() );
     _itemLabel6->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel6->moveBy( _scaleX * ( _originalLabelsX - _itemLabel6->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel6Y - _itemLabel6->boundingRect().height() / 2.0f ) );
+    _itemLabel6->moveBy( _scaleX * ( _originalLabelsX - _itemLabel6->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel6Y - _itemLabel6->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel6 );
 
     _itemLabel7 = new QGraphicsTextItem( QString( "999" ) );
@@ -1553,8 +1553,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemLabel7->setDefaultTextColor( Colors::_white );
     _itemLabel7->setFont( Fonts::small() );
     _itemLabel7->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemLabel7->moveBy( _scaleX * ( _originalLabelsX - _itemLabel7->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalLabel7Y - _itemLabel7->boundingRect().height() / 2.0f ) );
+    _itemLabel7->moveBy( _scaleX * ( _originalLabelsX - _itemLabel7->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalLabel7Y - _itemLabel7->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemLabel7 );
 
     _itemBugIAS = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_asi_bug.svg" );
@@ -1592,8 +1592,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemAirspeed->setDefaultTextColor( Colors::_white );
     _itemAirspeed->setFont( Fonts::medium() );
     _itemAirspeed->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemAirspeed->moveBy( _scaleX * ( _originalAirspeedCtr.x() - _itemAirspeed->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalAirspeedCtr.y() - _itemAirspeed->boundingRect().height() / 2.0f ) );
+    _itemAirspeed->moveBy( _scaleX * ( _originalAirspeedCtr.x() - _itemAirspeed->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalAirspeedCtr.y() - _itemAirspeed->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemAirspeed );
 
     _itemMachNo = new QGraphicsTextItem( QString( ".000" ) );
@@ -1603,8 +1603,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemMachNo->setDefaultTextColor( Colors::_white );
     _itemMachNo->setFont( Fonts::medium() );
     _itemMachNo->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemMachNo->moveBy( _scaleX * ( _originalMachNoCtr.x() - _itemMachNo->boundingRect().width()  / 2.0f ),
-                         _scaleY * ( _originalMachNoCtr.y() - _itemMachNo->boundingRect().height() / 2.0f ) );
+    _itemMachNo->moveBy( _scaleX * ( _originalMachNoCtr.x() - _itemMachNo->boundingRect().width()  / 2.0 ),
+                         _scaleY * ( _originalMachNoCtr.y() - _itemMachNo->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemMachNo );
 
     _itemSetpoint = new QGraphicsTextItem( QString( "000" ) );
@@ -1614,8 +1614,8 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
     _itemSetpoint->setDefaultTextColor( Colors::_magenta );
     _itemSetpoint->setFont( Fonts::medium() );
     _itemSetpoint->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemSetpoint->moveBy( _scaleX * ( _originalAirspeedSet.x() - _itemMachNo->boundingRect().width()  / 2.0f ),
-                           _scaleY * ( _originalAirspeedSet.y() - _itemMachNo->boundingRect().height() / 2.0f ) );
+    _itemSetpoint->moveBy( _scaleX * ( _originalAirspeedSet.x() - _itemMachNo->boundingRect().width()  / 2.0 ),
+                           _scaleY * ( _originalAirspeedSet.y() - _itemMachNo->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemSetpoint );
 
     update( scaleX, scaleY );
@@ -1623,7 +1623,7 @@ void GraphicsEADI::ASI::init( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ASI::update( float scaleX, float scaleY )
+void GraphicsEADI::ASI::update( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -1639,22 +1639,22 @@ void GraphicsEADI::ASI::update( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ASI::setAirspeed( float airspeed )
+void GraphicsEADI::ASI::setAirspeed( double airspeed )
 {
     _airspeed = airspeed;
 
-    if      ( _airspeed <    0.0f ) _airspeed =    0.0f;
-    else if ( _airspeed > 9999.0f ) _airspeed = 9999.0f;
+    if      ( _airspeed <    0.0 ) _airspeed =    0.0;
+    else if ( _airspeed > 9999.0 ) _airspeed = 9999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::ASI::setMachNo( float machNo )
+void GraphicsEADI::ASI::setMachNo( double machNo )
 {
     _machNo = machNo;
 
-    if      ( _machNo <  0.0f ) _machNo =  0.0f;
-    else if ( _machNo > 99.9f ) _machNo = 99.9f;
+    if      ( _machNo <  0.0 ) _machNo =  0.0;
+    else if ( _machNo > 99.9 ) _machNo = 99.9;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1663,8 +1663,8 @@ void GraphicsEADI::ASI::setAirspeedSel( double airspeed )
 {
     _airspeed_sel = airspeed;
 
-    if      ( _airspeed_sel < 0.0f    ) _airspeed_sel = 0.0;
-    else if ( _airspeed_sel > 9999.0f ) _airspeed_sel = 9999.0f;
+    if      ( _airspeed_sel <    0.0 ) _airspeed_sel =    0.0;
+    else if ( _airspeed_sel > 9999.0 ) _airspeed_sel = 9999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1673,8 +1673,8 @@ void GraphicsEADI::ASI::setVfe( double vfe )
 {
     _vfe = vfe;
 
-    if      ( _vfe < 0.0f    ) _vfe = 0.0;
-    else if ( _vfe > 9999.0f ) _vfe = 9999.0f;
+    if      ( _vfe <    0.0 ) _vfe =    0.0;
+    else if ( _vfe > 9999.0 ) _vfe = 9999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1683,8 +1683,8 @@ void GraphicsEADI::ASI::setVne( double vne )
 {
     _vne = vne;
 
-    if      ( _vne < 0.0f    ) _vne = 0.0;
-    else if ( _vne > 9999.0f ) _vne = 9999.0f;
+    if      ( _vne <    0.0 ) _vne =    0.0;
+    else if ( _vne > 9999.0 ) _vne = 9999.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1709,21 +1709,21 @@ void GraphicsEADI::ASI::reset()
     _itemMachNo   = Q_NULLPTR;
     _itemSetpoint = Q_NULLPTR;
 
-    _airspeed = 0.0f;
-    _machNo   = 0.0f;
+    _airspeed = 0.0;
+    _machNo   = 0.0;
 
-    _airspeed_sel = 0.0f;
+    _airspeed_sel = 0.0;
 
-    _scale1DeltaY_new = 0.0f;
-    _scale1DeltaY_old = 0.0f;
-    _scale2DeltaY_new = 0.0f;
-    _scale2DeltaY_old = 0.0f;
-    _labelsDeltaY_new = 0.0f;
-    _labelsDeltaY_old = 0.0f;
-    _bugDeltaY_new    = 0.0f;
-    _bugDeltaY_old    = 0.0f;
-    _vneDeltaY_new    = 0.0f;
-    _vneDeltaY_old    = 0.0f;
+    _scale1DeltaY_new = 0.0;
+    _scale1DeltaY_old = 0.0;
+    _scale2DeltaY_new = 0.0;
+    _scale2DeltaY_old = 0.0;
+    _labelsDeltaY_new = 0.0;
+    _labelsDeltaY_old = 0.0;
+    _bugDeltaY_new    = 0.0;
+    _bugDeltaY_old    = 0.0;
+    _vneDeltaY_new    = 0.0;
+    _vneDeltaY_old    = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1733,14 +1733,14 @@ void GraphicsEADI::ASI::updateAirspeed()
     _itemAirspeed->setPlainText( QString("%1").arg(_airspeed     , 3, 'f', 0, QChar(' ')) );
     _itemSetpoint->setPlainText( QString("%1").arg(_airspeed_sel , 3, 'f', 0, QChar(' ')) );
 
-    if ( _machNo < 1.0f )
+    if ( _machNo < 1.0 )
     {
-        float machNo = 1000.0f * _machNo;
+        double machNo = 1000.0 * _machNo;
         _itemMachNo->setPlainText( QString(".%1").arg(machNo, 3, 'f', 0, QChar('0')) );
     }
     else
     {
-        if ( _machNo < 10.0f )
+        if ( _machNo < 10.0 )
         {
             _itemMachNo->setPlainText( QString::number( _machNo, 'f', 2 ) );
         }
@@ -1766,7 +1766,7 @@ void GraphicsEADI::ASI::updateAirspeedBug()
     if      ( _bugDeltaY_new < -_scaleY * 85.0 ) _bugDeltaY_new = -_scaleY * 85.0;
     else if ( _bugDeltaY_new >  _scaleY * 85.0 ) _bugDeltaY_new =  _scaleY * 85.0;
 
-    _itemBugIAS->moveBy( 0.0f, _bugDeltaY_new - _bugDeltaY_old );
+    _itemBugIAS->moveBy( 0.0, _bugDeltaY_new - _bugDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1776,21 +1776,21 @@ void GraphicsEADI::ASI::updateScale()
     _scale1DeltaY_new = _scaleY * _originalPixPerSpd * _airspeed;
     _scale2DeltaY_new = _scale1DeltaY_new;
 
-    float scaleSingleHeight = _scaleY * _originalScaleHeight;
-    float scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0f;
+    double scaleSingleHeight = _scaleY * _originalScaleHeight;
+    double scaleDoubleHeight = _scaleY * _originalScaleHeight * 2.0;
 
-    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5f )
+    while ( _scale1DeltaY_new > scaleSingleHeight + _scaleY * 74.5 )
     {
         _scale1DeltaY_new = _scale1DeltaY_new - scaleDoubleHeight;
     }
 
-    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5f )
+    while ( _scale2DeltaY_new > scaleDoubleHeight + _scaleY * 74.5 )
     {
         _scale2DeltaY_new = _scale2DeltaY_new - scaleDoubleHeight;
     }
 
-    _itemScale1->moveBy( 0.0f, _scale1DeltaY_new - _scale1DeltaY_old );
-    _itemScale2->moveBy( 0.0f, _scale2DeltaY_new - _scale2DeltaY_old );
+    _itemScale1->moveBy( 0.0, _scale1DeltaY_new - _scale1DeltaY_old );
+    _itemScale2->moveBy( 0.0, _scale2DeltaY_new - _scale2DeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1802,39 +1802,39 @@ void GraphicsEADI::ASI::updateScaleLabels()
     int tmp = floor( _airspeed + 0.5f );
     int spd = tmp - ( tmp % 20 );
 
-    float spd1 = (float)spd + 60.0f;
-    float spd2 = (float)spd + 40.0f;
-    float spd3 = (float)spd + 20.0f;
-    float spd4 = (float)spd;
-    float spd5 = (float)spd - 20.0f;
-    float spd6 = (float)spd - 40.0f;
-    float spd7 = (float)spd - 60.0f;
+    double spd1 = static_cast< double >( spd ) + 60.0;
+    double spd2 = static_cast< double >( spd ) + 40.0;
+    double spd3 = static_cast< double >( spd ) + 20.0;
+    double spd4 = static_cast< double >( spd );
+    double spd5 = static_cast< double >( spd ) - 20.0;
+    double spd6 = static_cast< double >( spd ) - 40.0;
+    double spd7 = static_cast< double >( spd ) - 60.0;
 
-    while ( _labelsDeltaY_new > _scaleY * 15.0f )
+    while ( _labelsDeltaY_new > _scaleY * 15.0 )
     {
-        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 30.0f;
+        _labelsDeltaY_new = _labelsDeltaY_new - _scaleY * 30.0;
     }
 
     if ( _labelsDeltaY_new < 0.0 && _airspeed > spd4 )
     {
-        spd1 += 20.0f;
-        spd2 += 20.0f;
-        spd3 += 20.0f;
-        spd4 += 20.0f;
-        spd5 += 20.0f;
-        spd6 += 20.0f;
-        spd7 += 20.0f;
+        spd1 += 20.0;
+        spd2 += 20.0;
+        spd3 += 20.0;
+        spd4 += 20.0;
+        spd5 += 20.0;
+        spd6 += 20.0;
+        spd7 += 20.0;
     }
 
-    _itemLabel1->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel2->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel3->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel4->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel5->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel6->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
-    _itemLabel7->moveBy( 0.0f, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel1->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel2->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel3->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel4->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel5->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel6->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
+    _itemLabel7->moveBy( 0.0, _labelsDeltaY_new - _labelsDeltaY_old );
 
-    if ( spd1 >= 0.0f && spd1 <= 10000.0f )
+    if ( spd1 >= 0.0 && spd1 <= 10000.0 )
     {
         _itemLabel1->setVisible( true );
         _itemLabel1->setPlainText( QString("%1").arg(spd1, 3, 'f', 0, QChar(' ')) );
@@ -1844,7 +1844,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel1->setVisible( false );
     }
 
-    if ( spd2 >= 0.0f && spd2 <= 10000.0f )
+    if ( spd2 >= 0.0 && spd2 <= 10000.0 )
     {
         _itemLabel2->setVisible( true );
         _itemLabel2->setPlainText( QString("%1").arg(spd2, 3, 'f', 0, QChar(' ')) );
@@ -1854,7 +1854,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel2->setVisible( false );
     }
 
-    if ( spd3 >= 0.0f && spd3 <= 10000.0f )
+    if ( spd3 >= 0.0 && spd3 <= 10000.0 )
     {
         _itemLabel3->setVisible( true );
         _itemLabel3->setPlainText( QString("%1").arg(spd3, 3, 'f', 0, QChar(' ')) );
@@ -1864,7 +1864,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel3->setVisible( false );
     }
 
-    if ( spd4 >= 0.0f && spd4 <= 10000.0f )
+    if ( spd4 >= 0.0 && spd4 <= 10000.0 )
     {
         _itemLabel4->setVisible( true );
         _itemLabel4->setPlainText( QString("%1").arg(spd4, 3, 'f', 0, QChar(' ')) );
@@ -1874,7 +1874,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel4->setVisible( false );
     }
 
-    if ( spd5 >= 0.0f && spd5 <= 10000.0f )
+    if ( spd5 >= 0.0 && spd5 <= 10000.0 )
     {
         _itemLabel5->setVisible( true );
         _itemLabel5->setPlainText( QString("%1").arg(spd5, 3, 'f', 0, QChar(' ')) );
@@ -1884,7 +1884,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel5->setVisible( false );
     }
 
-    if ( spd6 >= 0.0f && spd6 <= 10000.0f )
+    if ( spd6 >= 0.0 && spd6 <= 10000.0 )
     {
         _itemLabel6->setVisible( true );
         _itemLabel6->setPlainText( QString("%1").arg(spd6, 3, 'f', 0, QChar(' ')) );
@@ -1894,7 +1894,7 @@ void GraphicsEADI::ASI::updateScaleLabels()
         _itemLabel6->setVisible( false );
     }
 
-    if ( spd7 >= 0.0f && spd7 <= 10000.0f )
+    if ( spd7 >= 0.0 && spd7 <= 10000.0 )
     {
         _itemLabel7->setVisible( true );
         _itemLabel7->setPlainText( QString("%1").arg(spd7, 3, 'f', 0, QChar(' ')) );
@@ -1924,7 +1924,7 @@ void GraphicsEADI::ASI::updateVne()
 {
     _vneDeltaY_new = _scaleY * _originalPixPerSpd * ( _airspeed - _vne );
 
-    _itemVne->moveBy( 0.0f, _vneDeltaY_new - _vneDeltaY_old );
+    _itemVne->moveBy( 0.0, _vneDeltaY_new - _vneDeltaY_old );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1938,17 +1938,17 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _itemMarks     ( Q_NULLPTR ),
     _itemFrameText ( Q_NULLPTR ),
 
-    _heading ( 0.0f ),
-    _heading_sel ( 0.0f ),
+    _heading ( 0.0 ),
+    _heading_sel ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalHsiCtr       ( 150.0f , 345.0f ),
-    _originalBackPos      (   0.0f,  210.0f ),
-    _originalFacePos      (  38.0f , 233.0f ),
-    _originalMarksPos     ( 134.0f , 217.0f ),
-    _originalFrameTextCtr ( 149.5f , 225.5f ),
+    _originalHsiCtr       ( 150.0 , 345.0 ),
+    _originalBackPos      (   0.0,  210.0 ),
+    _originalFacePos      (  38.0 , 233.0 ),
+    _originalMarksPos     ( 134.0 , 217.0 ),
+    _originalFrameTextCtr ( 149.5 , 225.5 ),
 
     _backZ      (  91 ),
     _faceZ      (  92 ),
@@ -1961,7 +1961,7 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::HDG::init( float scaleX, float scaleY )
+void GraphicsEADI::HDG::init( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -2005,8 +2005,8 @@ void GraphicsEADI::HDG::init( float scaleX, float scaleY )
     _itemFrameText->setDefaultTextColor( Colors::_white );
     _itemFrameText->setFont( Fonts::medium() );
     _itemFrameText->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
-    _itemFrameText->moveBy( _scaleX * ( _originalFrameTextCtr.x() - _itemFrameText->boundingRect().width()  / 2.0f ),
-                            _scaleY * ( _originalFrameTextCtr.y() - _itemFrameText->boundingRect().height() / 2.0f ) );
+    _itemFrameText->moveBy( _scaleX * ( _originalFrameTextCtr.x() - _itemFrameText->boundingRect().width()  / 2.0 ),
+                            _scaleY * ( _originalFrameTextCtr.y() - _itemFrameText->boundingRect().height() / 2.0 ) );
     _scene->addItem( _itemFrameText );
 
     update( scaleX, scaleY );
@@ -2014,7 +2014,7 @@ void GraphicsEADI::HDG::init( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::HDG::update( float scaleX, float scaleY )
+void GraphicsEADI::HDG::update( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -2024,22 +2024,22 @@ void GraphicsEADI::HDG::update( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::HDG::setHeading( float heading )
+void GraphicsEADI::HDG::setHeading( double heading )
 {
     _heading = heading;
 
-    while ( _heading < 0.0f ) _heading += 360.0f;
-    while ( _heading > 360.0f ) _heading -= 360.0f;
+    while ( _heading <   0.0 ) _heading += 360.0;
+    while ( _heading > 360.0 ) _heading -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::HDG::setHeadingSel( float heading )
+void GraphicsEADI::HDG::setHeadingSel( double heading )
 {
     _heading_sel = heading;
 
-    while ( _heading_sel <   0.0f ) _heading_sel += 360.0f;
-    while ( _heading_sel > 360.0f ) _heading_sel -= 360.0f;
+    while ( _heading_sel <   0.0 ) _heading_sel += 360.0;
+    while ( _heading_sel > 360.0 ) _heading_sel -= 360.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2052,8 +2052,8 @@ void GraphicsEADI::HDG::reset()
     _itemMarks     = Q_NULLPTR;
     _itemFrameText = Q_NULLPTR;
 
-    _heading = 0.0f;
-    _heading_sel = 0.0f;
+    _heading = 0.0;
+    _heading_sel = 0.0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2063,7 +2063,7 @@ void GraphicsEADI::HDG::updateHeading()
     _itemFace->setRotation( -_heading );
     _itemHdgBug->setRotation( -_heading + _heading_sel );
 
-    float fHeading = floor( _heading + 0.5f );
+    double fHeading = floor( _heading + 0.5 );
 
     _itemFrameText->setPlainText( QString("%1").arg(fHeading, 3, 'f', 0, QChar('0')) );
 }
@@ -2076,18 +2076,18 @@ GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
     _itemScale  ( Q_NULLPTR ),
     _itemMarker ( Q_NULLPTR ),
 
-    _climbRate ( 0.0f ),
+    _climbRate ( 0.0 ),
 
-    _scaleX ( 1.0f ),
-    _scaleY ( 1.0f ),
+    _scaleX ( 1.0 ),
+    _scaleY ( 1.0 ),
 
-    _originalMarkerWidth (  4.0f ),
-    _originalPixPerSpd1  ( 30.0f ),
-    _originalPixPerSpd2  ( 20.0f ),
-    _originalPixPerSpd4  (  5.0f ),
+    _originalMarkerWidth (  4.0 ),
+    _originalPixPerSpd1  ( 30.0 ),
+    _originalPixPerSpd2  ( 20.0 ),
+    _originalPixPerSpd4  (  5.0 ),
 
-    _originalScalePos  ( 275.0f ,  50.0f ),
-    _originalMarkerPos ( 285.0f , 124.5f ),
+    _originalScalePos  ( 275.0 ,  50.0 ),
+    _originalMarkerPos ( 285.0 , 124.5 ),
 
     _markerBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
     _markerPen ( _markerBrush, 0 ),
@@ -2100,7 +2100,7 @@ GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::VSI::init( float scaleX, float scaleY )
+void GraphicsEADI::VSI::init( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -2126,7 +2126,7 @@ void GraphicsEADI::VSI::init( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::VSI::update( float scaleX, float scaleY )
+void GraphicsEADI::VSI::update( double scaleX, double scaleY )
 {
     _scaleX = scaleX;
     _scaleY = scaleY;
@@ -2136,12 +2136,12 @@ void GraphicsEADI::VSI::update( float scaleX, float scaleY )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsEADI::VSI::setClimbRate( float climbRate )
+void GraphicsEADI::VSI::setClimbRate( double climbRate )
 {
     _climbRate = climbRate;
 
-    if      ( _climbRate >  6.8f ) _climbRate =  6.8f;
-    else if ( _climbRate < -6.8f ) _climbRate = -6.8f;
+    if      ( _climbRate >  6.8 ) _climbRate =  6.8;
+    else if ( _climbRate < -6.8 ) _climbRate = -6.8;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2158,23 +2158,23 @@ void GraphicsEADI::VSI::updateVSI()
 {
     //m_scene->clear();
 
-    float climbRateAbs = fabs( _climbRate );
-    float arrowDeltaY = 0.0;
+    double climbRateAbs = fabs( _climbRate );
+    double arrowDeltaY = 0.0;
 
-    if ( climbRateAbs <= 1.0f )
+    if ( climbRateAbs <= 1.0 )
     {
         arrowDeltaY = _originalPixPerSpd1 * climbRateAbs;
     }
-    else if ( climbRateAbs <= 2.0f )
+    else if ( climbRateAbs <= 2.0 )
     {
-        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 * ( climbRateAbs - 1.0f );
+        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 * ( climbRateAbs - 1.0 );
     }
     else
     {
-        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 + _originalPixPerSpd4 * ( climbRateAbs - 2.0f );
+        arrowDeltaY = _originalPixPerSpd1 + _originalPixPerSpd2 + _originalPixPerSpd4 * ( climbRateAbs - 2.0 );
     }
 
-    if ( _climbRate > 0.0f )
+    if ( _climbRate > 0.0 )
     {
         _itemMarker->setRect( _scaleX * _originalMarkerPos.x(),
                               _scaleY * _originalMarkerPos.y() - _scaleY * arrowDeltaY,
