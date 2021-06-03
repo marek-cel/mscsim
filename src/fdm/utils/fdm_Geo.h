@@ -19,46 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#ifndef FDM_GEO_H
+#define FDM_GEO_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <defs.h>
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Singleton class template.
- */
-template < class TYPE >
-class Singleton
+namespace fdm
 {
-public:
 
-    /**
-     * Returns singleton object instance pointer, creates it if necessary.
-     * @return singleton object instance pointer
-     */
-    static TYPE* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new TYPE();
-        }
-
-        return _instance;
-    }
-
-private:
-
-    static TYPE *_instance;     ///< singleton object instance pointer
+/** Geodetic coordinates. */
+struct FDMEXPORT Geo
+{
+    double lat;                     ///< [rad] geodetic latitude (positive north)
+    double lon;                     ///< [rad] geodetic longitude (positive east)
+    double alt;                     ///< [m] altitude above mean sea level
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
-template < class TYPE > TYPE* Singleton< TYPE >::_instance = NULLPTR;
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SINGLETON_H
+#endif // FDM_GEO_H

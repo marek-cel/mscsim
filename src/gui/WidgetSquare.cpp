@@ -26,7 +26,7 @@
 
 WidgetSquare::WidgetSquare( QWidget *parent ) :
     QWidget ( parent ),
-    _layoutSquare ( 0 )
+    _layoutSquare ( NULLPTR )
 {}
 
 ////////////////////////////////////////////////////////////////////////////////

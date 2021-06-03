@@ -31,7 +31,7 @@
 #include <osgViewer/Viewer>
 #include <osgGA/GUIEventHandler>
 
-#include <Defines.h>
+#include <defs.h>
 
 #ifdef USE_OSGQOPENGL
 #   include <osgQOpenGL/osgQOpenGLWidget>

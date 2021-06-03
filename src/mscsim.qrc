@@ -11,6 +11,8 @@
         <file>gui/images/efis/eadi/eadi_adi_doth.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_dotv.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_fd.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_fpm.svg</file>
+        <file>gui/images/efis/eadi/eadi_adi_fpmx.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_ladd.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_mask.svg</file>
         <file>gui/images/efis/eadi/eadi_adi_roll.svg</file>

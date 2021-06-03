@@ -27,7 +27,7 @@
 #include <QWidget>
 
 #include <Autopilot.h>
-#include <Defines.h>
+#include <defs.h>
 
 #include <g1000/cgi/g1000_PFD.h>
 

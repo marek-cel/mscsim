@@ -25,6 +25,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <fdm/utils/fdm_Angles.h>
+#include <fdm/utils/fdm_Geo.h>
 #include <fdm/utils/fdm_Matrix3x3.h>
 #include <fdm/utils/fdm_Quaternion.h>
 #include <fdm/utils/fdm_Vector3.h>
@@ -53,14 +54,6 @@ namespace fdm
 class FDMEXPORT WGS84
 {
 public:
-
-    /** Geodetic coordinates. */
-    struct Geo
-    {
-        double lat;                     ///< [rad] geodetic latitude (positive north)
-        double lon;                     ///< [rad] geodetic longitude (positive east)
-        double alt;                     ///< [m] altitude above mean sea level
-    };
 
     static const double _a;             ///< [m] equatorial radius
     static const double _f;             ///< [-] ellipsoid flattening

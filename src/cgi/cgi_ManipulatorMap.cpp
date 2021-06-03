@@ -24,7 +24,7 @@
 
 #include <limits>
 
-#include <Defines.h>
+#include <defs.h>
 
 #include <cgi/cgi_Mercator.h>
 

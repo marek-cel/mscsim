@@ -19,46 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#ifndef DEFS_H
+#define DEFS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <defs.h>
+#define SIM_APP_NAME    "MScSim"
+#define SIM_APP_VER     "0.4"
+#define SIM_ORG_NAME    "Marek_Cel"
+#define SIM_ORG_DOMAIN  "marekcel.pl"
 
 ////////////////////////////////////////////////////////////////////////////////
 
-/**
- * @brief Singleton class template.
- */
-template < class TYPE >
-class Singleton
-{
-public:
-
-    /**
-     * Returns singleton object instance pointer, creates it if necessary.
-     * @return singleton object instance pointer
-     */
-    static TYPE* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new TYPE();
-        }
-
-        return _instance;
-    }
-
-private:
-
-    static TYPE *_instance;     ///< singleton object instance pointer
-};
+#ifndef NULLPTR
+#   if __cplusplus >= 201103L
+#       define NULLPTR nullptr
+#   else
+#       define NULLPTR 0
+#   endif
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template < class TYPE > TYPE* Singleton< TYPE >::_instance = NULLPTR;
+#ifndef DELPTR
+#define DELPTR( ptr ) \
+{ \
+    if ( ptr ) delete ptr; \
+    ptr = NULLPTR; \
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SINGLETON_H
+#ifndef DELTAB
+#define DELTAB( ptr ) \
+{ \
+    if ( ptr ) delete [] ptr; \
+    ptr = NULLPTR; \
+}
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // DEFS_H

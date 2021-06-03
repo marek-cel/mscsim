@@ -19,73 +19,90 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef CGI_DEFINES_H
-#define CGI_DEFINES_H
+
+#include <fdm/utils/fdm_Mercator.h>
+
+#include <fdm/utils/fdm_Units.h>
+#include <fdm/utils/fdm_WGS84.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <defs.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_TIME_STEP 0.017 /*  60 Hz */
+const double Mercator::_max_x = Mercator::x( Units::deg2rad( 180.0 ) );
+const double Mercator::_max_y = Mercator::y( Units::deg2rad(  85.0 ) );
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_FOV_Y 30.0
-
-#define CGI_HUD_Y 200.0
-#define CGI_HUD_Y_2 ( CGI_HUD_Y / 2.0 )
-
-#define CGI_MAP_FOV_Y 15.0
-#define CGI_MAP_Y_2 1.0e7
+double Mercator::lat( double y, double max_error, unsigned int max_iterations )
+{
+    // for lat_ts=0 k0=a
+    return t_inv( exp( -y / WGS84::_a ), max_error, max_iterations );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_WORLD   0
-#define CGI_DEPTH_SORTED_BIN_SKY     1
-#define CGI_DEPTH_SORTED_BIN_MOON    2
-#define CGI_DEPTH_SORTED_BIN_SUN     2
-#define CGI_DEPTH_SORTED_BIN_STARS   2
-#define CGI_DEPTH_SORTED_BIN_CLOUDS  3
-#define CGI_DEPTH_SORTED_BIN_HUD     4
-#define CGI_DEPTH_SORTED_BIN_EFFECTS 5
+double Mercator::lon( double x )
+{
+    // for lat_ts=0 k0=a
+    return x / WGS84::_a;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_DEPTH_SORTED_BIN_MAP   0
-#define CGI_DEPTH_SORTED_BIN_ICONS 1
+double Mercator::x( double lon )
+{
+    // for lat_ts=0 k0=a
+    return WGS84::_a * lon;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_CLOUDS_MAX_COUNT 2048
-#define CGI_CLOUDS_MAX_SPRITES 64
+double Mercator::y( double lat )
+{
+    // for lat_ts=0 k0=a
+    return WGS84::_a * log( t( lat ) );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_FOG_LIMIT 10000.0f
+double Mercator::k0( double lat_ts )
+{
+    double sinLat = sin( lat_ts );
+    return WGS84::_a * cos( lat_ts ) / sqrt( 1.0 - WGS84::_e2 * sinLat*sinLat );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_SKYDOME_RADIUS 25000.0f
-
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MIN  10.0f
-#define CGI_SKYDOME_SCALING_TRANSIENT_ALT_MAX 100.0f
-
-#define CGI_SKYDOME_DIAMETER_SUN  0.54f
-#define CGI_SKYDOME_DIAMETER_MOON 0.53f
-
-////////////////////////////////////////////////////////////////////////////////
-
-#define CGI_LIGHT_SUN_NUM  0
-#define CGI_LIGHT_MOON_NUM 1
+double Mercator::t( double lat )
+{
+    double e_sinLat = WGS84::_e * sin( lat );
+    return tan( M_PI_4 + 0.5 * lat ) * pow( ( 1.0 - e_sinLat ) / ( 1.0 + e_sinLat ),
+                                            0.5 * WGS84::_e );
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define CGI_MAX_AIRBARKE_ELEMENTS 10
-#define CGI_MAX_FLAPS_ELEMENTS 10
-#define CGI_MAX_LANDING_GEAR_ELEMENTS 30
+double Mercator::t_inv( double t, double max_error, unsigned int max_iterations )
+{
+    double lat = M_PI_2 - 2.0 * atan( t );
+    double ex = 0.5 * WGS84::_e;
+    double er = 1.0e16;
 
-////////////////////////////////////////////////////////////////////////////////
+    unsigned int iteration = 0;
 
-#endif // CGI_DEFINES_H
+    while ( er > max_error && iteration < max_iterations )
+    {
+        double e_sinLat = WGS84::_e * sin( lat );
+        double lat_new = M_PI_2 - 2.0 * atan( t * pow( ( 1.0 - e_sinLat ) / ( 1.0 + e_sinLat ), ex ) );
+
+        er = fabs( lat_new - lat );
+        lat = lat_new;
+
+        iteration++;
+    }
+
+    return lat;
+}

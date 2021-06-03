@@ -38,31 +38,31 @@ GraphicsEADI::GraphicsEADI( QWidget *parent ) :
 
     _timerId ( 0 ),
 
-    _scene ( NULLPTR ),
+    _scene ( Q_NULLPTR ),
 
-    _adi ( NULLPTR ),
-    _alt ( NULLPTR ),
-    _asi ( NULLPTR ),
-    _hdg ( NULLPTR ),
-    _vsi ( NULLPTR ),
+    _adi ( Q_NULLPTR ),
+    _alt ( Q_NULLPTR ),
+    _asi ( Q_NULLPTR ),
+    _hdg ( Q_NULLPTR ),
+    _vsi ( Q_NULLPTR ),
 
-    _itemBack ( NULLPTR ),
-    _itemMask ( NULLPTR ),
+    _itemBack ( Q_NULLPTR ),
+    _itemMask ( Q_NULLPTR ),
 
-    _itemFMA ( NULLPTR ),
-    _itemSPD ( NULLPTR ),
+    _itemFMA ( Q_NULLPTR ),
+    _itemSPD ( Q_NULLPTR ),
 
-    _itemLNAV ( NULLPTR ),
-    _itemVNAV ( NULLPTR ),
+    _itemLNAV ( Q_NULLPTR ),
+    _itemVNAV ( Q_NULLPTR ),
 
-    _itemLNAV_ARM ( NULLPTR ),
-    _itemVNAV_ARM ( NULLPTR ),
+    _itemLNAV_ARM ( Q_NULLPTR ),
+    _itemVNAV_ARM ( Q_NULLPTR ),
 
-    _flightMode ( FM_OFF ),
-    _speedMode  ( SM_OFF ),
+    _fltMode ( FltMode::Off ),
+    _spdMode ( SpdMode::Off ),
 
-    _lnav ( LNAV_OFF ),
-    _vnav ( VNAV_OFF ),
+    _lnav ( LNAV::Off ),
+    _vnav ( VNAV::Off ),
 
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
@@ -111,16 +111,25 @@ GraphicsEADI::~GraphicsEADI()
     {
         _scene->clear();
         delete _scene;
-        _scene = NULLPTR;
+        _scene = Q_NULLPTR;
     }
 
     reset();
 
-    DELPTR( _adi );
-    DELPTR( _alt );
-    DELPTR( _asi );
-    DELPTR( _hdg );
-    DELPTR( _vsi );
+    if ( _adi ) delete _adi;
+    _adi = Q_NULLPTR;
+
+    if ( _alt ) delete _alt;
+    _alt = Q_NULLPTR;
+
+    if ( _asi ) delete _asi;
+    _asi = Q_NULLPTR;
+
+    if ( _hdg ) delete _hdg;
+    _hdg = Q_NULLPTR;
+
+    if ( _vsi ) delete _vsi;
+    _vsi = Q_NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -260,17 +269,17 @@ void GraphicsEADI::init()
 
 void GraphicsEADI::reset()
 {
-    _itemBack = NULLPTR;
-    _itemMask = NULLPTR;
+    _itemBack = Q_NULLPTR;
+    _itemMask = Q_NULLPTR;
 
-    _itemFMA = NULLPTR;
-    _itemSPD = NULLPTR;
+    _itemFMA = Q_NULLPTR;
+    _itemSPD = Q_NULLPTR;
 
-    _itemLNAV = NULLPTR;
-    _itemVNAV = NULLPTR;
+    _itemLNAV = Q_NULLPTR;
+    _itemVNAV = Q_NULLPTR;
 
-    _itemLNAV_ARM = NULLPTR;
-    _itemVNAV_ARM = NULLPTR;
+    _itemLNAV_ARM = Q_NULLPTR;
+    _itemVNAV_ARM = Q_NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -286,40 +295,40 @@ void GraphicsEADI::updateView()
     _asi->update( _scaleX, _scaleY );
     _hdg->update( _scaleX, _scaleY );
 
-    switch ( _flightMode )
+    switch ( _fltMode )
     {
-        case FM_FD:  _itemFMA->setPlainText( "  FD   " ); break;
-        case FM_CMD: _itemFMA->setPlainText( "  CMD  " ); break;
-        default:     _itemFMA->setPlainText( "       " ); break;
+        case FltMode::FD:  _itemFMA->setPlainText( "  FD   " ); break;
+        case FltMode::CMD: _itemFMA->setPlainText( "  CMD  " ); break;
+        default:           _itemFMA->setPlainText( "       " ); break;
     }
 
-    switch ( _speedMode )
+    switch ( _spdMode )
     {
-        case SM_FMC_SPD: _itemSPD->setPlainText( "FMC SPD" ); break;
-        default:         _itemSPD->setPlainText( "       " ); break;
+        case SpdMode::FMC_SPD: _itemSPD->setPlainText( "FMC SPD" ); break;
+        default:               _itemSPD->setPlainText( "       " ); break;
     }
 
     switch ( _lnav )
     {
-        case LNAV_HDG:     _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "       " ); break;
-        case LNAV_NAV:     _itemLNAV->setPlainText( "VOR/LOC" ); _itemLNAV_ARM->setPlainText( "       " ); break;
-        case LNAV_NAV_ARM: _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "VOR/LOC" ); break;
-        case LNAV_APR:     _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "       " ); break;
-        case LNAV_APR_ARM: _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "  APR  " ); break;
-        case LNAV_BC:      _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "       " ); break;
-        case LNAV_BC_ARM:  _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "  BC   " ); break;
-        default:           _itemLNAV->setPlainText( "       " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV::HDG:     _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV::NAV:     _itemLNAV->setPlainText( "VOR/LOC" ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV::NAV_ARM: _itemLNAV->setPlainText( "HDG SEL" ); _itemLNAV_ARM->setPlainText( "VOR/LOC" ); break;
+        case LNAV::APR:     _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV::APR_ARM: _itemLNAV->setPlainText( "  APR  " ); _itemLNAV_ARM->setPlainText( "  APR  " ); break;
+        case LNAV::BC:      _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "       " ); break;
+        case LNAV::BC_ARM:  _itemLNAV->setPlainText( "  BC   " ); _itemLNAV_ARM->setPlainText( "  BC   " ); break;
+        default:            _itemLNAV->setPlainText( "       " ); _itemLNAV_ARM->setPlainText( "       " ); break;
     }
 
     switch ( _vnav )
     {
-        case VNAV_ALT:     _itemVNAV->setPlainText( "  ALT  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
-        case VNAV_IAS:     _itemVNAV->setPlainText( "  IAS  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
-        case VNAV_VS:      _itemVNAV->setPlainText( "  VS   " ); _itemVNAV_ARM->setPlainText( "       " ); break;
-        case VNAV_ALT_SEL: _itemVNAV->setPlainText( "ALT SEL" ); _itemVNAV_ARM->setPlainText( "       " ); break;
-        case VNAV_GS:      _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "       " ); break;
-        case VNAV_GS_ARM:  _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "GS PATH" ); break;
-        default:           _itemVNAV->setPlainText( "       " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::ALT:     _itemVNAV->setPlainText( "  ALT  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::IAS:     _itemVNAV->setPlainText( "  IAS  " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::VS:      _itemVNAV->setPlainText( "  VS   " ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::ALT_SEL: _itemVNAV->setPlainText( "ALT SEL" ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::GS:      _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "       " ); break;
+        case VNAV::GS_ARM:  _itemVNAV->setPlainText( "GS PATH" ); _itemVNAV_ARM->setPlainText( "GS PATH" ); break;
+        default:            _itemVNAV->setPlainText( "       " ); _itemVNAV_ARM->setPlainText( "       " ); break;
     }
 
     _scene->update();
@@ -332,18 +341,20 @@ void GraphicsEADI::updateView()
 GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack   ( NULLPTR ),
-    _itemLadd   ( NULLPTR ),
-    _itemRoll   ( NULLPTR ),
-    _itemSlip   ( NULLPTR ),
-    _itemTurn   ( NULLPTR ),
-    _itemDotH   ( NULLPTR ),
-    _itemDotV   ( NULLPTR ),
-    _itemFD     ( NULLPTR ),
-    _itemStall  ( NULLPTR ),
-    _itemMask   ( NULLPTR ),
-    _itemScaleH ( NULLPTR ),
-    _itemScaleV ( NULLPTR ),
+    _itemBack   ( Q_NULLPTR ),
+    _itemLadd   ( Q_NULLPTR ),
+    _itemRoll   ( Q_NULLPTR ),
+    _itemSlip   ( Q_NULLPTR ),
+    _itemTurn   ( Q_NULLPTR ),
+    _itemDotH   ( Q_NULLPTR ),
+    _itemDotV   ( Q_NULLPTR ),
+    _itemFD     ( Q_NULLPTR ),
+    _itemStall  ( Q_NULLPTR ),
+    _itemMask   ( Q_NULLPTR ),
+    _itemScaleH ( Q_NULLPTR ),
+    _itemScaleV ( Q_NULLPTR ),
+    _itemFPM    ( Q_NULLPTR ),
+    _itemFPMX   ( Q_NULLPTR ),
 
     _roll     ( 0.0f ),
     _pitch    ( 0.0f ),
@@ -353,7 +364,12 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _dotV     ( 0.0f ),
     _fdRoll   ( 0.0f ),
     _fdPitch  ( 0.0f ),
+    _angleOfAttack ( 0.0f ),
+    _sideslipAngle ( 0.0f ),
 
+    _fpmValid ( false ),
+
+    _fpmVisible  ( false ),
     _dotVisibleH ( false ),
     _dotVisibleV ( false ),
     _fdVisible   ( false ),
@@ -382,6 +398,14 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _fdDeltaX_old       ( 0.0f ),
     _fdDeltaY_new       ( 0.0f ),
     _fdDeltaY_old       ( 0.0f ),
+    _fpmDeltaX_new      ( 0.0f ),
+    _fpmDeltaX_old      ( 0.0f ),
+    _fpmDeltaY_new      ( 0.0f ),
+    _fpmDeltaY_old      ( 0.0f ),
+    _fpmxDeltaX_new     ( 0.0f ),
+    _fpmxDeltaX_old     ( 0.0f ),
+    _fpmxDeltaY_new     ( 0.0f ),
+    _fpmxDeltaY_old     ( 0.0f ),
 
     _scaleX ( 1.0f ),
     _scaleY ( 1.0f ),
@@ -405,11 +429,13 @@ GraphicsEADI::ADI::ADI( QGraphicsScene *scene ) :
     _originalStallPos  ( 122.0f ,   91.0f ),
     _originalScaleHPos (   0.0f ,    0.0f ),
     _originalScaleVPos (   0.0f ,    0.0f ),
+    _originalFpmPos    ( 135.0f ,  113.0f ),
 
     _backZ   ( 10 ),
     _laddZ   ( 20 ),
     _rollZ   ( 30 ),
     _slipZ   ( 40 ),
+    _fpmZ    ( 40 ),
     _dotsZ   ( 50 ),
     _fdZ     ( 50 ),
     _scalesZ ( 51 ),
@@ -517,6 +543,20 @@ void GraphicsEADI::ADI::init( float scaleX, float scaleY )
     _itemMask->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
     _scene->addItem( _itemMask );
 
+    _itemFPM = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_fpm.svg" );
+    _itemFPM->setCacheMode( QGraphicsItem::NoCache );
+    _itemFPM->setZValue( _fpmZ );
+    _itemFPM->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFPM->moveBy( _scaleX * _originalFpmPos.x(), _scaleY * _originalFpmPos.y() );
+    _scene->addItem( _itemFPM );
+
+    _itemFPMX = new QGraphicsSvgItem( ":/gui/images/efis/eadi/eadi_adi_fpmx.svg" );
+    _itemFPMX->setCacheMode( QGraphicsItem::NoCache );
+    _itemFPMX->setZValue( _fpmZ );
+    _itemFPMX->setTransform( QTransform::fromScale( _scaleX, _scaleY ), true );
+    _itemFPMX->moveBy( _scaleX * _originalFpmPos.x(), _scaleY * _originalFpmPos.y() );
+    _scene->addItem( _itemFPMX );
+
     update( scaleX, scaleY );
 }
 
@@ -546,6 +586,7 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
     updateDots();
     updateFD( sinRoll, cosRoll );
     updateStall();
+    updateFPM();
 
     _laddDeltaX_old     = _laddDeltaX_new;
     _laddDeltaY_old     = _laddDeltaY_new;
@@ -558,6 +599,11 @@ void GraphicsEADI::ADI::update( float scaleX, float scaleY )
     _dotVDeltaY_old     = _dotVDeltaY_new;
     _fdDeltaX_old       = _fdDeltaX_new;
     _fdDeltaY_old       = _fdDeltaY_new;
+
+    _fpmDeltaX_old     = _fpmDeltaX_new;
+    _fpmDeltaY_old     = _fpmDeltaY_new;
+    _fpmxDeltaX_old     = _fpmxDeltaX_new;
+    _fpmxDeltaY_old     = _fpmxDeltaY_new;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +624,40 @@ void GraphicsEADI::ADI::setPitch( float pitch )
 
     if      ( _pitch < -90.0f ) _pitch = -90.0f;
     else if ( _pitch >  90.0f ) _pitch =  90.0f;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ADI::setFPM( float aoa, float sideslip, bool visible )
+{
+    _angleOfAttack = aoa;
+    _sideslipAngle = sideslip;
+
+    _fpmValid = true;
+
+    if ( _angleOfAttack < -15.0f )
+    {
+        _angleOfAttack = -15.0f;
+        _fpmValid = false;
+    }
+    else if ( _angleOfAttack > 15.0f )
+    {
+        _angleOfAttack = 15.0f;
+        _fpmValid = false;
+    }
+
+    if ( _sideslipAngle < -10.0f )
+    {
+        _sideslipAngle = -10.0f;
+        _fpmValid = false;
+    }
+    else if ( _sideslipAngle > 10.0f )
+    {
+        _sideslipAngle = 10.0f;
+        _fpmValid = false;
+    }
+
+    _fpmVisible = visible;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -645,17 +725,19 @@ void GraphicsEADI::ADI::setStall( bool stall )
 
 void GraphicsEADI::ADI::reset()
 {
-    _itemBack   = NULLPTR;
-    _itemLadd   = NULLPTR;
-    _itemRoll   = NULLPTR;
-    _itemSlip   = NULLPTR;
-    _itemTurn   = NULLPTR;
-    _itemDotH   = NULLPTR;
-    _itemDotV   = NULLPTR;
-    _itemFD     = NULLPTR;
-    _itemMask   = NULLPTR;
-    _itemScaleH = NULLPTR;
-    _itemScaleV = NULLPTR;
+    _itemBack   = Q_NULLPTR;
+    _itemLadd   = Q_NULLPTR;
+    _itemRoll   = Q_NULLPTR;
+    _itemSlip   = Q_NULLPTR;
+    _itemTurn   = Q_NULLPTR;
+    _itemDotH   = Q_NULLPTR;
+    _itemDotV   = Q_NULLPTR;
+    _itemFD     = Q_NULLPTR;
+    _itemMask   = Q_NULLPTR;
+    _itemScaleH = Q_NULLPTR;
+    _itemScaleV = Q_NULLPTR;
+    _itemFPM    = Q_NULLPTR;
+    _itemFPMX   = Q_NULLPTR;
 
     _roll     = 0.0f;
     _pitch    = 0.0f;
@@ -665,7 +747,12 @@ void GraphicsEADI::ADI::reset()
     _dotV     = 0.0f;
     _fdRoll   = 0.0f;
     _fdPitch  = 0.0f;
+    _angleOfAttack = 0.0f;
+    _sideslipAngle = 0.0f;
 
+    _fpmValid = false;
+
+    _fpmVisible   = false;
     _dotVisibleH  = false;
     _dotVisibleV  = false;
     _fdVisible    = false;
@@ -694,6 +781,14 @@ void GraphicsEADI::ADI::reset()
     _fdDeltaX_old       = 0.0f;
     _fdDeltaY_new       = 0.0f;
     _fdDeltaY_old       = 0.0f;
+    _fpmDeltaX_new      = 0.0f;
+    _fpmDeltaX_old      = 0.0f;
+    _fpmDeltaY_new      = 0.0f;
+    _fpmDeltaY_old      = 0.0f;
+    _fpmxDeltaX_new     = 0.0f;
+    _fpmxDeltaX_old     = 0.0f;
+    _fpmxDeltaY_new     = 0.0f;
+    _fpmxDeltaY_old     = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -849,24 +944,68 @@ void GraphicsEADI::ADI::updateStall()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void GraphicsEADI::ADI::updateFPM()
+{
+    if ( _fpmVisible )
+    {
+        _itemFPM->setVisible( true );
+
+        _fpmDeltaX_new = _scaleX * _originalPixPerDeg * _sideslipAngle;
+        _fpmDeltaY_new = _scaleY * _originalPixPerDeg * _angleOfAttack;
+
+        _itemFPM->moveBy( _fpmDeltaX_new - _fpmDeltaX_old, _fpmDeltaY_old - _fpmDeltaY_new );
+
+        if ( !_fpmValid )
+        {
+            _itemFPMX->setVisible( true );
+
+            _fpmxDeltaX_new = _fpmDeltaX_new;
+            _fpmxDeltaY_new = _fpmDeltaY_new;
+
+            _itemFPMX->moveBy( _fpmxDeltaX_new - _fpmxDeltaX_old, _fpmxDeltaY_old - _fpmxDeltaY_new );
+        }
+        else
+        {
+            _itemFPMX->setVisible( false );
+            _fpmxDeltaX_new = _fpmxDeltaX_old;
+            _fpmxDeltaY_new = _fpmxDeltaY_old;
+        }
+    }
+    else
+    {
+        _itemFPM->setVisible( false );
+        _fpmDeltaX_new = _fpmDeltaX_old;
+        _fpmDeltaY_new = _fpmDeltaY_old;
+
+        _itemFPMX->setVisible( false );
+        _fpmxDeltaX_new = _fpmxDeltaX_old;
+        _fpmxDeltaY_new = _fpmxDeltaY_old;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack     ( NULLPTR ),
-    _itemScale1   ( NULLPTR ),
-    _itemScale2   ( NULLPTR ),
-    _itemLabel1   ( NULLPTR ),
-    _itemLabel2   ( NULLPTR ),
-    _itemLabel3   ( NULLPTR ),
-    _itemGround   ( NULLPTR ),
-    _itemBugAlt   ( NULLPTR ),
-    _itemFrame    ( NULLPTR ),
-    _itemAltitude ( NULLPTR ),
-    _itemPressure ( NULLPTR ),
-    _itemSetpoint ( NULLPTR ),
+    _itemBack     ( Q_NULLPTR ),
+    _itemScale1   ( Q_NULLPTR ),
+    _itemScale2   ( Q_NULLPTR ),
+    _itemLabel1   ( Q_NULLPTR ),
+    _itemLabel2   ( Q_NULLPTR ),
+    _itemLabel3   ( Q_NULLPTR ),
+    _itemGround   ( Q_NULLPTR ),
+    _itemBugAlt   ( Q_NULLPTR ),
+    _itemFrame    ( Q_NULLPTR ),
+    _itemAltitude ( Q_NULLPTR ),
+    _itemPressure ( Q_NULLPTR ),
+    _itemSetpoint ( Q_NULLPTR ),
 
     _altitude ( 0.0f ),
+    _pressure ( 0.0f ),
     _altitude_sel ( 0.0f ),
+
+    _pressMode ( GraphicsEADI::PressureMode::STD ),
 
     _scale1DeltaY_new ( 0.0f ),
     _scale1DeltaY_old ( 0.0f ),
@@ -894,7 +1033,7 @@ GraphicsEADI::ALT::ALT( QGraphicsScene *scene ) :
     _originalScale2Pos   ( 231.0f , -474.5f ),
     _originalGroundPos   ( 231.5f ,  124.5f ),
     _originalFramePos    ( 225.0f ,  110.0f ),
-    _originalAltitudeCtr ( 256.0f ,  126.0f ),
+    _originalAltitudeCtr ( 254.0f ,  126.0f ),
     _originalPressureCtr ( 254.0f ,  225.0f ),
     _originalAltitudeSet ( 250.0f ,   27.0f ),
 
@@ -1031,6 +1170,7 @@ void GraphicsEADI::ALT::update( float scaleX, float scaleY )
     _scaleY = scaleY;
 
     updateAltitude();
+    updatePressure();
 
     _scale1DeltaY_old = _scale1DeltaY_new;
     _scale2DeltaY_old = _scale2DeltaY_new;
@@ -1051,6 +1191,18 @@ void GraphicsEADI::ALT::setAltitude( float altitude )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void GraphicsEADI::ALT::setPressure( float pressure, GraphicsEADI::PressureMode pressMode )
+{
+    _pressure = pressure;
+
+    if      ( _pressure <    0.0f ) _pressure =    0.0f;
+    else if ( _pressure > 2000.0f ) _pressure = 2000.0f;
+
+    _pressMode = pressMode;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void GraphicsEADI::ALT::setAltitudeSel( double altitude )
 {
     _altitude_sel = altitude;
@@ -1063,21 +1215,24 @@ void GraphicsEADI::ALT::setAltitudeSel( double altitude )
 
 void GraphicsEADI::ALT::reset()
 {
-    _itemBack     = NULLPTR;
-    _itemScale1   = NULLPTR;
-    _itemScale2   = NULLPTR;
-    _itemLabel1   = NULLPTR;
-    _itemLabel2   = NULLPTR;
-    _itemLabel3   = NULLPTR;
-    _itemGround   = NULLPTR;
-    _itemBugAlt   = NULLPTR;
-    _itemFrame    = NULLPTR;
-    _itemAltitude = NULLPTR;
-    _itemPressure = NULLPTR;
-    _itemSetpoint = NULLPTR;
+    _itemBack     = Q_NULLPTR;
+    _itemScale1   = Q_NULLPTR;
+    _itemScale2   = Q_NULLPTR;
+    _itemLabel1   = Q_NULLPTR;
+    _itemLabel2   = Q_NULLPTR;
+    _itemLabel3   = Q_NULLPTR;
+    _itemGround   = Q_NULLPTR;
+    _itemBugAlt   = Q_NULLPTR;
+    _itemFrame    = Q_NULLPTR;
+    _itemAltitude = Q_NULLPTR;
+    _itemPressure = Q_NULLPTR;
+    _itemSetpoint = Q_NULLPTR;
 
     _altitude = 0.0f;
+    _pressure = 0.0f;
     _altitude_sel = 0.0f;
+
+    _pressMode = GraphicsEADI::PressureMode::STD;
 
     _scale1DeltaY_new = 0.0f;
     _scale1DeltaY_old = 0.0f;
@@ -1101,6 +1256,24 @@ void GraphicsEADI::ALT::updateAltitude()
     updateScale();
     updateScaleLabels();
     updateAltitudeBug();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void GraphicsEADI::ALT::updatePressure()
+{
+    if ( _pressMode == GraphicsEADI::PressureMode::STD )
+    {
+        _itemPressure->setPlainText( QString( "  STD  " ) );
+    }
+    else if ( _pressMode == GraphicsEADI::PressureMode::MB )
+    {
+        _itemPressure->setPlainText( QString::number( _pressure, 'f', 0 ) + QString( " MB" ) );
+    }
+    else if ( _pressMode == GraphicsEADI::PressureMode::IN )
+    {
+        _itemPressure->setPlainText( QString::number( _pressure, 'f', 2 ) + QString( " IN" ) );
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1208,23 +1381,23 @@ void GraphicsEADI::ALT::updateScaleLabels()
 GraphicsEADI::ASI::ASI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack     ( NULLPTR ),
-    _itemScale1   ( NULLPTR ),
-    _itemScale2   ( NULLPTR ),
-    _itemLabel1   ( NULLPTR ),
-    _itemLabel2   ( NULLPTR ),
-    _itemLabel3   ( NULLPTR ),
-    _itemLabel4   ( NULLPTR ),
-    _itemLabel5   ( NULLPTR ),
-    _itemLabel6   ( NULLPTR ),
-    _itemLabel7   ( NULLPTR ),
-    _itemBugIAS   ( NULLPTR ),
-    _itemFrame    ( NULLPTR ),
-    _itemVfe      ( NULLPTR ),
-    _itemVne      ( NULLPTR ),
-    _itemAirspeed ( NULLPTR ),
-    _itemMachNo   ( NULLPTR ),
-    _itemSetpoint ( NULLPTR ),
+    _itemBack     ( Q_NULLPTR ),
+    _itemScale1   ( Q_NULLPTR ),
+    _itemScale2   ( Q_NULLPTR ),
+    _itemLabel1   ( Q_NULLPTR ),
+    _itemLabel2   ( Q_NULLPTR ),
+    _itemLabel3   ( Q_NULLPTR ),
+    _itemLabel4   ( Q_NULLPTR ),
+    _itemLabel5   ( Q_NULLPTR ),
+    _itemLabel6   ( Q_NULLPTR ),
+    _itemLabel7   ( Q_NULLPTR ),
+    _itemBugIAS   ( Q_NULLPTR ),
+    _itemFrame    ( Q_NULLPTR ),
+    _itemVfe      ( Q_NULLPTR ),
+    _itemVne      ( Q_NULLPTR ),
+    _itemAirspeed ( Q_NULLPTR ),
+    _itemMachNo   ( Q_NULLPTR ),
+    _itemSetpoint ( Q_NULLPTR ),
 
     _vfeBrush ( QColor( 0xff, 0xff, 0xff ), Qt::SolidPattern ),
     _vfePen( _vfeBrush, 1 ),
@@ -1518,31 +1691,28 @@ void GraphicsEADI::ASI::setVne( double vne )
 
 void GraphicsEADI::ASI::reset()
 {
-    _itemBack     = NULLPTR;
-    _itemScale1   = NULLPTR;
-    _itemScale2   = NULLPTR;
-    _itemLabel1   = NULLPTR;
-    _itemLabel2   = NULLPTR;
-    _itemLabel3   = NULLPTR;
-    _itemLabel4   = NULLPTR;
-    _itemLabel5   = NULLPTR;
-    _itemLabel6   = NULLPTR;
-    _itemLabel7   = NULLPTR;
-    _itemBugIAS   = NULLPTR;
-    _itemFrame    = NULLPTR;
-    _itemVfe      = NULLPTR;
-    _itemVne      = NULLPTR;
-    _itemAirspeed = NULLPTR;
-    _itemMachNo   = NULLPTR;
-    _itemSetpoint = NULLPTR;
+    _itemBack     = Q_NULLPTR;
+    _itemScale1   = Q_NULLPTR;
+    _itemScale2   = Q_NULLPTR;
+    _itemLabel1   = Q_NULLPTR;
+    _itemLabel2   = Q_NULLPTR;
+    _itemLabel3   = Q_NULLPTR;
+    _itemLabel4   = Q_NULLPTR;
+    _itemLabel5   = Q_NULLPTR;
+    _itemLabel6   = Q_NULLPTR;
+    _itemLabel7   = Q_NULLPTR;
+    _itemBugIAS   = Q_NULLPTR;
+    _itemFrame    = Q_NULLPTR;
+    _itemVfe      = Q_NULLPTR;
+    _itemVne      = Q_NULLPTR;
+    _itemAirspeed = Q_NULLPTR;
+    _itemMachNo   = Q_NULLPTR;
+    _itemSetpoint = Q_NULLPTR;
 
     _airspeed = 0.0f;
     _machNo   = 0.0f;
 
     _airspeed_sel = 0.0f;
-
-    _vfe = 0.0f;
-    _vne = 0.0f;
 
     _scale1DeltaY_new = 0.0f;
     _scale1DeltaY_old = 0.0f;
@@ -1762,11 +1932,11 @@ void GraphicsEADI::ASI::updateVne()
 GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemBack      ( NULLPTR ),
-    _itemFace      ( NULLPTR ),
-    _itemHdgBug    ( NULLPTR ),
-    _itemMarks     ( NULLPTR ),
-    _itemFrameText ( NULLPTR ),
+    _itemBack      ( Q_NULLPTR ),
+    _itemFace      ( Q_NULLPTR ),
+    _itemHdgBug    ( Q_NULLPTR ),
+    _itemMarks     ( Q_NULLPTR ),
+    _itemFrameText ( Q_NULLPTR ),
 
     _heading ( 0.0f ),
     _heading_sel ( 0.0f ),
@@ -1780,8 +1950,8 @@ GraphicsEADI::HDG::HDG( QGraphicsScene *scene ) :
     _originalMarksPos     ( 134.0f , 217.0f ),
     _originalFrameTextCtr ( 149.5f , 225.5f ),
 
-    _backZ      (  80 ),
-    _faceZ      (  90 ),
+    _backZ      (  91 ),
+    _faceZ      (  92 ),
     _hdgBugZ    ( 100 ),
     _marksZ     ( 110 ),
     _frameTextZ ( 120 )
@@ -1876,11 +2046,11 @@ void GraphicsEADI::HDG::setHeadingSel( float heading )
 
 void GraphicsEADI::HDG::reset()
 {
-    _itemBack      = NULLPTR;
-    _itemFace      = NULLPTR;
-    _itemHdgBug    = NULLPTR;
-    _itemMarks     = NULLPTR;
-    _itemFrameText = NULLPTR;
+    _itemBack      = Q_NULLPTR;
+    _itemFace      = Q_NULLPTR;
+    _itemHdgBug    = Q_NULLPTR;
+    _itemMarks     = Q_NULLPTR;
+    _itemFrameText = Q_NULLPTR;
 
     _heading = 0.0f;
     _heading_sel = 0.0f;
@@ -1903,8 +2073,8 @@ void GraphicsEADI::HDG::updateHeading()
 GraphicsEADI::VSI::VSI( QGraphicsScene *scene ) :
     _scene ( scene ),
 
-    _itemScale  ( NULLPTR ),
-    _itemMarker ( NULLPTR ),
+    _itemScale  ( Q_NULLPTR ),
+    _itemMarker ( Q_NULLPTR ),
 
     _climbRate ( 0.0f ),
 
@@ -1978,7 +2148,7 @@ void GraphicsEADI::VSI::setClimbRate( float climbRate )
 
 void GraphicsEADI::VSI::reset()
 {
-    _itemScale = NULLPTR;
+    _itemScale = Q_NULLPTR;
     _climbRate = 0.0;
 }
 

@@ -28,8 +28,6 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSvgItem>
 
-#include <Defines.h>
-
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
@@ -41,14 +39,56 @@ class GraphicsEADI : public QGraphicsView
 
 public:
 
-    enum FlightMode { FM_OFF = 0, FM_FD, FM_CMD };
-    enum SpeedMode  { SM_OFF = 0, SM_FMC_SPD };
+    /** Flight mode enum. */
+    enum class FltMode
+    {
+        Off = 0,    ///<
+        FD,         ///<
+        CMD         ///<
+    };
 
-    enum LNAV { LNAV_OFF = 0, LNAV_HDG, LNAV_NAV, LNAV_NAV_ARM, LNAV_APR, LNAV_APR_ARM, LNAV_BC, LNAV_BC_ARM };
-    enum VNAV { VNAV_OFF = 0, VNAV_ALT, VNAV_IAS, VNAV_VS, VNAV_ALT_SEL, VNAV_GS, VNAV_GS_ARM };
+    /** Speed mode enum. */
+    enum class SpdMode
+    {
+        Off = 0,    ///<
+        FMC_SPD     ///<
+    };
+
+    /** Lateral navigation mode enum. */
+    enum class LNAV
+    {
+        Off = 0,    ///<
+        HDG,        ///<
+        NAV,        ///<
+        NAV_ARM,    ///<
+        APR,        ///<
+        APR_ARM,    ///<
+        BC,         ///<
+        BC_ARM      ///<
+    };
+
+    /** Vertical navigation mode enum. */
+    enum class VNAV
+    {
+        Off = 0,    ///<
+        ALT,        ///<
+        IAS,        ///<
+        VS,         ///<
+        ALT_SEL,    ///<
+        GS,         ///<
+        GS_ARM      ///<
+    };
+
+    /** Altimeter pressure units. */
+    enum class PressureMode
+    {
+        STD = 0,    ///< standard (displays STD instead of numerical value)
+        MB,         ///< milibars
+        IN          ///< inches of mercury
+    };
 
     /** @brief Constructor. */
-    explicit GraphicsEADI( QWidget *parent = NULLPTR );
+    explicit GraphicsEADI( QWidget *parent = Q_NULLPTR );
 
     /** @brief Destructor. */
     virtual ~GraphicsEADI();
@@ -56,16 +96,16 @@ public:
     /** */
     void reinit();
 
-    /** */
-    inline void setFlightMode( FlightMode flightMode )
+    /** Sets flight mode. */
+    inline void setFltMode( FltMode fltMode )
     {
-        _flightMode = flightMode;
+        _fltMode = fltMode;
     }
 
-    /** */
-    inline void setSpeedMode( SpeedMode speedMode )
+    /** Sets speed mode. */
+    inline void setSpdMode( SpdMode spdMode )
     {
-        _speedMode = speedMode;
+        _spdMode = spdMode;
     }
 
     /** */
@@ -90,6 +130,15 @@ public:
     inline void setPitch( float pitch )
     {
         _adi->setPitch( pitch );
+    }
+
+    /**
+     * @param angle of attack [deg]
+     * @param angle of sideslip [deg]
+     * @param flight path marker visibility */
+    inline void setFPM( float aoa, float sideslip, bool visible = true )
+    {
+        _adi->setFPM( aoa, sideslip, visible );
     }
 
     /** @param normalized slip or skid (range from -1.0 to 1.0) */
@@ -135,6 +184,14 @@ public:
     inline void setAltitude( float altitude )
     {
         _alt->setAltitude( altitude );
+    }
+
+    /**
+     * @param pressure (dimensionless numeric value)
+     * @param pressure mode according to GraphicsEADI::PressureMode */
+    inline void setPressure( float pressure, PressureMode pressMode )
+    {
+        _alt->setPressure( pressure, pressMode );
     }
 
     /** @param airspeed (dimensionless numeric value) */
@@ -227,10 +284,10 @@ private:
     QGraphicsTextItem *_itemVNAV;           ///< VNAV (Vertical Navigation Mode)
 
     QGraphicsTextItem *_itemLNAV_ARM;       ///< LNAV (Lateral Navigation Mode)
-    QGraphicsTextItem *_itemVNAV_ARM;       ///< LNAV (Lateral Navigation Mode)
+    QGraphicsTextItem *_itemVNAV_ARM;       ///< VNAV (Vertical Navigation Mode)
 
-    FlightMode _flightMode;                 ///<
-    SpeedMode  _speedMode;                  ///<
+    FltMode _fltMode;                       ///< flight mode
+    SpdMode _spdMode;                       ///< speed mode
 
     LNAV _lnav;                             ///<
     VNAV _vnav;                             ///<
@@ -271,6 +328,7 @@ private:
 
         void setRoll( float roll );
         void setPitch( float pitch );
+        void setFPM( float aoa, float sideslip, bool visible = true );
         void setSlipSkid( float slipSkid );
         void setTurnRate( float turnRate );
         void setDots( float dotH, float dotV, bool visibleH, bool visibleV );
@@ -293,6 +351,8 @@ private:
         QGraphicsSvgItem  *_itemMask;       ///< adi mask
         QGraphicsSvgItem  *_itemScaleH;     ///<
         QGraphicsSvgItem  *_itemScaleV;     ///<
+        QGraphicsSvgItem  *_itemFPM;        ///< flight path marker
+        QGraphicsSvgItem  *_itemFPMX;       ///< flight path marker cross
 
         float _roll;                        ///< [deg]
         float _pitch;                       ///< [deg]
@@ -302,7 +362,12 @@ private:
         float _dotV;                        ///< -1.0 ... 1.0
         float _fdRoll;                      ///< [deg]
         float _fdPitch;                     ///< [deg]
+        float _angleOfAttack;               ///< [deg]
+        float _sideslipAngle;               ///< [deg]
 
+        bool _fpmValid;                     ///<
+
+        bool _fpmVisible;                   ///<
         bool _dotVisibleH;                  ///<
         bool _dotVisibleV;                  ///<
         bool _fdVisible;                    ///<
@@ -331,6 +396,14 @@ private:
         float _fdDeltaX_old;                ///<
         float _fdDeltaY_new;                ///<
         float _fdDeltaY_old;                ///<
+        float _fpmDeltaX_new;               ///<
+        float _fpmDeltaX_old;               ///<
+        float _fpmDeltaY_new;               ///<
+        float _fpmDeltaY_old;               ///<
+        float _fpmxDeltaX_new;              ///<
+        float _fpmxDeltaX_old;              ///<
+        float _fpmxDeltaY_new;              ///<
+        float _fpmxDeltaY_old;              ///<
 
         float _scaleX;                      ///<
         float _scaleY;                      ///<
@@ -354,11 +427,13 @@ private:
         QPointF _originalStallPos;          ///<
         QPointF _originalScaleHPos;         ///<
         QPointF _originalScaleVPos;         ///<
+        QPointF _originalFpmPos;            ///<
 
         const int _backZ;                   ///<
         const int _laddZ;                   ///<
         const int _rollZ;                   ///<
         const int _slipZ;                   ///<
+        const int _fpmZ;                    ///<
         const int _dotsZ;                   ///<
         const int _fdZ;                     ///<
         const int _scalesZ;                 ///<
@@ -376,6 +451,7 @@ private:
         void updateDots();
         void updateFD( float sinRoll, float cosRoll );
         void updateStall();
+        void updateFPM();
     };
 
     /** Altimeter */
@@ -388,6 +464,7 @@ private:
         void update( float scaleX, float scaleY );
 
         void setAltitude( float altitude );
+        void setPressure( float pressure, GraphicsEADI::PressureMode pressMode );
         void setAltitudeSel( double altitude );
 
     private:
@@ -408,7 +485,10 @@ private:
         QGraphicsTextItem *_itemSetpoint;   ///<
 
         float _altitude;                    ///<
+        float _pressure;                    ///<
         float _altitude_sel;                ///<
+
+        GraphicsEADI::PressureMode _pressMode;
 
         float _scale1DeltaY_new;            ///<
         float _scale1DeltaY_old;            ///<
@@ -451,6 +531,7 @@ private:
         void reset();
 
         void updateAltitude();
+        void updatePressure();
         void updateAltitudeBug();
         void updateScale();
         void updateScaleLabels();

@@ -253,7 +253,7 @@ void DataBase::parseILS( const char *path )
                                 ils.freq = Frequency::getFreqDME( cols.at( 6 ).c_str() );
                             }
 
-                            fdm::WGS84::Geo position_geo;
+                            fdm::Geo position_geo;
 
                             position_geo.lat = ils.lat;
                             position_geo.lon = ils.lon;
@@ -320,7 +320,7 @@ void DataBase::parseNAV( const char *path )
 
                         nav.freq = fdm::String::toDouble( cols.at( 8 ) );
 
-                        fdm::WGS84::Geo position_geo;
+                        fdm::Geo position_geo;
 
                         position_geo.lat = nav.lat;
                         position_geo.lon = nav.lon;

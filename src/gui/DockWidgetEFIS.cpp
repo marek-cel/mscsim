@@ -40,7 +40,7 @@ DockWidgetEFIS::DockWidgetEFIS( QWidget *parent ) :
     _ui->widgetEHSI->setSquareWidget( _ui->frameEHSI );
 
     _graphicsEHSI->setBearing( 0.0f, false );
-    _graphicsEHSI->setDeviation( 0.0f, GraphicsEHSI::NONE );
+    _graphicsEHSI->setDeviation( 0.0f, GraphicsEHSI::CDI::Off );
     _graphicsEHSI->setDistance( 0.0f, false );
 }
 

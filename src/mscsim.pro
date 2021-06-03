@@ -130,9 +130,9 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
+    $$PWD/defs.h \
     $$PWD/Autopilot.h \
     $$PWD/Data.h \
-    $$PWD/Defines.h \
     $$PWD/Manager.h \
     $$PWD/Simulation.h
 

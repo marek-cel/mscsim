@@ -132,8 +132,10 @@ HEADERS += \
     $$PWD/utils/fdm_Angles.h \
     $$PWD/utils/fdm_DataNode.h \
     $$PWD/utils/fdm_DataRef.h \
+    $$PWD/utils/fdm_Endianness.h \
     $$PWD/utils/fdm_EulerRect.h \
     $$PWD/utils/fdm_GaussJordan.h \
+    $$PWD/utils/fdm_Geo.h \
     $$PWD/utils/fdm_Geom.h \
     $$PWD/utils/fdm_Integrator.h \
     $$PWD/utils/fdm_Map.h \
@@ -141,6 +143,7 @@ HEADERS += \
     $$PWD/utils/fdm_Matrix3x3.h \
     $$PWD/utils/fdm_Matrix4x4.h \
     $$PWD/utils/fdm_Matrix6x6.h \
+    $$PWD/utils/fdm_Mercator.h \
     $$PWD/utils/fdm_Misc.h \
     $$PWD/utils/fdm_Oscillation.h \
     $$PWD/utils/fdm_Quaternion.h \
@@ -162,10 +165,12 @@ HEADERS += \
 SOURCES += \
     $$PWD/utils/fdm_Angles.cpp \
     $$PWD/utils/fdm_DataNode.cpp \
+    $$PWD/utils/fdm_Endianness.cpp \
     $$PWD/utils/fdm_Geom.cpp \
     $$PWD/utils/fdm_Matrix3x3.cpp \
     $$PWD/utils/fdm_Matrix4x4.cpp \
     $$PWD/utils/fdm_Matrix6x6.cpp \
+    $$PWD/utils/fdm_Mercator.cpp \
     $$PWD/utils/fdm_Oscillation.cpp \
     $$PWD/utils/fdm_Quaternion.cpp \
     $$PWD/utils/fdm_Random.cpp \

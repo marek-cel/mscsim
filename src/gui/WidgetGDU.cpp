@@ -23,7 +23,7 @@
 #include <gui/WidgetGDU.h>
 #include <ui_WidgetGDU.h>
 
-#include <Defines.h>
+#include <defs.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

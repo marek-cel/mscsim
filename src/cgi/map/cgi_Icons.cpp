@@ -320,8 +320,8 @@ void Icons::initRunways()
         double le_x = Mercator::x( (*it).le_lon );
         double le_y = Mercator::y( (*it).le_lat );
 
-        fdm::WGS84::Geo he_pos_geo;
-        fdm::WGS84::Geo le_pos_geo;
+        fdm::Geo he_pos_geo;
+        fdm::Geo le_pos_geo;
 
         he_pos_geo.lat = (*it).he_lat;
         he_pos_geo.lon = (*it).he_lon;

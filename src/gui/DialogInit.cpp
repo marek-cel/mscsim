@@ -131,7 +131,7 @@ void DialogInit::saveData()
 
             fdm::Vector3 pos_ned = fdm::Matrix3x3( fdm::Angles( 0.0, 0.0, -psi ) ) * pos_bas;
 
-            fdm::WGS84::Geo pos_geo;
+            fdm::Geo pos_geo;
 
             pos_geo.lat = _ui->comboInitLat->invert( _ui->spinInitLat->value() );
             pos_geo.lon = _ui->comboInitLon->invert( _ui->spinInitLon->value() );

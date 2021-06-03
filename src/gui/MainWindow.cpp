@@ -863,10 +863,10 @@ void MainWindow::updateDockEFIS()
 
         _dockEFIS->setCourse( _dockAuto->getCourse() );
 
-        GraphicsEHSI::CDI cdi = GraphicsEHSI::NONE;
+        GraphicsEHSI::CDI cdi = GraphicsEHSI::CDI::Off;
 
-        if ( Data::get()->navigation.nav_cdi == Data::Navigation::TO   ) cdi = GraphicsEHSI::TO;
-        if ( Data::get()->navigation.nav_cdi == Data::Navigation::FROM ) cdi = GraphicsEHSI::FROM;
+        if ( Data::get()->navigation.nav_cdi == Data::Navigation::TO   ) cdi = GraphicsEHSI::CDI::TO;
+        if ( Data::get()->navigation.nav_cdi == Data::Navigation::FROM ) cdi = GraphicsEHSI::CDI::FROM;
 
         _dockEFIS->setDistance( fdm::Units::m2nmi( Data::get()->navigation.dme_distance ),
                                 Data::get()->navigation.dme_visible );
@@ -874,28 +874,28 @@ void MainWindow::updateDockEFIS()
                                Data::get()->navigation.adf_visible );
         _dockEFIS->setDeviation( Data::get()->navigation.nav_norm, cdi );
 
-        GraphicsEADI::FlightMode flightMode = GraphicsEADI::FM_OFF;
+        GraphicsEADI::FltMode fltMode = GraphicsEADI::FltMode::Off;
         if ( _ap->isActiveFD() )
         {
-            flightMode = GraphicsEADI::FM_FD;
+            fltMode = GraphicsEADI::FltMode::FD;
 
-            if ( _ap->isActiveAP() ) flightMode = GraphicsEADI::FM_CMD;
+            if ( _ap->isActiveAP() ) fltMode = GraphicsEADI::FltMode::CMD;
         }
-        _dockEFIS->setFlightMode( flightMode );
+        _dockEFIS->setFltMode( fltMode );
 
-        GraphicsEADI::LNAV lnav = GraphicsEADI::LNAV_OFF;
-        if      ( _ap->isActiveHDG() ) lnav = GraphicsEADI::LNAV_HDG;
-        else if ( _ap->isActiveNAV() ) lnav = GraphicsEADI::LNAV_NAV;
-        else if ( _ap->isActiveAPR() ) lnav = GraphicsEADI::LNAV_APR;
-        else if ( _ap->isActiveBC()  ) lnav = GraphicsEADI::LNAV_BC;
+        GraphicsEADI::LNAV lnav = GraphicsEADI::LNAV::Off;
+        if      ( _ap->isActiveHDG() ) lnav = GraphicsEADI::LNAV::HDG;
+        else if ( _ap->isActiveNAV() ) lnav = GraphicsEADI::LNAV::NAV;
+        else if ( _ap->isActiveAPR() ) lnav = GraphicsEADI::LNAV::APR;
+        else if ( _ap->isActiveBC()  ) lnav = GraphicsEADI::LNAV::BC;
         _dockEFIS->setLNAV( lnav );
 
-        GraphicsEADI::VNAV vnav = GraphicsEADI::VNAV_OFF;
-        if      ( _ap->isActiveALT() ) vnav = GraphicsEADI::VNAV_ALT;
-        else if ( _ap->isActiveIAS() ) vnav = GraphicsEADI::VNAV_IAS;
-        else if ( _ap->isActiveVS()  ) vnav = GraphicsEADI::VNAV_VS;
-        else if ( _ap->isActiveARM() ) vnav = GraphicsEADI::VNAV_ALT_SEL;
-        else if ( _ap->isActiveGS()  ) vnav = GraphicsEADI::VNAV_GS;
+        GraphicsEADI::VNAV vnav = GraphicsEADI::VNAV::Off;
+        if      ( _ap->isActiveALT() ) vnav = GraphicsEADI::VNAV::ALT;
+        else if ( _ap->isActiveIAS() ) vnav = GraphicsEADI::VNAV::IAS;
+        else if ( _ap->isActiveVS()  ) vnav = GraphicsEADI::VNAV::VS;
+        else if ( _ap->isActiveARM() ) vnav = GraphicsEADI::VNAV::ALT_SEL;
+        else if ( _ap->isActiveGS()  ) vnav = GraphicsEADI::VNAV::GS;
         _dockEFIS->setVNAV( vnav );
 
         _dockEFIS->setAirspeedSel( coef_ias * _ap->getAirspeed() );

@@ -19,46 +19,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DEFINES_H
-#define DEFINES_H
+
+#include <fdm/utils/fdm_Endianness.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#define SIM_APP_NAME    "MScSim"
-#define SIM_APP_VER     "0.4"
-#define SIM_ORG_NAME    "Marek_Cel"
-#define SIM_ORG_DOMAIN  "marekcel.pl"
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef NULLPTR
-#   if __cplusplus >= 201103L
-#       define NULLPTR nullptr
-#   else
-#       define NULLPTR 0
-#   endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-
-#ifndef DELPTR
-#define DELPTR( ptr ) \
-{ \
-    if ( ptr ) delete ptr; \
-    ptr = NULLPTR; \
+unsigned int Endianness::hostToNet( unsigned int val )
+{
+    return htonl( val );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DELTAB
-#define DELTAB( ptr ) \
-{ \
-    if ( ptr ) delete [] ptr; \
-    ptr = NULLPTR; \
+unsigned short Endianness::hostToNet( unsigned short val )
+{
+    return htons( val );
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DEFINES_H
+double Endianness::hostToNet( double val )
+{
+    unsigned int *val_ptr = (unsigned int*)( &val );
+    unsigned int temp = val_ptr[ 0 ];
+
+    val_ptr[ 0 ] = htonl( val_ptr[ 1 ] );
+    val_ptr[ 1 ] = htonl( temp );
+
+    return val;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+float Endianness::hostToNet( float val )
+{
+    unsigned int *val_ptr = (unsigned int*)( &val );
+    unsigned int temp = val_ptr[ 0 ];
+
+    val_ptr[ 0 ] = htonl( temp );
+
+    return val;
+}

@@ -19,46 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef SINGLETON_H
-#define SINGLETON_H
+#ifndef FDM_ENDIANNESS_H
+#define FDM_ENDIANNESS_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <defs.h>
+#ifdef _LINUX_
+#   include <netinet/in.h>
+#endif
+
+#include <fdm/fdm_Defines.h>
 
 ////////////////////////////////////////////////////////////////////////////////
+
+namespace fdm
+{
 
 /**
- * @brief Singleton class template.
+ * @brief Endianness utilities class.
  */
-template < class TYPE >
-class Singleton
+class FDMEXPORT Endianness
 {
 public:
 
     /**
-     * Returns singleton object instance pointer, creates it if necessary.
-     * @return singleton object instance pointer
+     * @brief Converts values between host and network byte order.
+     * @param val value expressed in host byte order
+     * @return value expressed in network byte order
      */
-    static TYPE* instance()
-    {
-        if ( !_instance )
-        {
-            _instance = new TYPE();
-        }
+    static unsigned int hostToNet( unsigned int val );
 
-        return _instance;
-    }
+    /**
+     * @brief Converts values between host and network byte order.
+     * @param val value expressed in host byte order
+     * @return value expressed in network byte order
+     */
+    static unsigned short hostToNet( unsigned short val );
 
-private:
+    /**
+     * @brief Converts values between host and network byte order.
+     * @param val value expressed in host byte order
+     * @return value expressed in network byte order
+     */
+    static double hostToNet( double val );
 
-    static TYPE *_instance;     ///< singleton object instance pointer
+    /**
+     * @brief Converts values between host and network byte order.
+     * @param val value expressed in host byte order
+     * @return value expressed in network byte order
+     */
+    static float hostToNet( float val );
 };
 
-////////////////////////////////////////////////////////////////////////////////
-
-template < class TYPE > TYPE* Singleton< TYPE >::_instance = NULLPTR;
+} // end of fdm namespace
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // SINGLETON_H
+#endif // FDM_ENDIANNESS_H

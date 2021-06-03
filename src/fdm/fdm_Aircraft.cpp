@@ -552,7 +552,7 @@ void Aircraft::updateVariables( const StateVector &stateVect,
     _g_force = -( acc_gforce_bas - _grav_bas ) / WGS84::_g;
     _g_pilot = -( acc_gpilot_bas - _grav_bas ) / WGS84::_g;
 
-    WGS84::Geo e_isect_geo = _wgs.getPos_Geo();
+    Geo e_isect_geo = _wgs.getPos_Geo();
     e_isect_geo.alt = -1000.0;
 
     Vector3 ground_wgs;

@@ -209,7 +209,7 @@ void FDM::initializeOnGround()
                                                               _dataInp.initial.longitude,
                                                               true );
 
-            WGS84::Geo pos_geo;
+            Geo pos_geo;
 
             pos_geo.lat = _dataInp.initial.latitude;
             pos_geo.lon = _dataInp.initial.longitude;
@@ -610,7 +610,7 @@ void FDM::updateInitialPositionAndAttitude()
         altitude_asl = 1.0 + _dataInp.ground.elevation;
     }
 
-    WGS84::Geo pos_geo;
+    Geo pos_geo;
 
     pos_geo.lat = _dataInp.initial.latitude;
     pos_geo.lon = _dataInp.initial.longitude;

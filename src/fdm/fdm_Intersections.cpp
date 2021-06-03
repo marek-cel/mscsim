@@ -79,8 +79,8 @@ void Intersections::update( double lat, double lon )
 
 double Intersections::getElevation( double lat, double lon ) const
 {
-    WGS84::Geo b_geo;
-    WGS84::Geo e_geo;
+    Geo b_geo;
+    Geo e_geo;
 
     b_geo.lat = lat;
     b_geo.lon = lon;
@@ -179,8 +179,8 @@ bool Intersections::isIntersection( const Vector3 &b, const Vector3 &e,
 
 Vector3 Intersections::getNormal( double lat, double lon, bool update ) const
 {
-    WGS84::Geo b_geo;
-    WGS84::Geo e_geo;
+    Geo b_geo;
+    Geo e_geo;
 
     b_geo.lat = lat;
     b_geo.lon = lon;

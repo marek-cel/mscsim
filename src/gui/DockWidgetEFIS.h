@@ -26,7 +26,7 @@
 
 #include <QDockWidget>
 
-#include <Defines.h>
+#include <defs.h>
 
 #include <gui/GraphicsEADI.h>
 #include <gui/GraphicsEHSI.h>
@@ -56,15 +56,15 @@ public:
     virtual ~DockWidgetEFIS();
 
     /** */
-    inline void setFlightMode( GraphicsEADI::FlightMode flightMode )
+    inline void setFltMode( GraphicsEADI::FltMode fltMode )
     {
-        _graphicsEADI->setFlightMode( flightMode );
+        _graphicsEADI->setFltMode( fltMode );
     }
 
     /** */
-    inline void setSpeedMode( GraphicsEADI::SpeedMode speedMode )
+    inline void setSpdMode( GraphicsEADI::SpdMode spdMode )
     {
-        _graphicsEADI->setSpeedMode( speedMode );
+        _graphicsEADI->setSpdMode( spdMode );
     }
 
     /** */

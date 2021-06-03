@@ -239,7 +239,7 @@ void Manager::updateStateIdle()
     _stepsLT_def = 0;
     _stepsGT_def = 0;
 
-    WGS84::Geo pos_geo;
+    Geo pos_geo;
 
     pos_geo.lat = _dataInpPtr->initial.latitude;
     pos_geo.lon = _dataInpPtr->initial.longitude;
