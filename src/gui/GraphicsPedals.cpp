@@ -128,10 +128,10 @@ void GraphicsPedals::init()
 
 void GraphicsPedals::reset()
 {
-    _ctrlLineV = 0;
-    _trimLineV = 0;
-    _markLineH = 0;
-    _markLineV = 0;
+    _ctrlLineV = NULLPTR;
+    _trimLineV = NULLPTR;
+    _markLineH = NULLPTR;
+    _markLineV = NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

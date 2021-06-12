@@ -22,6 +22,7 @@
 
 #include <g1000/cgi/g1000_HSI.h>
 
+#include <iomanip>
 #include <sstream>
 
 #include <osg/Geode>
@@ -94,29 +95,29 @@ void HSI::update()
     _patBug->setAttitude( osg::Quat( ahrs_heading - sel_heading , osg::Z_AXIS ) );
     _patCRS->setAttitude( osg::Quat( ahrs_heading - sel_course  , osg::Z_AXIS ) );
 
-    char heading_str[16] = { "" };
+    std::stringstream heading_str;
     double heading_deg = floor( osg::RadiansToDegrees( ahrs_heading ) + 0.5 );
     while ( heading_deg <   0.0 ) heading_deg += 360.0;
     while ( heading_deg > 360.0 ) heading_deg -= 360.0;
 
-    sprintf( heading_str, "%03d°", (int)( floor( heading_deg + 0.5 ) ) );
-    _headingText->setText( osgText::String( heading_str, osgText::String::ENCODING_UTF8 ) );
+    heading_str << std::setfill( '0' ) << std::setw( 3 ) << (int)( floor( heading_deg + 0.5 ) ) << u8"\302\260";
+    _headingText->setText( osgText::String( heading_str.str(), osgText::String::ENCODING_UTF8 ) );
 
-    char crs_str[16] = { "" };
+    std::stringstream crs_str;
     double crs_deg = osg::RadiansToDegrees( sel_course );
     while ( crs_deg <   0.0 ) crs_deg += 360.0;
     while ( crs_deg > 360.0 ) crs_deg -= 360.0;
 
-    sprintf( crs_str, "%03d°", (int)( floor( crs_deg + 0.5 ) ) );
-    _textCRS->setText( osgText::String( crs_str, osgText::String::ENCODING_UTF8 ) );
+    crs_str << std::setfill( '0' ) << std::setw( 3 ) << (int)( floor( crs_deg + 0.5 ) ) << u8"\302\260";
+    _textCRS->setText( osgText::String( crs_str.str(), osgText::String::ENCODING_UTF8 ) );
 
-    char hdg_str[16] = { "" };
+    std::stringstream hdg_str;
     double hdg_deg = osg::RadiansToDegrees( sel_heading );
     while ( hdg_deg <   0.0 ) hdg_deg += 360.0;
     while ( hdg_deg > 360.0 ) hdg_deg -= 360.0;
 
-    sprintf( hdg_str, "%03d°", (int)( floor( hdg_deg + 0.5 ) ) );
-    _textHDG->setText( osgText::String( hdg_str, osgText::String::ENCODING_UTF8 ) );
+    hdg_str << std::setfill( '0' ) << std::setw( 3 ) << (int)( floor( hdg_deg + 0.5 ) ) << u8"\302\260";
+    _textHDG->setText( osgText::String( hdg_str.str(), osgText::String::ENCODING_UTF8 ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

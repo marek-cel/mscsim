@@ -17,9 +17,6 @@
    <iconset resource="../mscsim.qrc">
     <normaloff>:/gui/images/icon.svg</normaloff>:/gui/images/icon.svg</iconset>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>

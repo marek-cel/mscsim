@@ -132,12 +132,12 @@ void GraphicsStick::init()
 
 void GraphicsStick::reset()
 {
-    _ctrlLineH = 0;
-    _ctrlLineV = 0;
-    _trimLineH = 0;
-    _trimLineV = 0;
-    _markLineH = 0;
-    _markLineV = 0;
+    _ctrlLineH = NULLPTR;
+    _ctrlLineV = NULLPTR;
+    _trimLineH = NULLPTR;
+    _trimLineV = NULLPTR;
+    _markLineH = NULLPTR;
+    _markLineV = NULLPTR;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

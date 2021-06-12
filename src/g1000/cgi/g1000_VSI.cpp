@@ -89,15 +89,15 @@ void VSI::update()
     double vs_fpm = Units::mps2fpm( _ifd->gdc()->getClimbRate() );
     double select_fpm = Units::mps2fpm( _ifd->input().sel_climbRate );
 
-    char vs_str[16] = { "" };
+    std::stringstream vs_str;
     int vs_int = 50 * floor( fabs( vs_fpm / 50.0 ) + 0.5 );
 
     //if ( vs_fpm < -2000.0 ) vs_int = -vs_int;
 
     if ( vs_int != 0 )
-        sprintf( vs_str, "%d", vs_int );
+        vs_str << vs_int;
 
-    _textVS->setText( vs_str );
+    _textVS->setText( vs_str.str() );
 
     //if ( climbRate_fpm < -2000.0 ) climbRate_fpm = -2000.0;
     //if ( climbRate_fpm >  2000.0 ) climbRate_fpm =  2000.0;
@@ -107,10 +107,10 @@ void VSI::update()
     _patPointer->setPosition( osg::Vec3( 0.0, dy_ptr, 0.0 ) );
     _patBug->setPosition( osg::Vec3( 0.0, dy_sel, 0.0 ) );
 
-    char sel_str[16] = { "" };
-    sprintf( sel_str, "%d", (int)select_fpm );
+    std::stringstream sel_str;
+    sel_str << (int)select_fpm;
 
-    _textSelect->setText( sel_str );
+    _textSelect->setText( sel_str.str() );
 
 }
 

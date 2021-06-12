@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>General</string>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="6" column="0" colspan="3">
     <widget class="Line" name="line_2">

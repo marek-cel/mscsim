@@ -30,22 +30,22 @@ ComboUnitsVelocity::ComboUnitsVelocity( QWidget *parent ) :
     ComboUnits ( parent )
 {
     _coefs.push_back( 1.0 );
-    _names.push_back( QString( "m/s" ) );
+    _names.push_back( QString( tr("m/s") ) );
 
     _coefs.push_back( fdm::Units::mps2fpm() );
-    _names.push_back( QString( "ft/min" ) );
+    _names.push_back( QString( tr("ft/min") ) );
 
     _coefs.push_back( fdm::Units::mps2fps() );
-    _names.push_back( QString( "ft/s" ) );
+    _names.push_back( QString( tr("ft/s") ) );
 
     _coefs.push_back( fdm::Units::mps2kmh() );
-    _names.push_back( QString( "km/h" ) );
+    _names.push_back( QString( tr("km/h") ) );
 
     _coefs.push_back( fdm::Units::mps2kts() );
-    _names.push_back( QString( "kts" ) );
+    _names.push_back( QString( tr("kts") ) );
 
     _coefs.push_back( fdm::Units::mps2mph() );
-    _names.push_back( QString( "mph" ) );
+    _names.push_back( QString( tr("mph") ) );
 
 #   ifdef SIM_TEST
     _coefs.push_back( 1.0e6 );

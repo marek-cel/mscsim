@@ -30,19 +30,19 @@ ComboUnitsLength::ComboUnitsLength( QWidget *parent ) :
     ComboUnits ( parent )
 {
     _coefs.push_back( 1.0 );
-    _names.push_back( QString( "m" ) );
+    _names.push_back( QString( tr("m") ) );
 
     _coefs.push_back( fdm::Units::m2ft() );
-    _names.push_back( QString( "ft" ) );
+    _names.push_back( QString( tr("ft") ) );
 
     _coefs.push_back( fdm::Units::m2km() );
-    _names.push_back( QString( "km" ) );
+    _names.push_back( QString( tr("km") ) );
 
     _coefs.push_back( fdm::Units::m2mi() );
-    _names.push_back( QString( "mi" ) );
+    _names.push_back( QString( tr("mi") ) );
 
     _coefs.push_back( fdm::Units::m2nmi() );
-    _names.push_back( QString( "nmi" ) );
+    _names.push_back( QString( tr("nmi") ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }

@@ -30,10 +30,10 @@ ComboUnitsMass::ComboUnitsMass( QWidget *parent ) :
     ComboUnits ( parent )
 {
     _coefs.push_back( 1.0 );
-    _names.push_back( QString( "kg" ) );
+    _names.push_back( QString( tr("kg") ) );
 
     _coefs.push_back( fdm::Units::kg2lb() );
-    _names.push_back( QString( "lb" ) );
+    _names.push_back( QString( tr("lb") ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }

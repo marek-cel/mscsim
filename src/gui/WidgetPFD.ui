@@ -20,9 +20,6 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
     <number>0</number>

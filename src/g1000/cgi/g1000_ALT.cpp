@@ -22,6 +22,7 @@
 
 #include <g1000/cgi/g1000_ALT.h>
 
+#include <iomanip>
 #include <sstream>
 
 #include <osg/Geode>
@@ -106,29 +107,36 @@ void ALT::update()
 
     int alt_100 = floor( altitude_ft / 100.0 );
 
-    char alt_str[16] = { "" };
+    std::stringstream alt_str;
     if ( fabs( altitude_ft ) < 100.0 )
     {
-        if ( altitude_ft < 0.0 )
-            sprintf( alt_str, "-" );
+        if ( altitude_ft < 0.0 ) alt_str << "-";
     }
     else
     {
-        sprintf( alt_str, "%d", alt_100 );
+        alt_str << alt_100;
     }
 
-    _textAlt_100->setText( alt_str );
+    _textAlt_100->setText( alt_str.str() );
 
     double a = 0.5 * osg::DegreesToRadians( 3.6 ) * ( altitude_ft - 100.0 * alt_100 );
     _patDisk->setAttitude( osg::Quat( a, osg::X_AXIS ) );
 
-    char press_str[16] = { "" };
-    sprintf( press_str, "%.2f IN", pressure_in );
-    _textPress->setText( press_str );
+    std::stringstream press_str;
 
-    char sel_alt_str[16] = { "" };
-    sprintf( sel_alt_str, "%.0f", sel_altitude_ft );
-    _textSelect->setText( sel_alt_str );
+    press_str.setf( std::ios_base::showpoint );
+    press_str.setf( std::ios_base::fixed );
+
+    press_str << std::setprecision( 2 ) << pressure_in << " IN";
+    _textPress->setText( press_str.str() );
+
+    std::stringstream sel_alt_str;
+
+    sel_alt_str.setf( std::ios_base::showpoint );
+    sel_alt_str.setf( std::ios_base::fixed );
+
+    sel_alt_str << std::setprecision( 2 ) << sel_altitude_ft;
+    _textSelect->setText( sel_alt_str.str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -435,11 +443,11 @@ void ALT::createDisk()
 
         if ( d >= 100 ) d -= 100;
 
-        char digit[3];
+        std::stringstream digit;
         if ( i == 0 || i == 5 )
-            sprintf( digit, "00" );
+            digit << "00";
         else
-            sprintf( digit, "%d", d );
+            digit << d;
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
         text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
@@ -449,7 +457,7 @@ void ALT::createDisk()
         text->setPosition( osg::Vec3( 0.0, 0.0, 9.0 ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::LEFT_CENTER );
-        text->setText( digit );
+        text->setText( digit.str() );
         geode->addDrawable( text );
     }
 

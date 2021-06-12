@@ -30,19 +30,19 @@ ComboUnitsPressure::ComboUnitsPressure( QWidget *parent ) :
     ComboUnits ( parent )
 {
     _coefs.push_back( 1.0 );
-    _names.push_back( QString( "Pa" ) );
+    _names.push_back( QString( tr("Pa") ) );
 
     _coefs.push_back( 0.01 );
-    _names.push_back( QString( "hPa" ) );
+    _names.push_back( QString( tr("hPa") ) );
 
     _coefs.push_back( 0.00001 );
-    _names.push_back( QString( "bar" ) );
+    _names.push_back( QString( tr("bar") ) );
 
     _coefs.push_back( fdm::Units::pa2psi() );
-    _names.push_back( QString( "psi" ) );
+    _names.push_back( QString( tr("psi") ) );
 
     _coefs.push_back( fdm::Units::pa2inhg() );
-    _names.push_back( QString( "inHg" ) );
+    _names.push_back( QString( tr("inHg") ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }

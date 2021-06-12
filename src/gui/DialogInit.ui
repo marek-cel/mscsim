@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Initial Conditions</string>
   </property>
-  <property name="locale">
-   <locale language="English" country="UnitedStates"/>
-  </property>
   <property name="modal">
    <bool>false</bool>
   </property>

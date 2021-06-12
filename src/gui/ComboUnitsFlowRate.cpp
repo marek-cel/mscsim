@@ -30,16 +30,16 @@ ComboUnitsFlowRate::ComboUnitsFlowRate( QWidget *parent ) :
     ComboUnits ( parent )
 {
     _coefs.push_back( 1.0 );
-    _names.push_back( QString( "kg/s" ) );
+    _names.push_back( QString( tr("kg/s") ) );
 
     _coefs.push_back( 3600.0 );
-    _names.push_back( QString( "kg/h" ) );
+    _names.push_back( QString( tr("kg/h") ) );
 
     _coefs.push_back( fdm::Units::kg2lb() );
-    _names.push_back( QString( "lb/s" ) );
+    _names.push_back( QString( tr("lb/s") ) );
 
     _coefs.push_back( 3600.0 * fdm::Units::kg2lb() );
-    _names.push_back( QString( "lb/h" ) );
+    _names.push_back( QString( tr("lb/h") ) );
 
     for ( size_t i = 0; i < _names.size(); i++ ) addItem( _names[ i ] );
 }

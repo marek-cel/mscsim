@@ -22,6 +22,7 @@
 
 #include <cgi/hud/cgi_HUD.h>
 
+#include <iomanip>
 #include <sstream>
 
 #include <osg/Drawable>
@@ -1018,9 +1019,9 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, double y_del, int x, int deg
     createHeadingScaleBar( geode, y_del, x );
     /////////////////////////////////////////
 
-    char deg10_srt[256];
+    std::stringstream deg10_srt;
 
-    sprintf( deg10_srt, "%02d", deg10 );
+    deg10_srt << std::setfill( '0' ) << std::setw( 2 ) << deg10;
 
     osg::ref_ptr<osgText::Text> text = new osgText::Text();
     _texts.push_back( text );
@@ -1031,7 +1032,7 @@ void HUD::createHeadingScaleBar( osg::Geode *geode, double y_del, int x, int deg
     text->setPosition( osg::Vec3( x, y_del - _charSize - 3.0, -1.0 ) );
     text->setLayout( osgText::Text::LEFT_TO_RIGHT );
     text->setAlignment( osgText::Text::CENTER_BASE_LINE );
-    text->setText( deg10_srt );
+    text->setText( deg10_srt.str() );
     geode->addDrawable( text );
 }
 
@@ -1153,9 +1154,9 @@ void HUD::updateHeadingScale()
 
     if ( text.valid() )
     {
-        char heading_str[256];
-        sprintf( heading_str, "%d", (int)( floor( head_deg + 0.5 ) ) );
-        text->setText( heading_str );
+        std::stringstream heading_str;
+        heading_str << (int)( floor( head_deg + 0.5 ) );
+        text->setText( heading_str.str() );
     }
 }
 
@@ -1239,9 +1240,9 @@ void HUD::updateTextL()
     {
         double airspeed = Data::get()->cgi.hud.airspeed * Data::get()->cgi.hud.factor_vel;
 
-        char airspeed_str[256];
-        sprintf( airspeed_str, "%d", (int)( floor( airspeed + 0.5 ) ) );
-        text->setText( airspeed_str );
+        std::stringstream airspeed_str;
+        airspeed_str << (int)( floor( airspeed + 0.5 ) );
+        text->setText( airspeed_str.str() );
     }
 
     // Mach no
@@ -1249,9 +1250,13 @@ void HUD::updateTextL()
 
     if ( text.valid() )
     {
-        char machNo_str[256];
-        sprintf( machNo_str, "M %.2f", Data::get()->cgi.hud.machNumber );
-        text->setText( machNo_str );
+        std::stringstream machNo_str;
+
+        machNo_str.setf( std::ios_base::showpoint );
+        machNo_str.setf( std::ios_base::fixed );
+
+        machNo_str << "M " << std::setprecision( 2 ) << Data::get()->cgi.hud.machNumber;
+        text->setText( machNo_str.str() );
     }
 
     // G-Force
@@ -1259,9 +1264,13 @@ void HUD::updateTextL()
 
     if ( text.valid() )
     {
-        char gForce_str[256];
-        sprintf( gForce_str, "%.1fG", Data::get()->cgi.hud.g_force );
-        text->setText( gForce_str );
+        std::stringstream gForce_str;
+
+        gForce_str.setf( std::ios_base::showpoint );
+        gForce_str.setf( std::ios_base::fixed );
+
+        gForce_str << std::setprecision( 1 ) << Data::get()->cgi.hud.g_force << "G";
+        text->setText( gForce_str.str() );
     }
 }
 
@@ -1278,9 +1287,9 @@ void HUD::updateTextR()
     {
         double altitude = Data::get()->cgi.hud.altitude * Data::get()->cgi.hud.factor_alt;
 
-        char altitude_str[256];
-        sprintf( altitude_str, "%d", (int)( floor( altitude + 0.5 ) ) );
-        text->setText( altitude_str );
+        std::stringstream altitude_str;
+        altitude_str << (int)( floor( altitude + 0.5 ) );
+        text->setText( altitude_str.str() );
     }
 
     // climb rate
@@ -1290,9 +1299,9 @@ void HUD::updateTextR()
     {
         double climbRate = 60.0 * Data::get()->cgi.hud.climbRate * Data::get()->cgi.hud.factor_alt;
 
-        char climbRate_str[256];
-        sprintf( climbRate_str, "%d", (int)( floor( climbRate + 0.5 ) ) );
-        text->setText( climbRate_str );
+        std::stringstream climbRate_str;
+        climbRate_str << (int)( floor( climbRate + 0.5 ) );
+        text->setText( climbRate_str.str() );
     }
 
     // radio altitude
@@ -1304,9 +1313,9 @@ void HUD::updateTextR()
 
         if ( altitude < 3000.0 )
         {
-            char altitude_str[256];
-            sprintf( altitude_str, "RA %d", (int)( floor( altitude + 0.5 ) ) );
-            text->setText( altitude_str );
+            std::stringstream altitude_str;
+            altitude_str << "RA " << (int)( floor( altitude + 0.5 ) );
+            text->setText( altitude_str.str() );
         }
         else
         {

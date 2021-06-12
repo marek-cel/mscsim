@@ -26,6 +26,7 @@
 #   include <algorithm>
 #endif
 
+#include <iomanip>
 #include <sstream>
 
 #include <osg/Geode>
@@ -153,8 +154,8 @@ void ASI::update()
     _patScale->setPosition( osg::Vec3( 0.0, -_ias2pt * ias_min, 0.0 ) );
     _patBug->setPosition( osg::Vec3( 0.0, dy_bug, 0.0 ) );
 
-    char ias_str[16] = { "" };
-    char tas_str[16] = { "" };
+    std::stringstream ias_str;
+    std::stringstream tas_str;
 
     int ias_10 = floor( ias_kts / 10.0 );
 
@@ -165,8 +166,8 @@ void ASI::update()
 
         int tas = floor( tas_kts + 0.5 );
 
-        sprintf( ias_str, "%d", ias_10 );
-        sprintf( tas_str, "%dKT", tas );
+        ias_str << ias_10;
+        tas_str << tas << "KT";
 
         double a = osg::DegreesToRadians( 36.0 ) * ( ias_kts - 10.0 * ias_10 );
         _patDisk->setAttitude( osg::Quat( a, osg::X_AXIS ) );
@@ -177,8 +178,8 @@ void ASI::update()
         _switchIAS->setValue( 1, true );
     }
 
-    _textIAS_10->setText( ias_str );
-    _textTAS->setText( tas_str );
+    _textIAS_10->setText( ias_str.str() );
+    _textTAS->setText( tas_str.str() );
 
     if ( _groupRed.valid() )
     {
@@ -194,9 +195,13 @@ void ASI::update()
         }
     }
 
-    char sel_ias_str[16] = { "" };
-    sprintf( sel_ias_str, "%.0f", sel_kts );
-    _textSelect->setText( sel_ias_str );
+    std::stringstream sel_ias_str;
+
+    sel_ias_str.setf( std::ios_base::showpoint );
+    sel_ias_str.setf( std::ios_base::fixed );
+
+    sel_ias_str << std::setprecision( 0 ) << sel_kts;
+    _textSelect->setText( sel_ias_str.str() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -590,8 +595,8 @@ void ASI::createDisk()
 
         pat->setAttitude( osg::Quat( -a, osg::X_AXIS ) );
 
-        char digit[2];
-        sprintf( digit, "%d", i );
+        std::stringstream digit;
+        digit << i;
 
         osg::ref_ptr<osgText::Text> text = new osgText::Text();
         text->setFont( Fonts::get( "fonts/g1000.ttf" ) );
@@ -601,7 +606,7 @@ void ASI::createDisk()
         text->setPosition( osg::Vec3( 0.5, 0.0, 9.0 ) );
         text->setLayout( osgText::Text::LEFT_TO_RIGHT );
         text->setAlignment( osgText::Text::LEFT_CENTER );
-        text->setText( digit );
+        text->setText( digit.str() );
         geode->addDrawable( text );
     }
 

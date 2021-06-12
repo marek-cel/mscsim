@@ -56,6 +56,8 @@ win32: DEFINES += \
 win32: CONFIG(release, debug|release): DEFINES += NDEBUG
 win32: CONFIG(debug, debug|release):   DEFINES += _DEBUG
 
+unix: CONFIG(debug, debug|release):   DEFINES += _DEBUG
+
 #CONFIG(release, debug|release): DEFINES += QT_NO_DEBUG_OUTPUT
 #DEFINES += QT_NO_DEBUG_OUTPUT
 

@@ -61,9 +61,9 @@ void SpinBoxHighlight::setHighlighted( bool highlighted )
     if ( _highlighted )
     {
 #       if QT_VERSION >= 0x050000
-        setStyleSheet( "QDoubleSpinBox { background-color: " + _color.name( QColor::HexRgb ) + "; }" );
+        setStyleSheet( "QDoubleSpinBox { background: " + _color.name( QColor::HexRgb ) + "; }" );
 #       else
-        setStyleSheet( "QDoubleSpinBox { background-color: " + _color.name() + "; }" );
+        setStyleSheet( "QDoubleSpinBox { background: " + _color.name() + "; }" );
 #       endif
     }
     else

@@ -157,15 +157,23 @@ int XmlUtils::read( const XmlNode &node, Matrix3x3 *data )
             double zy = std::numeric_limits< double >::quiet_NaN();
             double zz = std::numeric_limits< double >::quiet_NaN();
 
-            std::string text = String::stripLeadingSpaces( textNode.getText() );
+            std::stringstream ss( String::stripLeadingSpaces( textNode.getText() ) );
 
-            int val_read = sscanf( text.c_str(),
-                                   "%lf %lf %lf %lf %lf %lf %lf %lf %lf",
-                                   &xx, &xy, &xz,
-                                   &yx, &yy, &yz,
-                                   &zx, &zy, &zz );
+            ss >> xx;
+            ss >> xy;
+            ss >> xz;
 
-            if ( val_read == 9 )
+            ss >> yx;
+            ss >> yy;
+            ss >> yz;
+
+            ss >> zx;
+            ss >> zy;
+            ss >> zz;
+
+            if ( Misc::isValid( xx ) && Misc::isValid( xy ) && Misc::isValid( xz )
+              && Misc::isValid( yx ) && Misc::isValid( yy ) && Misc::isValid( yz )
+              && Misc::isValid( zx ) && Misc::isValid( zy ) && Misc::isValid( zz ) )
             {
                 data->xx() = xx;
                 data->xy() = xy;
@@ -201,11 +209,13 @@ int XmlUtils::read( const XmlNode &node, Vector3 *data )
             double y = std::numeric_limits< double >::quiet_NaN();
             double z = std::numeric_limits< double >::quiet_NaN();
 
-            std::string text = String::stripLeadingSpaces( textNode.getText() );
+            std::stringstream ss( String::stripLeadingSpaces( textNode.getText() ) );
 
-            int val_read = sscanf( text.c_str(), "%lf %lf %lf", &x, &y, &z );
+            ss >> x;
+            ss >> y;
+            ss >> z;
 
-            if ( val_read == 3 )
+            if ( Misc::isValid( x ) && Misc::isValid( y ) && Misc::isValid( z ) )
             {
                 if ( node.hasAttribute( "unit" ) )
                 {
@@ -252,24 +262,17 @@ int XmlUtils::read( const XmlNode &node, Table1 *table )
 
         if ( textNode.isValid() && textNode.isText() )
         {
-            unsigned int offset = 0;
-            unsigned int result = 0;
-
-            std::string text = String::stripLeadingSpaces( textNode.getText() );
+            std::stringstream ss( String::stripLeadingSpaces( textNode.getText() ) );
 
             do
             {
-                double key = 0.0;
-                double val = 0.0;
+                double key = std::numeric_limits< double >::quiet_NaN();
+                double val = std::numeric_limits< double >::quiet_NaN();
 
-                unsigned int ch_read = 0;
+                ss >> key;
+                ss >> val;
 
-                result = sscanf( text.c_str() + offset,
-                                 "%lf %lf \n%n", &key, &val, &ch_read );
-
-                offset += ch_read;
-
-                if ( result == 2 )
+                if ( Misc::isValid( key ) && Misc::isValid( val ) )
                 {
                     if ( has_unit )
                     {
@@ -282,8 +285,12 @@ int XmlUtils::read( const XmlNode &node, Table1 *table )
                     keyValues.push_back( key );
                     tableData.push_back( val * factor );
                 }
+                else
+                {
+                    break;
+                }
             }
-            while ( result == 2 );
+            while ( true );
 
             if ( keyValues.size() == tableData.size() && keyValues.size() )
             {
@@ -315,67 +322,52 @@ int XmlUtils::read( const XmlNode &node, Table2 *table )
 
         if ( textNode.isValid() && textNode.isText() )
         {
-            unsigned int offset = 0;
-            unsigned int result = 0;
-
             std::string text = String::stripLeadingSpaces( textNode.getText() );
 
-            // column keys
-            std::string line = String::getFirstLine( text );
+            std::stringstream ss( text );
+            std::stringstream sl( String::getFirstLine( text ) );
 
             do
             {
-                unsigned int charsRead = 0;
+                double key = std::numeric_limits< double >::quiet_NaN();
 
-                double key = 0.0;
+                sl >> key;  // !!
 
-                result = sscanf( line.c_str() + offset,
-                                 "%lf%n", &key, &charsRead );
-
-                offset += charsRead;
-
-                if ( result == 1 )
+                if ( Misc::isValid( key ) )
                 {
+                    ss >> key;  // !!
                     colValues.push_back( key );
                 }
+                else
+                {
+                    break;
+                }
             }
-            while ( result == 1 );
+            while ( true );
+
+            bool keep_reading = false;
 
             // table rows
             do
             {
-                unsigned int charsRead = 0;
+                keep_reading = false;
 
-                double key = 0.0;
+                double key = std::numeric_limits< double >::quiet_NaN();
 
-                result = sscanf( text.c_str() + offset,
-                                 "%lf%n", &key, &charsRead );
+                ss >> key;
 
-                offset += charsRead;
-
-                if ( result == 1 )
-                {
+                if ( Misc::isValid( key ) )
+                {   
                     rowValues.push_back( key );
 
                     // table data
                     for ( unsigned int i = 0; i < colValues.size(); i++ )
                     {
-                        double val = 0.0;
+                        double val = std::numeric_limits< double >::quiet_NaN();
 
-                        if ( i < colValues.size() - 1 )
-                        {
-                            result = sscanf( text.c_str() + offset,
-                                             "%lf%n", &val, &charsRead );
-                        }
-                        else
-                        {
-                            result = sscanf( text.c_str() + offset,
-                                             "%lf \n%n", &val, &charsRead );
-                        }
+                        ss >> val;
 
-                        offset += charsRead;
-
-                        if ( result == 1 )
+                        if ( Misc::isValid( val ) )
                         {
                             if ( has_unit )
                             {
@@ -386,11 +378,17 @@ int XmlUtils::read( const XmlNode &node, Table2 *table )
                             }
 
                             tableData.push_back( val * factor );
+
+                            keep_reading = true;
+                        }
+                        else
+                        {
+                            break;
                         }
                     }
                 }
             }
-            while ( result == 1 );
+            while( keep_reading );
 
             if ( rowValues.size() * colValues.size() == tableData.size() )
             {
