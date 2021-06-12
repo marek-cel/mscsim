@@ -135,6 +135,7 @@ public:
     inline void setVisibilityRailroads ( bool visible ) { _map->setVisibilityRailroads ( visible ); }
     inline void setVisibilityRoads     ( bool visible ) { _map->setVisibilityRoads     ( visible ); }
     inline void setVisibilityAirports  ( bool visible ) { _map->setVisibilityAirports  ( visible ); }
+    inline void setVisibilityInWaters  ( bool visible ) { _map->setVisibilityInWaters  ( visible ); }
     inline void setVisibilitySatellite ( bool visible ) { _map->setVisibilitySatellite ( visible ); }
     inline void setVisibilityBorders   ( bool visible ) { _map->setVisibilityBorders   ( visible ); }
     inline void setVisibilityTraces    ( bool visible ) { _map->setVisibilityTraces    ( visible ); }

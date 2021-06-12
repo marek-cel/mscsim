@@ -77,6 +77,7 @@ private:
     bool _viewRailroads;            ///<
     bool _viewRoads;                ///<
     bool _viewAirports;             ///<
+    bool _viewInWaters;             ///<
     bool _viewSatellite;            ///<
     bool _viewBorders;              ///<
     bool _viewTraces;               ///<
@@ -102,6 +103,7 @@ private slots:
     void actionViewRailroads_toggled ( bool checked );
     void actionViewRoads_toggled     ( bool checked );
     void actionViewAirports_toggled  ( bool checked );
+    void actionViewInWaters_toggled  ( bool checked );
     void actionViewSatellite_toggled ( bool checked );
     void actionViewBorders_toggled   ( bool checked );
     void actionViewTraces_toggled    ( bool checked );

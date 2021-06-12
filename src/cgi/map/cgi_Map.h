@@ -97,6 +97,7 @@ public:
     void setVisibilityRailroads ( bool visible );
     void setVisibilityRoads     ( bool visible );
     void setVisibilityAirports  ( bool visible );
+    void setVisibilityInWaters  ( bool visible );
     void setVisibilitySatellite ( bool visible );
     void setVisibilityBorders   ( bool visible );
     void setVisibilityTraces    ( bool visible );

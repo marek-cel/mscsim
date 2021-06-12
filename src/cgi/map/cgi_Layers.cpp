@@ -48,6 +48,7 @@ using namespace cgi;
 Layers::Layers( const Module *parent ) :
     Module( parent )
 {
+    _switchInWaters  = new osg::Switch();
     _switchCrops     = new osg::Switch();
     _switchGrassland = new osg::Switch();
     _switchWoodland  = new osg::Switch();
@@ -88,21 +89,21 @@ Layers::Layers( const Module *parent ) :
     _satellite    ->setPosition( osg::Vec3d( 0.0, 0.0, Map::_zSatellite ) );
     _borders      ->setPosition( osg::Vec3d( 0.0, 0.0, Map::_zBorders   ) );
 
-    _switchCrops     ->addChild( _crops     .get() );
-    _switchGrassland ->addChild( _grassland .get() );
-    _switchWoodland  ->addChild( _woodland  .get() );
-    _switchBuiltup   ->addChild( _builtup   .get() );
-    _switchRailroads ->addChild( _railroads .get() );
-    _switchRoads     ->addChild( _roads     .get() );
-    _switchAirports  ->addChild( _airports  .get() );
-    _switchSatellite ->addChild( _satellite .get() );
-    _switchBorders   ->addChild( _borders   .get() );
+    _switchCrops     ->addChild( _crops        .get() );
+    _switchGrassland ->addChild( _grassland    .get() );
+    _switchWoodland  ->addChild( _woodland     .get() );
+    _switchBuiltup   ->addChild( _builtup      .get() );
+    _switchRailroads ->addChild( _railroads    .get() );
+    _switchRoads     ->addChild( _roads        .get() );
+    _switchAirports  ->addChild( _airports     .get() );
+    _switchInWaters  ->addChild( _water_course .get() );
+    _switchInWaters  ->addChild( _water_inland .get() );
+    _switchSatellite ->addChild( _satellite    .get() );
+    _switchBorders   ->addChild( _borders      .get() );
 
-    _root->addChild( _oceans       .get() );
-    _root->addChild( _landmass     .get() );
-    _root->addChild( _coastline    .get() );
-    _root->addChild( _water_course .get() );
-    _root->addChild( _water_inland .get() );
+    _root->addChild( _oceans    .get() );
+    _root->addChild( _landmass  .get() );
+    _root->addChild( _coastline .get() );
 
     _root->addChild( _switchCrops     .get() );
     _root->addChild( _switchGrassland .get() );
@@ -111,6 +112,7 @@ Layers::Layers( const Module *parent ) :
     _root->addChild( _switchRailroads .get() );
     _root->addChild( _switchRoads     .get() );
     _root->addChild( _switchAirports  .get() );
+    _root->addChild( _switchInWaters  .get() );
     _root->addChild( _switchSatellite .get() );
     _root->addChild( _switchBorders   .get() );
 
@@ -204,6 +206,16 @@ void Layers::setVisibilityAirports( bool visible )
         _switchAirports->setAllChildrenOn();
     else
         _switchAirports->setAllChildrenOff();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void Layers::setVisibilityInWaters( bool visible )
+{
+    if ( visible )
+        _switchInWaters->setAllChildrenOn();
+    else
+        _switchInWaters->setAllChildrenOff();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

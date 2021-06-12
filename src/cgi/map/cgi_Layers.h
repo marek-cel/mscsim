@@ -54,6 +54,7 @@ public:
     void setVisibilityRailroads ( bool visible );
     void setVisibilityRoads     ( bool visible );
     void setVisibilityAirports  ( bool visible );
+    void setVisibilityInWaters  ( bool visible );
     void setVisibilitySatellite ( bool visible );
     void setVisibilityBorders   ( bool visible );
 
@@ -66,6 +67,7 @@ private:
     osg::ref_ptr<osg::Switch> _switchRailroads;
     osg::ref_ptr<osg::Switch> _switchRoads;
     osg::ref_ptr<osg::Switch> _switchAirports;
+    osg::ref_ptr<osg::Switch> _switchInWaters;
     osg::ref_ptr<osg::Switch> _switchSatellite;
     osg::ref_ptr<osg::Switch> _switchBorders;
 

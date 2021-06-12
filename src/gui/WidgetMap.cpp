@@ -58,6 +58,7 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     _viewRailroads ( false ),
     _viewRoads     ( false ),
     _viewAirports  ( true  ),
+    _viewInWaters  ( false ),
     _viewSatellite ( false ),
     _viewBorders   ( false ),
     _viewTraces    ( true  )
@@ -134,6 +135,7 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     cgi::Manager::instance()->setVisibilityRailroads ( _viewRailroads );
     cgi::Manager::instance()->setVisibilityRoads     ( _viewRoads     );
     cgi::Manager::instance()->setVisibilityAirports  ( _viewAirports  );
+    cgi::Manager::instance()->setVisibilityInWaters  ( _viewInWaters  );
     cgi::Manager::instance()->setVisibilitySatellite ( _viewSatellite );
     cgi::Manager::instance()->setVisibilityBorders   ( _viewBorders   );
     cgi::Manager::instance()->setVisibilityTraces    ( _viewTraces    );
@@ -172,6 +174,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     QAction actionViewRailroads ( this );
     QAction actionViewRoads     ( this );
     QAction actionViewAirports  ( this );
+    QAction actionViewInWaters  ( this );
     QAction actionViewSatellite ( this );
     QAction actionViewBorders   ( this );
     QAction actionViewTraces    ( this );
@@ -185,6 +188,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     actionViewRailroads .setText( "Show/Hide Railroads" );
     actionViewRoads     .setText( "Show/Hide Roads" );
     actionViewAirports  .setText( "Show/Hide Airports" );
+    actionViewInWaters  .setText( "Show/Hide Inland Waters" );
     actionViewSatellite .setText( "Show/Hide Satellite" );
     actionViewBorders   .setText( "Show/Hide Borders" );
     actionViewTraces    .setText( "Show/Hide Traces" );
@@ -198,6 +202,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     actionViewRailroads .setCheckable( true );
     actionViewRoads     .setCheckable( true );
     actionViewAirports  .setCheckable( true );
+    actionViewInWaters  .setCheckable( true );
     actionViewSatellite .setCheckable( true );
     actionViewBorders   .setCheckable( true );
     actionViewTraces    .setCheckable( true );
@@ -209,6 +214,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     actionViewRailroads .setChecked( _viewRailroads );
     actionViewRoads     .setChecked( _viewRoads     );
     actionViewAirports  .setChecked( _viewAirports  );
+    actionViewInWaters  .setChecked( _viewInWaters  );
     actionViewSatellite .setChecked( _viewSatellite );
     actionViewBorders   .setChecked( _viewBorders   );
     actionViewTraces    .setChecked( _viewTraces    );
@@ -220,6 +226,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     connect( &actionViewRailroads , SIGNAL( toggled(bool) ), this, SLOT( actionViewRailroads_toggled (bool) ) );
     connect( &actionViewRoads     , SIGNAL( toggled(bool) ), this, SLOT( actionViewRoads_toggled     (bool) ) );
     connect( &actionViewAirports  , SIGNAL( toggled(bool) ), this, SLOT( actionViewAirports_toggled  (bool) ) );
+    connect( &actionViewInWaters  , SIGNAL( toggled(bool) ), this, SLOT( actionViewInWaters_toggled  (bool) ) );
     connect( &actionViewSatellite , SIGNAL( toggled(bool) ), this, SLOT( actionViewSatellite_toggled (bool) ) );
     connect( &actionViewBorders   , SIGNAL( toggled(bool) ), this, SLOT( actionViewBorders_toggled   (bool) ) );
     connect( &actionViewTraces    , SIGNAL( toggled(bool) ), this, SLOT( actionViewTraces_toggled    (bool) ) );
@@ -235,6 +242,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
 //    menuLayers.addAction( &actionViewRailroads );
 //    menuLayers.addAction( &actionViewRoads     );
     menuLayers.addAction( &actionViewAirports  );
+//    menuLayers.addAction( &actionViewInWaters  );
     menuLayers.addAction( &actionViewSatellite );
 //    menuLayers.addAction( &actionViewBorders   );
 
@@ -252,6 +260,7 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     actionViewRailroads .disconnect();
     actionViewRoads     .disconnect();
     actionViewAirports  .disconnect();
+    actionViewInWaters  .disconnect();
     actionViewSatellite .disconnect();
     actionViewBorders   .disconnect();
     actionViewTraces    .disconnect();
@@ -385,6 +394,7 @@ void WidgetMap::settingsRead()
     _viewRailroads = settings.value( "view_railroads" , _viewRailroads ).toBool();
     _viewRoads     = settings.value( "view_roads"     , _viewRoads     ).toBool();
     _viewAirports  = settings.value( "view_airports"  , _viewAirports  ).toBool();
+    _viewInWaters  = settings.value( "inland_waters"  , _viewInWaters  ).toBool();
     _viewSatellite = settings.value( "view_satellite" , _viewSatellite ).toBool();
     _viewBorders   = settings.value( "view_borders"   , _viewBorders   ).toBool();
     _viewTraces    = settings.value( "view_traces"    , _viewTraces    ).toBool();
@@ -468,6 +478,14 @@ void WidgetMap::actionViewAirports_toggled( bool checked )
 {
     _viewAirports = checked;
     cgi::Manager::instance()->setVisibilityAirports( checked );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewInWaters_toggled( bool checked )
+{
+    _viewInWaters = checked;
+    cgi::Manager::instance()->setVisibilityInWaters( _viewInWaters );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
