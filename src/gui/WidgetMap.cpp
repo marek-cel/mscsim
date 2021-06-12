@@ -417,6 +417,7 @@ void WidgetMap::settingsSave()
     settings.setValue( "view_railroads" , _viewRailroads ? 1 : 0 );
     settings.setValue( "view_roads"     , _viewRoads     ? 1 : 0 );
     settings.setValue( "view_airports"  , _viewAirports  ? 1 : 0 );
+    settings.setValue( "inland_waters"  , _viewInWaters  ? 1 : 0 );
     settings.setValue( "view_satellite" , _viewSatellite ? 1 : 0 );
     settings.setValue( "view_borders"   , _viewBorders   ? 1 : 0 );
     settings.setValue( "view_traces"    , _viewTraces    ? 1 : 0 );
