@@ -390,7 +390,7 @@ void Layers::readSatelliteImage( osg::Group *parent, const char *file )
 
     if ( geoTiff.isOpen() )
     {
-        if ( geoTiff.compareSRS( proj4_merc ) )
+        if ( geoTiff.compareSRS_PROJ4( proj4_merc ) )
         {
             double x_ul = geoTiff.getMapUpperLeftX();
             double y_ul = geoTiff.getMapUpperLeftY();
