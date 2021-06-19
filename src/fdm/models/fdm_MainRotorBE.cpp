@@ -257,7 +257,7 @@ void MainRotorBE::update( double timeStep,
     double d_theta_1c = _theta_1c - _prev_theta_1c;
     double d_theta_1s = _theta_1s - _prev_theta_1s;
 
-    const int steps = ceil( timeStep / _timeStepMax );
+    const int steps = static_cast< int >( ceil( timeStep / _timeStepMax ) );
     double timeStepInt = timeStep / ( (double)steps );
 
     for ( int i = 0; i < steps; i++ )

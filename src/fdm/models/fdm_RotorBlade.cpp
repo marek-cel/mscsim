@@ -42,10 +42,10 @@ Matrix3x3 RotorBlade::getRAS2SRA( double psi, bool ccw )
     Matrix3x3 a;
 
     a(0,0) =  0.0;
-    a(0,1) = -ccw;
+    a(0,1) = -ccw_coef;
     a(0,2) =  0.0;
 
-    a(1,0) = -ccw;
+    a(1,0) = -ccw_coef;
     a(1,1) =  0.0;
     a(1,2) =  0.0;
 

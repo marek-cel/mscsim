@@ -51,11 +51,11 @@ public:
     void setVisibilityGrassland ( bool visible );
     void setVisibilityWoodland  ( bool visible );
     void setVisibilityBuiltup   ( bool visible );
-    void setVisibilityRailroads ( bool visible );
-    void setVisibilityRoads     ( bool visible );
-    void setVisibilityAirports  ( bool visible );
     void setVisibilityInWaters  ( bool visible );
     void setVisibilitySatellite ( bool visible );
+    void setVisibilityAirports  ( bool visible );
+    void setVisibilityRailroads ( bool visible );
+    void setVisibilityRoads     ( bool visible );
     void setVisibilityBorders   ( bool visible );
 
 private:
@@ -64,27 +64,28 @@ private:
     osg::ref_ptr<osg::Switch> _switchGrassland;
     osg::ref_ptr<osg::Switch> _switchWoodland;
     osg::ref_ptr<osg::Switch> _switchBuiltup;
-    osg::ref_ptr<osg::Switch> _switchRailroads;
-    osg::ref_ptr<osg::Switch> _switchRoads;
-    osg::ref_ptr<osg::Switch> _switchAirports;
     osg::ref_ptr<osg::Switch> _switchInWaters;
     osg::ref_ptr<osg::Switch> _switchSatellite;
+    osg::ref_ptr<osg::Switch> _switchAirports;
+    osg::ref_ptr<osg::Switch> _switchRailroads;
+    osg::ref_ptr<osg::Switch> _switchRoads;
     osg::ref_ptr<osg::Switch> _switchBorders;
+    osg::ref_ptr<osg::Switch> _switchCoastline;
 
     osg::ref_ptr<osg::PositionAttitudeTransform> _oceans;
     osg::ref_ptr<osg::PositionAttitudeTransform> _landmass;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _coastline;
     osg::ref_ptr<osg::PositionAttitudeTransform> _crops;
     osg::ref_ptr<osg::PositionAttitudeTransform> _grassland;
     osg::ref_ptr<osg::PositionAttitudeTransform> _woodland;
     osg::ref_ptr<osg::PositionAttitudeTransform> _builtup;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _railroads;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _roads;
-    osg::ref_ptr<osg::PositionAttitudeTransform> _airports;
     osg::ref_ptr<osg::PositionAttitudeTransform> _water_course;
     osg::ref_ptr<osg::PositionAttitudeTransform> _water_inland;
     osg::ref_ptr<osg::PositionAttitudeTransform> _satellite;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _airports;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _railroads;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _roads;
     osg::ref_ptr<osg::PositionAttitudeTransform> _borders;
+    osg::ref_ptr<osg::PositionAttitudeTransform> _coastline;
 
     void createOcean();
 
@@ -92,6 +93,9 @@ private:
 
     void readLayers();
     void readLayer( const fdm::XmlNode &node, osg::Group *parent );
+    void readLayerSatellite( const fdm::XmlNode &node, osg::Group *parent );
+
+    void readSatelliteImage( osg::Group *parent, const char *file );
 };
 
 } // end of cgi namespace

@@ -70,15 +70,15 @@ private:
 
     bool _camManipulatorInited;     ///<
 
+    bool _viewSatellite;            ///<
     bool _viewCrops;                ///<
     bool _viewGrassland;            ///<
     bool _viewWoodland;             ///<
     bool _viewBuiltup;              ///<
+    bool _viewInWaters;             ///<
+    bool _viewAirports;             ///<
     bool _viewRailroads;            ///<
     bool _viewRoads;                ///<
-    bool _viewAirports;             ///<
-    bool _viewInWaters;             ///<
-    bool _viewSatellite;            ///<
     bool _viewBorders;              ///<
     bool _viewTraces;               ///<
 
@@ -96,15 +96,15 @@ private:
 
 private slots:
 
+    void actionViewSatellite_toggled ( bool checked );
     void actionViewCrops_toggled     ( bool checked );
     void actionViewGrassland_toggled ( bool checked );
     void actionViewWoodland_toggled  ( bool checked );
     void actionViewBuiltup_toggled   ( bool checked );
+    void actionViewInWaters_toggled  ( bool checked );
+    void actionViewAirports_toggled  ( bool checked );
     void actionViewRailroads_toggled ( bool checked );
     void actionViewRoads_toggled     ( bool checked );
-    void actionViewAirports_toggled  ( bool checked );
-    void actionViewInWaters_toggled  ( bool checked );
-    void actionViewSatellite_toggled ( bool checked );
     void actionViewBorders_toggled   ( bool checked );
     void actionViewTraces_toggled    ( bool checked );
 

@@ -50,28 +50,28 @@ public:
     static const osg::Vec3 _colorGrassland;     ///< color
     static const osg::Vec3 _colorWoodland;      ///< color
     static const osg::Vec3 _colorBuiltup;       ///< color
-    static const osg::Vec3 _colorRailroads;     ///< color
-    static const osg::Vec3 _colorRoads;         ///< color
-    static const osg::Vec3 _colorAirports;      ///< color
     static const osg::Vec3 _colorWaterInland;   ///< color
     static const osg::Vec3 _colorWaterCourse;   ///< color
+    static const osg::Vec3 _colorAirports;      ///< color
+    static const osg::Vec3 _colorRailroads;     ///< color
+    static const osg::Vec3 _colorRoads;         ///< color
     static const osg::Vec3 _colorBorders;       ///< color
     static const osg::Vec3 _colorAeroData;      ///< color
 
     static const double _zOceans;               ///< z-ccordinate
     static const double _zLandmass;             ///< z-ccordinate
-    static const double _zCoastline;            ///< z-ccordinate
     static const double _zCrops;                ///< z-ccordinate
     static const double _zGrassland;            ///< z-ccordinate
     static const double _zWoodland;             ///< z-ccordinate
     static const double _zBuiltup;              ///< z-ccordinate
-    static const double _zRailroads;            ///< z-ccordinate
-    static const double _zRoads;                ///< z-ccordinate
-    static const double _zAirports;             ///< z-ccordinate
     static const double _zWaterCourse;          ///< z-ccordinate
     static const double _zWaterInland;          ///< z-ccordinate
     static const double _zSatellite;            ///< z-ccordinate
+    static const double _zAirports;             ///< z-ccordinate
+    static const double _zRailroads;            ///< z-ccordinate
+    static const double _zRoads;                ///< z-ccordinate
     static const double _zBorders;              ///< z-ccordinate
+    static const double _zCoastline;            ///< z-ccordinate
 
     static const double _zAerodromes;           ///< z-ccordinate
     static const double _zNavaids;              ///< z-ccordinate
@@ -94,11 +94,11 @@ public:
     void setVisibilityGrassland ( bool visible );
     void setVisibilityWoodland  ( bool visible );
     void setVisibilityBuiltup   ( bool visible );
-    void setVisibilityRailroads ( bool visible );
-    void setVisibilityRoads     ( bool visible );
-    void setVisibilityAirports  ( bool visible );
     void setVisibilityInWaters  ( bool visible );
     void setVisibilitySatellite ( bool visible );
+    void setVisibilityAirports  ( bool visible );
+    void setVisibilityRailroads ( bool visible );
+    void setVisibilityRoads     ( bool visible );
     void setVisibilityBorders   ( bool visible );
     void setVisibilityTraces    ( bool visible );
 

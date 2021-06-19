@@ -52,8 +52,8 @@ Angles::DegMinSec Angles::toDegMinSec( double val )
 
     double deg_abs = fabs( Units::rad2deg( val ) );
 
-    result.deg = floor( deg_abs );
-    result.min = floor( ( deg_abs - result.deg ) * 60 );
+    result.deg = static_cast< int >( floor( deg_abs ) );
+    result.min = static_cast< int >( floor( ( deg_abs - result.deg ) * 60 ) );
     result.sec = ( deg_abs - result.deg - result.min / 60.0 ) * 3600.0;
 
     if ( val < 0.0 ) result.deg *= -1;

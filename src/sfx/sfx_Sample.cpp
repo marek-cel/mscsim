@@ -143,14 +143,18 @@ void Sample::setLooping( bool looping )
 
 void Sample::setPitch( double pitch )
 {
-    alSourcef( _source, AL_PITCH, std::max( 0.0, std::min( 1.0, pitch ) ) );
+    alSourcef( _source, AL_PITCH,
+               static_cast< ALfloat >( std::max( 0.0, std::min( 1.0, pitch ) ) )
+             );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Sample::setVolume( double vol )
 {
-    alSourcef( _source, AL_GAIN, std::max( 0.0, std::min( 1.0, vol ) ) );
+    alSourcef( _source, AL_GAIN,
+               static_cast< ALfloat >( std::max( 0.0, std::min( 1.0, vol ) ) )
+             );
 }
 
 

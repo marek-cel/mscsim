@@ -75,12 +75,12 @@ Table2::Table2( const std::vector< double > &row_values,
 {
     if ( row_values.size() * col_values.size() == table_data.size() )
     {
-        _size = table_data.size();
+        _size = static_cast< unsigned int >( table_data.size() );
 
         if ( _size > 0 )
         {
-            _rows = row_values.size();
-            _cols = col_values.size();
+            _rows = static_cast< unsigned int >( row_values.size() );
+            _cols = static_cast< unsigned int >( col_values.size() );
 
             _row_values = new double [ _rows ];
             _col_values = new double [ _cols ];

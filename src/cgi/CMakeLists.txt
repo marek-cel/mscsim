@@ -27,6 +27,7 @@ set( CPP_FILES
     cgi_FindNode.cpp
     cgi_Fonts.cpp
     cgi_Geometry.cpp
+    cgi_GeoTIFF.cpp
     cgi_Intersections.cpp
     cgi_Manager.cpp
     cgi_ManipulatorMap.cpp

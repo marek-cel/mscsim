@@ -22,6 +22,10 @@
 
 #include <fdm/utils/fdm_Endianness.h>
 
+#ifdef WIN32
+#   include <windows.h>
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace fdm;

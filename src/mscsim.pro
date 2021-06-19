@@ -81,10 +81,12 @@ win32: LIBS += \
     -L$(OPENAL_DIR)/libs/Win64 \
     -L$(OSG_ROOT)/lib \
     -lalut \
+    -lgdal_i \
     -llibxml2 \
     -lopenal32 \
     -lopengl32 \
-    -lwinmm
+    -lwinmm \
+    -lws2_32
 
 win32: CONFIG(release, debug|release): LIBS += \
     -lOpenThreads \
@@ -114,6 +116,7 @@ unix: LIBS += \
     -L/lib \
     -L/usr/lib \
     -lalut \
+    -lgdal \
     -lopenal \
     -lX11 \
     -lXss \

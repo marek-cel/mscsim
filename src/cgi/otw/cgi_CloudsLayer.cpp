@@ -243,7 +243,7 @@ void CloudsLayer::createLayer( osg::Group *parent, double lat , double lon, doub
     // alpha blending
     osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
     osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
-    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.01 );
+    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.01f );
 
     geodeStateSet->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
     geodeStateSet->setAttributeAndModes( blendFunc.get(), osg::StateAttribute::ON );

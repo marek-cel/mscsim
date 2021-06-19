@@ -234,7 +234,7 @@ std::string String::toLower( const std::string &str )
     std::string result;
     result.clear();
 
-    unsigned int length = str.length();
+    unsigned int length = static_cast< unsigned int >( str.length() );
 
     for ( unsigned int i = 0; i < length; i++ )
     {
@@ -251,7 +251,7 @@ std::string String::toUpper( const std::string &str )
     std::string result;
     result.clear();
 
-    unsigned int length = str.length();
+    unsigned int length = static_cast< unsigned int >( str.length() );
 
     for ( unsigned int i = 0; i < length; i++ )
     {

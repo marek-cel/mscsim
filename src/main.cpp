@@ -81,8 +81,8 @@ int main( int argc, char *argv[] )
 
     int result = app->exec();
 
-    delete mgr; mgr = NULLPTR;
-    delete app; app = NULLPTR;
+    if ( mgr ) { delete mgr; } mgr = NULLPTR;
+    if ( app ) { delete app; } app = NULLPTR;
 
 #   ifndef SIM_TEST
     std::cerr.rdbuf( strbuf );

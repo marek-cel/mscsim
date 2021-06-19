@@ -192,7 +192,7 @@ void F16_Controls::update()
     _nose_wheel = _channelNoseWheel->output;
 
     // 1000 Hz
-    const unsigned int steps = ceil( _aircraft->getTimeStep() / 0.001 );
+    const unsigned int steps = static_cast< unsigned int >( ceil( _aircraft->getTimeStep() / 0.001 ) );
 
     const double timeStep = _aircraft->getTimeStep() / ( (double)steps );
     const double delta_angleOfAttack = _aircraft->getAngleOfAttack() - _angleOfAttack;

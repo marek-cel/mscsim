@@ -61,7 +61,7 @@ CloudsBlock::CloudsBlock( const Module *parent ) :
 
     osg::ref_ptr<osg::AlphaFunc> alphaFunc = new osg::AlphaFunc();
     osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc();
-    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05 );
+    alphaFunc->setFunction( osg::AlphaFunc::GEQUAL, 0.05f );
     blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     osg::ref_ptr<osg::Depth> depth = new osg::Depth;
     depth->setWriteMask( false );

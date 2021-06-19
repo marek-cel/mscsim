@@ -6,6 +6,7 @@ HEADERS += \
     $$PWD/cgi_FindNode.h \
     $$PWD/cgi_Fonts.h \
     $$PWD/cgi_Geometry.h \
+    $$PWD/cgi_GeoTIFF.h \
     $$PWD/cgi_Intersections.h \
     $$PWD/cgi_Manager.h \
     $$PWD/cgi_ManipulatorMap.h \
@@ -26,6 +27,7 @@ SOURCES += \
     $$PWD/cgi_FindNode.cpp \
     $$PWD/cgi_Fonts.cpp \
     $$PWD/cgi_Geometry.cpp \
+    $$PWD/cgi_GeoTIFF.cpp \
     $$PWD/cgi_Intersections.cpp \
     $$PWD/cgi_Manager.cpp \
     $$PWD/cgi_ManipulatorMap.cpp \

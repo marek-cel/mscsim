@@ -66,7 +66,7 @@ Table1::Table1( const std::vector< double > &key_values,
 {
     if ( key_values.size() == table_data.size() )
     {
-        _size = key_values.size();
+        _size = static_cast< unsigned int >( key_values.size() );
 
         if ( _size > 0 )
         {

@@ -51,15 +51,15 @@ WidgetMap::WidgetMap( QWidget *parent ) :
     WidgetOSG ( parent ),
     _timerId ( 0 ),
     _camManipulatorInited ( false ),
+    _viewSatellite ( false ),
     _viewCrops     ( false ),
     _viewGrassland ( false ),
     _viewWoodland  ( false ),
     _viewBuiltup   ( false ),
+    _viewInWaters  ( false ),
+    _viewAirports  ( true  ),
     _viewRailroads ( false ),
     _viewRoads     ( false ),
-    _viewAirports  ( true  ),
-    _viewInWaters  ( false ),
-    _viewSatellite ( false ),
     _viewBorders   ( false ),
     _viewTraces    ( true  )
 {
@@ -128,15 +128,15 @@ WidgetMap::WidgetMap( QWidget *parent ) :
 
     settingsRead();
 
+    cgi::Manager::instance()->setVisibilitySatellite ( _viewSatellite );
     cgi::Manager::instance()->setVisibilityCrops     ( _viewCrops     );
     cgi::Manager::instance()->setVisibilityGrassland ( _viewGrassland );
     cgi::Manager::instance()->setVisibilityWoodland  ( _viewWoodland  );
     cgi::Manager::instance()->setVisibilityBuiltup   ( _viewBuiltup   );
+    cgi::Manager::instance()->setVisibilityInWaters  ( _viewInWaters  );
+    cgi::Manager::instance()->setVisibilityAirports  ( _viewAirports  );
     cgi::Manager::instance()->setVisibilityRailroads ( _viewRailroads );
     cgi::Manager::instance()->setVisibilityRoads     ( _viewRoads     );
-    cgi::Manager::instance()->setVisibilityAirports  ( _viewAirports  );
-    cgi::Manager::instance()->setVisibilityInWaters  ( _viewInWaters  );
-    cgi::Manager::instance()->setVisibilitySatellite ( _viewSatellite );
     cgi::Manager::instance()->setVisibilityBorders   ( _viewBorders   );
     cgi::Manager::instance()->setVisibilityTraces    ( _viewTraces    );
 
@@ -167,67 +167,67 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
     menuLayers.setTitle( "Layers" );
     menuTraces.setTitle( "Traces" );
 
+    QAction actionViewSatellite ( this );
     QAction actionViewCrops     ( this );
     QAction actionViewGrassland ( this );
     QAction actionViewWoodland  ( this );
     QAction actionViewBuiltup   ( this );
+    QAction actionViewInWaters  ( this );
+    QAction actionViewAirports  ( this );
     QAction actionViewRailroads ( this );
     QAction actionViewRoads     ( this );
-    QAction actionViewAirports  ( this );
-    QAction actionViewInWaters  ( this );
-    QAction actionViewSatellite ( this );
     QAction actionViewBorders   ( this );
     QAction actionViewTraces    ( this );
     QAction actionTracesReset   ( this );
     QAction actionCenterView    ( this );
 
+    actionViewSatellite .setText( "Show/Hide Satellite" );
     actionViewCrops     .setText( "Show/Hide Crops" );
     actionViewGrassland .setText( "Show/Hide Grass" );
     actionViewWoodland  .setText( "Show/Hide Forests" );
     actionViewBuiltup   .setText( "Show/Hide Cities" );
+    actionViewInWaters  .setText( "Show/Hide Inland Waters" );
+    actionViewAirports  .setText( "Show/Hide Airports" );
     actionViewRailroads .setText( "Show/Hide Railroads" );
     actionViewRoads     .setText( "Show/Hide Roads" );
-    actionViewAirports  .setText( "Show/Hide Airports" );
-    actionViewInWaters  .setText( "Show/Hide Inland Waters" );
-    actionViewSatellite .setText( "Show/Hide Satellite" );
     actionViewBorders   .setText( "Show/Hide Borders" );
     actionViewTraces    .setText( "Show/Hide Traces" );
     actionTracesReset   .setText( "Reset Traces" );
     actionCenterView    .setText( "Center View" );
 
+    actionViewSatellite .setCheckable( true );
     actionViewCrops     .setCheckable( true );
     actionViewGrassland .setCheckable( true );
     actionViewWoodland  .setCheckable( true );
     actionViewBuiltup   .setCheckable( true );
+    actionViewInWaters  .setCheckable( true );
+    actionViewAirports  .setCheckable( true );
     actionViewRailroads .setCheckable( true );
     actionViewRoads     .setCheckable( true );
-    actionViewAirports  .setCheckable( true );
-    actionViewInWaters  .setCheckable( true );
-    actionViewSatellite .setCheckable( true );
     actionViewBorders   .setCheckable( true );
     actionViewTraces    .setCheckable( true );
 
+    actionViewSatellite .setChecked( _viewSatellite );
     actionViewCrops     .setChecked( _viewCrops     );
     actionViewGrassland .setChecked( _viewGrassland );
     actionViewWoodland  .setChecked( _viewWoodland  );
     actionViewBuiltup   .setChecked( _viewBuiltup   );
+    actionViewInWaters  .setChecked( _viewInWaters  );
+    actionViewAirports  .setChecked( _viewAirports  );
     actionViewRailroads .setChecked( _viewRailroads );
     actionViewRoads     .setChecked( _viewRoads     );
-    actionViewAirports  .setChecked( _viewAirports  );
-    actionViewInWaters  .setChecked( _viewInWaters  );
-    actionViewSatellite .setChecked( _viewSatellite );
     actionViewBorders   .setChecked( _viewBorders   );
     actionViewTraces    .setChecked( _viewTraces    );
 
+    connect( &actionViewSatellite , SIGNAL( toggled(bool) ), this, SLOT( actionViewSatellite_toggled (bool) ) );
     connect( &actionViewCrops     , SIGNAL( toggled(bool) ), this, SLOT( actionViewCrops_toggled     (bool) ) );
     connect( &actionViewGrassland , SIGNAL( toggled(bool) ), this, SLOT( actionViewGrassland_toggled (bool) ) );
     connect( &actionViewWoodland  , SIGNAL( toggled(bool) ), this, SLOT( actionViewWoodland_toggled  (bool) ) );
     connect( &actionViewBuiltup   , SIGNAL( toggled(bool) ), this, SLOT( actionViewBuiltup_toggled   (bool) ) );
+    connect( &actionViewInWaters  , SIGNAL( toggled(bool) ), this, SLOT( actionViewInWaters_toggled  (bool) ) );
+    connect( &actionViewAirports  , SIGNAL( toggled(bool) ), this, SLOT( actionViewAirports_toggled  (bool) ) );
     connect( &actionViewRailroads , SIGNAL( toggled(bool) ), this, SLOT( actionViewRailroads_toggled (bool) ) );
     connect( &actionViewRoads     , SIGNAL( toggled(bool) ), this, SLOT( actionViewRoads_toggled     (bool) ) );
-    connect( &actionViewAirports  , SIGNAL( toggled(bool) ), this, SLOT( actionViewAirports_toggled  (bool) ) );
-    connect( &actionViewInWaters  , SIGNAL( toggled(bool) ), this, SLOT( actionViewInWaters_toggled  (bool) ) );
-    connect( &actionViewSatellite , SIGNAL( toggled(bool) ), this, SLOT( actionViewSatellite_toggled (bool) ) );
     connect( &actionViewBorders   , SIGNAL( toggled(bool) ), this, SLOT( actionViewBorders_toggled   (bool) ) );
     connect( &actionViewTraces    , SIGNAL( toggled(bool) ), this, SLOT( actionViewTraces_toggled    (bool) ) );
 
@@ -235,16 +235,16 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
 
     connect( &actionCenterView, SIGNAL( triggered() ), this, SLOT( actionCenterView_triggered() ) );
 
-//    menuLayers.addAction( &actionViewCrops     );
-//    menuLayers.addAction( &actionViewGrassland );
-//    menuLayers.addAction( &actionViewWoodland  );
-//    menuLayers.addAction( &actionViewBuiltup   );
-//    menuLayers.addAction( &actionViewRailroads );
-//    menuLayers.addAction( &actionViewRoads     );
-    menuLayers.addAction( &actionViewAirports  );
-//    menuLayers.addAction( &actionViewInWaters  );
     menuLayers.addAction( &actionViewSatellite );
-//    menuLayers.addAction( &actionViewBorders   );
+    //menuLayers.addAction( &actionViewCrops     );
+    //menuLayers.addAction( &actionViewGrassland );
+    menuLayers.addAction( &actionViewWoodland  );
+    menuLayers.addAction( &actionViewBuiltup   );
+    menuLayers.addAction( &actionViewInWaters  );
+    menuLayers.addAction( &actionViewAirports  );
+    menuLayers.addAction( &actionViewRailroads );
+    menuLayers.addAction( &actionViewRoads     );
+    menuLayers.addAction( &actionViewBorders   );
 
     menuTraces.addAction( &actionViewTraces  );
     menuTraces.addAction( &actionTracesReset );
@@ -253,18 +253,19 @@ void WidgetMap::contextMenuEvent( QContextMenuEvent *event )
 
     menuContext.exec( event->globalPos() );
 
+    actionViewSatellite .disconnect();
     actionViewCrops     .disconnect();
     actionViewGrassland .disconnect();
     actionViewWoodland  .disconnect();
     actionViewBuiltup   .disconnect();
+    actionViewInWaters  .disconnect();
+    actionViewAirports  .disconnect();
     actionViewRailroads .disconnect();
     actionViewRoads     .disconnect();
-    actionViewAirports  .disconnect();
-    actionViewInWaters  .disconnect();
-    actionViewSatellite .disconnect();
     actionViewBorders   .disconnect();
     actionViewTraces    .disconnect();
     actionTracesReset   .disconnect();
+    actionCenterView    .disconnect();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -387,15 +388,15 @@ void WidgetMap::settingsRead()
 
     settings.beginGroup( "widget_map" );
 
+    _viewSatellite = settings.value( "view_satellite" , _viewSatellite ).toBool();
     _viewCrops     = settings.value( "view_crops"     , _viewCrops     ).toBool();
     _viewGrassland = settings.value( "view_grassland" , _viewGrassland ).toBool();
     _viewWoodland  = settings.value( "view_woodland"  , _viewWoodland  ).toBool();
     _viewBuiltup   = settings.value( "view_builtup"   , _viewBuiltup   ).toBool();
+    _viewInWaters  = settings.value( "inland_waters"  , _viewInWaters  ).toBool();
+    _viewAirports  = settings.value( "view_airports"  , _viewAirports  ).toBool();
     _viewRailroads = settings.value( "view_railroads" , _viewRailroads ).toBool();
     _viewRoads     = settings.value( "view_roads"     , _viewRoads     ).toBool();
-    _viewAirports  = settings.value( "view_airports"  , _viewAirports  ).toBool();
-    _viewInWaters  = settings.value( "inland_waters"  , _viewInWaters  ).toBool();
-    _viewSatellite = settings.value( "view_satellite" , _viewSatellite ).toBool();
     _viewBorders   = settings.value( "view_borders"   , _viewBorders   ).toBool();
     _viewTraces    = settings.value( "view_traces"    , _viewTraces    ).toBool();
 
@@ -410,19 +411,27 @@ void WidgetMap::settingsSave()
 
     settings.beginGroup( "widget_map" );
 
+    settings.setValue( "view_satellite" , _viewSatellite ? 1 : 0 );
     settings.setValue( "view_crops"     , _viewCrops     ? 1 : 0 );
     settings.setValue( "view_grassland" , _viewGrassland ? 1 : 0 );
     settings.setValue( "view_woodland"  , _viewWoodland  ? 1 : 0 );
     settings.setValue( "view_builtup"   , _viewBuiltup   ? 1 : 0 );
+    settings.setValue( "inland_waters"  , _viewInWaters  ? 1 : 0 );
+    settings.setValue( "view_airports"  , _viewAirports  ? 1 : 0 );
     settings.setValue( "view_railroads" , _viewRailroads ? 1 : 0 );
     settings.setValue( "view_roads"     , _viewRoads     ? 1 : 0 );
-    settings.setValue( "view_airports"  , _viewAirports  ? 1 : 0 );
-    settings.setValue( "inland_waters"  , _viewInWaters  ? 1 : 0 );
-    settings.setValue( "view_satellite" , _viewSatellite ? 1 : 0 );
     settings.setValue( "view_borders"   , _viewBorders   ? 1 : 0 );
     settings.setValue( "view_traces"    , _viewTraces    ? 1 : 0 );
 
     settings.endGroup();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void WidgetMap::actionViewSatellite_toggled( bool checked )
+{
+    _viewSatellite = checked;
+    cgi::Manager::instance()->setVisibilitySatellite( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -459,18 +468,10 @@ void WidgetMap::actionViewBuiltup_toggled( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetMap::actionViewRailroads_toggled( bool checked )
+void WidgetMap::actionViewInWaters_toggled( bool checked )
 {
-    _viewRailroads = checked;
-    cgi::Manager::instance()->setVisibilityRailroads( checked );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void WidgetMap::actionViewRoads_toggled( bool checked )
-{
-    _viewRoads = checked;
-    cgi::Manager::instance()->setVisibilityRoads( checked );
+    _viewInWaters = checked;
+    cgi::Manager::instance()->setVisibilityInWaters( _viewInWaters );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -483,18 +484,18 @@ void WidgetMap::actionViewAirports_toggled( bool checked )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetMap::actionViewInWaters_toggled( bool checked )
+void WidgetMap::actionViewRailroads_toggled( bool checked )
 {
-    _viewInWaters = checked;
-    cgi::Manager::instance()->setVisibilityInWaters( _viewInWaters );
+    _viewRailroads = checked;
+    cgi::Manager::instance()->setVisibilityRailroads( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void WidgetMap::actionViewSatellite_toggled( bool checked )
+void WidgetMap::actionViewRoads_toggled( bool checked )
 {
-    _viewSatellite = checked;
-    cgi::Manager::instance()->setVisibilitySatellite( checked );
+    _viewRoads = checked;
+    cgi::Manager::instance()->setVisibilityRoads( checked );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

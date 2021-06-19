@@ -70,7 +70,7 @@ public:
      * @param max maximum random number value
      * @return random value
      */
-    inline static float get( double min, double max )
+    inline static double get( double min, double max )
     {
         return Random::instance()->getRandom( min, max );
     }
