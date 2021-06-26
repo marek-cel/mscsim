@@ -49,7 +49,7 @@ public:
 
     explicit WidgetPFD( QWidget *parent = NULLPTR );
 
-    ~WidgetPFD();
+    virtual ~WidgetPFD();
 
     void init( Autopilot *ap, g1000::IFD *ifd );
 

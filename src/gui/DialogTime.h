@@ -53,7 +53,7 @@ public:
 
     explicit DialogTime( QWidget *parent = NULLPTR );
 
-    ~DialogTime();
+    virtual ~DialogTime();
 
     void init( double lon_deg, const QTime &time_utc );
 

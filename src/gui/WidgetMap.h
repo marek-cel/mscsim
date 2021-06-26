@@ -40,7 +40,7 @@ class WidgetMap : public WidgetOSG
 public:
 
     /** @brief Constructor. */
-    WidgetMap( QWidget *parent = NULLPTR );
+    explicit WidgetMap( QWidget *parent = NULLPTR );
 
     /** @brief Destructor. */
     virtual ~WidgetMap();

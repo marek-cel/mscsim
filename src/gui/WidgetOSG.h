@@ -55,7 +55,7 @@ class WidgetOSG : public QWidget, public osgViewer::Viewer
 public:
 
     /** @brief Constructor. */
-    WidgetOSG( QWidget *parent = NULLPTR );
+    explicit WidgetOSG( QWidget *parent = NULLPTR );
 
     /** @brief Destructor. */
     virtual ~WidgetOSG();

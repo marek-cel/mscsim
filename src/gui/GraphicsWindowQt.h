@@ -62,7 +62,7 @@ public:
      * @brief Constructor.
      * @param traits
      */
-    GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
+    explicit GraphicsWindowQt( osg::GraphicsContext::Traits *traits );
 
     /** @brief Destructor. */
     virtual ~GraphicsWindowQt();

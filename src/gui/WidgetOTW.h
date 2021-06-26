@@ -44,7 +44,7 @@ public:
     static const double _zFar;
 
     /** @brief Constructor. */
-    WidgetOTW( QWidget *parent = NULLPTR );
+    explicit WidgetOTW( QWidget *parent = NULLPTR );
 
     /** @brief Destructor. */
     virtual ~WidgetOTW();

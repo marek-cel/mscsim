@@ -159,9 +159,9 @@ MainWindow::MainWindow( QWidget *parent ) :
     _dockMap  ->setVisible( false );
     _dockProp ->setVisible( false );
 
-    _scCycleViews = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V)     , this, SLOT(shorcutCycleViews_activated())   );
-    _scToggleHud  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_H)     , this, SLOT(shorcutToggleHud_activated())    );
-    _scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F)     , this, SLOT(shorcutFullScreen_activated())   );
+    _scCycleViews = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_V)     , this, SLOT(shortcutCycleViews_activated ()) );
+    _scToggleHud  = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_H)     , this, SLOT(shortcutToggleHud_activated  ()) );
+    _scFullScreen = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_F)     , this, SLOT(shortcutFullScreen_activated ()) );
     _scTimeFaster = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Equal) , this, SLOT(on_actionTimeFaster_triggered()) );
     _scTimeSlower = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_Minus) , this, SLOT(on_actionTimeSlower_triggered()) );
     _scTimeNormal = new QShortcut( QKeySequence(Qt::CTRL + Qt::Key_0)     , this, SLOT(on_actionTimeNormal_triggered()) );
@@ -1528,7 +1528,7 @@ void MainWindow::on_actionAbout_triggered()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::shorcutCycleViews_activated()
+void MainWindow::shortcutCycleViews_activated()
 {
     ViewType viewType = Data::CGI::ViewChase;
 
@@ -1548,7 +1548,7 @@ void MainWindow::shorcutCycleViews_activated()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::shorcutToggleHud_activated()
+void MainWindow::shortcutToggleHud_activated()
 {
     _showHUD = !_showHUD;
     _ui->actionShowHUD->setChecked( _showHUD );
@@ -1556,7 +1556,7 @@ void MainWindow::shorcutToggleHud_activated()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::shorcutFullScreen_activated()
+void MainWindow::shortcutFullScreen_activated()
 {
     if ( isFullScreen() )
     {

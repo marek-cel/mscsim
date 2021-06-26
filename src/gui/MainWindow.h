@@ -252,9 +252,9 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void shorcutCycleViews_activated();
-    void shorcutToggleHud_activated();
-    void shorcutFullScreen_activated();
+    void shortcutCycleViews_activated();
+    void shortcutToggleHud_activated();
+    void shortcutFullScreen_activated();
 
     void dialogInit_typeIndexChanged( int typeIndex );
     void dockMain_stateInpChanged( fdm::DataInp::StateInp stateInp );

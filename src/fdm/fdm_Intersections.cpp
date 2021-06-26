@@ -65,7 +65,7 @@ void Intersections::update( double lat, double lon )
         _normal_wgs = Vector3( n.x(), n.y(), n.z() );
     }
 #   else
-    WGS84::Geo geo = { lat, lon, 0.0 };
+    Geo geo = { lat, lon, 0.0 };
     WGS84 wgs( geo );
 
     _inited = true;

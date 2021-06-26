@@ -40,7 +40,7 @@ class KeyHandler : public osgGA::GUIEventHandler
 public:
 
     /** */
-    KeyHandler( WidgetOTW *widgetOTW );
+    explicit KeyHandler( WidgetOTW *widgetOTW );
 
     /** */
     bool handle( const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter & );

@@ -24,6 +24,7 @@
 
 #include <QAction>
 #include <QContextMenuEvent>
+#include <QLocale>
 #include <QMenu>
 #include <QSettings>
 
@@ -348,16 +349,19 @@ void WidgetMap::createCameraMap()
 
 void WidgetMap::updateMouseGeoPositionStr( double lat, double lon )
 {
-    double lat_deg = osg::RadiansToDegrees( fabs( lat ) );
-    double lon_deg = osg::RadiansToDegrees( fabs( lon ) );
+    double lat_deg = osg::RadiansToDegrees( lat );
+    double lon_deg = osg::RadiansToDegrees( lon );
 
-    int lat_d = floor( lat_deg );
-    int lat_m = floor( 60.0 * ( lat_deg - lat_d ) );
-    double lat_s = 3600.0 * ( lat_deg - lat_d - lat_m / 60.0 );
+    double lat_deg_abs = fabs( lat_deg );
+    double lon_deg_abs = fabs( lon_deg );
 
-    int lon_d = floor( lon_deg );
-    int lon_m = floor( 60.0 * ( lon_deg - lon_d ) );
-    double lon_s = 3600.0 * ( lon_deg - lon_d - lon_m / 60.0 );
+    int lat_d = floor( lat_deg_abs );
+    int lat_m = floor( 60.0 * ( lat_deg_abs - lat_d ) );
+    double lat_s = 3600.0 * ( lat_deg_abs - lat_d - lat_m / 60.0 );
+
+    int lon_d = floor( lon_deg_abs );
+    int lon_m = floor( 60.0 * ( lon_deg_abs - lon_d ) );
+    double lon_s = 3600.0 * ( lon_deg_abs - lon_d - lon_m / 60.0 );
 
     _mouseGeoPositionStr.clear();
 
@@ -369,7 +373,7 @@ void WidgetMap::updateMouseGeoPositionStr( double lat, double lon )
     _mouseGeoPositionStr += "\"";
     _mouseGeoPositionStr += ( lon > 0.0 ) ? "E" : "W";
 
-    _mouseGeoPositionStr += ",  ";
+    _mouseGeoPositionStr += "  ;  ";
 
     _mouseGeoPositionStr += QString("%1").arg( lat_d, 2, 'f', 0, QChar(' ') );
     _mouseGeoPositionStr += QString::fromUtf8( "° " );
@@ -378,6 +382,12 @@ void WidgetMap::updateMouseGeoPositionStr( double lat, double lon )
     _mouseGeoPositionStr += QString("%1").arg( lat_s, 5, 'f', 2, QChar('0') );
     _mouseGeoPositionStr += "\"";
     _mouseGeoPositionStr += ( lat > 0.0 ) ? "N" : "S";
+
+    _mouseGeoPositionStr += " (";
+    _mouseGeoPositionStr += QString::number( lon_deg, 'f', 6 );
+    _mouseGeoPositionStr += "  ;  ";
+    _mouseGeoPositionStr += QString::number( lat_deg, 'f', 6 );
+    _mouseGeoPositionStr += ")";
 }
 
 ////////////////////////////////////////////////////////////////////////////////

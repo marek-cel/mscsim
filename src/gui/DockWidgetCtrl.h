@@ -50,7 +50,7 @@ public:
     explicit DockWidgetCtrl( QWidget *parent = NULLPTR );
 
     /** @brief Destructor. */
-    ~DockWidgetCtrl();
+    virtual ~DockWidgetCtrl();
 
     bool getABS() const;
     bool getNWS() const;

@@ -56,7 +56,7 @@ public:
     explicit DockWidgetProp( QWidget *parent = NULLPTR );
 
     /** @brief Destructor. */
-    ~DockWidgetProp();
+    virtual ~DockWidgetProp();
 
     bool getFuel     ( int index ) const;
     bool getIgnition ( int index ) const;
