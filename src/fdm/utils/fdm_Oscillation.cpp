@@ -128,7 +128,7 @@ void Oscillation::update()
         double as = 0.0;
         double ps = 0.0;
 
-        for ( Points::iterator it = _points.begin(); it != _points.end(); it++ )
+        for ( Points::iterator it = _points.begin(); it != _points.end(); ++it )
         {
             Point &pt = *(it);
 

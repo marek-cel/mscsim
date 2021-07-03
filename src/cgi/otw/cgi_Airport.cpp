@@ -96,7 +96,7 @@ void Airport::switchesAdd( Switches *switches, osg::Node *node, const char *name
 {
     FindNode::Nodes nodes = FindNode::findNodes( node, name );
 
-    for ( FindNode::Nodes::iterator it = nodes.begin(); it != nodes.end(); it++ )
+    for ( FindNode::Nodes::iterator it = nodes.begin(); it != nodes.end(); ++it )
     {
         osg::ref_ptr<osg::Switch> sw = dynamic_cast<osg::Switch*>( (*it).get() );
 
@@ -108,7 +108,7 @@ void Airport::switchesAdd( Switches *switches, osg::Node *node, const char *name
 
 void Airport::switchesSet( Switches *switches, bool enabled )
 {
-    for ( Switches::iterator it = switches->begin(); it != switches->end(); it++ )
+    for ( Switches::iterator it = switches->begin(); it != switches->end(); ++it )
     {
         if ( enabled )
             (*it)->setAllChildrenOn();
