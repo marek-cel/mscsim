@@ -75,14 +75,15 @@ void Autopilot::init()
             if ( _autopilot ) _autopilot->initialize();
         }
     }
-    catch ( fdm::Exception &e )
+    catch ( const fdm::Exception &e )
     {
         Log::e() << e.getInfo() << std::endl;
 
-        while ( e.hasCause() )
+        fdm::Exception et = e;
+        while ( et.hasCause() )
         {
-            e = e.getCause();
-            Log::e() << e.getInfo() << std::endl;
+            et = et.getCause();
+            Log::e() << et.getInfo() << std::endl;
         }
     }
 }

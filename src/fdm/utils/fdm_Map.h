@@ -94,7 +94,7 @@ public:
 
 private:
 
-    std::map< std::string, TYPE_ITEM > _map;    ///< map
+    std::map< TYPE_KEY, TYPE_ITEM > _map;    ///< map
 
 };
 

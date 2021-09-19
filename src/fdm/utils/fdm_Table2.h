@@ -61,7 +61,7 @@ public:
     Table2( const Table2 &table );
 
     /** @brief Destructor. */
-    virtual ~Table2();
+    virtual ~Table2() noexcept;
 
     inline unsigned int getCols() const { return _cols; }
     inline unsigned int getRows() const { return _rows; }

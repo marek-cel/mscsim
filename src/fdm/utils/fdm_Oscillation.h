@@ -45,7 +45,7 @@ public:
     Oscillation();
 
     /** @brief Destructor. */
-    virtual ~Oscillation();
+    virtual ~Oscillation() noexcept;
 
     /**
      * @brief Adds single data point and updates parameters.

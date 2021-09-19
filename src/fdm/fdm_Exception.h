@@ -128,7 +128,7 @@ public:
     }
 
     /** @brief Sets triggering exception. */
-    inline void setCause( Exception &cause )
+    inline void setCause( const Exception &cause )
     {
         removeCause();
 
@@ -191,7 +191,7 @@ public:
 
 private:
 
-    Exception *_cause;          ///< exception cause (if exception triggered by catching other exception)
+    const Exception *_cause;    ///< exception cause (if exception triggered by catching other exception)
 
     Type _type;                 ///< exception type
     int _line;                  ///< line number

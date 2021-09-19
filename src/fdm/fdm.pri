@@ -177,6 +177,7 @@ SOURCES += \
     $$PWD/utils/fdm_String.cpp \
     $$PWD/utils/fdm_Table1.cpp \
     $$PWD/utils/fdm_Table2.cpp \
+    $$PWD/utils/fdm_Time.cpp \
     $$PWD/utils/fdm_Units.cpp \
     $$PWD/utils/fdm_Vector3.cpp \
     $$PWD/utils/fdm_Vector4.cpp \

@@ -50,7 +50,7 @@ public:
     }
 
     /** @brief Destructor. */
-    virtual ~DataRef() {}
+    virtual ~DataRef() noexcept {}
 
     /**
      * @return returns data value on success or NaN on failure

@@ -19,51 +19,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef FDM_TIME_H
-#define FDM_TIME_H
+
+#include <fdm/utils/fdm_Time.h>
+
+#include <iomanip>
+#include <sstream>
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <ctime>
-#include <string>
-
-#include <fdm/fdm_Defines.h>
+using namespace fdm;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace fdm
+std::string Time::toISO8601( int year, int mon, int day,
+                             int hour, int min, int sec, int msec,
+                             bool print_msec )
 {
+    return toISO8601( year, mon, day ) + "T" + toISO8601( hour, min, sec, msec, print_msec );
+}
 
-/** */
-class FDMEXPORT Time
+////////////////////////////////////////////////////////////////////////////////
+
+std::string Time::toISO8601( int year, int mon, int day )
 {
-public:
+    std::stringstream ss;
 
-    static inline double get()
+    ss << year;
+    ss << "-";
+    ss << std::setfill('0') << std::setw( 2 ) << mon;
+    ss << "-";
+    ss << std::setfill('0') << std::setw( 2 ) << day;
+
+    return ss.str();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+std::string Time::toISO8601( int hour, int min, int sec, int msec,
+                             bool print_msec )
+{
+    std::stringstream ss;
+
+    ss << std::setfill('0') << std::setw( 2 ) << hour;
+    ss << ":";
+    ss << std::setfill('0') << std::setw( 2 ) << min;
+    ss << ":";
+    ss << std::setfill('0') << std::setw( 2 ) << sec;
+
+    if ( print_msec )
     {
-#       ifdef _LINUX_
-        timespec ts;
-        clock_gettime( CLOCK_MONOTONIC_RAW, &ts );
-        return ts.tv_sec + 1.0e-9 * ts.tv_nsec;
-#       endif
-
-#       ifdef WIN32
-        return (double)( clock() ) / (double)( CLOCKS_PER_SEC );
-#       endif
+        ss << ".";
+        ss << std::setfill('0') << std::setw( 3 ) << msec;
     }
 
-    static std::string toISO8601( int year, int mon, int day,
-                                  int hour, int min, int sec, int msec,
-                                  bool print_msec = true );
-
-    static std::string toISO8601( int year, int mon, int day );
-
-    static std::string toISO8601( int hour, int min, int sec, int msec,
-                                  bool print_msec = true );
-};
-
-} // end of fdm namespace
-
-////////////////////////////////////////////////////////////////////////////////
-
-#endif // FDM_TIME_H
+    return ss.str();
+}

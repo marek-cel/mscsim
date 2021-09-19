@@ -53,7 +53,7 @@ public:
     VectorN( const VectorN &vect );
 
     /** @brief Destructor. */
-    virtual ~VectorN();
+    virtual ~VectorN() noexcept;
 
     /** @return TRUE if all items are valid */
     virtual bool isValid() const;

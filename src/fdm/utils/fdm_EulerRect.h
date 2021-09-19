@@ -52,7 +52,7 @@ public:
     {}
 
     /** @brief Destructor. */
-    virtual ~EulerRect() {}
+    virtual ~EulerRect() noexcept {}
 
     /**
      * @brief Integrates given vector using Euler's rectangular integration algorithm.

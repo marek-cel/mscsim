@@ -13,7 +13,7 @@ TARGET = mscsim
 
 ################################################################################
 
-CONFIG += c++11
+CONFIG += c++17
 
 ################################################################################
 
@@ -68,6 +68,7 @@ unix: DEFINES += _LINUX_
 INCLUDEPATH += ./
 
 win32: INCLUDEPATH += \
+    $(ALUT_DIR)/include \
     $(OPENAL_DIR)/include \
     $(OSG_ROOT)/include/ \
     $(OSG_ROOT)/include/libxml2
@@ -78,6 +79,7 @@ unix: INCLUDEPATH += \
 ################################################################################
 
 win32: LIBS += \
+    -L$(ALUT_DIR)/lib \
     -L$(OPENAL_DIR)/libs/Win64 \
     -L$(OSG_ROOT)/lib \
     -lalut \

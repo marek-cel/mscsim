@@ -58,7 +58,7 @@ public:
     Table1( const Table1 &table );
 
     /** @brief Destructor. */
-    virtual ~Table1();
+    virtual ~Table1() noexcept;
 
     /**
      * @brief Returns key value for the given key index.

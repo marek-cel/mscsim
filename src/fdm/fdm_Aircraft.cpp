@@ -160,7 +160,7 @@ void Aircraft::update( double timeStep, bool integrate )
 
         postIntegration();
     }
-    catch ( Exception &catched )
+    catch ( const Exception &catched )
     {
         Exception e;
 

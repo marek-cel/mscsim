@@ -50,7 +50,7 @@ public:
     {}
 
     /** @brief Destructor. */
-    virtual ~RungeKutta4() {}
+    virtual ~RungeKutta4() noexcept {}
 
     /**
      * @brief Integrates given vector using Runge-Kutta 4th order integration algorithm.

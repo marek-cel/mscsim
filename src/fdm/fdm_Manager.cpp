@@ -432,7 +432,7 @@ void Manager::updateStateInit()
                 }
             }
         }
-        catch ( Exception &e )
+        catch ( const Exception &e )
         {
             Log::e() << e.getInfo()
 #           ifdef _DEBUG
@@ -441,13 +441,14 @@ void Manager::updateStateInit()
 #           endif
             << std::endl;
 
-            while ( e.hasCause() )
+            Exception et = e;
+            while ( et.hasCause() )
             {
-                e = e.getCause();
-                Log::e() << e.getInfo()
+                et = et.getCause();
+                Log::e() << et.getInfo()
 #               ifdef _DEBUG
-                << " " << e.getFile()
-                << "(" << e.getLine() << ")"
+                << " " << et.getFile()
+                << "(" << et.getLine() << ")"
 #               endif
                 << std::endl;
             }
@@ -510,7 +511,7 @@ void Manager::updateStateWork()
 
             updateTimeStepStats( compTime_0 );
         }
-        catch ( Exception &e )
+        catch ( const Exception &e )
         {
             Log::e() << e.getInfo()
 #           ifdef _DEBUG
@@ -519,13 +520,14 @@ void Manager::updateStateWork()
 #           endif
             << std::endl;
 
-            while ( e.hasCause() )
+            Exception et = e;
+            while ( et.hasCause() )
             {
-                e = e.getCause();
+                et = et.getCause();
                 Log::e() << e.getInfo()
 #               ifdef _DEBUG
-                << " " << e.getFile()
-                << "(" << e.getLine() << ")"
+                << " " << et.getFile()
+                << "(" << et.getLine() << ")"
 #               endif
                 << std::endl;
             }

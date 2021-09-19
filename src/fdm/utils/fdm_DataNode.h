@@ -58,7 +58,7 @@ public:
     DataNode();
 
     /** @brief Destructor. */
-    virtual ~DataNode();
+    virtual ~DataNode() noexcept;
 
     /**
      * @param path Path relative to the node.
