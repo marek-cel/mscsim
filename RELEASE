@@ -1,5 +1,0 @@
-AW101, F-35A, PW-5, R44 and Littoral Combat Ship added, shadows and water reflections added, improved landing gear model.
-
-Linux deb package requires additional data packages: mscsim-data v0.4 and mscsim-data-terrain v0.1 (sic!).
- 
-Windows installer contains all necessary data.
