@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fdm>
+  
+  <!-- Cessna 172 Flight Dynamics Model Data File -->
+  
+  <!-- collision points -->
+  <collision_points>
+    
+    <collision_point>  2.06  0.0   0.95 </collision_point> <!-- [m] propeller -->
+    <collision_point>  0.0  -5.46 -0.73 </collision_point> <!-- [m] left wing tip -->
+    <collision_point>  0.0   5.46 -0.73 </collision_point> <!-- [m] right wing tip -->
+    <collision_point> -5.31  0.0  -0.28 </collision_point> <!-- [m] tail -->
+    
+  </collision_points>
+  
+  <!-- limitations -->
+  <limitations>
+    
+    <airspeed_max> 95.0 </airspeed_max>   <!-- [m/s] maximum airspeed (exceeding this value causes crash) -->
+    
+    <load_aero_min> -2.7 </load_aero_min> <!-- [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_aero_max>  6.6 </load_aero_max> <!-- [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_gear_max> 13.0 </load_gear_max> <!-- [-] maximum absolute load factor due to landing gear (exceeding this value causes crash) -->
+    
+  </limitations>
+  
+  <!-- pilot position -->
+  <pilot_position> -0.3 -0.3 -0.3 </pilot_position> <!-- [m] pilot position expressed in BAS -->
+  
+  <!-- aerodynamics -->
+  <aerodynamics>
+    
+    <!-- [-] drag factor due to ground effect vs [m] altitude AGL -->
+    <drag_ground_effect>
+      1.1   1.05
+      4.0   1.00
+    </drag_ground_effect>
+    
+    <!-- [-] lift factor due to ground effect vs [m] altitude AGL -->
+    <lift_ground_effect>
+      1.1   1.15
+      4.0   1.00
+    </lift_ground_effect>
+    
+    <dl_dtorque> -0.04 </dl_dtorque>  <!-- [-] rolling moment due propeller torque -->
+    <dn_dtorque>  0.04 </dn_dtorque>  <!-- [-] yawing moment due propeller torque -->
+
+    <!-- tail-off aircraft -->
+    <tail_off>
+        
+      <aero_center_l>  0.0  -2.58  -0.73  </aero_center_l>  <!-- [m] left  half wing aerodynamic center expressed in BAS -->
+      <aero_center_r>  0.0   2.58  -0.73  </aero_center_r>  <!-- [m] right half wing aerodynamic center expressed in BAS -->
+      
+      <span> 11.00 </span>                    <!-- [m] wing span -->
+      <mac>   1.49 </mac>                     <!-- [m] wing mean aerodynamic chord -->
+      <area> 16.17 </area>                    <!-- [m^2] wing area -->
+      
+      <dcl_dailerons> 2.37 </dcl_dailerons>   <!-- [1/rad] rolling moment coefficient due to ailerons deflection -->
+      
+      <!-- [-] drag coefficient vs [deg] angle of attack -->
+      <cx>
+       -180.0      0.0298
+       -170.0      0.0967
+       -160.0      0.2776
+       -140.0      0.6842
+       -130.0      0.8782
+       -120.0      1.0930
+       -110.0      1.2410
+       -100.0      1.4079
+        -90.0      1.4391
+        -80.0      1.4722
+        -70.0      1.3311
+        -60.0      1.2737
+        -50.0      1.0418
+        -40.0      0.7928
+        -30.0      0.5500
+        -25.0      0.4280
+        -20.0      0.3060
+        -17.0      0.2303
+        -14.0      0.1721
+        -12.0      0.1383
+        -10.0      0.0835
+         -9.0      0.0718
+         -8.0      0.0631
+         -7.0      0.0520
+         -6.0      0.0452
+         -5.0      0.0391
+         -4.0      0.0341
+         -3.0      0.0299
+         -2.0      0.0274
+         -1.0      0.0260
+          0.0      0.0268
+          1.0      0.0267
+          2.0      0.0291
+          3.0      0.0319
+          4.0      0.0366
+          5.0      0.0417
+          6.0      0.0486
+          7.0      0.0562
+          8.0      0.0644
+          9.0      0.0740
+         10.0      0.0851
+         11.0      0.0969
+         12.0      0.1097
+         13.0      0.1235
+         14.0      0.1368
+         15.0      0.1545
+         17.0      0.1863
+         20.0      0.2641
+         25.0      0.3856
+         40.0      0.7971
+         50.0      1.0567
+         60.0      1.2355
+         70.0      1.5629
+         80.0      1.6306
+         90.0      1.6088
+        100.0      1.5656
+        110.0      1.4494
+        120.0      1.2192
+        130.0      1.0382
+        140.0      0.7815
+        150.0      0.5442
+        160.0      0.2884
+        170.0      0.0986
+        180.0      0.0299
+      </cx>
+      
+      <!-- [-] lift coefficient vs [deg] angle of attack -->
+      <cz>
+        -180.0    -0.171
+        -170.0     0.063
+        -160.0     0.332
+        -140.0     0.510
+        -130.0     0.509
+        -120.0     0.417
+        -110.0     0.264
+        -100.0     0.101
+         -90.0    -0.087
+         -80.0    -0.326
+         -70.0    -0.533
+         -60.0    -0.737
+         -50.0    -0.816
+         -40.0    -0.827
+         -30.0    -0.771
+         -25.0    -0.690
+         -20.0    -0.633
+         -17.0    -0.575
+         -14.0    -0.601
+         -12.0    -0.734
+         -10.0    -0.639
+          -9.0    -0.584
+          -8.0    -0.517
+          -7.0    -0.445
+          -6.0    -0.364
+          -5.0    -0.283
+          -4.0    -0.200
+          -3.0    -0.119
+          -2.0    -0.036
+          -1.0     0.050
+           0.0     0.137
+           1.0     0.224
+           2.0     0.313
+           3.0     0.401
+           4.0     0.485
+           5.0     0.576
+           6.0     0.654
+           7.0     0.735
+           8.0     0.820
+           9.0     0.898
+          10.0     0.968
+          11.0     1.032
+          12.0     1.096
+          13.0     1.150
+          14.0     1.166
+          15.0     1.196
+          17.0     0.982
+          20.0     0.960
+          25.0     0.813
+          40.0     0.838
+          50.0     0.837
+          60.0     0.741
+          70.0     0.621
+          80.0     0.416
+          90.0     0.085
+         100.0    -0.178
+         110.0    -0.364
+         120.0    -0.500
+         130.0    -0.632
+         140.0    -0.677
+         150.0    -0.657
+         160.0    -0.513
+         170.0    -0.469
+         180.0    -0.172
+      </cz>
+      
+      <!-- [-] pitching moment coefficient vs [deg] angle of attack -->
+      <cm>
+        -180.0    -0.057
+        -170.0     0.204
+        -160.0     0.308
+        -140.0     0.458
+        -130.0     0.485
+        -120.0     0.488
+        -110.0     0.462
+        -100.0     0.448
+         -90.0     0.424
+         -80.0     0.356
+         -70.0     0.244
+         -60.0     0.217
+         -50.0     0.161
+         -40.0     0.074
+         -30.0     0.011
+         -25.0    -0.003
+         -20.0    -0.024
+         -17.0    -0.056
+         -14.0    -0.069
+         -12.0    -0.084
+         -10.0    -0.117
+          -9.0    -0.109
+          -8.0    -0.099
+          -7.0    -0.092
+          -6.0    -0.086
+          -5.0    -0.079
+          -4.0    -0.075
+          -3.0    -0.068
+          -2.0    -0.063
+          -1.0    -0.060
+           0.0    -0.058
+           1.0    -0.055
+           2.0    -0.055
+           3.0    -0.055
+           4.0    -0.056
+           5.0    -0.058
+           6.0    -0.059
+           7.0    -0.062
+           8.0    -0.066
+           9.0    -0.070
+          10.0    -0.074
+          11.0    -0.076
+          12.0    -0.082
+          13.0    -0.084
+          14.0    -0.079
+          15.0    -0.085
+          17.0    -0.057
+          20.0    -0.065
+          25.0    -0.061
+          40.0    -0.130
+          50.0    -0.213
+          60.0    -0.263
+          70.0    -0.374
+          80.0    -0.410
+          90.0    -0.515
+         100.0    -0.604
+         110.0    -0.630
+         120.0    -0.632
+         130.0    -0.644
+         140.0    -0.609
+         150.0    -0.546
+         160.0    -0.451
+         170.0    -0.378
+         180.0    -0.057
+      </cm>
+      
+      <!-- [1/rad] drag coefficient due to flaps deflection -->
+      <dcx_dflaps>
+        -180.0     0.0441
+        -120.0     0.0441
+         -90.0    -0.0979
+         -60.0    -0.2644
+         -30.0    -0.1690
+         -25.0    -0.1614
+         -20.0    -0.1180
+         -17.0    -0.0850
+         -14.0    -0.0502
+         -12.0    -0.0983
+         -10.0    -0.0236
+          -9.0    -0.0133
+          -8.0    -0.0028
+          -7.0     0.0104
+          -6.0     0.0207
+          -5.0     0.0323
+          -4.0     0.0411
+          -3.0     0.0534
+          -2.0     0.0630
+          -1.0     0.0732
+           0.0     0.0809
+           1.0     0.0923
+           2.0     0.1004
+           3.0     0.1087
+           4.0     0.1161
+           5.0     0.1236
+           6.0     0.1291
+           7.0     0.1352
+           8.0     0.1410
+           9.0     0.1442
+          10.0     0.1453
+          11.0     0.1455
+          12.0     0.1413
+          13.0     0.1318
+          14.0     0.2143
+          15.0     0.1790
+          17.0     0.1853
+          20.0     0.2133
+          25.0     0.2616
+          60.0     0.2754
+          90.0     0.0194
+         120.0    -0.0695
+         150.0    -0.1833
+         180.0     0.0440
+      </dcx_dflaps>
+      
+      <!-- [1/rad] lift coefficient due to flaps deflection -->
+      <dcz_dflaps>
+        -180.0    -0.289
+        -120.0    -0.080
+         -90.0    -0.025
+         -60.0     0.245
+         -30.0     0.469
+         -25.0     0.516
+         -20.0     0.501
+         -17.0     0.510
+         -14.0     0.421
+         -12.0     0.867
+         -10.0     0.971
+          -9.0     1.026
+          -8.0     1.044
+          -7.0     1.080
+          -6.0     1.100
+          -5.0     1.103
+          -4.0     1.107
+          -3.0     1.120
+          -2.0     1.115
+          -1.0     1.119
+           0.0     1.110
+           1.0     1.106
+           2.0     1.098
+           3.0     1.081
+           4.0     1.070
+           5.0     1.059
+           6.0     1.030
+           7.0     1.002
+           8.0     0.978
+           9.0     0.931
+          10.0     0.887
+          11.0     0.846
+          12.0     0.760
+          13.0     0.630
+          14.0     0.131
+          15.0     0.017
+          17.0     0.177
+          20.0     0.298
+          25.0     0.403
+          60.0     0.133
+          90.0     0.021
+         120.0    -0.107
+         150.0     0.029
+         180.0    -0.288
+      </dcz_dflaps>
+      
+      <!-- [1/rad] pitching moment coefficient due to flaps deflection -->
+      <dcm_dflaps>
+        -180.0     0.006
+        -120.0    -0.065
+         -90.0    -0.123
+         -60.0    -0.098
+         -30.0    -0.183
+         -25.0    -0.170
+         -20.0    -0.162
+         -17.0    -0.147
+         -14.0    -0.132
+         -12.0    -0.261
+         -10.0    -0.190
+          -9.0    -0.202
+          -8.0    -0.207
+          -7.0    -0.219
+          -6.0    -0.227
+          -5.0    -0.231
+          -4.0    -0.233
+          -3.0    -0.246
+          -2.0    -0.251
+          -1.0    -0.259
+           0.0    -0.259
+           1.0    -0.266
+           2.0    -0.269
+           3.0    -0.272
+           4.0    -0.272
+           5.0    -0.275
+           6.0    -0.271
+           7.0    -0.269
+           8.0    -0.266
+           9.0    -0.255
+          10.0    -0.245
+          11.0    -0.239
+          12.0    -0.216
+          13.0    -0.188
+          14.0    -0.168
+          15.0    -0.126
+          17.0    -0.161
+          20.0    -0.181
+          25.0    -0.207
+          60.0    -0.045
+          90.0     0.085
+         120.0     0.061
+         150.0     0.093
+         180.0     0.006
+      </dcm_dflaps>
+      
+    </tail_off>
+    
+    <!-- horizontal stabilizer -->
+    <stab_hor>
+        
+      <aero_center> -4.79 0.0 -0.28 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      
+      <area> 2.0 </area>                              <!-- [m^2] stabilizer area -->
+      
+      <incidence unit="deg"> -2.5 </incidence>        <!-- [rad] stabilizer incidence angle -->
+     
+      <!-- [rad] downwash angle vs [rad] angle of attack [NASA-CR-2605, p.77] -->
+      <downwash>
+         -90.0     0.00
+         -60.0    -3.75
+         -30.0    -3.75
+         -15.0    -3.75
+           0.0     0.00
+          15.0     3.75
+          30.0     3.75
+          60.0     3.75
+          90.0     0.00
+      </downwash>
+      
+      <dcx_delevator> 0.35 </dcx_delevator>           <!-- [1/rad] drag coefficient due to elevator deflection -->
+      <dcz_delevator> 3.19 </dcz_delevator>           <!-- [1/rad] lift coefficient due to elevator deflection -->
+      
+      <dcz_delevator_trim> 0.9 </dcz_delevator_trim>  <!-- [1/rad] lift coefficient due to elevator trim deflection -->
+      
+      <!-- [-] drag coefficient vs [deg] angle of attack -->
+      <cx>
+        -180.0     0.0305
+        -150.0     0.6429
+        -120.0     1.5804
+         -90.0     2.4000
+         -60.0     1.5804
+         -50.0     1.2300
+         -40.0     0.9103
+         -30.0     0.6429
+         -25.0     0.4134
+         -20.0     0.2534
+         -17.0     0.1836
+         -16.0     0.1640
+         -15.0     0.1461
+         -14.0     0.1298
+         -13.0     0.1150
+         -12.0     0.1016
+         -11.0     0.0896
+         -10.0     0.0788
+          -9.0     0.0693
+          -8.0     0.0609
+          -7.0     0.0536
+          -6.0     0.0473
+          -5.0     0.0421
+          -4.0     0.0379
+          -3.0     0.0347
+          -2.0     0.0323
+          -1.0     0.0310
+           0.0     0.0305
+           1.0     0.0310
+           2.0     0.0323
+           3.0     0.0347
+           4.0     0.0379
+           5.0     0.0421
+           6.0     0.0473
+           7.0     0.0536
+           8.0     0.0609
+           9.0     0.0693
+          10.0     0.0788
+          11.0     0.0896
+          12.0     0.1016
+          13.0     0.1150
+          14.0     0.1298
+          15.0     0.1461
+          16.0     0.1640
+          17.0     0.1836
+          20.0     0.2534
+          25.0     0.4134
+          30.0     0.6429
+          40.0     0.9103
+          50.0     1.2300
+          60.0     1.5804
+          90.0     2.4000
+         120.0     1.5804
+         150.0     0.6429
+         180.0     0.0305
+      </cx>
+        
+      <!-- [-] lift coefficient vs [deg] angle of attack -->
+      <cz>
+        -180.0     0.000
+        -150.0     1.093
+        -120.0     1.441
+         -90.0     0.000
+         -60.0    -1.441
+         -50.0    -1.524
+         -40.0    -1.408
+         -30.0    -1.093
+         -25.0    -1.287
+         -20.0    -1.208
+         -17.0    -1.027
+         -16.0    -0.967
+         -15.0    -0.906
+         -14.0    -0.846
+         -13.0    -0.785
+         -12.0    -0.725
+         -11.0    -0.665
+         -10.0    -0.604
+          -9.0    -0.544
+          -8.0    -0.483
+          -7.0    -0.423
+          -6.0    -0.363
+          -5.0    -0.302
+          -4.0    -0.242
+          -3.0    -0.181
+          -2.0    -0.121
+          -1.0    -0.060
+           0.0     0.000
+           1.0     0.063
+           2.0     0.125
+           3.0     0.188
+           4.0     0.250
+           5.0     0.313
+           6.0     0.375
+           7.0     0.438
+           8.0     0.500
+           9.0     0.563
+          10.0     0.625
+          11.0     0.688
+          12.0     0.750
+          13.0     0.813
+          14.0     0.875
+          15.0     0.938
+          16.0     1.000
+          17.0     1.063
+          20.0     1.250
+          25.0     1.563
+          30.0     1.710
+          40.0     1.510
+          50.0     1.416
+          60.0     1.550
+          90.0     0.000
+         120.0    -1.550
+         150.0    -1.710
+         180.0     0.000
+      </cz>
+        
+    </stab_hor>
+    
+    <!-- vertical stabilizer -->
+    <stab_ver>
+        
+      <aero_center> -4.79 0.0 -0.4  </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      
+      <area> 1.04 </area>                             <!-- [m^2] stabilizer area -->
+      
+      <dcx_drudder> 1.15 </dcx_drudder>               <!-- [1/rad] drag coefficient due to rudder deflection -->
+      <dcy_drudder> 1.35 </dcy_drudder>               <!-- [1/rad] side force coefficient due to rudder deflection -->
+      
+      <!-- [-] drag coefficient vs [deg] sideslip angle -->
+      <cx>
+        -90.0      2.7200
+        -70.0      2.6034
+        -50.0      1.8990
+        -30.0      0.9583
+        -20.0      0.5551
+        -14.0      0.2681
+         -8.0      0.1079
+         -4.0      0.0546
+          0.0      0.0374
+          4.0      0.0546
+          8.0      0.1079
+         14.0      0.2681
+         20.0      0.5551
+         30.0      0.9583
+         50.0      1.8990
+         70.0      2.6034
+         90.0      2.7200
+      </cx>
+      
+      <!-- [-] side force coefficient vs [deg] sideslip angle -->
+      <cy>
+        -90.0      0.000
+        -60.0      1.840
+        -45.0      2.022
+        -30.0      1.711
+        -15.0      0.975
+          0.0      0.000
+         15.0     -0.975
+         30.0     -1.711
+         45.0     -2.022
+         60.0     -1.840
+         90.0      0.000
+      </cy>
+        
+    </stab_ver>
+    
+  </aerodynamics>
+  
+  <!-- controls -->
+  <controls>
+    
+    <!-- [rad] ailerons deflection vs [-] normalized roll input -->
+    <control_channel name="ailerons" input="input.controls.roll" unit="deg">
+      -1.0  -17.5
+       0.0    0.0
+       1.0   17.5
+    </control_channel>
+    
+    <!-- [rad] elevator deflection vs [-] normalized pitch input -->
+    <control_channel name="elevator" input="input.controls.pitch" unit="deg">
+      -1.0  -28.0
+       0.0    0.0
+       1.0   23.0
+    </control_channel>
+    
+    <!-- [rad] rudder deflection vs [-] normalized yaw input -->
+    <control_channel name="rudder" input="input.controls.yaw" unit="deg">
+      -1.0  -17.7
+       0.0    0.0
+       1.0   17.7
+    </control_channel>
+    
+    <!-- [rad] elevator trim deflection vs [-] normalized pitch trim input -->
+    <control_channel name="elevator_trim" input="input.controls.trim_pitch" unit="deg">
+      -1.0  -22.0
+       0.0    0.0
+       1.0   19.0
+    </control_channel>
+    
+    <!-- [rad] flaps deflection vs [-] normalized flaps input -->
+    <control_channel name="flaps" input="input.controls.flaps" unit="deg">
+       0.0    0.0
+       1.0   30.0
+    </control_channel>
+    
+    <!-- [-] normalized left brake force vs [-] normalized left brake input -->
+    <control_channel name="brake_left" input="input.controls.brake_left">
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [-] normalized right brake force vs [-] normalized right brake input -->
+    <control_channel name="brake_right" input="input.controls.brake_right">
+       0.0    0.0
+       1.0    1.0
+    </control_channel>
+    
+    <!-- [rad] nose wheel turn angle vs [-] normalized nose wheel steering input -->
+    <control_channel name="nose_wheel" input="input.controls.wheel_nose" unit="deg">
+      -1.0  -10.0
+       0.0    0.0
+       1.0   10.0
+    </control_channel>
+    
+  </controls>
+  
+  <!-- landing gear -->
+  <landing_gear>
+    
+    <!-- nose wheel -->
+    <wheel name="wheel_n" steerable="1" caster="1" brake_group="0">
+      <attachment_point>   1.15   0.0  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>     1.15   0.0  1.25  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  3.2e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    7.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <max_angle unit="deg"> 10.0 </max_angle>                      <!-- [rad] max turn angle -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+    <!-- left wheel -->
+    <wheel name="wheel_l" steerable="0" caster="0" brake_group="1">
+      <attachment_point>  -0.48  -1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    -0.48  -1.27  1.2   </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  4.2e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+    <!-- right wheel -->
+    <wheel name="wheel_r" steerable="0" caster="0" brake_group="2">
+      <attachment_point>  -0.48   1.27  0.0   </attachment_point>   <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    -0.48   1.27  1.2   </unloaded_wheel>     <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  4.2e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+4  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.02  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+  </landing_gear>
+  
+  <!-- mass -->
+  <mass>
+    
+    <empty_mass>  754.0  </empty_mass> <!-- [kg] empty aircraft mass -->
+    
+    <!-- [kg*m^2] empty aircraft inertia tensor -->
+    <inertia_tensor>
+      2028.2          0.0       -116.9
+         0.0       2270.8          0.0
+      -116.9          0.0       3857.1
+    </inertia_tensor>
+    
+    <center_of_mass>  -0.20  0.00  -0.06  </center_of_mass> <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
+    
+     <!-- left pilot -->
+    <variable_mass name="pilot_l" input="input.masses.pilot_1">
+      <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>   0.1  -0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- right pilot -->
+    <variable_mass name="pilot_r" input="input.masses.pilot_2">
+      <mass_max> 120.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>   0.1   0.3   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- left fuel tank -->
+    <variable_mass name="fuel_tank_l" input="input.masses.tank_1">
+      <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -0.2  -0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- right fuel tank -->
+    <variable_mass name="fuel_tank_r" input="input.masses.tank_2">
+      <mass_max>  76.3 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -0.2   0.2  -0.7  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- passengers -->
+    <variable_mass name="cabin" input="input.masses.cabin">
+      <mass_max> 240.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -0.8   0.0   0.0  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- cargo trunk -->
+    <variable_mass name="trunk" input="input.masses.trunk">
+      <mass_max>  54.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  -1.7   0.0   0.1  </coordinates>   <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+  </mass>
+  
+  <!-- propulsion - US Navy Bureau of Aeronautics 5868-9, 2 blades, blade angle at 0.75R 20 deg, NACA-TR-640, NACA-TR-641 -->
+  <propulsion>
+    
+    <!-- propeller -->
+    <propeller>
+      <position>  2.06  0.0  0.0  </position> <!-- [m] propeller position expressed in BAS -->
+
+      <gear_ratio>  1.0  </gear_ratio>        <!-- [-] gear ratio (propeller rpm / engine rpm - sic!) -->
+      <diameter> 1.93 </diameter>             <!-- [m] propeller diameter -->
+      <inertia> 0.8 </inertia>                <!-- [kg*m^2] polar moment of inertia -->
+      
+      <!-- [rad] propeller pitch at 0.75 radius vs propeller lever position -->
+      <pitch unit="deg">
+        0.0  22.0
+        1.0  22.0
+      </pitch>
+      
+      <!-- [-] thrust coefficient vs advance [-] (rows) and propeller pitch [deg] (cols) -->
+      <thrust_coef factor="0.9">
+               20.0
+        0.0     0.104
+        0.1     0.104
+        0.2     0.103
+        0.3     0.101
+        0.4     0.093
+        0.5     0.081
+        0.6     0.069
+        0.7     0.055
+        0.8     0.039
+        0.9     0.023
+        1.0     0.007
+        1.1    -0.008
+        1.2    -0.024
+        1.3    -0.040
+        1.4    -0.055
+        1.5    -0.070
+        1.6    -0.084
+        1.7    -0.098
+        1.8    -0.112
+        1.9    -0.126
+        2.0    -0.139
+        2.5    -0.210
+        3.0    -0.284
+        3.5    -0.366
+        4.0    -0.454
+        4.5    -0.564
+        5.0    -0.673
+      </thrust_coef>
+      
+      <!-- [-] power coefficient vs advance [-] (rows) and propeller pitch [deg] (cols) -->
+      <power_coef>
+               20.0
+        0.0     0.066
+        0.1     0.065
+        0.2     0.064
+        0.3     0.062
+        0.4     0.060
+        0.5     0.058
+        0.6     0.054
+        0.7     0.047
+        0.8     0.037
+        0.9     0.025
+        1.0     0.011
+        1.1    -0.005
+        1.2    -0.020
+        1.3    -0.033
+        1.4    -0.044
+        1.5    -0.054
+        1.6    -0.064
+        1.7    -0.074
+        1.8    -0.084
+        1.9    -0.095
+        2.0    -0.106
+        2.5    -0.165
+        3.0    -0.232
+        3.5    -0.307
+        4.0    -0.387
+        4.5    -0.481
+        5.0    -0.575
+      </power_coef>
+    </propeller>
+    
+    <!-- IO-360-L2A engine -->
+    <engine>
+      <rpm_min>  550.0  </rpm_min>                      <!-- [rpm] minimum rpm -->
+      <rpm_max> 2700.0  </rpm_max>                      <!-- [rpm] maximum rpm -->
+      
+      <starter>  200.0  </starter>                      <!-- [N*m] starter torque -->
+      
+      <displacement unit="cuin"> 360.0 </displacement>  <!-- [m^3] engine displacement -->
+      <inertia>  2.0  </inertia>                        <!-- [kg*m^2] polar moment of inertia -->
+      
+      <sfc unit="g/kWh"> 253.4 </sfc>                   <!-- [kg/(kW*s)] specific fuel consumption -->
+      
+      <!-- power [W] vs engine rpm -->
+      <power_rpm unit="kW">
+            0.0     -10.4
+          500.0      26.0
+         1000.0      58.1
+         1500.0      85.7
+         2000.0     109.0
+         2500.0     127.9
+         2700.0     134.2
+      </power_rpm>
+      
+      <!-- power coefficient vs throttle lever position -->
+      <power_throttle>
+        0.0   0.08
+        1.0   1.0
+      </power_throttle>
+      
+      <!-- [-] power coefficient vs [h] altitude -->
+      <power_altitude>
+            0.0     1.000
+         2000.0     0.773
+         4000.0     0.588
+         6000.0     0.438
+         8000.0     0.318
+        10000.0     0.223
+        12000.0     0.149
+      </power_altitude>
+      
+      <!-- mixture vs mixture lever position -->
+      <mixture>
+        0.0   0.04
+        1.0   0.08
+      </mixture>
+      
+      <!-- power factor vs fuel to air ratio -->
+      <power_factor>
+        0.05    0.00
+        0.06    0.87
+        0.07    0.97
+        0.08    1.00
+        0.09    0.98
+        0.10    0.96
+        0.11    0.87
+        0.12    0.50
+        0.13    0.00
+      </power_factor>
+      
+      <!-- [-] manifold absolute pressure ratio vs throttle -->
+      <map_throttle>
+        0.0  0.6
+        1.0  1.0
+      </map_throttle>
+      
+      <!-- [-] manifold absolute pressure ratio vs engine rpm -->
+      <map_rpm>
+            0.0     1.00
+          500.0     0.99
+         1000.0     0.98
+         1500.0     0.97
+         2000.0     0.96
+         2500.0     0.95
+         2700.0     0.95
+      </map_rpm>
+    </engine>
+    
+  </propulsion>
+  
+</fdm>

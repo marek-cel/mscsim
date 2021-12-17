@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+  
+  <model>cgi/entities/f16c.osgb</model>
+  <shadow>cgi/entities/f16c_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x>  -2.89  </x>
+    <y>  -4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -2.89  </x>
+    <y>   4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_r>
+  
+  <airbrake>
+    
+    <!-- upper -->
+    <element_1>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>   0.0 </angle_min>
+        <angle_max>  60.0 </angle_max>
+      </y>
+    </element_1>
+    
+    <!-- lower -->
+    <element_2>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>   0.0 </angle_min>
+        <angle_max> -60.0 </angle_max>
+      </y>
+    </element_2>
+      
+  </airbrake>
+  
+  <landing_gear>
+  
+    <!-- door left -->
+    <element_1>
+      <x>
+        <input_min>  0.0 </input_min>
+        <input_max>  0.6 </input_max>
+        <angle_min> 72.0 </angle_min>
+        <angle_max> 00.0 </angle_max>
+      </x>
+    </element_1>
+    
+    <!-- door nose -->
+    <element_2>
+      <x>
+        <input_min>  0.0 </input_min>
+        <input_max>  0.6 </input_max>
+        <angle_min> 90.0 </angle_min>
+        <angle_max>  0.0 </angle_max>
+      </x>
+    </element_2>
+    
+    <!-- door right -->
+    <element_3>
+      <x>
+        <input_min>  0.0 </input_min>
+        <input_max>  0.6 </input_max>
+        <angle_min> 72.0 </angle_min>
+        <angle_max>  0.0 </angle_max>
+      </x>
+    </element_3>
+    
+    <!-- wheel left -->
+    <element_4>
+      <y>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  35.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_4>
+    
+    <!-- strut nose -->
+    <element_5>
+      <y>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_5>
+    
+    <!-- wheel nose -->
+    <element_6>
+      <z>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_6>
+
+    <!-- wheel right -->
+    <element_7>
+      <y>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -35.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_7>
+  
+  </landing_gear>
+  
+</aircraft>

@@ -284,12 +284,8 @@ protected:
      * fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
      * is right-hand-side function for integration procedure.
      * Because fdm::Aircraft::computeStateDeriv(const StateVector &,StateVector &)
-     * is private fdm::Aircraft::Integrator is declared friend class for the
+     * is not public fdm::Aircraft::Integrator is declared friend class for the
      * fdm::Aircraft class.
-     * fdm::Aircraft::Integrator is declared private due to friendship with
-     * the fdm::Aircraft to avoid possible access issues.
-     * Because it is used entirely inside fdm::Aircraft, there is no need
-     * to make it public.
      */
     class Integrator : public RungeKutta4< Aircraft >
     {

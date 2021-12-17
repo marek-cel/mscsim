@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+  
+  <model>cgi/entities/f35a.osgb</model>
+  <shadow>cgi/entities/f35a_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x>  -2.89  </x>
+    <y>  -4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -2.89  </x>
+    <y>   4.90  </y>
+    <z>  -0.02  </z>
+  </wing_tip_r>
+  
+  <landing_gear>
+    
+    <!-- nose wheel -->
+    <element_1>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   0.7 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <z>
+        <input_min>   0.7 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_1>
+    
+    <!-- nose wheel - door left -->
+    <element_2>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>   5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>   5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_2>
+    
+    <!-- nose wheel - door right -->
+    <element_3>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>   5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  -5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_3>
+
+    
+    
+    <!-- left wheel - strut -->
+    <element_4>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <shift_min>  -1.0 </shift_min>
+        <shift_max>   0.0 </shift_max>
+      </x>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  88.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  10.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_4>
+    
+    <!-- left wheel - tyre -->
+    <element_5>
+      <z>
+        <input_min>   0.5 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_5>
+    
+    <!-- left wheel - beam strut -->
+    <element_6>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  30.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_6>
+    
+    <!-- left wheel - beam frame -->
+    <element_7>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <shift_min>  -0.3 </shift_min>
+        <shift_max>   0.0 </shift_max>
+      </x>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -60.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_7>
+    
+    <!-- left wheel - door front 1 -->
+    <element_8>
+      <x>
+        <input_min>    0.0 </input_min>
+        <input_max>    0.2 </input_max>
+        <angle_min>    0.0 </angle_min>
+        <angle_max> -130.0 </angle_max>
+      </x>
+    </element_8>
+    
+    <!-- left wheel - door front 2 -->
+    <element_9>
+      <x>
+        <input_min>    0.8 </input_min>
+        <input_max>    1.0 </input_max>
+        <angle_min>    0.0 </angle_min>
+        <angle_max>  130.0 </angle_max>
+      </x>
+    </element_9>
+    
+    <!-- left wheel - door rear inner 1 -->
+    <element_10></element_10>
+    
+    <!-- left wheel - door rear inner 2 -->
+    <element_11></element_11>
+    
+    <!-- left wheel - door rear outer -->
+    <element_12>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  -4.5 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>   5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_12>
+
+    
+    
+    <!-- left wheel - strut -->
+    <element_13>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <shift_min>  -1.0 </shift_min>
+        <shift_max>   0.0 </shift_max>
+      </x>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  88.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min> -10.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_13>
+    
+    <!-- left wheel - tyre -->
+    <element_14>
+      <z>
+        <input_min>   0.5 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_14>
+    
+    <!-- left wheel - beam strut -->
+    <element_15>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  30.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_15>
+    
+    <!-- left wheel - beam frame -->
+    <element_16>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <shift_min>  -0.3 </shift_min>
+        <shift_max>   0.0 </shift_max>
+      </x>
+      <y>
+        <input_min>   0.3 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -60.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_16>
+    
+    <!-- left wheel - door front 1 -->
+    <element_17>
+      <x>
+        <input_min>    0.0 </input_min>
+        <input_max>    0.2 </input_max>
+        <angle_min>    0.0 </angle_min>
+        <angle_max>  130.0 </angle_max>
+      </x>
+    </element_17>
+    
+    <!-- left wheel - door front 2 -->
+    <element_18>
+      <x>
+        <input_min>    0.8 </input_min>
+        <input_max>    1.0 </input_max>
+        <angle_min>    0.0 </angle_min>
+        <angle_max> -130.0 </angle_max>
+      </x>
+    </element_18>
+    
+    <!-- left wheel - door rear inner 1 -->
+    <element_19></element_19>
+    
+    <!-- left wheel - door rear inner 2 -->
+    <element_20></element_20>
+    
+    <!-- left wheel - door rear outer -->
+    <element_21>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  -4.5 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.3 </input_max>
+        <angle_min>  -5.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_21>
+
+  
+  
+  </landing_gear>
+  
+</aircraft>

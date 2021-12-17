@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+
+  <model>cgi/entities/p51.osgb</model>
+  <shadow>cgi/entities/p51_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x>  -0.97  </x>
+    <y>  -5.64  </y>
+    <z>   0.22  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -0.97  </x>
+    <y>   5.64  </y>
+    <z>   0.22  </z>
+  </wing_tip_r>
+  
+  <landing_gear>
+  
+    <!-- left wheel -->
+    <element_1>
+      <x>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -86.5 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <z>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  15.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_1>
+    
+    <!-- right wheel -->
+    <element_2>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   0.9 </input_max>
+        <angle_min>  86.5 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <z>
+        <input_min>   0.3 </input_min>
+        <input_max>   0.9 </input_max>
+        <angle_min> -15.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_2>
+    
+    <!-- tail wheel -->
+    <element_3>
+      <y>
+        <input_min>   0.4 </input_min>
+        <input_max>   0.8 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_3>
+    
+    <!-- door left inner -->
+    <element_4>
+      <x>
+        <input_min>   0.1 </input_min>
+        <input_max>   0.5 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+    </element_4>
+    
+    <!-- door left outer -->
+    <element_5>
+      <x>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <z>
+        <input_min>   0.4 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>  12.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_5>
+    
+    <!-- door right inner -->
+    <element_6>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+    </element_6>
+    
+    <!-- door right outer -->
+    <element_7>
+      <x>
+        <input_min>   0.3 </input_min>
+        <input_max>   0.9 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <z>
+        <input_min>   0.3 </input_min>
+        <input_max>   0.9 </input_max>
+        <angle_min> -12.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_7>
+    
+    <!-- tail door left -->
+    <element_8>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min> -90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min>  -6.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min> -12.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_8>
+    
+    <!-- tail door right -->
+    <element_9>
+      <x>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min>  90.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </x>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min>  -6.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+      <z>
+        <input_min>   0.0 </input_min>
+        <input_max>   0.4 </input_max>
+        <angle_min>  12.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </z>
+    </element_9>
+  
+  </landing_gear>
+  
+</aircraft>

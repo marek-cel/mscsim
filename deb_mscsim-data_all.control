@@ -1,0 +1,8 @@
+Package: mscsim-data
+Version: 0.4
+Architecture: all
+Maintainer: Marek M. Cel <marekcel@marekcel.pl>
+Depends:
+Installed-Size: 154018
+Homepage: http://marekcel.pl
+Description: MScSim flight simulator data.

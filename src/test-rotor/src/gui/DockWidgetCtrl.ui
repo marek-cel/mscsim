@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DockWidgetCtrl</class>
+ <widget class="QDockWidget" name="DockWidgetCtrl">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>306</width>
+    <height>485</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>100</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="locale">
+   <locale language="Polish" country="Poland"/>
+  </property>
+  <property name="features">
+   <set>QDockWidget::AllDockWidgetFeatures</set>
+  </property>
+  <property name="windowTitle">
+   <string>Controls</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>304</width>
+         <height>458</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Collective:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QSlider" name="sliderCollective">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>0</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QDoubleSpinBox" name="spinBoxCollective">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="minimum">
+           <double>-999.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Cyclic Lon:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QSlider" name="sliderCyclicLon">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QDoubleSpinBox" name="spinBoxCyclicLon">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="minimum">
+           <double>-999.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Cyclic Lat:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" colspan="2">
+         <widget class="QSlider" name="sliderCyclicLat">
+          <property name="maximum">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QDoubleSpinBox" name="spinBoxCyclicLat">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="minimum">
+           <double>-999.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>999.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QLabel" name="labelRotorRpm">
+          <property name="text">
+           <string>Omega [rpm]:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxRotorRpm</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2" colspan="2">
+         <widget class="QDoubleSpinBox" name="spinBoxRotorRpm">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="decimals">
+           <number>0</number>
+          </property>
+          <property name="maximum">
+           <double>9999.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QLabel" name="labelRotorPsi">
+          <property name="text">
+           <string>Azimuth [deg]:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="buddy">
+           <cstring>spinBoxRotorPsi</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="2" colspan="2">
+         <widget class="QDoubleSpinBox" name="spinBoxRotorPsi">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="minimum">
+           <double>-360.000000000000000</double>
+          </property>
+          <property name="maximum">
+           <double>360.000000000000000</double>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="4">
+         <widget class="QPushButton" name="pushButtonIntegrate">
+          <property name="text">
+           <string>Integrate Azimuth</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" colspan="4">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>297</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

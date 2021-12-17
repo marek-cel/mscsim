@@ -210,7 +210,7 @@ void Simulation::timerEvent( QTimerEvent *event )
 
 void Simulation::update()
 {
-    _timeStep = _timeCoef * (double)_elapsedTimer->restart() / 1000.0;
+    _timeStep = _timeCoef * static_cast<double>( _elapsedTimer->restart() ) / 1000.0;
 
     _fdm->step( _timeStep );
 

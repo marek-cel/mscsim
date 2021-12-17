@@ -1,0 +1,8 @@
+Package: mscsim-data-terrain
+Version: 0.1
+Architecture: all
+Maintainer: Marek M. Cel <marekcel@marekcel.pl>
+Depends:
+Installed-Size: 1084345
+Homepage: http://marekcel.pl
+Description: MScSim flight simulator terrain data.

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenery>
+  
+  <terrain>cgi/scenery/terrain/terrain.osgb</terrain>
+  
+  <airports>
+    
+    <airport>
+      <name>Generic</name>
+      <icao>XGEN</icao>
+      <file>cgi/scenery/airports/xgen.osgb</file>
+      <lat>0.0</lat>
+      <lon>0.0</lon>
+      <alt>30.0</alt>
+    </airport>
+    
+    <airport>
+      <name>Honolulu International</name>
+      <icao>PHNL</icao>
+      <file>cgi/scenery/airports/phnl.osgb</file>
+      <lat>21.317828</lat>
+      <lon>-157.920263</lon>
+      <alt>3.0</alt>
+    </airport>
+    
+  </airports>
+  
+  <landmarks>
+    
+    <!-- Ford Island -->
+    <landmark>
+      <file>cgi/scenery/landmarks/ford_island.osgb</file>
+      <lat>21.360556</lat>
+      <lon>-157.961389</lon>
+      <alt>3.0</alt>
+      <hdg>0.0</hdg>
+    </landmark>
+    
+    <!-- Arizona Memorial -->
+    <landmark reflection="1">
+      <file>cgi/scenery/landmarks/arizona_memorial.osgb</file>
+      <lat>21.3646833</lat>
+      <lon>-157.9498556</lon>
+      <alt>0.0</alt>
+      <hdg>145.0</hdg>
+    </landmark>
+    
+    <!-- USS Missouri -->
+    <landmark reflection="1">
+      <file>cgi/scenery/landmarks/uss_missouri.osgb</file>
+      <lat>21.3621139</lat>
+      <lon>-157.9534528</lon>
+      <alt>0.0</alt>
+      <hdg>46.0</hdg>
+    </landmark>
+    
+    <!-- Hickam Water Tower -->
+    <!--<landmark reflection="1">
+      <file>cgi/scenery/landmarks/hickam_water_tower.osgb</file>
+      <lat>21.342878</lat>
+      <lon>-157.9627302</lon>
+      <alt>9.0</alt>
+      <hdg>46.0</hdg>
+    </landmark>-->
+    
+  </landmarks>
+  
+</scenery>

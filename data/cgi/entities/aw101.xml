@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+  
+  <model>cgi/entities/aw101.osgb</model>
+  <shadow>cgi/entities/aw101_shadow.png</shadow>
+  
+  <rotor>
+    <rotor_center>
+      <x>   0.0   </x>
+      <y>   0.0   </y>
+      <z>  -3.57  </z>
+    </rotor_center>
+    
+    <hinge_offset> 0.24 </hinge_offset>
+    <rotor_radius> 9.45 </rotor_radius>
+    
+    <inclination> 0.0 </inclination>
+  </rotor>
+  
+  <landing_gear>
+    
+    <!-- nose wheel -->
+    <element_3>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> 110.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_3>
+  
+    <!-- left wheel -->
+    <element_1>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -85.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_1>
+    
+    <!-- right wheel -->
+    <element_2>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min> -85.0 </angle_min>
+        <angle_max>   0.0 </angle_max>
+      </y>
+    </element_2>
+  
+  </landing_gear>
+  
+</aircraft>

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<airports>
+  
+  <!-- 02HI -->
+  <airport>
+    <name>(02HI) K3 Helipad</name>
+    
+    <location>
+      <name>Helipad H1</name>
+      <lat>21.358389</lat>
+      <lon>-157.947866</lon>
+      <alt>0.0</alt>
+      <hdg>67.0</hdg>
+    </location>
+  
+  </airport>
+  
+  <!-- PHDH -->
+  <airport>
+    <name>(PHDH) Dillingham Airfield</name>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 08</name>
+      <lat>21.579577</lat>
+      <lon>-158.208171</lon>
+      <alt>0.0</alt>
+      <hdg>90.6</hdg> <!-- MAG HDG 81.0 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 26</name>
+      <lat>21.579412</lat>
+      <lon>-158.190645</lon>
+      <alt>0.0</alt>
+      <hdg>270.6</hdg> <!-- MAG HDG 261.0 -->
+    </location>
+  
+  </airport>
+  
+  <!-- PHHI -->
+  <airport>
+    <name>(PHHI) Wheeler Army Airfield</name>
+    
+    <location runway="1" elevation="250" slope="3">
+      <name>Runway 06</name>
+      <lat>21.479404</lat>
+      <lon>-158.043365</lon>
+      <alt>0.0</alt>
+      <hdg>68.3</hdg> <!-- MAG HDG 57.0 -->
+    </location>
+    
+    <location runway="1" elevation="250" slope="3">
+      <name>Runway 24</name>
+      <lat>21.483930</lat>
+      <lon>-158.031088</lon>
+      <alt>0.0</alt>
+      <hdg>248.3</hdg> <!-- MAG HDG 237.0 -->
+    </location>
+    
+    <location>
+      <name>Helipad H1</name>
+      <lat>21.478967</lat>
+      <lon>-158.037261</lon>
+      <alt>0.0</alt>
+      <hdg>159.0</hdg>
+    </location>
+  
+  </airport>
+  
+  <!-- PHJR -->
+  <airport>
+    <name>(PHJR) Kalaeloa Airport</name>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 04L</name>
+      <lat>21.307082</lat>
+      <lon>-158.071712</lon>
+      <alt>0.0</alt>
+      <hdg>55.0</hdg> <!-- MAG HDG 45.4 -->
+    </location>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 04R</name>
+      <lat>21.299788</lat>
+      <lon>-158.079611</lon>
+      <alt>0.0</alt>
+      <hdg>55.0</hdg> <!-- MAG HDG 45.4 -->
+    </location>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 11</name>
+      <lat>21.311262</lat>
+      <lon>-158.083090</lon>
+      <alt>0.0</alt>
+      <hdg>118.0</hdg> <!-- MAG HDG 108.4 -->
+    </location>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 22L</name>
+      <lat>21.312276</lat>
+      <lon>-158.060599</lon>
+      <alt>0.0</alt>
+      <hdg>235.0</hdg> <!-- MAG HDG 225.4 -->
+    </location>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 22R</name>
+      <lat>21.313671</lat>
+      <lon>-158.061659</lon>
+      <alt>0.0</alt>
+      <hdg>235.0</hdg> <!-- MAG HDG 225.4 -->
+    </location>
+    
+    <location runway="1" elevation="7" slope="3">
+      <name>Runway 29</name>
+      <lat>21.301053</lat>
+      <lon>-158.062861</lon>
+      <alt>0.0</alt>
+      <hdg>298.0</hdg> <!-- MAG HDG 288.4 -->
+    </location>
+    
+    <location>
+      <name>Helipad H1</name>
+      <lat>21.312512</lat>
+      <lon>-158.079312</lon>
+      <alt>0.0</alt>
+      <hdg>213.0</hdg>
+    </location>
+  
+  </airport>
+  
+  <!-- PHNG -->
+  <airport>
+    <name>(PHNG) Kaneohe Bay MCAS</name>
+    
+    <location runway="1" elevation="2" slope="3">
+      <name>Runway 04</name>
+      <lat>21.444181</lat>
+      <lon>-157.776379</lon>
+      <alt>0.0</alt>
+      <hdg>51.6</hdg> <!-- MAG HDG 42.0 -->
+    </location>
+    
+    <location runway="1" elevation="2" slope="3">
+      <name>Runway 22</name>
+      <lat>21.456582</lat>
+      <lon>-157.759632</lon>
+      <alt>0.0</alt>
+      <hdg>231.6</hdg> <!-- MAG HDG 222.0 -->
+    </location>
+    
+    <location>
+      <name>Helipad H1</name>
+      <lat>21.447681</lat>
+      <lon>-157.774860</lon>
+      <alt>0.0</alt>
+      <hdg>63.0</hdg>
+    </location>
+    
+    <location>
+      <name>Helipad H2</name>
+      <lat>21.447022</lat>
+      <lon>-157.774455</lon>
+      <alt>0.0</alt>
+      <hdg>59.0</hdg>
+    </location>
+    
+    <location>
+      <name>Helipad H3</name>
+      <lat>21.439613</lat>
+      <lon>-157.764568</lon>
+      <alt>0.0</alt>
+      <hdg>13.0</hdg>
+    </location>
+  
+  </airport>
+    
+  <!-- PHNL -->
+  <airport>
+    <name>(PHNL) Honolulu International</name>
+    
+    <location runway="1" elevation="3" slope="3" default="1">
+      <name>Runway 04L</name>
+      <lat>21.318623</lat>
+      <lon>-157.922902</lon>
+      <alt>0.0</alt>
+      <hdg>53.0</hdg> <!-- MAG HDG 43.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 04R</name>
+      <lat>21.314181</lat>
+      <lon>-157.926750</lon>
+      <alt>0.0</alt>
+      <hdg>53.0</hdg> <!-- MAG HDG 43.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 08L</name>
+      <lat>21.325247</lat>
+      <lon>-157.942733</lon>
+      <alt>0.0</alt>
+      <hdg>90.0</hdg> <!-- MAG HDG 80.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 08R</name>
+      <lat>21.306802</lat>
+      <lon>-157.945295</lon>
+      <alt>0.0</alt>
+      <hdg>90.0</hdg> <!-- MAG HDG 80.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 22L</name>
+      <lat>21.328433</lat>
+      <lon>-157.906560</lon>
+      <alt>0.0</alt>
+      <hdg>233.0</hdg> <!-- MAG HDG 223.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 22R</name>
+      <lat>21.329495</lat>
+      <lon>-157.907514</lon>
+      <alt>0.0</alt>
+      <hdg>233.0</hdg> <!-- MAG HDG 223.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 26L</name>
+      <lat>21.306801</lat>
+      <lon>-157.911045</lon>
+      <alt>0.0</alt>
+      <hdg>270.0</hdg> <!-- MAG HDG 260.4 -->
+    </location>
+    
+    <location runway="1" elevation="3" slope="3">
+      <name>Runway 26R</name>
+      <lat>21.325244</lat>
+      <lon>-157.908772</lon>
+      <alt>0.0</alt>
+      <hdg>270.0</hdg> <!-- MAG HDG 260.4 -->
+    </location>
+  
+  </airport>
+  
+  <!-- XGEN -->
+  <airport>
+    <name>(XGEN) Generic Airport</name>
+      
+    <!-- Runway 18 -->
+    <location runway="1" elevation="0" slope="3">
+      <name>Runway 18</name>
+      <lat>0.013500</lat>
+      <lon>1.0e-7</lon>
+      <alt>0.0</alt>
+      <hdg>180.0</hdg>
+    </location>
+    
+    <!-- Runway 36 -->
+    <location runway="1" elevation="0" slope="3">
+      <name>Runway 36</name>
+      <lat>-0.013500</lat>
+      <lon>1.0e-7</lon>
+      <alt>0.0</alt>
+      <hdg>0.0</hdg>
+    </location>
+    
+    <!-- Helipad 1 -->
+    <location>
+      <name>Helipad H1</name>
+      <lat>0.007325</lat>
+      <lon>0.003223</lon>
+      <alt>0.0</alt>
+      <hdg>270.0</hdg>
+    </location>
+    
+    <!-- Helipad 2 -->
+    <location>
+      <name>Helipad H2</name>
+      <lat>-0.007325</lat>
+      <lon>0.003223</lon>
+      <alt>0.0</alt>
+      <hdg>270.0</hdg>
+    </location>
+      
+  </airport>
+  
+  <!-- LCS -->
+  <airport>
+    <name>(LCS) Littoral Combat Ship</name>
+    
+    <location>
+      <name>Helideck</name>
+      <lat>21.35335</lat>
+      <lon>-157.9685</lon>
+      <alt>0.0</alt>
+      <hdg>180.0</hdg>
+    </location>
+  
+  </airport>
+  
+</airports>

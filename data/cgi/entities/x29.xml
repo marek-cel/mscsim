@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+  
+  <model>cgi/entities/x29.osgb</model>
+  <shadow>cgi/entities/x29_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x>   0.73  </x>
+    <y>  -4.15  </y>
+    <z>   0.49  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>   0.73  </x>
+    <y>   4.15  </y>
+    <z>   0.49  </z>
+  </wing_tip_r>
+  
+  <airbrake>
+    
+    <!-- upper -->
+    <element_1>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>   0.0 </angle_min>
+        <angle_max>  60.0 </angle_max>
+      </y>
+    </element_1>
+    
+    <!-- lower -->
+    <element_2>
+      <y>
+        <input_min>   0.0 </input_min>
+        <input_max>   1.0 </input_max>
+        <angle_min>   0.0 </angle_min>
+        <angle_max> -60.0 </angle_max>
+      </y>
+    </element_2>
+      
+  </airbrake>
+  
+  <landing_gear />
+  
+</aircraft>

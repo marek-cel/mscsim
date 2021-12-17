@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layers>
+  
+  <landmass>
+    <file>map/layers/bnd_polbnd_without_oahu.shp</file>
+    <file>map/layers/oahu_landmass.shp</file>
+    <file>map/layers/xgen_landmass.osgb</file>
+  </landmass>
+  
+  <coastline>
+    <file>map/layers/oahu_coastline.shp</file>
+  </coastline>
+  
+  <woodland>
+    <file>map/layers/oahu_woodland.shp</file>
+  </woodland>
+  
+  <builtup>
+    <file>map/layers/oahu_builtup.shp</file>
+  </builtup>
+  
+  <roads>
+    <file>map/layers/oahu_roads.shp</file>
+  </roads>
+  
+  <airports>
+    <file>map/layers/xgen_airport.osgb</file>
+  </airports>
+  
+  <water_course>
+    <file>map/layers/oahu_water_course.shp</file>
+  </water_course>
+  
+  <water_inland>
+    <file>map/layers/oahu_water_inland.shp</file>
+  </water_inland>
+  
+  <satellite>
+    <file>map/layers/oahu_landsat.tif</file>
+  </satellite>
+  
+  <borders>
+  </borders>
+  
+</layers>

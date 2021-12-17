@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fdm>
+  
+  <!-- UH-60 Flight Dynamics Model Data File -->
+  
+  <!-- collision points -->
+  <collision_points>
+    
+    <collision_point>  2.31  0.0   0.00 </collision_point> <!-- [m] nose -->
+    <collision_point> -5.86  0.0  -0.35 </collision_point> <!-- [m] tail -->
+    <collision_point>  5.03  0.0  -1.92 </collision_point> <!-- [m] main rotor N -->
+    <collision_point>  0.0   5.03 -2.24 </collision_point> <!-- [m] main rotor E -->
+    <collision_point> -5.03  0.0  -2.56 </collision_point> <!-- [m] main rotor S -->
+    <collision_point>  0.0  -5.03 -2.24 </collision_point> <!-- [m] main rotor W -->
+    
+  </collision_points>
+  
+  <!-- limitations -->
+  <limitations>
+    
+    <airspeed_max unit="kts" factor="1.5"> 130.0 </airspeed_max>  <!-- [m/s] maximum airspeed (exceeding this value causes crash) -->
+    
+    <load_aero_min factor="1.5"> -1.8 </load_aero_min>  <!-- [-] minimum (maximum negative) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_aero_max factor="1.5">  4.4 </load_aero_max>  <!-- [-] maximum (maximum positive) load factor due to aerodynamics (exceeding this value causes crash) -->
+    <load_gear_max factor="1.5">  9.0 </load_gear_max>  <!-- [-] maximum absolute load factor due to landing gear (exceeding this value causes crash) -->
+    
+  </limitations>
+  
+  <!-- pilot position -->
+  <pilot_position> 2.8 -0.7 0.0 </pilot_position> <!-- [m] pilot position expressed in BAS -->
+  
+  <!-- aerodynamics -->
+  <aerodynamics>
+    
+    <!-- main rotor -->
+    <main_rotor counter-clockwise="1">
+      <hub_center> 0.0 0.0 -1.62 </hub_center>        <!-- [m] rotor hub coordinates -->
+      <inclination unit="deg"> 3.0 </inclination>     <!-- [rad] rotor inclination angle (positive if forward) -->
+      <number_of_blades> 2 </number_of_blades>        <!-- number of blades -->
+      <blade_mass> 50.0 </blade_mass>                 <!-- [kg] single blade mass -->
+      <rotor_radius> 5.03 </rotor_radius>             <!-- [m] rotor radius -->
+      <blade_chord> 0.262 </blade_chord>              <!-- [m] blade chord -->
+      <hinge_offset> 0.0 </hinge_offset>              <!-- [m] flapping hinge offset -->
+      <lift_slope> 5.73 </lift_slope>                 <!-- [1/rad] blade section lift curve slope -->
+      <tip_losses> 0.97 </tip_losses>                 <!-- [-] tip losses coefficient -->
+      <delta_0> 0.001 </delta_0>                      <!-- [-] drag coefficient constant component -->
+      <delta_2> 0.001 </delta_2>                      <!-- [-] drag coefficient quadratic component -->
+      <beta_max unit="deg"> 20.0 </beta_max>          <!-- [rad] maximum flapping angle -->
+    </main_rotor>
+    
+    <!-- tail rotor -->
+    <tail_rotor>
+      <hub_center> -5.86 -0.28 -1.09 </hub_center>    <!-- [m] rotor hub coordinates -->
+      <cant_angle unit="deg"> 90.0 </cant_angle>      <!-- [rad] cant angle -->
+      <number_of_blades> 2 </number_of_blades>        <!-- number of blades -->
+      <blade_mass> 3.0 </blade_mass>                  <!-- [kg] single blade mass -->
+      <rotor_radius> 0.74 </rotor_radius>             <!-- [m] rotor radius -->
+      <blade_chord> 0.13 </blade_chord>               <!-- [m] blade chord -->
+      <lift_slope> 5.73 </lift_slope>                 <!-- [1/rad] blade section lift curve slope -->
+      <tip_losses> 0.92 </tip_losses>                 <!-- [-] tip losses coefficient -->
+      <delta_0> 0.001 </delta_0>                      <!-- [-] drag coefficient constant component -->
+      <delta_2> 0.001 </delta_2>                      <!-- [-] drag coefficient quadratic component -->
+    </tail_rotor>
+
+    <!-- fuselage -->
+    <fuselage>
+      <aero_center> 0.0 0.0 0.0 </aero_center>
+      
+      <length> 9.07 </length>  <!-- [m] fuselage reference length -->
+      <width>  1.28 </width>   <!-- [m] fuselage reference width -->
+      <area>   1.57 </area>    <!-- [m^2] fuselage reference area -->
+      
+      <!-- [-] drag coefficient vs [deg] angle of attack -->
+      <cx>
+        -180.0     0.2103
+        -150.0     0.3821
+        -120.0     1.0360
+         -90.0     1.9751
+         -60.0     1.4522
+         -30.0     0.7779
+         -20.0     0.5137
+         -10.0     0.3230
+          -5.0     0.2789
+           0.0     0.2334
+           5.0     0.2204
+          10.0     0.2337
+          20.0     0.2980
+          30.0     0.4147
+          60.0     1.3883
+          90.0     2.3002
+         120.0     1.8949
+         150.0     0.6747
+         180.0     0.2103
+      </cx>
+      
+      <!-- [-] sideforce coefficient vs [deg] angle of sideslip -->
+      <cy>
+         -90.0     0.724
+         -60.0     2.105
+         -30.0     1.420
+         -20.0     0.949
+         -10.0     0.614
+          -5.0     0.321
+           0.0    -0.001
+           5.0    -0.342
+          10.0    -0.608
+          20.0    -0.943
+          30.0    -1.420
+          60.0    -2.093
+          90.0    -0.721
+      </cy>
+      
+      <!-- [-] lift coefficient vs [deg] angle of attack -->
+      <cz>
+        -180.0    -0.061
+        -150.0     0.387
+        -120.0     0.583
+         -90.0    -0.079
+         -60.0    -0.690
+         -30.0    -0.716
+         -20.0    -0.581
+         -10.0    -0.404
+          -5.0    -0.298
+           0.0    -0.142
+           5.0    -0.013
+          10.0     0.118
+          20.0     0.305
+          30.0     0.448
+          60.0     1.046
+          90.0     0.555
+         120.0    -0.474
+         150.0    -0.498
+         180.0    -0.061
+      </cz>
+      
+      <!-- [-] rolling moment coefficient vs [deg] angle of sideslip -->
+      <cl>
+         -90.0    -0.008
+         -60.0    -0.065
+         -30.0    -0.029
+         -20.0    -0.021
+         -10.0    -0.020
+          -5.0    -0.009
+           0.0     0.000
+           5.0     0.012
+          10.0     0.021
+          20.0     0.021
+          30.0     0.029
+          60.0     0.063
+          90.0     0.003
+      </cl>
+      
+      <!-- [-] pitching moment coefficient vs [deg] angle of attack -->
+      <cm>
+        -180.0    -0.045
+        -150.0     0.151
+        -120.0     0.263
+         -90.0     0.186
+         -60.0    -0.012
+         -30.0    -0.094
+         -20.0    -0.089
+         -10.0    -0.061
+          -5.0    -0.033
+           0.0    -0.011
+           5.0     0.017
+          10.0     0.035
+          20.0     0.089
+          30.0     0.121
+          60.0     0.097
+          90.0    -0.116
+         120.0    -0.257
+         150.0    -0.241
+         180.0    -0.045
+      </cm>
+      
+      <!-- [-] yawing moment coefficient vs [deg] angle of sideslip -->
+      <cn>
+         -90.0     0.163
+         -60.0    -0.067
+         -30.0    -0.155
+         -20.0    -0.123
+         -10.0    -0.067
+          -5.0    -0.034
+           0.0     0.000
+           5.0     0.034
+          10.0     0.066
+          20.0     0.123
+          30.0     0.155
+          60.0     0.068
+          90.0    -0.163
+      </cn>
+      
+      <!-- [-] incremental drag coefficient vs [deg] angle of sideslip -->
+      <dcx_dbeta>
+         -90.0     3.2730
+         -60.0     2.5938
+         -30.0     0.7437
+         -20.0     0.3205
+         -10.0     0.0790
+          -5.0     0.0172
+           0.0     0.0000
+           5.0     0.0189
+          10.0     0.0798
+          20.0     0.3207
+          30.0     0.7444
+          60.0     2.5871
+          90.0     3.2844
+      </dcx_dbeta>
+      
+      <!-- [-] incremental lift coefficient vs [deg] angle of sideslip -->
+      <dcz_dbeta>
+         -90.0    -0.584
+         -60.0    -0.625
+         -30.0    -0.233
+         -20.0    -0.010
+         -10.0     0.036
+          -5.0     0.021
+           0.0     0.000
+           5.0     0.022
+          10.0     0.042
+          20.0    -0.012
+          30.0    -0.233
+          60.0    -0.638
+          90.0    -0.624
+      </dcz_dbeta>
+      
+      <!-- [-] incremental pitching moment coefficient vs [deg] angle of sideslip -->
+      <dcm_dbeta>
+         -90.0     0.087
+         -60.0     0.051
+         -30.0     0.007
+         -20.0    -0.013
+         -10.0    -0.012
+          -5.0    -0.002
+           0.0     0.000
+           5.0    -0.003
+          10.0    -0.012
+          20.0    -0.012
+          30.0     0.007
+          60.0     0.052
+          90.0     0.087
+      </dcm_dbeta>
+      
+    </fuselage>
+
+    <!-- horizontal stabilizer -->
+    <stab_hor>
+        
+      <aero_center> -5.91 0.64 -1.09 </aero_center>    <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      
+      <area> 0.47 </area>                              <!-- [m^2] stabilizer area -->
+      
+      <!-- [-] drag coefficient vs [deg] angle of attack -->
+      <cx>
+        -180.0     0.0379
+        -150.0     0.4600
+        -120.0     0.9924
+         -90.0     1.2012
+         -60.0     0.9891
+         -30.0     0.4390
+         -20.0     0.2895
+         -10.0     0.1170
+          -5.0     0.0485
+           0.0     0.0277
+           5.0     0.0484
+          10.0     0.1017
+          20.0     0.2666
+          30.0     0.4501
+          60.0     0.9516
+          90.0     1.2155
+         120.0     0.9169
+         150.0     0.5163
+         180.0     0.0379
+      </cx>
+        
+      <!-- [-] lift coefficient vs [deg] angle of attack -->
+      <cz>
+        -180.0    -0.031
+        -150.0     0.679
+        -120.0     0.527
+         -90.0    -0.127
+         -60.0    -0.540
+         -30.0    -0.615
+         -20.0    -0.636
+         -10.0    -0.528
+          -5.0    -0.273
+           0.0     0.031
+           5.0     0.288
+          10.0     0.451
+          20.0     0.631
+          30.0     0.647
+          60.0     0.531
+          90.0     0.037
+         120.0    -0.440
+         150.0    -0.733
+         180.0    -0.031
+      </cz>
+        
+    </stab_hor>
+    
+    <!-- vertical stabilizer -->
+    <stab_ver>
+        
+      <aero_center> -5.91 0.22 -1.09  </aero_center> <!-- [m] stabilizer aerodynamic center expressed in BAS -->
+      
+      <area> 0.71 </area>                            <!-- [m^2] stabilizer area -->
+      
+      <!-- [-] drag coefficient vs [deg] sideslip angle -->
+      <cx>
+         -90.0     1.2817
+         -60.0     0.9378
+         -30.0     0.4314
+         -20.0     0.2269
+         -10.0     0.0606
+          -5.0     0.0362
+           0.0     0.0183
+           5.0     0.0409
+          10.0     0.0808
+          20.0     0.2793
+          30.0     0.4548
+          60.0     1.0513
+          90.0     1.2058
+      </cx>
+      
+      <!-- [-] side force coefficient vs [deg] sideslip angle -->
+      <cy>
+         -90.0     0.059
+         -60.0     0.575
+         -30.0     0.713
+         -20.0     0.618
+         -10.0     0.313
+          -5.0     0.214
+           0.0     0.029
+           5.0    -0.195
+          10.0    -0.382
+          20.0    -0.688
+          30.0    -0.681
+          60.0    -0.601
+          90.0    -0.050
+      </cy>
+        
+    </stab_ver>
+    
+  </aerodynamics>
+  
+  <!-- controls -->
+  <controls>
+    
+    <!-- [rad] lateral cyclic pitch vs [-] normalized roll input -->
+    <control_channel name="cyclic_lat" input="input.controls.roll" unit="deg">
+      -1.0    8.0
+       0.0   -2.0
+       1.0  -12.0
+    </control_channel>
+    
+    <!-- [rad] longitudinal cyclic pitch vs [-] normalized pitch input -->
+    <control_channel name="cyclic_lon" input="input.controls.pitch" unit="deg">
+      -1.0   15.0
+       1.0  -15.0
+    </control_channel>
+    
+    <!-- [rad] collective pitch vs [-] normalized collective input -->
+    <control_channel name="collective" input="input.controls.collective" unit="deg">
+       0.0    2.0
+       1.0   15.0
+    </control_channel>
+    
+    <!-- [rad] tail collective pitch vs [-] normalized yaw input -->
+    <control_channel name="tail_pitch" input="input.controls.yaw" unit="deg">
+      -1.0    0.0
+       0.0   10.0
+       1.0   20.0
+    </control_channel>
+    
+  </controls>
+  
+  <!-- landing gear -->
+  <landing_gear>
+    
+    <!-- skid left front -->
+    <wheel name="skid_lf" steerable="0" caster="0" brake_group="0">
+      <attachment_point>  1.45  -1.09  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    1.45  -1.09  1.00  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  2.6e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.75  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+    <!-- skid left rear -->
+    <wheel name="skid_lr" steerable="0" caster="0" brake_group="0">
+      <attachment_point> -1.05  -1.09  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>   -1.05  -1.09  1.00  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  2.6e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.75  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+  
+    <!-- skid right front -->
+    <wheel name="skid_rf" steerable="0" caster="0" brake_group="0">
+      <attachment_point>  1.45   1.09  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>    1.45   1.09  1.00  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  2.6e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.75  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+    <!-- skid right rear -->
+    <wheel name="skid_rr" steerable="0" caster="0" brake_group="0">
+      <attachment_point> -1.05   1.09  0.0   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>   -1.05   1.09  1.00  </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  2.6e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.75  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+    <!-- tail skid -->
+    <wheel name="skid_t" steerable="0" caster="0" brake_group="0">
+      <attachment_point> -6.44   0.0  -0.4   </attachment_point>    <!-- [m] strut attachment point coordinates expressed in BAS -->
+      <unloaded_wheel>   -6.44   0.0  -0.1   </unloaded_wheel>      <!-- [m] unloaded wheel coordinates expressed in BAS -->
+      
+      <stiffness>  5.0e+4  </stiffness>                             <!-- [N/m] strut stiffness (linear spring) coefficient -->
+      <damping>    1.0e+3  </damping>                               <!-- [N/(m/s)] strut damping coefficient -->
+      
+      <friction_static>   0.95  </friction_static>                  <!-- [-] coefficient of static friction -->
+      <friction_kinetic>  0.75  </friction_kinetic>                 <!-- [-] coefficient of kinetic friction -->
+      <friction_rolling>  0.75  </friction_rolling>                 <!-- [-] coefficient of rolling friction -->
+      
+      <d_max> 0.1 </d_max>                                          <!-- [m] maximum distance for static friction spring like model -->
+      <v_max> 0.5 </v_max>                                          <!-- [m/s] maximum velocity for continuous friction model -->
+    </wheel>
+    
+  </landing_gear>
+  
+  <!-- mass -->
+  <mass>
+    
+    <empty_mass> 683.0 </empty_mass> <!-- [kg] empty aircraft mass -->
+    
+    <!-- [kg*m^2] empty aircraft inertia tensor -->
+    <inertia_tensor>
+       209.9       0.0    -274.9
+         0.0    2077.4       0.0
+      -274.9       0.0    1986.1
+    </inertia_tensor>
+    
+    <center_of_mass> -0.38 0.0 -0.14 </center_of_mass>  <!-- [m] empty aircraft center of mass coordinates expressed in BAS -->
+    
+     <!-- left pilot -->
+    <variable_mass name="pilot_l" input="input.masses.pilot_1">
+      <mass_max> 136.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  1.2 -0.3 -0.2 </coordinates>       <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- right pilot -->
+    <variable_mass name="pilot_r" input="input.masses.pilot_2">
+      <mass_max> 136.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  1.2  0.3 -0.2 </coordinates>       <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- fuel tank -->
+    <variable_mass name="fuel_tank" input="input.masses.tank_1">
+      <mass_max>  83.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates> -0.3  0.0  0.5 </coordinates>       <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- cabin_load -->
+    <variable_mass name="cabin" input="input.masses.cabin">
+      <mass_max> 272.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  0.0  0.0  0.0 </coordinates>       <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+    <!-- cargo trunk -->
+    <variable_mass name="trunk" input="input.masses.trunk">
+      <mass_max>  23.0 </mass_max>                      <!-- [kg] maximum mass -->
+      <coordinates>  0.0  0.0  0.0  </coordinates>      <!-- [m] coordinates expressed in BAS -->
+    </variable_mass>
+    
+  </mass>
+  
+  <!-- propulsion -->
+  <propulsion>
+
+    <!-- TODO -->
+    
+  </propulsion>
+  
+</fdm>

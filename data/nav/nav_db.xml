@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nav_db>
+  
+  <apt>
+    <file>nav/generic/arpt.txt</file>
+    <file>nav/oahu/arpt.txt</file>
+  </apt>
+  
+  <ils>
+    <file>nav/generic/ils.txt</file>
+    <file>nav/oahu/ils.txt</file>
+  </ils>
+  
+  <nav>
+    <file>nav/generic/nav.txt</file>
+    <file>nav/oahu/nav.txt</file>
+  </nav>
+  
+  <rwy>
+    <file>nav/oahu/rwy.txt</file>
+  </rwy>
+  
+</nav_db>

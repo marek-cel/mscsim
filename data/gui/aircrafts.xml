@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircrafts>
+    
+  <aircraft>
+    
+    <name>AW101</name>
+    <type>1</type>
+    <file>cgi/entities/aw101.xml</file>
+    
+    <distance_def> 40.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   2.8  </x>
+      <y>  -0.7  </y>
+      <z>   0.0  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 167.0 </vne>
+    
+    <controls>
+      <landing_gear />
+      <collective />
+    </controls>
+    
+    <propulsion engines="2">
+      <ng />
+      <n2 />
+      <trq />
+      <itt />
+    </propulsion>
+    
+    <main_rotor_coef> -1.0 </main_rotor_coef>
+    <tail_rotor_coef> -1.0 </tail_rotor_coef>
+    
+    <masses>
+      <empty> 10500 </empty>
+      <mtow>  14600 </mtow>
+    
+      <pilot_1     name="Pilot (Left)"  maximum="120.0"  default="80.0"   />
+      <pilot_2     name="Pilot (Right)" maximum="120.0"  default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank"     maximum="3406.0" default="3406.0" />
+      <cabin       name="Cabin"         maximum="2000.0" default="0.0"    />
+    </masses>
+      
+  </aircraft>
+  
+  
+  
+  <aircraft>
+
+    <name>C-130</name>
+    <type>2</type>
+    <file>cgi/entities/c130.xml</file>
+
+    <distance_def> 60.0 </distance_def>
+    <distance_min> 30.0 </distance_min>
+    
+    <camera_offset>
+      <x>  10.2  </x>
+      <y>  -0.5  </y>
+      <z>  -1.3  </z>
+    </camera_offset>
+    
+    <vfe unit="kts"> 145.0 </vfe>
+    <vne unit="kts"> 378.0 </vne>
+    
+    <axes>
+      <roll>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </roll>
+        
+      <pitch>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </pitch>
+        
+      <yaw>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+
+    <controls>
+      <landing_gear />
+      <flaps />
+      <throttle count="4" />
+    </controls>
+
+    <propulsion engines="4">
+      <n1 />
+      <n2 />
+      <trq />
+      <tot />
+    </propulsion>
+    
+    <masses>
+      <empty> 34686 </empty>
+      <mtow>  70310 </mtow>
+      
+      <pilot_1     name="Pilot (Left)"    maximum="120.0"   default="80.0"   />
+      <pilot_2     name="Pilot (Right)"   maximum="120.0"   default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank 1"     maximum="3970.0"  default="3970.0" />
+      <fuel_tank_2 name="Fuel Tank 2"     maximum="3660.0"  default="3660.0" />
+      <fuel_tank_3 name="Fuel Tank 3"     maximum="3660.0"  default="3660.0" />
+      <fuel_tank_4 name="Fuel Tank 4"     maximum="3970.0"  default="3970.0" />
+      <fuel_tank_5 name="Fuel Tank Aux L" maximum="2780.0"  default="0.0"    />
+      <fuel_tank_6 name="Fuel Tank Aux R" maximum="2780.0"  default="0.0"    />
+      <fuel_tank_7 name="Fuel Tank Ext L" maximum="4250.0"  default="0.0"    />
+      <fuel_tank_8 name="Fuel Tank Ext R" maximum="4250.0"  default="0.0"    />
+      <cabin       name="Cabin"           maximum="19356.0" default="0.0"    />
+    </masses>
+
+  </aircraft>
+
+
+
+  <aircraft>
+    
+    <name>Cessna 172</name>
+    <type>3</type>
+    <file>cgi/entities/c172.xml</file>
+    
+    <distance_def> 20.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>  -0.3  </x>
+      <y>  -0.3  </y>
+      <z>  -0.3  </z>
+    </camera_offset>
+    
+    <vfe unit="kts">  85.0 </vfe>
+    <vne unit="kts"> 160.0 </vne>
+    
+    <axes>
+      <roll>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </roll>
+        
+      <pitch>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </pitch>
+        
+      <yaw>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+    
+    <controls>
+      <flaps>
+        <notch> 0.00 </notch>
+        <notch> 0.33 </notch>
+        <notch> 0.67 </notch>
+        <notch> 1.00 </notch>
+      </flaps>
+      <throttle count="1" />
+      <mixture count="1" />
+    </controls>
+    
+    <propulsion engines="1">
+      <rpm />
+      <map />
+      <egt />
+    </propulsion>
+    
+    <masses>
+      <empty>  754 </empty>
+      <mtow>  1157 </mtow>
+      
+      <pilot_1      name="Pilot (Left)"      maximum="120.0" default="80.0" />
+      <pilot_2      name="Pilot (Right)"     maximum="120.0" default="80.0" />
+      <fuel_tank_1  name="Fuel Tank (Left)"  maximum="76.3"  default="76.3" />
+      <fuel_tank_2  name="Fuel Tank (Right)" maximum="76.3"  default="76.3" />
+      <cabin        name="Cabin"             maximum="240.0" default="0.0"  />
+      <cargo_trunk  name="Cargo Trunk"       maximum="54.0"  default="0.0"  />
+    </masses>
+      
+  </aircraft>
+  
+  
+
+  <aircraft>
+  
+    <name>F-16</name>
+    <type>4</type>
+    <file>cgi/entities/f16.xml</file>
+    
+    <distance_def> 30.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   4.1  </x>
+      <y>   0.0  </y>
+      <z>  -0.9  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 800.0 </vne>
+    
+    <axes>        
+      <yaw>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     0.5 </scale>
+      </yaw>
+    </axes>
+
+    <controls>
+      <landing_gear />
+      <airbrake />
+      <throttle count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <ab />
+      <n2 />
+      <tit />
+    </propulsion>
+    
+    <masses>
+      <empty>  8910 </empty>
+      <mtow>  21772 </mtow>
+    
+      <pilot_1     name="Pilot"             maximum="120.0"  default="80.0"  />
+      <fuel_tank_1 name="Fuel Tank (Left)"  maximum="249.0"  default="124.5" />
+      <fuel_tank_2 name="Fuel Tank (Right)" maximum="249.0"  default="124.5" />
+      <fuel_tank_3 name="Fuel Tank (Fwd)"   maximum="1474.0" default="737.0" />
+      <fuel_tank_4 name="Fuel Tank (Aft)"   maximum="1275.0" default="637.5" />
+    </masses>
+  
+  </aircraft>
+  
+  
+  
+  <aircraft>
+    
+    <name>F-35A</name>
+    <type>5</type>
+    <file>cgi/entities/f35a.xml</file>
+    
+    <distance_def> 30.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   4.1  </x>
+      <y>   0.0  </y>
+      <z>  -0.9  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 800.0 </vne>
+    
+    <axes>        
+      <yaw>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+
+    <controls>
+      <landing_gear />
+      <airbrake />
+      <throttle count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <ab />
+      <n2 />
+      <tit />
+    </propulsion>
+    
+    <masses>
+      <empty> 12020 </empty>
+      <mtow>  27215 </mtow>
+    
+      <pilot_1     name="Pilot"      maximum="120.0"   default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank"  maximum="8165.0"  default="8165.0" />
+    </masses>
+      
+  </aircraft>
+  
+  
+
+  <aircraft>
+  
+    <name>Mustang Mk III</name>
+    <type>6</type>
+    <file>cgi/entities/p51.xml</file>
+    
+    <distance_def> 25.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>  -0.8  </x>
+      <y>   0.0  </y>
+      <z>  -0.6  </z>
+    </camera_offset>
+    
+    <vne unit="mph"> 505.0 </vne>
+    
+    <axes>
+      <roll>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </roll>
+        
+      <pitch>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </pitch>
+        
+      <yaw>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+
+    <controls>
+      <landing_gear />
+      <flaps>
+        <notch> 0.0 </notch>
+        <notch> 0.2 </notch>
+        <notch> 0.4 </notch>
+        <notch> 0.6 </notch>
+        <notch> 0.8 </notch>
+        <notch> 1.0 </notch>
+      </flaps>
+      <throttle count="1" />
+      <mixture count="1" />
+      <propeller count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <rpm />
+      <prop />
+      <map />
+    </propulsion>
+    
+    <masses>
+      <empty> 3311 </empty>
+      <mtow>  5488 </mtow>
+    
+      <pilot_1     name="Pilot"             maximum="120.0"  default="80.0"  />
+      <fuel_tank_1 name="Fuel Tank (Left)"  maximum="280.0"  default="280.0" />
+      <fuel_tank_2 name="Fuel Tank (Right)" maximum="280.0"  default="280.0" />
+    </masses>
+  
+  </aircraft>
+  
+  
+  
+  <aircraft>
+    
+    <name>PW-5</name>
+    <type>7</type>
+    <file>cgi/entities/pw5.xml</file>
+    
+    <distance_def> 20.0 </distance_def>
+    <distance_min> 13.0 </distance_min>
+    
+    <camera_offset>
+      <x>   2.8  </x>
+      <y>  -0.7  </y>
+      <z>   0.0  </z>
+    </camera_offset>
+    
+    <vne unit="kmh"> 213.0 </vne>
+    
+    <axes>
+      <roll>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </roll>
+        
+      <pitch>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </pitch>
+        
+      <yaw>
+        <curvature> 1.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+    
+    <controls>
+      <airbrake />
+    </controls>
+    
+    <propulsion engines="0" />
+    
+    <masses>
+      <empty> 185 </empty>
+      <mtow>  300 </mtow>
+    
+      <pilot_1 name="Pilot" maximum="110.0" default="80.0" />
+    </masses>
+      
+  </aircraft>
+  
+  
+  
+  <aircraft>
+    
+    <name>R44</name>
+    <type>8</type>
+    <file>cgi/entities/r44.xml</file>
+    
+    <distance_def> 20.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   2.8  </x>
+      <y>  -0.7  </y>
+      <z>   0.0  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 130.0 </vne>
+    
+    <controls>
+      <collective />
+    </controls>
+    
+    <propulsion engines="1">
+      <rpm />
+      <map />
+      <cht />
+    </propulsion>
+    
+    <main_rotor_coef> -1.0 </main_rotor_coef>
+    <tail_rotor_coef> -1.0 </tail_rotor_coef>
+    
+    <masses>
+      <empty>  683 </empty>
+      <mtow>  1134 </mtow>
+    
+      <pilot_1     name="Pilot (Left)"  maximum="120.0" default="80.0" />
+      <pilot_2     name="Pilot (Right)" maximum="120.0" default="80.0" />
+      <fuel_tank_1 name="Fuel Tank"     maximum="83.0"  default="83.0" />
+      <cabin       name="Cabin"         maximum="272.0" default="0.0"  />
+      <cargo_trunk name="Cargo Trunk"   maximum="23.0"  default="0.0"  />
+    </masses>
+      
+  </aircraft>
+  
+  
+
+  <aircraft>
+    
+    <name>UH-60</name>
+    <type>9</type>
+    <file>cgi/entities/uh60.xml</file>
+    
+    <distance_def> 40.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   2.8  </x>
+      <y>  -0.7  </y>
+      <z>   0.0  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 193.0 </vne>
+    
+    <controls>
+      <collective />
+    </controls>
+    
+    <propulsion engines="2">
+      <ng />
+      <n2 />
+      <trq />
+      <itt />
+    </propulsion>
+    
+    <main_rotor_coef> -1.0 </main_rotor_coef>
+    <tail_rotor_coef> -1.0 </tail_rotor_coef>
+    
+    <masses>
+      <empty>  5118 </empty>
+      <mtow>  11113 </mtow>
+    
+      <pilot_1     name="Pilot (Left)"  maximum="120.0"  default="80.0"   />
+      <pilot_2     name="Pilot (Right)" maximum="120.0"  default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank 1"   maximum="550.0"  default="550.0"  />
+      <fuel_tank_2 name="Fuel Tank 2"   maximum="550.0"  default="550.0"  />
+      <cabin       name="Cabin"         maximum="1200.0" default="880.0"  />
+      <slung       name="Cargo Hook"    maximum="4080.0" default="0.0"    />
+    </masses>
+      
+  </aircraft>
+  
+  
+  
+  <!--<aircraft>
+    
+    <name>X/F</name>
+    <type>901</type>
+    <file>cgi/entities/x29.xml</file>
+    
+    <distance_def> 30.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   4.1  </x>
+      <y>   0.0  </y>
+      <z>  -0.9  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 800.0 </vne>
+    
+    <axes>        
+      <yaw>
+        <curvature> 0.0 </curvature>
+        <deadzone>  0.0 </deadzone>
+        <scale>     1.0 </scale>
+      </yaw>
+    </axes>
+
+    <controls>
+      <landing_gear />
+      <airbrake />
+      <throttle count="1" />
+    </controls>
+
+    <propulsion engines="1">
+      <ab />
+      <n2 />
+      <tit />
+    </propulsion>
+    
+    <masses>
+      <empty> 12020 </empty>
+      <mtow>  27215 </mtow>
+    
+      <pilot_1     name="Pilot"      maximum="120.0"   default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank"  maximum="8165.0"  default="8165.0" />
+    </masses>
+      
+  </aircraft>-->
+  
+  
+  
+  <!--<aircraft>
+    
+    <name>X/H</name>
+    <type>902</type>
+    <file>cgi/entities/uh60.xml</file>
+    
+    <distance_def> 40.0 </distance_def>
+    <distance_min>  5.0 </distance_min>
+    
+    <camera_offset>
+      <x>   2.8  </x>
+      <y>  -0.7  </y>
+      <z>   0.0  </z>
+    </camera_offset>
+    
+    <vne unit="kts"> 193.0 </vne>
+    
+    <controls>
+      <landing_gear />
+      <collective />
+    </controls>
+    
+    <propulsion engines="2">
+      <ng />
+      <n2 />
+      <trq />
+      <itt />
+    </propulsion>
+    
+    <main_rotor_coef> -1.0 </main_rotor_coef>
+    <tail_rotor_coef> -1.0 </tail_rotor_coef>
+    
+    <masses>
+      <empty>  5118 </empty>
+      <mtow>  11113 </mtow>
+      
+      <pilot_1     name="Pilot (Left)"  maximum="120.0"  default="80.0"   />
+      <pilot_2     name="Pilot (Right)" maximum="120.0"  default="80.0"   />
+      <fuel_tank_1 name="Fuel Tank"     maximum="1100.0" default="1100.0" />
+      <cabin       name="Cabin"         maximum="1200.0" default="880.0"  />
+    </masses>
+      
+  </aircraft>-->
+
+</aircrafts>

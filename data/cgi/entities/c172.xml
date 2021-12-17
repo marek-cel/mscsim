@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+
+  <model>cgi/entities/c172.osgb</model>
+  <shadow>cgi/entities/c172_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x>  -0.91  </x>
+    <y>  -5.50  </y>
+    <z>  -0.86  </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x>  -0.91  </x>
+    <y>   5.50  </y>
+    <z>  -0.86  </z>
+  </wing_tip_r>
+</aircraft>

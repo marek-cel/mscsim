@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aircraft>
+  
+  <model>cgi/entities/pw5.osgb</model>
+  <shadow>cgi/entities/pw5_shadow.png</shadow>
+  
+  <wing_tip_l>
+    <x> -0.49 </x>
+    <y> -6.72 </y>
+    <z> -0.22 </z>
+  </wing_tip_l>
+  
+  <wing_tip_r>
+    <x> -0.49 </x>
+    <y>  6.72 </y>
+    <z> -0.22 </z>
+  </wing_tip_r>
+  
+  <airbrake>
+    
+    <!-- left -->
+    <element_1>
+      <y>
+        <input_min>  0.0  </input_min>
+        <input_max>  1.0  </input_max>
+        <shift_min>  0.0  </shift_min>
+        <shift_max>  0.1  </shift_max>
+      </y>
+      <z>
+        <input_min>  0.0  </input_min>
+        <input_max>  1.0  </input_max>
+        <shift_min>  0.0  </shift_min>
+        <shift_max> -0.1  </shift_max>
+      </z>
+    </element_1>
+    
+    <!-- right -->
+    <element_2>
+      <y>
+        <input_min>  0.0  </input_min>
+        <input_max>  1.0  </input_max>
+        <shift_min>  0.0  </shift_min>
+        <shift_max> -0.1  </shift_max>
+      </y>
+      <z>
+        <input_min>  0.0  </input_min>
+        <input_max>  1.0  </input_max>
+        <shift_min>  0.0  </shift_min>
+        <shift_max> -0.1  </shift_max>
+      </z>
+    </element_2>
+      
+  </airbrake>
+  
+</aircraft>

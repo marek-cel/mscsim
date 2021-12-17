@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilot>
+  
+  <min_pitch unit="deg"> -20.0  </min_pitch>
+  <max_pitch unit="deg">  20.0  </max_pitch>
+  
+  <min_alt unit="ft">    100.0  </min_alt>
+  <max_alt unit="ft">  50000.0  </max_alt>
+  
+  <min_ias unit="kts">    0.0  </min_ias>
+  <max_ias unit="kts">  160.0  </max_ias>
+  
+  <min_vs unit="fpm"> -5000.0  </min_vs>
+  <max_vs unit="fpm">  5000.0  </max_vs>
+  
+  <rate_pitch unit="deg" >   1.0  </rate_pitch>
+  <rate_alt   unit="ft"  >   8.3  </rate_alt>
+  <rate_ias   unit="kts" >   0.75 </rate_ias>
+  <rate_vs    unit="fpm" > 100.0  </rate_vs>
+  
+  <soft_ride_coef> 0.5 </soft_ride_coef>
+  
+  <!-- roll channel -->
+  <ctrl_roll>
+    <max_rate> 2.0 </max_rate>
+    
+    <pid>
+      <kp> 7.0 </kp>
+      <ki> 7.0 </ki>
+      <kd> 1.0 </kd>
+      
+      <min> -1.0 </min>
+      <max>  1.0 </max>
+    </pid>
+  </ctrl_roll>
+  
+  <!-- pitch channel -->
+  <ctrl_pitch>
+    <max_rate> 2.0 </max_rate>
+    
+    <pid>
+      <kp> 2.0 </kp>
+      <ki> 5.0 </ki>
+      <kd> 1.0 </kd>
+      
+      <min> -1.0 </min>
+      <max>  1.0 </max>
+    </pid>
+    
+    <gain_ias keys_unit="kts">
+       60.0   2.0
+      100.0   1.0
+      130.0   1.0
+      160.0   0.5
+    </gain_ias>
+  </ctrl_pitch>
+  
+  <!-- yaw channel -->
+  <ctrl_yaw>
+    <max_rate> 1.0 </max_rate>
+    
+    <pid>
+      <kp> 2.0 </kp>
+    </pid>
+  </ctrl_yaw>
+  
+  <!-- flight director -->
+  <flight_director>
+    
+    <max_roll  unit="deg">  30.0  </max_roll>
+    <min_pitch unit="deg"> -20.0  </min_pitch>
+    <max_pitch unit="deg">  20.0  </max_pitch>
+    <max_yaw   unit="deg">  30.0  </max_yaw>
+    
+    <max_rate_roll  unit="deg/s">  5.0 </max_rate_roll>
+    <max_rate_pitch unit="deg/s"> 10.0 </max_rate_pitch>
+    <max_rate_tr    unit="deg/s">  1.5 </max_rate_tr>
+    
+    <climb_rate_tc> 2.0 </climb_rate_tc>
+    
+    <min_dh_arm unit="ft">  20.0 </min_dh_arm>
+    
+    <nav_dev_max unit="deg"> 8.0 </nav_dev_max>
+    <apr_dev_max unit="deg"> 5.0 </apr_dev_max>
+    
+    <mode_alt>
+      <pid>
+        <kp> 5.0e-4 </kp>
+        <ki> 1.0e-4 </ki>
+        <kd> 9.0e-5 </kd>
+        
+        <min unit="deg"> -15.0 </min>
+        <max unit="deg">  15.0 </max>
+      </pid>
+    </mode_alt>
+    
+    <mode_ias>
+      <pid>
+        <kp> -1.0e-2 </kp>
+        <ki> -5.0e-3 </ki>
+        <kd> -1.0e-2 </kd>
+      </pid>
+    </mode_ias>
+    
+    <mode_vs>
+      <pid>
+        <kp> 8.5e-3 </kp>
+        <ki> 3.0e-2 </ki>
+        <kd> 1.5e-3 </kd>
+      </pid>
+    </mode_vs>
+    
+    <mode_arm>
+      <pid>
+        <kp> 1.0e-1 </kp>
+        <ki> 0.1e-1 </ki>
+        <kd> 0.5e-1 </kd>
+        
+        <min unit="fpm"> -500.0 </min>
+        <max unit="fpm">  500.0 </max>
+      </pid>
+    </mode_arm>
+    
+    <mode_gs>
+      <pid>
+        <kp> 10.0 </kp>
+        <ki> 10.0 </ki>
+        <!--<kd> 1.0e-3 </kd>-->
+      </pid>
+    </mode_gs>
+    
+    <mode_nav_ang>
+      <pid>
+        <kp> 4.0 </kp>
+        <ki> 1.0e-2 </ki>
+        <kd> 1.0e-1 </kd>
+        
+        <min unit="deg"> -30.0 </min>
+        <max unit="deg">  30.0 </max>
+      </pid>
+    </mode_nav_ang>
+    
+    <mode_nav_lin>
+      <pid>
+        <kp> 4.0e-4 </kp>
+        <ki> 1.0e-6 </ki>
+        <kd> 1.0e-5 </kd>
+        
+        <min unit="deg"> -30.0 </min>
+        <max unit="deg">  30.0 </max>
+      </pid>
+    </mode_nav_lin>
+    
+    <mode_apr_ang>
+      <pid>
+        <kp> 8.0 </kp>
+        <ki> 2.0e-2 </ki>
+        <kd> 2.0e-1 </kd>
+        
+        <min unit="deg"> -15.0 </min>
+        <max unit="deg">  15.0 </max>
+      </pid>
+    </mode_apr_ang>
+    
+    <mode_apr_lin>
+      <pid>
+        <kp> 4.0e-3 </kp>
+        <ki> 1.0e-5 </ki>
+        <kd> 1.0e-4 </kd>
+        
+        <min unit="deg"> -15.0 </min>
+        <max unit="deg">  15.0 </max>
+      </pid>
+    </mode_apr_lin>
+    
+    <mode_hdg>
+      <pid>
+        <kp> 1.0e-1 </kp>
+        <ki> 1.0e-3 </ki>
+        <kd> 1.0e-3 </kd>
+        
+        <min unit="deg/s"> -3.0 </min> <!-- 2 minute turn -->
+        <max unit="deg/s">  3.0 </max> <!-- 2 minute turn -->
+      </pid>
+    </mode_hdg>
+    
+    <!-- turn rate quasi mode -->
+    <mode_turn>
+      <pid>
+        <kp> 1.0e-1 </kp>
+        <ki> 0.5e-2 </ki>
+        <kd> 0.5e-2 </kd>
+      </pid>
+    </mode_turn>
+    
+  </flight_director>
+  
+</autopilot>

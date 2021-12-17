@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Rotor Test</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="WidgetCGI" name="widgetCGI" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>3</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionViewAft"/>
+    <addaction name="actionViewFwd"/>
+    <addaction name="actionViewLft"/>
+    <addaction name="actionViewRgt"/>
+    <addaction name="actionViewTop"/>
+    <addaction name="separator"/>
+    <addaction name="actionRotationStart"/>
+    <addaction name="actionRotationStop"/>
+    <addaction name="separator"/>
+    <addaction name="actionShowVectorsSpan"/>
+    <addaction name="actionShowVectorsMain"/>
+    <addaction name="actionShowBladesDatum"/>
+    <addaction name="actionShowBladesPaths"/>
+   </widget>
+   <widget class="QMenu" name="menuSimulation">
+    <property name="title">
+     <string>Simulation</string>
+    </property>
+    <addaction name="actionControls"/>
+   </widget>
+   <widget class="QMenu" name="menuWindows">
+    <property name="title">
+     <string>Windows</string>
+    </property>
+    <addaction name="actionDockMain"/>
+    <addaction name="actionDockCtrl"/>
+    <addaction name="actionDockData"/>
+    <addaction name="actionDockTest"/>
+   </widget>
+   <addaction name="menuSimulation"/>
+   <addaction name="menuView"/>
+   <addaction name="menuWindows"/>
+  </widget>
+  <action name="actionShowVectorsSpan">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Vectors Spanwise</string>
+   </property>
+  </action>
+  <action name="actionShowVectorsMain">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Vectors Center</string>
+   </property>
+  </action>
+  <action name="actionShowBladesDatum">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Blades Datum</string>
+   </property>
+  </action>
+  <action name="actionControls">
+   <property name="text">
+    <string>Controls</string>
+   </property>
+  </action>
+  <action name="actionDockMain">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Main</string>
+   </property>
+  </action>
+  <action name="actionDockCtrl">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Controls</string>
+   </property>
+  </action>
+  <action name="actionDockData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Data</string>
+   </property>
+  </action>
+  <action name="actionDockTest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Test</string>
+   </property>
+  </action>
+  <action name="actionShowBladesPaths">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show Blades Traces</string>
+   </property>
+  </action>
+  <action name="actionViewAft">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>View Aft</string>
+   </property>
+  </action>
+  <action name="actionViewFwd">
+   <property name="text">
+    <string>View Forward</string>
+   </property>
+  </action>
+  <action name="actionViewLft">
+   <property name="text">
+    <string>View Left</string>
+   </property>
+  </action>
+  <action name="actionViewRgt">
+   <property name="text">
+    <string>View Right</string>
+   </property>
+  </action>
+  <action name="actionViewTop">
+   <property name="text">
+    <string>View Top</string>
+   </property>
+  </action>
+  <action name="actionRotationStart">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Rotation Start</string>
+   </property>
+  </action>
+  <action name="actionRotationStop">
+   <property name="text">
+    <string>Rotation Stop</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>WidgetCGI</class>
+   <extends>QWidget</extends>
+   <header>gui/WidgetCGI.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

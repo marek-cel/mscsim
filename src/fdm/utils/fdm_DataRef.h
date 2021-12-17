@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  ******************************************************************************/
-#ifndef DataRef_H
-#define DataRef_H
+#ifndef FDM_DATAREF_H
+#define FDM_DATAREF_H
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -239,4 +239,4 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-#endif // DataRef_H
+#endif // FDM_DATAREF_H
