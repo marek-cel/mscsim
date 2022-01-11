@@ -188,9 +188,9 @@ void Reflection::create( osg::Node *model, osg::Group *parent )
         program->addShader( new osg::Shader( osg::Shader::VERTEX   , _vert ) );
         program->addShader( new osg::Shader( osg::Shader::FRAGMENT , _frag ) );
         stateSet->setAttributeAndModes( program.get() );
-        stateSet->addUniform( new osg::Uniform("defaultTex", 0) );
-        stateSet->addUniform( new osg::Uniform("refraction", 1) );
-        stateSet->addUniform( new osg::Uniform("normalTex", 2) );
+        stateSet->addUniform( new osg::Uniform("defaultTex" , 0) );
+        stateSet->addUniform( new osg::Uniform("refraction" , 1) );
+        stateSet->addUniform( new osg::Uniform("normalTex"  , 2) );
 
         ////////////////////////////////
 

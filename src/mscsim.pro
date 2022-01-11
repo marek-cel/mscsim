@@ -116,13 +116,14 @@ win32: CONFIG(debug, debug|release): LIBS += \
 
 unix: LIBS += \
     -L/lib \
-    -L/usr/lib \
     -lalut \
     -lgdal \
     -lopenal \
     -lX11 \
     -lXss \
-    -lxml2 \
+    -lxml2
+
+unix: LIBS += \
     -lOpenThreads \
     -losg \
     -losgDB \
