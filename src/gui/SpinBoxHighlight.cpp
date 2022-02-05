@@ -46,6 +46,9 @@ SpinBoxHighlight::SpinBoxHighlight( QWidget *parent ) :
             lineEdit->installEventFilter( this );
         }
     }
+
+    QPalette p = palette();
+    _colorDef = p.color( QPalette::Base );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,18 +61,16 @@ void SpinBoxHighlight::setHighlighted( bool highlighted )
 {
     _highlighted = highlighted;
 
+    QColor color = _colorDef;
+
     if ( _highlighted )
     {
-#       if QT_VERSION >= 0x050000
-        setStyleSheet( "QDoubleSpinBox { background: " + _color.name( QColor::HexRgb ) + "; }" );
-#       else
-        setStyleSheet( "QDoubleSpinBox { background: " + _color.name() + "; }" );
-#       endif
+        color = _color;
     }
-    else
-    {
-        setStyleSheet( "" );
-    }
+
+    QPalette p = palette();
+    p.setColor( QPalette::Base, color );
+    setPalette( p );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

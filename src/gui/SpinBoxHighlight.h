@@ -56,6 +56,7 @@ public:
 protected:
 
     QColor _color;
+    QColor _colorDef;
 
     bool _highlighted;
     bool _toggleOnDblClick;
