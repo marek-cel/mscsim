@@ -68,6 +68,7 @@ double Mercator::y( double lat )
 
 double Mercator::k0( double lat_ts )
 {
+    // Evenden G.: libproj4, 2005, p.30
     double sinLat = sin( lat_ts );
     return WGS84::_a * cos( lat_ts ) / sqrt( 1.0 - WGS84::_e2 * sinLat*sinLat );
 }
