@@ -56,12 +56,12 @@ public:
 
     /**
      * @brief Returns angle of attack.
-     * @param uv [m/s] airspeed on aircraft xy-plane
+     * @param u [m/s] airspeed on aircraft xy-plane
      * @param w  [m/s] airspeed along aircraft z-axis
      * @param vel_min [m/s] minimum airspeed of calculations
      * @return [rad] angle of attack
      */
-    static double getAngleOfAttack( double uv, double w, double vel_min = 1.0e-2 );
+    static double getAngleOfAttack( double u, double w, double vel_min = 1.0e-2 );
 
     /**
      * @brief Returns sideslip angle.

@@ -31,20 +31,18 @@ using namespace fdm;
 
 double Aerodynamics::getAngleOfAttack( const Vector3 &vel_bas, double vel_min )
 {
-    double uv = vel_bas.getLengthXY();
-
-    return getAngleOfAttack( uv, vel_bas.w(), vel_min );
+    return getAngleOfAttack( vel_bas.u(), vel_bas.w(), vel_min );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-double Aerodynamics::getAngleOfAttack( double uv, double w, double vel_min )
+double Aerodynamics::getAngleOfAttack( double u, double w, double vel_min )
 {
     double angleOfAttack = 0.0;
 
-    if ( fabs( uv ) > vel_min || fabs( w ) > vel_min )
+    if ( fabs( u ) > vel_min || fabs( w ) > vel_min )
     {
-        angleOfAttack = atan2( w, uv );
+        angleOfAttack = atan2( w, u );
     }
 
     return angleOfAttack;
