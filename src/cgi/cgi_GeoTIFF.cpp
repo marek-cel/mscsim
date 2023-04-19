@@ -22,6 +22,9 @@
 
 #include <cgi/cgi_GeoTIFF.h>
 
+#include <ogrsf_frmts.h>
+#include <ogr_spatialref.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 using namespace cgi;
@@ -101,7 +104,8 @@ std::string GeoTIFF::getSRS_PROJ4() const
 
     if ( _dataset )
     {
-        const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
 
         if ( spatialRef )
         {
@@ -123,7 +127,8 @@ std::string GeoTIFF::getSRS_WKT() const
 
     if ( _dataset )
     {
-        const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
 
         if ( spatialRef )
         {
@@ -145,7 +150,8 @@ std::string GeoTIFF::getEPSG() const
 
     if ( _dataset )
     {
-        const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
+        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
 
         if ( spatialRef )
         {
