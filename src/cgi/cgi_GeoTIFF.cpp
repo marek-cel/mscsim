@@ -104,15 +104,19 @@ std::string GeoTIFF::getSRS_PROJ4() const
 
     if ( _dataset )
     {
-        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
-        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
+        OGRLayer *layer = _dataset->GetLayer(0);
 
-        if ( spatialRef )
+        if ( layer )
         {
-            char *str = nullptr;
-            spatialRef->exportToProj4( &str );
+            const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
 
-            if ( str ) result = str;
+            if ( spatialRef )
+            {
+                char *str = nullptr;
+                spatialRef->exportToProj4( &str );
+
+                if ( str ) result = str;
+            }
         }
     }
 
@@ -127,15 +131,19 @@ std::string GeoTIFF::getSRS_WKT() const
 
     if ( _dataset )
     {
-        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
-        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
+        OGRLayer *layer = _dataset->GetLayer(0);
 
-        if ( spatialRef )
+        if ( layer )
         {
-            char *str = nullptr;
-            spatialRef->exportToWkt( &str );
+            const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
 
-            if ( str ) result = str;
+            if ( spatialRef )
+            {
+                char *str = nullptr;
+                spatialRef->exportToWkt( &str );
+
+                if ( str ) result = str;
+            }
         }
     }
 
@@ -150,12 +158,16 @@ std::string GeoTIFF::getEPSG() const
 
     if ( _dataset )
     {
-        //const OGRSpatialReference *spatialRef = _dataset->GetSpatialRef();
-        const OGRSpatialReference *spatialRef = _dataset->GetLayer(0)->GetSpatialRef();
+        OGRLayer *layer = _dataset->GetLayer(0);
 
-        if ( spatialRef )
+        if ( layer )
         {
-            result = spatialRef->GetAttrValue( "PROJCS|GEOGCS|AUTHORITY", 1 );
+            const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
+
+            if ( spatialRef )
+            {
+                result = spatialRef->GetAttrValue( "PROJCS|GEOGCS|AUTHORITY", 1 );
+            }
         }
     }
 
