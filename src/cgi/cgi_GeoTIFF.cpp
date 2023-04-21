@@ -22,8 +22,10 @@
 
 #include <cgi/cgi_GeoTIFF.h>
 
-#include <ogrsf_frmts.h>
-#include <ogr_spatialref.h>
+#ifdef WIN32
+#   include <ogrsf_frmts.h>
+#   include <ogr_spatialref.h>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -104,19 +106,24 @@ std::string GeoTIFF::getSRS_PROJ4() const
 
     if ( _dataset )
     {
-        OGRLayer *layer = _dataset->GetLayer(0);
+        const OGRSpatialReference *spatialRef = nullptr;
 
+#       ifdef WIN32
+        OGRLayer *layer = _dataset->GetLayer(0);
         if ( layer )
         {
             const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
+        }
+#       else
+        spatialRef = _dataset->GetSpatialRef();
+#       endif
 
-            if ( spatialRef )
-            {
-                char *str = nullptr;
-                spatialRef->exportToProj4( &str );
+        if ( spatialRef )
+        {
+            char *str = nullptr;
+            spatialRef->exportToProj4( &str );
 
-                if ( str ) result = str;
-            }
+            if ( str ) result = str;
         }
     }
 
@@ -131,19 +138,24 @@ std::string GeoTIFF::getSRS_WKT() const
 
     if ( _dataset )
     {
-        OGRLayer *layer = _dataset->GetLayer(0);
+        const OGRSpatialReference *spatialRef = nullptr;
 
+#       ifdef WIN32
+        OGRLayer *layer = _dataset->GetLayer(0);
         if ( layer )
         {
             const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
+        }
+#       else
+        spatialRef = _dataset->GetSpatialRef();
+#       endif
 
-            if ( spatialRef )
-            {
-                char *str = nullptr;
-                spatialRef->exportToWkt( &str );
+        if ( spatialRef )
+        {
+            char *str = nullptr;
+            spatialRef->exportToWkt( &str );
 
-                if ( str ) result = str;
-            }
+            if ( str ) result = str;
         }
     }
 
@@ -158,16 +170,21 @@ std::string GeoTIFF::getEPSG() const
 
     if ( _dataset )
     {
-        OGRLayer *layer = _dataset->GetLayer(0);
+        const OGRSpatialReference *spatialRef = nullptr;
 
+#       ifdef WIN32
+        OGRLayer *layer = _dataset->GetLayer(0);
         if ( layer )
         {
             const OGRSpatialReference *spatialRef = layer->GetSpatialRef();
+        }
+#       else
+        spatialRef = _dataset->GetSpatialRef();
+#       endif
 
-            if ( spatialRef )
-            {
-                result = spatialRef->GetAttrValue( "PROJCS|GEOGCS|AUTHORITY", 1 );
-            }
+        if ( spatialRef )
+        {
+            result = spatialRef->GetAttrValue( "PROJCS|GEOGCS|AUTHORITY", 1 );
         }
     }
 
