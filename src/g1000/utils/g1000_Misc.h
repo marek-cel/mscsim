@@ -108,7 +108,7 @@ public:
     {
         for ( unsigned int i = 0; i < size; i++ )
         {
-            if ( isNaN( array[ i ] ) || isInf( array[ i ] ) ) return false;
+            if ( !isValid(array[i]) ) return false;
         }
 
         return true;
