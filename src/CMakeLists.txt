@@ -25,6 +25,9 @@ add_definitions( -DSIM_VERTICALSYNC )
 
 if( UNIX )
     add_definitions( -D_LINUX_ )
+    if( APPLE )
+        add_definitions( -D_APPLE_ )
+    endif()
 elseif( WIN32 )
     add_definitions( -DWIN32 )
     add_definitions( -D_WINDOWS )
@@ -61,7 +64,13 @@ if( WIN32 )
 endif()
 
 if( UNIX )
-    find_package( Qt5 COMPONENTS Core Widgets OpenGL Svg X11Extras Xml REQUIRED )
+    set( qt5_components Core Widgets OpenGL Svg Xml )
+    if( NOT( APPLE ) )
+        set( qt5_components ${qt5_components} X11Extras )
+    endif()
+
+    find_package( Qt5 COMPONENTS ${qt5_components} REQUIRED )
+    unset( qt5_components )
 endif()
 
 ################################################################################
@@ -173,10 +182,7 @@ endif()
 
 ################################################################################
 
-target_link_libraries( ${PROJECT_NAME}
-
-    -Wl,--start-group
-
+set( LOCAL_LIBS
     cgi
     fdm
     fdm_aw101
@@ -193,8 +199,22 @@ target_link_libraries( ${PROJECT_NAME}
     hid
     nav
     sfx
-
-    ${LIBS}
-
-    -Wl,--end-group
 )
+
+if( APPLE )
+    target_link_libraries( ${PROJECT_NAME}
+        ${LOCAL_LIBS}
+
+        ${LIBS}
+    )
+else()
+    target_link_libraries( ${PROJECT_NAME}
+        -Wl,--start-group
+
+        ${LOCAL_LIBS}
+
+        ${LIBS}
+
+        -Wl,--end-group
+    )
+endif()
