@@ -20,6 +20,9 @@
  * IN THE SOFTWARE.
  ******************************************************************************/
 
+#include <cmath>
+#include <cfloat>
+
 #include <fdm/auto/fdm_Autopilot.h>
 
 #include <fdm/utils/fdm_Misc.h>

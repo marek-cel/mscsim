@@ -65,6 +65,7 @@ const std::string Joysticks::_axisNames[] = { "X", "Y", "Z",
 Joysticks::Joysticks() :
     _count ( 0 )
 {
+#ifndef _APPLE_
 #   ifdef HID_WINMM_JOYSTICK
     _buttons[  0 ] = JOY_BUTTON1;
     _buttons[  1 ] = JOY_BUTTON2;
@@ -133,6 +134,7 @@ Joysticks::Joysticks() :
         _data[ i ].hasPOV = false;
 #       endif
     }
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -143,6 +145,7 @@ Joysticks::~Joysticks() {}
 
 void Joysticks::init()
 {
+#ifndef _APPLE_
 #   ifdef HID_LINUX_JOYSTICK
     for ( int i = 0; i < HID_MAX_JOYS; i++ )
     {
@@ -383,12 +386,14 @@ void Joysticks::init()
         if ( joyIdTemp == JOYSTICKID1 ) joyIdTemp = JOYSTICKID2;
     }
 #   endif
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void Joysticks::update()
 {
+#ifndef _APPLE_
 #   ifdef HID_LINUX_JOYSTICK
     for( short i = 0; i < _count && i < HID_MAX_JOYS; i++ )
     {
@@ -516,12 +521,16 @@ void Joysticks::update()
         if ( joyIdTemp == JOYSTICKID1 ) joyIdTemp = JOYSTICKID2;
     }
 #   endif
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 Joysticks::Data Joysticks::getData( short joyNum ) const
 {
+#ifdef _APPLE_
+    return Joysticks::Data();
+#else
     if ( joyNum < 0 && joyNum >= HID_MAX_JOYS )
     {
         Log::e() << "Wrong joystick index number." << std::endl;
@@ -532,4 +541,5 @@ Joysticks::Data Joysticks::getData( short joyNum ) const
     }
 
     return _data[ joyNum ];
+#endif
 }

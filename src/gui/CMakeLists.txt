@@ -120,5 +120,11 @@ if( WIN32 )
 endif()
 
 if( UNIX )
-    qt5_use_modules( ${MODULE_NAME} Widgets OpenGL Svg X11Extras Xml )
+    set( qt5_modules Widgets OpenGL Svg Xml)
+    if( NOT( APPLE ) )
+        set( qt5_modules ${qt5_modules} X11Extras )
+    endif()
+
+    qt5_use_modules( ${MODULE_NAME} ${qt5_modules} )
+    unset( qt5_modules )
 endif()
